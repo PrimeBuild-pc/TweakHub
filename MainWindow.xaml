@@ -1,0 +1,159 @@
+﻿<Window x:Class="TweakHub.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TweakHub"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        mc:Ignorable="d"
+        Title="TweakHub - Windows 11 Performance Optimizer"
+        Height="900" Width="1400"
+        MinHeight="700" MinWidth="1200"
+        WindowStartupLocation="CenterScreen"
+        Icon="ico.ico"
+        Background="{DynamicResource SystemControlBackgroundBaseLowBrush}">
+
+    <Window.Resources>
+        <Style x:Key="SidebarButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="16,12"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Margin" Value="0,2"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Border"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="6"
+                                Margin="8,0">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="Center"
+                                              Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="Background"
+                                        Value="{DynamicResource SystemControlBackgroundListLowBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Border" Property="Background"
+                                        Value="{DynamicResource SystemControlBackgroundListMediumBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="280"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Sidebar -->
+        <Border Grid.Column="0"
+                Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+                BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}"
+                BorderThickness="0,0,1,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Header -->
+                <StackPanel Grid.Row="0" Margin="20,24,20,20">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                        <!-- Modern Logo Design -->
+                        <Border Width="32" Height="32" CornerRadius="8" Background="#1A1A1A" BorderBrush="{StaticResource AccentBrush}" BorderThickness="2">
+                            <TextBlock Text="TH" FontSize="14" FontWeight="Bold"
+                                       Foreground="{StaticResource AccentBrush}" HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                        </Border>
+                        <TextBlock Text="TweakHub" FontSize="20" FontWeight="SemiBold"
+                                   Margin="12,0,0,0" VerticalAlignment="Center"
+                                   Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                    </StackPanel>
+                    <TextBlock Text="Windows 11 Performance Optimizer"
+                               FontSize="12"
+                               Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+                </StackPanel>
+
+                <!-- Navigation -->
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="12,0">
+                        <Button x:Name="RegistryTweaksButton" Style="{StaticResource SidebarButtonStyle}"
+                                Click="RegistryTweaksButton_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="⚡" FontSize="16" Margin="0,0,12,0"
+                                           Foreground="{DynamicResource IconBrush}"/>
+                                <TextBlock Text="Registry Tweaks"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button x:Name="ExternalToolsButton" Style="{StaticResource SidebarButtonStyle}"
+                                Click="ExternalToolsButton_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="🔧" FontSize="16" Margin="0,0,12,0"
+                                           Foreground="{DynamicResource IconBrush}"/>
+                                <TextBlock Text="External Tools"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button x:Name="AutomatedScriptsButton" Style="{StaticResource SidebarButtonStyle}"
+                                Click="AutomatedScriptsButton_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="🤖" FontSize="16" Margin="0,0,12,0"
+                                           Foreground="{DynamicResource IconBrush}"/>
+                                <TextBlock Text="Automated Scripts"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button x:Name="QuickAccessButton" Style="{StaticResource SidebarButtonStyle}"
+                                Click="QuickAccessButton_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="🚀" FontSize="16" Margin="0,0,12,0"
+                                           Foreground="{DynamicResource IconBrush}"/>
+                                <TextBlock Text="Quick Access"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button x:Name="SystemMonitorButton" Style="{StaticResource SidebarButtonStyle}"
+                                Click="SystemMonitorButton_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="📊" FontSize="16" Margin="0,0,12,0"
+                                           Foreground="{DynamicResource IconBrush}"/>
+                                <TextBlock Text="System Monitor"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <!-- Footer -->
+                <StackPanel Grid.Row="2" Margin="20,12,20,20">
+                    <Separator Margin="0,0,0,12"/>
+                    <Button x:Name="ThemeToggleButton" Style="{StaticResource SidebarButtonStyle}"
+                            Click="ThemeToggleButton_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock x:Name="ThemeIcon" Text="🌙" FontSize="16" Margin="0,0,12,0"
+                                       Foreground="{DynamicResource IconBrush}"/>
+                            <TextBlock x:Name="ThemeText" Text="Dark Theme"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Main Content -->
+        <Grid Grid.Column="1" Background="{DynamicResource SystemControlBackgroundBaseLowBrush}">
+            <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden"
+                   Background="{DynamicResource SystemControlBackgroundBaseLowBrush}"/>
+        </Grid>
+    </Grid>
+</Window>

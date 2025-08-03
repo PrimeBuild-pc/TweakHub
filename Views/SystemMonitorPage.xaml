@@ -1,0 +1,198 @@
+<Page x:Class="TweakHub.Views.SystemMonitorPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:TweakHub.Views"
+      mc:Ignorable="d"
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="System Monitor"
+      Background="{DynamicResource SystemControlBackgroundBaseLowBrush}">
+
+    <Page.Resources>
+        <Style x:Key="MetricCardStyle" TargetType="Border">
+            <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource SystemControlBorderBaseLowBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="Margin" Value="8"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Black" Opacity="0.08" ShadowDepth="2" BlurRadius="8"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="MetricValueStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="28"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="MetricLabelStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0,8,0,0"/>
+        </Style>
+
+        <Style x:Key="MetricUnitStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0,4,0,0"/>
+        </Style>
+
+        <Style x:Key="ProgressRingStyle" TargetType="Border">
+            <Setter Property="Width" Value="80"/>
+            <Setter Property="Height" Value="80"/>
+            <Setter Property="BorderThickness" Value="6"/>
+            <Setter Property="CornerRadius" Value="40"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0,0,0,12"/>
+        </Style>
+    </Page.Resources>
+
+    <Grid Margin="32">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,32">
+            <TextBlock Text="System Monitor" 
+                       FontSize="32" FontWeight="Light"
+                       Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"
+                       Margin="0,0,0,8"/>
+            <TextBlock Text="Real-time monitoring of system performance and hardware metrics."
+                       FontSize="14"
+                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                       TextWrapping="Wrap"/>
+        </StackPanel>
+
+        <!-- Metrics Grid -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <!-- Performance Metrics -->
+                <TextBlock Text="Performance Metrics" Style="{StaticResource CategoryHeaderStyle}" Margin="0,0,0,16"/>
+                <UniformGrid Columns="4" Margin="0,0,0,32">
+                    <!-- CPU Usage -->
+                    <Border Style="{StaticResource MetricCardStyle}">
+                        <StackPanel>
+                            <Border x:Name="CpuProgressRing" Style="{StaticResource ProgressRingStyle}"
+                                    BorderBrush="{StaticResource AccentBrush}">
+                                <TextBlock x:Name="CpuValueText" Text="0%" Style="{StaticResource MetricValueStyle}" FontSize="16"/>
+                            </Border>
+                            <TextBlock Text="CPU Usage" Style="{StaticResource MetricLabelStyle}"/>
+                            <TextBlock Text="Processor utilization" Style="{StaticResource MetricUnitStyle}"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- RAM Usage -->
+                    <Border Style="{StaticResource MetricCardStyle}">
+                        <StackPanel>
+                            <Border x:Name="RamProgressRing" Style="{StaticResource ProgressRingStyle}"
+                                    BorderBrush="{StaticResource SuccessBrush}">
+                                <TextBlock x:Name="RamValueText" Text="0%" Style="{StaticResource MetricValueStyle}" FontSize="16"/>
+                            </Border>
+                            <TextBlock Text="RAM Usage" Style="{StaticResource MetricLabelStyle}"/>
+                            <TextBlock x:Name="RamDetailsText" Text="0 GB / 0 GB" Style="{StaticResource MetricUnitStyle}"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Available RAM -->
+                    <Border Style="{StaticResource MetricCardStyle}">
+                        <StackPanel>
+                            <TextBlock x:Name="AvailableRamText" Text="0.0" Style="{StaticResource MetricValueStyle}"/>
+                            <TextBlock Text="Available RAM" Style="{StaticResource MetricLabelStyle}"/>
+                            <TextBlock Text="GB" Style="{StaticResource MetricUnitStyle}"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- System Uptime -->
+                    <Border Style="{StaticResource MetricCardStyle}">
+                        <StackPanel>
+                            <TextBlock x:Name="UptimeText" Text="0:00:00" Style="{StaticResource MetricValueStyle}" FontSize="20"/>
+                            <TextBlock Text="System Uptime" Style="{StaticResource MetricLabelStyle}"/>
+                            <TextBlock Text="Hours:Minutes:Seconds" Style="{StaticResource MetricUnitStyle}"/>
+                        </StackPanel>
+                    </Border>
+                </UniformGrid>
+
+                <!-- Hardware Information -->
+                <TextBlock Text="Hardware Information" Style="{StaticResource CategoryHeaderStyle}" Margin="0,0,0,16"/>
+                <UniformGrid Columns="3" Margin="0,0,0,32">
+                    <!-- CPU Info -->
+                    <Border Style="{StaticResource MetricCardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="💻" FontSize="32" HorizontalAlignment="Center" Margin="0,0,0,12"
+                                       Foreground="{DynamicResource IconBrush}"/>
+                            <TextBlock x:Name="CpuNameText" Text="Loading..." Style="{StaticResource MetricLabelStyle}"
+                                       TextWrapping="Wrap" TextAlignment="Center"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,8,0,0">
+                                <TextBlock x:Name="CpuCoresText" Text="0" Style="{StaticResource MetricValueStyle}" FontSize="16"/>
+                                <TextBlock Text=" cores / " Style="{StaticResource MetricUnitStyle}" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="CpuThreadsText" Text="0" Style="{StaticResource MetricValueStyle}" FontSize="16"/>
+                                <TextBlock Text=" threads" Style="{StaticResource MetricUnitStyle}" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- CPU Temperature -->
+                    <Border Style="{StaticResource MetricCardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="🌡️" FontSize="32" HorizontalAlignment="Center" Margin="0,0,0,12"
+                                       Foreground="{DynamicResource IconBrush}"/>
+                            <TextBlock x:Name="CpuTempValueText" Text="--°C" Style="{StaticResource MetricValueStyle}"
+                                       FontSize="24" HorizontalAlignment="Center"/>
+                            <TextBlock Text="CPU Temperature" Style="{StaticResource MetricLabelStyle}" TextAlignment="Center"/>
+                            <TextBlock Text="Real-time monitoring" Style="{StaticResource MetricUnitStyle}" TextAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- GPU Info -->
+                    <Border Style="{StaticResource MetricCardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="🎮" FontSize="32" HorizontalAlignment="Center" Margin="0,0,0,12"
+                                       Foreground="{DynamicResource IconBrush}"/>
+                            <TextBlock x:Name="GpuNameText" Text="Loading..." Style="{StaticResource MetricLabelStyle}" 
+                                       TextWrapping="Wrap" TextAlignment="Center"/>
+                            <TextBlock Text="Graphics Processor" Style="{StaticResource MetricUnitStyle}" Margin="0,8,0,0"/>
+                        </StackPanel>
+                    </Border>
+                </UniformGrid>
+
+                <!-- System Information -->
+                <TextBlock Text="System Information" Style="{StaticResource CategoryHeaderStyle}" Margin="0,0,0,16"/>
+                <UniformGrid Columns="2">
+                    <!-- Operating System -->
+                    <Border Style="{StaticResource MetricCardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="🖥️" FontSize="32" HorizontalAlignment="Center" Margin="0,0,0,12"
+                                       Foreground="{DynamicResource IconBrush}"/>
+                            <TextBlock x:Name="OsNameText" Text="Loading..." Style="{StaticResource MetricLabelStyle}"
+                                       TextWrapping="Wrap" TextAlignment="Center"/>
+                            <TextBlock x:Name="OsVersionText" Text="Loading..." Style="{StaticResource MetricUnitStyle}"
+                                       TextAlignment="Center" Margin="0,4,0,0"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Total RAM -->
+                    <Border Style="{StaticResource MetricCardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="🧠" FontSize="32" HorizontalAlignment="Center" Margin="0,0,0,12"
+                                       Foreground="{DynamicResource IconBrush}"/>
+                            <TextBlock x:Name="TotalRamText" Text="0.0" Style="{StaticResource MetricValueStyle}"/>
+                            <TextBlock Text="Total System RAM" Style="{StaticResource MetricLabelStyle}"/>
+                            <TextBlock Text="GB" Style="{StaticResource MetricUnitStyle}"/>
+                        </StackPanel>
+                    </Border>
+                </UniformGrid>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

@@ -1,0 +1,190 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Custom Colors - Black/Gray/Orange Theme -->
+    <SolidColorBrush x:Key="AccentBrush" Color="#FF6600"/>
+    <SolidColorBrush x:Key="AccentHoverBrush" Color="#FF7A1A"/>
+    <SolidColorBrush x:Key="AccentPressedBrush" Color="#E55A00"/>
+    <SolidColorBrush x:Key="SuccessBrush" Color="#28A745"/>
+    <SolidColorBrush x:Key="WarningBrush" Color="#FFC107"/>
+    <SolidColorBrush x:Key="DangerBrush" Color="#DC3545"/>
+
+    <!-- Dark Theme Colors -->
+    <SolidColorBrush x:Key="DarkBackgroundBrush" Color="#1A1A1A"/>
+    <SolidColorBrush x:Key="DarkSurfaceBrush" Color="#2D2D2D"/>
+    <SolidColorBrush x:Key="DarkCardBrush" Color="#3A3A3A"/>
+    <SolidColorBrush x:Key="DarkTextPrimaryBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="DarkTextSecondaryBrush" Color="#B0B0B0"/>
+    <SolidColorBrush x:Key="DarkBorderBrush" Color="#4A4A4A"/>
+
+    <!-- Light Theme Colors -->
+    <SolidColorBrush x:Key="LightBackgroundBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="LightSurfaceBrush" Color="#F8F9FA"/>
+    <SolidColorBrush x:Key="LightCardBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="LightTextPrimaryBrush" Color="#212529"/>
+    <SolidColorBrush x:Key="LightTextSecondaryBrush" Color="#6C757D"/>
+    <SolidColorBrush x:Key="LightBorderBrush" Color="#DEE2E6"/>
+
+    <!-- Dynamic Icon Colors (will be set by ThemeService) -->
+    <!-- Tutte le icone usano lo stesso colore: bianche in dark mode, scure in light mode -->
+    <SolidColorBrush x:Key="IconBrush" Color="#212529"/>
+    <SolidColorBrush x:Key="IconSecondaryBrush" Color="#6C757D"/>
+    
+    <!-- Pill Toggle Switch Style -->
+    <Style x:Key="PillToggleStyle" TargetType="CheckBox">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="CheckBox">
+                    <Grid>
+                        <Border x:Name="Background"
+                                Width="50"
+                                Height="26"
+                                CornerRadius="13"
+                                Background="#E0E0E0"
+                                BorderThickness="1"
+                                BorderBrush="#CCCCCC">
+                            <Border x:Name="Thumb"
+                                    Width="20"
+                                    Height="20"
+                                    CornerRadius="10"
+                                    Background="White"
+                                    HorizontalAlignment="Left"
+                                    Margin="3,0,0,0"
+                                    RenderTransformOrigin="0.5,0.5">
+                                <Border.RenderTransform>
+                                    <TranslateTransform x:Name="ThumbTransform"/>
+                                </Border.RenderTransform>
+                            </Border>
+                        </Border>
+                        <ContentPresenter x:Name="ContentPresenter"
+                                          Margin="60,0,0,0"
+                                          VerticalAlignment="Center"
+                                          Content="{TemplateBinding Content}"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="ThumbTransform"
+                                                         Storyboard.TargetProperty="X"
+                                                         To="24"
+                                                         Duration="0:0:0.2"/>
+                                        <ColorAnimation Storyboard.TargetName="Background"
+                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                        To="#FF6600"
+                                                        Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="ThumbTransform"
+                                                         Storyboard.TargetProperty="X"
+                                                         To="0"
+                                                         Duration="0:0:0.2"/>
+                                        <ColorAnimation Storyboard.TargetName="Background"
+                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                        To="#E0E0E0"
+                                                        Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Background" Property="BorderBrush" Value="#FF6600"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Modern Card Style -->
+    <Style x:Key="CardStyle" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource SystemControlBorderBaseLowBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="Padding" Value="16"/>
+        <Setter Property="Margin" Value="8"/>
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect Color="Black" Opacity="0.1" ShadowDepth="2" BlurRadius="8"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Category Header Style -->
+    <Style x:Key="CategoryHeaderStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+        <Setter Property="Margin" Value="0,0,0,12"/>
+    </Style>
+
+    <!-- Description Text Style -->
+    <Style x:Key="DescriptionTextStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="LineHeight" Value="16"/>
+    </Style>
+
+    <!-- Modern Button Style -->
+    <Style x:Key="ModernButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource AccentBrush}"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="16,8"/>
+        <Setter Property="FontWeight" Value="Medium"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Border"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="4"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource AccentHoverBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource AccentPressedBrush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Loading Animation -->
+    <Style x:Key="LoadingSpinnerStyle" TargetType="Border">
+        <Setter Property="Width" Value="40"/>
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="BorderBrush" Value="{StaticResource AccentBrush}"/>
+        <Setter Property="BorderThickness" Value="4,4,0,0"/>
+        <Setter Property="CornerRadius" Value="20"/>
+        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+        <Setter Property="RenderTransform">
+            <Setter.Value>
+                <RotateTransform/>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <EventTrigger RoutedEvent="Loaded">
+                <BeginStoryboard>
+                    <Storyboard RepeatBehavior="Forever">
+                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
+                                         From="0" To="360" Duration="0:0:1"/>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Style.Triggers>
+    </Style>
+
+</ResourceDictionary>

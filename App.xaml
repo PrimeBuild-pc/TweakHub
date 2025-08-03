@@ -1,0 +1,24 @@
+﻿<Application x:Class="TweakHub.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:TweakHub"
+             xmlns:utils="clr-namespace:TweakHub.Utils"
+             xmlns:ui="http://schemas.modernwpf.com/2019"
+             StartupUri="Views/LoadingWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ui:ThemeResources />
+                <ui:XamlControlsResources />
+                <ResourceDictionary Source="Styles/CustomTheme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Converters -->
+            <utils:RiskLevelToColorConverter x:Key="RiskLevelToColorConverter"/>
+            <utils:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <utils:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+            <utils:BytesToStringConverter x:Key="BytesToStringConverter"/>
+            <utils:PercentageConverter x:Key="PercentageConverter"/>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
