@@ -70,29 +70,6 @@
 
 ---
 
-## 🛠️ **Advanced Features**
-
-### 🤖 **Automated Scripts**
-| Script | Purpose | Impact |
-|--------|---------|--------|
-| 🎮 **Gaming Optimizer** | Complete gaming performance suite | GPU, CPU, memory, and network optimization |
-| 🧹 **System Cleanup** | Deep cleaning and maintenance | Removes temp files, cache, and junk data |
-| 🌐 **Network Booster** | Internet performance enhancement | Reduces ping and improves throughput |
-| 🔧 **Hardware Detector** | Platform-specific optimizations | Intel/AMD/Nvidia automatic detection |
-| 🔄 **Reset Manager** | Safe restoration system | One-click return to original settings |
-
-### 🔧 **External Tools Integration**
-- **🎯 MSI Afterburner** - GPU overclocking and monitoring
-- **💻 CPU-Z** - Detailed processor information
-- **🎮 GPU-Z** - Graphics card analysis
-- **📊 HWiNFO64** - Comprehensive hardware monitoring
-- **⏱️ LatencyMon** - System latency analysis
-- **⚡ Process Lasso** - Advanced process management
-- **🌡️ ThrottleStop** - CPU throttling control
-- **🗑️ DDU** - Complete driver removal
-
----
-
 ## 💻 **System Requirements**
 
 | Component | Minimum | Recommended |
@@ -327,27 +304,6 @@ git push origin feature/amazing-new-feature
 - **📱 Modern UI**: Enhanced animations and visual effects
 - **🔍 Testing**: Cross-platform compatibility testing
 
-### 🏆 **Recognition**
-
-Contributors will be featured in our [Hall of Fame](CONTRIBUTORS.md) and receive special recognition badges!
-
----
-
-## 📊 **Project Statistics**
-
-<div align="center">
-
-| 📈 **Metric** | 🔢 **Count** | 📋 **Details** |
-|---|---|---|
-| **Registry Tweaks** | 20+ | Across 6 performance categories |
-| **External Tools** | 8+ | Professional optimization utilities |
-| **Automated Scripts** | 5 | Bulk optimization workflows |
-| **Quick Shortcuts** | 12+ | Direct Windows tool access |
-| **Code Quality** | A+ | Enterprise-grade C# WPF application |
-| **Safety Rating** | 🛡️🛡️🛡️🛡️🛡️ | Maximum safety with backup systems |
-
-</div>
-
 ---
 
 ## 📜 **License & Legal**
@@ -371,41 +327,11 @@ The developers provide this software "as-is" without warranty. Users assume full
 
 ---
 
-## 🎉 **Version History**
+## 💖 Supporta il progetto
 
-### 🚀 **v1.0.0** - *The Foundation* *(Current)*
-- ✨ **Initial Release**: Complete performance optimization suite
-- 🔧 **Registry System**: 20+ tweaks across 6 categories with safety ratings
-- 🛠️ **External Tools**: Integration with 8+ professional utilities
-- 🤖 **Automation**: 5 bulk optimization scripts with progress tracking
-- ⚡ **Quick Access**: 12+ direct shortcuts to Windows tools
-- 📊 **Monitoring**: Real-time system metrics and hardware detection
-- 🎨 **Modern UI**: Dark theme with orange accents and smooth animations
-- 🛡️ **Safety First**: Comprehensive backup and restore functionality
-- 🔒 **Enterprise Grade**: Professional error handling and user feedback
+Ti piace questo tool? Offrimi un caffè ☕:
 
-### 🔮 **Coming Soon**
-- 🌐 **Multi-language Support**: International localization
-- 🎮 **Gaming Profiles**: Game-specific optimization presets
-- 📱 **Enhanced UI**: Advanced animations and visual effects
-- 🔍 **Extended Monitoring**: Additional hardware metrics
-- 🤖 **AI Optimization**: Intelligent tweak recommendations
-
----
-
-<div align="center">
-
-## 🌟 **Star History**
-
-[![Star History Chart](https://api.star-history.com/svg?repos=yourusername/tweakhub&type=Date)](https://star-history.com/#yourusername/tweakhub&Date)
-
----
-
-### 🚀 **Ready to Optimize Your Windows 11 Experience?**
-
-**[⬇️ Download TweakHub Now](https://github.com/yourusername/tweakhub/releases/latest)** • **[📖 Read the Docs](#-documentation)** • **[🤝 Join the Community](#-contributing-to-tweakhub)**
-
----
+[![PayPal](https://img.shields.io/badge/Supporta%20su-PayPal-blue?logo=paypal)](https://paypal.me/PrimeBuildOfficial?country.x=IT&locale.x=it_IT)
 
 **Made with ❤️ and ☕ by the TweakHub Team**
 
