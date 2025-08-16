@@ -1,9 +1,10 @@
 <div align="center">
 
-# 🚀 TweakHub
+# 🚀 TweakHub <sup><kbd>PUBLIC BETA</kbd></sup>
 
 ### *The Command Center for Windows Tweakers*
 
+[![Status](https://img.shields.io/badge/Status-Public%20Beta-orange.svg)]()
 [![License](https://img.shields.io/badge/License-MIT-orange.svg)](LICENSE)
 [![.NET](https://img.shields.io/badge/.NET-8.0-orange.svg)](https://dotnet.microsoft.com/)
 [![Platform](https://img.shields.io/badge/Platform-Windows%2011-orange.svg)](https://www.microsoft.com/windows/)
@@ -12,6 +13,9 @@
 **TweakHub** is a modern command center for Windows 11 that curates and launches the best optimization tools and advanced tweaks—helping you unlock your system’s full potential. It centralizes, secures, and streamlines everything in one clean interface.
 
 [🔥 **Download Latest Release**](https://github.com/PrimeBuild-pc/TweakHub/releases/tag/v1.0.0) • [📖 **Documentation**](#-documentation) • [🤝 **Contributing**](#-contributing-to-tweakhub)
+
+> [!WARNING]
+> **Public Beta:** il progetto è in fase di test attivo. Possibili bug e cambiamenti rapidi. Effettua il backup prima di applicare modifiche.
 
 </div>
 
