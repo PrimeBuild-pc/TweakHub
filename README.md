@@ -13,6 +13,8 @@
 
 [🔥 **Download Latest Release**](https://github.com/PrimeBuild-pc/TweakHub/releases/tag/v1.0.0) • [📖 **Documentation**](#-documentation) • [🤝 **Contributing**](#-contributing-to-tweakhub)
 
+</div>
+
 ---
 
 ## 📦 **Installation & Quick Start**
@@ -24,7 +26,7 @@
 wget https://github.com/PrimeBuild-pc/TweakHub/releases/download/v1.0.0/TweakHub-v1.0.0-win-x64-portable.zip
 
 # 2. Extract to your preferred location
-unzip TweakHub.zip -d "C:\Tools\TweakHub"
+unzip TweakHub.zip -d "C:\\Tools\\TweakHub"
 
 # 3. Run as Administrator
 # Right-click TweakHub.exe → "Run as administrator"
@@ -47,6 +49,7 @@ cd publish
 ```
 
 ### ⚡ **First Launch**
+
 1. **🔐 Administrator Rights**: Essential for registry modifications
 2. **📊 System Analysis**: Automatic hardware detection and registry scanning
 3. **🎨 Dark Theme**: Sleek interface with orange accents loads automatically
@@ -60,10 +63,11 @@ cd publish
 <summary><b>❌ Application Won't Start</b></summary>
 
 ### 🔍 **Common Solutions**
-- **🔐 Administrator Rights**: Right-click → "Run as administrator"
-- **🖥️ Windows Version**: Ensure Windows 10 1809+ or Windows 11
-- **🛡️ Antivirus**: Temporarily disable real-time protection
-- **🔄 Restart**: Reboot system and try again
+
+* **🔐 Administrator Rights**: Right-click → "Run as administrator"
+* **🖥️ Windows Version**: Ensure Windows 10 1809+ or Windows 11
+* **🛡️ Antivirus**: Temporarily disable real-time protection
+* **🔄 Restart**: Reboot system and try again
 
 </details>
 
@@ -71,10 +75,11 @@ cd publish
 <summary><b>⚙️ Registry Tweaks Not Applying</b></summary>
 
 ### 🔍 **Diagnostic Steps**
-- **🔐 Permissions**: Verify Administrator privileges
-- **🛡️ Security Software**: Check antivirus registry protection
-- **🔄 Restart Required**: Some tweaks need system restart
-- **📋 Compatibility**: Ensure Windows version compatibility
+
+* **🔐 Permissions**: Verify Administrator privileges
+* **🛡️ Security Software**: Check antivirus registry protection
+* **🔄 Restart Required**: Some tweaks need system restart
+* **📋 Compatibility**: Ensure Windows version compatibility
 
 </details>
 
@@ -83,6 +88,7 @@ cd publish
 ## 📜 **License & Legal**
 
 ### 📄 **MIT License**
+
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ### ⚠️ **Important Disclaimer**
@@ -90,13 +96,15 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 > **🚨 CRITICAL NOTICE**: TweakHub modifies Windows registry settings and system configurations. While all tweaks are carefully selected, tested, and rated for safety, system modifications always carry inherent risks.
 
 #### 🛡️ **Safety Recommendations**
-- ✅ **Always run as Administrator** for proper functionality
-- ✅ **Create system restore points** before making changes
-- ✅ **Use built-in backup functionality** for registry changes
-- ✅ **Understand each tweak** before applying it
-- ✅ **Test on non-critical systems** first
+
+* ✅ **Always run as Administrator** for proper functionality
+* ✅ **Create system restore points** before making changes
+* ✅ **Use built-in backup functionality** for registry changes
+* ✅ **Understand each tweak** before applying it
+* ✅ **Test on non-critical systems** first
 
 #### 📋 **Liability**
+
 The developers provide this software "as-is" without warranty. Users assume full responsibility for any system changes. We recommend thorough testing and understanding of each modification.
 
 ---
@@ -110,5 +118,3 @@ Ti piace questo tool? Offrimi un caffè ☕:
 **Made with ❤️ and ☕ by the TweakHub Team**
 
 *Optimize your Windows 11 experience with confidence.*
-
-</div>
