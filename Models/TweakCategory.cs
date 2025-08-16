@@ -41,8 +41,18 @@ namespace TweakHub.Models
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public string Category { get; set; } = string.Empty;
+        // For website/GitHub links
         public string DownloadUrl { get; set; } = string.Empty;
         public string DirectDownloadUrl { get; set; } = string.Empty;
+        // For Winget installs (single package)
+        public string WingetId { get; set; } = string.Empty;
+        // For custom Winget command (e.g., multi-package installs)
+        public string WingetCommand { get; set; } = string.Empty;
+        // For running a PowerShell command/script directly (admin when required)
+        public string PowerShellCommand { get; set; } = string.Empty;
+        public bool RequiresAdmin { get; set; } = false;
+        // Optional post-install info to show (e.g., Autoruns message)
+        public string PostInstallMessage { get; set; } = string.Empty;
         public string Icon { get; set; } = string.Empty;
         public bool IsDirectDownload { get; set; }
         public string Version { get; set; } = string.Empty;

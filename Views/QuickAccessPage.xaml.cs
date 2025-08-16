@@ -14,13 +14,26 @@ namespace TweakHub.Views
         {
             InitializeComponent();
             _shortcutService = ShortcutService.Instance;
-            
+
             Loaded += QuickAccessPage_Loaded;
         }
 
         private void QuickAccessPage_Loaded(object sender, RoutedEventArgs e)
         {
-            LoadShortcuts();
+            try
+            {
+                // Ensure service is initialized before loading
+                if (_shortcutService.SystemShortcuts.Count == 0)
+                {
+                    _shortcutService.Initialize();
+                }
+                LoadShortcuts();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"QuickAccessPage load failed: {ex}");
+                ShowLoadError();
+            }
         }
 
         private void LoadShortcuts()
@@ -131,7 +144,7 @@ namespace TweakHub.Views
             try
             {
                 var success = _shortcutService.ExecuteShortcut(shortcut);
-                
+
                 if (!success)
                 {
                     MessageBox.Show(
@@ -167,6 +180,22 @@ namespace TweakHub.Views
                 "Advanced Tools" => 9,
                 _ => 10
             };
+        }
+
+        private void ShowLoadError()
+        {
+            Dispatcher.Invoke(() =>
+            {
+                ShortcutsContainer.Children.Clear();
+                var errorText = new TextBlock
+                {
+                    Text = "Failed to load shortcuts. Please restart TweakHub.",
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Foreground = System.Windows.Media.Brushes.Red
+                };
+                ShortcutsContainer.Children.Add(errorText);
+            });
         }
     }
 }

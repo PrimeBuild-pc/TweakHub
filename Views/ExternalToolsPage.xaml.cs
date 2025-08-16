@@ -27,7 +27,20 @@ namespace TweakHub.Views
 
         private void ExternalToolsPage_Loaded(object sender, RoutedEventArgs e)
         {
-            LoadExternalTools();
+            try
+            {
+                // Ensure service is initialized before loading
+                if (_shortcutService.ExternalTools.Count == 0)
+                {
+                    _shortcutService.Initialize();
+                }
+                LoadExternalTools();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"ExternalToolsPage load failed: {ex}");
+                ShowLoadError();
+            }
         }
 
         private void LoadExternalTools()
@@ -82,6 +95,8 @@ namespace TweakHub.Views
                 "Driver and GPU Utilities" => 8,
                 "Display and Audio Utilities" => 9,
                 "Runtime and Libraries" => 10,
+                "Brand Utilities" => 11,
+                "Dependencies Pack" => 12,
                 _ => 99
             };
         }
@@ -141,6 +156,8 @@ namespace TweakHub.Views
                 "Driver and GPU Utilities" => "🔧",
                 "Display and Audio Utilities" => "🖥️",
                 "Runtime and Libraries" => "📦",
+                "Brand Utilities" => "🏷️",
+                "Dependencies Pack" => "📦",
                 _ => "🔧"
             };
         }
@@ -156,7 +173,7 @@ namespace TweakHub.Views
 
             card.MouseLeftButtonUp += async (s, e) =>
             {
-                // Disable the card during download
+                // Disable the card during action
                 card.IsEnabled = false;
                 card.Opacity = 0.7;
 
@@ -215,32 +232,69 @@ namespace TweakHub.Views
             };
             descriptionText.SetResourceReference(TextBlock.ForegroundProperty, "SystemControlForegroundBaseMediumBrush");
 
-            // Footer with download indicator
+            // Footer with install/uninstall icons
             var footerPanel = new StackPanel
             {
                 Orientation = Orientation.Horizontal,
                 HorizontalAlignment = HorizontalAlignment.Right
             };
 
-            var downloadIcon = new TextBlock
+            // Install/Open indicator
+            var actionIcon = new TextBlock
             {
                 Text = GetDownloadIcon(tool),
                 FontSize = 12,
                 VerticalAlignment = VerticalAlignment.Center
             };
-            downloadIcon.SetResourceReference(TextBlock.ForegroundProperty, "IconBrush");
+            actionIcon.SetResourceReference(TextBlock.ForegroundProperty, "IconBrush");
 
             var actionText = new TextBlock
             {
                 Text = GetActionText(tool),
                 FontSize = 10,
-                Margin = new Thickness(4, 0, 0, 0),
+                Margin = new Thickness(4, 0, 8, 0),
                 VerticalAlignment = VerticalAlignment.Center
             };
             actionText.SetResourceReference(TextBlock.ForegroundProperty, "SystemControlForegroundBaseMediumBrush");
 
-            footerPanel.Children.Add(downloadIcon);
+            footerPanel.Children.Add(actionIcon);
             footerPanel.Children.Add(actionText);
+
+            // Uninstall button for winget tools
+            if (!string.IsNullOrWhiteSpace(tool.WingetId))
+            {
+                var uninstallBtn = new Button
+                {
+                    Content = new TextBlock { Text = "🗑️", FontSize = 12 },
+                    ToolTip = "Uninstall",
+                    Padding = new Thickness(4, 0, 4, 0),
+                    Margin = new Thickness(6, 0, 0, 0),
+                    Background = Brushes.Transparent,
+                    BorderThickness = new Thickness(0),
+                    Cursor = System.Windows.Input.Cursors.Hand
+                };
+
+                uninstallBtn.Click += async (s, e) =>
+                {
+                    var result = MessageBox.Show($"Are you sure you want to uninstall {tool.Name}?", "Confirm Uninstall", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        card.IsEnabled = false;
+                        card.Opacity = 0.7;
+                        try
+                        {
+                            await _downloadService.UninstallWithWinget(tool);
+                        }
+                        finally
+                        {
+                            card.IsEnabled = true;
+                            card.Opacity = 1.0;
+                        }
+                    }
+                };
+
+                footerPanel.Children.Add(uninstallBtn);
+            }
 
             stackPanel.Children.Add(headerPanel);
             stackPanel.Children.Add(descriptionText);
@@ -253,22 +307,23 @@ namespace TweakHub.Views
 
         private string GetDownloadIcon(ExternalTool tool)
         {
-            if (tool.DownloadUrl.Contains("github.com"))
+            if (!string.IsNullOrWhiteSpace(tool.WingetId) || !string.IsNullOrWhiteSpace(tool.WingetCommand))
+                return "⬇️"; // Winget download
+            else if (!string.IsNullOrEmpty(tool.DownloadUrl) && tool.DownloadUrl.Contains("github.com"))
                 return "📦"; // GitHub package
-            else if (tool.DownloadUrl.Contains("microsoft.com") || tool.DownloadUrl.Contains("apps.microsoft.com"))
-                return "🏪"; // Microsoft Store
             else
-                return "⬇️"; // Generic download
+                return "🌐"; // Website link
         }
 
         private string GetActionText(ExternalTool tool)
         {
-            if (tool.DownloadUrl.Contains("github.com"))
+            if (!string.IsNullOrWhiteSpace(tool.WingetId) || !string.IsNullOrWhiteSpace(tool.WingetCommand))
+                return "Install";
+            if (!string.IsNullOrEmpty(tool.DownloadUrl) && tool.DownloadUrl.Contains("github.com"))
                 return "GitHub";
-            else if (tool.DownloadUrl.Contains("apps.microsoft.com"))
-                return "Store";
-            else
-                return "Download";
+            if (!string.IsNullOrEmpty(tool.DownloadUrl))
+                return "Website";
+            return "Run";
         }
 
         private void OnDownloadProgress(object? sender, DownloadProgressEventArgs e)
@@ -276,8 +331,9 @@ namespace TweakHub.Views
             Dispatcher.Invoke(() =>
             {
                 ProgressPanel.Visibility = Visibility.Visible;
-                ProgressText.Text = $"Downloading {e.ToolName}... {e.StatusMessage}";
-                ProgressBar.Value = e.ProgressPercentage;
+                ProgressText.Text = $"{e.ToolName}: {e.StatusMessage}";
+                if (e.ProgressPercentage >= 0)
+                    ProgressBar.Value = e.ProgressPercentage;
             });
         }
 
@@ -287,8 +343,13 @@ namespace TweakHub.Views
             {
                 if (e.Success)
                 {
-                    ProgressText.Text = $"✅ {e.ToolName} downloaded successfully!";
+                    ProgressText.Text = $"✅ {e.Message}";
                     ProgressBar.Value = 100;
+
+                    if (!string.IsNullOrWhiteSpace(e.PostInstallMessage))
+                    {
+                        MessageBox.Show(e.PostInstallMessage, "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
 
                     // Hide progress panel after 3 seconds
                     var timer = new System.Windows.Threading.DispatcherTimer
@@ -305,7 +366,7 @@ namespace TweakHub.Views
                 }
                 else
                 {
-                    ProgressText.Text = $"❌ Failed to download {e.ToolName}";
+                    ProgressText.Text = $"❌ {e.Message}";
                     ProgressBar.Value = 0;
 
                     // Hide progress panel after 5 seconds for errors
@@ -322,5 +383,21 @@ namespace TweakHub.Views
                 }
             });
         }
+        private void ShowLoadError()
+        {
+            Dispatcher.Invoke(() =>
+            {
+                ToolsContainer.Children.Clear();
+                var errorText = new TextBlock
+                {
+                    Text = "Failed to load external tools. Please restart TweakHub.",
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Foreground = Brushes.Red
+                };
+                ToolsContainer.Children.Add(errorText);
+            });
+        }
+
     }
 }

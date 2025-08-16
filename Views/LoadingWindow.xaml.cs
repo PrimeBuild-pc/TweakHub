@@ -18,16 +18,20 @@ namespace TweakHub.Views
             "Finalizing setup..."
         };
 
+        // Track initialization state
+        private bool _initializationFailed = false;
+        private readonly object _initLock = new object();
+
         public LoadingWindow()
         {
             InitializeComponent();
-            
+
             _loadingTimer = new DispatcherTimer
             {
                 Interval = TimeSpan.FromMilliseconds(800)
             };
             _loadingTimer.Tick += LoadingTimer_Tick;
-            
+
             Loaded += LoadingWindow_Loaded;
         }
 
@@ -38,83 +42,164 @@ namespace TweakHub.Views
 
         private async void LoadingTimer_Tick(object? sender, EventArgs e)
         {
+            if (_initializationFailed)
+            {
+                _loadingTimer.Stop();
+                ShowErrorAndExit();
+                return;
+            }
+
             if (_currentStep < _loadingSteps.Length)
             {
                 LoadingText.Text = _loadingSteps[_currentStep];
                 LoadingProgress.Value = (double)(_currentStep + 1) / _loadingSteps.Length * 100;
-                
-                // Simulate actual loading work
-                await Task.Delay(200);
-                
-                switch (_currentStep)
+
+                try
                 {
-                    case 1: // Reading system specifications
-                        await InitializeSystemInfo();
-                        break;
-                    case 2: // Scanning registry entries
-                        await InitializeRegistryService();
-                        break;
-                    case 3: // Loading performance tweaks
-                        await InitializeTweakData();
-                        break;
-                    case 4: // Preparing user interface
-                        await InitializeServices();
-                        break;
+                    switch (_currentStep)
+                    {
+                        case 1: // Reading system specifications
+                            await InitializeSystemInfoSafe();
+                            break;
+                        case 2: // Scanning registry entries
+                            await InitializeRegistryServiceSafe();
+                            break;
+                        case 3: // Loading performance tweaks
+                            await InitializeTweakDataSafe();
+                            break;
+                        case 4: // Preparing user interface
+                            await InitializeServicesSafe();
+                            break;
+                    }
                 }
-                
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Initialization failed at step {_currentStep}: {ex}");
+                    _initializationFailed = true;
+                    return;
+                }
+
                 _currentStep++;
             }
             else
             {
                 _loadingTimer.Stop();
-                await Task.Delay(500); // Brief pause before showing main window
-                
-                // Show main window
-                var mainWindow = new MainWindow();
-                mainWindow.Show();
-                
-                // Close loading window
-                Close();
+                await CompleteInitialization();
             }
         }
 
-        private async Task InitializeSystemInfo()
+        private async Task InitializeSystemInfoSafe()
         {
             await Task.Run(() =>
             {
-                // Initialize system monitoring service
-                var systemService = SystemMonitoringService.Instance;
-                systemService.Initialize();
+                lock (_initLock)
+                {
+                    try
+                    {
+                        var systemService = SystemMonitoringService.Instance;
+                        systemService.Initialize();
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"SystemMonitoringService init failed: {ex}");
+                        throw;
+                    }
+                }
             });
         }
 
-        private async Task InitializeRegistryService()
+        private async Task InitializeRegistryServiceSafe()
         {
             await Task.Run(() =>
             {
-                // Initialize registry service
-                var registryService = RegistryService.Instance;
-                registryService.Initialize();
+                lock (_initLock)
+                {
+                    try
+                    {
+                        var registryService = RegistryService.Instance;
+                        registryService.Initialize();
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"RegistryService init failed: {ex}");
+                        throw;
+                    }
+                }
             });
         }
 
-        private async Task InitializeTweakData()
+        private async Task InitializeTweakDataSafe()
         {
             await Task.Run(() =>
             {
-                // Load tweak definitions
-                var tweakService = TweakService.Instance;
-                tweakService.LoadTweaks();
+                lock (_initLock)
+                {
+                    try
+                    {
+                        var tweakService = TweakService.Instance;
+                        tweakService.LoadTweaks();
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"TweakService init failed: {ex}");
+                        throw;
+                    }
+                }
             });
         }
 
-        private async Task InitializeServices()
+        private async Task InitializeServicesSafe()
         {
             await Task.Run(() =>
             {
-                // Initialize other services
-                var shortcutService = ShortcutService.Instance;
-                shortcutService.Initialize();
+                lock (_initLock)
+                {
+                    try
+                    {
+                        var shortcutService = ShortcutService.Instance;
+                        shortcutService.Initialize();
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"ShortcutService init failed: {ex}");
+                        throw;
+                    }
+                }
+            });
+        }
+
+        private async Task CompleteInitialization()
+        {
+            await Task.Delay(500);
+
+            // Ensure main window creation happens on UI thread
+            Dispatcher.Invoke(() =>
+            {
+                try
+                {
+                    var mainWindow = new MainWindow();
+                    mainWindow.Show();
+                    Close();
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"MainWindow creation failed: {ex}");
+                    ShowErrorAndExit();
+                }
+            });
+        }
+
+        private void ShowErrorAndExit()
+        {
+            Dispatcher.Invoke(() =>
+            {
+                MessageBox.Show(
+                    "TweakHub failed to initialize properly. Please restart the application.\n\n" +
+                    "If the problem persists, try running as administrator.",
+                    "Initialization Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                Application.Current.Shutdown();
             });
         }
     }

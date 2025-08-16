@@ -8,10 +8,25 @@ namespace TweakHub.Services
     public class TweakService : INotifyPropertyChanged
     {
         private static TweakService? _instance;
-        
+
         public static TweakService Instance => _instance ??= new TweakService();
 
         public ObservableCollection<TweakCategory> TweakCategories { get; } = new();
+
+        // Session state flags
+        private bool _hasAppliedTweaksThisSession;
+        public bool HasAppliedTweaksThisSession
+        {
+            get => _hasAppliedTweaksThisSession;
+            private set { _hasAppliedTweaksThisSession = value; OnPropertyChanged(); }
+        }
+
+        private bool _registryDisclaimerShown;
+        public bool RegistryDisclaimerShown
+        {
+            get => _registryDisclaimerShown;
+            set { _registryDisclaimerShown = value; OnPropertyChanged(); }
+        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -615,14 +630,52 @@ namespace TweakHub.Services
             {
                 var registryService = RegistryService.Instance;
                 var result = registryService.ApplyTweak(tweak);
-                
+
                 if (result)
                 {
                     tweak.IsEnabled = !tweak.IsEnabled;
+                    HasAppliedTweaksThisSession = true;
                     OnPropertyChanged(nameof(TweakCategories));
                 }
-                
+
                 return result;
+            });
+        }
+
+        public async Task<(int restored, int failed)> RestoreAllTweaksAsync()
+        {
+            return await Task.Run(() =>
+            {
+                int restored = 0;
+                int failed = 0;
+                var registryService = RegistryService.Instance;
+
+                foreach (var category in TweakCategories)
+                {
+                    foreach (var tweak in category.Tweaks)
+                    {
+                        try
+                        {
+                            if (registryService.RestoreTweak(tweak))
+                            {
+                                restored++;
+                            }
+                            else
+                            {
+                                failed++;
+                            }
+                        }
+                        catch
+                        {
+                            failed++;
+                        }
+                    }
+                }
+
+                // After restore, refresh states
+                RefreshTweakStates();
+                HasAppliedTweaksThisSession = false;
+                return (restored, failed);
             });
         }
 

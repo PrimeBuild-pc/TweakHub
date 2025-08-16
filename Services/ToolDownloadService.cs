@@ -29,27 +29,179 @@ namespace TweakHub.Services
             _httpClient.DefaultRequestHeaders.Add("User-Agent", "TweakHub/1.0");
         }
 
+        public async Task<bool> InstallWithWinget(ExternalTool tool)
+        {
+            try
+            {
+                var command = !string.IsNullOrWhiteSpace(tool.WingetId)
+                    ? $"install {tool.WingetId} --accept-source-agreements --accept-package-agreements"
+                    : tool.WingetCommand;
+
+                if (string.IsNullOrWhiteSpace(command))
+                {
+                    return false;
+                }
+
+                OnDownloadProgress(new DownloadProgressEventArgs(tool.Name, 0, "Starting installation..."));
+
+                var psi = new ProcessStartInfo
+                {
+                    FileName = "winget",
+                    Arguments = command,
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    CreateNoWindow = true
+                };
+
+                using var process = new Process { StartInfo = psi, EnableRaisingEvents = true };
+
+                process.OutputDataReceived += (s, e) =>
+                {
+                    if (string.IsNullOrWhiteSpace(e.Data)) return;
+                    var percent = TryParsePercent(e.Data);
+                    if (percent >= 0)
+                    {
+                        OnDownloadProgress(new DownloadProgressEventArgs(tool.Name, percent, e.Data));
+                    }
+                    else
+                    {
+                        OnDownloadProgress(new DownloadProgressEventArgs(tool.Name, 0, e.Data));
+                    }
+                };
+                process.ErrorDataReceived += (s, e) =>
+                {
+                    if (!string.IsNullOrWhiteSpace(e.Data))
+                    {
+                        OnDownloadProgress(new DownloadProgressEventArgs(tool.Name, 0, e.Data));
+                    }
+                };
+
+                process.Start();
+                process.BeginOutputReadLine();
+                process.BeginErrorReadLine();
+                await process.WaitForExitAsync();
+
+                var success = process.ExitCode == 0;
+                var message = success ? $"Installation completed: {tool.Name}" : $"Installation failed: {tool.Name}";
+                OnDownloadCompleted(new DownloadCompletedEventArgs(tool.Name, success, message, tool.PostInstallMessage));
+                return success;
+            }
+            catch (Exception ex)
+            {
+                OnDownloadCompleted(new DownloadCompletedEventArgs(tool.Name, false, ex.Message));
+                return false;
+            }
+        }
+
+        public async Task<bool> UninstallWithWinget(ExternalTool tool)
+        {
+            if (string.IsNullOrWhiteSpace(tool.WingetId)) return false;
+            try
+            {
+                OnDownloadProgress(new DownloadProgressEventArgs(tool.Name, 0, "Starting uninstall..."));
+
+                var psi = new ProcessStartInfo
+                {
+                    FileName = "winget",
+                    Arguments = $"uninstall {tool.WingetId} --accept-source-agreements --accept-package-agreements",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    CreateNoWindow = true
+                };
+
+                using var process = new Process { StartInfo = psi, EnableRaisingEvents = true };
+                process.OutputDataReceived += (s, e) =>
+                {
+                    if (string.IsNullOrWhiteSpace(e.Data)) return;
+                    var percent = TryParsePercent(e.Data);
+                    if (percent >= 0)
+                        OnDownloadProgress(new DownloadProgressEventArgs(tool.Name, percent, e.Data));
+                    else
+                        OnDownloadProgress(new DownloadProgressEventArgs(tool.Name, 0, e.Data));
+                };
+                process.ErrorDataReceived += (s, e) =>
+                {
+                    if (!string.IsNullOrWhiteSpace(e.Data))
+                        OnDownloadProgress(new DownloadProgressEventArgs(tool.Name, 0, e.Data));
+                };
+
+                process.Start();
+                process.BeginOutputReadLine();
+                process.BeginErrorReadLine();
+                await process.WaitForExitAsync();
+
+                var success = process.ExitCode == 0;
+                var message = success ? $"Uninstall completed: {tool.Name}" : $"Uninstall failed: {tool.Name}";
+                OnDownloadCompleted(new DownloadCompletedEventArgs(tool.Name, success, message));
+                return success;
+            }
+            catch (Exception ex)
+            {
+                OnDownloadCompleted(new DownloadCompletedEventArgs(tool.Name, false, ex.Message));
+                return false;
+            }
+        }
+
+        private int TryParsePercent(string data)
+        {
+            // Look for patterns like " 50%" or "50%" in output
+            for (int i = 0; i < data.Length - 2; i++)
+            {
+                if (char.IsDigit(data[i]))
+                {
+                    int j = i;
+                    int val = 0;
+                    while (j < data.Length && char.IsDigit(data[j]))
+                    {
+                        val = val * 10 + (data[j] - '0');
+                        j++;
+                    }
+                    if (j < data.Length && data[j] == '%')
+                    {
+                        return Math.Clamp(val, 0, 100);
+                    }
+                }
+            }
+            return -1;
+        }
+
         public async Task<bool> DownloadOrOpenTool(ExternalTool tool)
         {
             try
             {
+                // Execute PowerShell command directly if defined
+                if (!string.IsNullOrWhiteSpace(tool.PowerShellCommand))
+                {
+                    return await ExecutePowerShellCommand(tool);
+                }
+
+                // Use winget if a package ID or command is provided
+                if (!string.IsNullOrWhiteSpace(tool.WingetId) || !string.IsNullOrWhiteSpace(tool.WingetCommand))
+                {
+                    return await InstallWithWinget(tool);
+                }
+
                 if (tool.IsDirectDownload && !string.IsNullOrEmpty(tool.DirectDownloadUrl))
                 {
                     return await DownloadTool(tool);
                 }
-                else if (tool.DownloadUrl.Contains("github.com") && tool.DownloadUrl.Contains("/releases"))
+                else if (!string.IsNullOrEmpty(tool.DownloadUrl) && tool.DownloadUrl.Contains("github.com") && tool.DownloadUrl.Contains("/releases"))
                 {
                     return await DownloadFromGitHub(tool);
                 }
-                else
+                else if (!string.IsNullOrEmpty(tool.DownloadUrl))
                 {
                     OpenInBrowser(tool.DownloadUrl);
                     return true;
                 }
+
+                return false;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error processing tool {tool.Name}: {ex.Message}", 
+                MessageBox.Show($"Error processing tool {tool.Name}: {ex.Message}",
                     "Download Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
@@ -90,14 +242,14 @@ namespace TweakHub.Services
                     }
                 }
 
-                OnDownloadCompleted(new DownloadCompletedEventArgs(tool.Name, true, filePath));
-                
+                OnDownloadCompleted(new DownloadCompletedEventArgs(tool.Name, true, $"Download completed: {tool.Name}"));
+
                 // Try to run installer if it's an executable
                 if (fileName.EndsWith(".exe", StringComparison.OrdinalIgnoreCase))
                 {
-                    var result = MessageBox.Show($"Download completed! Would you like to run the installer for {tool.Name}?", 
+                    var result = MessageBox.Show($"Download completed! Would you like to run the installer for {tool.Name}?",
                         "Installation", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    
+
                     if (result == MessageBoxResult.Yes)
                     {
                         Process.Start(new ProcessStartInfo(filePath) { UseShellExecute = true });
@@ -250,6 +402,68 @@ namespace TweakHub.Services
         {
             DownloadCompleted?.Invoke(this, e);
         }
+
+        private async Task<bool> ExecutePowerShellCommand(ExternalTool tool)
+        {
+            try
+            {
+                OnDownloadProgress(new DownloadProgressEventArgs(tool.Name, 0, "Starting PowerShell script..."));
+
+                if (tool.RequiresAdmin)
+                {
+                    var psiAdmin = new ProcessStartInfo
+                    {
+                        FileName = "powershell.exe",
+                        Arguments = $"-NoProfile -ExecutionPolicy Bypass -Command \"{tool.PowerShellCommand}\"",
+                        UseShellExecute = true,
+                        Verb = "runas",
+                        CreateNoWindow = false
+                    };
+
+                    Process.Start(psiAdmin);
+                    OnDownloadCompleted(new DownloadCompletedEventArgs(tool.Name, true, $"Launched elevated PowerShell for {tool.Name}."));
+                    return true;
+                }
+                else
+                {
+                    var psi = new ProcessStartInfo
+                    {
+                        FileName = "powershell.exe",
+                        Arguments = $"-NoProfile -ExecutionPolicy Bypass -Command \"{tool.PowerShellCommand}\"",
+                        UseShellExecute = false,
+                        RedirectStandardOutput = true,
+                        RedirectStandardError = true,
+                        CreateNoWindow = true
+                    };
+
+                    using var process = new Process { StartInfo = psi, EnableRaisingEvents = true };
+                    process.OutputDataReceived += (s, e) =>
+                    {
+                        if (!string.IsNullOrWhiteSpace(e.Data))
+                            OnDownloadProgress(new DownloadProgressEventArgs(tool.Name, 0, e.Data));
+                    };
+                    process.ErrorDataReceived += (s, e) =>
+                    {
+                        if (!string.IsNullOrWhiteSpace(e.Data))
+                            OnDownloadProgress(new DownloadProgressEventArgs(tool.Name, 0, e.Data));
+                    };
+
+                    process.Start();
+                    process.BeginOutputReadLine();
+                    process.BeginErrorReadLine();
+                    await process.WaitForExitAsync();
+
+                    var success = process.ExitCode == 0;
+                    OnDownloadCompleted(new DownloadCompletedEventArgs(tool.Name, success, success ? $"Script completed: {tool.Name}" : $"Script failed: {tool.Name}"));
+                    return success;
+                }
+            }
+            catch (Exception ex)
+            {
+                OnDownloadCompleted(new DownloadCompletedEventArgs(tool.Name, false, ex.Message));
+                return false;
+            }
+        }
     }
 
     public class DownloadProgressEventArgs : EventArgs
@@ -270,13 +484,15 @@ namespace TweakHub.Services
     {
         public string ToolName { get; }
         public bool Success { get; }
-        public string FilePath { get; }
+        public string Message { get; }
+        public string PostInstallMessage { get; }
 
-        public DownloadCompletedEventArgs(string toolName, bool success, string filePath)
+        public DownloadCompletedEventArgs(string toolName, bool success, string message, string postInstallMessage = "")
         {
             ToolName = toolName;
             Success = success;
-            FilePath = filePath;
+            Message = message;
+            PostInstallMessage = postInstallMessage;
         }
     }
 

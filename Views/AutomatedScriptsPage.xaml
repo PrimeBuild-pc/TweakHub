@@ -45,7 +45,7 @@
 
         <!-- Header -->
         <StackPanel Grid.Row="0" Margin="0,0,0,32">
-            <TextBlock Text="Automated Scripts" 
+            <TextBlock Text="Automated Scripts"
                        FontSize="32" FontWeight="Light"
                        Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"
                        Margin="0,0,0,8"/>
@@ -70,15 +70,15 @@
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
                                 <TextBlock Text="🎮" FontSize="24" Margin="0,0,12,0"
                                            Foreground="{DynamicResource IconBrush}"/>
-                                <TextBlock Text="Gaming Performance Optimization" 
+                                <TextBlock Text="Gaming Performance Optimization"
                                            FontSize="18" FontWeight="SemiBold"
                                            Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
                             </StackPanel>
-                            
+
                             <TextBlock Text="Comprehensive gaming optimization including GPU settings, CPU priority, memory management, and network tweaks."
                                        Style="{StaticResource DescriptionTextStyle}"
                                        Margin="36,0,0,12"/>
-                            
+
                             <StackPanel Orientation="Horizontal" Margin="36,0,0,0">
                                 <Border Background="{StaticResource AccentBrush}" CornerRadius="10" Padding="6,2" Margin="0,0,8,0">
                                     <TextBlock Text="GPU" FontSize="10" Foreground="White" FontWeight="Medium"/>
@@ -158,15 +158,15 @@
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
                                 <TextBlock Text="🌐" FontSize="24" Margin="0,0,12,0"
                                            Foreground="{DynamicResource IconBrush}"/>
-                                <TextBlock Text="Network Performance Boost" 
+                                <TextBlock Text="Network Performance Boost"
                                            FontSize="18" FontWeight="SemiBold"
                                            Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
                             </StackPanel>
-                            
+
                             <TextBlock Text="Optimize network settings for reduced latency and improved throughput."
                                        Style="{StaticResource DescriptionTextStyle}"
                                        Margin="36,0,0,12"/>
-                            
+
                             <StackPanel Orientation="Horizontal" Margin="36,0,0,0">
                                 <Border Background="{StaticResource WarningBrush}" CornerRadius="10" Padding="6,2" Margin="0,0,8,0">
                                     <TextBlock Text="Moderate Risk" FontSize="10" Foreground="White" FontWeight="Medium"/>
@@ -199,15 +199,15 @@
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
                                 <TextBlock Text="🔧" FontSize="24" Margin="0,0,12,0"
                                            Foreground="{DynamicResource IconBrush}"/>
-                                <TextBlock Text="Hardware-Specific Optimization" 
+                                <TextBlock Text="Hardware-Specific Optimization"
                                            FontSize="18" FontWeight="SemiBold"
                                            Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
                             </StackPanel>
-                            
+
                             <TextBlock Text="Detect your hardware (Intel/AMD/Nvidia) and apply manufacturer-specific optimizations."
                                        Style="{StaticResource DescriptionTextStyle}"
                                        Margin="36,0,0,12"/>
-                            
+
                             <StackPanel Orientation="Horizontal" Margin="36,0,0,0">
                                 <Border Background="{StaticResource AccentBrush}" CornerRadius="10" Padding="6,2" Margin="0,0,8,0">
                                     <TextBlock Text="Intel" FontSize="10" Foreground="White" FontWeight="Medium"/>
@@ -347,12 +347,105 @@
                         <Button Grid.Column="1" Style="{StaticResource ExecuteButtonStyle}"
                                 Click="WinGetInstallation_Click">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="📥" FontSize="14" Margin="0,0,8,0" Foreground="White"/>
+                                <TextBlock Text="▶️" FontSize="14" Margin="0,0,8,0" Foreground="White"/>
                                 <TextBlock Text="Execute"/>
                             </StackPanel>
                         </Button>
                     </Grid>
                 </Border>
+
+                <!-- BCDEdit Performance Tweaks Script -->
+                <Border Style="{StaticResource ScriptCardStyle}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                                <TextBlock Text="⚙️" FontSize="24" Margin="0,0,12,0"
+                                           Foreground="{DynamicResource IconBrush}"/>
+                                <TextBlock Text="BCDEdit Performance Tweaks"
+                                           FontSize="18" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                            </StackPanel>
+
+                            <TextBlock Text="Optimize Windows boot configuration for better performance and timing precision"
+                                       Style="{StaticResource DescriptionTextStyle}"
+                                       Margin="36,0,0,12"/>
+
+                            <StackPanel Orientation="Horizontal" Margin="36,0,0,0">
+                                <Border Background="{StaticResource WarningBrush}" CornerRadius="10" Padding="6,2" Margin="0,0,8,0">
+                                    <TextBlock Text="Advanced" FontSize="10" Foreground="White" FontWeight="Medium"/>
+                                </Border>
+                                <Border Background="{StaticResource AccentBrush}" CornerRadius="10" Padding="6,2" Margin="0,0,8,0">
+                                    <TextBlock Text="Boot" FontSize="10" Foreground="White" FontWeight="Medium"/>
+                                </Border>
+                                <Border Background="{StaticResource AccentBrush}" CornerRadius="10" Padding="6,2">
+                                    <TextBlock Text="Timing" FontSize="10" Foreground="White" FontWeight="Medium"/>
+                                </Border>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <Button Style="{StaticResource ExecuteButtonStyle}" Click="BcdEditApply_Click" Margin="0,0,0,8">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="▶️" FontSize="14" Margin="0,0,8,0" Foreground="White"/>
+                                    <TextBlock Text="Apply"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Style="{StaticResource DangerButtonStyle}" Click="BcdEditRestore_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="↩️" FontSize="14" Margin="0,0,8,0" Foreground="White"/>
+                                    <TextBlock Text="Restore"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- DISM + SFC System Repair Script -->
+                <Border Style="{StaticResource ScriptCardStyle}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                                <TextBlock Text="🛠️" FontSize="24" Margin="0,0,12,0"
+                                           Foreground="{DynamicResource IconBrush}"/>
+                                <TextBlock Text="DISM + SFC System Repair"
+                                           FontSize="18" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                            </StackPanel>
+
+                            <TextBlock Text="Run comprehensive Windows system file integrity checks and repairs"
+                                       Style="{StaticResource DescriptionTextStyle}"
+                                       Margin="36,0,0,12"/>
+
+                            <StackPanel Orientation="Horizontal" Margin="36,0,0,0">
+                                <Border Background="{StaticResource SuccessBrush}" CornerRadius="10" Padding="6,2" Margin="0,0,8,0">
+                                    <TextBlock Text="Safe" FontSize="10" Foreground="White" FontWeight="Medium"/>
+                                </Border>
+                                <Border Background="{StaticResource AccentBrush}" CornerRadius="10" Padding="6,2">
+                                    <TextBlock Text="Repair" FontSize="10" Foreground="White" FontWeight="Medium"/>
+                                </Border>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <Button Grid.Column="1" Style="{StaticResource ExecuteButtonStyle}"
+                                Click="DismSfcRepair_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="▶️" FontSize="14" Margin="0,0,8,0" Foreground="White"/>
+                                <TextBlock Text="Run Repair"/>
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+                </Border>
+
             </StackPanel>
         </ScrollViewer>
     </Grid>

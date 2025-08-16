@@ -1,0 +1,53 @@
+<Window x:Class="TweakHub.Views.Dialogs.DisclaimerDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:shell="http://schemas.microsoft.com/netfx/2007/xaml/presentation"
+        mc:Ignorable="d"
+        Title="TweakHub Disclaimer"
+        WindowStartupLocation="CenterOwner"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        Topmost="True"
+        Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}"
+        Width="560"
+        SizeToContent="Height">
+    <Grid>
+        <StackPanel Margin="24">
+            <!-- Header -->
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                <TextBlock Text="⚠️" FontSize="36" Margin="0,0,14,0" Foreground="White"/>
+                <TextBlock Text="TweakHub  Disclaimer" FontSize="24" FontWeight="SemiBold" Foreground="White"/>
+            </StackPanel>
+            <!-- Body -->
+            <StackPanel Margin="0,0,0,24">
+                <TextBlock TextWrapping="Wrap" Margin="0,0,0,10" Foreground="White" FontSize="16">
+                    TweakHub can make changes to Windows settings, the registry, boot configuration, and other system components. Create a system
+                    restore point before proceeding.
+                </TextBlock>
+                <TextBlock TextWrapping="Wrap" Margin="0,0,0,10" Foreground="White" FontSize="16">
+                    You proceed at your own risk. The author assumes no responsibility for any damage, data loss, or system instability that may occur.
+                </TextBlock>
+                <TextBlock TextWrapping="Wrap" Margin="0,0,0,10" Foreground="White" FontSize="16">
+                    By closing this dialog and continuing, you acknowledge and accept these conditions.
+                </TextBlock>
+            </StackPanel>
+
+            <!-- Actions -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button x:Name="OkButton" Width="160" Height="40"
+                        Style="{StaticResource ModernButtonStyle}"
+                        Background="{DynamicResource AccentBrush}"
+                        Click="OkButton_Click">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock Text="✔" Margin="0,0,8,0" Foreground="White"/>
+                        <TextBlock Text="I Understand" Foreground="White"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>
+

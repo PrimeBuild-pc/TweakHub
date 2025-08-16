@@ -15,12 +15,37 @@ namespace TweakHub.Views
             InitializeComponent();
             _tweakService = TweakService.Instance;
             _registryService = RegistryService.Instance;
-            
+
             Loaded += RegistryTweaksPage_Loaded;
+            _tweakService.PropertyChanged += TweakService_PropertyChanged;
+        }
+        private readonly PowerShellService _powerShellService = PowerShellService.Instance;
+
+
+        private void TweakService_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(TweakService.HasAppliedTweaksThisSession))
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    RestoreAllButton.Visibility = _tweakService.HasAppliedTweaksThisSession ? Visibility.Visible : Visibility.Collapsed;
+                });
+            }
         }
 
         private void RegistryTweaksPage_Loaded(object sender, RoutedEventArgs e)
         {
+            // Show one-time per-session disclaimer on first visit to Registry Tweaks section
+            if (!_tweakService.RegistryDisclaimerShown)
+            {
+                var dialog = new TweakHub.Views.Dialogs.DisclaimerDialog
+                {
+                    Owner = Window.GetWindow(this)
+                };
+                dialog.ShowDialog();
+                _tweakService.RegistryDisclaimerShown = true;
+            }
+
             LoadTweaks();
         }
 
@@ -55,6 +80,9 @@ namespace TweakHub.Views
                         checkBox.IsChecked = !checkBox.IsChecked;
                         return;
                     }
+
+
+
                 }
 
                 // Disable the checkbox while processing
@@ -63,16 +91,19 @@ namespace TweakHub.Views
                 try
                 {
                     var success = await _tweakService.ApplyTweakAsync(tweak);
-                    
+
                     if (!success)
                     {
                         MessageBox.Show(
                             $"Failed to apply tweak: {tweak.Name}\n\n" +
                             "This may be due to insufficient permissions or system restrictions.",
                             "Tweak Application Failed",
+
+
+
                             MessageBoxButton.OK,
                             MessageBoxImage.Error);
-                        
+
                         // Revert the checkbox state
                         checkBox.IsChecked = !checkBox.IsChecked;
                     }
@@ -93,7 +124,8 @@ namespace TweakHub.Views
                         "Error",
                         MessageBoxButton.OK,
                         MessageBoxImage.Error);
-                    
+
+
                     // Revert the checkbox state
                     checkBox.IsChecked = !checkBox.IsChecked;
                 }
@@ -216,5 +248,97 @@ namespace TweakHub.Views
 
             MessageBox.Show(message, "Tweaks Applied", MessageBoxButton.OK, MessageBoxImage.Information);
         }
+
+        private async void CreateRestorePointButton_Click(object sender, RoutedEventArgs e)
+        {
+            var info = "This will create a System Restore Point named 'TweakHub - Pre Tweaks'.\n\n" +
+                       "Note: Creating a restore point may take a minute and requires administrator privileges.";
+            var proceed = MessageBox.Show(info + "\n\nProceed?", "Create Restore Point", MessageBoxButton.YesNo, MessageBoxImage.Information);
+            if (proceed != MessageBoxResult.Yes) return;
+
+            var progress = new ProgressWindow("Creating system restore point...");
+            progress.Show();
+
+            try
+            {
+                progress.UpdateStatus("Requesting restore point...");
+                progress.UpdateProgress(30);
+
+                var script = @"
+                    try {
+                        Checkpoint-Computer -Description 'TweakHub - Pre Tweaks' -RestorePointType 'MODIFY_SETTINGS'
+                        Write-Output 'OK'
+                    } catch {
+                        Write-Error $_.Exception.Message
+                    }
+                ";
+
+                var result = await _powerShellService.ExecuteScriptAsync(script);
+
+                progress.UpdateStatus("Finalizing...");
+                progress.UpdateProgress(90);
+                await Task.Delay(500);
+
+                progress.UpdateProgress(100);
+                progress.Close();
+
+                if (result.Success && result.Output.Contains("OK"))
+                {
+                    MessageBox.Show("Restore point created successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show($"Failed to create restore point.\n\n{result.Error}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                progress.Close();
+                MessageBox.Show($"An error occurred:\n\n{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+
+
+        private async void RestoreAllButton_Click(object sender, RoutedEventArgs e)
+        {
+            var confirm = MessageBox.Show(
+                "This will attempt to restore all registry tweaks to their original values.\n\nProceed?",
+                "Restore All Changes",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning);
+            if (confirm != MessageBoxResult.Yes)
+                return;
+
+            var progress = new ProgressWindow("Restoring all registry tweaks...");
+            progress.Show();
+
+            try
+            {
+                progress.UpdateStatus("Restoring...");
+                progress.UpdateProgress(20);
+                var (restored, failed) = await _tweakService.RestoreAllTweaksAsync();
+
+                progress.UpdateStatus("Finalizing...");
+                progress.UpdateProgress(90);
+                await Task.Delay(300);
+
+                progress.UpdateProgress(100);
+                progress.Close();
+
+                var msg = $"Restored {restored} tweak(s).";
+                if (failed > 0) msg += $"\n{failed} tweak(s) failed to restore.";
+                MessageBox.Show(msg, "Restore Complete", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                // Update visibility of Restore All button
+                RestoreAllButton.Visibility = _tweakService.HasAppliedTweaksThisSession ? Visibility.Visible : Visibility.Collapsed;
+            }
+            catch (Exception ex)
+            {
+                progress.Close();
+                MessageBox.Show($"An error occurred while restoring:\n\n{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
     }
 }

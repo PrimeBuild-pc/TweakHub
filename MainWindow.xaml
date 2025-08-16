@@ -80,7 +80,7 @@
                                    Margin="12,0,0,0" VerticalAlignment="Center"
                                    Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
                     </StackPanel>
-                    <TextBlock Text="Windows 11 Performance Optimizer"
+                    <TextBlock Text="Powered by Prime Build"
                                FontSize="12"
                                Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
                 </StackPanel>
@@ -124,12 +124,12 @@
                             </StackPanel>
                         </Button>
 
-                        <Button x:Name="SystemMonitorButton" Style="{StaticResource SidebarButtonStyle}"
-                                Click="SystemMonitorButton_Click">
+                        <Button x:Name="AboutButton" Style="{StaticResource SidebarButtonStyle}"
+                                Click="AboutButton_Click">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="📊" FontSize="16" Margin="0,0,12,0"
+                                <TextBlock Text="ℹ️" FontSize="16" Margin="0,0,12,0"
                                            Foreground="{DynamicResource IconBrush}"/>
-                                <TextBlock Text="System Monitor"/>
+                                <TextBlock Text="About"/>
                             </StackPanel>
                         </Button>
                     </StackPanel>

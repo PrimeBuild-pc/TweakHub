@@ -9,7 +9,7 @@ namespace TweakHub.Services
     public class ShortcutService : INotifyPropertyChanged
     {
         private static ShortcutService? _instance;
-        
+
         public static ShortcutService Instance => _instance ??= new ShortcutService();
 
         public ObservableCollection<SystemShortcut> SystemShortcuts { get; } = new();
@@ -21,24 +21,38 @@ namespace TweakHub.Services
 
         public void Initialize()
         {
-            LoadSystemShortcuts();
-            LoadExternalTools();
+            try
+            {
+                // Use dispatcher for UI thread safety
+                System.Windows.Application.Current?.Dispatcher.Invoke(() =>
+                {
+                    LoadSystemShortcuts();
+                    LoadExternalTools();
+                });
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"ShortcutService initialization failed: {ex}");
+                throw;
+            }
         }
 
         private void LoadSystemShortcuts()
         {
-            SystemShortcuts.Clear();
-
-            // System Settings
-            SystemShortcuts.Add(new SystemShortcut
+            try
             {
-                Name = "Device Manager",
-                Description = "Manage hardware devices and drivers",
-                Command = "devmgmt.msc",
-                Arguments = "",
-                Icon = "🔧",
-                Category = "System Management"
-            });
+                SystemShortcuts.Clear();
+
+                // System Settings
+                SystemShortcuts.Add(new SystemShortcut
+                {
+                    Name = "Device Manager",
+                    Description = "Manage hardware devices and drivers",
+                    Command = "devmgmt.msc",
+                    Arguments = "",
+                    Icon = "🔧",
+                    Category = "System Management"
+                });
 
             SystemShortcuts.Add(new SystemShortcut
             {
@@ -149,22 +163,39 @@ namespace TweakHub.Services
                 Icon = "🧹",
                 Category = "Maintenance"
             });
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"LoadSystemShortcuts failed: {ex}");
+                throw;
+            }
         }
 
         private void LoadExternalTools()
         {
-            ExternalTools.Clear();
+            try
+            {
+                ExternalTools.Clear();
 
-            LoadDLSSAndGraphicsTools();
-            LoadSystemOptimizationTools();
-            LoadMonitoringAndLatencyTools();
-            LoadOverclockingTools();
-            LoadHardwareMonitoringTools();
-            LoadBenchmarkingTools();
-            LoadStorageAndMemoryTools();
-            LoadDriverAndGPUTools();
-            LoadDisplayAndAudioTools();
-            LoadRuntimeLibraries();
+                LoadDLSSAndGraphicsTools();
+                LoadSystemOptimizationTools();
+                LoadMonitoringAndLatencyTools();
+                LoadOverclockingTools();
+                LoadHardwareMonitoringTools();
+                LoadBenchmarkingTools();
+                LoadStorageAndMemoryTools();
+                LoadDriverAndGPUTools();
+                LoadDisplayAndAudioTools();
+                LoadBrandUtilities();
+                LoadDependenciesPack();
+
+                LoadRuntimeLibraries();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"LoadExternalTools failed: {ex}");
+                throw;
+            }
         }
 
         private void LoadDLSSAndGraphicsTools()
@@ -175,7 +206,7 @@ namespace TweakHub.Services
                 Name = "DLSS Swapper",
                 Description = "Swap DLSS versions for better performance in games",
                 Category = "DLSS and Graphics Tools",
-                DownloadUrl = "https://github.com/beeradmoore/dlss-swapper/releases",
+                DownloadUrl = "https://github.com/beeradmoore/dlss-swapper",
                 Icon = "🎮",
                 Version = "Latest",
                 IsDirectDownload = false
@@ -186,7 +217,7 @@ namespace TweakHub.Services
                 Name = "NVIDIA Profile Inspector",
                 Description = "Advanced NVIDIA driver settings editor",
                 Category = "DLSS and Graphics Tools",
-                DownloadUrl = "https://github.com/Orbmu2k/nvidiaProfileInspector/releases",
+                DownloadUrl = "https://github.com/Orbmu2k/nvidiaProfileInspector",
                 Icon = "🔧",
                 Version = "Latest",
                 IsDirectDownload = false
@@ -197,7 +228,7 @@ namespace TweakHub.Services
                 Name = "OptiScaler",
                 Description = "Universal upscaling solution for games",
                 Category = "DLSS and Graphics Tools",
-                DownloadUrl = "https://github.com/emoose/OptiScaler",
+                DownloadUrl = "https://github.com/optiscaler/OptiScaler",
                 Icon = "📈",
                 Version = "Latest"
             });
@@ -207,7 +238,7 @@ namespace TweakHub.Services
                 Name = "Radeon Software Slimmer",
                 Description = "Remove unnecessary components from AMD drivers",
                 Category = "DLSS and Graphics Tools",
-                DownloadUrl = "https://github.com/GSDragoon/RadeonSoftwareSlimmer/releases",
+                DownloadUrl = "https://github.com/GSDragoon/RadeonSoftwareSlimmer",
                 Icon = "🔴",
                 Version = "Latest"
             });
@@ -231,7 +262,7 @@ namespace TweakHub.Services
                 Name = "DNS Jumper",
                 Description = "Fast DNS changer and tester",
                 Category = "System and Optimization Tools",
-                DownloadUrl = "https://dnsjumper.com/",
+                DownloadUrl = "https://dnsjumper.net/",
                 Icon = "🌐",
                 Version = "Latest"
             });
@@ -251,7 +282,7 @@ namespace TweakHub.Services
                 Name = "Driver Store Explorer (RAPR)",
                 Description = "Manage Windows driver store",
                 Category = "System and Optimization Tools",
-                DownloadUrl = "https://github.com/lostindark/DriverStoreExplorer/releases",
+                DownloadUrl = "https://github.com/lostindark/DriverStoreExplorer",
                 Icon = "💾",
                 Version = "Latest"
             });
@@ -268,12 +299,13 @@ namespace TweakHub.Services
 
             ExternalTools.Add(new ExternalTool
             {
-                Name = "AutoStart (Sysinternals Autoruns)",
+                Name = "Autoruns",
                 Description = "Manage Windows startup programs and services",
                 Category = "System and Optimization Tools",
-                DownloadUrl = "https://learn.microsoft.com/en-us/sysinternals/downloads/autoruns",
+                WingetId = "Microsoft.Sysinternals.Autoruns",
                 Icon = "🚀",
-                Version = "Latest"
+                Version = "Latest",
+                PostInstallMessage = "To use Autoruns, open Command Prompt as Administrator and type: `autoruns`"
             });
 
             ExternalTools.Add(new ExternalTool
@@ -281,7 +313,7 @@ namespace TweakHub.Services
                 Name = "RAMMap",
                 Description = "Advanced memory usage analyzer",
                 Category = "System and Optimization Tools",
-                DownloadUrl = "https://learn.microsoft.com/en-us/sysinternals/downloads/rammap",
+                WingetId = "Microsoft.Sysinternals.RAMMap",
                 Icon = "🧠",
                 Version = "Latest"
             });
@@ -296,22 +328,15 @@ namespace TweakHub.Services
                 Version = "Latest"
             });
 
-            ExternalTools.Add(new ExternalTool
-            {
-                Name = "WinHags (WinHags Controller)",
-                Description = "Hardware-accelerated GPU scheduling controller",
-                Category = "System and Optimization Tools",
-                DownloadUrl = "https://github.com/Chuyu-Team/WinHAGS/releases",
-                Icon = "🎮",
-                Version = "Latest"
-            });
+
 
             ExternalTools.Add(new ExternalTool
             {
-                Name = "Chris Titus Tech Tool (WinUtil)",
-                Description = "Comprehensive Windows optimization utility",
+                Name = "Chris Titus Tech Tool",
+                Description = "Execute Chris Titus Tech PowerShell tool (admin)",
                 Category = "System and Optimization Tools",
-                DownloadUrl = "https://christitus.com/winutil/",
+                PowerShellCommand = "iwr -useb https://christitus.com/win | iex",
+                RequiresAdmin = true,
                 Icon = "🔧",
                 Version = "Latest"
             });
@@ -321,17 +346,17 @@ namespace TweakHub.Services
                 Name = "Winaero Tweaker",
                 Description = "Advanced Windows customization tool",
                 Category = "System and Optimization Tools",
-                DownloadUrl = "https://winaerotweaker.com/",
+                WingetId = "winaero.tweaker",
                 Icon = "🎨",
                 Version = "Latest"
             });
 
             ExternalTools.Add(new ExternalTool
             {
-                Name = "Microsoft PowerToys",
+                Name = "PowerToys",
                 Description = "Official Microsoft utilities for power users",
                 Category = "System and Optimization Tools",
-                DownloadUrl = "https://docs.microsoft.com/en-us/powertoys/",
+                WingetId = "Microsoft.PowerToys",
                 Icon = "⚡",
                 Version = "Latest"
             });
@@ -341,7 +366,7 @@ namespace TweakHub.Services
                 Name = "Wintoys",
                 Description = "Modern Windows optimization and tweaking tool",
                 Category = "System and Optimization Tools",
-                DownloadUrl = "https://apps.microsoft.com/store/detail/wintoys/9PGCV4V3BK4W",
+                WingetId = "9P8LTPGCBZXD",
                 Icon = "🎯",
                 Version = "Latest"
             });
@@ -356,13 +381,114 @@ namespace TweakHub.Services
                 Version = "Latest"
             });
 
+            // New tools (System and Optimization Tools)
             ExternalTools.Add(new ExternalTool
             {
-                Name = "Tweaking.com Windows Repair Toolbox",
-                Description = "Comprehensive Windows repair and optimization",
+                Name = "Geek Uninstaller",
+                Description = "Lightweight uninstaller for Windows",
                 Category = "System and Optimization Tools",
-                DownloadUrl = "https://www.tweaking.com/",
-                Icon = "🛠️",
+                WingetId = "GeekUninstaller.GeekUninstaller",
+                Icon = "🧹",
+                Version = "Latest"
+            });
+
+            ExternalTools.Add(new ExternalTool
+            {
+                Name = "Bulk Crap Uninstaller",
+                Description = "Bulk uninstall and cleanup utility",
+                Category = "System and Optimization Tools",
+                WingetId = "Klocman.BulkCrapUninstaller",
+                Icon = "🧹",
+                Version = "Latest"
+            });
+
+            ExternalTools.Add(new ExternalTool
+            {
+                Name = "Process Lasso",
+                Description = "Real-time CPU optimization and process automation",
+                Category = "System and Optimization Tools",
+                WingetId = "BitSum.ProcessLasso",
+                Icon = "⚙️",
+                Version = "Latest"
+            });
+
+            ExternalTools.Add(new ExternalTool
+            {
+                Name = "ParkControl",
+                Description = "CPU core parking and frequency scaling control",
+                Category = "System and Optimization Tools",
+                WingetId = "BitSum.ParkControl",
+                Icon = "⚙️",
+                Version = "Latest"
+            });
+
+            ExternalTools.Add(new ExternalTool
+            {
+                Name = "Quick CPU",
+                Description = "CPU performance tuning utility",
+                Category = "System and Optimization Tools",
+                WingetId = "CoderBag.QuickCPUx64",
+                Icon = "⚙️",
+                Version = "Latest"
+            });
+
+            ExternalTools.Add(new ExternalTool
+            {
+                Name = "Wise Registry Cleaner",
+                Description = "Windows registry cleanup and optimization",
+                Category = "System and Optimization Tools",
+                WingetId = "WiseCleaner.WiseRegistryCleaner",
+                Icon = "🧹",
+                Version = "Latest"
+            });
+
+            ExternalTools.Add(new ExternalTool
+            {
+                Name = "ISLC",
+                Description = "Intelligent Standby List Cleaner",
+                Category = "System and Optimization Tools",
+                DownloadUrl = "https://www.wagnardsoft.com/forums/viewtopic.php?t=1256",
+                Icon = "🧠",
+                Version = "Latest"
+            });
+
+            ExternalTools.Add(new ExternalTool
+            {
+                Name = "WinHance",
+                Description = "Windows enhancement toolkit",
+                Category = "System and Optimization Tools",
+                DownloadUrl = "https://winhance.net/",
+                Icon = "✨",
+                Version = "Latest"
+            });
+
+            ExternalTools.Add(new ExternalTool
+            {
+                Name = "Windows KeyFinder",
+                Description = "Retrieve your Windows product key",
+                Category = "System and Optimization Tools",
+                DownloadUrl = "https://cdn.discordapp.com/attachments/1208935867729580043/1355867378722013297/windowskeyfinder.zip",
+                Icon = "🔑",
+                Version = "Latest"
+            });
+
+            ExternalTools.Add(new ExternalTool
+            {
+                Name = "Windows & Office Activation (MAS)",
+                Description = "Microsoft Activation Scripts (open-source)",
+                Category = "System and Optimization Tools",
+                DownloadUrl = "https://github.com/massgravel/Microsoft-Activation-Scripts",
+                Icon = "🪟",
+                Version = "Latest"
+            });
+
+            ExternalTools.Add(new ExternalTool
+            {
+                Name = "Vortex Mod Manager",
+                Description = "Nexus Mods mod manager",
+                Category = "System and Optimization Tools",
+                WingetId = "NexusMods.Vortex",
+                Icon = "🧩",
                 Version = "Latest"
             });
         }
@@ -370,12 +496,15 @@ namespace TweakHub.Services
         private void LoadMonitoringAndLatencyTools()
         {
             // Monitoring and Latency Tools
+
+
+
             ExternalTools.Add(new ExternalTool
             {
                 Name = "LatencyMon",
                 Description = "Monitor system latency and DPC/ISR activity",
                 Category = "Monitoring and Latency Tools",
-                DownloadUrl = "https://www.resplendence.com/latencymon",
+                WingetId = "Resplendence.LatencyMon",
                 Icon = "⏱️",
                 Version = "Latest"
             });
@@ -385,7 +514,7 @@ namespace TweakHub.Services
                 Name = "Latency Checker",
                 Description = "USB and system latency measurement tool",
                 Category = "Monitoring and Latency Tools",
-                DownloadUrl = "https://www.thesycon.de/eng/latency_check.shtml",
+                DownloadUrl = "https://www.majorgeeks.com/files/details/dpc_latency_checker.html",
                 Icon = "📊",
                 Version = "Latest"
             });
@@ -399,17 +528,17 @@ namespace TweakHub.Services
                 Name = "MSI Afterburner",
                 Description = "GPU overclocking and monitoring tool",
                 Category = "Overclocking and Hardware Control",
-                DownloadUrl = "https://www.msi.com/Landing/afterburner",
+                WingetId = "Guru3D.Afterburner",
                 Icon = "🎮",
                 Version = "Latest"
             });
 
             ExternalTools.Add(new ExternalTool
             {
-                Name = "RivaTuner / RTSS",
-                Description = "Advanced graphics card tuning and statistics",
+                Name = "RTSS",
+                Description = "RivaTuner Statistics Server (OSD/Frametime)",
                 Category = "Overclocking and Hardware Control",
-                DownloadUrl = "https://www.guru3d.com/files-details/rtss-rivatuner-statistics-server-download.html",
+                WingetId = "Guru3D.RTSS",
                 Icon = "📈",
                 Version = "Latest"
             });
@@ -429,7 +558,7 @@ namespace TweakHub.Services
                 Name = "AMD Ryzen Master",
                 Description = "AMD CPU overclocking and monitoring",
                 Category = "Overclocking and Hardware Control",
-                DownloadUrl = "https://www.amd.com/en/technologies/ryzen-master",
+                DownloadUrl = "https://www.amd.com/en/products/software/ryzen-master.html#download",
                 Icon = "🔴",
                 Version = "Latest"
             });
@@ -513,7 +642,7 @@ namespace TweakHub.Services
                 Name = "GPU-Z",
                 Description = "Graphics card information and monitoring",
                 Category = "Hardware Monitoring",
-                DownloadUrl = "https://www.techpowerup.com/gpu-specs/gpu-z",
+                WingetId = "gpu-z",
                 Icon = "🎮",
                 Version = "Latest"
             });
@@ -543,7 +672,7 @@ namespace TweakHub.Services
                 Name = "Fan Control",
                 Description = "Advanced fan curve control software",
                 Category = "Hardware Monitoring",
-                DownloadUrl = "https://fancontrol.io",
+                WingetId = "Rem0o.FanControl",
                 Icon = "🌪️",
                 Version = "Latest"
             });
@@ -557,7 +686,7 @@ namespace TweakHub.Services
                 Name = "OCCT",
                 Description = "CPU, GPU and power supply testing tool",
                 Category = "Benchmarking and Testing",
-                DownloadUrl = "https://www.ocbase.com/",
+                DownloadUrl = "https://www.ocbase.com/download",
                 Icon = "🔥",
                 Version = "Latest"
             });
@@ -574,31 +703,40 @@ namespace TweakHub.Services
 
             ExternalTools.Add(new ExternalTool
             {
-                Name = "FurMark",
+                Name = "FurMark 2",
                 Description = "GPU stress testing and benchmarking",
                 Category = "Benchmarking and Testing",
-                DownloadUrl = "https://geeks3d.com/furmark/",
+                WingetId = "Geeks3D.FurMark.2",
                 Icon = "🔥",
                 Version = "Latest"
             });
 
             ExternalTools.Add(new ExternalTool
             {
-                Name = "Cinebench",
+                Name = "Cinebench R24",
                 Description = "CPU rendering performance benchmark",
                 Category = "Benchmarking and Testing",
-                DownloadUrl = "https://www.maxon.net/en/cinebench",
+                DownloadUrl = "https://www.guru3d.com/download/download-maxon-cinebench-2024/",
                 Icon = "🎬",
+                Version = "Latest"
+            });
+            ExternalTools.Add(new ExternalTool
+            {
+                Name = "CapFrameX",
+                Description = "Frame-time capture and analysis",
+                Category = "Benchmarking and Testing",
+                WingetId = "CXWorld.CapFrameX",
+                Icon = "📊",
                 Version = "Latest"
             });
 
             ExternalTools.Add(new ExternalTool
             {
-                Name = "3DMark",
-                Description = "GPU and gaming performance benchmark",
+                Name = "BenchMate",
+                Description = "Automated benchmarking harness",
                 Category = "Benchmarking and Testing",
-                DownloadUrl = "https://www.ul.com/benchmarks/3dmark",
-                Icon = "🎮",
+                WingetId = "MatthiasZronek.BenchMate",
+                Icon = "🧪",
                 Version = "Latest"
             });
 
@@ -641,7 +779,7 @@ namespace TweakHub.Services
                 Name = "CrystalDiskMark",
                 Description = "Storage device benchmark and performance testing",
                 Category = "Storage and Memory",
-                DownloadUrl = "https://crystalmark.info/en/software/crystaldiskmark/",
+                WingetId = "CrystalDewWorld.CrystalDiskMark",
                 Icon = "💾",
                 Version = "Latest"
             });
@@ -651,7 +789,7 @@ namespace TweakHub.Services
                 Name = "CrystalDiskInfo",
                 Description = "Storage device health monitoring and S.M.A.R.T. analysis",
                 Category = "Storage and Memory",
-                DownloadUrl = "https://crystalmark.info/en/software/crystaldiskinfo/",
+                WingetId = "CrystalDewWorld.CrystalDiskInfo",
                 Icon = "💿",
                 Version = "Latest"
             });
@@ -663,6 +801,16 @@ namespace TweakHub.Services
                 Category = "Storage and Memory",
                 DownloadUrl = "https://semiconductor.samsung.com/consumer-storage/support/tools/",
                 Icon = "💾",
+                Version = "Latest"
+            });
+
+            ExternalTools.Add(new ExternalTool
+            {
+                Name = "TM5 Pack",
+                Description = "TestMem5 presets pack for memory stability testing",
+                Category = "Storage and Memory",
+                DownloadUrl = "https://mega.nz/folder/xPFBzQoR#v2TV5vnruNPunqt-I4Gpmw",
+                Icon = "🧠",
                 Version = "Latest"
             });
 
@@ -683,6 +831,16 @@ namespace TweakHub.Services
                 Category = "Storage and Memory",
                 DownloadUrl = "https://testmem.tz.ru/",
                 Icon = "🧠",
+                Version = "Latest"
+            });
+
+            ExternalTools.Add(new ExternalTool
+            {
+                Name = "DiskAlizer",
+                Description = "Analyze disk allocation and optimize space",
+                Category = "Storage and Memory",
+                DownloadUrl = "https://www.gentiluomodigitale.it/?s=DiskAlizer",
+                Icon = "🧮",
                 Version = "Latest"
             });
         }
@@ -749,6 +907,25 @@ namespace TweakHub.Services
                 Icon = "🔴",
                 Version = "Latest"
             });
+            ExternalTools.Add(new ExternalTool
+            {
+                Name = "AMD GPU Profile Manager",
+                Description = "Manage AMD GPU profiles via OpenSystemTelemetry",
+                Category = "Driver and GPU Utilities",
+                DownloadUrl = "https://github.com/OpenSystemTelemetry/AMD.GPU.ProfileManager",
+                Icon = "🔧",
+                Version = "Latest"
+            });
+
+            ExternalTools.Add(new ExternalTool
+            {
+                Name = "Snappy Driver Installer Origin",
+                Description = "Open-source driver installer",
+                Category = "Driver and GPU Utilities",
+                WingetId = "GlennDelahoy.SnappyDriverInstallerOrigin",
+                Icon = "📦",
+                Version = "Latest"
+            });
         }
 
         private void LoadDisplayAndAudioTools()
@@ -769,8 +946,58 @@ namespace TweakHub.Services
                 Name = "FxSound",
                 Description = "Audio enhancement and sound improvement software",
                 Category = "Display and Audio Utilities",
-                DownloadUrl = "https://fxsound.com",
+                WingetId = "FxSound.FxSound",
                 Icon = "🔊",
+                Version = "Latest"
+            });
+
+            ExternalTools.Add(new ExternalTool
+            {
+                Name = "SignalRGB",
+                Description = "Control addressable RGB devices",
+                Category = "Display and Audio Utilities",
+                WingetId = "WhirlwindFX.SignalRgb",
+                Icon = "🌈",
+                Version = "Latest"
+            });
+
+            ExternalTools.Add(new ExternalTool
+            {
+                Name = "OpenRGB",
+                Description = "Open-source RGB lighting control",
+                Category = "Display and Audio Utilities",
+                WingetId = "OpenRGB.OpenRGB",
+                Icon = "🌈",
+                Version = "Latest"
+            });
+
+            ExternalTools.Add(new ExternalTool
+            {
+                Name = "Raw Accel",
+                Description = "Low-latency mouse acceleration driver",
+                Category = "Display and Audio Utilities",
+                DownloadUrl = "https://github.com/RawAccelOfficial/rawaccel",
+                Icon = "🖱️",
+                Version = "Latest"
+            });
+
+            ExternalTools.Add(new ExternalTool
+            {
+                Name = "Razer Polling Rate Tester",
+                Description = "Test mouse USB polling rate",
+                Category = "Display and Audio Utilities",
+                DownloadUrl = "https://rzr.to/pollingrate",
+                Icon = "🖱️",
+                Version = "Latest"
+            });
+
+            ExternalTools.Add(new ExternalTool
+            {
+                Name = "Keyboard Inspector",
+                Description = "Keyboard key scan and diagnostics",
+                Category = "Display and Audio Utilities",
+                DownloadUrl = "https://github.com/mat1jaczyyy/Keyboard-Inspector",
+                Icon = "⌨️",
                 Version = "Latest"
             });
         }
@@ -786,6 +1013,90 @@ namespace TweakHub.Services
                 DownloadUrl = "https://www.techpowerup.com/download/visual-c-redistributable-runtime-package-all-in-one/",
                 Icon = "📦",
                 Version = "Latest"
+            });
+        }
+
+        // Brand Utilities
+        private void LoadBrandUtilities()
+        {
+            ExternalTools.Add(new ExternalTool
+            {
+                Name = "MSI Center",
+                Description = "MSI device and system management",
+                Category = "Brand Utilities",
+                WingetId = "9NVMNJCR03XV",
+                Icon = "🏷️",
+                Version = "Latest"
+            });
+
+            ExternalTools.Add(new ExternalTool
+            {
+                Name = "Armoury Crate",
+                Description = "ASUS system management and device control",
+                Category = "Brand Utilities",
+                WingetId = "Asus.ArmouryCrate",
+                Icon = "🏷️",
+                Version = "Latest"
+            });
+
+            ExternalTools.Add(new ExternalTool
+            {
+                Name = "Gigabyte Control Center",
+                Description = "Gigabyte system and device control",
+                Category = "Brand Utilities",
+                WingetId = "GIGABYTE.ControlCenter",
+                Icon = "🏷️",
+                Version = "Latest"
+            });
+
+
+
+
+
+            ExternalTools.Add(new ExternalTool
+            {
+                Name = "Logitech G HUB",
+                Description = "Logitech gaming device manager",
+                Category = "Brand Utilities",
+                WingetId = "Logitech.GHUB",
+                Icon = "🏷️",
+                Version = "Latest"
+            });
+
+            ExternalTools.Add(new ExternalTool
+            {
+                Name = "Logitech Onboard Memory Manager",
+                Description = "Configure onboard profiles of Logitech devices",
+                Category = "Brand Utilities",
+                WingetId = "Logitech.OnboardMemoryManager",
+                Icon = "🏷️",
+                Version = "Latest"
+            });
+
+            ExternalTools.Add(new ExternalTool
+            {
+                Name = "SteelSeries Sonar",
+                Description = "SteelSeries GG - Sonar audio suite",
+                Category = "Brand Utilities",
+                DownloadUrl = "https://steelseries.com/gg/sonar",
+                Icon = "🏷️",
+                Version = "Latest"
+            });
+
+
+        }
+
+        // Dependencies Pack
+        private void LoadDependenciesPack()
+        {
+            ExternalTools.Add(new ExternalTool
+            {
+                Name = "Dependencies Pack",
+                Description = "Install common gaming/runtime dependencies (one click)",
+                Category = "Dependencies Pack",
+                WingetCommand = "install Microsoft.DotNet.SDK.9 Microsoft.DotNet.DesktopRuntime.9 Microsoft.DirectX Microsoft.DotNet.Framework.DeveloperPack_4 CreativeTechnology.OpenAL Microsoft.XNARedist --accept-source-agreements --accept-package-agreements",
+                Icon = "📦",
+                Version = "Bundle"
             });
         }
 

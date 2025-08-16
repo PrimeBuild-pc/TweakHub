@@ -602,5 +602,191 @@ namespace TweakHub.Views
                     MessageBoxImage.Error);
             }
         }
+
+        private async void BcdEditApply_Click(object sender, RoutedEventArgs e)
+        {
+            var disclaimer = "⚠️ Warning: These commands modify Windows boot configuration. Changes may affect system stability and require administrator privileges. A system restart will be required for changes to take effect. Proceed only if you understand the implications.";
+            var result = MessageBox.Show(disclaimer, "BCDEdit Performance Tweaks", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result != MessageBoxResult.Yes) return;
+
+            var progress = new ProgressWindow("Applying BCDEdit Performance Tweaks...");
+            progress.Show();
+
+            try
+            {
+                progress.UpdateStatus("Checking administrator privileges...");
+                progress.UpdateProgress(10);
+                if (!_powerShellService.IsAdministrator())
+                {
+                    progress.Close();
+                    MessageBox.Show("Administrator privileges are required to apply BCDEdit tweaks.", "Permission Required", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Build a PowerShell script that runs the bcdedit commands in an elevated cmd silently
+                var script = @"
+                    $commands = @(
+                        'bcdedit /set disabledynamictick yes',
+                        'bcdedit /set tscsyncpolicy enhanced',
+                        'bcdedit /set useplatformclock false',
+                        'bcdedit /set hypervisorlaunchtype off'
+                    )
+
+                    foreach ($cmd in $commands) {
+                        Start-Process cmd.exe -Verb RunAs -ArgumentList ('/c ' + $cmd) -WindowStyle Hidden -Wait
+                    }
+                ";
+
+                progress.UpdateStatus("Executing BCDEdit commands...");
+                progress.UpdateProgress(60);
+                var psResult = await _powerShellService.ExecuteScriptAsync(script);
+
+                progress.UpdateStatus("Finalizing...");
+                progress.UpdateProgress(90);
+                await Task.Delay(500);
+
+                progress.UpdateProgress(100);
+                progress.Close();
+
+                if (psResult.Success)
+                {
+                    MessageBox.Show("BCDEdit performance tweaks applied successfully. Please restart your computer for changes to take effect.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show($"Failed to apply BCDEdit tweaks.\n\nError: {psResult.Error}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                progress.Close();
+                MessageBox.Show($"An error occurred:\n\n{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private async void BcdEditRestore_Click(object sender, RoutedEventArgs e)
+        {
+            var disclaimer = "⚠️ Warning: These commands modify Windows boot configuration. Changes may affect system stability and require administrator privileges. A system restart will be required for changes to take effect. Proceed only if you understand the implications.";
+            var result = MessageBox.Show(disclaimer + "\n\nRestore original configuration?", "Restore BCDEdit Tweaks", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result != MessageBoxResult.Yes) return;
+
+            var progress = new ProgressWindow("Restoring BCDEdit configuration...");
+            progress.Show();
+
+            try
+            {
+                progress.UpdateStatus("Checking administrator privileges...");
+                progress.UpdateProgress(10);
+                if (!_powerShellService.IsAdministrator())
+                {
+                    progress.Close();
+                    MessageBox.Show("Administrator privileges are required to restore BCDEdit settings.", "Permission Required", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                var script = @"
+                    $commands = @(
+                        'bcdedit /deletevalue disabledynamictick',
+                        'bcdedit /deletevalue tscsyncpolicy',
+                        'bcdedit /deletevalue useplatformclock',
+                        'bcdedit /set hypervisorlaunchtype auto'
+                    )
+
+                    foreach ($cmd in $commands) {
+                        Start-Process cmd.exe -Verb RunAs -ArgumentList ('/c ' + $cmd) -WindowStyle Hidden -Wait
+                    }
+                ";
+
+                progress.UpdateStatus("Executing BCDEdit restore commands...");
+                progress.UpdateProgress(60);
+                var psResult = await _powerShellService.ExecuteScriptAsync(script);
+
+                progress.UpdateStatus("Finalizing...");
+                progress.UpdateProgress(90);
+                await Task.Delay(500);
+
+                progress.UpdateProgress(100);
+                progress.Close();
+
+                if (psResult.Success)
+                {
+                    MessageBox.Show("BCDEdit configuration restored. Please restart your computer for changes to take effect.", "Restored", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show($"Failed to restore BCDEdit settings.\n\nError: {psResult.Error}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                progress.Close();
+                MessageBox.Show($"An error occurred:\n\n{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private async void DismSfcRepair_Click(object sender, RoutedEventArgs e)
+        {
+            var info = "ℹ️ System Repair Information:\n• If SFC finds and repairs files, it's recommended to restart and re-run: sfc /scannow\n• If DISM /RestoreHealth fails (e.g., Windows Update issues), use a mounted Windows ISO (assume drive X:) with install.wim:\n  DISM /Online /Cleanup-Image /RestoreHealth /Source:WIM:X:\\sources\\install.wim:1 /LimitAccess\n• If using install.esd instead of install.wim, replace 'WIM:' with 'ESD:' in the command\n• This process may take 15-30 minutes to complete";
+            var result = MessageBox.Show(info + "\n\nRun DISM + SFC now?", "DISM + SFC System Repair", MessageBoxButton.YesNo, MessageBoxImage.Information);
+            if (result != MessageBoxResult.Yes) return;
+
+            var progress = new ProgressWindow("Running DISM + SFC repairs...");
+            progress.Show();
+
+            try
+            {
+                progress.UpdateStatus("Starting DISM /CheckHealth...");
+                progress.UpdateProgress(10);
+                var script = @"
+                    $commands = @(
+                        'DISM /Online /Cleanup-Image /CheckHealth',
+                        'DISM /Online /Cleanup-Image /ScanHealth',
+                        'DISM /Online /Cleanup-Image /RestoreHealth',
+                        'sfc /scannow'
+                    )
+
+                    foreach ($cmd in $commands) {
+                        Start-Process cmd.exe -Verb RunAs -ArgumentList ('/c ' + $cmd) -WindowStyle Hidden -Wait
+                    }
+                ";
+
+                var step = 1;
+                foreach (var status in new[] {
+                    "Running DISM /CheckHealth...",
+                    "Running DISM /ScanHealth...",
+                    "Running DISM /RestoreHealth...",
+                    "Running SFC /scannow..."
+                })
+                {
+                    progress.UpdateStatus(status);
+                    progress.UpdateProgress(step * 25);
+                    step++;
+                    await Task.Delay(300);
+                }
+
+                var psResult = await _powerShellService.ExecuteScriptAsync(script);
+
+                progress.UpdateStatus("Finalizing...");
+                progress.UpdateProgress(95);
+                await Task.Delay(500);
+
+                progress.UpdateProgress(100);
+                progress.Close();
+
+                if (psResult.Success)
+                {
+                    MessageBox.Show("DISM + SFC repair sequence completed. Review output in Event Viewer if needed. A restart is recommended.", "Repair Complete", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show($"DISM + SFC sequence failed.\n\nError: {psResult.Error}", "Repair Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                progress.Close();
+                MessageBox.Show($"An error occurred:\n\n{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
     }
 }

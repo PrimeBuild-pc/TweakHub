@@ -55,9 +55,9 @@ public partial class MainWindow : Window
         NavigateToQuickAccess();
     }
 
-    private void SystemMonitorButton_Click(object sender, RoutedEventArgs e)
+    private void AboutButton_Click(object sender, RoutedEventArgs e)
     {
-        NavigateToSystemMonitor();
+        NavigateToAbout();
     }
 
     private void ThemeToggleButton_Click(object sender, RoutedEventArgs e)
@@ -111,8 +111,8 @@ public partial class MainWindow : Window
         MainFrame.Navigate(new QuickAccessPage());
     }
 
-    private void NavigateToSystemMonitor()
+    private void NavigateToAbout()
     {
-        MainFrame.Navigate(new SystemMonitorPage());
+        MainFrame.Navigate(new Views.AboutPage());
     }
 }
