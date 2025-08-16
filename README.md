@@ -15,33 +15,6 @@
 
 ---
 
-</div>
-
-## ✨ **Key Features Overview**
-
-| 🎯 **Feature** | 📋 **Description** | 🔥 **Highlights** |
-|---|---|---|
-| **⚡ Registry Tweaks** | Professional-grade Windows registry modifications | 20+ optimizations across 6 categories with safety ratings |
-| **🔧 External Tools** | Curated performance tool collection | Direct access to MSI Afterburner, CPU-Z, GPU-Z, and more |
-| **🤖 Automated Scripts** | One-click bulk optimizations | Gaming, cleanup, network, and hardware-specific scripts |
-| **🚀 Quick Access** | System settings shortcuts | 12+ direct links to Windows control panels |
-| **🎨 Modern UI** | Dark theme with orange accents | Professional interface with smooth animations |
-
----
-
-## 💻 **System Requirements**
-
-| Component | Minimum | Recommended |
-|-----------|---------|-------------|
-| **OS** | Windows 10 (1809+) / Windows 11 | Windows 11 22H2+ |
-| **Architecture** | x64 (64-bit) | x64 (64-bit) |
-| **RAM** | 4 GB | 8 GB+ |
-| **Storage** | 500 MB | 1 GB |
-| **Permissions** | Administrator | Administrator |
-| **.NET Runtime** | Included (self-contained) | Included (self-contained) |
-
----
-
 ## 📦 **Installation & Quick Start**
 
 ### 🚀 **Option 1: Ready-to-Run Executable** *(Recommended)*
