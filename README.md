@@ -2,14 +2,14 @@
 
 # 🚀 TweakHub
 
-### *The Ultimate Windows 11 Performance Optimizer*
+### *The Command Center for Windows Tweakers*
 
 [![License](https://img.shields.io/badge/License-MIT-orange.svg)](LICENSE)
 [![.NET](https://img.shields.io/badge/.NET-8.0-orange.svg)](https://dotnet.microsoft.com/)
 [![Platform](https://img.shields.io/badge/Platform-Windows%2011-orange.svg)](https://www.microsoft.com/windows/)
 [![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen.svg)](https://github.com/yourusername/tweakhub)
 
-**TweakHub** is a comprehensive, modern Windows 11 performance optimization suite designed to center all Windows tweaks your system's full potential. Built with cutting-edge technology and a sleek dark interface, it provides professional-grade tweaking capabilities with enterprise-level safety features.
+**TweakHub** is a modern command center for Windows 11 that curates and launches the best optimization tools and advanced tweaks—helping you unlock your system’s full potential. It centralizes, secures, and streamlines everything in one clean interface.
 
 [🔥 **Download Latest Release**](https://github.com/PrimeBuild-pc/TweakHub/releases/tag/v1.0.0) • [📖 **Documentation**](#-documentation) • [🤝 **Contributing**](#-contributing-to-tweakhub)
 
