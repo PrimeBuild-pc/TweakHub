@@ -491,6 +491,16 @@ namespace TweakHub.Services
                 Icon = "🧩",
                 Version = "Latest"
             });
+
+            ExternalTools.Add(new ExternalTool
+            {
+                Name = "winscript",
+                Description = "Windows optimization scripts (website)",
+                Category = "System and Optimization Tools",
+                DownloadUrl = "https://winscript.cc/",
+                Icon = "🔧",
+                Version = "Latest"
+            });
         }
 
         private void LoadMonitoringAndLatencyTools()
