@@ -21,6 +21,8 @@
 
 ---
 
+<img width="1379" height="889" alt="image" src="https://github.com/user-attachments/assets/a88a85e0-6695-449f-bcc3-10eb8b890b08" />
+
 ## 📦 **Installation & Quick Start**
 
 ### 🚀 **Option 1: Ready-to-Run Executable** *(Recommended)*
