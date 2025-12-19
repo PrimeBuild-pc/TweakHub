@@ -1,9 +1,8 @@
 using System;
-using System.Configuration;
-using System.Data;
 using System.Diagnostics;
 using System.Security.Principal;
 using System.Windows;
+using Microsoft.Win32;
 using TweakHub.Services;
 
 namespace TweakHub;
@@ -17,6 +16,12 @@ public partial class App : Application
     {
         // Initialize theme service FIRST to ensure proper icon colors from startup
         var themeService = ThemeService.Instance;
+
+        // Follow Windows theme at startup (Light/Dark based on AppsUseLightTheme)
+        themeService.CurrentTheme = AppTheme.System;
+
+        // Live Windows theme changes
+        SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
 
         // Check if running as administrator
         if (!IsRunningAsAdministrator())
@@ -48,6 +53,45 @@ public partial class App : Application
 
         // Set up global exception handling
         DispatcherUnhandledException += App_DispatcherUnhandledException;
+        
+        // Set up exit handling to ensure clean shutdown
+        Exit += App_Exit;
+    }
+
+    private void App_Exit(object sender, ExitEventArgs e)
+    {
+        try
+        {
+            SystemEvents.UserPreferenceChanged -= SystemEvents_UserPreferenceChanged;
+        }
+        catch
+        {
+            // Ignore unhook errors
+        }
+
+        // Ensure all services are properly stopped
+        try
+        {
+            HardwareMonitoringService.Instance.StopMonitoring();
+            SystemMonitoringService.Instance.Stop();
+        }
+        catch
+        {
+            // Ignore errors during shutdown
+        }
+    }
+
+    private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
+    {
+        // Theme changes usually surface as preference changes; refresh theme if we follow System.
+        try
+        {
+            Dispatcher.Invoke(() => ThemeService.Instance.RefreshSystemThemeIfNeeded());
+        }
+        catch
+        {
+            // Ignore theme refresh errors
+        }
     }
 
     private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)

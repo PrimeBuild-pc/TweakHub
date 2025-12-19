@@ -1,0 +1,75 @@
+name: Release (beta)
+
+on:
+  push:
+    tags:
+      - "v*.*.*-beta*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag name to release (e.g. v1.2.3-beta1)"
+        required: false
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: windows-latest
+    env:
+      DOTNET_VERSION: "8.0.x"
+      CONFIGURATION: Release
+      RUNTIME: win-x64
+      OUTPUT_DIR: publish-standalone
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore
+        run: dotnet restore ./TweakHub.csproj
+
+      - name: Build
+        run: dotnet build ./TweakHub.sln -c ${{ env.CONFIGURATION }} --no-restore
+
+      - name: Publish portable (self-contained)
+        run: |
+          dotnet publish ./TweakHub.csproj -c ${{ env.CONFIGURATION }} -r ${{ env.RUNTIME }} --self-contained true -p:PublishSingleFile=false -o ${{ env.OUTPUT_DIR }}
+
+      - name: Archive portable zip
+        shell: pwsh
+        run: |
+          $zip = "dist/TweakHub-${{ env.RUNTIME }}-portable.zip"
+          New-Item -ItemType Directory -Force -Path dist | Out-Null
+          If (Test-Path $zip) { Remove-Item $zip -Force }
+          Compress-Archive -Path "${{ env.OUTPUT_DIR }}/*" -DestinationPath $zip
+
+      - name: Determine tag
+        id: tag
+        shell: pwsh
+        run: |
+          $tag = "${{ github.ref_name }}"
+          if ([string]::IsNullOrWhiteSpace($tag)) {
+            $tag = "${{ github.event.inputs.tag }}"
+          }
+          if ([string]::IsNullOrWhiteSpace($tag)) {
+            Write-Error "No tag found. Provide one via workflow_dispatch input."
+          }
+          echo "tag=$tag" >> $Env:GITHUB_OUTPUT
+
+      - name: Create GitHub Release (prerelease)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.tag.outputs.tag }}
+          name: TweakHub ${{ steps.tag.outputs.tag }}
+          prerelease: true
+          draft: false
+          files: |
+            dist/TweakHub-${{ env.RUNTIME }}-portable.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

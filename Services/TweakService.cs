@@ -15,10 +15,17 @@ namespace TweakHub.Services
 
         // Session state flags
         private bool _hasAppliedTweaksThisSession;
+        private bool _restartNoticeShownThisSession;
         public bool HasAppliedTweaksThisSession
         {
             get => _hasAppliedTweaksThisSession;
             private set { _hasAppliedTweaksThisSession = value; OnPropertyChanged(); }
+        }
+
+        public bool RestartNoticeShownThisSession
+        {
+            get => _restartNoticeShownThisSession;
+            set { _restartNoticeShownThisSession = value; OnPropertyChanged(); }
         }
 
         private bool _registryDisclaimerShown;
@@ -64,7 +71,7 @@ namespace TweakHub.Services
                 Type = TweakType.Registry,
                 RegistryPath = @"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\PriorityControl",
                 RegistryKey = "Win32PrioritySeparation",
-                EnabledValue = 38, // Optimized for desktop performance
+                EnabledValue = 26, // Optimized for desktop performance
                 DisabledValue = 2,  // Default Windows value
                 Category = "CPU & Processor Optimization",
                 RiskLevel = 1
@@ -626,14 +633,20 @@ namespace TweakHub.Services
 
         public async Task<bool> ApplyTweakAsync(PerformanceTweak tweak)
         {
+            // Back-compat overload: apply the opposite of current state.
+            return await ApplyTweakAsync(tweak, !tweak.IsEnabled);
+        }
+
+        public async Task<bool> ApplyTweakAsync(PerformanceTweak tweak, bool targetEnabled)
+        {
             return await Task.Run(() =>
             {
                 var registryService = RegistryService.Instance;
-                var result = registryService.ApplyTweak(tweak);
+                var result = registryService.ApplyTweak(tweak, targetEnabled);
 
                 if (result)
                 {
-                    tweak.IsEnabled = !tweak.IsEnabled;
+                    tweak.IsEnabled = targetEnabled;
                     HasAppliedTweaksThisSession = true;
                     OnPropertyChanged(nameof(TweakCategories));
                 }

@@ -11,16 +11,16 @@
 
     <Page.Resources>
         <Style x:Key="ShortcutButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumBrush}"/>
+            <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"/>
             <Setter Property="BorderBrush" Value="{DynamicResource SystemControlBorderBaseLowBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Padding" Value="20"/>
-            <Setter Property="Margin" Value="6"/>
+            <Setter Property="Padding" Value="16,12"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
             <Setter Property="VerticalContentAlignment" Value="Top"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="MinHeight" Value="85"/>
-            <Setter Property="MaxWidth" Value="400"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="MinHeight" Value="70"/>
+            <Setter Property="MaxWidth" Value="380"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -28,10 +28,10 @@
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="8"
+                                CornerRadius="10"
                                 Padding="{TemplateBinding Padding}">
                             <Border.Effect>
-                                <DropShadowEffect Color="Black" Opacity="0.05" ShadowDepth="1" BlurRadius="4"/>
+                                <DropShadowEffect Color="Black" Opacity="0.1" ShadowDepth="1" BlurRadius="8"/>
                             </Border.Effect>
                             <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
@@ -39,15 +39,15 @@
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource AccentBrush}"/>
+                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumBrush}"/>
                                 <Setter TargetName="Border" Property="Effect">
                                     <Setter.Value>
-                                        <DropShadowEffect Color="Black" Opacity="0.1" ShadowDepth="2" BlurRadius="8"/>
+                                        <DropShadowEffect Color="{Binding Source={StaticResource AccentBrush}, Path=Color}" Opacity="0.18" ShadowDepth="0" BlurRadius="14"/>
                                     </Setter.Value>
                                 </Setter>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="Border" Property="Background"
-                                        Value="{DynamicResource SystemControlBackgroundListMediumBrush}"/>
+                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource SystemControlBackgroundListLowBrush}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -56,10 +56,10 @@
         </Style>
 
         <Style x:Key="CategoryHeaderStyle" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontSize" Value="16"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
-            <Setter Property="Margin" Value="0,24,0,16"/>
+            <Setter Property="Margin" Value="0,20,0,12"/>
         </Style>
     </Page.Resources>
 
@@ -70,13 +70,13 @@
         </Grid.RowDefinitions>
 
         <!-- Header -->
-        <StackPanel Grid.Row="0" Margin="0,0,0,32">
+        <StackPanel Grid.Row="0" Margin="0,0,0,20">
             <TextBlock Text="Quick Access" 
-                       FontSize="32" FontWeight="Light"
+                       FontSize="28" FontWeight="Light"
                        Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"
-                       Margin="0,0,0,8"/>
+                       Margin="0,0,0,6"/>
             <TextBlock Text="Quick shortcuts to Windows control panels, system settings, and advanced configuration tools."
-                       FontSize="14"
+                       FontSize="12"
                        Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
                        TextWrapping="Wrap"/>
         </StackPanel>

@@ -1,13 +1,6 @@
-﻿using System.Text;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using TweakHub.Services;
 using TweakHub.Views;
 
@@ -19,6 +12,7 @@ namespace TweakHub;
 public partial class MainWindow : Window
 {
     private readonly ThemeService _themeService;
+    private Button? _activeButton = null;
 
     public MainWindow()
     {
@@ -26,7 +20,25 @@ public partial class MainWindow : Window
         _themeService = ThemeService.Instance;
 
         Loaded += MainWindow_Loaded;
+        Closing += MainWindow_Closing;
         UpdateThemeButton();
+    }
+
+    private void MainWindow_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
+    {
+        // Stop all monitoring services to ensure clean shutdown
+        try
+        {
+            HardwareMonitoringService.Instance.StopMonitoring();
+            SystemMonitoringService.Instance.Stop();
+        }
+        catch
+        {
+            // Ignore errors during shutdown
+        }
+
+        // Force shutdown of the entire application
+        Application.Current.Shutdown();
     }
 
     private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -94,25 +106,76 @@ public partial class MainWindow : Window
     private void NavigateToRegistryTweaks()
     {
         MainFrame.Navigate(new RegistryTweaksPage());
+        UpdateActiveSidebarButton(RegistryTweaksButton);
+        UpdateRegistryTweaksBadge();
     }
 
     private void NavigateToExternalTools()
     {
         MainFrame.Navigate(new ExternalToolsPage());
+        UpdateActiveSidebarButton(ExternalToolsButton);
     }
 
     private void NavigateToAutomatedScripts()
     {
         MainFrame.Navigate(new AutomatedScriptsPage());
+        UpdateActiveSidebarButton(AutomatedScriptsButton);
     }
 
     private void NavigateToQuickAccess()
     {
         MainFrame.Navigate(new QuickAccessPage());
+        UpdateActiveSidebarButton(QuickAccessButton);
     }
 
     private void NavigateToAbout()
     {
         MainFrame.Navigate(new Views.AboutPage());
+        UpdateActiveSidebarButton(AboutButton);
+    }
+
+    private void UpdateActiveSidebarButton(Button activeButton)
+    {
+        // Reset previous active button to normal style
+        if (_activeButton != null)
+        {
+            _activeButton.Style = (Style)FindResource("SidebarButtonStyle");
+        }
+
+        // Set new active button to active style
+        _activeButton = activeButton;
+        if (_activeButton != null)
+        {
+            _activeButton.Style = (Style)FindResource("ActiveSidebarButtonStyle");
+        }
+    }
+
+    public void UpdateRegistryTweaksBadge()
+    {
+        try
+        {
+            var tweakService = TweakHub.Services.TweakService.Instance;
+            var activeCount = tweakService.TweakCategories
+                .SelectMany(c => c.Tweaks)
+                .Count(t => t.IsEnabled);
+
+            if (this.FindName("RegistryTweaksBadge") is Border badge &&
+                this.FindName("RegistryTweaksBadgeText") is TextBlock text)
+            {
+                if (activeCount > 0)
+                {
+                    badge.Visibility = Visibility.Visible;
+                    text.Text = activeCount.ToString();
+                }
+                else
+                {
+                    badge.Visibility = Visibility.Collapsed;
+                }
+            }
+        }
+        catch
+        {
+            // Ignore errors in badge update
+        }
     }
 }

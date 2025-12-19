@@ -66,7 +66,7 @@ Extended `Services/ShortcutService.cs` with 90+ tools:
 ### **⚙️ System and Optimization Tools (15 tools)**
 - PowerSettingsExplorer - Advanced power settings
 - DNS Jumper - DNS optimization
-- Bullcrap Installer - System debloating
+- Bulkcrap Installer - App Uninstaller
 - Driver Store Explorer (RAPR) - Driver management
 - TCP Optimizer - Network optimization
 - AutoStart (Sysinternals) - Startup management

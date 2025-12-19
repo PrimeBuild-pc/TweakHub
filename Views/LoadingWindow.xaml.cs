@@ -178,7 +178,14 @@ namespace TweakHub.Views
                 try
                 {
                     var mainWindow = new MainWindow();
+                    // Show the real main window and reassign Application.Current.MainWindow.
+                    // StartupUri points to LoadingWindow, so Application.Current.MainWindow still
+                    // references this (soon to be closed) window. Any later code that tries to use
+                    // Application.Current.MainWindow as dialog Owner would fail with:
+                    // "Cannot set Owner property to a Window that has not been shown previously"
+                    // because the old LoadingWindow is closed. Reassigning fixes that.
                     mainWindow.Show();
+                    Application.Current.MainWindow = mainWindow;
                     Close();
                 }
                 catch (Exception ex)

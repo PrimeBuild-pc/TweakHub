@@ -29,4 +29,21 @@
     <Resource Include="ico.ico" />
   </ItemGroup>
 
+  <!-- Exclude embedded test project sources from app compilation -->
+  <ItemGroup>
+    <Compile Remove="TweakHub.Tests\**\*.cs" />
+    <None Include="TweakHub.Tests\**\*.cs" />
+  </ItemGroup>
+
+  <!-- Help IDEs associate XAML + code-behind correctly -->
+  <ItemGroup>
+    <Page Update="Views\Dialogs\StyledMessageDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Update="Views\Dialogs\StyledMessageDialog.xaml.cs">
+      <DependentUpon>StyledMessageDialog.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
 </Project>

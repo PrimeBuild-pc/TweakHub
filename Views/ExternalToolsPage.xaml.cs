@@ -1,6 +1,8 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using TweakHub.Models;
 using TweakHub.Services;
@@ -11,10 +13,11 @@ namespace TweakHub.Views
     {
         private readonly ShortcutService _shortcutService;
         private readonly ToolDownloadService _downloadService;
+        private string _searchQuery = string.Empty;
 
         public ExternalToolsPage()
         {
-            InitializeComponent();
+            this.InitializeComponent();
             _shortcutService = ShortcutService.Instance;
             _downloadService = ToolDownloadService.Instance;
 
@@ -45,10 +48,38 @@ namespace TweakHub.Views
 
         private void LoadExternalTools()
         {
-            ToolsContainer.Children.Clear();
+            this.ToolsContainer.Children.Clear();
+
+            // Favorites pseudo-category at top
+            var favorites = _shortcutService.ExternalTools.Where(t => t.IsFavorite).OrderBy(t => t.Name).ToList();
+            if (favorites.Any())
+            {
+                var favExpander = new Expander
+                {
+                    Header = CreateFavoritesHeader(favorites.Count),
+                    IsExpanded = true,
+                    Margin = new Thickness(0, 0, 0, 16),
+                    Style = (Style)FindResource("CategoryExpanderStyle")
+                };
+                var favGrid = new System.Windows.Controls.Primitives.UniformGrid { Columns = 3, Margin = new Thickness(0, 16, 0, 0) };
+                foreach (var tool in favorites)
+                {
+                    favGrid.Children.Add(CreateToolCard(tool));
+                }
+                favExpander.Content = favGrid;
+                this.ToolsContainer.Children.Add(favExpander);
+            }
+
+            IEnumerable<ExternalTool> toolSource = _shortcutService.ExternalTools;
+            if (!string.IsNullOrWhiteSpace(_searchQuery))
+            {
+                toolSource = toolSource.Where(t => t.Name.Contains(_searchQuery, StringComparison.OrdinalIgnoreCase));
+            }
 
             // Group tools by category
-            var groupedTools = _shortcutService.ExternalTools
+            var groupedTools = toolSource
+                .OrderByDescending(t => t.IsFavorite)
+                .ThenBy(t => t.Name)
                 .GroupBy(t => t.Category)
                 .OrderBy(g => GetCategoryOrder(g.Key));
 
@@ -63,20 +94,20 @@ namespace TweakHub.Views
                     Style = (Style)FindResource("CategoryExpanderStyle")
                 };
 
-                var toolsGrid = new UniformGrid
+                var toolsGrid = new System.Windows.Controls.Primitives.UniformGrid
                 {
                     Columns = 3,
                     Margin = new Thickness(0, 16, 0, 0)
                 };
 
-                foreach (var tool in group.OrderBy(t => t.Name))
+                foreach (var tool in group.OrderByDescending(t => t.IsFavorite).ThenBy(t => t.Name))
                 {
                     var toolCard = CreateToolCard(tool);
                     toolsGrid.Children.Add(toolCard);
                 }
 
                 categoryExpander.Content = toolsGrid;
-                ToolsContainer.Children.Add(categoryExpander);
+                this.ToolsContainer.Children.Add(categoryExpander);
             }
         }
 
@@ -142,6 +173,39 @@ namespace TweakHub.Views
             return headerPanel;
         }
 
+        private StackPanel CreateFavoritesHeader(int count)
+        {
+            var panel = new StackPanel { Orientation = Orientation.Horizontal };
+            var icon = new TextBlock
+            {
+                Text = "⭐",
+                FontSize = 20,
+                Margin = new Thickness(0, 0, 12, 0),
+                VerticalAlignment = VerticalAlignment.Center
+            };
+            icon.SetResourceReference(TextBlock.ForegroundProperty, "IconBrush");
+            var title = new TextBlock
+            {
+                Text = "Favorites",
+                FontSize = 16,
+                FontWeight = FontWeights.SemiBold,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+            title.SetResourceReference(TextBlock.ForegroundProperty, "SystemControlForegroundBaseHighBrush");
+            var countText = new TextBlock
+            {
+                Text = $"({count})",
+                FontSize = 12,
+                Margin = new Thickness(8, 0, 0, 0),
+                VerticalAlignment = VerticalAlignment.Center
+            };
+            countText.SetResourceReference(TextBlock.ForegroundProperty, "SystemControlForegroundBaseMediumBrush");
+            panel.Children.Add(icon);
+            panel.Children.Add(title);
+            panel.Children.Add(countText);
+            return panel;
+        }
+
         private string GetCategoryIcon(string category)
         {
             return category switch
@@ -191,11 +255,11 @@ namespace TweakHub.Views
             var stackPanel = new StackPanel();
 
             // Tool icon and name
-            var headerPanel = new StackPanel
-            {
-                Orientation = Orientation.Horizontal,
-                Margin = new Thickness(0, 0, 0, 12)
-            };
+            var headerGrid = new Grid { Margin = new Thickness(0, 0, 0, 12) };
+            headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+            headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+
+            var headerPanel = new StackPanel { Orientation = Orientation.Horizontal };
 
             var iconText = new TextBlock
             {
@@ -218,6 +282,32 @@ namespace TweakHub.Views
 
             headerPanel.Children.Add(iconText);
             headerPanel.Children.Add(nameText);
+
+            // Favorite star button
+            var favBtn = new Button
+            {
+                Content = new TextBlock { Text = tool.IsFavorite ? "★" : "☆", FontSize = 16 },
+                Background = Brushes.Transparent,
+                BorderThickness = new Thickness(0),
+                HorizontalAlignment = HorizontalAlignment.Right,
+                VerticalAlignment = VerticalAlignment.Top,
+                ToolTip = tool.IsFavorite ? "Unfavorite" : "Favorite",
+                Cursor = System.Windows.Input.Cursors.Hand
+            };
+            favBtn.Click += (s, e) =>
+            {
+                e.Handled = true; // Don't trigger card click
+                tool.IsFavorite = !tool.IsFavorite;
+                ((TextBlock)favBtn.Content).Text = tool.IsFavorite ? "★" : "☆";
+                favBtn.ToolTip = tool.IsFavorite ? "Unfavorite" : "Favorite";
+                PersistFavorites();
+                LoadExternalTools(); // Re-render to pin to top
+            };
+
+            headerGrid.Children.Add(headerPanel);
+            Grid.SetColumn(headerPanel, 0);
+            headerGrid.Children.Add(favBtn);
+            Grid.SetColumn(favBtn, 1);
 
             // Description
             var descriptionText = new TextBlock
@@ -296,13 +386,29 @@ namespace TweakHub.Views
                 footerPanel.Children.Add(uninstallBtn);
             }
 
-            stackPanel.Children.Add(headerPanel);
+            stackPanel.Children.Add(headerGrid);
             stackPanel.Children.Add(descriptionText);
             stackPanel.Children.Add(footerPanel);
 
             card.Child = stackPanel;
 
             return card;
+        }
+
+        private void PersistFavorites()
+        {
+            try
+            {
+                var favs = _shortcutService.ExternalTools.Where(t => t.IsFavorite).Select(t => t.Name).ToList();
+                UserDataService.Instance.SaveFavoriteTools(favs);
+            }
+            catch { }
+        }
+
+        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            _searchQuery = (sender as TextBox)?.Text ?? string.Empty;
+            LoadExternalTools();
         }
 
         private string GetDownloadIcon(ExternalTool tool)
@@ -330,10 +436,10 @@ namespace TweakHub.Views
         {
             Dispatcher.Invoke(() =>
             {
-                ProgressPanel.Visibility = Visibility.Visible;
-                ProgressText.Text = $"{e.ToolName}: {e.StatusMessage}";
+                this.ProgressPanel.Visibility = Visibility.Visible;
+                this.ProgressText.Text = $"{e.ToolName}: {e.StatusMessage}";
                 if (e.ProgressPercentage >= 0)
-                    ProgressBar.Value = e.ProgressPercentage;
+                    this.ProgressBar.Value = e.ProgressPercentage;
             });
         }
 
@@ -343,8 +449,8 @@ namespace TweakHub.Views
             {
                 if (e.Success)
                 {
-                    ProgressText.Text = $"✅ {e.Message}";
-                    ProgressBar.Value = 100;
+                    this.ProgressText.Text = $"✅ {e.Message}";
+                    this.ProgressBar.Value = 100;
 
                     if (!string.IsNullOrWhiteSpace(e.PostInstallMessage))
                     {
@@ -359,15 +465,15 @@ namespace TweakHub.Views
                     timer.Tick += (s, args) =>
                     {
                         timer.Stop();
-                        ProgressPanel.Visibility = Visibility.Collapsed;
-                        ProgressBar.Value = 0;
+                        this.ProgressPanel.Visibility = Visibility.Collapsed;
+                        this.ProgressBar.Value = 0;
                     };
                     timer.Start();
                 }
                 else
                 {
-                    ProgressText.Text = $"❌ {e.Message}";
-                    ProgressBar.Value = 0;
+                    this.ProgressText.Text = $"❌ {e.Message}";
+                    this.ProgressBar.Value = 0;
 
                     // Hide progress panel after 5 seconds for errors
                     var timer = new System.Windows.Threading.DispatcherTimer
@@ -377,7 +483,7 @@ namespace TweakHub.Views
                     timer.Tick += (s, args) =>
                     {
                         timer.Stop();
-                        ProgressPanel.Visibility = Visibility.Collapsed;
+                        this.ProgressPanel.Visibility = Visibility.Collapsed;
                     };
                     timer.Start();
                 }
@@ -387,7 +493,7 @@ namespace TweakHub.Views
         {
             Dispatcher.Invoke(() =>
             {
-                ToolsContainer.Children.Clear();
+                this.ToolsContainer.Children.Clear();
                 var errorText = new TextBlock
                 {
                     Text = "Failed to load external tools. Please restart TweakHub.",
@@ -395,7 +501,7 @@ namespace TweakHub.Views
                     VerticalAlignment = VerticalAlignment.Center,
                     Foreground = Brushes.Red
                 };
-                ToolsContainer.Children.Add(errorText);
+                this.ToolsContainer.Children.Add(errorText);
             });
         }
 

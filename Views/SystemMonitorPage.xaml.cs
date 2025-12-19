@@ -45,6 +45,10 @@ namespace TweakHub.Views
         {
             _isPageVisible = false;
             StopMonitoring();
+            
+            // Unsubscribe from events to prevent memory leaks
+            _hardwareMonitoringService.HardwareDataUpdated -= OnHardwareDataUpdated;
+            _updateTimer.Tick -= UpdateTimer_Tick;
         }
 
         private void SystemMonitorPage_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)

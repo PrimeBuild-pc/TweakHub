@@ -1,0 +1,7 @@
+- aggiustare i pulsanti tab "reccomended" e "costum tweaks" in Registry tweaks sono tagliati
+- i toggle switch in registry tweaks non vanno/ sono buggati, alcuni vanno ma non fanno la nimazione corretta altri per nulla, sistemare
+- nella creazione degli script personalizzati aggiungere edit, e delete e disabilitare la preview
+
+- aggiungere cpu set setter (https://github.com/SimonvBez/CPUSetSetter) e threadpilot (https://github.com/PrimeBuild-pc/TreadPilot) alle app e zaptweaks (https://github.com/PrimeBuild-pc/ZapTweaks)
+
+- aggiungere "disable spectre e metldown" agli automated scripts

@@ -1,0 +1,76 @@
+<Window x:Class="TweakHub.Views.Dialogs.StyledMessageDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterOwner"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        Topmost="True"
+        Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}"
+        Width="560"
+        SizeToContent="Height">
+
+    <Border CornerRadius="12"
+            BorderThickness="1"
+            BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}"
+            Padding="24">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <TextBlock x:Name="TitleText"
+                       Grid.Row="0"
+                       Text="Title"
+                       FontSize="20"
+                       FontWeight="SemiBold"
+                       Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"
+                       Margin="0,0,0,14"/>
+
+            <!-- Body -->
+            <TextBlock x:Name="MessageText"
+                       Grid.Row="1"
+                       Text="Message"
+                       TextWrapping="Wrap"
+                       FontSize="14.5"
+                       Opacity="0.95"
+                       Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"
+                       Margin="0,0,0,20"/>
+
+            <!-- Actions -->
+            <StackPanel Grid.Row="2"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right">
+                <Button x:Name="SecondaryButton"
+                        Width="120"
+                        Height="38"
+                        Margin="0,0,10,0"
+                        Style="{StaticResource SecondaryButtonStyle}"
+                        Visibility="Collapsed"
+                        IsCancel="True"
+                        Click="SecondaryButton_Click"/>
+
+                <Button x:Name="PrimaryButton"
+                        Width="120"
+                        Height="38"
+                        Style="{StaticResource ModernButtonStyle}"
+                        Background="{DynamicResource AccentBrush}"
+                        IsDefault="True"
+                        Click="PrimaryButton_Click">
+                    <TextBlock x:Name="PrimaryButtonText"
+                               Text="OK"
+                               Foreground="White"
+                               FontWeight="SemiBold"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

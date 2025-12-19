@@ -10,6 +10,8 @@ namespace TweakHub.Services
 {
     public class SystemMonitoringService : INotifyPropertyChanged
     {
+        private static readonly TimeSpan UpdateInterval = TimeSpan.FromSeconds(2);
+
         private static SystemMonitoringService? _instance;
         private readonly DispatcherTimer _updateTimer;
         private readonly PerformanceCounter _cpuCounter;
@@ -28,7 +30,7 @@ namespace TweakHub.Services
             
             _updateTimer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromSeconds(2)
+                Interval = UpdateInterval
             };
             _updateTimer.Tick += UpdateTimer_Tick;
         }
@@ -42,6 +44,17 @@ namespace TweakHub.Services
         public void Stop()
         {
             _updateTimer.Stop();
+            
+            // Dispose performance counters to release resources
+            try
+            {
+                _cpuCounter?.Dispose();
+                _ramCounter?.Dispose();
+            }
+            catch
+            {
+                // Ignore disposal errors
+            }
         }
 
         private void LoadSystemInfo()
@@ -175,7 +188,7 @@ namespace TweakHub.Services
             catch (Exception ex)
             {
                 // Handle errors silently for now
-                System.Diagnostics.Debug.WriteLine($"Error loading system info: {ex.Message}");
+                Debug.WriteLine($"Error loading system info: {ex.Message}");
             }
         }
 
@@ -202,7 +215,7 @@ namespace TweakHub.Services
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error updating metrics: {ex.Message}");
+                Debug.WriteLine($"Error updating metrics: {ex.Message}");
             }
         }
 

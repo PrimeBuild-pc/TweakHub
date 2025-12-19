@@ -11,16 +11,16 @@
 
     <Page.Resources>
         <Style x:Key="ToolCardStyle" TargetType="Border">
-            <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumBrush}"/>
+            <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"/>
             <Setter Property="BorderBrush" Value="{DynamicResource SystemControlBorderBaseLowBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="CornerRadius" Value="12"/>
-            <Setter Property="Padding" Value="20"/>
-            <Setter Property="Margin" Value="8"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="16,12"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Effect">
                 <Setter.Value>
-                    <DropShadowEffect Color="Black" Opacity="0.08" ShadowDepth="2" BlurRadius="8"/>
+                    <DropShadowEffect Color="Black" Opacity="0.1" ShadowDepth="1" BlurRadius="8"/>
                 </Setter.Value>
             </Setter>
             <Style.Triggers>
@@ -28,7 +28,7 @@
                     <Setter Property="BorderBrush" Value="{StaticResource AccentBrush}"/>
                     <Setter Property="Effect">
                         <Setter.Value>
-                            <DropShadowEffect Color="Black" Opacity="0.15" ShadowDepth="4" BlurRadius="12"/>
+                            <DropShadowEffect Color="{Binding Source={StaticResource AccentBrush}, Path=Color}" Opacity="0.18" ShadowDepth="0" BlurRadius="14"/>
                         </Setter.Value>
                     </Setter>
                 </Trigger>
@@ -41,9 +41,9 @@
                     <ControlTemplate TargetType="GroupBox">
                         <StackPanel>
                             <Border Background="{StaticResource AccentBrush}"
-                                    CornerRadius="8" Padding="16,10" Margin="0,0,0,16">
+                                    CornerRadius="6" Padding="12,8" Margin="0,0,0,12">
                                 <TextBlock Text="{TemplateBinding Header}"
-                                           FontSize="16" FontWeight="SemiBold"
+                                           FontSize="13" FontWeight="SemiBold"
                                            Foreground="White"/>
                             </Border>
                             <ContentPresenter/>
@@ -131,17 +131,34 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Header -->
-        <StackPanel Grid.Row="0" Margin="0,0,0,32">
-            <TextBlock Text="External Tools"
-                       FontSize="32" FontWeight="Light"
-                       Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"
-                       Margin="0,0,0,8"/>
-            <TextBlock Text="Download and access advanced performance tools for Windows optimization. Click any tool to download or open its official page."
-                       FontSize="14"
-                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
-                       TextWrapping="Wrap"/>
-        </StackPanel>
+        <!-- Header with search -->
+        <Grid Grid.Row="0" Margin="0,0,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="280"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <TextBlock Text="External Tools"
+                           FontSize="28" FontWeight="Light"
+                           Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"
+                           Margin="0,0,0,6"/>
+                <TextBlock Text="Download and access advanced performance tools for Windows optimization. Click any tool to download or open its official page."
+                           FontSize="12"
+                           Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                           TextWrapping="Wrap"/>
+            </StackPanel>
+            <DockPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                <Border CornerRadius="6" BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}" BorderThickness="1"
+                        Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+                    <DockPanel>
+                        <TextBlock Text="🔎" Margin="8,0,0,0" VerticalAlignment="Center" FontSize="11"/>
+                        <TextBox x:Name="SearchBox" Width="220" Margin="6,0,8,0" BorderThickness="0" Background="Transparent"
+                                 VerticalContentAlignment="Center" Padding="0,4" FontSize="12"
+                                 TextChanged="SearchBox_TextChanged"/>
+                    </DockPanel>
+                </Border>
+            </DockPanel>
+        </Grid>
 
         <!-- Tools Grid -->
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
@@ -155,17 +172,17 @@
                 Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}"
                 BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}"
                 BorderThickness="0,1,0,0"
-                Padding="24,16"
+                Padding="20,12"
                 Visibility="Collapsed">
             <StackPanel>
                 <TextBlock x:Name="ProgressText"
                            Text="Downloading..."
-                           FontSize="14"
+                           FontSize="12"
                            FontWeight="SemiBold"
                            Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"
-                           Margin="0,0,0,8"/>
+                           Margin="0,0,0,6"/>
                 <ProgressBar x:Name="ProgressBar"
-                             Height="6"
+                             Height="4"
                              Background="{DynamicResource SystemControlBackgroundBaseLowBrush}"
                              Foreground="{StaticResource AccentBrush}"
                              Minimum="0"

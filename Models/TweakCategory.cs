@@ -18,13 +18,25 @@ namespace TweakHub.Models
         public ObservableCollection<PerformanceTweak> Tweaks { get; set; } = new();
     }
 
-    public class PerformanceTweak
+    public class PerformanceTweak : System.ComponentModel.INotifyPropertyChanged
     {
+        public event System.ComponentModel.PropertyChangedEventHandler? PropertyChanged;
+
+        protected void OnPropertyChanged(string name) => PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(name));
+
+        private bool _isEnabled;
+        private bool _isPreviewVisible;
+        private string _previewContent = string.Empty;
+
         public string Id { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public TweakType Type { get; set; }
-        public bool IsEnabled { get; set; }
+        public bool IsEnabled
+        {
+            get => _isEnabled;
+            set { _isEnabled = value; OnPropertyChanged(nameof(IsEnabled)); }
+        }
         public bool RequiresRestart { get; set; }
         public string RegistryPath { get; set; } = string.Empty;
         public string RegistryKey { get; set; } = string.Empty;
@@ -34,6 +46,18 @@ namespace TweakHub.Models
         public string? ScriptPath { get; set; }
         public string Category { get; set; } = string.Empty;
         public int RiskLevel { get; set; } = 1; // 1-5 scale
+
+        public bool IsPreviewVisible
+        {
+            get => _isPreviewVisible;
+            set { _isPreviewVisible = value; OnPropertyChanged(nameof(IsPreviewVisible)); }
+        }
+
+        public string PreviewContent
+        {
+            get => _previewContent;
+            set { _previewContent = value; OnPropertyChanged(nameof(PreviewContent)); }
+        }
     }
 
     public class ExternalTool
@@ -56,6 +80,8 @@ namespace TweakHub.Models
         public string Icon { get; set; } = string.Empty;
         public bool IsDirectDownload { get; set; }
         public string Version { get; set; } = string.Empty;
+        // Favorites
+        public bool IsFavorite { get; set; }
     }
 
     public class SystemShortcut
@@ -76,5 +102,31 @@ namespace TweakHub.Models
         public string Category { get; set; } = string.Empty;
         public double NumericValue { get; set; }
         public DateTime LastUpdated { get; set; } = DateTime.Now;
+    }
+
+    public enum ScriptLanguage
+    {
+        PowerShell,
+        Cmd
+    }
+
+    public class CustomScript
+    {
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string Name { get; set; } = string.Empty;
+        public ScriptLanguage Language { get; set; } = ScriptLanguage.PowerShell;
+        public string Content { get; set; } = string.Empty;
+    }
+
+    public class CustomRegistryTweak
+    {
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string Name { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public string RegistryPath { get; set; } = string.Empty;
+        public string RegistryKey { get; set; } = string.Empty;
+        public string ValueType { get; set; } = "REG_SZ"; // REG_DWORD, REG_QWORD, REG_SZ
+        public string Data { get; set; } = string.Empty;
+        public int RiskLevel { get; set; } = 1;
     }
 }

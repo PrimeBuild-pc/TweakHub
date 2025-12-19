@@ -179,6 +179,14 @@ DocProject/Help/html
 # Click-Once directory
 publish/
 
+# Local publish/output artifacts (portable builds / packaging)
+publish-standalone/
+publish-final-fixed/
+publish-win-*/
+dist/
+release/
+installer/Output/
+
 # Publish Web Output
 *.[Pp]ublish.xml
 *.azurePubxml

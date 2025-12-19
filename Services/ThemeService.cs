@@ -70,6 +70,16 @@ namespace TweakHub.Services
             }
         }
 
+        public void RefreshSystemThemeIfNeeded()
+        {
+            if (_currentTheme != AppTheme.System)
+            {
+                return;
+            }
+
+            ApplyTheme();
+        }
+
         private void ApplyTheme()
         {
             var app = System.Windows.Application.Current;

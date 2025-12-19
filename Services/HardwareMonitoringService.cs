@@ -10,6 +10,9 @@ namespace TweakHub.Services
 {
     public class HardwareMonitoringService
     {
+        private static readonly TimeSpan MonitoringInterval = TimeSpan.FromSeconds(2);
+        private const double MaxTemperatureCelsius = 150;
+
         private static HardwareMonitoringService? _instance;
         public static HardwareMonitoringService Instance => _instance ??= new HardwareMonitoringService();
 
@@ -28,7 +31,7 @@ namespace TweakHub.Services
                 if (_isMonitoring) return;
 
                 _isMonitoring = true;
-                _monitoringTimer = new Timer(UpdateHardwareData, null, TimeSpan.Zero, TimeSpan.FromSeconds(2));
+                _monitoringTimer = new Timer(UpdateHardwareData, null, TimeSpan.Zero, MonitoringInterval);
             }
         }
 
@@ -145,7 +148,7 @@ namespace TweakHub.Services
                     var temp = Convert.ToDouble(obj["CurrentTemperature"]);
                     // Convert from tenths of Kelvin to Celsius
                     var celsius = (temp / 10.0) - 273.15;
-                    if (celsius > 0 && celsius < 150) // Sanity check
+                    if (celsius > 0 && celsius < MaxTemperatureCelsius) // Sanity check
                         return celsius;
                 }
             }
@@ -169,7 +172,7 @@ namespace TweakHub.Services
                     if (temp != null)
                     {
                         var celsius = Convert.ToDouble(temp) / 10.0;
-                        if (celsius > 0 && celsius < 150) // Sanity check
+                        if (celsius > 0 && celsius < MaxTemperatureCelsius) // Sanity check
                             return celsius;
                     }
                 }
@@ -248,7 +251,7 @@ namespace TweakHub.Services
                     if (temp != null)
                     {
                         var celsius = Convert.ToDouble(temp);
-                        if (celsius > 0 && celsius < 150) // Sanity check
+                        if (celsius > 0 && celsius < MaxTemperatureCelsius) // Sanity check
                             return celsius;
                     }
                 }
@@ -273,7 +276,7 @@ namespace TweakHub.Services
                     if (temp != null)
                     {
                         var celsius = Convert.ToDouble(temp);
-                        if (celsius > 0 && celsius < 150) // Sanity check
+                        if (celsius > 0 && celsius < MaxTemperatureCelsius) // Sanity check
                             return celsius;
                     }
                 }

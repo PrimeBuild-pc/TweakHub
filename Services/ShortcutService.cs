@@ -190,6 +190,25 @@ namespace TweakHub.Services
                 LoadDependenciesPack();
 
                 LoadRuntimeLibraries();
+
+                // Append ThreadPilot tool
+                ExternalTools.Add(new ExternalTool
+                {
+                    Name = "ThreadPilot",
+                    Description = "Monitor and pin CPU thread affinities to improve performance.",
+                    Category = "System and Optimization Tools",
+                    DownloadUrl = "https://github.com/PrimeBuild-pc/ThreadPilot",
+                    Icon = "🧭",
+                    Version = "Latest",
+                    IsDirectDownload = false
+                });
+
+                // Apply favorites
+                var favorites = UserDataService.Instance.LoadFavoriteTools();
+                foreach (var t in ExternalTools)
+                {
+                    t.IsFavorite = favorites.Contains(t.Name);
+                }
             }
             catch (Exception ex)
             {
@@ -267,15 +286,7 @@ namespace TweakHub.Services
                 Version = "Latest"
             });
 
-            ExternalTools.Add(new ExternalTool
-            {
-                Name = "Bullcrap Installer",
-                Description = "Automated Windows optimization and debloating tool",
-                Category = "System and Optimization Tools",
-                DownloadUrl = "https://github.com/Bullsh1t/Bullcrap-Installer",
-                Icon = "🧹",
-                Version = "Latest"
-            });
+            // Removed: "Bullcrap Installer" (invalid/nonexistent repository)
 
             ExternalTools.Add(new ExternalTool
             {
@@ -500,6 +511,39 @@ namespace TweakHub.Services
                 DownloadUrl = "https://winscript.cc/",
                 Icon = "🔧",
                 Version = "Latest"
+            });
+
+            ExternalTools.Add(new ExternalTool
+            {
+                Name = "CPU Set Setter",
+                Description = "Advanced CPU thread affinity and core assignment tool",
+                Category = "System and Optimization Tools",
+                DownloadUrl = "https://github.com/SimonvBez/CPUSetSetter",
+                Icon = "⚙️",
+                Version = "Latest",
+                IsDirectDownload = false
+            });
+
+            ExternalTools.Add(new ExternalTool
+            {
+                Name = "ZapTweaks",
+                Description = "Lightning-fast Windows optimization and tweaking utility",
+                Category = "System and Optimization Tools",
+                DownloadUrl = "https://github.com/PrimeBuild-pc/ZapTweaks",
+                Icon = "⚡",
+                Version = "Latest",
+                IsDirectDownload = false
+            });
+
+            ExternalTools.Add(new ExternalTool
+            {
+                Name = "G-Helper",
+                Description = "Hardware optimization utility for ASUS laptops and handheld consoles",
+                Category = "System and Optimization Tools",
+                DownloadUrl = "https://github.com/seerge/g-helper",
+                Icon = "🎮",
+                Version = "Latest",
+                IsDirectDownload = false
             });
         }
 
