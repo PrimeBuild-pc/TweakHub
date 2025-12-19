@@ -21,11 +21,11 @@
 
 ---
 
-<img width="1379" height="889" alt="image" src="https://github.com/user-attachments/assets/a88a85e0-6695-449f-bcc3-10eb8b890b08" />
+<img width="1608" height="1025" alt="image" src="https://github.com/user-attachments/assets/ecb8bdbe-7cf2-44b7-99d7-5981efe05101" />
 
 ## 📦 **Installation & Quick Start**
 
-### 🚀 **Option 1: Ready-to-Run Executable** *(Recommended)*
+### 🚀 **Option 1: Ready-to-Run executable** *(Recommended)*
 
 ```bash
 # 1. Download the latest release
@@ -38,7 +38,7 @@ unzip TweakHub.zip -d "C:\\Tools\\TweakHub"
 # Right-click TweakHub.exe → "Run as administrator"
 ```
 
-### 🛠️ **Option 2: Build from Source**
+### 🛠️ **Option 2: Build from source**
 
 ```bash
 # Prerequisites: .NET 8.0 SDK
@@ -68,7 +68,7 @@ cd publish
 <details>
 <summary><b>❌ Application Won't Start</b></summary>
 
-### 🔍 **Common Solutions**
+### 🔍 **Common solutions**
 
 * **🔐 Administrator Rights**: Right-click → "Run as administrator"
 * **🖥️ Windows Version**: Ensure Windows 10 1809+ or Windows 11
