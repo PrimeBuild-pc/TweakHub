@@ -142,7 +142,7 @@ namespace TweakHub.Services
                 // Border colors
                 app.Resources["SystemControlBorderBaseLowBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(74, 74, 74)); // #4A4A4A
 
-                // Icon colors for dark theme - Tutte le icone bianche
+                // Icon colors for dark theme
                 app.Resources["IconBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.White);
                 app.Resources["IconSecondaryBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(176, 176, 176)); // #B0B0B0
 
@@ -168,7 +168,7 @@ namespace TweakHub.Services
                 // Border colors
                 app.Resources["SystemControlBorderBaseLowBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(222, 226, 230));
 
-                // Icon colors for light theme - Tutte le icone scure
+                // Icon colors for light theme
                 app.Resources["IconBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(33, 37, 41)); // #212529
                 app.Resources["IconSecondaryBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(108, 117, 125)); // #6C757D
 

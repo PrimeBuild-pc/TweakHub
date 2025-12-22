@@ -33,7 +33,7 @@
                 <TextBlock Text="ℹ️" FontSize="32" Margin="0,0,10,0" Foreground="{DynamicResource IconBrush}"/>
                 <TextBlock Text="About" FontSize="32" FontWeight="Light" Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
             </StackPanel>
-            <TextBlock Text="Information about ThreadPilot and Prime Build"
+            <TextBlock Text="Information about TweakHub"
                        FontSize="14"
                        Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
         </StackPanel>
@@ -42,22 +42,34 @@
         <Border Grid.Row="1" Padding="24" CornerRadius="12"
                 Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
             <StackPanel>
-                <TextBlock Text="ThreadPilot v1.0.2" FontSize="20" FontWeight="SemiBold" Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                <TextBlock Text="TweakHub v0.1.0-beta" FontSize="20" FontWeight="SemiBold" Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
                 <TextBlock Text="© 2025 Prime Build" Margin="0,4,0,14" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
 
                 <TextBlock Text="License: MIT License" Margin="0,0,0,6" Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
                 <TextBlock Margin="0,0,0,14" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}">
-                    <Hyperlink NavigateUri="https://github.com/PrimeBuild-pc/ThreadPilot" RequestNavigate="Hyperlink_RequestNavigate">
-                        https://github.com/PrimeBuild-pc/ThreadPilot
+                    <Hyperlink NavigateUri="https://github.com/PrimeBuild-pc/TweakHub" RequestNavigate="Hyperlink_RequestNavigate">
+                        https://github.com/PrimeBuild-pc/TweakHub
                     </Hyperlink>
                 </TextBlock>
 
-                <TextBlock Text="Maintainer: PrimeBuild" Margin="0,0,0,4" Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
-                <TextBlock Text="Contact: primebuild.official@gmail.com" Margin="0,0,0,14" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+                <TextBlock Text="Contact:" Margin="0,0,0,6" Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                <TextBlock Margin="0,0,0,14">
+                    <Hyperlink
+                        NavigateUri="https://discord.gg/AkuAZMwnGY"
+                        RequestNavigate="Hyperlink_RequestNavigate">
+                        Discord Server
+                    </Hyperlink>
+                </TextBlock>
 
                 <TextBlock TextWrapping="Wrap" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}">
                     This software is provided "as is", without warranty of any kind.
                 </TextBlock>
+
+                <Button Content="Check for Updates"
+                        Style="{StaticResource ModernButtonStyle}"
+                        Click="CheckForUpdates_Click"
+                        Margin="0,20,0,0"
+                        HorizontalAlignment="Left"/>
             </StackPanel>
         </Border>
     </Grid>

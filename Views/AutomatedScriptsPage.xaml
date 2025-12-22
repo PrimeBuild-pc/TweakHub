@@ -660,6 +660,94 @@
                     </Grid>
                 </Border>
 
+                <!-- 8K Mouse Tweaks Script -->
+                <Border Style="{StaticResource ScriptCardStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Grid.Row="0">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                <TextBlock Text="🖱️" FontSize="18" Margin="0,0,8,0"
+                                           Foreground="{DynamicResource IconBrush}"/>
+                                <TextBlock Text="8K Mouse Tweaks"
+                                           FontSize="14" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                            </StackPanel>
+
+                            <TextBlock Text="Optimize mouse polling and USB settings for reduced input latency. Ideal for high-performance gaming mice."
+                                       Style="{StaticResource DescriptionTextStyle}"
+                                       Margin="26,0,0,8"/>
+
+                            <StackPanel Orientation="Horizontal" Margin="26,0,0,0">
+                                <Border Background="{StaticResource SuccessBrush}" CornerRadius="8" Padding="5,2" Margin="0,0,6,0">
+                                    <TextBlock Text="Safe" FontSize="9" Foreground="White" FontWeight="Medium"/>
+                                </Border>
+                                <Border Background="{StaticResource AccentBrush}" CornerRadius="10" Padding="6,2" Margin="0,0,6,0">
+                                    <TextBlock Text="Latency" FontSize="10" Foreground="White" FontWeight="Medium"/>
+                                </Border>
+                                <Border Background="{StaticResource AccentBrush}" CornerRadius="10" Padding="6,2">
+                                    <TextBlock Text="Power" FontSize="10" Foreground="White" FontWeight="Medium"/>
+                                </Border>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Grid.Row="0" VerticalAlignment="Center">
+                            <Button Style="{StaticResource ModernButtonStyle}" Click="MouseTweaks_View_Click" Margin="0,0,0,6">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="👁️" FontSize="11" Margin="0,0,6,0" Foreground="White"/>
+                                    <TextBlock Text="View" FontSize="12"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Style="{StaticResource ExecuteButtonStyle}" Click="MouseTweaksApply_Click" Margin="0,0,0,6">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="▶️" FontSize="11" Margin="0,0,6,0" Foreground="White"/>
+                                    <TextBlock Text="Apply" FontSize="12"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Style="{StaticResource DangerButtonStyle}" Click="MouseTweaksRestore_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="↩️" FontSize="11" Margin="0,0,6,0" Foreground="White"/>
+                                    <TextBlock Text="Restore" FontSize="12"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                        <Border Grid.Row="1" Grid.ColumnSpan="2" Margin="0,12,0,0" CornerRadius="8" BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}" BorderThickness="1"
+                                Background="{DynamicResource SystemControlBackgroundBaseLowBrush}" x:Name="MouseTweaksPreviewPanel" Visibility="Collapsed">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="150"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <DockPanel Grid.Row="0" Margin="12,8,12,4">
+                                    <TextBlock Text="Details" FontWeight="SemiBold"/>
+                                </DockPanel>
+                                <Border Grid.Row="1" Margin="12" CornerRadius="6" BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}" BorderThickness="1"
+                                        Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+                                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                        <TextBox x:Name="MouseTweaksPreviewText" IsReadOnly="True" TextWrapping="Wrap" FontFamily="Consolas" FontSize="13" Background="Transparent" BorderThickness="0"/>
+                                    </ScrollViewer>
+                                </Border>
+                                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="12,0,12,12">
+                                    <Button Style="{StaticResource ModernButtonStyle}" Padding="12,6" Click="CopyScript_Click" Tag="{x:Reference MouseTweaksPreviewText}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="📋" Margin="0,0,6,0"/>
+                                            <TextBlock Text="Copy"/>
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </Border>
+
                 <!-- DISM + SFC System Repair Script -->
                 <Border Style="{StaticResource ScriptCardStyle}">
                     <Grid>

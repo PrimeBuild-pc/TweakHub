@@ -1,5 +1,5 @@
 #define MyAppName "TweakHub"
-#define MyAppVersion "1.0.0"
+#define MyAppVersion "0.1.0-beta"
 #define MyAppPublisher "PrimeBuild-pc"
 #define MyAppExeName "TweakHub.exe"
 

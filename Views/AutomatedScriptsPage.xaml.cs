@@ -1243,6 +1243,168 @@ sfc /scannow";
             ToggleInlinePreview("DismPreviewPanel", "DismPreviewText", content);
         }
 
+        private void MouseTweaks_View_Click(object sender, RoutedEventArgs e)
+        {
+            var content = @"# 8K Mouse Tweaks
+# Optimizes mouse polling and USB settings for reduced input latency
+
+# BCDEdit timing tweaks
+bcdedit /set useplatformtick yes
+bcdedit /set disabledynamictick yes
+bcdedit /set useplatformclock true
+
+# Disable USB selective suspend
+REG ADD ""HKLM\SYSTEM\CurrentControlSet\Services\USB"" /v DisableSelectiveSuspend /t REG_DWORD /d 1 /f
+
+# USB XHCI idle settings
+REG ADD ""HKLM\SYSTEM\CurrentControlSet\Services\USBXHCI\Parameters"" /v IdleInterval /t REG_DWORD /d 0 /f
+REG ADD ""HKLM\SYSTEM\CurrentControlSet\Services\USBXHCI\Parameters"" /v IdleTimeout /t REG_DWORD /d 0 /f
+
+# HID USB idle timeout
+REG ADD ""HKLM\SYSTEM\CurrentControlSet\Services\HidUsb\Parameters"" /v IdleUsbSelectiveSuspendTimeout /t REG_DWORD /d 0 /f
+
+# Note: Restart required for changes to take effect";
+            ToggleInlinePreview("MouseTweaksPreviewPanel", "MouseTweaksPreviewText", content);
+        }
+
+        private async void MouseTweaksApply_Click(object sender, RoutedEventArgs e)
+        {
+            var disclaimer = "This will apply 8K Mouse Tweaks to optimize mouse polling and USB settings for reduced input latency.\n\nChanges include:\n• BCDEdit timing optimizations\n• USB selective suspend disabled\n• USB idle timeouts set to zero\n\nA system restart will be required for changes to take effect.\n\nContinue?";
+            var result = MessageBox.Show(disclaimer, "8K Mouse Tweaks", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result != MessageBoxResult.Yes) return;
+
+            var progress = new ProgressWindow("Applying 8K Mouse Tweaks...");
+            progress.Show();
+
+            try
+            {
+                progress.UpdateStatus("Checking administrator privileges...");
+                progress.UpdateProgress(10);
+                if (!_powerShellService.IsAdministrator())
+                {
+                    progress.Close();
+                    MessageBox.Show("Administrator privileges are required to apply mouse tweaks.", "Permission Required", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                var script = @"
+                    $commands = @(
+                        'bcdedit /set useplatformtick yes',
+                        'bcdedit /set disabledynamictick yes',
+                        'bcdedit /set useplatformclock true'
+                    )
+
+                    foreach ($cmd in $commands) {
+                        Start-Process cmd.exe -Verb RunAs -ArgumentList ('/c ' + $cmd) -WindowStyle Hidden -Wait
+                    }
+
+                    # Registry tweaks
+                    reg add ""HKLM\SYSTEM\CurrentControlSet\Services\USB"" /v DisableSelectiveSuspend /t REG_DWORD /d 1 /f
+                    reg add ""HKLM\SYSTEM\CurrentControlSet\Services\USBXHCI\Parameters"" /v IdleInterval /t REG_DWORD /d 0 /f
+                    reg add ""HKLM\SYSTEM\CurrentControlSet\Services\USBXHCI\Parameters"" /v IdleTimeout /t REG_DWORD /d 0 /f
+                    reg add ""HKLM\SYSTEM\CurrentControlSet\Services\HidUsb\Parameters"" /v IdleUsbSelectiveSuspendTimeout /t REG_DWORD /d 0 /f
+                ";
+
+                progress.UpdateStatus("Applying BCDEdit commands...");
+                progress.UpdateProgress(40);
+                await Task.Delay(300);
+
+                progress.UpdateStatus("Applying registry tweaks...");
+                progress.UpdateProgress(70);
+                var psResult = await _powerShellService.ExecuteScriptAsync(script);
+
+                progress.UpdateStatus("Finalizing...");
+                progress.UpdateProgress(90);
+                await Task.Delay(500);
+
+                progress.UpdateProgress(100);
+                progress.Close();
+
+                if (psResult.Success)
+                {
+                    MessageBox.Show("8K Mouse Tweaks applied successfully!\n\nPlease restart your computer for changes to take effect.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show($"Failed to apply mouse tweaks.\n\nError: {psResult.Error}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                progress.Close();
+                MessageBox.Show($"An error occurred:\n\n{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private async void MouseTweaksRestore_Click(object sender, RoutedEventArgs e)
+        {
+            var disclaimer = "This will restore the original mouse and USB settings.\n\nA system restart will be required for changes to take effect.\n\nContinue?";
+            var result = MessageBox.Show(disclaimer, "Restore Mouse Tweaks", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result != MessageBoxResult.Yes) return;
+
+            var progress = new ProgressWindow("Restoring mouse settings...");
+            progress.Show();
+
+            try
+            {
+                progress.UpdateStatus("Checking administrator privileges...");
+                progress.UpdateProgress(10);
+                if (!_powerShellService.IsAdministrator())
+                {
+                    progress.Close();
+                    MessageBox.Show("Administrator privileges are required to restore mouse settings.", "Permission Required", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                var script = @"
+                    $commands = @(
+                        'bcdedit /deletevalue useplatformtick',
+                        'bcdedit /deletevalue disabledynamictick',
+                        'bcdedit /deletevalue useplatformclock'
+                    )
+
+                    foreach ($cmd in $commands) {
+                        Start-Process cmd.exe -Verb RunAs -ArgumentList ('/c ' + $cmd) -WindowStyle Hidden -Wait
+                    }
+
+                    # Remove registry tweaks
+                    reg delete ""HKLM\SYSTEM\CurrentControlSet\Services\USB"" /v DisableSelectiveSuspend /f 2>$null
+                    reg delete ""HKLM\SYSTEM\CurrentControlSet\Services\USBXHCI\Parameters"" /v IdleInterval /f 2>$null
+                    reg delete ""HKLM\SYSTEM\CurrentControlSet\Services\USBXHCI\Parameters"" /v IdleTimeout /f 2>$null
+                    reg delete ""HKLM\SYSTEM\CurrentControlSet\Services\HidUsb\Parameters"" /v IdleUsbSelectiveSuspendTimeout /f 2>$null
+                ";
+
+                progress.UpdateStatus("Restoring BCDEdit settings...");
+                progress.UpdateProgress(40);
+                await Task.Delay(300);
+
+                progress.UpdateStatus("Removing registry tweaks...");
+                progress.UpdateProgress(70);
+                var psResult = await _powerShellService.ExecuteScriptAsync(script);
+
+                progress.UpdateStatus("Finalizing...");
+                progress.UpdateProgress(90);
+                await Task.Delay(500);
+
+                progress.UpdateProgress(100);
+                progress.Close();
+
+                if (psResult.Success)
+                {
+                    MessageBox.Show("Mouse settings restored successfully!\n\nPlease restart your computer for changes to take effect.", "Restored", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show($"Failed to restore mouse settings.\n\nError: {psResult.Error}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                progress.Close();
+                MessageBox.Show($"An error occurred:\n\n{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         private void CopyScript_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button btn && btn.Tag is TextBox tb)

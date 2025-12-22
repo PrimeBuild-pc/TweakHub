@@ -545,6 +545,17 @@ namespace TweakHub.Services
                 Version = "Latest",
                 IsDirectDownload = false
             });
+
+            ExternalTools.Add(new ExternalTool
+            {
+                Name = "Network Tweaker",
+                Description = "PowerShell script with UI for network optimization tweaks",
+                Category = "System and Optimization Tools",
+                PowerShellCommand = "{APP_DIR}\\Scripts\\Network_Tweaker.ps1",
+                RequiresAdmin = true,
+                Icon = "💻",
+                Version = "Latest"
+            });
         }
 
         private void LoadMonitoringAndLatencyTools()

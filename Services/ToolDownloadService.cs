@@ -409,12 +409,20 @@ namespace TweakHub.Services
             {
                 OnDownloadProgress(new DownloadProgressEventArgs(tool.Name, 0, "Starting PowerShell script..."));
 
+                // Check if this is a local script file (uses {APP_DIR} placeholder)
+                var isLocalScript = tool.PowerShellCommand.Contains("{APP_DIR}");
+                var command = tool.PowerShellCommand.Replace("{APP_DIR}", AppDomain.CurrentDomain.BaseDirectory.TrimEnd('\\'));
+
                 if (tool.RequiresAdmin)
                 {
+                    var arguments = isLocalScript
+                        ? $"-Sta -NoProfile -ExecutionPolicy Bypass -File \"{command}\""
+                        : $"-Sta -NoProfile -ExecutionPolicy Bypass -Command \"{command}\"";
+
                     var psiAdmin = new ProcessStartInfo
                     {
                         FileName = "powershell.exe",
-                        Arguments = $"-NoProfile -ExecutionPolicy Bypass -Command \"{tool.PowerShellCommand}\"",
+                        Arguments = arguments,
                         UseShellExecute = true,
                         Verb = "runas",
                         CreateNoWindow = false

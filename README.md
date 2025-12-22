@@ -15,7 +15,7 @@
 [🔥 **Download Latest Release**](https://github.com/PrimeBuild-pc/TweakHub/releases/tag/v1.0.0) • [📖 **Documentation**](#-documentation) • [🤝 **Contributing**](#-contributing-to-tweakhub)
 
 > [!WARNING]
-> **Public Beta:** il progetto è in fase di test attivo. Possibili bug e cambiamenti rapidi. Effettua il backup prima di applicare modifiche.
+> **Public Beta:** The project is actively testing. Bugs and rapid changes are possible. Please back up before applying changes.
 
 </div>
 
@@ -115,9 +115,9 @@ The developers provide this software "as-is" without warranty. Users assume full
 
 ---
 
-## 💖 Supporta il progetto
+## 💖 Support the project
 
-Ti piace questo tool? Offrimi un caffè ☕:
+Do you like this tool? Buy me a coffee ☕:
 
 [![PayPal](https://img.shields.io/badge/Supporta%20su-PayPal-blue?logo=paypal)](https://paypal.me/PrimeBuildOfficial?country.x=IT&locale.x=it_IT)
 
