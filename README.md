@@ -54,41 +54,6 @@ cd publish
 ./TweakHub.exe
 ```
 
-### ⚡ **First Launch**
-
-1. **🔐 Administrator Rights**: Essential for registry modifications
-2. **📊 System Analysis**: Automatic hardware detection and registry scanning
-3. **🎨 Dark Theme**: Sleek interface with orange accents loads automatically
-4. **🛡️ Safety First**: Automatic backup creation before any changes
-
----
-
-## 🔧 **Troubleshooting**
-
-<details>
-<summary><b>❌ Application Won't Start</b></summary>
-
-### 🔍 **Common Solutions**
-
-* **🔐 Administrator Rights**: Right-click → "Run as administrator"
-* **🖥️ Windows Version**: Ensure Windows 10 1809+ or Windows 11
-* **🛡️ Antivirus**: Temporarily disable real-time protection
-* **🔄 Restart**: Reboot system and try again
-
-</details>
-
-<details>
-<summary><b>⚙️ Registry Tweaks Not Applying</b></summary>
-
-### 🔍 **Diagnostic Steps**
-
-* **🔐 Permissions**: Verify Administrator privileges
-* **🛡️ Security Software**: Check antivirus registry protection
-* **🔄 Restart Required**: Some tweaks need system restart
-* **📋 Compatibility**: Ensure Windows version compatibility
-
-</details>
-
 ---
 
 ## 📜 **License & Legal**
