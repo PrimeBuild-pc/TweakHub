@@ -15,11 +15,9 @@ namespace TweakHub.Services
 
         public Task<bool> InstallWithWinget(ExternalTool tool)
         {
-            var arguments = !string.IsNullOrWhiteSpace(tool.WingetId)
-                ? $"install --id \"{tool.WingetId}\" --exact --accept-source-agreements --accept-package-agreements"
-                : tool.WingetCommand;
-
-            return RunWinget(tool, arguments, "installation", tool.PostInstallMessage);
+            if (string.IsNullOrWhiteSpace(tool.WingetId)) return Task.FromResult(false);
+            var arguments = $"install --id \"{tool.WingetId}\" --exact --accept-source-agreements --accept-package-agreements";
+            return RunWinget(tool, arguments, "installation");
         }
 
         public Task<bool> UninstallWithWinget(ExternalTool tool) =>
@@ -30,7 +28,7 @@ namespace TweakHub.Services
 
         public async Task<bool> DownloadOrOpenTool(ExternalTool tool)
         {
-            if (!string.IsNullOrWhiteSpace(tool.WingetId) || !string.IsNullOrWhiteSpace(tool.WingetCommand))
+            if (!string.IsNullOrWhiteSpace(tool.WingetId))
                 return await InstallWithWinget(tool);
 
             if (Uri.TryCreate(tool.DownloadUrl, UriKind.Absolute, out var uri) &&
@@ -50,7 +48,7 @@ namespace TweakHub.Services
             return false;
         }
 
-        private async Task<bool> RunWinget(ExternalTool tool, string arguments, string action, string postInstallMessage = "")
+        private async Task<bool> RunWinget(ExternalTool tool, string arguments, string action)
         {
             if (string.IsNullOrWhiteSpace(arguments)) return false;
 
@@ -82,8 +80,7 @@ namespace TweakHub.Services
                 Complete(
                     tool.Name,
                     success,
-                    success ? $"{action} completed: {tool.Name}" : $"{action} failed: {tool.Name}",
-                    postInstallMessage);
+                    success ? $"{action} completed: {tool.Name}" : $"{action} failed: {tool.Name}");
                 return success;
             }
             catch (Exception ex)
@@ -126,8 +123,8 @@ namespace TweakHub.Services
         private void Progress(string toolName, int percentage, string message) =>
             DownloadProgress?.Invoke(this, new DownloadProgressEventArgs(toolName, percentage, message));
 
-        private void Complete(string toolName, bool success, string message, string postInstallMessage = "") =>
-            DownloadCompleted?.Invoke(this, new DownloadCompletedEventArgs(toolName, success, message, postInstallMessage));
+        private void Complete(string toolName, bool success, string message) =>
+            DownloadCompleted?.Invoke(this, new DownloadCompletedEventArgs(toolName, success, message));
     }
 
     public class DownloadProgressEventArgs : EventArgs
@@ -149,14 +146,12 @@ namespace TweakHub.Services
         public string ToolName { get; }
         public bool Success { get; }
         public string Message { get; }
-        public string PostInstallMessage { get; }
 
-        public DownloadCompletedEventArgs(string toolName, bool success, string message, string postInstallMessage = "")
+        public DownloadCompletedEventArgs(string toolName, bool success, string message)
         {
             ToolName = toolName;
             Success = success;
             Message = message;
-            PostInstallMessage = postInstallMessage;
         }
     }
 }

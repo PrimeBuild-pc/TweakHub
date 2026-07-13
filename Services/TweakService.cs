@@ -48,6 +48,7 @@ namespace TweakHub.Services
             LoadNetworkLatencyReductionTweaks();
             LoadGamingPerformanceTweaks();
             LoadSystemResponsivenessTweaks();
+            LoadAdvancedTweaks();
             LoadVisualEffectsPerformanceTweaks();
             HasAppliedTweaksThisSession = RegistryService.Instance.BackupCount > 0 || PowerService.Instance.HasAnyBackup;
         }
@@ -237,6 +238,18 @@ namespace TweakHub.Services
                 RiskLevel = 1
             });
 
+            TweakCategories.Add(category);
+        }
+
+        private void LoadAdvancedTweaks()
+        {
+            var category = new TweakCategory
+            {
+                Name = "Advanced",
+                Description = "Higher-impact changes that trade Windows functionality for lower background activity",
+                Icon = "⚠️"
+            };
+
             category.Tweaks.Add(new PerformanceTweak
             {
                 Id = "disable_windows_search",
@@ -247,7 +260,7 @@ namespace TweakHub.Services
                 RegistryKey = "Start",
                 EnabledValue = 4, // Disabled
                 DisabledValue = 2, // Automatic
-                Category = "System Responsiveness",
+                Category = "Advanced",
                 RiskLevel = 3,
                 RequiresRestart = true
             });

@@ -124,18 +124,12 @@ namespace TweakHub.Views
             // Define category display order
             return category switch
             {
-                "DLSS and Graphics Tools" => 1,
-                "System and Optimization Tools" => 2,
-                "Monitoring and Latency Tools" => 3,
-                "Overclocking and Hardware Control" => 4,
-                "Hardware Monitoring" => 5,
-                "Benchmarking and Testing" => 6,
-                "Storage and Memory" => 7,
-                "Driver and GPU Utilities" => 8,
-                "Display and Audio Utilities" => 9,
-                "Runtime and Libraries" => 10,
-                "Brand Utilities" => 11,
-                "Dependencies Pack" => 12,
+                "System Tools" => 1,
+                "Monitoring" => 2,
+                "Benchmarking" => 3,
+                "Storage" => 4,
+                "Graphics" => 5,
+                "Input & Display" => 6,
                 _ => 99
             };
         }
@@ -218,18 +212,12 @@ namespace TweakHub.Views
         {
             return category switch
             {
-                "DLSS and Graphics Tools" => "🎮",
-                "System and Optimization Tools" => "⚙️",
-                "Monitoring and Latency Tools" => "⏱️",
-                "Overclocking and Hardware Control" => "🔥",
-                "Hardware Monitoring" => "📊",
-                "Benchmarking and Testing" => "🏁",
-                "Storage and Memory" => "💾",
-                "Driver and GPU Utilities" => "🔧",
-                "Display and Audio Utilities" => "🖥️",
-                "Runtime and Libraries" => "📦",
-                "Brand Utilities" => "🏷️",
-                "Dependencies Pack" => "📦",
+                "System Tools" => "⚙️",
+                "Monitoring" => "📊",
+                "Benchmarking" => "🏁",
+                "Storage" => "💾",
+                "Graphics" => "🎮",
+                "Input & Display" => "🖥️",
                 _ => "🔧"
             };
         }
@@ -425,7 +413,7 @@ namespace TweakHub.Views
 
         private string GetDownloadIcon(ExternalTool tool)
         {
-            if (!string.IsNullOrWhiteSpace(tool.WingetId) || !string.IsNullOrWhiteSpace(tool.WingetCommand))
+            if (!string.IsNullOrWhiteSpace(tool.WingetId))
                 return "⬇️"; // Winget download
             else if (!string.IsNullOrEmpty(tool.DownloadUrl) && tool.DownloadUrl.Contains("github.com"))
                 return "📦"; // GitHub package
@@ -435,7 +423,7 @@ namespace TweakHub.Views
 
         private string GetActionText(ExternalTool tool)
         {
-            if (!string.IsNullOrWhiteSpace(tool.WingetId) || !string.IsNullOrWhiteSpace(tool.WingetCommand))
+            if (!string.IsNullOrWhiteSpace(tool.WingetId))
                 return "Install";
             if (!string.IsNullOrEmpty(tool.DownloadUrl) && tool.DownloadUrl.Contains("github.com"))
                 return "GitHub";
@@ -464,10 +452,6 @@ namespace TweakHub.Views
                     this.ProgressText.Text = $"✅ {e.Message}";
                     this.ProgressBar.Value = 100;
 
-                    if (!string.IsNullOrWhiteSpace(e.PostInstallMessage))
-                    {
-                        MessageBox.Show(e.PostInstallMessage, "Information", MessageBoxButton.OK, MessageBoxImage.Information);
-                    }
 
                     // Hide progress panel after 3 seconds
                     var timer = new System.Windows.Threading.DispatcherTimer

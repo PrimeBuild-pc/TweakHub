@@ -68,12 +68,7 @@ namespace TweakHub.Models
         public string DownloadUrl { get; set; } = string.Empty;
         // For Winget installs (single package)
         public string WingetId { get; set; } = string.Empty;
-        // For custom Winget command (e.g., multi-package installs)
-        public string WingetCommand { get; set; } = string.Empty;
-        // Optional post-install info to show (e.g., Autoruns message)
-        public string PostInstallMessage { get; set; } = string.Empty;
         public string Icon { get; set; } = string.Empty;
-        public string Version { get; set; } = string.Empty;
         // Favorites
         public bool IsFavorite { get; set; }
     }

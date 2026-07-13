@@ -12,6 +12,13 @@ public partial class App : Application
 {
     protected override void OnStartup(StartupEventArgs e)
     {
+        if (Environment.OSVersion.Version.Build < 22000)
+        {
+            MessageBox.Show("TweakHub supports Windows 11 build 22000 or newer.", "Unsupported Windows version", MessageBoxButton.OK, MessageBoxImage.Error);
+            Shutdown();
+            return;
+        }
+
         _ = ThemeService.Instance;
         RegistryService.Instance.Initialize();
         SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
