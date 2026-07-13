@@ -1,6 +1,5 @@
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
 using TweakHub.Models;
@@ -26,64 +25,45 @@ namespace TweakHub.Services
             _customTweaksFile = Path.Combine(_basePath, "custom-tweaks.json");
         }
 
-        public HashSet<string> LoadFavoriteTools()
+        public HashSet<string> LoadFavoriteTools() => Load<HashSet<string>>(_favoritesFile);
+
+        public void SaveFavoriteTools(IEnumerable<string> favorites) =>
+            Save(_favoritesFile, favorites.ToHashSet(StringComparer.OrdinalIgnoreCase));
+
+        public ObservableCollection<CustomScript> LoadCustomScripts() =>
+            new(Load<List<CustomScript>>(_customScriptsFile));
+
+        public void SaveCustomScripts(IEnumerable<CustomScript> scripts) =>
+            Save(_customScriptsFile, scripts.ToList());
+
+        public List<CustomRegistryTweak> LoadCustomTweaks() =>
+            Load<List<CustomRegistryTweak>>(_customTweaksFile);
+
+        public void SaveCustomTweaks(IEnumerable<CustomRegistryTweak> tweaks) =>
+            Save(_customTweaksFile, tweaks.ToList());
+
+        private static T Load<T>(string path) where T : new()
         {
+            if (!File.Exists(path)) return new T();
+
             try
             {
-                if (!File.Exists(_favoritesFile)) return new();
-                var data = JsonSerializer.Deserialize<HashSet<string>>(File.ReadAllText(_favoritesFile));
-                return data ?? new();
+                return JsonSerializer.Deserialize<T>(File.ReadAllText(path)) ?? new T();
             }
-            catch { return new(); }
+            catch (Exception ex)
+            {
+                var corrupt = path + $".corrupt-{DateTime.Now:yyyyMMddHHmmss}";
+                File.Move(path, corrupt, true);
+                Debug.WriteLine($"Invalid user data moved to {corrupt}: {ex.Message}");
+                return new T();
+            }
         }
 
-        public void SaveFavoriteTools(IEnumerable<string> favorites)
+        private static void Save<T>(string path, T data)
         {
-            try
-            {
-                File.WriteAllText(_favoritesFile, JsonSerializer.Serialize(favorites));
-            }
-            catch { }
-        }
-
-        public ObservableCollection<CustomScript> LoadCustomScripts()
-        {
-            try
-            {
-                if (!File.Exists(_customScriptsFile)) return new();
-                var data = JsonSerializer.Deserialize<List<CustomScript>>(File.ReadAllText(_customScriptsFile));
-                return new ObservableCollection<CustomScript>(data ?? new List<CustomScript>());
-            }
-            catch { return new(); }
-        }
-
-        public void SaveCustomScripts(IEnumerable<CustomScript> scripts)
-        {
-            try
-            {
-                File.WriteAllText(_customScriptsFile, JsonSerializer.Serialize(scripts));
-            }
-            catch { }
-        }
-
-        public List<CustomRegistryTweak> LoadCustomTweaks()
-        {
-            try
-            {
-                if (!File.Exists(_customTweaksFile)) return new();
-                var data = JsonSerializer.Deserialize<List<CustomRegistryTweak>>(File.ReadAllText(_customTweaksFile));
-                return data ?? new();
-            }
-            catch { return new(); }
-        }
-
-        public void SaveCustomTweaks(IEnumerable<CustomRegistryTweak> tweaks)
-        {
-            try
-            {
-                File.WriteAllText(_customTweaksFile, JsonSerializer.Serialize(tweaks));
-            }
-            catch { }
+            var temp = path + ".tmp";
+            File.WriteAllText(temp, JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true }));
+            File.Move(temp, path, true);
         }
     }
 }

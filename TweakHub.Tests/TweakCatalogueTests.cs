@@ -29,17 +29,6 @@ public class TweakCatalogueTests
             "disable_transparency",
             "optimize_visual_effects"
         }));
-        Assert.That(
-            tweaks.Where(tweak => !tweak.IsAvailable).Select(tweak => tweak.Id),
-            Is.EquivalentTo(new[]
-            {
-                "cpu_priority_separation",
-                "disable_cpu_throttling",
-                "disable_core_parking",
-                "high_performance_power_plan",
-                "optimize_network_throttling",
-                "disable_mouse_acceleration",
-                "disable_windows_search"
-            }));
+        Assert.That(tweaks, Has.All.Property("IsAvailable").True);
     }
 }

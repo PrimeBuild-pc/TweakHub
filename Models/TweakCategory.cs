@@ -5,9 +5,7 @@ namespace TweakHub.Models
     public enum TweakType
     {
         Registry,
-        Service,
-        Script,
-        FileSystem
+        Power
     }
 
     public class TweakCategory

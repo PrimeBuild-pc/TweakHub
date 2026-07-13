@@ -49,6 +49,7 @@ namespace TweakHub.Services
             LoadGamingPerformanceTweaks();
             LoadSystemResponsivenessTweaks();
             LoadVisualEffectsPerformanceTweaks();
+            HasAppliedTweaksThisSession = RegistryService.Instance.BackupCount > 0 || PowerService.Instance.HasAnyBackup;
         }
 
         private void LoadCpuProcessorOptimizationTweaks()
@@ -63,63 +64,57 @@ namespace TweakHub.Services
             category.Tweaks.Add(new PerformanceTweak
             {
                 Id = "cpu_priority_separation",
-                Name = "Optimize CPU Priority Separation",
-                Description = "Temporarily unavailable while foreground scheduling and rollback are implemented safely.",
+                Name = "Prioritize Foreground Programs",
+                Description = "Uses the Windows foreground-program scheduling profile and restores the captured original value.",
                 Type = TweakType.Registry,
                 RegistryPath = @"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\PriorityControl",
                 RegistryKey = "Win32PrioritySeparation",
-                EnabledValue = 26, // Optimized for desktop performance
-                DisabledValue = 2,  // Default Windows value
+                EnabledValue = 0x26,
+                DisabledValue = null,
                 Category = "CPU & Processor Optimization",
-                IsAvailable = false,
-                RiskLevel = 1
+                RiskLevel = 2
             });
 
             category.Tweaks.Add(new PerformanceTweak
             {
                 Id = "disable_cpu_throttling",
-                Name = "Disable CPU Throttling",
-                Description = "Temporarily unavailable: this must use the active Windows power plan, not Registry metadata.",
-                Type = TweakType.Registry,
+                Name = "Maximum CPU Performance on AC",
+                Description = "Sets the active power plan minimum processor state to 100% while plugged in. Increases power use and heat.",
+                Type = TweakType.Power,
                 RegistryPath = @"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\54533251-82be-4824-96c1-47b60b740d00\893dee8e-2bef-41e0-89c6-b55d0929964c",
                 RegistryKey = "ValueMax",
                 EnabledValue = 0,   // Disable throttling
                 DisabledValue = 100, // Default throttling
                 Category = "CPU & Processor Optimization",
-                IsAvailable = false,
-                RiskLevel = 2,
-                RequiresRestart = true
+                RiskLevel = 3
             });
 
             category.Tweaks.Add(new PerformanceTweak
             {
                 Id = "disable_core_parking",
                 Name = "Disable CPU Core Parking",
-                Description = "Temporarily unavailable: this must use the active Windows power plan, not Registry metadata.",
-                Type = TweakType.Registry,
+                Description = "Sets the active power plan minimum parked cores to 100% while plugged in. Increases power use and heat.",
+                Type = TweakType.Power,
                 RegistryPath = @"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\54533251-82be-4824-96c1-47b60b740d00\0cc5b647-c1df-4637-891a-dec35c318583",
                 RegistryKey = "ValueMax",
                 EnabledValue = 0,   // Disable core parking
                 DisabledValue = 100, // Default core parking
                 Category = "CPU & Processor Optimization",
-                IsAvailable = false,
-                RiskLevel = 2,
-                RequiresRestart = true
+                RiskLevel = 3
             });
 
             category.Tweaks.Add(new PerformanceTweak
             {
                 Id = "high_performance_power_plan",
                 Name = "Force High Performance Power Plan",
-                Description = "Temporarily unavailable until the active power plan can be captured and restored safely.",
-                Type = TweakType.Registry,
+                Description = "Activates the Windows High Performance plan and restores the previously active plan when disabled.",
+                Type = TweakType.Power,
                 RegistryPath = @"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\User\PowerSchemes",
                 RegistryKey = "ActivePowerScheme",
                 EnabledValue = "8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c", // High Performance GUID
                 DisabledValue = "381b4222-f694-41f0-9685-ff5bb260df2e", // Balanced GUID
                 Category = "CPU & Processor Optimization",
-                IsAvailable = false,
-                RiskLevel = 1
+                RiskLevel = 2
             });
 
             TweakCategories.Add(category);
@@ -138,14 +133,13 @@ namespace TweakHub.Services
             {
                 Id = "optimize_network_throttling",
                 Name = "Disable Network Throttling Index",
-                Description = "Temporarily unavailable while DWORD handling and rollback are corrected.",
+                Description = "Uses the disabled DWORD value and restores the captured original setting.",
                 Type = TweakType.Registry,
                 RegistryPath = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile",
                 RegistryKey = "NetworkThrottlingIndex",
-                EnabledValue = 0xffffffff, // Disable throttling
-                DisabledValue = 10, // Default
+                EnabledValue = -1,
+                DisabledValue = null,
                 Category = "Network Latency Reduction",
-                IsAvailable = false,
                 RiskLevel = 2
             });
 
@@ -165,14 +159,13 @@ namespace TweakHub.Services
             {
                 Id = "disable_mouse_acceleration",
                 Name = "Disable Mouse Acceleration",
-                Description = "Temporarily unavailable until all related mouse values can be applied and restored atomically.",
+                Description = "Changes MouseSpeed and both threshold values as one restorable operation.",
                 Type = TweakType.Registry,
                 RegistryPath = @"HKEY_CURRENT_USER\Control Panel\Mouse",
                 RegistryKey = "MouseSpeed",
                 EnabledValue = "0", // Disabled
                 DisabledValue = "1", // Enabled
                 Category = "Gaming Performance",
-                IsAvailable = false,
                 RiskLevel = 1
             });
 
@@ -248,14 +241,13 @@ namespace TweakHub.Services
             {
                 Id = "disable_windows_search",
                 Name = "Disable Windows Search Indexing",
-                Description = "Temporarily unavailable until the service state and original configuration can be restored safely.",
+                Description = "Disables Windows Search indexing and restores the captured service configuration when re-enabled.",
                 Type = TweakType.Registry,
                 RegistryPath = @"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WSearch",
                 RegistryKey = "Start",
                 EnabledValue = 4, // Disabled
                 DisabledValue = 2, // Automatic
                 Category = "System Responsiveness",
-                IsAvailable = false,
                 RiskLevel = 3,
                 RequiresRestart = true
             });
@@ -325,74 +317,90 @@ namespace TweakHub.Services
 
         public async Task<bool> ApplyTweakAsync(PerformanceTweak tweak, bool targetEnabled)
         {
-            return await Task.Run(() =>
+            var result = await ApplyCoreAsync(tweak, targetEnabled);
+            if (result)
             {
-                var registryService = RegistryService.Instance;
-                var result = registryService.ApplyTweak(tweak, targetEnabled);
+                tweak.IsEnabled = targetEnabled;
+                HasAppliedTweaksThisSession = RegistryService.Instance.BackupCount > 0 || PowerService.Instance.HasAnyBackup;
+                OnPropertyChanged(nameof(TweakCategories));
+            }
+            return result;
+        }
 
-                if (result)
-                {
-                    tweak.IsEnabled = targetEnabled;
-                    HasAppliedTweaksThisSession = true;
-                    OnPropertyChanged(nameof(TweakCategories));
-                }
+        private static Task<bool> ApplyCoreAsync(PerformanceTweak tweak, bool enable) => tweak.Id switch
+        {
+            "disable_cpu_throttling" => enable
+                ? PowerService.Instance.ApplyProcessorSettingAsync(tweak.Id, "PROCTHROTTLEMIN", 100)
+                : PowerService.Instance.RestoreProcessorSettingAsync(tweak.Id),
+            "disable_core_parking" => enable
+                ? PowerService.Instance.ApplyProcessorSettingAsync(tweak.Id, "CPMINCORES", 100)
+                : PowerService.Instance.RestoreProcessorSettingAsync(tweak.Id),
+            "high_performance_power_plan" => enable
+                ? PowerService.Instance.ApplyHighPerformancePlanAsync()
+                : PowerService.Instance.RestorePowerPlanAsync(),
+            "disable_mouse_acceleration" => Task.Run(() => ApplyMouseAcceleration(enable)),
+            _ => Task.Run(() => RegistryService.Instance.ApplyTweak(tweak, enable))
+        };
 
-                return result;
-            });
+        private static bool ApplyMouseAcceleration(bool disable)
+        {
+            const string path = @"HKEY_CURRENT_USER\Control Panel\Mouse";
+            var registry = RegistryService.Instance;
+            var values = new[] { "MouseSpeed", "MouseThreshold1", "MouseThreshold2" };
+
+            if (!disable)
+                return values.All(name => !registry.HasBackup(path, name) || registry.RestoreRegistryValue(path, name));
+
+            foreach (var name in values)
+            {
+                if (registry.ApplyValueWithBackup(path, name, "0", Microsoft.Win32.RegistryValueKind.String)) continue;
+                foreach (var applied in values) registry.RestoreRegistryValue(path, applied);
+                return false;
+            }
+            return true;
         }
 
         public async Task<(int restored, int failed)> RestoreAllTweaksAsync()
         {
-            return await Task.Run(() =>
+            var tweaks = TweakCategories.SelectMany(category => category.Tweaks).Where(HasBackup).ToList();
+            var restored = 0;
+            var failed = 0;
+            foreach (var tweak in tweaks)
             {
-                int restored = 0;
-                int failed = 0;
-                var registryService = RegistryService.Instance;
+                if (await ApplyCoreAsync(tweak, false)) restored++; else failed++;
+            }
 
-                foreach (var category in TweakCategories)
-                {
-                    foreach (var tweak in category.Tweaks)
-                    {
-                        try
-                        {
-                            if (registryService.RestoreTweak(tweak))
-                            {
-                                restored++;
-                            }
-                            else
-                            {
-                                failed++;
-                            }
-                        }
-                        catch
-                        {
-                            failed++;
-                        }
-                    }
-                }
-
-                // After restore, refresh states
-                RefreshTweakStates();
-                HasAppliedTweaksThisSession = false;
-                return (restored, failed);
-            });
+            RefreshTweakStates();
+            HasAppliedTweaksThisSession = RegistryService.Instance.BackupCount > 0 || PowerService.Instance.HasAnyBackup;
+            return (restored, failed);
         }
+
+        private static bool HasBackup(PerformanceTweak tweak) => tweak.Id switch
+        {
+            "disable_cpu_throttling" or "disable_core_parking" or "high_performance_power_plan" =>
+                PowerService.Instance.HasBackup(tweak.Id),
+            "disable_mouse_acceleration" => new[] { "MouseSpeed", "MouseThreshold1", "MouseThreshold2" }
+                .Any(name => RegistryService.Instance.HasBackup(@"HKEY_CURRENT_USER\Control Panel\Mouse", name)),
+            _ => RegistryService.Instance.HasBackup(tweak.RegistryPath, tweak.RegistryKey)
+        };
 
         public void RefreshTweakStates()
         {
-            var registryService = RegistryService.Instance;
-            
-            foreach (var category in TweakCategories)
+            foreach (var tweak in TweakCategories.SelectMany(category => category.Tweaks))
             {
-                foreach (var tweak in category.Tweaks)
+                tweak.IsEnabled = tweak.Id switch
                 {
-                    if (tweak.Type == TweakType.Registry)
-                    {
-                        tweak.IsEnabled = registryService.CheckTweakStatus(tweak);
-                    }
-                }
+                    "disable_cpu_throttling" => PowerService.Instance
+                        .IsProcessorSettingActiveAsync("PROCTHROTTLEMIN", 100).GetAwaiter().GetResult(),
+                    "disable_core_parking" => PowerService.Instance
+                        .IsProcessorSettingActiveAsync("CPMINCORES", 100).GetAwaiter().GetResult(),
+                    "high_performance_power_plan" => PowerService.Instance
+                        .IsHighPerformancePlanActiveAsync().GetAwaiter().GetResult(),
+                    "disable_mouse_acceleration" => new[] { "MouseSpeed", "MouseThreshold1", "MouseThreshold2" }
+                        .All(name => Equals(RegistryService.Instance.GetRegistryValue(@"HKEY_CURRENT_USER\Control Panel\Mouse", name), "0")),
+                    _ => RegistryService.Instance.CheckTweakStatus(tweak)
+                };
             }
-            
             OnPropertyChanged(nameof(TweakCategories));
         }
 

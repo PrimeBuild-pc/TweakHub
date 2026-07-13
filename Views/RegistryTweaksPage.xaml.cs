@@ -135,11 +135,13 @@ namespace TweakHub.Views
             viewBtn.Content = new StackPanel { Orientation = Orientation.Horizontal, Children = { new TextBlock { Text = "👁️", Margin = new Thickness(0,0,8,0) }, new TextBlock { Text = "View" } } };
             var applyBtn = new Button { Style = GetStyleOrDefault("ExecuteButtonStyle"), Margin = new Thickness(0,0,8,0) };
             applyBtn.Content = new StackPanel { Orientation = Orientation.Horizontal, Children = { new TextBlock { Text = "▶️", Margin = new Thickness(0,0,8,0) }, new TextBlock { Text = "Apply" } } };
+            var restoreBtn = new Button { Style = GetStyleOrDefault("ModernButtonStyle"), Margin = new Thickness(0,0,8,0) };
+            restoreBtn.Content = new StackPanel { Orientation = Orientation.Horizontal, Children = { new TextBlock { Text = "↩️", Margin = new Thickness(0,0,8,0) }, new TextBlock { Text = "Restore" } } };
             var editBtn = new Button { Style = GetStyleOrDefault("ModernButtonStyle"), Margin = new Thickness(0,0,8,0) };
             editBtn.Content = new StackPanel { Orientation = Orientation.Horizontal, Children = { new TextBlock { Text = "✏️", Margin = new Thickness(0,0,8,0) }, new TextBlock { Text = "Edit" } } };
             var deleteBtn = new Button { Style = GetStyleOrDefault("DangerButtonStyle") };
             deleteBtn.Content = new StackPanel { Orientation = Orientation.Horizontal, Children = { new TextBlock { Text = "🗑️", Margin = new Thickness(0,0,8,0) }, new TextBlock { Text = "Delete" } } };
-            actions.Children.Add(viewBtn); actions.Children.Add(applyBtn); actions.Children.Add(editBtn); actions.Children.Add(deleteBtn);
+            actions.Children.Add(viewBtn); actions.Children.Add(applyBtn); actions.Children.Add(restoreBtn); actions.Children.Add(editBtn); actions.Children.Add(deleteBtn);
             Grid.SetColumn(actions,1); grid.Children.Add(actions);
 
             var preview = new Border { Margin = new Thickness(0,12,0,0), CornerRadius = new CornerRadius(8), BorderBrush = GetBrushOrDefault("SystemControlBorderBaseLowBrush"), BorderThickness = new Thickness(1), Background = GetBrushOrDefault("SystemControlBackgroundBaseLowBrush"), Visibility = Visibility.Collapsed, Name = $"customPreview_{SanitizeName(t.Id)}" };
@@ -163,7 +165,7 @@ namespace TweakHub.Views
                 try
                 {
                     object? parsed = ParseRegistryData(t.ValueType, t.Data, out var kind);
-                    var ok = _registryService.SetRegistryValue(t.RegistryPath, t.RegistryKey, parsed, kind);
+                    var ok = _registryService.ApplyValueWithBackup(t.RegistryPath, t.RegistryKey, parsed, kind);
                     MessageBox.Show(ok ? "Applied." : "Failed to apply.");
                 }
                 catch (Exception ex)
@@ -171,6 +173,8 @@ namespace TweakHub.Views
                     MessageBox.Show($"Error: {ex.Message}");
                 }
             };
+            restoreBtn.Click += (_, __) => MessageBox.Show(
+                _registryService.RestoreRegistryValue(t.RegistryPath, t.RegistryKey) ? "Restored." : "No backup is available for this value.");
 
             editBtn.Click += (_, __) => OpenCustomTweakDialog(t);
             deleteBtn.Click += (_, __) =>
@@ -198,11 +202,11 @@ namespace TweakHub.Views
                 case "REG_DWORD":
                 case "REG_DWORD (32-BIT)":
                     explicitKind = Microsoft.Win32.RegistryValueKind.DWord;
-                    return int.TryParse(data, out var i) ? i : 0;
+                    return int.TryParse(data, out var i) ? i : throw new FormatException("DWORD must be a valid 32-bit integer.");
                 case "REG_QWORD":
                 case "REG_QWORD (64-BIT)":
                     explicitKind = Microsoft.Win32.RegistryValueKind.QWord;
-                    return long.TryParse(data, out var l) ? l : 0L;
+                    return long.TryParse(data, out var l) ? l : throw new FormatException("QWORD must be a valid 64-bit integer.");
                 case "REG_BINARY":
                     explicitKind = Microsoft.Win32.RegistryValueKind.Binary;
                     return ParseHexToBytes(data);
@@ -222,11 +226,10 @@ namespace TweakHub.Views
 
         private static byte[] ParseHexToBytes(string hex)
         {
-            var cleaned = new string(hex.Where(c => Uri.IsHexDigit(c)).ToArray());
-            if (cleaned.Length % 2 == 1) cleaned = "0" + cleaned;
-            var bytes = new byte[cleaned.Length / 2];
-            for (int n = 0; n < bytes.Length; n++) bytes[n] = Convert.ToByte(cleaned.Substring(n * 2, 2), 16);
-            return bytes;
+            var cleaned = new string(hex.Where(c => !char.IsWhiteSpace(c) && c is not ',' and not '-').ToArray());
+            if (cleaned.Length == 0 || cleaned.Length % 2 != 0 || cleaned.Any(c => !Uri.IsHexDigit(c)))
+                throw new FormatException("Binary data must contain complete hexadecimal byte pairs.");
+            return Convert.FromHexString(cleaned);
         }
 
         private void AddCustomTweak_Click(object sender, RoutedEventArgs e)
@@ -302,25 +305,39 @@ namespace TweakHub.Views
                     return;
                 }
                 string mapType(string s) => s.StartsWith("REG_DWORD") ? "REG_DWORD" : s.StartsWith("REG_QWORD") ? "REG_QWORD" : s;
+                var path = pathBox.Text.Trim();
+                var valueName = keyBox.Text.Trim();
+                var valueType = mapType(typeBox.SelectedItem?.ToString() ?? "REG_SZ");
+                var data = dataBox.Text ?? string.Empty;
+                try
+                {
+                    RegistryService.ValidateLocation(path, valueName);
+                    _ = ParseRegistryData(valueType, data, out var ignoredKind);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Invalid Registry Tweak", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
                 if (existing == null)
                 {
-                    var tweak = new CustomRegistryTweak
+                    _customTweaks.Add(new CustomRegistryTweak
                     {
                         Name = nameBox.Text.Trim(),
-                        RegistryPath = pathBox.Text.Trim(),
-                        RegistryKey = keyBox.Text.Trim(),
-                        ValueType = mapType(typeBox.SelectedItem?.ToString() ?? "REG_SZ"),
-                        Data = dataBox.Text ?? string.Empty
-                    };
-                    _customTweaks.Add(tweak);
+                        RegistryPath = path,
+                        RegistryKey = valueName,
+                        ValueType = valueType,
+                        Data = data
+                    });
                 }
                 else
                 {
                     existing.Name = nameBox.Text.Trim();
-                    existing.RegistryPath = pathBox.Text.Trim();
-                    existing.RegistryKey = keyBox.Text.Trim();
-                    existing.ValueType = mapType(typeBox.SelectedItem?.ToString() ?? "REG_SZ");
-                    existing.Data = dataBox.Text ?? string.Empty;
+                    existing.RegistryPath = path;
+                    existing.RegistryKey = valueName;
+                    existing.ValueType = valueType;
+                    existing.Data = data;
                 }
                 _userData.SaveCustomTweaks(_customTweaks);
                 RenderCustomTweaks();
@@ -450,32 +467,22 @@ namespace TweakHub.Views
         {
             if (sender is Button btn && btn.Tag is PerformanceTweak tweak)
             {
-                // Toggle preview visibility and populate content on first open
-                if (!tweak.IsPreviewVisible)
-                {
-                    string regType = (tweak.EnabledValue is int || tweak.EnabledValue is bool)
-                        ? "REG_DWORD"
-                        : (tweak.EnabledValue is long) ? "REG_QWORD" : "REG_SZ";
-
-                    string enabledData = tweak.EnabledValue is bool b ? (b ? "1" : "0") : (tweak.EnabledValue?.ToString() ?? "");
-                    string disabledData = tweak.DisabledValue is bool b2 ? (b2 ? "1" : "0") : (tweak.DisabledValue?.ToString() ?? "");
-
-                    var enableCmd = $"reg add \"{tweak.RegistryPath}\" /v \"{tweak.RegistryKey}\" /t {regType} /d {enabledData} /f";
-                    var disableCmd = string.IsNullOrWhiteSpace(disabledData)
-                        ? "(no restore command available)"
-                        : $"reg add \"{tweak.RegistryPath}\" /v \"{tweak.RegistryKey}\" /t {regType} /d {disabledData} /f";
-
-                    tweak.PreviewContent =
-                        $"# {tweak.Name}\n" +
-                        $"# Risk: {tweak.RiskLevel}/5\n" +
-                        $"# Path: {tweak.RegistryPath}\n" +
-                        $"# Value: {tweak.RegistryKey}\n\n" +
-                        $"# Apply (Enabled)\n{enableCmd}\n\n" +
-                        $"# Restore (Disabled)\n{disableCmd}";
-                }
-
+                if (!tweak.IsPreviewVisible) tweak.PreviewContent = BuildPreview(tweak);
                 tweak.IsPreviewVisible = !tweak.IsPreviewVisible;
             }
+        }
+
+        private static string BuildPreview(PerformanceTweak tweak)
+        {
+            var command = tweak.Id switch
+            {
+                "disable_cpu_throttling" => "powercfg /setacvalueindex SCHEME_CURRENT SUB_PROCESSOR PROCTHROTTLEMIN 100",
+                "disable_core_parking" => "powercfg /setacvalueindex SCHEME_CURRENT SUB_PROCESSOR CPMINCORES 100",
+                "high_performance_power_plan" => "powercfg /setactive SCHEME_MIN",
+                "disable_mouse_acceleration" => "reg add \"HKCU\\Control Panel\\Mouse\" /v MouseSpeed /t REG_SZ /d 0 /f\nreg add \"HKCU\\Control Panel\\Mouse\" /v MouseThreshold1 /t REG_SZ /d 0 /f\nreg add \"HKCU\\Control Panel\\Mouse\" /v MouseThreshold2 /t REG_SZ /d 0 /f",
+                _ => $"reg add \"{tweak.RegistryPath}\" /v \"{tweak.RegistryKey}\" /t {(tweak.EnabledValue is int ? "REG_DWORD" : tweak.EnabledValue is long ? "REG_QWORD" : "REG_SZ")} /d {(Equals(tweak.EnabledValue, -1) ? "ffffffff" : tweak.EnabledValue)} /f"
+            };
+            return $"# {tweak.Name}\n# Risk: {tweak.RiskLevel}/5\n\n# Apply\n{command}\n\n# Restore\nTweakHub restores the captured original value.";
         }
 
         private void CopyPreview_Click(object sender, RoutedEventArgs e)
@@ -500,10 +507,10 @@ namespace TweakHub.Views
         {
             try
             {
-                _registryService.SaveBackupsToFile();
+                var count = _registryService.CreateBackup(_tweakService.TweakCategories.SelectMany(c => c.Tweaks));
                 MessageBox.Show(
-                    "Registry backup has been created successfully.\n\n" +
-                    "Backup location: %AppData%\\TweakHub\\Backups",
+                    $"Registry backup has been created successfully ({count} new value(s) captured).\n\n" +
+                    "Backup location: %AppData%\\TweakHub\\registry-backup.json",
                     "Backup Created",
                     MessageBoxButton.OK,
                     MessageBoxImage.Information);
@@ -534,7 +541,7 @@ namespace TweakHub.Views
             // Create backup first
             try
             {
-                _registryService.SaveBackupsToFile();
+                _registryService.CreateBackup(_tweakService.TweakCategories.SelectMany(c => c.Tweaks));
             }
             catch (Exception ex)
             {

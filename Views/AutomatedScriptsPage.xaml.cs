@@ -455,199 +455,61 @@ namespace TweakHub.Views
             }
         }
 
-        private async void BcdEditApply_Click(object sender, RoutedEventArgs e)
-        {
-            var disclaimer = "⚠️ Warning: These commands modify Windows boot configuration. Changes may affect system stability and require administrator privileges. A system restart will be required for changes to take effect. Proceed only if you understand the implications.";
-            var result = MessageBox.Show(disclaimer, "BCDEdit Performance Tweaks", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            if (result != MessageBoxResult.Yes) return;
-
-            var progress = new ProgressWindow("Applying BCDEdit Performance Tweaks...");
-            progress.Show();
-
-            try
-            {
-                progress.UpdateStatus("Checking administrator privileges...");
-                progress.UpdateProgress(10);
-                if (!_powerShellService.IsAdministrator())
-                {
-                    progress.Close();
-                    MessageBox.Show("Administrator privileges are required to apply BCDEdit tweaks.", "Permission Required", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
-
-                // Build a PowerShell script that runs the bcdedit commands in an elevated cmd silently
-                var script = @"
-                    $commands = @(
-                        'bcdedit /set disabledynamictick yes',
-                        'bcdedit /set tscsyncpolicy enhanced',
-                        'bcdedit /set useplatformclock false',
-                        'bcdedit /set hypervisorlaunchtype off'
-                    )
-
-                    foreach ($cmd in $commands) {
-                        Start-Process cmd.exe -Verb RunAs -ArgumentList ('/c ' + $cmd) -WindowStyle Hidden -Wait
-                    }
-                ";
-
-                progress.UpdateStatus("Executing BCDEdit commands...");
-                progress.UpdateProgress(60);
-                var psResult = await _powerShellService.ExecuteScriptAsync(script);
-
-                progress.UpdateStatus("Finalizing...");
-                progress.UpdateProgress(90);
-                await Task.Delay(500);
-
-                progress.UpdateProgress(100);
-                progress.Close();
-
-                if (psResult.Success)
-                {
-                    MessageBox.Show("BCDEdit performance tweaks applied successfully. Please restart your computer for changes to take effect.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-                else
-                {
-                    MessageBox.Show($"Failed to apply BCDEdit tweaks.\n\nError: {psResult.Error}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
-            catch (Exception ex)
-            {
-                progress.Close();
-                MessageBox.Show($"An error occurred:\n\n{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
-        private void BcdEdit_View_Click(object sender, RoutedEventArgs e)
-        {
-            var content = @"# BCDEdit Performance Tweaks
-bcdedit /set disabledynamictick yes
-bcdedit /set tscsyncpolicy enhanced
-bcdedit /set useplatformclock false
-bcdedit /set hypervisorlaunchtype off";
-            ToggleInlinePreview("BcdPreviewPanel", "BcdPreviewText", content);
-        }
-
-        private async void BcdEditRestore_Click(object sender, RoutedEventArgs e)
-        {
-            var disclaimer = "⚠️ Warning: These commands modify Windows boot configuration. Changes may affect system stability and require administrator privileges. A system restart will be required for changes to take effect. Proceed only if you understand the implications.";
-            var result = MessageBox.Show(disclaimer + "\n\nRestore original configuration?", "Restore BCDEdit Tweaks", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            if (result != MessageBoxResult.Yes) return;
-
-            var progress = new ProgressWindow("Restoring BCDEdit configuration...");
-            progress.Show();
-
-            try
-            {
-                progress.UpdateStatus("Checking administrator privileges...");
-                progress.UpdateProgress(10);
-                if (!_powerShellService.IsAdministrator())
-                {
-                    progress.Close();
-                    MessageBox.Show("Administrator privileges are required to restore BCDEdit settings.", "Permission Required", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
-
-                var script = @"
-                    $commands = @(
-                        'bcdedit /deletevalue disabledynamictick',
-                        'bcdedit /deletevalue tscsyncpolicy',
-                        'bcdedit /deletevalue useplatformclock',
-                        'bcdedit /set hypervisorlaunchtype auto'
-                    )
-
-                    foreach ($cmd in $commands) {
-                        Start-Process cmd.exe -Verb RunAs -ArgumentList ('/c ' + $cmd) -WindowStyle Hidden -Wait
-                    }
-                ";
-
-                progress.UpdateStatus("Executing BCDEdit restore commands...");
-                progress.UpdateProgress(60);
-                var psResult = await _powerShellService.ExecuteScriptAsync(script);
-
-                progress.UpdateStatus("Finalizing...");
-                progress.UpdateProgress(90);
-                await Task.Delay(500);
-
-                progress.UpdateProgress(100);
-                progress.Close();
-
-                if (psResult.Success)
-                {
-                    MessageBox.Show("BCDEdit configuration restored. Please restart your computer for changes to take effect.", "Restored", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-                else
-                {
-                    MessageBox.Show($"Failed to restore BCDEdit settings.\n\nError: {psResult.Error}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
-            catch (Exception ex)
-            {
-                progress.Close();
-                MessageBox.Show($"An error occurred:\n\n{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
         private async void DismSfcRepair_Click(object sender, RoutedEventArgs e)
         {
-            var info = "ℹ️ System Repair Information:\n• If SFC finds and repairs files, it's recommended to restart and re-run: sfc /scannow\n• If DISM /RestoreHealth fails (e.g., Windows Update issues), use a mounted Windows ISO (assume drive X:) with install.wim:\n  DISM /Online /Cleanup-Image /RestoreHealth /Source:WIM:X:\\sources\\install.wim:1 /LimitAccess\n• If using install.esd instead of install.wim, replace 'WIM:' with 'ESD:' in the command\n• This process may take 15-30 minutes to complete";
-            var result = MessageBox.Show(info + "\n\nRun DISM + SFC now?", "DISM + SFC System Repair", MessageBoxButton.YesNo, MessageBoxImage.Information);
-            if (result != MessageBoxResult.Yes) return;
+            if (MessageBox.Show(
+                    "DISM and SFC can take 15–30 minutes. Run the verified repair sequence now?",
+                    "DISM + SFC System Repair",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Information) != MessageBoxResult.Yes)
+                return;
 
             var progress = new ProgressWindow("Running DISM + SFC repairs...");
             progress.Show();
+            progress.UpdateStatus("Running system repair commands. Do not close TweakHub...");
+            progress.UpdateProgress(10);
 
             try
             {
-                progress.UpdateStatus("Starting DISM /CheckHealth...");
-                progress.UpdateProgress(10);
                 var script = @"
                     $commands = @(
-                        'DISM /Online /Cleanup-Image /CheckHealth',
-                        'DISM /Online /Cleanup-Image /ScanHealth',
-                        'DISM /Online /Cleanup-Image /RestoreHealth',
-                        'sfc /scannow'
+                        @('DISM.exe', @('/Online', '/Cleanup-Image', '/CheckHealth')),
+                        @('DISM.exe', @('/Online', '/Cleanup-Image', '/ScanHealth')),
+                        @('DISM.exe', @('/Online', '/Cleanup-Image', '/RestoreHealth')),
+                        @('sfc.exe', @('/scannow'))
                     )
-
-                    foreach ($cmd in $commands) {
-                        Start-Process cmd.exe -Verb RunAs -ArgumentList ('/c ' + $cmd) -WindowStyle Hidden -Wait
+                    foreach ($command in $commands) {
+                        $executable = $command[0]
+                        $arguments = $command[1]
+                        & $executable @arguments
+                        if ($LASTEXITCODE -ne 0) { throw ""$executable failed with exit code $LASTEXITCODE"" }
                     }
                 ";
 
-                var step = 1;
-                foreach (var status in new[] {
-                    "Running DISM /CheckHealth...",
-                    "Running DISM /ScanHealth...",
-                    "Running DISM /RestoreHealth...",
-                    "Running SFC /scannow..."
-                })
-                {
-                    progress.UpdateStatus(status);
-                    progress.UpdateProgress(step * 25);
-                    step++;
-                    await Task.Delay(300);
-                }
-
-                var psResult = await _powerShellService.ExecuteScriptAsync(script);
-
-                progress.UpdateStatus("Finalizing...");
-                progress.UpdateProgress(95);
-                await Task.Delay(500);
-
+                var result = await _powerShellService.ExecuteScriptAsync(script);
+                var logPath = System.IO.Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                    "TweakHub",
+                    "dism-sfc-last.log");
+                System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(logPath)!);
+                await System.IO.File.WriteAllTextAsync(logPath, result.Output + Environment.NewLine + result.Error);
                 progress.UpdateProgress(100);
-                progress.Close();
 
-                if (psResult.Success)
-                {
-                    MessageBox.Show("DISM + SFC repair sequence completed. Review output in Event Viewer if needed. A restart is recommended.", "Repair Complete", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-                else
-                {
-                    MessageBox.Show($"DISM + SFC sequence failed.\n\nError: {psResult.Error}", "Repair Failed", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+                MessageBox.Show(
+                    result.Success
+                        ? $"Repair completed successfully. A restart is recommended.\n\nLog: {logPath}"
+                        : $"Repair failed with exit code {result.ExitCode}.\n\n{result.Error}\nLog: {logPath}",
+                    result.Success ? "Repair Complete" : "Repair Failed",
+                    MessageBoxButton.OK,
+                    result.Success ? MessageBoxImage.Information : MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.Message, "Repair Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
                 progress.Close();
-                MessageBox.Show($"An error occurred:\n\n{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -661,168 +523,6 @@ sfc /scannow";
             ToggleInlinePreview("DismPreviewPanel", "DismPreviewText", content);
         }
 
-        private void MouseTweaks_View_Click(object sender, RoutedEventArgs e)
-        {
-            var content = @"# 8K Mouse Tweaks
-# Optimizes mouse polling and USB settings for reduced input latency
-
-# BCDEdit timing tweaks
-bcdedit /set useplatformtick yes
-bcdedit /set disabledynamictick yes
-bcdedit /set useplatformclock true
-
-# Disable USB selective suspend
-REG ADD ""HKLM\SYSTEM\CurrentControlSet\Services\USB"" /v DisableSelectiveSuspend /t REG_DWORD /d 1 /f
-
-# USB XHCI idle settings
-REG ADD ""HKLM\SYSTEM\CurrentControlSet\Services\USBXHCI\Parameters"" /v IdleInterval /t REG_DWORD /d 0 /f
-REG ADD ""HKLM\SYSTEM\CurrentControlSet\Services\USBXHCI\Parameters"" /v IdleTimeout /t REG_DWORD /d 0 /f
-
-# HID USB idle timeout
-REG ADD ""HKLM\SYSTEM\CurrentControlSet\Services\HidUsb\Parameters"" /v IdleUsbSelectiveSuspendTimeout /t REG_DWORD /d 0 /f
-
-# Note: Restart required for changes to take effect";
-            ToggleInlinePreview("MouseTweaksPreviewPanel", "MouseTweaksPreviewText", content);
-        }
-
-        private async void MouseTweaksApply_Click(object sender, RoutedEventArgs e)
-        {
-            var disclaimer = "This will apply 8K Mouse Tweaks to optimize mouse polling and USB settings for reduced input latency.\n\nChanges include:\n• BCDEdit timing optimizations\n• USB selective suspend disabled\n• USB idle timeouts set to zero\n\nA system restart will be required for changes to take effect.\n\nContinue?";
-            var result = MessageBox.Show(disclaimer, "8K Mouse Tweaks", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (result != MessageBoxResult.Yes) return;
-
-            var progress = new ProgressWindow("Applying 8K Mouse Tweaks...");
-            progress.Show();
-
-            try
-            {
-                progress.UpdateStatus("Checking administrator privileges...");
-                progress.UpdateProgress(10);
-                if (!_powerShellService.IsAdministrator())
-                {
-                    progress.Close();
-                    MessageBox.Show("Administrator privileges are required to apply mouse tweaks.", "Permission Required", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
-
-                var script = @"
-                    $commands = @(
-                        'bcdedit /set useplatformtick yes',
-                        'bcdedit /set disabledynamictick yes',
-                        'bcdedit /set useplatformclock true'
-                    )
-
-                    foreach ($cmd in $commands) {
-                        Start-Process cmd.exe -Verb RunAs -ArgumentList ('/c ' + $cmd) -WindowStyle Hidden -Wait
-                    }
-
-                    # Registry tweaks
-                    reg add ""HKLM\SYSTEM\CurrentControlSet\Services\USB"" /v DisableSelectiveSuspend /t REG_DWORD /d 1 /f
-                    reg add ""HKLM\SYSTEM\CurrentControlSet\Services\USBXHCI\Parameters"" /v IdleInterval /t REG_DWORD /d 0 /f
-                    reg add ""HKLM\SYSTEM\CurrentControlSet\Services\USBXHCI\Parameters"" /v IdleTimeout /t REG_DWORD /d 0 /f
-                    reg add ""HKLM\SYSTEM\CurrentControlSet\Services\HidUsb\Parameters"" /v IdleUsbSelectiveSuspendTimeout /t REG_DWORD /d 0 /f
-                ";
-
-                progress.UpdateStatus("Applying BCDEdit commands...");
-                progress.UpdateProgress(40);
-                await Task.Delay(300);
-
-                progress.UpdateStatus("Applying registry tweaks...");
-                progress.UpdateProgress(70);
-                var psResult = await _powerShellService.ExecuteScriptAsync(script);
-
-                progress.UpdateStatus("Finalizing...");
-                progress.UpdateProgress(90);
-                await Task.Delay(500);
-
-                progress.UpdateProgress(100);
-                progress.Close();
-
-                if (psResult.Success)
-                {
-                    MessageBox.Show("8K Mouse Tweaks applied successfully!\n\nPlease restart your computer for changes to take effect.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-                else
-                {
-                    MessageBox.Show($"Failed to apply mouse tweaks.\n\nError: {psResult.Error}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
-            catch (Exception ex)
-            {
-                progress.Close();
-                MessageBox.Show($"An error occurred:\n\n{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
-        private async void MouseTweaksRestore_Click(object sender, RoutedEventArgs e)
-        {
-            var disclaimer = "This will restore the original mouse and USB settings.\n\nA system restart will be required for changes to take effect.\n\nContinue?";
-            var result = MessageBox.Show(disclaimer, "Restore Mouse Tweaks", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (result != MessageBoxResult.Yes) return;
-
-            var progress = new ProgressWindow("Restoring mouse settings...");
-            progress.Show();
-
-            try
-            {
-                progress.UpdateStatus("Checking administrator privileges...");
-                progress.UpdateProgress(10);
-                if (!_powerShellService.IsAdministrator())
-                {
-                    progress.Close();
-                    MessageBox.Show("Administrator privileges are required to restore mouse settings.", "Permission Required", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
-
-                var script = @"
-                    $commands = @(
-                        'bcdedit /deletevalue useplatformtick',
-                        'bcdedit /deletevalue disabledynamictick',
-                        'bcdedit /deletevalue useplatformclock'
-                    )
-
-                    foreach ($cmd in $commands) {
-                        Start-Process cmd.exe -Verb RunAs -ArgumentList ('/c ' + $cmd) -WindowStyle Hidden -Wait
-                    }
-
-                    # Remove registry tweaks
-                    reg delete ""HKLM\SYSTEM\CurrentControlSet\Services\USB"" /v DisableSelectiveSuspend /f 2>$null
-                    reg delete ""HKLM\SYSTEM\CurrentControlSet\Services\USBXHCI\Parameters"" /v IdleInterval /f 2>$null
-                    reg delete ""HKLM\SYSTEM\CurrentControlSet\Services\USBXHCI\Parameters"" /v IdleTimeout /f 2>$null
-                    reg delete ""HKLM\SYSTEM\CurrentControlSet\Services\HidUsb\Parameters"" /v IdleUsbSelectiveSuspendTimeout /f 2>$null
-                ";
-
-                progress.UpdateStatus("Restoring BCDEdit settings...");
-                progress.UpdateProgress(40);
-                await Task.Delay(300);
-
-                progress.UpdateStatus("Removing registry tweaks...");
-                progress.UpdateProgress(70);
-                var psResult = await _powerShellService.ExecuteScriptAsync(script);
-
-                progress.UpdateStatus("Finalizing...");
-                progress.UpdateProgress(90);
-                await Task.Delay(500);
-
-                progress.UpdateProgress(100);
-                progress.Close();
-
-                if (psResult.Success)
-                {
-                    MessageBox.Show("Mouse settings restored successfully!\n\nPlease restart your computer for changes to take effect.", "Restored", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-                else
-                {
-                    MessageBox.Show($"Failed to restore mouse settings.\n\nError: {psResult.Error}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
-            catch (Exception ex)
-            {
-                progress.Close();
-                MessageBox.Show($"An error occurred:\n\n{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
         private void CopyScript_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button btn && btn.Tag is TextBox tb)
@@ -831,223 +531,5 @@ REG ADD ""HKLM\SYSTEM\CurrentControlSet\Services\HidUsb\Parameters"" /v IdleUsbS
             }
         }
 
-        private void SpectreDisable_View_Click(object sender, RoutedEventArgs e)
-        {
-            var content = @"# Disable Spectre and Meltdown Mitigations
-# WARNING: This reduces security! Only for isolated/gaming systems.
-
-# Disable CPU mitigations via registry
-reg add ""HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management"" /v FeatureSettingsOverride /t REG_DWORD /d 3 /f
-reg add ""HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management"" /v FeatureSettingsOverrideMask /t REG_DWORD /d 3 /f
-
-# Disable Hyper-V to reduce overhead
-bcdedit /set hypervisorlaunchtype off
-
-# Note: Restart required for changes to take effect";
-            ToggleInlinePreview("SpectrePreviewPanel", "SpectrePreviewText", content);
-        }
-
-        private async void SpectreDisable_Click(object sender, RoutedEventArgs e)
-        {
-            var disclaimer = @"⚠️⚠️⚠️ CRITICAL SECURITY WARNING ⚠️⚠️⚠️
-
-This will DISABLE Spectre and Meltdown CPU vulnerability mitigations!
-
-RISKS:
-• Your system will be vulnerable to known CPU security exploits
-• Malicious code could potentially read sensitive memory data
-• NOT recommended for systems with internet access
-• NOT recommended for systems with sensitive data
-
-BENEFITS:
-• Potential 5-15% performance improvement in some workloads
-• Reduced CPU overhead
-
-This should ONLY be used on:
-• Isolated gaming systems
-• Systems without sensitive data
-• Systems not connected to untrusted networks
-
-A SYSTEM RESTART WILL BE REQUIRED.
-
-Are you ABSOLUTELY SURE you want to proceed?";
-
-            var result = MessageBox.Show(
-                disclaimer,
-                "Disable Spectre/Meltdown - SECURITY WARNING",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Warning);
-
-            if (result != MessageBoxResult.Yes) return;
-
-            // Second confirmation
-            var confirmResult = MessageBox.Show(
-                "Final confirmation: This will reduce your system's security.\n\nProceed with disabling mitigations?",
-                "Final Confirmation",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Stop);
-
-            if (confirmResult != MessageBoxResult.Yes) return;
-
-            var progress = new ProgressWindow("Disabling Spectre/Meltdown mitigations...");
-            progress.Show();
-
-            try
-            {
-                progress.UpdateStatus("Checking administrator privileges...");
-                progress.UpdateProgress(10);
-
-                if (!_powerShellService.IsAdministrator())
-                {
-                    progress.Close();
-                    MessageBox.Show(
-                        "Administrator privileges are required to disable mitigations.",
-                        "Permission Required",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Error);
-                    return;
-                }
-
-                progress.UpdateStatus("Modifying registry settings...");
-                progress.UpdateProgress(40);
-
-                var script = @"
-                    # Disable CPU vulnerability mitigations
-                    reg add ""HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management"" /v FeatureSettingsOverride /t REG_DWORD /d 3 /f
-                    reg add ""HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management"" /v FeatureSettingsOverrideMask /t REG_DWORD /d 3 /f
-                    
-                    # Disable Hyper-V
-                    Start-Process cmd.exe -Verb RunAs -ArgumentList '/c bcdedit /set hypervisorlaunchtype off' -WindowStyle Hidden -Wait
-                ";
-
-                progress.UpdateStatus("Applying changes...");
-                progress.UpdateProgress(70);
-
-                var psResult = await _powerShellService.ExecuteScriptAsync(script);
-
-                progress.UpdateStatus("Finalizing...");
-                progress.UpdateProgress(90);
-                await Task.Delay(500);
-
-                progress.UpdateProgress(100);
-                progress.Close();
-
-                if (psResult.Success)
-                {
-                    MessageBox.Show(
-                        "Spectre and Meltdown mitigations have been DISABLED.\n\n" +
-                        "⚠️ Your system security has been reduced!\n\n" +
-                        "Please restart your computer for changes to take effect.",
-                        "Mitigations Disabled",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Warning);
-                }
-                else
-                {
-                    MessageBox.Show(
-                        $"Failed to disable mitigations.\n\nError: {psResult.Error}",
-                        "Error",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Error);
-                }
-            }
-            catch (Exception ex)
-            {
-                progress.Close();
-                MessageBox.Show(
-                    $"An error occurred:\n\n{ex.Message}",
-                    "Error",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
-            }
-        }
-
-        private async void SpectreEnable_Click(object sender, RoutedEventArgs e)
-        {
-            var info = "This will RE-ENABLE Spectre and Meltdown CPU vulnerability mitigations.\n\n" +
-                       "Your system security will be restored to normal levels.\n\n" +
-                       "A system restart will be required.\n\n" +
-                       "Continue?";
-
-            var result = MessageBox.Show(
-                info,
-                "Enable Spectre/Meltdown Mitigations",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question);
-
-            if (result != MessageBoxResult.Yes) return;
-
-            var progress = new ProgressWindow("Re-enabling Spectre/Meltdown mitigations...");
-            progress.Show();
-
-            try
-            {
-                progress.UpdateStatus("Checking administrator privileges...");
-                progress.UpdateProgress(10);
-
-                if (!_powerShellService.IsAdministrator())
-                {
-                    progress.Close();
-                    MessageBox.Show(
-                        "Administrator privileges are required to enable mitigations.",
-                        "Permission Required",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Error);
-                    return;
-                }
-
-                progress.UpdateStatus("Restoring registry settings...");
-                progress.UpdateProgress(40);
-
-                var script = @"
-                    # Remove custom mitigation settings (restore defaults)
-                    reg delete ""HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management"" /v FeatureSettingsOverride /f 2>$null
-                    reg delete ""HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management"" /v FeatureSettingsOverrideMask /f 2>$null
-                    
-                    # Re-enable Hyper-V to auto
-                    Start-Process cmd.exe -Verb RunAs -ArgumentList '/c bcdedit /set hypervisorlaunchtype auto' -WindowStyle Hidden -Wait
-                ";
-
-                progress.UpdateStatus("Applying changes...");
-                progress.UpdateProgress(70);
-
-                var psResult = await _powerShellService.ExecuteScriptAsync(script);
-
-                progress.UpdateStatus("Finalizing...");
-                progress.UpdateProgress(90);
-                await Task.Delay(500);
-
-                progress.UpdateProgress(100);
-                progress.Close();
-
-                if (psResult.Success)
-                {
-                    MessageBox.Show(
-                        "Spectre and Meltdown mitigations have been RE-ENABLED.\n\n" +
-                        "✅ Your system security has been restored!\n\n" +
-                        "Please restart your computer for changes to take effect.",
-                        "Mitigations Enabled",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Information);
-                }
-                else
-                {
-                    MessageBox.Show(
-                        $"Failed to enable mitigations.\n\nError: {psResult.Error}",
-                        "Error",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Error);
-                }
-            }
-            catch (Exception ex)
-            {
-                progress.Close();
-                MessageBox.Show(
-                    $"An error occurred:\n\n{ex.Message}",
-                    "Error",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
-            }
-        }
     }
 }
