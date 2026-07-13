@@ -42,8 +42,8 @@
         <Border Grid.Row="1" Padding="24" CornerRadius="12"
                 Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
             <StackPanel>
-                <TextBlock Text="TweakHub v0.1.0-beta" FontSize="20" FontWeight="SemiBold" Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
-                <TextBlock Text="© 2025 Prime Build" Margin="0,4,0,14" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+                <TextBlock x:Name="VersionText" FontSize="20" FontWeight="SemiBold" Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                <TextBlock Text="© 2025–2026 Prime Build" Margin="0,4,0,14" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
 
                 <TextBlock Text="License: MIT License" Margin="0,0,0,6" Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
                 <TextBlock Margin="0,0,0,14" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}">

@@ -14,7 +14,6 @@ namespace TweakHub.Services
         public PowerShellResult ExecuteScript(string script) =>
             ExecuteScriptAsync(script).GetAwaiter().GetResult();
 
-        public PowerShellResult ExecuteCommand(string command) => ExecuteScript(command);
 
         public async Task<PowerShellResult> ExecuteScriptAsync(
             string script,
@@ -55,7 +54,10 @@ namespace TweakHub.Services
 
                 try
                 {
-                    await process.WaitForExitAsync(linkedSource.Token);
+                    if (elevated)
+                        await process.WaitForExitAsync();
+                    else
+                        await process.WaitForExitAsync(linkedSource.Token);
                 }
                 catch (OperationCanceledException)
                 {
@@ -97,7 +99,6 @@ namespace TweakHub.Services
             }
         }
 
-        public bool IsAdministrator() => Elevation.IsAdministrator;
 
         private static ProcessStartInfo CreateStartInfo(string scriptPath)
         {

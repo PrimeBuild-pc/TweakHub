@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Net.Http;
+using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -14,8 +15,11 @@ namespace TweakHub.Views
 {
     public partial class AboutPage : Page
     {
-        private const string CurrentVersion = "0.1.0-beta";
-        private const string GitHubApiUrl = "https://api.github.com/repos/PrimeBuild-pc/TweakHub/releases/latest";
+        private static readonly string CurrentVersion =
+            typeof(AboutPage).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0]
+            ?? typeof(AboutPage).Assembly.GetName().Version?.ToString(3)
+            ?? "unknown";
+        private const string GitHubApiUrl = "https://api.github.com/repos/PrimeBuild-pc/TweakHub/releases?per_page=10";
 
         private static readonly HttpClient _httpClient = new HttpClient();
 
@@ -27,6 +31,7 @@ namespace TweakHub.Views
         public AboutPage()
         {
             InitializeComponent();
+            VersionText.Text = $"TweakHub v{CurrentVersion}";
         }
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
@@ -48,7 +53,7 @@ namespace TweakHub.Views
             try
             {
                 var response = await _httpClient.GetStringAsync(GitHubApiUrl);
-                var release = JsonSerializer.Deserialize<GitHubRelease>(response);
+                var release = JsonSerializer.Deserialize<List<GitHubRelease>>(response)?.FirstOrDefault(item => !item.Draft);
 
                 if (release == null || string.IsNullOrEmpty(release.TagName))
                 {
@@ -93,20 +98,21 @@ namespace TweakHub.Views
             StyledMessageDialog.ShowOk(ownerWindow, "Check for Updates", "Unable to check for updates. Please check your internet connection.");
         }
 
-        private bool CompareVersions(string current, string latest)
+        private static bool CompareVersions(string current, string latest)
         {
-            // Strip suffixes like "-beta" for comparison
-            var currentClean = current.Split('-')[0];
-            var latestClean = latest.Split('-')[0];
+            var currentParts = current.Split('-', 2);
+            var latestParts = latest.Split('-', 2);
+            if (!Version.TryParse(currentParts[0], out var currentVersion) ||
+                !Version.TryParse(latestParts[0], out var latestVersion))
+                return string.Compare(latest, current, StringComparison.OrdinalIgnoreCase) > 0;
 
-            if (Version.TryParse(currentClean, out var currentVer) &&
-                Version.TryParse(latestClean, out var latestVer))
-            {
-                return latestVer > currentVer;
-            }
+            var comparison = latestVersion.CompareTo(currentVersion);
+            if (comparison != 0) return comparison > 0;
 
-            // Fallback: string comparison
-            return string.Compare(latestClean, currentClean, StringComparison.OrdinalIgnoreCase) > 0;
+            var currentPrerelease = currentParts.Length == 2;
+            var latestPrerelease = latestParts.Length == 2;
+            if (currentPrerelease != latestPrerelease) return currentPrerelease && !latestPrerelease;
+            return currentPrerelease && string.Compare(latestParts[1], currentParts[1], StringComparison.OrdinalIgnoreCase) > 0;
         }
 
         private class GitHubRelease
@@ -116,6 +122,9 @@ namespace TweakHub.Views
 
             [JsonPropertyName("html_url")]
             public string HtmlUrl { get; set; } = string.Empty;
+
+            [JsonPropertyName("draft")]
+            public bool Draft { get; set; }
         }
     }
 }

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:TweakHub"
         xmlns:ui="http://schemas.modernwpf.com/2019"
         mc:Ignorable="d"
-        Title="TweakHub - Windows 11 Performance Optimizer"
+        Title="TweakHub - Windows 11 Tweak Utility"
         Height="900" Width="1400"
         MinHeight="700" MinWidth="1200"
         WindowStartupLocation="CenterScreen"

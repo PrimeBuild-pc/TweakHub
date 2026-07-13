@@ -30,5 +30,16 @@ public class TweakCatalogueTests
             "optimize_visual_effects"
         }));
         Assert.That(tweaks, Has.All.Property("IsAvailable").True);
+        Assert.That(
+            tweaks.Where(tweak => new[]
+            {
+                "cpu_priority_separation",
+                "disable_cpu_throttling",
+                "disable_core_parking",
+                "high_performance_power_plan",
+                "optimize_network_throttling",
+                "disable_windows_search"
+            }.Contains(tweak.Id)),
+            Has.All.Property("RiskLevel").GreaterThanOrEqualTo(3));
     }
 }

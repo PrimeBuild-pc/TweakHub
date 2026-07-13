@@ -1,5 +1,5 @@
 #define MyAppName "TweakHub"
-#define MyAppVersion "0.1.0-beta"
+#define MyAppVersion GetStringFileInfo("..\publish-standalone\TweakHub.exe", "ProductVersion")
 #define MyAppPublisher "PrimeBuild-pc"
 #define MyAppExeName "TweakHub.exe"
 
@@ -29,7 +29,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "Create a &desktop icon"; GroupDescription: "Additional icons:"; Flags: unchecked
 
 [Files]
-Source: "..\publish\win-x64\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\publish-standalone\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"

@@ -647,10 +647,6 @@ namespace TweakHub.Views
 
                 var result = await _powerShellService.ExecuteScriptAsync(script, requireAdministrator: true, timeout: TimeSpan.FromMinutes(5));
 
-                progress.UpdateStatus("Finalizing...");
-                progress.UpdateProgress(90);
-                await Task.Delay(500);
-
                 progress.UpdateProgress(100);
                 progress.Close();
 
@@ -690,10 +686,6 @@ namespace TweakHub.Views
                 progress.UpdateStatus("Restoring...");
                 progress.UpdateProgress(20);
                 var (restored, failed) = await _tweakService.RestoreAllTweaksAsync();
-
-                progress.UpdateStatus("Finalizing...");
-                progress.UpdateProgress(90);
-                await Task.Delay(300);
 
                 progress.UpdateProgress(100);
                 progress.Close();

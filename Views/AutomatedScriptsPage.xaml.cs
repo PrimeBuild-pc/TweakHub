@@ -193,7 +193,7 @@ namespace TweakHub.Views
                 using var cancellation = new CancellationTokenSource();
                 _runningScripts[script.Id] = cancellation;
                 execBtn.IsEnabled = false;
-                cancelBtn.Visibility = Visibility.Visible;
+                cancelBtn.Visibility = script.RequiresAdministrator ? Visibility.Collapsed : Visibility.Visible;
                 try { await ExecuteCustomScript(script, cancellation.Token); }
                 finally
                 {

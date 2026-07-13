@@ -73,7 +73,7 @@ namespace TweakHub.Services
                 EnabledValue = 0x26,
                 DisabledValue = null,
                 Category = "CPU & Processor Optimization",
-                RiskLevel = 2
+                RiskLevel = 3
             });
 
             category.Tweaks.Add(new PerformanceTweak
@@ -115,7 +115,7 @@ namespace TweakHub.Services
                 EnabledValue = "8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c", // High Performance GUID
                 DisabledValue = "381b4222-f694-41f0-9685-ff5bb260df2e", // Balanced GUID
                 Category = "CPU & Processor Optimization",
-                RiskLevel = 2
+                RiskLevel = 3
             });
 
             TweakCategories.Add(category);
@@ -141,7 +141,7 @@ namespace TweakHub.Services
                 EnabledValue = -1,
                 DisabledValue = null,
                 Category = "Network Latency Reduction",
-                RiskLevel = 2
+                RiskLevel = 3
             });
 
             TweakCategories.Add(category);

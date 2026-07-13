@@ -1,91 +1,72 @@
 <div align="center">
 
-# 🚀 TweakHub <sup><kbd>PUBLIC BETA</kbd></sup>
+# TweakHub
 
-### *The Command Center for Windows Tweakers*
+A focused Windows 11 tweak and maintenance utility.
 
-[![Status](https://img.shields.io/badge/Status-Public%20Beta-orange.svg)]()
-[![License](https://img.shields.io/badge/License-MIT-orange.svg)](LICENSE)
-[![.NET](https://img.shields.io/badge/.NET-8.0-orange.svg)](https://dotnet.microsoft.com/)
-[![Platform](https://img.shields.io/badge/Platform-Windows%2011-orange.svg)](https://www.microsoft.com/windows/)
-[![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen.svg)](https://github.com/yourusername/tweakhub)
+[![Release](https://img.shields.io/github/v/release/PrimeBuild-pc/TweakHub?include_prereleases)](https://github.com/PrimeBuild-pc/TweakHub/releases)
+[![CI](https://github.com/PrimeBuild-pc/TweakHub/actions/workflows/release-beta.yml/badge.svg)](https://github.com/PrimeBuild-pc/TweakHub/actions/workflows/release-beta.yml)
+[![.NET](https://img.shields.io/badge/.NET-10.0-purple)](https://dotnet.microsoft.com/)
+[![License](https://img.shields.io/badge/license-MIT-orange)](LICENSE)
 
-**TweakHub** is a modern command center for Windows 11 that curates and launches the best optimization tools and advanced tweaks—helping you unlock your system’s full potential. It centralizes, secures, and streamlines everything in one clean interface.
-
-[🔥 **Download Latest Release**](https://github.com/PrimeBuild-pc/TweakHub/releases/tag/v1.0.0) • [📖 **Documentation**](#-documentation) • [🤝 **Contributing**](#-contributing-to-tweakhub)
-
-> [!WARNING]
-> **Public Beta:** The project is actively testing. Bugs and rapid changes are possible. Please back up before applying changes.
+[Download the latest beta](https://github.com/PrimeBuild-pc/TweakHub/releases)
 
 </div>
 
----
+> [!WARNING]
+> TweakHub is beta software that changes Windows settings. Review every preview and create a restore point before applying changes.
 
-<img width="1379" height="889" alt="image" src="https://github.com/user-attachments/assets/a88a85e0-6695-449f-bcc3-10eb8b890b08" />
+## What it does
 
-## 📦 **Installation & Quick Start**
+- Applies a small, curated set of Windows 11 Registry and power-plan tweaks.
+- Captures original values before every change and restores them after an app restart.
+- Validates and logs Registry and power operations.
+- Creates, imports, exports and runs PowerShell or CMD scripts with optional elevation, timeout and cancellation.
+- Runs verified DISM and SFC repair commands.
+- Installs a curated tool catalogue through exact Winget package IDs or opens official HTTPS pages.
+- Opens common Windows administration utilities.
 
-### 🚀 **Option 1: Ready-to-Run Executable** *(Recommended)*
+TweakHub supports Windows 11 build 22000 or newer. It runs as the current user and requests administrator privileges only for operations that require them.
 
-```bash
-# 1. Download the latest release
-wget https://github.com/PrimeBuild-pc/TweakHub/releases/download/v1.0.0/TweakHub-v1.0.0-win-x64-portable.zip
+## Install
 
-# 2. Extract to your preferred location
-unzip TweakHub.zip -d "C:\\Tools\\TweakHub"
+Download either the installer or portable archive from [GitHub Releases](https://github.com/PrimeBuild-pc/TweakHub/releases). Public beta builds may be unsigned and can trigger a Microsoft Defender SmartScreen warning.
 
-# 3. Run as Administrator
-# Right-click TweakHub.exe → "Run as administrator"
+## Build from source
+
+Requirements: Windows 11 and the .NET 10 SDK.
+
+```powershell
+git clone https://github.com/PrimeBuild-pc/TweakHub.git
+cd TweakHub
+dotnet restore TweakHub.sln
+dotnet build TweakHub.sln -c Release --no-restore
+dotnet test TweakHub.Tests/TweakHub.Tests.csproj -c Release --no-build --no-restore
+dotnet publish TweakHub.csproj -c Release -r win-x64 --self-contained true -o publish-standalone
 ```
 
-### 🛠️ **Option 2: Build from Source**
+## Local data
 
-```bash
-# Prerequisites: .NET 8.0 SDK
-git clone https://github.com/yourusername/tweakhub.git
-cd tweakhub
+TweakHub stores scripts, favorites, persistent backups and operation logs under:
 
-# Build and publish
-dotnet build --configuration Release
-dotnet publish --configuration Release --self-contained true --runtime win-x64 --output ./publish
-
-# Run the application
-cd publish
-./TweakHub.exe
+```text
+%AppData%\TweakHub
 ```
 
----
+Important files:
 
-## 📜 **License & Legal**
+- `registry-backup.json`: outstanding Registry rollback data.
+- `power-backup.json`: original power settings and active plan.
+- `operations.jsonl`: operation audit log.
+- `custom-scripts.json`: custom scripts.
+- `custom-tweaks.json`: custom Registry entries.
 
-### 📄 **MIT License**
+Do not delete backup files before restoring outstanding changes.
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+## Release process
 
-### ⚠️ **Important Disclaimer**
+A `vX.Y.Z-beta` tag matching the project `Version` runs restore, build, tests, self-contained publish, portable archive creation and installer creation. Generated binaries belong in GitHub Releases, not in Git.
 
-> **🚨 CRITICAL NOTICE**: TweakHub modifies Windows registry settings and system configurations. While all tweaks are carefully selected, tested, and rated for safety, system modifications always carry inherent risks.
+## License
 
-#### 🛡️ **Safety Recommendations**
-
-* ✅ **Always run as Administrator** for proper functionality
-* ✅ **Create system restore points** before making changes
-* ✅ **Use built-in backup functionality** for registry changes
-* ✅ **Understand each tweak** before applying it
-* ✅ **Test on non-critical systems** first
-
-#### 📋 **Liability**
-
-The developers provide this software "as-is" without warranty. Users assume full responsibility for any system changes. We recommend thorough testing and understanding of each modification.
-
----
-
-## 💖 Support the project
-
-Do you like this tool? Buy me a coffee ☕:
-
-[![PayPal](https://img.shields.io/badge/Supporta%20su-PayPal-blue?logo=paypal)](https://paypal.me/PrimeBuildOfficial?country.x=IT&locale.x=it_IT)
-
-**Made with ❤️ and ☕ by the TweakHub Team**
-
-*Optimize your Windows 11 experience with confidence.*
+[MIT](LICENSE) — provided as-is, without warranty.

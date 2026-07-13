@@ -128,8 +128,6 @@ namespace TweakHub.Services
         public bool HasBackup(string keyPath, string valueName) =>
             _backups.ContainsKey(BackupKey(keyPath, valueName));
 
-        public bool RestoreTweak(PerformanceTweak tweak) =>
-            RestoreRegistryValue(tweak.RegistryPath, tweak.RegistryKey);
 
         public bool RestoreRegistryValue(string keyPath, string valueName)
         {

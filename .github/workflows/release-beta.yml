@@ -8,7 +8,7 @@ on:
     inputs:
       tag:
         description: "Tag name to release (e.g. v1.2.3-beta1)"
-        required: false
+        required: true
 
 permissions:
   contents: write
@@ -17,7 +17,7 @@ jobs:
   build-and-release:
     runs-on: windows-2022
     env:
-      DOTNET_VERSION: "8.0.x"
+      DOTNET_VERSION: "10.0.x"
       CONFIGURATION: Release
       RUNTIME: win-x64
       OUTPUT_DIR: publish-standalone
@@ -30,6 +30,23 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Determine and validate tag
+        id: tag
+        shell: pwsh
+        run: |
+          $tag = "${{ github.event.inputs.tag }}"
+          if ([string]::IsNullOrWhiteSpace($tag) -and "${{ github.ref_type }}" -eq "tag") {
+            $tag = "${{ github.ref_name }}"
+          }
+          if ([string]::IsNullOrWhiteSpace($tag)) {
+            Write-Error "No release tag found."
+          }
+          $version = dotnet msbuild ./TweakHub.csproj -getProperty:Version --nologo
+          if ($tag.TrimStart('v') -ne $version.Trim()) {
+            Write-Error "Tag $tag does not match project version $version."
+          }
+          echo "tag=$tag" >> $Env:GITHUB_OUTPUT
 
       - name: Restore
         run: dotnet restore ./TweakHub.sln
@@ -47,23 +64,18 @@ jobs:
       - name: Archive portable zip
         shell: pwsh
         run: |
-          $zip = "dist/TweakHub-${{ env.RUNTIME }}-portable.zip"
+          $zip = "dist/TweakHub-${{ steps.tag.outputs.tag }}-${{ env.RUNTIME }}-portable.zip"
           New-Item -ItemType Directory -Force -Path dist | Out-Null
-          If (Test-Path $zip) { Remove-Item $zip -Force }
           Compress-Archive -Path "${{ env.OUTPUT_DIR }}/*" -DestinationPath $zip
 
-      - name: Determine tag
-        id: tag
+      - name: Build installer
         shell: pwsh
         run: |
-          $tag = "${{ github.ref_name }}"
-          if ([string]::IsNullOrWhiteSpace($tag)) {
-            $tag = "${{ github.event.inputs.tag }}"
+          $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
+          if (!(Test-Path $iscc)) {
+            choco install innosetup --no-progress -y
           }
-          if ([string]::IsNullOrWhiteSpace($tag)) {
-            Write-Error "No tag found. Provide one via workflow_dispatch input."
-          }
-          echo "tag=$tag" >> $Env:GITHUB_OUTPUT
+          & $iscc "installer\TweakHub.iss"
 
       - name: Create GitHub Release (prerelease)
         uses: softprops/action-gh-release@v2
@@ -73,6 +85,7 @@ jobs:
           prerelease: true
           draft: false
           files: |
-            dist/TweakHub-${{ env.RUNTIME }}-portable.zip
+            dist/TweakHub-${{ steps.tag.outputs.tag }}-${{ env.RUNTIME }}-portable.zip
+            installer/Output/*.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
