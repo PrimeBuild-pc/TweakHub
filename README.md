@@ -23,7 +23,9 @@ A focused Windows 11 tweak and maintenance utility.
 - Validates and logs Registry and power operations.
 - Creates, imports, exports and runs PowerShell or CMD scripts with optional elevation, timeout and cancellation.
 - Runs verified DISM and SFC repair commands.
-- Installs a categorized advanced-tool catalogue through exact Winget package IDs or opens curated HTTPS pages.
+- Installs a categorized advanced-tool catalogue and lets power users add custom Winget, HTTPS or confirmed PowerShell cards.
+- Exports/imports custom tools, scripts, Registry entries, favorites and appearance as one JSON profile.
+- Includes conservative Windows Update controls with persistent rollback and restart indicators.
 - Follows Windows appearance by default, with optional theme, accent and transparency overrides.
 - Checks for updates at startup and can download, verify and install a release after confirmation.
 - Opens common Windows administration utilities.
@@ -32,7 +34,7 @@ TweakHub supports Windows 11 build 22000 or newer. It runs as the current user a
 
 ## Install
 
-Download either the installer or portable archive from [GitHub Releases](https://github.com/PrimeBuild-pc/TweakHub/releases). Later releases can be installed from the in-app update prompt after SHA-256 verification. Public beta builds may be unsigned and can trigger a Microsoft Defender SmartScreen warning.
+Download either the installer or portable archive from [GitHub Releases](https://github.com/PrimeBuild-pc/TweakHub/releases). The portable archive contains `portable.flag`, so configuration and rollback data stay in its `Data` folder and travel with the complete application folder. Later releases can be installed from the in-app update prompt after SHA-256 verification. Public beta builds may be unsigned and can trigger a Microsoft Defender SmartScreen warning.
 
 ## Build from source
 
@@ -49,11 +51,7 @@ dotnet publish TweakHub.csproj -c Release -r win-x64 --self-contained true -o pu
 
 ## Local data
 
-TweakHub stores scripts, favorites, persistent backups and operation logs under:
-
-```text
-%AppData%\TweakHub
-```
+Installed builds store scripts, favorites, persistent backups and operation logs under `%AppData%\TweakHub`. Portable builds store them under `Data` beside the application files.
 
 Important files:
 
@@ -62,6 +60,10 @@ Important files:
 - `operations.jsonl`: operation audit log.
 - `custom-scripts.json`: custom scripts.
 - `custom-tweaks.json`: custom Registry entries.
+- `custom-tools.json`: user-created external-tool cards.
+- `appearance.json`: theme, accent and transparency preferences.
+
+Use **About & Settings → Portable configuration** to move the complete user profile as one `.tweakhub.json` file. Machine-specific rollback backups are intentionally excluded.
 
 Do not delete backup files before restoring outstanding changes.
 

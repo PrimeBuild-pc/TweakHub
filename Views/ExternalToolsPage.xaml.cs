@@ -14,6 +14,7 @@ namespace TweakHub.Views
         private readonly ShortcutService _shortcutService;
         private readonly ToolDownloadService _downloadService;
         private string _searchQuery = string.Empty;
+        private bool _favoritesOnly;
 
         public ExternalToolsPage()
         {
@@ -40,11 +41,7 @@ namespace TweakHub.Views
 
             try
             {
-                // Ensure service is initialized before loading
-                if (_shortcutService.ExternalTools.Count == 0)
-                {
-                    _shortcutService.Initialize();
-                }
+                _shortcutService.Initialize();
                 LoadExternalTools();
             }
             catch (Exception ex)
@@ -60,7 +57,7 @@ namespace TweakHub.Views
 
             // Favorites pseudo-category at top
             var favorites = _shortcutService.ExternalTools.Where(t => t.IsFavorite).OrderBy(t => t.Name).ToList();
-            if (favorites.Any())
+            if (!_favoritesOnly && favorites.Any())
             {
                 var favExpander = new Expander
                 {
@@ -79,6 +76,7 @@ namespace TweakHub.Views
             }
 
             IEnumerable<ExternalTool> toolSource = _shortcutService.ExternalTools;
+            if (_favoritesOnly) toolSource = toolSource.Where(tool => tool.IsFavorite);
             if (!string.IsNullOrWhiteSpace(_searchQuery))
             {
                 toolSource = toolSource.Where(t => t.Name.Contains(_searchQuery, StringComparison.OrdinalIgnoreCase)
@@ -305,7 +303,7 @@ namespace TweakHub.Views
                 ((TextBlock)favBtn.Content).Text = tool.IsFavorite ? "★" : "☆";
                 favBtn.ToolTip = tool.IsFavorite ? "Unfavorite" : "Favorite";
                 PersistFavorites();
-                LoadExternalTools(); // Re-render to pin to top
+                LoadExternalTools();
             };
 
             headerGrid.Children.Add(headerPanel);
@@ -355,7 +353,45 @@ namespace TweakHub.Views
             footerPanel.Children.Add(actionIcon);
             footerPanel.Children.Add(actionText);
 
-            // Uninstall button for winget tools
+            if (tool.IsCustom)
+            {
+                var editButton = new Button
+                {
+                    Content = new TextBlock { Text = "\uE70F", FontFamily = new FontFamily("Segoe Fluent Icons"), FontSize = 12 },
+                    ToolTip = "Edit custom tool",
+                    Padding = new Thickness(4, 0, 4, 0),
+                    Background = Brushes.Transparent,
+                    BorderThickness = new Thickness(0),
+                    Cursor = System.Windows.Input.Cursors.Hand
+                };
+                editButton.Click += (_, e) =>
+                {
+                    e.Handled = true;
+                    EditCustomTool(tool);
+                };
+                var deleteButton = new Button
+                {
+                    Content = new TextBlock { Text = "\uE74D", FontFamily = new FontFamily("Segoe Fluent Icons"), FontSize = 12 },
+                    ToolTip = "Delete custom tool",
+                    Padding = new Thickness(4, 0, 4, 0),
+                    Margin = new Thickness(4, 0, 0, 0),
+                    Background = Brushes.Transparent,
+                    BorderThickness = new Thickness(0),
+                    Cursor = System.Windows.Input.Cursors.Hand
+                };
+                deleteButton.Click += (_, e) =>
+                {
+                    e.Handled = true;
+                    if (MessageBox.Show($"Delete {tool.Name}?", "Delete Custom Tool", MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes) return;
+                    _shortcutService.DeleteCustomTool(tool);
+                    PersistFavorites();
+                    LoadExternalTools();
+                };
+                footerPanel.Children.Add(editButton);
+                footerPanel.Children.Add(deleteButton);
+            }
+
+            // Uninstall button for Winget tools
             if (!string.IsNullOrWhiteSpace(tool.WingetId))
             {
                 var uninstallBtn = new Button
@@ -405,7 +441,7 @@ namespace TweakHub.Views
         {
             try
             {
-                var favs = _shortcutService.ExternalTools.Where(t => t.IsFavorite).Select(t => t.Name).ToList();
+                var favs = _shortcutService.ExternalTools.Where(t => t.IsFavorite).Select(ShortcutService.FavoriteKey).ToList();
                 UserDataService.Instance.SaveFavoriteTools(favs);
             }
             catch (Exception ex)
@@ -418,6 +454,32 @@ namespace TweakHub.Views
         {
             _searchQuery = (sender as TextBox)?.Text ?? string.Empty;
             LoadExternalTools();
+        }
+
+        private void FavoritesFilter_Changed(object sender, RoutedEventArgs e)
+        {
+            _favoritesOnly = FavoritesOnlyButton.IsChecked == true;
+            LoadExternalTools();
+        }
+
+        private void AddTool_Click(object sender, RoutedEventArgs e) => EditCustomTool(null);
+
+        private void EditCustomTool(ExternalTool? tool)
+        {
+            var dialog = new TweakHub.Views.Dialogs.CustomToolDialog(_shortcutService.GetToolCategories(), tool)
+            {
+                Owner = Window.GetWindow(this)
+            };
+            if (dialog.ShowDialog() != true) return;
+            try
+            {
+                _shortcutService.SaveCustomTool(dialog.Tool);
+                LoadExternalTools();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Unable to Save Tool", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private static string GetDownloadIcon(ExternalTool tool) =>

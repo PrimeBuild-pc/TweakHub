@@ -275,6 +275,10 @@
 
                                                             <!-- Column 1: Actions (Toggle + eye) -->
                                                             <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                                                                <TextBlock Text="&#xE777;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                                                                           Margin="0,0,10,0" Foreground="{DynamicResource WarningBrush}"
+                                                                           Visibility="{Binding IsRestartPending, Converter={StaticResource BoolToVis}}"
+                                                                           ToolTip="Restart Windows to make this change fully effective"/>
                                                                 <CheckBox IsChecked="{Binding IsEnabled, Mode=TwoWay}"
                                                                           IsEnabled="{Binding IsAvailable}"
                                                                           Style="{StaticResource PillToggleStyle}"

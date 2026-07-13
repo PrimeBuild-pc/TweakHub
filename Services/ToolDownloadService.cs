@@ -1,5 +1,7 @@
 using System.Diagnostics;
+using System.Windows;
 using TweakHub.Models;
+using TweakHub.Views.Dialogs;
 
 namespace TweakHub.Services
 {
@@ -28,6 +30,25 @@ namespace TweakHub.Services
 
         public async Task<bool> DownloadOrOpenTool(ExternalTool tool)
         {
+            if (!string.IsNullOrWhiteSpace(tool.PowerShellCommand))
+            {
+                var preview = tool.PowerShellCommand.Length > 1200 ? tool.PowerShellCommand[..1200] + "…" : tool.PowerShellCommand;
+                if (!StyledMessageDialog.ShowConfirm(Application.Current.MainWindow, "Run Custom PowerShell Command",
+                        $"Only run commands you trust. This command can download or modify software.\n\n{preview}", "Run", "Cancel"))
+                    return false;
+
+                Progress(tool.Name, 0, "Running PowerShell command...");
+                var result = await PowerShellService.Instance.ExecuteScriptAsync(
+                    tool.PowerShellCommand, tool.RequiresAdministrator, TimeSpan.FromMinutes(15));
+                var details = result.Success ? result.Output : result.Error;
+                if (details.Length > 3000) details = details[^3000..];
+                Complete(tool.Name, result.Success, result.Success ? "Command completed." : "Command failed.");
+                StyledMessageDialog.ShowOk(Application.Current.MainWindow,
+                    result.Success ? "Command Completed" : "Command Failed",
+                    $"{tool.Name} finished in {result.Duration.TotalSeconds:F1} seconds.\n\n{details}".Trim());
+                return result.Success;
+            }
+
             if (!string.IsNullOrWhiteSpace(tool.WingetId))
                 return await InstallWithWinget(tool);
 

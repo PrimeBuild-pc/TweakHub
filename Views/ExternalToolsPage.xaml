@@ -137,30 +137,46 @@
         <Grid Grid.Row="0" Margin="0,0,0,20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="280"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0">
                 <TextBlock Text="External Tools"
                            FontSize="28" FontWeight="Light"
                            Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"
                            Margin="0,0,0,6"/>
-                <TextBlock Text="Install verified WinGet packages or open each tool's official project page."
+                <TextBlock Text="Install curated tools or add your own Winget, PowerShell and website cards."
                            FontSize="12"
                            Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
                            TextWrapping="Wrap"/>
             </StackPanel>
-            <DockPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
                 <Border CornerRadius="6" BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}" BorderThickness="1"
-                        Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+                        Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}" Margin="0,0,8,0">
                     <DockPanel>
                         <TextBlock Text="&#xE721;" FontFamily="Segoe Fluent Icons" Margin="8,0,0,0" VerticalAlignment="Center" FontSize="12"
                                    Foreground="{DynamicResource IconSecondaryBrush}"/>
-                        <TextBox x:Name="SearchBox" Width="220" Margin="6,0,8,0" BorderThickness="0" Background="Transparent"
+                        <TextBox x:Name="SearchBox" Width="190" Margin="6,0,8,0" BorderThickness="0" Background="Transparent"
                                  VerticalContentAlignment="Center" Padding="0,4" FontSize="12"
                                  TextChanged="SearchBox_TextChanged"/>
                     </DockPanel>
                 </Border>
-            </DockPanel>
+                <ToggleButton x:Name="FavoritesOnlyButton" Padding="12,6" MinHeight="32"
+                              Background="{DynamicResource SubtleFillBrush}"
+                              BorderBrush="{DynamicResource SystemControlBorderBaseMediumBrush}" BorderThickness="1"
+                              Checked="FavoritesFilter_Changed" Unchecked="FavoritesFilter_Changed" Margin="0,0,8,0"
+                              ToolTip="Show favorites only">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE734;" FontFamily="Segoe Fluent Icons" Margin="0,0,6,0"/>
+                        <TextBlock Text="Favorites"/>
+                    </StackPanel>
+                </ToggleButton>
+                <Button x:Name="AddToolButton" Style="{StaticResource ModernButtonStyle}" Click="AddTool_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE710;" FontFamily="Segoe Fluent Icons" Margin="0,0,6,0" Foreground="White"/>
+                        <TextBlock Text="Add tool"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
         </Grid>
 
         <!-- Tools Grid -->

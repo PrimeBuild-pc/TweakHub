@@ -42,6 +42,37 @@ public class RegistryServiceTests
     }
 
     [Test]
+    public async Task GroupedValuesUseOneOperationAndRestoreTogether()
+    {
+        var id = Guid.NewGuid().ToString("N");
+        var subKey = $@"Software\TweakHubTests\{id}";
+        var path = $@"HKCU\{subKey}";
+        var dataPath = Path.Combine(Path.GetTempPath(), $"TweakHubTests-{id}");
+        var changes = new[]
+        {
+            new RegistryValueChange(path, "First", 10),
+            new RegistryValueChange(path, "Second", 20)
+        };
+        try
+        {
+            using (var key = Registry.CurrentUser.CreateSubKey(subKey))
+                key!.SetValue("First", 1, RegistryValueKind.DWord);
+            var service = new RegistryService(dataPath);
+            service.Initialize();
+            Assert.That(await service.ApplyValuesWithBackupAsync(changes), Is.True);
+            Assert.That(await service.RestoreValuesAsync(changes), Is.True);
+            using var restored = Registry.CurrentUser.OpenSubKey(subKey);
+            Assert.That(restored!.GetValue("First"), Is.EqualTo(1));
+            Assert.That(restored.GetValueNames(), Does.Not.Contain("Second"));
+        }
+        finally
+        {
+            Registry.CurrentUser.DeleteSubKeyTree(subKey, false);
+            if (Directory.Exists(dataPath)) Directory.Delete(dataPath, true);
+        }
+    }
+
+    [Test]
     public void InvalidRootIsRejectedInsteadOfFallingBackToHkcu()
     {
         var service = new RegistryService(Path.Combine(Path.GetTempPath(), $"TweakHubTests-{Guid.NewGuid():N}"));

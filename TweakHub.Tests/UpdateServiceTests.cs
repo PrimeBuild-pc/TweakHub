@@ -17,4 +17,16 @@ public class UpdateServiceTests
             Assert.That(UpdateService.IsNewerVersion("1.0.0", "1.0.0"), Is.False);
         });
     }
+
+    [Test]
+    public void PortableUpdaterWaitsAndPreservesDataDirectory()
+    {
+        var script = UpdateService.CreatePortableUpdateScript(@"C:\source", @"E:\TweakHub", @"C:\temp", @"C:\update.zip", 123);
+        Assert.Multiple(() =>
+        {
+            Assert.That(script, Does.Contain("Wait-Process -Id 123"));
+            Assert.That(script, Does.Contain("Name -ne 'Data'"));
+            Assert.That(script, Does.Contain(@"E:\TweakHub\TweakHub.exe"));
+        });
+    }
 }

@@ -91,6 +91,24 @@
 
                 <Border Style="{StaticResource CardStyle}" Margin="0,0,0,12">
                     <StackPanel>
+                        <TextBlock Text="Portable configuration" Style="{StaticResource CategoryHeaderStyle}"/>
+                        <TextBlock Text="Export or import custom scripts, Registry tweaks, external tools, favorites and appearance as one JSON profile. Machine-specific rollback backups are never included."
+                                   Style="{StaticResource DescriptionTextStyle}" Margin="0,0,0,8"/>
+                        <TextBlock x:Name="DataPathText" FontSize="11" TextWrapping="Wrap" Margin="0,0,0,14"
+                                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Export profile" Style="{StaticResource SecondaryButtonStyle}"
+                                    Click="ExportProfile_Click" Margin="0,0,8,0"/>
+                            <Button Content="Import profile" Style="{StaticResource ModernButtonStyle}"
+                                    Click="ImportProfile_Click"/>
+                            <TextBlock x:Name="ProfileResultText" Margin="12,0,0,0" VerticalAlignment="Center"
+                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <Border Style="{StaticResource CardStyle}" Margin="0,0,0,12">
+                    <StackPanel>
                         <TextBlock Text="Updates" Style="{StaticResource CategoryHeaderStyle}"/>
                         <TextBlock Text="TweakHub checks GitHub Releases when it starts. Updates are downloaded, verified and installed only after your confirmation."
                                    Style="{StaticResource DescriptionTextStyle}" Margin="0,0,0,14"/>

@@ -33,6 +33,7 @@
 
   <ItemGroup>
     <Resource Include="ico.ico" />
+    <None Update="portable.flag" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 
   <!-- Exclude embedded test project sources from app compilation -->

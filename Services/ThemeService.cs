@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Media;
 using ModernWpf;
+using TweakHub.Models;
 
 namespace TweakHub.Services;
 
@@ -27,27 +28,10 @@ public sealed class ThemeService : INotifyPropertyChanged
 
     private ThemeService()
     {
-        try
-        {
-            if (!Properties.Settings.Default.AppearanceConfigured)
-            {
-                Properties.Settings.Default.Theme = "System";
-                Properties.Settings.Default.AccentColor = string.Empty;
-                Properties.Settings.Default.Transparency = true;
-                Properties.Settings.Default.AppearanceConfigured = true;
-                Properties.Settings.Default.Save();
-            }
-
-            _themeMode = NormalizeTheme(Properties.Settings.Default.Theme);
-            _customAccent = Properties.Settings.Default.AccentColor ?? string.Empty;
-            _transparencyEnabled = Properties.Settings.Default.Transparency;
-        }
-        catch
-        {
-            _themeMode = "System";
-            _customAccent = string.Empty;
-            _transparencyEnabled = true;
-        }
+        var appearance = UserDataService.Instance.LoadAppearance();
+        _themeMode = NormalizeTheme(appearance.Theme);
+        _customAccent = appearance.AccentColor ?? string.Empty;
+        _transparencyEnabled = appearance.Transparency;
         ApplyTheme();
     }
 
@@ -67,11 +51,12 @@ public sealed class ThemeService : INotifyPropertyChanged
         ApplyTheme();
         try
         {
-            Properties.Settings.Default.Theme = _themeMode;
-            Properties.Settings.Default.AccentColor = _customAccent;
-            Properties.Settings.Default.Transparency = _transparencyEnabled;
-            Properties.Settings.Default.AppearanceConfigured = true;
-            Properties.Settings.Default.Save();
+            UserDataService.Instance.SaveAppearance(new AppearanceSettings
+            {
+                Theme = _themeMode,
+                AccentColor = _customAccent,
+                Transparency = _transparencyEnabled
+            });
             error = string.Empty;
             return true;
         }
@@ -85,6 +70,14 @@ public sealed class ThemeService : INotifyPropertyChanged
     public void RefreshSystemThemeIfNeeded()
     {
         if (_themeMode == "System" || UseSystemAccent) ApplyTheme();
+    }
+
+    public void ImportAppearance(AppearanceSettings appearance)
+    {
+        _themeMode = NormalizeTheme(appearance.Theme);
+        _customAccent = appearance.AccentColor ?? string.Empty;
+        _transparencyEnabled = appearance.Transparency;
+        ApplyTheme();
     }
 
     private void ApplyTheme()

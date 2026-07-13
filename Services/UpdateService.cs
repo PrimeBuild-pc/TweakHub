@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Net.Http;
 using System.Reflection;
 using System.Security.Cryptography;
@@ -44,27 +45,33 @@ public sealed class UpdateService
                 "Update", "Later");
             if (!accepted) return;
 
-            var installer = update.Assets.FirstOrDefault(asset => asset.Name.EndsWith(".exe", StringComparison.OrdinalIgnoreCase)
-                && asset.Name.Contains("Setup", StringComparison.OrdinalIgnoreCase));
-            var checksum = installer == null ? null : update.Assets.FirstOrDefault(asset =>
-                asset.Name.Equals(installer.Name + ".sha256", StringComparison.OrdinalIgnoreCase));
-            if (installer == null || checksum == null)
-                throw new InvalidOperationException("This release does not contain a verified automatic installer.");
+            var package = AppDataPath.IsPortable
+                ? update.Assets.FirstOrDefault(asset => asset.Name.EndsWith(".zip", StringComparison.OrdinalIgnoreCase)
+                    && asset.Name.Contains("portable", StringComparison.OrdinalIgnoreCase))
+                : update.Assets.FirstOrDefault(asset => asset.Name.EndsWith(".exe", StringComparison.OrdinalIgnoreCase)
+                    && asset.Name.Contains("Setup", StringComparison.OrdinalIgnoreCase));
+            var checksum = package == null ? null : update.Assets.FirstOrDefault(asset =>
+                asset.Name.Equals(package.Name + ".sha256", StringComparison.OrdinalIgnoreCase));
+            if (package == null || checksum == null)
+                throw new InvalidOperationException("This release does not contain a verified package for this installation mode.");
 
             progressWindow = new ProgressWindow("Updating TweakHub") { Owner = owner };
-            progressWindow.UpdateStatus("Downloading verified installer...");
+            progressWindow.UpdateStatus("Downloading verified update...");
             progressWindow.Show();
             var progress = new Progress<double>(progressWindow.UpdateProgress);
-            var installerPath = await DownloadAndVerifyAsync(installer, checksum, progress, cancellationToken);
+            var packagePath = await DownloadAndVerifyAsync(package, checksum, progress, cancellationToken);
             progressWindow.Close();
             progressWindow = null;
 
-            Process.Start(new ProcessStartInfo(installerPath)
-            {
-                UseShellExecute = true,
-                Verb = "runas",
-                Arguments = "/SILENT /CLOSEAPPLICATIONS /RESTARTAPPLICATIONS"
-            });
+            if (AppDataPath.IsPortable)
+                LaunchPortableUpdate(packagePath);
+            else
+                Process.Start(new ProcessStartInfo(packagePath)
+                {
+                    UseShellExecute = true,
+                    Verb = "runas",
+                    Arguments = "/SILENT /CLOSEAPPLICATIONS /RESTARTAPPLICATIONS"
+                });
             Application.Current.Shutdown();
         }
         catch (Exception ex)
@@ -86,20 +93,20 @@ public sealed class UpdateService
     }
 
     private static async Task<string> DownloadAndVerifyAsync(
-        GitHubAsset installer, GitHubAsset checksum, IProgress<double> progress, CancellationToken cancellationToken)
+        GitHubAsset package, GitHubAsset checksum, IProgress<double> progress, CancellationToken cancellationToken)
     {
-        ValidateGitHubAsset(installer);
+        ValidateGitHubAsset(package);
         ValidateGitHubAsset(checksum);
         var checksumText = await HttpClient.GetStringAsync(checksum.DownloadUrl, cancellationToken);
         var expectedHash = Regex.Match(checksumText, "[A-Fa-f0-9]{64}").Value;
         if (expectedHash.Length != 64) throw new InvalidDataException("The release checksum is missing or invalid.");
 
-        var path = Path.Combine(Path.GetTempPath(), $"TweakHub-{Guid.NewGuid():N}.exe");
+        var path = Path.Combine(Path.GetTempPath(), $"TweakHub-{Guid.NewGuid():N}{Path.GetExtension(package.Name)}");
         try
         {
-            using var response = await HttpClient.GetAsync(installer.DownloadUrl, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+            using var response = await HttpClient.GetAsync(package.DownloadUrl, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
             response.EnsureSuccessStatusCode();
-            var total = installer.Size > 0 ? installer.Size : response.Content.Headers.ContentLength ?? 0;
+            var total = package.Size > 0 ? package.Size : response.Content.Headers.ContentLength ?? 0;
             await using var input = await response.Content.ReadAsStreamAsync(cancellationToken);
             await using var output = new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.None, 81920, true);
             var buffer = new byte[81920];
@@ -112,12 +119,12 @@ public sealed class UpdateService
                 if (total > 0) progress.Report(downloaded * 100d / total);
             }
             await output.FlushAsync(cancellationToken);
-            if (installer.Size > 0 && downloaded != installer.Size) throw new InvalidDataException("The installer download is incomplete.");
+            if (package.Size > 0 && downloaded != package.Size) throw new InvalidDataException("The update download is incomplete.");
 
             await using var file = File.OpenRead(path);
             var actualHash = Convert.ToHexString(await SHA256.HashDataAsync(file, cancellationToken));
             if (!actualHash.Equals(expectedHash, StringComparison.OrdinalIgnoreCase))
-                throw new InvalidDataException("The installer checksum does not match the release.");
+                throw new InvalidDataException("The update checksum does not match the release.");
             progress.Report(100);
             return path;
         }
@@ -126,6 +133,38 @@ public sealed class UpdateService
             try { File.Delete(path); } catch { }
             throw;
         }
+    }
+
+    private static void LaunchPortableUpdate(string zipPath)
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"TweakHub-update-{Guid.NewGuid():N}");
+        var payload = Path.Combine(root, "payload");
+        Directory.CreateDirectory(payload);
+        ZipFile.ExtractToDirectory(zipPath, payload);
+        var executable = Directory.GetFiles(payload, "TweakHub.exe", SearchOption.AllDirectories).SingleOrDefault()
+            ?? throw new InvalidDataException("The portable archive does not contain TweakHub.exe.");
+        var source = Path.GetDirectoryName(executable)!;
+        var target = AppContext.BaseDirectory.TrimEnd(Path.DirectorySeparatorChar);
+        var scriptPath = Path.Combine(root, "update.ps1");
+        File.WriteAllText(scriptPath, CreatePortableUpdateScript(source, target, root, zipPath, Environment.ProcessId));
+        Process.Start(new ProcessStartInfo("powershell.exe")
+        {
+            UseShellExecute = false,
+            CreateNoWindow = true,
+            ArgumentList = { "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", scriptPath }
+        });
+    }
+
+    internal static string CreatePortableUpdateScript(string source, string target, string root, string zipPath, int processId)
+    {
+        static string Quote(string value) => value.Replace("'", "''");
+        return $$"""
+            $ErrorActionPreference = 'Stop'
+            Wait-Process -Id {{processId}} -ErrorAction SilentlyContinue
+            Get-ChildItem -LiteralPath '{{Quote(source)}}' | Where-Object Name -ne 'Data' | Copy-Item -Destination '{{Quote(target)}}' -Recurse -Force
+            Start-Process -FilePath '{{Quote(Path.Combine(target, "TweakHub.exe"))}}'
+            Start-Process powershell.exe -WindowStyle Hidden -ArgumentList '-NoProfile','-Command',"Start-Sleep 2; Remove-Item -LiteralPath ''{{Quote(root)}}'' -Recurse -Force; Remove-Item -LiteralPath ''{{Quote(zipPath)}}'' -Force"
+            """;
     }
 
     private static void ValidateGitHubAsset(GitHubAsset asset)

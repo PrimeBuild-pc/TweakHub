@@ -22,8 +22,7 @@ namespace TweakHub.Services
         public event PropertyChangedEventHandler? PropertyChanged;
         public int BackupCount => _backups.Count;
 
-        private RegistryService() : this(Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TweakHub")) { }
+        private RegistryService() : this(AppDataPath.BasePath) { }
 
         internal RegistryService(string dataPath)
         {
@@ -99,6 +98,79 @@ namespace TweakHub.Services
                 return false;
             }
         }
+
+        public async Task<bool> ApplyValuesWithBackupAsync(IReadOnlyCollection<RegistryValueChange> changes)
+        {
+            try
+            {
+                foreach (var change in changes)
+                {
+                    ValidateLocation(change.KeyPath, change.ValueName);
+                    var key = BackupKey(change.KeyPath, change.ValueName);
+                    if (!_backups.ContainsKey(key)) _backups[key] = ReadBackup(change.KeyPath, change.ValueName);
+                }
+                SaveBackups();
+
+                var result = await PowerShellService.Instance.ExecuteScriptAsync(
+                    BuildRegScript(changes), requireAdministrator: changes.Any(change => RequiresElevation(change.KeyPath)));
+                var success = result.Success && changes.All(change => change.Value is not null &&
+                    ValuesEqual(GetRegistryValue(change.KeyPath, change.ValueName), Normalize(change.Value)));
+                foreach (var change in changes)
+                    Log("apply", change.KeyPath, change.ValueName, success, success ? null : result.Error);
+                return success;
+            }
+            catch (Exception ex)
+            {
+                foreach (var change in changes) Log("apply", change.KeyPath, change.ValueName, false, ex.Message);
+                return false;
+            }
+        }
+
+        public async Task<bool> RestoreValuesAsync(IReadOnlyCollection<RegistryValueChange> changes)
+        {
+            var backups = changes.Select(change => _backups.GetValueOrDefault(BackupKey(change.KeyPath, change.ValueName))).ToList();
+            if (backups.Any(backup => backup is null)) return false;
+            var restoreChanges = backups.Select(backup => new RegistryValueChange(
+                backup!.KeyPath, backup.ValueName, backup.Existed ? Decode(backup) : null, backup.Kind)).ToList();
+            var result = await PowerShellService.Instance.ExecuteScriptAsync(
+                BuildRegScript(restoreChanges), requireAdministrator: restoreChanges.Any(change => RequiresElevation(change.KeyPath)));
+            var success = result.Success && backups.All(backup => backup!.Existed
+                ? ValuesEqual(GetRegistryValue(backup.KeyPath, backup.ValueName), Decode(backup))
+                : !RegistryValueExists(backup.KeyPath, backup.ValueName));
+            foreach (var backup in backups)
+                Log("restore", backup!.KeyPath, backup.ValueName, success, success ? null : result.Error);
+            if (success)
+            {
+                foreach (var backup in backups) _backups.Remove(BackupKey(backup!.KeyPath, backup.ValueName));
+                SaveBackups();
+            }
+            return success;
+        }
+
+        private static string BuildRegScript(IEnumerable<RegistryValueChange> changes)
+        {
+            static string Quote(string value) => $"'{value.Replace("'", "''")}'";
+            var script = new System.Text.StringBuilder("$ErrorActionPreference = 'Stop'\n");
+            foreach (var change in changes)
+            {
+                if (change.Value is null)
+                    script.AppendLine($"& reg.exe delete {Quote(change.KeyPath)} /v {Quote(change.ValueName)} /f");
+                else
+                    script.AppendLine($"& reg.exe add {Quote(change.KeyPath)} /v {Quote(change.ValueName)} /t {RegType(change.Kind)} /d {Quote(FormatRegData(change.Value, change.Kind))} /f");
+                script.AppendLine("if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }");
+            }
+            return script.ToString();
+        }
+
+        private static string RegType(RegistryValueKind kind) => kind switch
+        {
+            RegistryValueKind.DWord => "REG_DWORD",
+            RegistryValueKind.QWord => "REG_QWORD",
+            RegistryValueKind.Binary => "REG_BINARY",
+            RegistryValueKind.MultiString => "REG_MULTI_SZ",
+            RegistryValueKind.ExpandString => "REG_EXPAND_SZ",
+            _ => "REG_SZ"
+        };
 
         public int CreateBackup(IEnumerable<PerformanceTweak> tweaks)
         {
@@ -447,6 +519,8 @@ namespace TweakHub.Services
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
+
+    public sealed record RegistryValueChange(string KeyPath, string ValueName, object? Value, RegistryValueKind Kind = RegistryValueKind.DWord);
 
     internal sealed class RegistryBackup
     {

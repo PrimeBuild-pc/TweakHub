@@ -11,7 +11,7 @@ public class ShortcutServiceTests
     {
         var service = ShortcutService.Instance;
         service.Initialize();
-        var tools = service.ExternalTools;
+        var tools = service.ExternalTools.Where(tool => !tool.IsCustom).ToList();
         var categories = new[]
         {
             "System Utilities", "CPU & Memory", "Firmware & Power", "Monitoring & Diagnostics",

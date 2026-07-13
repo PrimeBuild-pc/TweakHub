@@ -25,6 +25,8 @@ public class TweakCatalogueTests
             "reduce_menu_delay",
             "disable_startup_delay",
             "disable_windows_search",
+            "disable_automatic_driver_updates",
+            "windows_update_security_preset",
             "disable_animations",
             "disable_transparency",
             "optimize_visual_effects"
@@ -38,7 +40,9 @@ public class TweakCatalogueTests
                 "disable_core_parking",
                 "high_performance_power_plan",
                 "optimize_network_throttling",
-                "disable_windows_search"
+                "disable_windows_search",
+                "disable_automatic_driver_updates",
+                "windows_update_security_preset"
             }.Contains(tweak.Id)),
             Has.All.Property("RiskLevel").GreaterThanOrEqualTo(3));
     }

@@ -49,7 +49,11 @@ namespace TweakHub.Services
             LoadGamingPerformanceTweaks();
             LoadSystemResponsivenessTweaks();
             LoadAdvancedTweaks();
+            LoadWindowsUpdateTweaks();
             LoadVisualEffectsPerformanceTweaks();
+            var pendingRestarts = UserDataService.Instance.LoadPendingRestartIds();
+            foreach (var tweak in TweakCategories.SelectMany(category => category.Tweaks))
+                tweak.IsRestartPending = pendingRestarts.Contains(tweak.Id);
             HasAppliedTweaksThisSession = RegistryService.Instance.BackupCount > 0 || PowerService.Instance.HasAnyBackup;
         }
 
@@ -268,6 +272,56 @@ namespace TweakHub.Services
             TweakCategories.Add(category);
         }
 
+        private void LoadWindowsUpdateTweaks()
+        {
+            var category = new TweakCategory
+            {
+                Name = "Windows Update Control",
+                Description = "Control driver delivery and use a conservative manual update policy",
+                Icon = "\uE895"
+            };
+
+            category.Tweaks.Add(new PerformanceTweak
+            {
+                Id = "disable_automatic_driver_updates",
+                Name = "Exclude Drivers from Windows Update",
+                Description = "Prevents Windows Update quality updates from automatically delivering device drivers.",
+                Type = TweakType.Registry,
+                RegistryPath = @"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate",
+                RegistryKey = "ExcludeWUDriversInQualityUpdate",
+                EnabledValue = 1,
+                DisabledValue = null,
+                Category = category.Name,
+                RiskLevel = 3,
+                RequiresRestart = true
+            });
+
+            category.Tweaks.Add(new PerformanceTweak
+            {
+                Id = "windows_update_security_preset",
+                Name = "Manual Security Update Preset",
+                Description = "Notifies before downloads and defers feature updates by 90 days. Security and quality updates remain available for manual installation.",
+                Type = TweakType.Registry,
+                RegistryPath = @"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU",
+                RegistryKey = "AUOptions",
+                EnabledValue = 2,
+                DisabledValue = null,
+                Category = category.Name,
+                RiskLevel = 3,
+                RequiresRestart = true
+            });
+
+            TweakCategories.Add(category);
+        }
+
+        private static readonly RegistryValueChange[] SecurityUpdatePreset =
+        [
+            new(@"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU", "AUOptions", 2),
+            new(@"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU", "NoAutoUpdate", 0),
+            new(@"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate", "DeferFeatureUpdates", 1),
+            new(@"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate", "DeferFeatureUpdatesPeriodInDays", 90)
+        ];
+
         private void LoadVisualEffectsPerformanceTweaks()
         {
             var category = new TweakCategory
@@ -334,6 +388,11 @@ namespace TweakHub.Services
             if (result)
             {
                 tweak.IsEnabled = targetEnabled;
+                if (tweak.RequiresRestart)
+                {
+                    tweak.IsRestartPending = true;
+                    UserDataService.Instance.MarkRestartPending(tweak.Id);
+                }
                 HasAppliedTweaksThisSession = RegistryService.Instance.BackupCount > 0 || PowerService.Instance.HasAnyBackup;
                 OnPropertyChanged(nameof(TweakCategories));
             }
@@ -352,6 +411,9 @@ namespace TweakHub.Services
                 ? PowerService.Instance.ApplyHighPerformancePlanAsync()
                 : PowerService.Instance.RestorePowerPlanAsync(),
             "disable_mouse_acceleration" => Task.Run(() => ApplyMouseAcceleration(enable)),
+            "windows_update_security_preset" => enable
+                ? RegistryService.Instance.ApplyValuesWithBackupAsync(SecurityUpdatePreset)
+                : RegistryService.Instance.RestoreValuesAsync(SecurityUpdatePreset),
             _ => Task.Run(() => RegistryService.Instance.ApplyTweak(tweak, enable))
         };
 
@@ -380,7 +442,16 @@ namespace TweakHub.Services
             var failed = 0;
             foreach (var tweak in tweaks)
             {
-                if (await ApplyCoreAsync(tweak, false)) restored++; else failed++;
+                if (await ApplyCoreAsync(tweak, false))
+                {
+                    restored++;
+                    if (tweak.RequiresRestart)
+                    {
+                        tweak.IsRestartPending = true;
+                        UserDataService.Instance.MarkRestartPending(tweak.Id);
+                    }
+                }
+                else failed++;
             }
 
             await RefreshTweakStatesAsync();
@@ -394,6 +465,8 @@ namespace TweakHub.Services
                 PowerService.Instance.HasBackup(tweak.Id),
             "disable_mouse_acceleration" => new[] { "MouseSpeed", "MouseThreshold1", "MouseThreshold2" }
                 .Any(name => RegistryService.Instance.HasBackup(@"HKEY_CURRENT_USER\Control Panel\Mouse", name)),
+            "windows_update_security_preset" => SecurityUpdatePreset.Any(change =>
+                RegistryService.Instance.HasBackup(change.KeyPath, change.ValueName)),
             _ => RegistryService.Instance.HasBackup(tweak.RegistryPath, tweak.RegistryKey)
         };
 
@@ -410,6 +483,8 @@ namespace TweakHub.Services
                     "high_performance_power_plan" => await PowerService.Instance.IsHighPerformancePlanActiveAsync(),
                     "disable_mouse_acceleration" => new[] { "MouseSpeed", "MouseThreshold1", "MouseThreshold2" }
                         .All(name => Equals(RegistryService.Instance.GetRegistryValue(@"HKEY_CURRENT_USER\Control Panel\Mouse", name), "0")),
+                    "windows_update_security_preset" => SecurityUpdatePreset.All(change =>
+                        Equals(RegistryService.Instance.GetRegistryValue(change.KeyPath, change.ValueName), change.Value)),
                     _ => RegistryService.Instance.CheckTweakStatus(tweak)
                 };
             }

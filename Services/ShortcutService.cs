@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using TweakHub.Models;
 
 namespace TweakHub.Services;
@@ -163,9 +164,46 @@ public sealed class ShortcutService
             new ExternalTool { Name = "Jan", Description = "Open-source local AI desktop application", Category = "AI Tools", WingetId = "Jan.Jan" }
         }) ExternalTools.Add(tool);
 
+        foreach (var tool in UserDataService.Instance.LoadCustomTools())
+        {
+            try
+            {
+                UserDataService.ValidateCustomTool(tool);
+                if (ExternalTools.All(existing => !existing.Name.Equals(tool.Name, StringComparison.OrdinalIgnoreCase)))
+                    ExternalTools.Add(tool);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Skipped invalid custom tool: {ex.Message}");
+            }
+        }
+
         var favorites = UserDataService.Instance.LoadFavoriteTools();
-        foreach (var tool in ExternalTools) tool.IsFavorite = favorites.Contains(tool.Name);
+        foreach (var tool in ExternalTools)
+            tool.IsFavorite = favorites.Contains(FavoriteKey(tool)) || favorites.Contains(tool.Name); // migrate old name-based favorites
     }
+
+    public IEnumerable<string> GetToolCategories() => ExternalTools.Select(tool => tool.Category).Distinct(StringComparer.OrdinalIgnoreCase).OrderBy(name => name);
+
+    public void SaveCustomTool(ExternalTool tool)
+    {
+        UserDataService.ValidateCustomTool(tool);
+        if (ExternalTools.Any(existing => existing.Id != tool.Id && existing.Name.Equals(tool.Name, StringComparison.OrdinalIgnoreCase)))
+            throw new InvalidDataException("A tool with this name already exists.");
+        var tools = UserDataService.Instance.LoadCustomTools();
+        var index = tools.FindIndex(existing => existing.Id == tool.Id);
+        if (index >= 0) tools[index] = tool; else tools.Add(tool);
+        UserDataService.Instance.SaveCustomTools(tools);
+        Initialize();
+    }
+
+    public void DeleteCustomTool(ExternalTool tool)
+    {
+        UserDataService.Instance.SaveCustomTools(UserDataService.Instance.LoadCustomTools().Where(existing => existing.Id != tool.Id));
+        Initialize();
+    }
+
+    public static string FavoriteKey(ExternalTool tool) => tool.IsCustom ? $"custom:{tool.Id}" : $"builtin:{tool.Name}";
 
     public bool ExecuteShortcut(SystemShortcut shortcut)
     {

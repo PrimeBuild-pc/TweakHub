@@ -24,6 +24,7 @@ namespace TweakHub.Models
 
         private bool _isEnabled;
         private bool _isPreviewVisible;
+        private bool _isRestartPending;
         private string _previewContent = string.Empty;
 
         public string Id { get; set; } = string.Empty;
@@ -36,6 +37,11 @@ namespace TweakHub.Models
             set { _isEnabled = value; OnPropertyChanged(nameof(IsEnabled)); }
         }
         public bool RequiresRestart { get; set; }
+        public bool IsRestartPending
+        {
+            get => _isRestartPending;
+            set { _isRestartPending = value; OnPropertyChanged(nameof(IsRestartPending)); }
+        }
         public string RegistryPath { get; set; } = string.Empty;
         public string RegistryKey { get; set; } = string.Empty;
         public object? EnabledValue { get; set; }
@@ -61,15 +67,23 @@ namespace TweakHub.Models
 
     public class ExternalTool
     {
+        public string Id { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public string Category { get; set; } = string.Empty;
-        // For website/GitHub links
         public string DownloadUrl { get; set; } = string.Empty;
-        // For Winget installs (single package)
         public string WingetId { get; set; } = string.Empty;
-        // Favorites
+        public string PowerShellCommand { get; set; } = string.Empty;
+        public bool RequiresAdministrator { get; set; }
+        public bool IsCustom { get; set; }
         public bool IsFavorite { get; set; }
+    }
+
+    public class AppearanceSettings
+    {
+        public string Theme { get; set; } = "System";
+        public string AccentColor { get; set; } = string.Empty;
+        public bool Transparency { get; set; } = true;
     }
 
     public class SystemShortcut

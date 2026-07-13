@@ -16,8 +16,7 @@ public class PowerService
 
     public static PowerService Instance => _instance ??= new PowerService();
 
-    private PowerService() : this(Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TweakHub")) { }
+    private PowerService() : this(AppDataPath.BasePath) { }
 
     internal PowerService(string dataPath)
     {
