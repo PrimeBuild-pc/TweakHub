@@ -376,12 +376,6 @@ namespace TweakHub.Services
             TweakCategories.Add(category);
         }
 
-        public async Task<bool> ApplyTweakAsync(PerformanceTweak tweak)
-        {
-            // Back-compat overload: apply the opposite of current state.
-            return await ApplyTweakAsync(tweak, !tweak.IsEnabled);
-        }
-
         public async Task<bool> ApplyTweakAsync(PerformanceTweak tweak, bool targetEnabled)
         {
             var result = await ApplyCoreAsync(tweak, targetEnabled);

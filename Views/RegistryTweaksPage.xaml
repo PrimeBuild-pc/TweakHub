@@ -123,12 +123,6 @@
             <Setter Property="Margin" Value="0,0,0,8"/>
         </Style>
 
-        <Style x:Key="RiskLevelIndicator" TargetType="Border">
-            <Setter Property="Width" Value="8"/>
-            <Setter Property="Height" Value="8"/>
-            <Setter Property="CornerRadius" Value="4"/>
-            <Setter Property="Margin" Value="0,0,8,0"/>
-        </Style>
     </Page.Resources>
 
     <Grid Margin="32">

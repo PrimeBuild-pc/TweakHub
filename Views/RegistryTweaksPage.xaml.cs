@@ -34,12 +34,9 @@ namespace TweakHub.Views
             {
                 Dispatcher.Invoke(() =>
                 {
-                    if (this.FindName("RestoreAllButton") is Button restoreBtn)
-                    {
-                        restoreBtn.Visibility = _tweakService.HasAppliedTweaksThisSession ? Visibility.Visible : Visibility.Collapsed;
-                        restoreBtn.IsEnabled = _tweakService.HasAppliedTweaksThisSession;
-                        restoreBtn.Opacity = _tweakService.HasAppliedTweaksThisSession ? 1.0 : 0.65;
-                    }
+                    RestoreAllButton.Visibility = _tweakService.HasAppliedTweaksThisSession ? Visibility.Visible : Visibility.Collapsed;
+                    RestoreAllButton.IsEnabled = _tweakService.HasAppliedTweaksThisSession;
+                    RestoreAllButton.Opacity = _tweakService.HasAppliedTweaksThisSession ? 1.0 : 0.65;
                 });
             }
         }
@@ -68,10 +65,7 @@ namespace TweakHub.Views
             _tweakService.LoadTweaks();
 
             // Then bind to UI and refresh states
-            if (this.FindName("TweakCategoriesControl") is ItemsControl tweakCategoriesControl)
-            {
-                tweakCategoriesControl.ItemsSource = _tweakService.TweakCategories;
-            }
+            TweakCategoriesControl.ItemsSource = _tweakService.TweakCategories;
             await _tweakService.RefreshTweakStatesAsync();
 
             // Update sidebar badge immediately after initial state refresh
@@ -102,14 +96,9 @@ namespace TweakHub.Views
 
         private void RenderCustomTweaks()
         {
-            if (this.FindName("CustomTweaksList") is ItemsControl list)
-            {
-                list.Items.Clear();
-                foreach (var t in _customTweaks)
-                {
-                    list.Items.Add(CreateCustomTweakCard(t));
-                }
-            }
+            CustomTweaksList.Items.Clear();
+            foreach (var tweak in _customTweaks)
+                CustomTweaksList.Items.Add(CreateCustomTweakCard(tweak));
         }
 
         private Border CreateCustomTweakCard(CustomRegistryTweak t)
@@ -144,12 +133,12 @@ namespace TweakHub.Views
             actions.Children.Add(viewBtn); actions.Children.Add(applyBtn); actions.Children.Add(restoreBtn); actions.Children.Add(editBtn); actions.Children.Add(deleteBtn);
             Grid.SetColumn(actions,1); grid.Children.Add(actions);
 
-            var preview = new Border { Margin = new Thickness(0,12,0,0), CornerRadius = new CornerRadius(8), BorderBrush = GetBrushOrDefault("SystemControlBorderBaseLowBrush"), BorderThickness = new Thickness(1), Background = GetBrushOrDefault("SystemControlBackgroundBaseLowBrush"), Visibility = Visibility.Collapsed, Name = $"customPreview_{SanitizeName(t.Id)}" };
+            var preview = new Border { Margin = new Thickness(0,12,0,0), CornerRadius = new CornerRadius(8), BorderBrush = GetBrushOrDefault("SystemControlBorderBaseLowBrush"), BorderThickness = new Thickness(1), Background = GetBrushOrDefault("SystemControlBackgroundBaseLowBrush"), Visibility = Visibility.Collapsed };
             var pGrid = new Grid(); pGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto }); pGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(150) });
             var pHead = new DockPanel { Margin = new Thickness(12,8,12,4) }; pHead.Children.Add(new TextBlock { Text = "Details", FontWeight = FontWeights.SemiBold }); pGrid.Children.Add(pHead);
             var inner = new Border { Margin = new Thickness(12), CornerRadius = new CornerRadius(6), BorderBrush = GetBrushOrDefault("SystemControlBorderBaseLowBrush"), BorderThickness = new Thickness(1), Background = GetBrushOrDefault("SystemControlBackgroundChromeMediumLowBrush") };
             var scroll = new ScrollViewer { VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
-            var tb = new TextBox { IsReadOnly = true, TextWrapping = TextWrapping.Wrap, FontFamily = new System.Windows.Media.FontFamily("Consolas"), BorderThickness = new Thickness(0), Background = System.Windows.Media.Brushes.Transparent, Name = $"customPreviewText_{SanitizeName(t.Id)}" };
+            var tb = new TextBox { IsReadOnly = true, TextWrapping = TextWrapping.Wrap, FontFamily = new System.Windows.Media.FontFamily("Consolas"), BorderThickness = new Thickness(0), Background = System.Windows.Media.Brushes.Transparent };
             scroll.Content = tb; inner.Child = scroll; Grid.SetRow(inner,1); pGrid.Children.Add(inner);
             preview.Child = pGrid;
 
@@ -347,11 +336,7 @@ namespace TweakHub.Views
             dialog.ShowDialog();
         }
 
-        private Style GetStyleOrDefault(string key)
-        {
-            var style = TryFindResource(key) as Style ?? Application.Current.TryFindResource(key) as Style;
-            return style ?? (Application.Current.TryFindResource("ModernButtonStyle") as Style ?? new Style(typeof(Button)));
-        }
+        private Style GetStyleOrDefault(string key) => (Style)FindResource(key);
 
         private System.Windows.Media.Brush GetBrushOrDefault(string key, string fallback = "#444444")
         {
@@ -362,11 +347,6 @@ namespace TweakHub.Views
             return obj as System.Windows.Media.Brush ?? System.Windows.Media.Brushes.Gray;
         }
 
-        private string SanitizeName(string id)
-        {
-            var arr = id.Select(c => char.IsLetterOrDigit(c) ? c : '_').ToArray();
-            return new string(arr);
-        }
 
         private async void TweakToggle_Click(object sender, RoutedEventArgs e)
         {
@@ -695,12 +675,8 @@ namespace TweakHub.Views
                 if (failed > 0) msg += $"\n{failed} tweak(s) failed to restore.";
                 MessageBox.Show(msg, "Restore Complete", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                // Update visibility of Restore All button
-                if (this.FindName("RestoreAllButton") is Button restoreBtn)
-                {
-                    restoreBtn.Visibility = _tweakService.HasAppliedTweaksThisSession ? Visibility.Visible : Visibility.Collapsed;
-                }
-                
+                RestoreAllButton.Visibility = _tweakService.HasAppliedTweaksThisSession ? Visibility.Visible : Visibility.Collapsed;
+
                 NotifyMainWindowBadgeUpdate();
             }
             catch (Exception ex)

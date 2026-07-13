@@ -118,30 +118,10 @@ public partial class MainWindow : Window
 
     public void UpdateRegistryTweaksBadge()
     {
-        try
-        {
-            var tweakService = TweakHub.Services.TweakService.Instance;
-            var activeCount = tweakService.TweakCategories
-                .SelectMany(c => c.Tweaks)
-                .Count(t => t.IsEnabled);
-
-            if (this.FindName("RegistryTweaksBadge") is Border badge &&
-                this.FindName("RegistryTweaksBadgeText") is TextBlock text)
-            {
-                if (activeCount > 0)
-                {
-                    badge.Visibility = Visibility.Visible;
-                    text.Text = activeCount.ToString();
-                }
-                else
-                {
-                    badge.Visibility = Visibility.Collapsed;
-                }
-            }
-        }
-        catch
-        {
-            // Ignore errors in badge update
-        }
+        var activeCount = TweakService.Instance.TweakCategories
+            .SelectMany(category => category.Tweaks)
+            .Count(tweak => tweak.IsEnabled);
+        RegistryTweaksBadge.Visibility = activeCount > 0 ? Visibility.Visible : Visibility.Collapsed;
+        RegistryTweaksBadgeText.Text = activeCount.ToString();
     }
 }

@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 using System.Windows;
 using TweakHub.Models;
 using TweakHub.Views.Dialogs;
@@ -118,27 +119,10 @@ namespace TweakHub.Services
             Progress(toolName, percentage < 0 ? 0 : percentage, data);
         }
 
-        private static int TryParsePercent(string data)
+        internal static int TryParsePercent(string data)
         {
-            for (var i = 0; i < data.Length; i++)
-            {
-                if (!char.IsDigit(data[i])) continue;
-
-                var end = i;
-                var value = 0;
-                while (end < data.Length && char.IsDigit(data[end]))
-                {
-                    value = value * 10 + data[end] - '0';
-                    end++;
-                }
-
-                if (end < data.Length && data[end] == '%')
-                    return Math.Clamp(value, 0, 100);
-
-                i = end;
-            }
-
-            return -1;
+            var match = Regex.Match(data, @"(\d+)%");
+            return match.Success && int.TryParse(match.Groups[1].Value, out var value) ? Math.Clamp(value, 0, 100) : -1;
         }
 
         private void Progress(string toolName, int percentage, string message) =>

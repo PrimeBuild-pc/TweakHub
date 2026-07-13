@@ -102,7 +102,6 @@ public sealed class ThemeService : INotifyPropertyChanged
             ? GetSystemAccentColor()
             : selectedAccent;
         SetBrush(app, "AccentBrush", accent);
-        SetBrush(app, "AccentHoverBrush", Blend(accent, _isDark ? Colors.White : Colors.Black, 0.12));
         SetBrush(app, "AccentPressedBrush", Blend(accent, Colors.Black, 0.18));
         SetBrush(app, "SuccessBrush", _isDark ? Color.FromRgb(108, 203, 95) : Color.FromRgb(15, 123, 15));
         SetBrush(app, "WarningBrush", _isDark ? Color.FromRgb(252, 225, 0) : Color.FromRgb(157, 93, 0));

@@ -1,13 +1,13 @@
-name: Release (beta)
+name: Release
 
 on:
   push:
     tags:
-      - "v*.*.*-beta*"
+      - "v*.*.*"
   workflow_dispatch:
     inputs:
       tag:
-        description: "Tag name to release (e.g. v1.2.3-beta1)"
+        description: "Tag name to release (e.g. v1.2.3)"
         required: true
 
 permissions:
@@ -86,13 +86,14 @@ jobs:
             "$hash  $($file.Name)" | Set-Content "$($file.FullName).sha256" -Encoding ascii
           }
 
-      - name: Create GitHub Release (prerelease)
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.tag.outputs.tag }}
           name: TweakHub ${{ steps.tag.outputs.tag }}
-          prerelease: true
+          prerelease: ${{ contains(steps.tag.outputs.tag, '-') }}
           draft: false
+          generate_release_notes: true
           files: |
             dist/TweakHub-${{ steps.tag.outputs.tag }}-${{ env.RUNTIME }}-portable.zip
             dist/*.sha256

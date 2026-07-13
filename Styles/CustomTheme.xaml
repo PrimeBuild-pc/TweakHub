@@ -3,7 +3,6 @@
 
     <!-- Fallbacks are replaced at startup with the Windows theme and accent colors. -->
     <SolidColorBrush x:Key="AccentBrush" Color="#0078D4"/>
-    <SolidColorBrush x:Key="AccentHoverBrush" Color="#1683D8"/>
     <SolidColorBrush x:Key="AccentPressedBrush" Color="#0067B8"/>
     <SolidColorBrush x:Key="SuccessBrush" Color="#0F7B0F"/>
     <SolidColorBrush x:Key="WarningBrush" Color="#9D5D00"/>
@@ -124,23 +123,4 @@
         <Setter Property="Padding" Value="0"/>
     </Style>
 
-    <Style x:Key="LoadingSpinnerStyle" TargetType="Border">
-        <Setter Property="Width" Value="32"/>
-        <Setter Property="Height" Value="32"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
-        <Setter Property="BorderThickness" Value="3,3,0,0"/>
-        <Setter Property="CornerRadius" Value="16"/>
-        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
-        <Setter Property="RenderTransform"><Setter.Value><RotateTransform/></Setter.Value></Setter>
-        <Style.Triggers>
-            <EventTrigger RoutedEvent="Loaded">
-                <BeginStoryboard>
-                    <Storyboard RepeatBehavior="Forever">
-                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
-                                         From="0" To="360" Duration="0:0:1"/>
-                    </Storyboard>
-                </BeginStoryboard>
-            </EventTrigger>
-        </Style.Triggers>
-    </Style>
 </ResourceDictionary>

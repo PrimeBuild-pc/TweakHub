@@ -30,24 +30,6 @@
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="CategoryGroupStyle" TargetType="GroupBox">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="GroupBox">
-                        <StackPanel>
-                            <Border Background="{DynamicResource AccentBrush}"
-                                    CornerRadius="6" Padding="12,8" Margin="0,0,0,12">
-                                <TextBlock Text="{TemplateBinding Header}"
-                                           FontSize="13" FontWeight="SemiBold"
-                                           Foreground="White"/>
-                            </Border>
-                            <ContentPresenter/>
-                        </StackPanel>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
         <Style x:Key="CategoryExpanderStyle" TargetType="Expander">
             <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
             <Setter Property="Background" Value="Transparent"/>

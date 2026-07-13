@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Custom External Tool" Width="620" Height="650"
         WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="False"
-        FontFamily="Segoe UI Variable Text" Background="{DynamicResource WindowBackgroundBrush}">
+        FontFamily="Segoe UI Variable Text" Background="{DynamicResource WindowBackgroundBrush}"
+        Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}">
     <Grid Margin="24">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -21,17 +22,21 @@
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="0,0,12,0">
             <StackPanel>
                 <TextBlock Text="Name" Margin="0,0,0,4"/>
-                <TextBox x:Name="NameTextBox" MaxLength="100" Margin="0,0,0,12"/>
+                <TextBox x:Name="NameTextBox" MaxLength="100" Margin="0,0,0,12"
+                         Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
 
                 <TextBlock Text="Description" Margin="0,0,0,4"/>
                 <TextBox x:Name="DescriptionTextBox" MaxLength="500" Height="64" AcceptsReturn="True"
-                         TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Margin="0,0,0,12"/>
+                         TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Margin="0,0,0,12"
+                         Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
 
                 <TextBlock Text="Category" Margin="0,0,0,4"/>
-                <ComboBox x:Name="CategoryComboBox" IsEditable="True" Margin="0,0,0,12"/>
+                <ComboBox x:Name="CategoryComboBox" IsEditable="True" Margin="0,0,0,12"
+                          Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
 
                 <TextBlock Text="Action" Margin="0,0,0,4"/>
-                <ComboBox x:Name="ActionComboBox" SelectedValuePath="Tag" SelectionChanged="ActionType_Changed" Margin="0,0,0,12">
+                <ComboBox x:Name="ActionComboBox" SelectedValuePath="Tag" SelectionChanged="ActionType_Changed" Margin="0,0,0,12"
+                          Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}">
                     <ComboBoxItem Content="Open HTTPS website or online file" Tag="Website"/>
                     <ComboBoxItem Content="Install exact Winget package ID" Tag="Winget"/>
                     <ComboBoxItem Content="Run PowerShell command" Tag="PowerShell"/>
@@ -39,7 +44,8 @@
 
                 <TextBlock x:Name="ActionValueLabel" Text="Value" Margin="0,0,0,4"/>
                 <TextBox x:Name="ActionValueTextBox" MaxLength="8192" Height="88" AcceptsReturn="True"
-                         TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" FontFamily="Consolas"/>
+                         TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" FontFamily="Consolas"
+                         Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
                 <TextBlock x:Name="ActionHelpText" Margin="0,6,0,0" TextWrapping="Wrap"
                            Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
                 <CheckBox x:Name="RequiresAdministratorCheckBox" Content="Request administrator privileges"

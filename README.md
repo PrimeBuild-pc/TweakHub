@@ -1,22 +1,26 @@
 <div align="center">
 
+<img src="assets/logo.png" alt="TweakHub wrench" width="128"/>
+
 # TweakHub
 
-A focused Windows 11 tweak and maintenance utility.
+A portable Windows 11 toolkit for power users who configure, rebuild and maintain PCs frequently.
 
-[![Release](https://img.shields.io/github/v/release/PrimeBuild-pc/TweakHub?include_prereleases)](https://github.com/PrimeBuild-pc/TweakHub/releases)
-[![CI](https://github.com/PrimeBuild-pc/TweakHub/actions/workflows/release-beta.yml/badge.svg)](https://github.com/PrimeBuild-pc/TweakHub/actions/workflows/release-beta.yml)
+[![Release](https://img.shields.io/github/v/release/PrimeBuild-pc/TweakHub)](https://github.com/PrimeBuild-pc/TweakHub/releases/latest)
+[![CI](https://github.com/PrimeBuild-pc/TweakHub/actions/workflows/ci.yml/badge.svg)](https://github.com/PrimeBuild-pc/TweakHub/actions/workflows/ci.yml)
 [![.NET](https://img.shields.io/badge/.NET-10.0-purple)](https://dotnet.microsoft.com/)
 [![License](https://img.shields.io/badge/license-MIT-orange)](LICENSE)
 
-[Download the latest beta](https://github.com/PrimeBuild-pc/TweakHub/releases)
+[Download the latest release](https://github.com/PrimeBuild-pc/TweakHub/releases/latest)
 
 </div>
 
 > [!WARNING]
-> TweakHub is beta software that changes Windows settings. Review every preview and create a restore point before applying changes.
+> TweakHub changes Windows settings. Review every preview and create a restore point before applying changes.
 
 ## What it does
+
+TweakHub is designed to live on a USB drive. Extract it once, create your tools, scripts, favorites and appearance settings, then carry the complete folder between PCs. Portable user data remains beside the app instead of being left on each machine.
 
 - Applies a small, curated set of Windows 11 Registry and power-plan tweaks.
 - Captures original values before every change and restores them after an app restart.
@@ -34,7 +38,9 @@ TweakHub supports Windows 11 build 22000 or newer. It runs as the current user a
 
 ## Install
 
-Download either the installer or portable archive from [GitHub Releases](https://github.com/PrimeBuild-pc/TweakHub/releases). The portable archive contains `portable.flag`, so configuration and rollback data stay in its `Data` folder and travel with the complete application folder. Later releases can be installed from the in-app update prompt after SHA-256 verification. Public beta builds may be unsigned and can trigger a Microsoft Defender SmartScreen warning.
+Download the portable archive from [GitHub Releases](https://github.com/PrimeBuild-pc/TweakHub/releases/latest), extract it to a USB drive or local folder, and run `TweakHub.exe`. Keep `TweakHub.exe`, `portable.flag` and the generated `Data` directory together: copying that complete folder preserves custom tools, scripts, tweaks, favorites, appearance and rollback data.
+
+An installer is also provided for a conventional per-PC installation; installed builds keep user data under `%AppData%\TweakHub`. Releases may be unsigned and can trigger a Microsoft Defender SmartScreen warning. In-app updates are downloaded and SHA-256 verified before installation.
 
 ## Build from source
 
@@ -51,7 +57,7 @@ dotnet publish TweakHub.csproj -c Release -r win-x64 --self-contained true -o pu
 
 ## Local data
 
-Installed builds store scripts, favorites, persistent backups and operation logs under `%AppData%\TweakHub`. Portable builds store them under `Data` beside the application files.
+Portable builds store scripts, favorites, persistent backups and operation logs under `Data` beside the application files. Installed builds use `%AppData%\TweakHub`.
 
 Important files:
 
@@ -69,7 +75,7 @@ Do not delete backup files before restoring outstanding changes.
 
 ## Release process
 
-A `vX.Y.Z-beta` tag matching the project `Version` runs restore, build, tests, self-contained publish, portable archive creation, installer creation and SHA-256 generation. Generated binaries belong in GitHub Releases, not in Git.
+Every push and pull request to `main` runs the Windows build and test workflow. A `vX.Y.Z` tag matching the project version publishes the self-contained portable archive, installer and SHA-256 checksums to GitHub Releases. Generated binaries belong in Releases, not in Git.
 
 ## License
 

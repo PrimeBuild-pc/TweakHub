@@ -46,8 +46,6 @@ namespace TweakHub.Models
         public string RegistryKey { get; set; } = string.Empty;
         public object? EnabledValue { get; set; }
         public object? DisabledValue { get; set; }
-        public string? ServiceName { get; set; }
-        public string? ScriptPath { get; set; }
         public string Category { get; set; } = string.Empty;
         public int RiskLevel { get; set; } = 1; // 1-5 scale
         public bool IsAvailable { get; set; } = true;

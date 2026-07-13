@@ -71,90 +71,8 @@ namespace TweakHub.Views
             if (dialog.ShowDialog() == true) System.IO.File.WriteAllText(dialog.FileName, script.Content);
         }
 
-        private void NewScriptButton_Click(object sender, RoutedEventArgs e)
-        {
-            var dialog = new Window
-            {
-                Title = "Create Custom Script",
-                Width = 560,
-                Height = 480,
-                WindowStartupLocation = WindowStartupLocation.CenterOwner,
-                Owner = Application.Current.MainWindow,
-                Background = (Brush)FindResource("SystemControlBackgroundChromeMediumBrush")
-            };
-
-            var grid = new Grid { Margin = new Thickness(20) };            
-            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-
-            var nameBox = new TextBox { Margin = new Thickness(0,0,0,12), ToolTip = "Enter script name" };
-            Grid.SetRow(nameBox,0);
-            grid.Children.Add(nameBox);
-
-            var langPanel = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0,0,0,12) };
-            var psRadio = new RadioButton { Content = "PowerShell", IsChecked = true, Margin = new Thickness(0,0,12,0) };
-            var cmdRadio = new RadioButton { Content = "CMD Batch", Margin = new Thickness(0,0,20,0) };
-            var adminCheck = new CheckBox { Content = "Requires administrator", VerticalAlignment = VerticalAlignment.Center };
-            langPanel.Children.Add(psRadio); langPanel.Children.Add(cmdRadio); langPanel.Children.Add(adminCheck);
-            Grid.SetRow(langPanel,1); grid.Children.Add(langPanel);
-
-            var contentBox = new TextBox
-            {
-                AcceptsReturn = true,
-                VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
-                FontFamily = new System.Windows.Media.FontFamily("Consolas"),
-                TextWrapping = TextWrapping.Wrap,
-                Margin = new Thickness(0,0,0,12)
-            };
-            Grid.SetRow(contentBox,2); grid.Children.Add(contentBox);
-
-            var buttonsPanel = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right };
-            var cancelBtn = new Button { Content = "Cancel", Style = GetStyleOrDefault("ModernButtonStyle"), Margin = new Thickness(0,0,8,0) };
-            var createBtn = new Button { Content = "Create", Style = GetStyleOrDefault("ExecuteButtonStyle") };
-            buttonsPanel.Children.Add(cancelBtn); buttonsPanel.Children.Add(createBtn);
-            Grid.SetRow(buttonsPanel,3); grid.Children.Add(buttonsPanel);
-
-            cancelBtn.Click += (_, __) => dialog.Close();
-            createBtn.Click += (_, __) =>
-            {
-                var name = nameBox.Text.Trim();
-                if (string.IsNullOrWhiteSpace(name)) { MessageBox.Show("Name required."); return; }
-                var script = new CustomScript
-                {
-                    Name = name,
-                    Language = psRadio.IsChecked == true ? ScriptLanguage.PowerShell : ScriptLanguage.Cmd,
-                    Content = contentBox.Text,
-                    RequiresAdministrator = adminCheck.IsChecked == true
-                };
-                _customScripts.Add(script);
-                _userDataService.SaveCustomScripts(_customScripts);
-                dialog.Close();
-                AppendCustomScriptCard(script);
-                
-                // Show confirmation message
-                var owner = Window.GetWindow(this);
-                StyledMessageDialog.ShowOk(
-                    owner,
-                    "Script Created",
-                    $"Script '{name}' has been created successfully!\n\n" +
-                    "You can now view and execute it from the scripts list.");
-            };
-
-            dialog.Content = grid;
-            dialog.ShowDialog();
-        }
-
-        private void AppendCustomScriptCard(CustomScript script)
-        {
-            if (this.Content is Grid root && root.FindName("ScriptsHostPanel") is StackPanel host)
-            {
-                var card = CreateCustomScriptCard(script);
-                card.Tag = "CustomScript";
-                host.Children.Add(card);
-            }
-        }
+        private void NewScriptButton_Click(object sender, RoutedEventArgs e) =>
+            EditCustomScript(new CustomScript(), isNew: true);
 
         private Border CreateCustomScriptCard(CustomScript script)
         {
@@ -206,18 +124,13 @@ namespace TweakHub.Views
             exportBtn.Click += (_, __) => ExportScript(script);
             editBtn.Click += (_, __) => EditCustomScript(script);
             deleteBtn.Click += (_, __) => DeleteCustomScript(script);
-            NameScope.SetNameScope(card, new NameScope());
             return card;
 
             CancellationTokenSource? cancellationFor(string id) =>
                 _runningScripts.TryGetValue(id, out var value) ? value : null;
         }
 
-        private Style GetStyleOrDefault(string key)
-        {
-            var style = TryFindResource(key) as Style ?? Application.Current.TryFindResource(key) as Style;
-            return style ?? (Application.Current.TryFindResource("ModernButtonStyle") as Style ?? new Style(typeof(Button)));
-        }
+        private Style GetStyleOrDefault(string key) => (Style)FindResource(key);
 
         private async Task ExecuteCustomScript(CustomScript script, CancellationToken cancellationToken)
         {
@@ -266,11 +179,11 @@ namespace TweakHub.Views
             }
         }
 
-        private void EditCustomScript(CustomScript script)
+        private void EditCustomScript(CustomScript script, bool isNew = false)
         {
             var dialog = new Window
             {
-                Title = "Edit Custom Script",
+                Title = isNew ? "Create Custom Script" : "Edit Custom Script",
                 Width = 560,
                 Height = 480,
                 WindowStartupLocation = WindowStartupLocation.CenterOwner,
@@ -312,7 +225,7 @@ namespace TweakHub.Views
 
             var buttonsPanel = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right };
             var cancelBtn = new Button { Content = "Cancel", Style = GetStyleOrDefault("ModernButtonStyle"), Margin = new Thickness(0, 0, 8, 0) };
-            var saveBtn = new Button { Content = "Save", Style = GetStyleOrDefault("ExecuteButtonStyle") };
+            var saveBtn = new Button { Content = isNew ? "Create" : "Save", Style = GetStyleOrDefault("ExecuteButtonStyle") };
             buttonsPanel.Children.Add(cancelBtn);
             buttonsPanel.Children.Add(saveBtn);
             Grid.SetRow(buttonsPanel, 3);
@@ -324,29 +237,22 @@ namespace TweakHub.Views
                 var name = nameBox.Text.Trim();
                 if (string.IsNullOrWhiteSpace(name))
                 {
-                    MessageBox.Show("Il nome è obbligatorio.", "Errore", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("Name required.", "Invalid Script", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
 
-                // Update the existing script object
                 script.Name = name;
                 script.Language = psRadio.IsChecked == true ? ScriptLanguage.PowerShell : ScriptLanguage.Cmd;
                 script.Content = contentBox.Text;
                 script.RequiresAdministrator = adminCheck.IsChecked == true;
-
-                // Save to disk
+                if (isNew) _customScripts.Add(script);
                 _userDataService.SaveCustomScripts(_customScripts);
-
                 dialog.Close();
-
-                // Rebuild the UI to reflect changes
                 RefreshCustomScriptCards();
-
-                MessageBox.Show(
-                    $"Lo script '{name}' è stato aggiornato con successo!",
-                    "Script Aggiornato",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Information);
+                StyledMessageDialog.ShowOk(
+                    Window.GetWindow(this),
+                    isNew ? "Script Created" : "Script Updated",
+                    $"Script '{name}' was {(isNew ? "created" : "updated")} successfully.");
             };
 
             dialog.Content = grid;
@@ -381,25 +287,15 @@ namespace TweakHub.Views
 
         private void RefreshCustomScriptCards()
         {
-            if (this.Content is Grid root && root.FindName("ScriptsHostPanel") is StackPanel host)
+            var customCards = ScriptsHostPanel.Children.OfType<Border>()
+                .Where(card => Equals(card.Tag, "CustomScript"))
+                .ToList();
+            foreach (var card in customCards) ScriptsHostPanel.Children.Remove(card);
+            foreach (var script in _customScripts)
             {
-                // Remove all custom script cards (keep only built-in cards)
-                var customCards = host.Children.OfType<Border>()
-                    .Where(b => b.Tag != null && b.Tag.ToString() == "CustomScript")
-                    .ToList();
-
-                foreach (var card in customCards)
-                {
-                    host.Children.Remove(card);
-                }
-
-                // Re-add all custom scripts
-                foreach (var script in _customScripts)
-                {
-                    var card = CreateCustomScriptCard(script);
-                    card.Tag = "CustomScript";
-                    host.Children.Add(card);
-                }
+                var card = CreateCustomScriptCard(script);
+                card.Tag = "CustomScript";
+                ScriptsHostPanel.Children.Add(card);
             }
         }
 
