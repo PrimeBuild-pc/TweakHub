@@ -200,7 +200,6 @@ namespace TweakHub.Services
                     DownloadUrl = "https://github.com/PrimeBuild-pc/ThreadPilot",
                     Icon = "🧭",
                     Version = "Latest",
-                    IsDirectDownload = false
                 });
 
                 // Apply favorites
@@ -228,7 +227,6 @@ namespace TweakHub.Services
                 DownloadUrl = "https://github.com/beeradmoore/dlss-swapper",
                 Icon = "🎮",
                 Version = "Latest",
-                IsDirectDownload = false
             });
 
             ExternalTools.Add(new ExternalTool
@@ -239,7 +237,6 @@ namespace TweakHub.Services
                 DownloadUrl = "https://github.com/Orbmu2k/nvidiaProfileInspector",
                 Icon = "🔧",
                 Version = "Latest",
-                IsDirectDownload = false
             });
 
             ExternalTools.Add(new ExternalTool
@@ -336,19 +333,6 @@ namespace TweakHub.Services
                 Category = "System and Optimization Tools",
                 DownloadUrl = "https://forums.guru3d.com/threads/msi-utility-v3.378044/",
                 Icon = "⚙️",
-                Version = "Latest"
-            });
-
-
-
-            ExternalTools.Add(new ExternalTool
-            {
-                Name = "Chris Titus Tech Tool",
-                Description = "Execute Chris Titus Tech PowerShell tool (admin)",
-                Category = "System and Optimization Tools",
-                PowerShellCommand = "iwr -useb https://christitus.com/win | iex",
-                RequiresAdmin = true,
-                Icon = "🔧",
                 Version = "Latest"
             });
 
@@ -475,26 +459,6 @@ namespace TweakHub.Services
 
             ExternalTools.Add(new ExternalTool
             {
-                Name = "Windows KeyFinder",
-                Description = "Retrieve your Windows product key",
-                Category = "System and Optimization Tools",
-                DownloadUrl = "https://cdn.discordapp.com/attachments/1208935867729580043/1355867378722013297/windowskeyfinder.zip",
-                Icon = "🔑",
-                Version = "Latest"
-            });
-
-            ExternalTools.Add(new ExternalTool
-            {
-                Name = "Windows & Office Activation (MAS)",
-                Description = "Microsoft Activation Scripts (open-source)",
-                Category = "System and Optimization Tools",
-                DownloadUrl = "https://github.com/massgravel/Microsoft-Activation-Scripts",
-                Icon = "🪟",
-                Version = "Latest"
-            });
-
-            ExternalTools.Add(new ExternalTool
-            {
                 Name = "Vortex Mod Manager",
                 Description = "Nexus Mods mod manager",
                 Category = "System and Optimization Tools",
@@ -521,7 +485,6 @@ namespace TweakHub.Services
                 DownloadUrl = "https://github.com/SimonvBez/CPUSetSetter",
                 Icon = "⚙️",
                 Version = "Latest",
-                IsDirectDownload = false
             });
 
             ExternalTools.Add(new ExternalTool
@@ -532,7 +495,6 @@ namespace TweakHub.Services
                 DownloadUrl = "https://github.com/PrimeBuild-pc/ZapTweaks",
                 Icon = "⚡",
                 Version = "Latest",
-                IsDirectDownload = false
             });
 
             ExternalTools.Add(new ExternalTool
@@ -543,18 +505,6 @@ namespace TweakHub.Services
                 DownloadUrl = "https://github.com/seerge/g-helper",
                 Icon = "🎮",
                 Version = "Latest",
-                IsDirectDownload = false
-            });
-
-            ExternalTools.Add(new ExternalTool
-            {
-                Name = "Network Tweaker",
-                Description = "PowerShell script with UI for network optimization tweaks",
-                Category = "System and Optimization Tools",
-                PowerShellCommand = "{APP_DIR}\\Scripts\\Network_Tweaker.ps1",
-                RequiresAdmin = true,
-                Icon = "💻",
-                Version = "Latest"
             });
         }
 
@@ -1187,18 +1137,6 @@ namespace TweakHub.Services
             }
         }
 
-        public async void OpenExternalToolUrl(ExternalTool tool)
-        {
-            try
-            {
-                var downloadService = ToolDownloadService.Instance;
-                await downloadService.DownloadOrOpenTool(tool);
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Error processing tool {tool.Name}: {ex.Message}");
-            }
-        }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {

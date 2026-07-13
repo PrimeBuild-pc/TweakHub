@@ -21,15 +21,23 @@ namespace TweakHub.Views
             _shortcutService = ShortcutService.Instance;
             _downloadService = ToolDownloadService.Instance;
 
-            // Subscribe to download events
-            _downloadService.DownloadProgress += OnDownloadProgress;
-            _downloadService.DownloadCompleted += OnDownloadCompleted;
-
             Loaded += ExternalToolsPage_Loaded;
+            Unloaded += ExternalToolsPage_Unloaded;
+        }
+
+        private void ExternalToolsPage_Unloaded(object sender, RoutedEventArgs e)
+        {
+            _downloadService.DownloadProgress -= OnDownloadProgress;
+            _downloadService.DownloadCompleted -= OnDownloadCompleted;
         }
 
         private void ExternalToolsPage_Loaded(object sender, RoutedEventArgs e)
         {
+            _downloadService.DownloadProgress -= OnDownloadProgress;
+            _downloadService.DownloadCompleted -= OnDownloadCompleted;
+            _downloadService.DownloadProgress += OnDownloadProgress;
+            _downloadService.DownloadCompleted += OnDownloadCompleted;
+
             try
             {
                 // Ensure service is initialized before loading
@@ -366,6 +374,7 @@ namespace TweakHub.Views
 
                 uninstallBtn.Click += async (s, e) =>
                 {
+                    e.Handled = true;
                     var result = MessageBox.Show($"Are you sure you want to uninstall {tool.Name}?", "Confirm Uninstall", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                     if (result == MessageBoxResult.Yes)
                     {

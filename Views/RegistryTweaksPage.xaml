@@ -322,6 +322,7 @@
                                                             <!-- Column 1: Actions (Toggle + eye) -->
                                                             <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
                                                                 <CheckBox IsChecked="{Binding IsEnabled, Mode=TwoWay}"
+                                                                          IsEnabled="{Binding IsAvailable}"
                                                                           Style="{StaticResource PillToggleStyle}"
                                                                           VerticalAlignment="Center"
                                                                           Margin="0,0,12,0"
@@ -329,6 +330,7 @@
                                                                           Click="TweakToggle_Click"/>
 
                                                                 <Button Style="{StaticResource PreviewIconButtonStyle}"
+                                                                        IsEnabled="{Binding IsAvailable}"
                                                                         Click="ViewTweak_Click"
                                                                         VerticalAlignment="Center"
                                                                         Tag="{Binding}"

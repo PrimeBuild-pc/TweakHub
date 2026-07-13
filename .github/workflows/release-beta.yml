@@ -32,10 +32,13 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Restore
-        run: dotnet restore ./TweakHub.csproj
+        run: dotnet restore ./TweakHub.sln
 
       - name: Build
         run: dotnet build ./TweakHub.sln -c ${{ env.CONFIGURATION }} --no-restore
+
+      - name: Test
+        run: dotnet test ./TweakHub.Tests/TweakHub.Tests.csproj -c ${{ env.CONFIGURATION }} --no-build --no-restore
 
       - name: Publish portable (self-contained)
         run: |

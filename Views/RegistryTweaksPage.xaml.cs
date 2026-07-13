@@ -14,15 +14,6 @@ namespace TweakHub.Views
         private readonly RegistryService _registryService;
         private readonly UserDataService _userData = UserDataService.Instance;
         private readonly ObservableCollection<CustomRegistryTweak> _customTweaks = new();
-        private string FormatRegistryValue(object? value)
-        {
-            if (value is null) return "<null>";
-            return value is bool b ? (b ? "1 (REG_DWORD)" : "0 (REG_DWORD)") :
-                   value is int i ? $"{i} (REG_DWORD)" :
-                   value is long l ? $"{l} (REG_QWORD)" :
-                   value is string s ? $"\"{s}\" (REG_SZ)" : value.ToString() ?? string.Empty;
-        }
-
         public RegistryTweaksPage()
         {
             InitializeComponent();
@@ -558,7 +549,7 @@ namespace TweakHub.Views
             // Apply recommended tweaks (risk level 1-2)
             var recommendedTweaks = _tweakService.TweakCategories
                 .SelectMany(c => c.Tweaks)
-                .Where(t => t.RiskLevel <= 2 && !t.IsEnabled)
+                .Where(t => t.IsAvailable && t.RiskLevel <= 2 && !t.IsEnabled)
                 .ToList();
 
             if (!recommendedTweaks.Any())

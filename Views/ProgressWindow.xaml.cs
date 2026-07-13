@@ -28,12 +28,5 @@ namespace TweakHub.Views
             });
         }
 
-        public void UpdateTitle(string title)
-        {
-            Dispatcher.Invoke(() =>
-            {
-                TitleText.Text = title;
-            });
-        }
     }
 }

@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Text.Json;
 using TweakHub.Models;
 
 namespace TweakHub.Services
@@ -256,7 +257,7 @@ namespace TweakHub.Services
                 var backupPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                     "TweakHub", "Backups", $"registry_backup_{DateTime.Now:yyyyMMdd_HHmmss}.json");
 
-                var json = Newtonsoft.Json.JsonConvert.SerializeObject(_backupValues, Newtonsoft.Json.Formatting.Indented);
+                var json = JsonSerializer.Serialize(_backupValues, new JsonSerializerOptions { WriteIndented = true });
                 File.WriteAllText(backupPath, json);
 
                 LastBackupCreatedAt = DateTime.Now;

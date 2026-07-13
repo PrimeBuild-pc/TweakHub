@@ -20,25 +20,7 @@ public partial class MainWindow : Window
         _themeService = ThemeService.Instance;
 
         Loaded += MainWindow_Loaded;
-        Closing += MainWindow_Closing;
         UpdateThemeButton();
-    }
-
-    private void MainWindow_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
-    {
-        // Stop all monitoring services to ensure clean shutdown
-        try
-        {
-            HardwareMonitoringService.Instance.StopMonitoring();
-            SystemMonitoringService.Instance.Stop();
-        }
-        catch
-        {
-            // Ignore errors during shutdown
-        }
-
-        // Force shutdown of the entire application
-        Application.Current.Shutdown();
     }
 
     private void MainWindow_Loaded(object sender, RoutedEventArgs e)

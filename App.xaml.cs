@@ -1,6 +1,4 @@
 using System;
-using System.Diagnostics;
-using System.Security.Principal;
 using System.Windows;
 using Microsoft.Win32;
 using TweakHub.Services;
@@ -14,48 +12,12 @@ public partial class App : Application
 {
     protected override void OnStartup(StartupEventArgs e)
     {
-        // Initialize theme service FIRST to ensure proper icon colors from startup
-        var themeService = ThemeService.Instance;
-
-        // Follow Windows theme at startup (Light/Dark based on AppsUseLightTheme)
-        themeService.CurrentTheme = AppTheme.System;
-
-        // Live Windows theme changes
+        _ = ThemeService.Instance;
+        RegistryService.Instance.Initialize();
         SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
-
-        // Check if running as administrator
-        if (!IsRunningAsAdministrator())
-        {
-            var result = MessageBox.Show(
-                "TweakHub requires administrator privileges to function properly.\n\n" +
-                "Many system tweaks and optimizations require elevated permissions.\n\n" +
-                "Would you like to restart TweakHub as administrator?",
-                "Administrator Privileges Required",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question);
-
-            if (result == MessageBoxResult.Yes)
-            {
-                RestartAsAdministrator();
-                return; // Exit current instance
-            }
-            else
-            {
-                MessageBox.Show(
-                    "TweakHub will continue to run, but some features may not work correctly without administrator privileges.",
-                    "Limited Functionality Warning",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Warning);
-            }
-        }
-
-        base.OnStartup(e);
-
-        // Set up global exception handling
         DispatcherUnhandledException += App_DispatcherUnhandledException;
-        
-        // Set up exit handling to ensure clean shutdown
         Exit += App_Exit;
+        base.OnStartup(e);
     }
 
     private void App_Exit(object sender, ExitEventArgs e)
@@ -69,16 +31,6 @@ public partial class App : Application
             // Ignore unhook errors
         }
 
-        // Ensure all services are properly stopped
-        try
-        {
-            HardwareMonitoringService.Instance.StopMonitoring();
-            SystemMonitoringService.Instance.Stop();
-        }
-        catch
-        {
-            // Ignore errors during shutdown
-        }
     }
 
     private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
@@ -101,43 +53,5 @@ public partial class App : Application
         e.Handled = true;
     }
 
-    private bool IsRunningAsAdministrator()
-    {
-        try
-        {
-            var identity = WindowsIdentity.GetCurrent();
-            var principal = new WindowsPrincipal(identity);
-            return principal.IsInRole(WindowsBuiltInRole.Administrator);
-        }
-        catch
-        {
-            return false;
-        }
-    }
-
-    private void RestartAsAdministrator()
-    {
-        try
-        {
-            var processInfo = new ProcessStartInfo
-            {
-                FileName = Environment.ProcessPath ?? Process.GetCurrentProcess().MainModule?.FileName ?? "TweakHub.exe",
-                UseShellExecute = true,
-                Verb = "runas" // This triggers UAC elevation
-            };
-
-            Process.Start(processInfo);
-            Current.Shutdown();
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show(
-                $"Failed to restart as administrator:\n\n{ex.Message}\n\n" +
-                "Please manually run TweakHub as administrator for full functionality.",
-                "Restart Failed",
-                MessageBoxButton.OK,
-                MessageBoxImage.Error);
-        }
-    }
 }
 

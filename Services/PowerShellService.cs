@@ -1,7 +1,6 @@
-using System;
 using System.Diagnostics;
+using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace TweakHub.Services
 {
@@ -12,122 +11,74 @@ namespace TweakHub.Services
 
         private PowerShellService() { }
 
-        public PowerShellResult ExecuteScript(string script)
-        {
-            try
-            {
-                var processInfo = new ProcessStartInfo
-                {
-                    FileName = "powershell.exe",
-                    Arguments = $"-ExecutionPolicy Bypass -Command \"{script.Replace("\"", "\\\"")}\"",
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    CreateNoWindow = true,
-                    Verb = "runas" // Run as administrator
-                };
+        public PowerShellResult ExecuteScript(string script) =>
+            ExecuteScriptAsync(script).GetAwaiter().GetResult();
 
-                using var process = Process.Start(processInfo);
-                if (process == null)
-                {
-                    return new PowerShellResult
-                    {
-                        Success = false,
-                        Output = string.Empty,
-                        Error = "Failed to start PowerShell process"
-                    };
-                }
-
-                var output = process.StandardOutput.ReadToEnd();
-                var error = process.StandardError.ReadToEnd();
-                
-                process.WaitForExit();
-
-                return new PowerShellResult
-                {
-                    Success = process.ExitCode == 0,
-                    Output = output,
-                    Error = error,
-                    ExitCode = process.ExitCode
-                };
-            }
-            catch (Exception ex)
-            {
-                return new PowerShellResult
-                {
-                    Success = false,
-                    Output = string.Empty,
-                    Error = ex.Message
-                };
-            }
-        }
+        public PowerShellResult ExecuteCommand(string command) => ExecuteScript(command);
 
         public async Task<PowerShellResult> ExecuteScriptAsync(string script)
         {
-            return await Task.Run(() => ExecuteScript(script));
-        }
+            var scriptPath = Path.Combine(Path.GetTempPath(), $"TweakHub-{Guid.NewGuid():N}.ps1");
 
-        public PowerShellResult ExecuteCommand(string command)
-        {
             try
             {
-                var processInfo = new ProcessStartInfo
-                {
-                    FileName = "powershell.exe",
-                    Arguments = $"-ExecutionPolicy Bypass -Command \"{command.Replace("\"", "\\\"")}\"",
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    CreateNoWindow = true
-                };
+                await File.WriteAllTextAsync(scriptPath, script, new UTF8Encoding(false));
 
-                using var process = Process.Start(processInfo);
-                if (process == null)
+                using var process = new Process
                 {
-                    return new PowerShellResult
+                    StartInfo = new ProcessStartInfo
                     {
-                        Success = false,
-                        Output = string.Empty,
-                        Error = "Failed to start PowerShell process"
-                    };
-                }
+                        FileName = "powershell.exe",
+                        UseShellExecute = false,
+                        RedirectStandardOutput = true,
+                        RedirectStandardError = true,
+                        CreateNoWindow = true
+                    }
+                };
+                process.StartInfo.ArgumentList.Add("-NoProfile");
+                process.StartInfo.ArgumentList.Add("-NonInteractive");
+                process.StartInfo.ArgumentList.Add("-ExecutionPolicy");
+                process.StartInfo.ArgumentList.Add("Bypass");
+                process.StartInfo.ArgumentList.Add("-File");
+                process.StartInfo.ArgumentList.Add(scriptPath);
 
-                var output = process.StandardOutput.ReadToEnd();
-                var error = process.StandardError.ReadToEnd();
-                
-                process.WaitForExit();
+                if (!process.Start())
+                    return Failure("Failed to start PowerShell process");
+
+                var outputTask = process.StandardOutput.ReadToEndAsync();
+                var errorTask = process.StandardError.ReadToEndAsync();
+                await process.WaitForExitAsync();
 
                 return new PowerShellResult
                 {
                     Success = process.ExitCode == 0,
-                    Output = output,
-                    Error = error,
+                    Output = await outputTask,
+                    Error = await errorTask,
                     ExitCode = process.ExitCode
                 };
             }
             catch (Exception ex)
             {
-                return new PowerShellResult
-                {
-                    Success = false,
-                    Output = string.Empty,
-                    Error = ex.Message
-                };
+                return Failure(ex.Message);
+            }
+            finally
+            {
+                try { File.Delete(scriptPath); } catch { }
             }
         }
 
         public bool IsAdministrator()
         {
-            try
-            {
-                var result = ExecuteCommand("([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')");
-                return result.Success && result.Output.Trim().Equals("True", StringComparison.OrdinalIgnoreCase);
-            }
-            catch
-            {
-                return false;
-            }
+            var result = ExecuteCommand("([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')");
+            return result.Success && result.Output.Trim().Equals("True", StringComparison.OrdinalIgnoreCase);
         }
+
+        private static PowerShellResult Failure(string error) => new()
+        {
+            Success = false,
+            Error = error,
+            ExitCode = -1
+        };
     }
 
     public class PowerShellResult
