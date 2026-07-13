@@ -11,9 +11,6 @@ namespace TweakHub.Services
 
         private PowerShellService() { }
 
-        public PowerShellResult ExecuteScript(string script) =>
-            ExecuteScriptAsync(script).GetAwaiter().GetResult();
-
 
         public async Task<PowerShellResult> ExecuteScriptAsync(
             string script,

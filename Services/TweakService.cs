@@ -383,7 +383,7 @@ namespace TweakHub.Services
                 if (await ApplyCoreAsync(tweak, false)) restored++; else failed++;
             }
 
-            RefreshTweakStates();
+            await RefreshTweakStatesAsync();
             HasAppliedTweaksThisSession = RegistryService.Instance.BackupCount > 0 || PowerService.Instance.HasAnyBackup;
             return (restored, failed);
         }
@@ -397,18 +397,17 @@ namespace TweakHub.Services
             _ => RegistryService.Instance.HasBackup(tweak.RegistryPath, tweak.RegistryKey)
         };
 
-        public void RefreshTweakStates()
+        public async Task RefreshTweakStatesAsync()
         {
             foreach (var tweak in TweakCategories.SelectMany(category => category.Tweaks))
             {
                 tweak.IsEnabled = tweak.Id switch
                 {
-                    "disable_cpu_throttling" => PowerService.Instance
-                        .IsProcessorSettingActiveAsync("PROCTHROTTLEMIN", 100).GetAwaiter().GetResult(),
-                    "disable_core_parking" => PowerService.Instance
-                        .IsProcessorSettingActiveAsync("CPMINCORES", 100).GetAwaiter().GetResult(),
-                    "high_performance_power_plan" => PowerService.Instance
-                        .IsHighPerformancePlanActiveAsync().GetAwaiter().GetResult(),
+                    "disable_cpu_throttling" => await PowerService.Instance
+                        .IsProcessorSettingActiveAsync("PROCTHROTTLEMIN", 100),
+                    "disable_core_parking" => await PowerService.Instance
+                        .IsProcessorSettingActiveAsync("CPMINCORES", 100),
+                    "high_performance_power_plan" => await PowerService.Instance.IsHighPerformancePlanActiveAsync(),
                     "disable_mouse_acceleration" => new[] { "MouseSpeed", "MouseThreshold1", "MouseThreshold2" }
                         .All(name => Equals(RegistryService.Instance.GetRegistryValue(@"HKEY_CURRENT_USER\Control Panel\Mouse", name), "0")),
                     _ => RegistryService.Instance.CheckTweakStatus(tweak)

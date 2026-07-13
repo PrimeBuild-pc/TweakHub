@@ -44,7 +44,7 @@ namespace TweakHub.Views
             }
         }
 
-        private void RegistryTweaksPage_Loaded(object sender, RoutedEventArgs e)
+        private async void RegistryTweaksPage_Loaded(object sender, RoutedEventArgs e)
         {
             // Show one-time per-session disclaimer on first visit to Registry Tweaks section
             if (!_tweakService.RegistryDisclaimerShown)
@@ -57,12 +57,12 @@ namespace TweakHub.Views
                 _tweakService.RegistryDisclaimerShown = true;
             }
 
-            LoadTweaks();
+            await LoadTweaksAsync();
             LoadCustomTweaks();
             RenderCustomTweaks();
         }
 
-        private void LoadTweaks()
+        private async Task LoadTweaksAsync()
         {
             // Load the tweak data first
             _tweakService.LoadTweaks();
@@ -72,7 +72,7 @@ namespace TweakHub.Views
             {
                 tweakCategoriesControl.ItemsSource = _tweakService.TweakCategories;
             }
-            _tweakService.RefreshTweakStates();
+            await _tweakService.RefreshTweakStatesAsync();
 
             // Update sidebar badge immediately after initial state refresh
             NotifyMainWindowBadgeUpdate();
@@ -458,9 +458,10 @@ namespace TweakHub.Views
             }
         }
 
-        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        private async void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
-            _tweakService.RefreshTweakStates();
+            await _tweakService.RefreshTweakStatesAsync();
+            NotifyMainWindowBadgeUpdate();
         }
 
         private void ViewTweak_Click(object sender, RoutedEventArgs e)
