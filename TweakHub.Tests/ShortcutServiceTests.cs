@@ -7,20 +7,28 @@ namespace TweakHub.Tests;
 public class ShortcutServiceTests
 {
     [Test]
-    public void ExternalToolCatalogueIsSmallAndUsesOnlyExplicitWingetIdsOrHttpsUrls()
+    public void ExternalToolCatalogueUsesOnlyCuratedWingetIdsOrHttpsPages()
     {
         var service = ShortcutService.Instance;
         service.Initialize();
         var tools = service.ExternalTools;
+        var categories = new[]
+        {
+            "System Utilities", "CPU & Memory", "Monitoring & Diagnostics", "GPU & Display",
+            "Gaming & Input", "Storage & USB", "Network", "Audio", "Benchmarks & Stability"
+        };
 
-        Assert.That(tools, Has.Count.LessThanOrEqualTo(25));
+        Assert.That(tools, Has.Count.InRange(70, 85));
         Assert.That(tools.Select(tool => tool.Name), Is.Unique);
+        Assert.That(tools.Select(tool => tool.Category).Distinct(), Is.SubsetOf(categories));
         Assert.That(tools.Where(tool => tool.WingetId.Length > 0).Select(tool => tool.WingetId), Is.Unique);
         Assert.That(tools, Has.All.Matches<ExternalTool>(tool =>
         {
             var hasWingetId = tool.WingetId.Length > 0;
             var hasHttpsUrl = Uri.TryCreate(tool.DownloadUrl, UriKind.Absolute, out var uri) && uri.Scheme == Uri.UriSchemeHttps;
-            return hasWingetId ^ hasHttpsUrl;
+            var safePage = !tool.DownloadUrl.EndsWith(".ps1", StringComparison.OrdinalIgnoreCase)
+                           && !tool.DownloadUrl.Contains("get.activated.win", StringComparison.OrdinalIgnoreCase);
+            return hasWingetId ^ hasHttpsUrl && safePage;
         }));
     }
 }

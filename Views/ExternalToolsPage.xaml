@@ -137,7 +137,7 @@
                            FontSize="28" FontWeight="Light"
                            Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"
                            Margin="0,0,0,6"/>
-                <TextBlock Text="Download and access advanced performance tools for Windows optimization. Click any tool to download or open its official page."
+                <TextBlock Text="Install verified WinGet packages or open each tool's official project page."
                            FontSize="12"
                            Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
                            TextWrapping="Wrap"/>
@@ -146,7 +146,8 @@
                 <Border CornerRadius="6" BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}" BorderThickness="1"
                         Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
                     <DockPanel>
-                        <TextBlock Text="&#xE721;" FontFamily="Segoe Fluent Icons" Margin="8,0,0,0" VerticalAlignment="Center" FontSize="12"/>
+                        <TextBlock Text="&#xE721;" FontFamily="Segoe Fluent Icons" Margin="8,0,0,0" VerticalAlignment="Center" FontSize="12"
+                                   Foreground="{DynamicResource IconSecondaryBrush}"/>
                         <TextBox x:Name="SearchBox" Width="220" Margin="6,0,8,0" BorderThickness="0" Background="Transparent"
                                  VerticalContentAlignment="Center" Padding="0,4" FontSize="12"
                                  TextChanged="SearchBox_TextChanged"/>

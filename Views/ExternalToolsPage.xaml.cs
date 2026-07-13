@@ -81,7 +81,9 @@ namespace TweakHub.Views
             IEnumerable<ExternalTool> toolSource = _shortcutService.ExternalTools;
             if (!string.IsNullOrWhiteSpace(_searchQuery))
             {
-                toolSource = toolSource.Where(t => t.Name.Contains(_searchQuery, StringComparison.OrdinalIgnoreCase));
+                toolSource = toolSource.Where(t => t.Name.Contains(_searchQuery, StringComparison.OrdinalIgnoreCase)
+                    || t.Description.Contains(_searchQuery, StringComparison.OrdinalIgnoreCase)
+                    || t.Category.Contains(_searchQuery, StringComparison.OrdinalIgnoreCase));
             }
 
             // Group tools by category
@@ -119,20 +121,19 @@ namespace TweakHub.Views
             }
         }
 
-        private int GetCategoryOrder(string category)
+        private static int GetCategoryOrder(string category) => category switch
         {
-            // Define category display order
-            return category switch
-            {
-                "System Tools" => 1,
-                "Monitoring" => 2,
-                "Benchmarking" => 3,
-                "Storage" => 4,
-                "Graphics" => 5,
-                "Input & Display" => 6,
-                _ => 99
-            };
-        }
+            "System Utilities" => 1,
+            "CPU & Memory" => 2,
+            "Monitoring & Diagnostics" => 3,
+            "GPU & Display" => 4,
+            "Gaming & Input" => 5,
+            "Storage & USB" => 6,
+            "Network" => 7,
+            "Audio" => 8,
+            "Benchmarks & Stability" => 9,
+            _ => 99
+        };
 
         private StackPanel CreateCategoryHeader(string categoryName, int toolCount)
         {
@@ -181,8 +182,9 @@ namespace TweakHub.Views
             var panel = new StackPanel { Orientation = Orientation.Horizontal };
             var icon = new TextBlock
             {
-                Text = "⭐",
-                FontSize = 20,
+                Text = "\uE734",
+                FontFamily = new FontFamily("Segoe Fluent Icons"),
+                FontSize = 18,
                 Margin = new Thickness(0, 0, 12, 0),
                 VerticalAlignment = VerticalAlignment.Center
             };
@@ -211,12 +213,15 @@ namespace TweakHub.Views
 
         private static string GetCategoryIcon(string category) => category switch
         {
-            "System Tools" => "\uE713",
-            "Monitoring" => "\uE9D9",
-            "Benchmarking" => "\uE9D2",
-            "Storage" => "\uEDA2",
-            "Graphics" => "\uE7FC",
-            "Input & Display" => "\uE7F4",
+            "System Utilities" => "\uE713",
+            "CPU & Memory" => "\uE950",
+            "Monitoring & Diagnostics" => "\uE9D9",
+            "GPU & Display" => "\uE7F4",
+            "Gaming & Input" => "\uE7FC",
+            "Storage & USB" => "\uEDA2",
+            "Network" => "\uE968",
+            "Audio" => "\uE767",
+            "Benchmarks & Stability" => "\uE9D2",
             _ => "\uE90F"
         };
 

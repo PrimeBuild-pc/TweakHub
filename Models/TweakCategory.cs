@@ -68,7 +68,6 @@ namespace TweakHub.Models
         public string DownloadUrl { get; set; } = string.Empty;
         // For Winget installs (single package)
         public string WingetId { get; set; } = string.Empty;
-        public string Icon { get; set; } = string.Empty;
         // Favorites
         public bool IsFavorite { get; set; }
     }
@@ -79,7 +78,6 @@ namespace TweakHub.Models
         public string Description { get; set; } = string.Empty;
         public string Command { get; set; } = string.Empty;
         public string Arguments { get; set; } = string.Empty;
-        public string Icon { get; set; } = string.Empty;
         public string Category { get; set; } = string.Empty;
     }
 
