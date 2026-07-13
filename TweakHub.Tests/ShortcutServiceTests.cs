@@ -14,11 +14,12 @@ public class ShortcutServiceTests
         var tools = service.ExternalTools;
         var categories = new[]
         {
-            "System Utilities", "CPU & Memory", "Monitoring & Diagnostics", "GPU & Display",
-            "Gaming & Input", "Storage & USB", "Network", "Audio", "Benchmarks & Stability"
+            "System Utilities", "CPU & Memory", "Firmware & Power", "Monitoring & Diagnostics",
+            "GPU & Display", "Gaming & Input", "Storage & USB", "Network", "Audio",
+            "Benchmarks & Stability", "AI Tools"
         };
 
-        Assert.That(tools, Has.Count.InRange(70, 85));
+        Assert.That(tools, Has.Count.InRange(90, 105));
         Assert.That(tools.Select(tool => tool.Name), Is.Unique);
         Assert.That(tools.Select(tool => tool.Category).Distinct(), Is.SubsetOf(categories));
         Assert.That(tools.Where(tool => tool.WingetId.Length > 0).Select(tool => tool.WingetId), Is.Unique);

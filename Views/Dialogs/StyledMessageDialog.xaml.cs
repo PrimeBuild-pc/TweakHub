@@ -32,13 +32,15 @@ namespace TweakHub.Views.Dialogs
             dialog.ShowDialog();
         }
 
-        public static bool ShowYesNo(Window? owner, string title, string message)
+        public static bool ShowYesNo(Window? owner, string title, string message) =>
+            ShowConfirm(owner, title, message, "Yes", "No");
+
+        public static bool ShowConfirm(Window? owner, string title, string message, string primaryButtonText, string secondaryButtonText)
         {
-            var dialog = new StyledMessageDialog(title, message, primaryButtonText: "Yes", secondaryButtonText: "No")
+            var dialog = new StyledMessageDialog(title, message, primaryButtonText, secondaryButtonText)
             {
                 Owner = owner ?? Application.Current.MainWindow
             };
-
             return dialog.ShowDialog() == true;
         }
 

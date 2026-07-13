@@ -11,18 +11,34 @@ namespace TweakHub;
 /// </summary>
 public partial class MainWindow : Window
 {
+    private readonly ThemeService _themeService = ThemeService.Instance;
     private Button? _activeButton;
+    private bool _updateCheckStarted;
 
     public MainWindow()
     {
         InitializeComponent();
+        AppearanceStatusText.Text = _themeService.StatusText;
+        _themeService.PropertyChanged += ThemeService_PropertyChanged;
+        Closed += (_, _) => _themeService.PropertyChanged -= ThemeService_PropertyChanged;
         Loaded += MainWindow_Loaded;
+        ContentRendered += MainWindow_ContentRendered;
     }
 
     private void MainWindow_Loaded(object sender, RoutedEventArgs e)
     {
         // Navigate to Registry Tweaks by default
         NavigateToRegistryTweaks();
+    }
+
+    private async void MainWindow_ContentRendered(object? sender, EventArgs e)
+    {
+        if (_updateCheckStarted) return;
+        _updateCheckStarted = true;
+        while (Application.Current.Windows.Cast<Window>().Any(window => window.Title == "TweakHub Disclaimer" && window.IsVisible))
+            await Task.Delay(500);
+        await Task.Delay(1000);
+        await UpdateService.Instance.CheckAndPromptAsync(this, showNoUpdate: false);
     }
 
     private void RegistryTweaksButton_Click(object sender, RoutedEventArgs e)
@@ -45,10 +61,12 @@ public partial class MainWindow : Window
         NavigateToQuickAccess();
     }
 
-    private void AboutButton_Click(object sender, RoutedEventArgs e)
-    {
-        NavigateToAbout();
-    }
+    private void AboutButton_Click(object sender, RoutedEventArgs e) => NavigateToAbout();
+
+    private void AppearanceSettings_Click(object sender, System.Windows.Input.MouseButtonEventArgs e) => NavigateToAbout();
+
+    private void ThemeService_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) =>
+        AppearanceStatusText.Text = _themeService.StatusText;
 
 
     private void NavigateToRegistryTweaks()

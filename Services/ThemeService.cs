@@ -10,26 +10,104 @@ namespace TweakHub.Services;
 public sealed class ThemeService : INotifyPropertyChanged
 {
     private static ThemeService? _instance;
+    private string _themeMode = "System";
+    private string _customAccent = string.Empty;
+    private bool _transparencyEnabled = true;
     private bool _isDark;
 
     public static ThemeService Instance => _instance ??= new ThemeService();
+    public string ThemeMode => _themeMode;
+    public string CustomAccent => _customAccent;
+    public bool UseSystemAccent => string.IsNullOrEmpty(_customAccent);
+    public bool TransparencyEnabled => _transparencyEnabled;
     public bool IsDark => _isDark;
+    public string StatusText => $"{(_themeMode == "System" ? "Synced with Windows" : _themeMode + " mode")} • {(UseSystemAccent ? "System color" : _customAccent)}";
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    private ThemeService() => ApplySystemTheme();
+    private ThemeService()
+    {
+        try
+        {
+            if (!Properties.Settings.Default.AppearanceConfigured)
+            {
+                Properties.Settings.Default.Theme = "System";
+                Properties.Settings.Default.AccentColor = string.Empty;
+                Properties.Settings.Default.Transparency = true;
+                Properties.Settings.Default.AppearanceConfigured = true;
+                Properties.Settings.Default.Save();
+            }
 
-    public void RefreshSystemThemeIfNeeded() => ApplySystemTheme();
+            _themeMode = NormalizeTheme(Properties.Settings.Default.Theme);
+            _customAccent = Properties.Settings.Default.AccentColor ?? string.Empty;
+            _transparencyEnabled = Properties.Settings.Default.Transparency;
+        }
+        catch
+        {
+            _themeMode = "System";
+            _customAccent = string.Empty;
+            _transparencyEnabled = true;
+        }
+        ApplyTheme();
+    }
 
-    private void ApplySystemTheme()
+    public bool SetPreferences(string themeMode, bool useSystemAccent, string customAccent, bool transparency, out string error)
+    {
+        themeMode = NormalizeTheme(themeMode);
+        customAccent = useSystemAccent ? string.Empty : customAccent.Trim();
+        if (!useSystemAccent && !TryParseColor(customAccent, out _))
+        {
+            error = "Enter a color in #RRGGBB format.";
+            return false;
+        }
+
+        _themeMode = themeMode;
+        _customAccent = customAccent;
+        _transparencyEnabled = transparency;
+        ApplyTheme();
+        try
+        {
+            Properties.Settings.Default.Theme = _themeMode;
+            Properties.Settings.Default.AccentColor = _customAccent;
+            Properties.Settings.Default.Transparency = _transparencyEnabled;
+            Properties.Settings.Default.AppearanceConfigured = true;
+            Properties.Settings.Default.Save();
+            error = string.Empty;
+            return true;
+        }
+        catch
+        {
+            error = "The appearance was applied for this session but could not be saved.";
+            return false;
+        }
+    }
+
+    public void RefreshSystemThemeIfNeeded()
+    {
+        if (_themeMode == "System" || UseSystemAccent) ApplyTheme();
+    }
+
+    private void ApplyTheme()
     {
         var app = Application.Current;
         if (app == null) return;
 
-        _isDark = IsSystemDarkTheme();
-        ThemeManager.Current.ApplicationTheme = null;
+        _isDark = _themeMode switch
+        {
+            "Dark" => true,
+            "Light" => false,
+            _ => IsSystemDarkTheme()
+        };
+        ThemeManager.Current.ApplicationTheme = _themeMode switch
+        {
+            "Dark" => ApplicationTheme.Dark,
+            "Light" => ApplicationTheme.Light,
+            _ => null
+        };
 
-        var accent = GetSystemAccentColor();
+        var accent = UseSystemAccent || !TryParseColor(_customAccent, out var selectedAccent)
+            ? GetSystemAccentColor()
+            : selectedAccent;
         SetBrush(app, "AccentBrush", accent);
         SetBrush(app, "AccentHoverBrush", Blend(accent, _isDark ? Colors.White : Colors.Black, 0.12));
         SetBrush(app, "AccentPressedBrush", Blend(accent, Colors.Black, 0.18));
@@ -44,9 +122,9 @@ public sealed class ThemeService : INotifyPropertyChanged
         var primary = _isDark ? Colors.White : Color.FromRgb(27, 27, 27);
         var secondary = _isDark ? Color.FromRgb(200, 200, 200) : Color.FromRgb(96, 96, 96);
 
-        SetBrush(app, "WindowBackgroundBrush", Color.FromArgb(235, background.R, background.G, background.B));
-        SetBrush(app, "NavigationBrush", Color.FromArgb(210, background.R, background.G, background.B));
-        SetBrush(app, "CardBrush", Color.FromArgb(224, surface.R, surface.G, surface.B));
+        SetBrush(app, "WindowBackgroundBrush", WithAlpha(background, (byte)(_transparencyEnabled ? 235 : 255)));
+        SetBrush(app, "NavigationBrush", WithAlpha(background, (byte)(_transparencyEnabled ? 210 : 255)));
+        SetBrush(app, "CardBrush", WithAlpha(surface, (byte)(_transparencyEnabled ? 224 : 255)));
         SetBrush(app, "SubtleFillBrush", hover);
         SetBrush(app, "SystemControlBackgroundBaseLowBrush", background);
         SetBrush(app, "SystemControlBackgroundChromeMediumLowBrush", surface);
@@ -61,12 +139,28 @@ public sealed class ThemeService : INotifyPropertyChanged
         SetBrush(app, "IconBrush", primary);
         SetBrush(app, "IconSecondaryBrush", secondary);
 
-        OnPropertyChanged(nameof(IsDark));
+        OnPropertyChanged(string.Empty);
+        OnPropertyChanged(nameof(StatusText));
     }
 
-    private static void SetBrush(Application app, string key, Color color) =>
-        app.Resources[key] = new SolidColorBrush(color);
+    private static string NormalizeTheme(string? theme) => theme is "Light" or "Dark" ? theme : "System";
 
+    private static bool TryParseColor(string value, out Color color)
+    {
+        try
+        {
+            color = (Color)ColorConverter.ConvertFromString(value);
+            return value.Length == 7 && value[0] == '#';
+        }
+        catch
+        {
+            color = default;
+            return false;
+        }
+    }
+
+    private static Color WithAlpha(Color color, byte alpha) => Color.FromArgb(alpha, color.R, color.G, color.B);
+    private static void SetBrush(Application app, string key, Color color) => app.Resources[key] = new SolidColorBrush(color);
     private static Color Blend(Color color, Color target, double amount) => Color.FromArgb(
         color.A,
         (byte)(color.R + (target.R - color.R) * amount),

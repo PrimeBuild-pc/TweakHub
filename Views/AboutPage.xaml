@@ -27,50 +27,105 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Header -->
-        <StackPanel Grid.Row="0" Margin="0,0,0,24">
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
-                <TextBlock Text="ℹ️" FontSize="32" Margin="0,0,10,0" Foreground="{DynamicResource IconBrush}"/>
-                <TextBlock Text="About" FontSize="32" FontWeight="Light" Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+        <StackPanel Grid.Row="0" Margin="0,0,0,20">
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                <TextBlock Text="&#xE946;" FontFamily="Segoe Fluent Icons" FontSize="28" Margin="0,0,12,0"
+                           Foreground="{DynamicResource IconBrush}"/>
+                <TextBlock Text="About &amp; Settings" FontSize="28" FontWeight="Light"
+                           Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
             </StackPanel>
-            <TextBlock Text="Information about TweakHub"
-                       FontSize="14"
-                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+            <TextBlock Text="Application information, appearance and updates"
+                       FontSize="12" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
         </StackPanel>
 
-        <!-- Content -->
-        <Border Grid.Row="1" Padding="24" CornerRadius="12"
-                Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="0,0,16,0">
             <StackPanel>
-                <TextBlock x:Name="VersionText" FontSize="20" FontWeight="SemiBold" Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
-                <TextBlock Text="© 2025–2026 Prime Build" Margin="0,4,0,14" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+                <Border Style="{StaticResource CardStyle}" Margin="0,0,0,12">
+                    <StackPanel>
+                        <TextBlock Text="Appearance" Style="{StaticResource CategoryHeaderStyle}"/>
+                        <TextBlock Text="Follow Windows or choose a fixed theme, accent color and backdrop."
+                                   Style="{StaticResource DescriptionTextStyle}" Margin="0,0,0,16"/>
 
-                <TextBlock Text="License: MIT License" Margin="0,0,0,6" Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
-                <TextBlock Margin="0,0,0,14" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}">
-                    <Hyperlink NavigateUri="https://github.com/PrimeBuild-pc/TweakHub" RequestNavigate="Hyperlink_RequestNavigate">
-                        https://github.com/PrimeBuild-pc/TweakHub
-                    </Hyperlink>
-                </TextBlock>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="180"/>
+                                <ColumnDefinition Width="260"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
-                <TextBlock Text="Contact:" Margin="0,0,0,6" Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
-                <TextBlock Margin="0,0,0,14">
-                    <Hyperlink
-                        NavigateUri="https://discord.gg/AkuAZMwnGY"
-                        RequestNavigate="Hyperlink_RequestNavigate">
-                        Discord Server
-                    </Hyperlink>
-                </TextBlock>
+                            <TextBlock Text="Theme" VerticalAlignment="Center" Margin="0,0,12,12"
+                                       Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                            <ComboBox x:Name="ThemeModeComboBox" Grid.Column="1" Margin="0,0,0,12" SelectedValuePath="Tag">
+                                <ComboBoxItem Content="Use Windows setting" Tag="System"/>
+                                <ComboBoxItem Content="Light" Tag="Light"/>
+                                <ComboBoxItem Content="Dark" Tag="Dark"/>
+                            </ComboBox>
 
-                <TextBlock TextWrapping="Wrap" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}">
-                    This software is provided "as is", without warranty of any kind.
-                </TextBlock>
+                            <TextBlock Grid.Row="1" Text="Accent color" VerticalAlignment="Center" Margin="0,0,12,12"
+                                       Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                            <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,0,0,12">
+                                <CheckBox x:Name="UseSystemAccentCheckBox" Content="Use Windows accent color"
+                                          Checked="UseSystemAccent_Changed" Unchecked="UseSystemAccent_Changed"/>
+                                <TextBox x:Name="AccentColorTextBox" Margin="0,8,0,0" MaxLength="7" ToolTip="Hex color, for example #0078D4"/>
+                            </StackPanel>
 
-                <Button Content="Check for Updates"
-                        Style="{StaticResource ModernButtonStyle}"
-                        Click="CheckForUpdates_Click"
-                        Margin="0,20,0,0"
-                        HorizontalAlignment="Left"/>
+                            <TextBlock Grid.Row="2" Text="Effects" VerticalAlignment="Center" Margin="0,0,12,0"
+                                       Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                            <CheckBox x:Name="TransparencyCheckBox" Grid.Row="2" Grid.Column="1"
+                                      Content="Enable Mica and transparency"/>
+                        </Grid>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,18,0,0">
+                            <Button x:Name="ApplyAppearanceButton" Content="Apply appearance" Style="{StaticResource ModernButtonStyle}"
+                                    Click="ApplyAppearance_Click"/>
+                            <TextBlock x:Name="AppearanceResultText" Margin="12,0,0,0" VerticalAlignment="Center"
+                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <Border Style="{StaticResource CardStyle}" Margin="0,0,0,12">
+                    <StackPanel>
+                        <TextBlock Text="Updates" Style="{StaticResource CategoryHeaderStyle}"/>
+                        <TextBlock Text="TweakHub checks GitHub Releases when it starts. Updates are downloaded, verified and installed only after your confirmation."
+                                   Style="{StaticResource DescriptionTextStyle}" Margin="0,0,0,14"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Button x:Name="CheckForUpdatesButton" Content="Check for updates"
+                                    Style="{StaticResource ModernButtonStyle}" Click="CheckForUpdates_Click"/>
+                            <TextBlock x:Name="UpdateStatusText" Margin="12,0,0,0" VerticalAlignment="Center"
+                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <Border Style="{StaticResource CardStyle}" Margin="0,0,0,4">
+                    <StackPanel>
+                        <TextBlock x:Name="VersionText" FontSize="20" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                        <TextBlock Text="© 2025–2026 Prime Build" Margin="0,4,0,14"
+                                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+                        <TextBlock Text="License: MIT License" Margin="0,0,0,6"
+                                   Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                        <TextBlock Margin="0,0,0,12">
+                            <Hyperlink NavigateUri="https://github.com/PrimeBuild-pc/TweakHub" RequestNavigate="Hyperlink_RequestNavigate">
+                                GitHub repository
+                            </Hyperlink>
+                        </TextBlock>
+                        <TextBlock Margin="0,0,0,12">
+                            <Hyperlink NavigateUri="https://discord.gg/AkuAZMwnGY" RequestNavigate="Hyperlink_RequestNavigate">
+                                Discord server
+                            </Hyperlink>
+                        </TextBlock>
+                        <TextBlock Text="This software is provided as is, without warranty of any kind."
+                                   TextWrapping="Wrap" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+                    </StackPanel>
+                </Border>
             </StackPanel>
-        </Border>
+        </ScrollViewer>
     </Grid>
 </Page>

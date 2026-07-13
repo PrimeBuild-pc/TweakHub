@@ -77,6 +77,15 @@ jobs:
           }
           & $iscc "installer\TweakHub.iss"
 
+      - name: Create SHA-256 checksums
+        shell: pwsh
+        run: |
+          $files = @(Get-Item "dist/*.zip") + @(Get-Item "installer/Output/*.exe")
+          foreach ($file in $files) {
+            $hash = (Get-FileHash $file.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+            "$hash  $($file.Name)" | Set-Content "$($file.FullName).sha256" -Encoding ascii
+          }
+
       - name: Create GitHub Release (prerelease)
         uses: softprops/action-gh-release@v2
         with:
@@ -86,6 +95,8 @@ jobs:
           draft: false
           files: |
             dist/TweakHub-${{ steps.tag.outputs.tag }}-${{ env.RUNTIME }}-portable.zip
+            dist/*.sha256
             installer/Output/*.exe
+            installer/Output/*.sha256
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

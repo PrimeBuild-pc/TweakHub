@@ -125,13 +125,15 @@ namespace TweakHub.Views
         {
             "System Utilities" => 1,
             "CPU & Memory" => 2,
-            "Monitoring & Diagnostics" => 3,
-            "GPU & Display" => 4,
-            "Gaming & Input" => 5,
-            "Storage & USB" => 6,
-            "Network" => 7,
-            "Audio" => 8,
-            "Benchmarks & Stability" => 9,
+            "Firmware & Power" => 3,
+            "Monitoring & Diagnostics" => 4,
+            "GPU & Display" => 5,
+            "Gaming & Input" => 6,
+            "Storage & USB" => 7,
+            "Network" => 8,
+            "Audio" => 9,
+            "Benchmarks & Stability" => 10,
+            "AI Tools" => 11,
             _ => 99
         };
 
@@ -215,6 +217,7 @@ namespace TweakHub.Views
         {
             "System Utilities" => "\uE713",
             "CPU & Memory" => "\uE950",
+            "Firmware & Power" => "\uE945",
             "Monitoring & Diagnostics" => "\uE9D9",
             "GPU & Display" => "\uE7F4",
             "Gaming & Input" => "\uE7FC",
@@ -222,6 +225,7 @@ namespace TweakHub.Views
             "Network" => "\uE968",
             "Audio" => "\uE767",
             "Benchmarks & Stability" => "\uE9D2",
+            "AI Tools" => "\uE99A",
             _ => "\uE90F"
         };
 

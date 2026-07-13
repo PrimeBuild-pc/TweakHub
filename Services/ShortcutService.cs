@@ -50,6 +50,7 @@ public sealed class ShortcutService
             new ExternalTool { Name = "Autoruns", Description = "Inspect and manage every Windows startup location", Category = "System Utilities", WingetId = "Microsoft.Sysinternals.Autoruns" },
             new ExternalTool { Name = "Bulk Crap Uninstaller", Description = "Open-source bulk application uninstaller", Category = "System Utilities", WingetId = "Klocman.BulkCrapUninstaller" },
             new ExternalTool { Name = "Cleanmgr+", Description = "Extended replacement for the classic Windows Disk Cleanup", Category = "System Utilities", DownloadUrl = "https://github.com/builtbybel/CleanmgrPlus" },
+            new ExternalTool { Name = "Device Cleanup Tool", Description = "Remove records for non-present devices; opens the MajorGeeks information page", Category = "System Utilities", DownloadUrl = "https://www.majorgeeks.com/files/details/device_cleanup_tool.html" },
             new ExternalTool { Name = "DISM++", Description = "Graphical Windows image servicing and cleanup utility", Category = "System Utilities", WingetId = "ChuyuTeam.DISM++" },
             new ExternalTool { Name = "Driver Store Explorer", Description = "Inspect and remove packages from the Windows driver store", Category = "System Utilities", WingetId = "lostindark.DriverStoreExplorer" },
             new ExternalTool { Name = "Snappy Driver Installer Origin", Description = "Open-source offline driver installer and index", Category = "System Utilities", WingetId = "GlennDelahoy.SnappyDriverInstallerOrigin" },
@@ -71,7 +72,9 @@ public sealed class ShortcutService
             new ExternalTool { Name = "ParkControl", Description = "Inspect and configure CPU core parking and frequency scaling", Category = "CPU & Memory", WingetId = "BitSum.ParkControl" },
             new ExternalTool { Name = "CoreCycler", Description = "Cycle stress tests across individual CPU cores", Category = "CPU & Memory", DownloadUrl = "https://github.com/sp00n/corecycler" },
             new ExternalTool { Name = "Ryzen SMU Debug Tool", Description = "Advanced AMD SMU, MSR and power-table inspection", Category = "CPU & Memory", DownloadUrl = "https://github.com/irusanov/SMUDebugTool" },
+            new ExternalTool { Name = "Intel Application Optimization", Description = "Official Intel APO interface for supported processors and games", Category = "CPU & Memory", DownloadUrl = "https://www.intel.com/content/www/us/en/download/870620/intel-application-optimization-user-interface.html" },
             new ExternalTool { Name = "KGuiX", Description = "Advanced graphical launcher for Karhu RAM Test", Category = "CPU & Memory", DownloadUrl = "https://github.com/jjgraphix/KGuiX" },
+            new ExternalTool { Name = "TestMem5", Description = "Community memory stability test; downloads the user-provided GitHub release archive", Category = "CPU & Memory", DownloadUrl = "https://github.com/CoolCmd/TestMem5/releases/download/v0.13.1/TestMem5.7z" },
             new ExternalTool { Name = "MemTest86", Description = "Bootable memory diagnostics", Category = "CPU & Memory", DownloadUrl = "https://www.memtest86.com/" },
 
             // Monitoring and diagnostics
@@ -88,6 +91,8 @@ public sealed class ShortcutService
             new ExternalTool { Name = "GPU-Z", Description = "GPU information, sensors and validation", Category = "GPU & Display", WingetId = "TechPowerUp.GPU-Z" },
             new ExternalTool { Name = "MSI Afterburner", Description = "GPU monitoring, fan curves and overclocking controls", Category = "GPU & Display", WingetId = "Guru3D.Afterburner" },
             new ExternalTool { Name = "RivaTuner Statistics Server", Description = "Frame-rate limiting and in-game performance overlay", Category = "GPU & Display", WingetId = "Guru3D.RTSS" },
+            new ExternalTool { Name = "MoreClockTool 2", Description = "Paid AMD GPU tuning utility from Microsoft Store", Category = "GPU & Display", DownloadUrl = "https://apps.microsoft.com/detail/9N08X8C1QDQP" },
+            new ExternalTool { Name = "MoreClockTool (Free)", Description = "Legacy free AMD GPU tuning utility from Igor's Lab", Category = "GPU & Display", DownloadUrl = "https://www.igorslab.de/en/download-area-new-version-of-morepowertool-mpt-and-final-release-of-redbioseditor-rbe/" },
             new ExternalTool { Name = "MorePowerTool", Description = "Advanced AMD Radeon power-limit editor", Category = "GPU & Display", DownloadUrl = "https://www.igorslab.de/en/morepowertool-mpt-beta-program-new-features-the-community-tests/" },
             new ExternalTool { Name = "RadeonTuner", Description = "Lightweight open-source AMD Radeon tuning interface", Category = "GPU & Display", DownloadUrl = "https://github.com/dumbie/RadeonTuner" },
             new ExternalTool { Name = "NVIDIA Profile Inspector", Description = "Inspect advanced NVIDIA driver profiles", Category = "GPU & Display", DownloadUrl = "https://github.com/Orbmu2k/nvidiaProfileInspector" },
@@ -100,6 +105,10 @@ public sealed class ShortcutService
             new ExternalTool { Name = "VibranceGUI", Description = "Automate NVIDIA Digital Vibrance and AMD saturation per game", Category = "GPU & Display", DownloadUrl = "https://vibrancegui.com/" },
             new ExternalTool { Name = "OpenRGB", Description = "Open-source RGB device control", Category = "GPU & Display", WingetId = "OpenRGB.OpenRGB" },
             new ExternalTool { Name = "SignalRGB", Description = "Unified RGB lighting and device effects", Category = "GPU & Display", WingetId = "WhirlwindFX.SignalRgb" },
+
+            // Firmware and power
+            new ExternalTool { Name = "SCEWIN GUI Better", Description = "Unofficial GUI for advanced AMI firmware-variable editing; use only with a recovery plan", Category = "Firmware & Power", DownloadUrl = "https://github.com/loko8002/SCEWIN-GUI-BETTER1" },
+            new ExternalTool { Name = "SCEHUB", Description = "Community SCEWIN binaries and troubleshooting; firmware changes can make a system unbootable", Category = "Firmware & Power", DownloadUrl = "https://github.com/ab3lkaizen/SCEHUB" },
 
             // Gaming and input
             new ExternalTool { Name = "DLSS Swapper", Description = "Manage DLSS versions in supported games", Category = "Gaming & Input", DownloadUrl = "https://github.com/beeradmoore/dlss-swapper" },
@@ -138,8 +147,20 @@ public sealed class ShortcutService
             new ExternalTool { Name = "BenchMate", Description = "Benchmark launcher, validation and result management", Category = "Benchmarks & Stability", WingetId = "MatthiasZronek.BenchMate" },
             new ExternalTool { Name = "Cinebench 2024", Description = "Current official Maxon CPU and GPU rendering benchmark", Category = "Benchmarks & Stability", DownloadUrl = "https://www.maxon.net/en/downloads/cinebench-downloads" },
             new ExternalTool { Name = "Cinebench R23", Description = "Legacy Maxon CPU rendering benchmark", Category = "Benchmarks & Stability", WingetId = "Maxon.CinebenchR23" },
+            new ExternalTool { Name = "Cinebench Legacy Downloads", Description = "TechPowerUp archive for older Cinebench releases; the user chooses the version", Category = "Benchmarks & Stability", DownloadUrl = "https://www.techpowerup.com/download/maxon-cinebench/" },
             new ExternalTool { Name = "Linpack Xtreme", Description = "High-load CPU and memory stability test", Category = "Benchmarks & Stability", DownloadUrl = "https://www.techpowerup.com/download/linpack-xtreme/" },
-            new ExternalTool { Name = "FurMark 2", Description = "GPU stress test and OpenGL/Vulkan benchmark", Category = "Benchmarks & Stability", WingetId = "Geeks3D.FurMark.2" }
+            new ExternalTool { Name = "FurMark 2", Description = "GPU stress test and OpenGL/Vulkan benchmark", Category = "Benchmarks & Stability", WingetId = "Geeks3D.FurMark.2" },
+
+            // AI tools
+            new ExternalTool { Name = "Google Antigravity", Description = "Google's agentic development environment", Category = "AI Tools", DownloadUrl = "https://antigravity.google/" },
+            new ExternalTool { Name = "Cursor", Description = "AI-first code editor", Category = "AI Tools", WingetId = "Anysphere.Cursor" },
+            new ExternalTool { Name = "Ollama", Description = "Run and manage local language models", Category = "AI Tools", WingetId = "Ollama.Ollama" },
+            new ExternalTool { Name = "OpenCode", Description = "Open-source AI coding agent for the terminal", Category = "AI Tools", DownloadUrl = "https://opencode.ai/" },
+            new ExternalTool { Name = "Pi Coding Agent", Description = "Minimal extensible terminal coding-agent framework", Category = "AI Tools", DownloadUrl = "https://github.com/badlogic/pi-mono" },
+            new ExternalTool { Name = "Warp", Description = "Agentic terminal and development environment", Category = "AI Tools", WingetId = "Warp.Warp" },
+            new ExternalTool { Name = "Unsloth Studio", Description = "Local interface for training and running open models", Category = "AI Tools", DownloadUrl = "https://unsloth.ai/docs/new/studio" },
+            new ExternalTool { Name = "LM Studio", Description = "Discover, download and run local language models", Category = "AI Tools", WingetId = "ElementLabs.LMStudio" },
+            new ExternalTool { Name = "Jan", Description = "Open-source local AI desktop application", Category = "AI Tools", WingetId = "Jan.Jan" }
         }) ExternalTools.Add(tool);
 
         var favorites = UserDataService.Instance.LoadFavoriteTools();

@@ -179,13 +179,17 @@
 
                 <!-- Footer -->
                 <Border Grid.Row="2" Margin="20,12,20,20" Padding="12,10" CornerRadius="6"
-                        Background="{DynamicResource SubtleFillBrush}">
+                        Background="{DynamicResource CardBrush}"
+                        BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}" BorderThickness="1"
+                        Cursor="Hand" ToolTip="Open appearance settings"
+                        MouseLeftButtonUp="AppearanceSettings_Click">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="&#xE790;" FontFamily="Segoe Fluent Icons" FontSize="15" Margin="0,0,10,0"
-                                   Foreground="{DynamicResource IconSecondaryBrush}"/>
+                                   Foreground="{DynamicResource AccentBrush}"/>
                         <StackPanel>
-                            <TextBlock Text="Windows theme" FontSize="12" FontWeight="SemiBold"/>
-                            <TextBlock Text="Synced automatically" FontSize="11"
+                            <TextBlock Text="Appearance settings" FontSize="12" FontWeight="SemiBold"
+                                       Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                            <TextBlock x:Name="AppearanceStatusText" FontSize="11" TextTrimming="CharacterEllipsis" MaxWidth="190"
                                        Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
                         </StackPanel>
                     </StackPanel>

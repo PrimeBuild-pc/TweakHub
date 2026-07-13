@@ -23,14 +23,16 @@ A focused Windows 11 tweak and maintenance utility.
 - Validates and logs Registry and power operations.
 - Creates, imports, exports and runs PowerShell or CMD scripts with optional elevation, timeout and cancellation.
 - Runs verified DISM and SFC repair commands.
-- Installs a curated tool catalogue through exact Winget package IDs or opens official HTTPS pages.
+- Installs a categorized advanced-tool catalogue through exact Winget package IDs or opens curated HTTPS pages.
+- Follows Windows appearance by default, with optional theme, accent and transparency overrides.
+- Checks for updates at startup and can download, verify and install a release after confirmation.
 - Opens common Windows administration utilities.
 
 TweakHub supports Windows 11 build 22000 or newer. It runs as the current user and requests administrator privileges only for operations that require them.
 
 ## Install
 
-Download either the installer or portable archive from [GitHub Releases](https://github.com/PrimeBuild-pc/TweakHub/releases). Public beta builds may be unsigned and can trigger a Microsoft Defender SmartScreen warning.
+Download either the installer or portable archive from [GitHub Releases](https://github.com/PrimeBuild-pc/TweakHub/releases). Later releases can be installed from the in-app update prompt after SHA-256 verification. Public beta builds may be unsigned and can trigger a Microsoft Defender SmartScreen warning.
 
 ## Build from source
 
@@ -65,7 +67,7 @@ Do not delete backup files before restoring outstanding changes.
 
 ## Release process
 
-A `vX.Y.Z-beta` tag matching the project `Version` runs restore, build, tests, self-contained publish, portable archive creation and installer creation. Generated binaries belong in GitHub Releases, not in Git.
+A `vX.Y.Z-beta` tag matching the project `Version` runs restore, build, tests, self-contained publish, portable archive creation, installer creation and SHA-256 generation. Generated binaries belong in GitHub Releases, not in Git.
 
 ## License
 

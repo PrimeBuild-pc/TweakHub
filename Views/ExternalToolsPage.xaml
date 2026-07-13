@@ -70,6 +70,7 @@
                                               HorizontalAlignment="Stretch"
                                               HorizontalContentAlignment="Left"
                                               Padding="0"
+                                              Margin="0,0,18,0"
                                               Cursor="Hand">
                                     <ToggleButton.Template>
                                         <ControlTemplate TargetType="ToggleButton">
@@ -86,7 +87,8 @@
 
                                                     <TextBlock Grid.Column="1"
                                                                x:Name="ExpanderIcon"
-                                                               Text="▼"
+                                                               Text="&#xE70D;"
+                                                               FontFamily="Segoe Fluent Icons"
                                                                FontSize="12"
                                                                VerticalAlignment="Center"
                                                                Margin="8,0,0,0"
@@ -95,7 +97,7 @@
                                             </Border>
                                             <ControlTemplate.Triggers>
                                                 <Trigger Property="IsChecked" Value="False">
-                                                    <Setter TargetName="ExpanderIcon" Property="Text" Value="▶"/>
+                                                    <Setter TargetName="ExpanderIcon" Property="Text" Value="&#xE76C;"/>
                                                 </Trigger>
                                             </ControlTemplate.Triggers>
                                         </ControlTemplate>
@@ -157,7 +159,7 @@
         </Grid>
 
         <!-- Tools Grid -->
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="0,0,10,0">
             <StackPanel x:Name="ToolsContainer">
                 <!-- Tools will be populated by code-behind -->
             </StackPanel>

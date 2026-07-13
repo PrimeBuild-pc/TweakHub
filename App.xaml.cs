@@ -22,7 +22,7 @@ public partial class App : Application
             return;
         }
 
-        _ = ThemeService.Instance;
+        ThemeService.Instance.PropertyChanged += ThemeService_PropertyChanged;
         EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.LoadedEvent, new RoutedEventHandler(Window_Loaded));
         RegistryService.Instance.Initialize();
         SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
@@ -36,6 +36,7 @@ public partial class App : Application
         try
         {
             SystemEvents.UserPreferenceChanged -= SystemEvents_UserPreferenceChanged;
+            ThemeService.Instance.PropertyChanged -= ThemeService_PropertyChanged;
         }
         catch
         {
@@ -61,6 +62,11 @@ public partial class App : Application
         }
     }
 
+    private void ThemeService_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        foreach (Window window in Windows) ApplyWindows11Style(window);
+    }
+
     private static void Window_Loaded(object sender, RoutedEventArgs e)
     {
         if (sender is Window window) ApplyWindows11Style(window);
@@ -73,7 +79,7 @@ public partial class App : Application
 
         var darkMode = ThemeService.Instance.IsDark ? 1 : 0;
         var roundedCorners = 2;
-        var backdrop = window is MainWindow ? 2 : 3;
+        var backdrop = !ThemeService.Instance.TransparencyEnabled ? 1 : window is MainWindow ? 2 : 3;
         DwmSetWindowAttribute(handle, 20, ref darkMode, sizeof(int));
         DwmSetWindowAttribute(handle, 33, ref roundedCorners, sizeof(int));
         DwmSetWindowAttribute(handle, 38, ref backdrop, sizeof(int));
