@@ -11,57 +11,26 @@
         MinHeight="700" MinWidth="1200"
         WindowStartupLocation="CenterScreen"
         Icon="ico.ico"
-        Background="{DynamicResource SystemControlBackgroundBaseLowBrush}">
+        FontFamily="Segoe UI Variable Text"
+        TextOptions.TextFormattingMode="Display"
+        Background="{DynamicResource WindowBackgroundBrush}">
 
     <Window.Resources>
         <Style x:Key="SidebarButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="16,12"/>
+            <Setter Property="Padding" Value="14,10"/>
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
             <Setter Property="Margin" Value="0,2"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+            <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="Border"
-                                Background="{TemplateBinding Background}"
-                                CornerRadius="6"
-                                Margin="8,0">
+                        <Border x:Name="Border" Background="{TemplateBinding Background}" CornerRadius="4">
                             <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalAlignment="Center"
-                                              Margin="{TemplateBinding Padding}"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Border" Property="Background"
-                                        Value="{DynamicResource SystemControlBackgroundListLowBrush}"/>
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="Border" Property="Background"
-                                        Value="{DynamicResource SystemControlBackgroundListMediumBrush}"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="ActiveSidebarButtonStyle" TargetType="Button" BasedOn="{StaticResource SidebarButtonStyle}">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="Border"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{StaticResource AccentBrush}"
-                                BorderThickness="1.5"
-                                CornerRadius="8"
-                                Margin="8,0">
-                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                            VerticalAlignment="Center"
-                                            Margin="{TemplateBinding Padding}"/>
+                                              VerticalAlignment="Center" Margin="{TemplateBinding Padding}"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
@@ -75,9 +44,31 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <Style x:Key="ActiveSidebarButtonStyle" TargetType="Button" BasedOn="{StaticResource SidebarButtonStyle}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border x:Name="Border" Background="{DynamicResource SystemControlBackgroundListMediumBrush}" CornerRadius="4">
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  VerticalAlignment="Center" Margin="{TemplateBinding Padding}"/>
+                            </Border>
+                            <Border Width="3" Height="16" CornerRadius="2"
+                                    Background="{DynamicResource AccentBrush}" HorizontalAlignment="Left"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource SystemControlBackgroundListLowBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
 
-    <Grid>
+    <Grid Background="{DynamicResource WindowBackgroundBrush}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="280"/>
             <ColumnDefinition Width="*"/>
@@ -85,8 +76,8 @@
 
         <!-- Sidebar -->
         <Border Grid.Column="0"
-                Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
-                BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}"
+                Background="{DynamicResource NavigationBrush}"
+                BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}"
                 BorderThickness="0,0,1,0">
             <Grid>
                 <Grid.RowDefinitions>
@@ -96,20 +87,19 @@
                 </Grid.RowDefinitions>
 
                 <!-- Header -->
-                <StackPanel Grid.Row="0" Margin="20,24,20,20">
-                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
-                        <!-- Modern Logo Design -->
-                        <Border Width="32" Height="32" CornerRadius="8" Background="#1A1A1A" BorderBrush="{StaticResource AccentBrush}" BorderThickness="2">
-                            <TextBlock Text="TH" FontSize="14" FontWeight="Bold"
-                                       Foreground="{StaticResource AccentBrush}" HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"/>
+                <StackPanel Grid.Row="0" Margin="24,26,20,20">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                        <Border Width="36" Height="36" CornerRadius="8"
+                                Background="{DynamicResource SubtleFillBrush}"
+                                BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}" BorderThickness="1">
+                            <Image Source="ico.ico" Width="24" Height="24"/>
                         </Border>
                         <TextBlock Text="TweakHub" FontSize="20" FontWeight="SemiBold"
                                    Margin="12,0,0,0" VerticalAlignment="Center"
                                    Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
                     </StackPanel>
-                    <TextBlock Text="Powered by Prime Build"
-                               FontSize="12"
+                    <TextBlock Text="Windows 11 performance controls"
+                               Margin="48,0,0,0" FontSize="12"
                                Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
                 </StackPanel>
 
@@ -125,7 +115,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <StackPanel Grid.Column="0" Orientation="Horizontal">
-                                    <TextBlock Text="⚡" FontSize="16" Margin="0,0,12,0"
+                                    <TextBlock Text="&#xE945;" FontFamily="Segoe Fluent Icons" FontSize="16" Margin="0,0,12,0"
                                                Foreground="{DynamicResource IconBrush}"/>
                                     <TextBlock Text="Registry Tweaks"/>
                                 </StackPanel>
@@ -134,7 +124,7 @@
                                         Grid.Column="1"
                                         Width="18" Height="18" 
                                         CornerRadius="9" 
-                                        Background="{StaticResource AccentBrush}"
+                                        Background="{DynamicResource AccentBrush}"
                                         VerticalAlignment="Center"
                                         Margin="10,0,0,0"
                                         Visibility="Collapsed">
@@ -152,7 +142,7 @@
                         <Button x:Name="ExternalToolsButton" Style="{StaticResource SidebarButtonStyle}"
                                 Click="ExternalToolsButton_Click">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="🔧" FontSize="16" Margin="0,0,12,0"
+                                <TextBlock Text="&#xE90F;" FontFamily="Segoe Fluent Icons" FontSize="16" Margin="0,0,12,0"
                                            Foreground="{DynamicResource IconBrush}"/>
                                 <TextBlock Text="External Tools"/>
                             </StackPanel>
@@ -161,7 +151,7 @@
                         <Button x:Name="AutomatedScriptsButton" Style="{StaticResource SidebarButtonStyle}"
                                 Click="AutomatedScriptsButton_Click">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="🤖" FontSize="16" Margin="0,0,12,0"
+                                <TextBlock Text="&#xE756;" FontFamily="Segoe Fluent Icons" FontSize="16" Margin="0,0,12,0"
                                            Foreground="{DynamicResource IconBrush}"/>
                                 <TextBlock Text="Automated Scripts"/>
                             </StackPanel>
@@ -170,7 +160,7 @@
                         <Button x:Name="QuickAccessButton" Style="{StaticResource SidebarButtonStyle}"
                                 Click="QuickAccessButton_Click">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="🚀" FontSize="16" Margin="0,0,12,0"
+                                <TextBlock Text="&#xE8F1;" FontFamily="Segoe Fluent Icons" FontSize="16" Margin="0,0,12,0"
                                            Foreground="{DynamicResource IconBrush}"/>
                                 <TextBlock Text="Quick Access"/>
                             </StackPanel>
@@ -179,7 +169,7 @@
                         <Button x:Name="AboutButton" Style="{StaticResource SidebarButtonStyle}"
                                 Click="AboutButton_Click">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="ℹ️" FontSize="16" Margin="0,0,12,0"
+                                <TextBlock Text="&#xE946;" FontFamily="Segoe Fluent Icons" FontSize="16" Margin="0,0,12,0"
                                            Foreground="{DynamicResource IconBrush}"/>
                                 <TextBlock Text="About"/>
                             </StackPanel>
@@ -188,24 +178,24 @@
                 </ScrollViewer>
 
                 <!-- Footer -->
-                <StackPanel Grid.Row="2" Margin="20,12,20,20">
-                    <Separator Margin="0,0,0,12"/>
-                    <Button x:Name="ThemeToggleButton" Style="{StaticResource SidebarButtonStyle}"
-                            Click="ThemeToggleButton_Click">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock x:Name="ThemeIcon" Text="🌙" FontSize="16" Margin="0,0,12,0"
-                                       Foreground="{DynamicResource IconBrush}"/>
-                            <TextBlock x:Name="ThemeText" Text="Dark Theme"/>
+                <Border Grid.Row="2" Margin="20,12,20,20" Padding="12,10" CornerRadius="6"
+                        Background="{DynamicResource SubtleFillBrush}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE790;" FontFamily="Segoe Fluent Icons" FontSize="15" Margin="0,0,10,0"
+                                   Foreground="{DynamicResource IconSecondaryBrush}"/>
+                        <StackPanel>
+                            <TextBlock Text="Windows theme" FontSize="12" FontWeight="SemiBold"/>
+                            <TextBlock Text="Synced automatically" FontSize="11"
+                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
                         </StackPanel>
-                    </Button>
-                </StackPanel>
+                    </StackPanel>
+                </Border>
             </Grid>
         </Border>
 
         <!-- Main Content -->
-        <Grid Grid.Column="1" Background="{DynamicResource SystemControlBackgroundBaseLowBrush}">
-            <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden"
-                   Background="{DynamicResource SystemControlBackgroundBaseLowBrush}"/>
+        <Grid Grid.Column="1" Background="Transparent">
+            <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Background="Transparent"/>
         </Grid>
     </Grid>
 </Window>

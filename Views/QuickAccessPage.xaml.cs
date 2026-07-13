@@ -91,8 +91,9 @@ namespace TweakHub.Views
             // Icon
             var iconText = new TextBlock
             {
-                Text = shortcut.Icon,
-                FontSize = 24,
+                Text = GetCategoryIcon(shortcut.Category),
+                FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons"),
+                FontSize = 22,
                 Margin = new Thickness(0, 0, 16, 0),
                 VerticalAlignment = VerticalAlignment.Top,
                 HorizontalAlignment = HorizontalAlignment.Center
@@ -138,6 +139,20 @@ namespace TweakHub.Views
 
             return button;
         }
+
+        private static string GetCategoryIcon(string category) => category switch
+        {
+            "System Management" => "\uE713",
+            "System Information" => "\uE946",
+            "Advanced Tools" => "\uE90F",
+            "Performance" => "\uE9D9",
+            "Power Management" => "\uE945",
+            "Network" => "\uE968",
+            "Audio" => "\uE767",
+            "Display" => "\uE7F4",
+            "Maintenance" => "\uE74D",
+            _ => "\uE8F1"
+        };
 
         private void ExecuteShortcut(SystemShortcut shortcut)
         {

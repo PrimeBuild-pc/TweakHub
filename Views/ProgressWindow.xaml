@@ -38,7 +38,7 @@
                          Height="8"
                          Margin="0,0,0,12"
                          Background="{DynamicResource SystemControlBackgroundBaseLowBrush}"
-                         Foreground="{StaticResource AccentBrush}"
+                         Foreground="{DynamicResource AccentBrush}"
                          Value="0"
                          Maximum="100"/>
             

@@ -7,18 +7,18 @@
         mc:Ignorable="d"
         Title="TweakHub Disclaimer"
         WindowStartupLocation="CenterOwner"
-        WindowStyle="None"
+        WindowStyle="SingleBorderWindow"
         ResizeMode="NoResize"
         ShowInTaskbar="False"
-        Topmost="True"
-        Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}"
+        FontFamily="Segoe UI Variable Text"
+        Background="{DynamicResource WindowBackgroundBrush}"
         Width="560"
         SizeToContent="Height">
     <Grid>
         <StackPanel Margin="24">
             <!-- Header -->
             <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
-                <TextBlock Text="⚠️" FontSize="36" Margin="0,0,14,0" Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                <TextBlock Text="&#xE7BA;" FontFamily="Segoe Fluent Icons" FontSize="32" Margin="0,0,14,0" Foreground="{DynamicResource WarningBrush}"/>
                 <TextBlock Text="TweakHub  Disclaimer" FontSize="24" FontWeight="SemiBold" Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
             </StackPanel>
             <!-- Body -->
@@ -42,7 +42,7 @@
                         Background="{DynamicResource AccentBrush}"
                         Click="OkButton_Click">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <TextBlock Text="✔" Margin="0,0,8,0" Foreground="White"/>
+                        <TextBlock Text="&#xE73E;" FontFamily="Segoe Fluent Icons" Margin="0,0,8,0" Foreground="White"/>
                         <TextBlock Text="I Understand" Foreground="White"/>
                     </StackPanel>
                 </Button>

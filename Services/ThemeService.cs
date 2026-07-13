@@ -1,210 +1,101 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Windows;
+using System.Windows.Media;
+using ModernWpf;
 
-namespace TweakHub.Services
+namespace TweakHub.Services;
+
+public sealed class ThemeService : INotifyPropertyChanged
 {
-    public enum AppTheme
+    private static ThemeService? _instance;
+    private bool _isDark;
+
+    public static ThemeService Instance => _instance ??= new ThemeService();
+    public bool IsDark => _isDark;
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    private ThemeService() => ApplySystemTheme();
+
+    public void RefreshSystemThemeIfNeeded() => ApplySystemTheme();
+
+    private void ApplySystemTheme()
     {
-        Light,
-        Dark,
-        System
+        var app = Application.Current;
+        if (app == null) return;
+
+        _isDark = IsSystemDarkTheme();
+        ThemeManager.Current.ApplicationTheme = null;
+
+        var accent = GetSystemAccentColor();
+        SetBrush(app, "AccentBrush", accent);
+        SetBrush(app, "AccentHoverBrush", Blend(accent, _isDark ? Colors.White : Colors.Black, 0.12));
+        SetBrush(app, "AccentPressedBrush", Blend(accent, Colors.Black, 0.18));
+        SetBrush(app, "SuccessBrush", _isDark ? Color.FromRgb(108, 203, 95) : Color.FromRgb(15, 123, 15));
+        SetBrush(app, "WarningBrush", _isDark ? Color.FromRgb(252, 225, 0) : Color.FromRgb(157, 93, 0));
+        SetBrush(app, "DangerBrush", _isDark ? Color.FromRgb(255, 153, 164) : Color.FromRgb(196, 43, 28));
+
+        var background = _isDark ? Color.FromRgb(32, 32, 32) : Color.FromRgb(243, 243, 243);
+        var surface = _isDark ? Color.FromRgb(44, 44, 44) : Color.FromRgb(255, 255, 255);
+        var hover = _isDark ? Color.FromArgb(15, 255, 255, 255) : Color.FromArgb(9, 0, 0, 0);
+        var border = _isDark ? Color.FromArgb(24, 255, 255, 255) : Color.FromArgb(15, 0, 0, 0);
+        var primary = _isDark ? Colors.White : Color.FromRgb(27, 27, 27);
+        var secondary = _isDark ? Color.FromRgb(200, 200, 200) : Color.FromRgb(96, 96, 96);
+
+        SetBrush(app, "WindowBackgroundBrush", Color.FromArgb(235, background.R, background.G, background.B));
+        SetBrush(app, "NavigationBrush", Color.FromArgb(210, background.R, background.G, background.B));
+        SetBrush(app, "CardBrush", Color.FromArgb(224, surface.R, surface.G, surface.B));
+        SetBrush(app, "SubtleFillBrush", hover);
+        SetBrush(app, "SystemControlBackgroundBaseLowBrush", background);
+        SetBrush(app, "SystemControlBackgroundChromeMediumLowBrush", surface);
+        SetBrush(app, "SystemControlBackgroundChromeMediumBrush", surface);
+        SetBrush(app, "SystemControlBackgroundListLowBrush", hover);
+        SetBrush(app, "SystemControlBackgroundListMediumBrush", Color.FromArgb((byte)(hover.A * 2), hover.R, hover.G, hover.B));
+        SetBrush(app, "SystemControlForegroundBaseHighBrush", primary);
+        SetBrush(app, "SystemControlForegroundBaseMediumBrush", secondary);
+        SetBrush(app, "SystemControlForegroundBaseLowBrush", border);
+        SetBrush(app, "SystemControlBorderBaseLowBrush", border);
+        SetBrush(app, "SystemControlBorderBaseMediumBrush", Color.FromArgb((byte)(border.A * 2), border.R, border.G, border.B));
+        SetBrush(app, "IconBrush", primary);
+        SetBrush(app, "IconSecondaryBrush", secondary);
+
+        OnPropertyChanged(nameof(IsDark));
     }
 
-    public class ThemeService : INotifyPropertyChanged
+    private static void SetBrush(Application app, string key, Color color) =>
+        app.Resources[key] = new SolidColorBrush(color);
+
+    private static Color Blend(Color color, Color target, double amount) => Color.FromArgb(
+        color.A,
+        (byte)(color.R + (target.R - color.R) * amount),
+        (byte)(color.G + (target.G - color.G) * amount),
+        (byte)(color.B + (target.B - color.B) * amount));
+
+    private static bool IsSystemDarkTheme()
     {
-        private static ThemeService? _instance;
-        private AppTheme _currentTheme = AppTheme.Dark;
-
-        public static ThemeService Instance => _instance ??= new ThemeService();
-
-        public AppTheme CurrentTheme
+        try
         {
-            get => _currentTheme;
-            set
-            {
-                if (_currentTheme != value)
-                {
-                    _currentTheme = value;
-                    OnPropertyChanged();
-                    ApplyTheme();
-                }
-            }
+            using var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize");
+            return key?.GetValue("AppsUseLightTheme") is int value && value == 0;
         }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        private ThemeService()
+        catch
         {
-            LoadThemeFromSettings();
-            // Apply the theme immediately after loading to ensure proper initialization
-            ApplyTheme();
-        }
-
-        private void LoadThemeFromSettings()
-        {
-            // Load theme preference from registry or config file
-            try
-            {
-                var savedTheme = Properties.Settings.Default.Theme;
-                if (Enum.TryParse<AppTheme>(savedTheme, out var theme))
-                {
-                    _currentTheme = theme;
-                }
-            }
-            catch
-            {
-                _currentTheme = AppTheme.Dark;
-            }
-        }
-
-        public void SaveThemeToSettings()
-        {
-            try
-            {
-                Properties.Settings.Default.Theme = _currentTheme.ToString();
-                Properties.Settings.Default.Save();
-            }
-            catch
-            {
-                // Handle save error silently
-            }
-        }
-
-        public void RefreshSystemThemeIfNeeded()
-        {
-            if (_currentTheme != AppTheme.System)
-            {
-                return;
-            }
-
-            ApplyTheme();
-        }
-
-        private void ApplyTheme()
-        {
-            var app = System.Windows.Application.Current;
-            if (app == null) return;
-
-            var actualTheme = GetActualTheme();
-            var isDark = actualTheme == AppTheme.Dark;
-
-            // Don't clear all resources, just update the theme-specific ones
-            // Remove existing ModernWPF theme resources
-            var toRemove = app.Resources.MergedDictionaries
-                .Where(d => d.Source?.ToString().Contains("ModernWpf") == true)
-                .ToList();
-
-            foreach (var dict in toRemove)
-            {
-                app.Resources.MergedDictionaries.Remove(dict);
-            }
-
-            // Add ModernWPF theme resources
-            app.Resources.MergedDictionaries.Insert(0, new System.Windows.ResourceDictionary
-            {
-                Source = new Uri("pack://application:,,,/ModernWpf;component/ThemeResources/Light.xaml")
-            });
-
-            var themeUri = isDark
-                ? "pack://application:,,,/ModernWpf;component/ThemeResources/Dark.xaml"
-                : "pack://application:,,,/ModernWpf;component/ThemeResources/Light.xaml";
-
-            app.Resources.MergedDictionaries.Insert(1, new System.Windows.ResourceDictionary
-            {
-                Source = new Uri(themeUri)
-            });
-
-            // Apply comprehensive theme overrides
-            ApplyThemeOverrides(isDark);
-
-            SaveThemeToSettings();
-        }
-
-        private void ApplyThemeOverrides(bool isDark)
-        {
-            var app = System.Windows.Application.Current;
-            if (app == null) return;
-
-            if (isDark)
-            {
-                // Background colors
-                app.Resources["SystemControlBackgroundBaseLowBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(26, 26, 26)); // #1A1A1A
-                app.Resources["SystemControlBackgroundChromeMediumLowBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(45, 45, 45)); // #2D2D2D
-                app.Resources["SystemControlBackgroundChromeMediumBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(58, 58, 58)); // #3A3A3A
-                app.Resources["SystemControlBackgroundListLowBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(58, 58, 58)); // #3A3A3A
-                app.Resources["SystemControlBackgroundListMediumBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(45, 45, 45)); // #2D2D2D
-
-                // Text colors
-                app.Resources["SystemControlForegroundBaseHighBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.White);
-                app.Resources["SystemControlForegroundBaseMediumBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(176, 176, 176)); // #B0B0B0
-                app.Resources["SystemControlForegroundBaseLowBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(74, 74, 74)); // #4A4A4A
-
-                // Border colors
-                app.Resources["SystemControlBorderBaseLowBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(74, 74, 74)); // #4A4A4A
-
-                // Icon colors for dark theme
-                app.Resources["IconBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.White);
-                app.Resources["IconSecondaryBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(176, 176, 176)); // #B0B0B0
-
-                // Additional system colors that might be used
-                app.Resources["ApplicationPageBackgroundThemeBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(26, 26, 26));
-                app.Resources["SystemControlPageBackgroundBaseLowBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(26, 26, 26));
-                app.Resources["SystemControlPageBackgroundChromeLowBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(45, 45, 45));
-            }
-            else
-            {
-                // Light theme colors
-                app.Resources["SystemControlBackgroundBaseLowBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.White);
-                app.Resources["SystemControlBackgroundChromeMediumLowBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(248, 249, 250)); // #F8F9FA
-                app.Resources["SystemControlBackgroundChromeMediumBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.White);
-                app.Resources["SystemControlBackgroundListLowBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.White);
-                app.Resources["SystemControlBackgroundListMediumBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(248, 249, 250));
-
-                // Text colors
-                app.Resources["SystemControlForegroundBaseHighBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(33, 37, 41)); // #212529
-                app.Resources["SystemControlForegroundBaseMediumBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(108, 117, 125)); // #6C757D
-                app.Resources["SystemControlForegroundBaseLowBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(222, 226, 230)); // #DEE2E6
-
-                // Border colors
-                app.Resources["SystemControlBorderBaseLowBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(222, 226, 230));
-
-                // Icon colors for light theme
-                app.Resources["IconBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(33, 37, 41)); // #212529
-                app.Resources["IconSecondaryBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(108, 117, 125)); // #6C757D
-
-                // Additional system colors
-                app.Resources["ApplicationPageBackgroundThemeBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.White);
-                app.Resources["SystemControlPageBackgroundBaseLowBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.White);
-                app.Resources["SystemControlPageBackgroundChromeLowBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(248, 249, 250));
-            }
-        }
-
-        private AppTheme GetActualTheme()
-        {
-            if (_currentTheme == AppTheme.System)
-            {
-                return IsSystemDarkTheme() ? AppTheme.Dark : AppTheme.Light;
-            }
-            return _currentTheme;
-        }
-
-        private bool IsSystemDarkTheme()
-        {
-            try
-            {
-                using var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize");
-                var value = key?.GetValue("AppsUseLightTheme");
-                return value is int intValue && intValue == 0;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            return false;
         }
     }
+
+    private static Color GetSystemAccentColor()
+    {
+        if (DwmGetColorizationColor(out var value, out _) == 0)
+            return Color.FromArgb((byte)(value >> 24), (byte)(value >> 16), (byte)(value >> 8), (byte)value);
+        return Color.FromRgb(0, 120, 212);
+    }
+
+    [DllImport("dwmapi.dll")]
+    private static extern int DwmGetColorizationColor(out uint colorizationColor, out bool opaqueBlend);
+
+    private void OnPropertyChanged([CallerMemberName] string? propertyName = null) =>
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 }

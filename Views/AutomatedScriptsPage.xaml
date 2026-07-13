@@ -7,21 +7,16 @@
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Automated Scripts"
-      Background="{DynamicResource SystemControlBackgroundBaseLowBrush}">
+      Background="Transparent">
 
     <Page.Resources>
         <Style x:Key="ScriptCardStyle" TargetType="Border">
-            <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"/>
+            <Setter Property="Background" Value="{DynamicResource CardBrush}"/>
             <Setter Property="BorderBrush" Value="{DynamicResource SystemControlBorderBaseLowBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="CornerRadius" Value="10"/>
             <Setter Property="Padding" Value="16,12"/>
             <Setter Property="Margin" Value="0,0,0,12"/>
-            <Setter Property="Effect">
-                <Setter.Value>
-                    <DropShadowEffect Color="Black" Opacity="0.1" ShadowDepth="1" BlurRadius="8"/>
-                </Setter.Value>
-            </Setter>
         </Style>
 
     </Page.Resources>
@@ -49,15 +44,15 @@
                            TextWrapping="Wrap"/>
             </StackPanel>
             <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top" Margin="0,2,0,0">
-                <Button Style="{StaticResource ModernButtonStyle}" Click="ImportScriptsButton_Click" Padding="12,6" Margin="0,0,8,0">
+                <Button Style="{StaticResource SecondaryButtonStyle}" Click="ImportScriptsButton_Click" Padding="12,6" Margin="0,0,8,0">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="📥" FontSize="11" Margin="0,0,6,0"/>
+                        <TextBlock Text="&#xE896;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0"/>
                         <TextBlock Text="Import" FontSize="12"/>
                     </StackPanel>
                 </Button>
                 <Button x:Name="NewScriptButton" Style="{StaticResource ModernButtonStyle}" Click="NewScriptButton_Click" Padding="12,6">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="➕" FontSize="11" Margin="0,0,6,0" Foreground="White"/>
+                        <TextBlock Text="&#xE710;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0" Foreground="White"/>
                         <TextBlock Text="New Script" FontSize="12"/>
                     </StackPanel>
                 </Button>
@@ -81,7 +76,7 @@
 
                         <StackPanel Grid.Column="0" Grid.Row="0">
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
-                                <TextBlock Text="📦" FontSize="18" Margin="0,0,8,0"
+                                <TextBlock Text="&#xE7B8;" FontFamily="Segoe Fluent Icons" FontSize="18" Margin="0,0,8,0"
                                            Foreground="{DynamicResource IconBrush}"/>
                                 <TextBlock Text="Install WinGet Package Manager"
                                            FontSize="14" FontWeight="SemiBold"
@@ -93,25 +88,25 @@
                                        Margin="26,0,0,8"/>
 
                             <StackPanel Orientation="Horizontal" Margin="26,0,0,0">
-                                <Border Background="{StaticResource SuccessBrush}" CornerRadius="8" Padding="5,2" Margin="0,0,6,0">
+                                <Border Background="{DynamicResource SuccessBrush}" CornerRadius="8" Padding="5,2" Margin="0,0,6,0">
                                     <TextBlock Text="Safe" FontSize="9" Foreground="White" FontWeight="Medium"/>
                                 </Border>
-                                <Border Background="{StaticResource AccentBrush}" CornerRadius="10" Padding="6,2">
+                                <Border Background="{DynamicResource AccentBrush}" CornerRadius="10" Padding="6,2">
                                     <TextBlock Text="Package Manager" FontSize="10" Foreground="White" FontWeight="Medium"/>
                                 </Border>
                             </StackPanel>
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center">
-                            <Button Style="{StaticResource ModernButtonStyle}" Click="WinGetInstallation_View_Click" Margin="0,0,6,0">
+                            <Button Style="{StaticResource SecondaryButtonStyle}" Click="WinGetInstallation_View_Click" Margin="0,0,6,0">
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="👁️" FontSize="11" Margin="0,0,6,0" Foreground="White"/>
+                                    <TextBlock Text="&#xE890;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0"/>
                                     <TextBlock Text="View" FontSize="12"/>
                                 </StackPanel>
                             </Button>
                             <Button Style="{StaticResource ExecuteButtonStyle}" Click="WinGetInstallation_Click">
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="▶️" FontSize="11" Margin="0,0,6,0" Foreground="White"/>
+                                    <TextBlock Text="&#xE768;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0" Foreground="White"/>
                                     <TextBlock Text="Execute" FontSize="12"/>
                                 </StackPanel>
                             </Button>
@@ -134,9 +129,9 @@
                                     </ScrollViewer>
                                 </Border>
                                 <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="12,0,12,12">
-                                    <Button Style="{StaticResource ModernButtonStyle}" Padding="12,6" Click="CopyScript_Click" Tag="{x:Reference WinGetPreviewText}">
+                                    <Button Style="{StaticResource SecondaryButtonStyle}" Padding="12,6" Click="CopyScript_Click" Tag="{x:Reference WinGetPreviewText}">
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="📋" Margin="0,0,6,0"/>
+                                            <TextBlock Text="&#xE8C8;" FontFamily="Segoe Fluent Icons" Margin="0,0,6,0"/>
                                             <TextBlock Text="Copy"/>
                                         </StackPanel>
                                     </Button>
@@ -160,7 +155,7 @@
 
                         <StackPanel Grid.Column="0" Grid.Row="0">
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
-                                <TextBlock Text="🛠️" FontSize="18" Margin="0,0,8,0"
+                                <TextBlock Text="&#xE90F;" FontFamily="Segoe Fluent Icons" FontSize="18" Margin="0,0,8,0"
                                            Foreground="{DynamicResource IconBrush}"/>
                                 <TextBlock Text="DISM + SFC System Repair"
                                            FontSize="14" FontWeight="SemiBold"
@@ -172,25 +167,25 @@
                                        Margin="26,0,0,8"/>
 
                             <StackPanel Orientation="Horizontal" Margin="26,0,0,0">
-                                <Border Background="{StaticResource SuccessBrush}" CornerRadius="8" Padding="5,2" Margin="0,0,6,0">
+                                <Border Background="{DynamicResource SuccessBrush}" CornerRadius="8" Padding="5,2" Margin="0,0,6,0">
                                     <TextBlock Text="Safe" FontSize="9" Foreground="White" FontWeight="Medium"/>
                                 </Border>
-                                <Border Background="{StaticResource AccentBrush}" CornerRadius="10" Padding="6,2">
+                                <Border Background="{DynamicResource AccentBrush}" CornerRadius="10" Padding="6,2">
                                     <TextBlock Text="Repair" FontSize="10" Foreground="White" FontWeight="Medium"/>
                                 </Border>
                             </StackPanel>
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center">
-                            <Button Style="{StaticResource ModernButtonStyle}" Click="DismSfcRepair_View_Click" Margin="0,0,6,0">
+                            <Button Style="{StaticResource SecondaryButtonStyle}" Click="DismSfcRepair_View_Click" Margin="0,0,6,0">
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="👁️" FontSize="11" Margin="0,0,6,0" Foreground="White"/>
+                                    <TextBlock Text="&#xE890;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0"/>
                                     <TextBlock Text="View" FontSize="12"/>
                                 </StackPanel>
                             </Button>
                             <Button Style="{StaticResource ExecuteButtonStyle}" Click="DismSfcRepair_Click">
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="▶️" FontSize="11" Margin="0,0,6,0" Foreground="White"/>
+                                    <TextBlock Text="&#xE768;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0" Foreground="White"/>
                                     <TextBlock Text="Run Repair" FontSize="12"/>
                                 </StackPanel>
                             </Button>
@@ -213,9 +208,9 @@
                                     </ScrollViewer>
                                 </Border>
                                 <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="12,0,12,12">
-                                    <Button Style="{StaticResource ModernButtonStyle}" Padding="12,6" Click="CopyScript_Click" Tag="{x:Reference DismPreviewText}">
+                                    <Button Style="{StaticResource SecondaryButtonStyle}" Padding="12,6" Click="CopyScript_Click" Tag="{x:Reference DismPreviewText}">
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="📋" Margin="0,0,6,0"/>
+                                            <TextBlock Text="&#xE8C8;" FontFamily="Segoe Fluent Icons" Margin="0,0,6,0"/>
                                             <TextBlock Text="Copy"/>
                                         </StackPanel>
                                     </Button>

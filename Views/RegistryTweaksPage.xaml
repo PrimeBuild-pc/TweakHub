@@ -7,19 +7,9 @@
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Registry Tweaks"
-      Background="{DynamicResource SystemControlBackgroundBaseLowBrush}">
+      Background="Transparent">
 
     <Page.Resources>
-        <!-- Ensure text color adapts to theme, but inherits control Foreground (important for buttons in Light Mode) -->
-        <Style TargetType="TextBlock">
-            <Setter Property="Foreground">
-                <Setter.Value>
-                    <Binding Path="Foreground"
-                             RelativeSource="{RelativeSource AncestorType=Control}" />
-                </Setter.Value>
-            </Setter>
-        </Style>
-
         <!-- Converter to toggle preview visibility -->
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
 
@@ -79,8 +69,7 @@
             <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Padding" Value="14,8"/>
-            <!-- Stronger overlap to mimic stacked bookmarks -->
-            <Setter Property="Margin" Value="-10,0,10,0"/>
+            <Setter Property="Margin" Value="0,0,4,0"/>
             <Setter Property="FontWeight" Value="Normal"/>
             <Setter Property="FontSize" Value="13"/>
             <Setter Property="Cursor" Value="Hand"/>
@@ -98,19 +87,6 @@
                                                   RecognizesAccessKey="True"
                                                   HorizontalAlignment="Center"
                                                   VerticalAlignment="Center"/>
-                                <Border x:Name="UnderlineGlow"
-                                        Height="2"
-                                        Background="Transparent"
-                                        VerticalAlignment="Bottom"
-                                        Margin="2,0,2,-1"
-                                        Opacity="0">
-                                    <Border.Effect>
-                                        <DropShadowEffect BlurRadius="14"
-                                                          ShadowDepth="0"
-                                                          Opacity="0.35"
-                                                          Color="{Binding Source={StaticResource AccentBrush}, Path=Color}"/>
-                                    </Border.Effect>
-                                </Border>
                                 <Border x:Name="Underline"
                                         Height="2"
                                         Background="Transparent"
@@ -120,29 +96,12 @@
                             </Grid>
                         </Border>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsSelected" Value="False">
-                                <!-- Rear shadow for non-selected bookmarks -->
-                                <Setter TargetName="Root" Property="Effect">
-                                    <Setter.Value>
-                                        <DropShadowEffect BlurRadius="14" ShadowDepth="3" Opacity="0.10" Color="Black"/>
-                                    </Setter.Value>
-                                </Setter>
-                            </Trigger>
-
                             <Trigger Property="IsSelected" Value="True">
                                 <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
                                 <Setter Property="FontWeight" Value="SemiBold"/>
                                 <Setter Property="Panel.ZIndex" Value="3"/>
-                                <Setter TargetName="Root" Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"/>
-                                <Setter TargetName="Underline" Property="Background" Value="{StaticResource AccentBrush}"/>
-                                <Setter TargetName="UnderlineGlow" Property="Background" Value="{StaticResource AccentBrush}"/>
-                                <Setter TargetName="UnderlineGlow" Property="Opacity" Value="0.85"/>
-                                <Setter TargetName="Root" Property="Effect">
-                                    <Setter.Value>
-                                        <!-- Rear shadow for layered bookmark look -->
-                                        <DropShadowEffect BlurRadius="20" ShadowDepth="6" Opacity="0.16" Color="Black"/>
-                                    </Setter.Value>
-                                </Setter>
+                                <Setter TargetName="Root" Property="Background" Value="{DynamicResource SystemControlBackgroundListMediumBrush}"/>
+                                <Setter TargetName="Underline" Property="Background" Value="{DynamicResource AccentBrush}"/>
                             </Trigger>
 
                             <Trigger Property="IsMouseOver" Value="True">
@@ -156,17 +115,12 @@
         </Style>
 
         <Style x:Key="TweakItemStyle" TargetType="Border">
-            <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"/>
+            <Setter Property="Background" Value="{DynamicResource CardBrush}"/>
             <Setter Property="BorderBrush" Value="{DynamicResource SystemControlBorderBaseLowBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="CornerRadius" Value="8"/>
             <Setter Property="Padding" Value="16,12"/>
             <Setter Property="Margin" Value="0,0,0,8"/>
-            <Setter Property="Effect">
-                <Setter.Value>
-                    <DropShadowEffect Color="Black" Opacity="0.08" ShadowDepth="2" BlurRadius="10"/>
-                </Setter.Value>
-            </Setter>
         </Style>
 
         <Style x:Key="RiskLevelIndicator" TargetType="Border">
@@ -219,25 +173,25 @@
             <Button x:Name="RefreshButton" Style="{StaticResource SecondaryButtonStyle}"
                     Click="RefreshButton_Click" Margin="0,0,8,0">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="🔄" FontSize="11" Margin="0,0,6,0"/>
+                    <TextBlock Text="&#xE72C;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0"/>
                     <TextBlock Text="Refresh Status" FontSize="11"/>
                 </StackPanel>
             </Button>
 
             <!-- 2. Create Backup - Orange/Standard -->
-            <Button x:Name="BackupButton" Style="{StaticResource ModernButtonStyle}"
+            <Button x:Name="BackupButton" Style="{StaticResource SecondaryButtonStyle}"
                     Click="BackupButton_Click" Margin="0,0,8,0">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="💾" FontSize="11" Margin="0,0,6,0" Foreground="White"/>
+                    <TextBlock Text="&#xE74E;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0"/>
                     <TextBlock Text="Create Backup" FontSize="11"/>
                 </StackPanel>
             </Button>
 
             <!-- 3. Create Restore Point - Orange/Standard -->
-            <Button x:Name="CreateRestorePointButton" Style="{StaticResource ModernButtonStyle}"
+            <Button x:Name="CreateRestorePointButton" Style="{StaticResource SecondaryButtonStyle}"
                     Click="CreateRestorePointButton_Click" Margin="0,0,8,0">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="🛟" FontSize="11" Margin="0,0,6,0" Foreground="White"/>
+                    <TextBlock Text="&#xE83D;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0"/>
                     <TextBlock Text="Create Restore Point" FontSize="11"/>
                 </StackPanel>
             </Button>
@@ -246,7 +200,7 @@
             <Button x:Name="ApplyAllButton" Style="{StaticResource PrimaryActionButtonStyle}"
                     Click="ApplyAllButton_Click" Margin="0,0,12,0">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="✅" FontSize="11" Margin="0,0,6,0" Foreground="White"/>
+                    <TextBlock Text="&#xE73E;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0" Foreground="White"/>
                     <TextBlock Text="Apply Recommended" FontSize="11"/>
                 </StackPanel>
             </Button>
@@ -291,7 +245,7 @@
                                         </Border.BorderBrush>
                                         <StackPanel>
                                             <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
-                                                <TextBlock Text="{Binding Icon}" FontSize="22" Margin="0,0,12,0" Foreground="{DynamicResource IconBrush}"/>
+                                                <TextBlock Text="{Binding Icon}" FontFamily="Segoe Fluent Icons" FontSize="20" Margin="0,0,12,0" Foreground="{DynamicResource IconBrush}"/>
                                                 <TextBlock Text="{Binding Name}" FontSize="16" FontWeight="SemiBold" Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
                                             </StackPanel>
                                             <TextBlock Text="{Binding Description}" FontSize="11" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" Opacity="0.7" TextWrapping="Wrap"/>
@@ -335,7 +289,7 @@
                                                                         VerticalAlignment="Center"
                                                                         Tag="{Binding}"
                                                                         ToolTip="Preview registry changes">
-                                                                    <TextBlock Text="👁" FontSize="13" Foreground="{DynamicResource IconBrush}"/>
+                                                                    <TextBlock Text="&#xE890;" FontFamily="Segoe Fluent Icons" FontSize="13" Foreground="{DynamicResource IconBrush}"/>
                                                                 </Button>
                                                             </StackPanel>
                                                         </Grid>
@@ -379,14 +333,14 @@
                                 </Grid.ColumnDefinitions>
                                 <StackPanel Grid.Column="0">
                                     <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
-                                        <TextBlock Text="🧩" FontSize="20" Margin="0,0,8,0" Foreground="{DynamicResource IconBrush}"/>
+                                        <TextBlock Text="&#xE8B7;" FontFamily="Segoe Fluent Icons" FontSize="18" Margin="0,0,8,0" Foreground="{DynamicResource IconBrush}"/>
                                         <TextBlock Text="Custom Registry Tweaks" Style="{StaticResource CategoryHeaderStyle}"/>
                                     </StackPanel>
                                     <TextBlock Text="Create and manage your own registry entries." Style="{StaticResource DescriptionTextStyle}"/>
                                 </StackPanel>
                                 <Button Grid.Column="1" Style="{StaticResource ModernButtonStyle}" Click="AddCustomTweak_Click" MinWidth="140" Padding="16,8">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="➕" FontSize="14" Margin="0,0,8,0" Foreground="White"/>
+                                        <TextBlock Text="&#xE710;" FontFamily="Segoe Fluent Icons" FontSize="13" Margin="0,0,8,0" Foreground="White"/>
                                         <TextBlock Text="New Tweak"/>
                                     </StackPanel>
                                 </Button>

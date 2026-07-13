@@ -7,30 +7,20 @@
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="External Tools"
-      Background="{DynamicResource SystemControlBackgroundBaseLowBrush}">
+      Background="Transparent">
 
     <Page.Resources>
         <Style x:Key="ToolCardStyle" TargetType="Border">
-            <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"/>
+            <Setter Property="Background" Value="{DynamicResource CardBrush}"/>
             <Setter Property="BorderBrush" Value="{DynamicResource SystemControlBorderBaseLowBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="CornerRadius" Value="10"/>
             <Setter Property="Padding" Value="16,12"/>
             <Setter Property="Margin" Value="0,0,0,8"/>
             <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Effect">
-                <Setter.Value>
-                    <DropShadowEffect Color="Black" Opacity="0.1" ShadowDepth="1" BlurRadius="8"/>
-                </Setter.Value>
-            </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="BorderBrush" Value="{StaticResource AccentBrush}"/>
-                    <Setter Property="Effect">
-                        <Setter.Value>
-                            <DropShadowEffect Color="{Binding Source={StaticResource AccentBrush}, Path=Color}" Opacity="0.18" ShadowDepth="0" BlurRadius="14"/>
-                        </Setter.Value>
-                    </Setter>
+                    <Setter Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -40,7 +30,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="GroupBox">
                         <StackPanel>
-                            <Border Background="{StaticResource AccentBrush}"
+                            <Border Background="{DynamicResource AccentBrush}"
                                     CornerRadius="6" Padding="12,8" Margin="0,0,0,12">
                                 <TextBlock Text="{TemplateBinding Header}"
                                            FontSize="13" FontWeight="SemiBold"
@@ -156,7 +146,7 @@
                 <Border CornerRadius="6" BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}" BorderThickness="1"
                         Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
                     <DockPanel>
-                        <TextBlock Text="🔎" Margin="8,0,0,0" VerticalAlignment="Center" FontSize="11"/>
+                        <TextBlock Text="&#xE721;" FontFamily="Segoe Fluent Icons" Margin="8,0,0,0" VerticalAlignment="Center" FontSize="12"/>
                         <TextBox x:Name="SearchBox" Width="220" Margin="6,0,8,0" BorderThickness="0" Background="Transparent"
                                  VerticalContentAlignment="Center" Padding="0,4" FontSize="12"
                                  TextChanged="SearchBox_TextChanged"/>
@@ -189,7 +179,7 @@
                 <ProgressBar x:Name="ProgressBar"
                              Height="4"
                              Background="{DynamicResource SystemControlBackgroundBaseLowBrush}"
-                             Foreground="{StaticResource AccentBrush}"
+                             Foreground="{DynamicResource AccentBrush}"
                              Minimum="0"
                              Maximum="100"
                              Value="0"/>

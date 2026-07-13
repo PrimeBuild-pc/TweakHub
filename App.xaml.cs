@@ -1,6 +1,8 @@
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Interop;
 using Microsoft.Win32;
 using TweakHub.Services;
 
@@ -21,6 +23,7 @@ public partial class App : Application
         }
 
         _ = ThemeService.Instance;
+        EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.LoadedEvent, new RoutedEventHandler(Window_Loaded));
         RegistryService.Instance.Initialize();
         SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
         DispatcherUnhandledException += App_DispatcherUnhandledException;
@@ -46,13 +49,38 @@ public partial class App : Application
         // Theme changes usually surface as preference changes; refresh theme if we follow System.
         try
         {
-            Dispatcher.Invoke(() => ThemeService.Instance.RefreshSystemThemeIfNeeded());
+            Dispatcher.Invoke(() =>
+            {
+                ThemeService.Instance.RefreshSystemThemeIfNeeded();
+                foreach (Window window in Windows) ApplyWindows11Style(window);
+            });
         }
         catch
         {
             // Ignore theme refresh errors
         }
     }
+
+    private static void Window_Loaded(object sender, RoutedEventArgs e)
+    {
+        if (sender is Window window) ApplyWindows11Style(window);
+    }
+
+    private static void ApplyWindows11Style(Window window)
+    {
+        var handle = new WindowInteropHelper(window).Handle;
+        if (handle == IntPtr.Zero) return;
+
+        var darkMode = ThemeService.Instance.IsDark ? 1 : 0;
+        var roundedCorners = 2;
+        var backdrop = window is MainWindow ? 2 : 3;
+        DwmSetWindowAttribute(handle, 20, ref darkMode, sizeof(int));
+        DwmSetWindowAttribute(handle, 33, ref roundedCorners, sizeof(int));
+        DwmSetWindowAttribute(handle, 38, ref backdrop, sizeof(int));
+    }
+
+    [DllImport("dwmapi.dll")]
+    private static extern int DwmSetWindowAttribute(IntPtr window, int attribute, ref int value, int size);
 
     private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
     {

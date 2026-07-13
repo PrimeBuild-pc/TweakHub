@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
-        WindowStyle="None"
+        WindowStyle="SingleBorderWindow"
         ResizeMode="NoResize"
         ShowInTaskbar="False"
-        Topmost="True"
-        Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}"
+        FontFamily="Segoe UI Variable Text"
+        Background="{DynamicResource WindowBackgroundBrush}"
         Width="560"
         SizeToContent="Height">
 

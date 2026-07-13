@@ -167,7 +167,7 @@ namespace TweakHub.Views
 
             var infoPanel = new StackPanel { Margin = new Thickness(0,0,0,0) };
             var header = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0,0,0,12) };
-            header.Children.Add(new TextBlock { Text = script.Language == ScriptLanguage.PowerShell ? "🧩" : "📄", FontSize = 24, Margin = new Thickness(0,0,12,0), Foreground = (System.Windows.Media.Brush)FindResource("IconBrush") });
+            header.Children.Add(new TextBlock { Text = script.Language == ScriptLanguage.PowerShell ? "\uE8B7" : "\uE8A5", FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons"), FontSize = 22, Margin = new Thickness(0,0,12,0), Foreground = (System.Windows.Media.Brush)FindResource("IconBrush") });
             header.Children.Add(new TextBlock { Text = script.Name, FontSize = 18, FontWeight = FontWeights.SemiBold, Foreground = (System.Windows.Media.Brush)FindResource("SystemControlForegroundBaseHighBrush") });
             infoPanel.Children.Add(header);
             infoPanel.Children.Add(new TextBlock { Text = $"{(script.Language == ScriptLanguage.PowerShell ? "PowerShell" : "CMD")} • {(script.RequiresAdministrator ? "Administrator" : "Current user")}", Style = (Style)FindResource("DescriptionTextStyle"), Margin = new Thickness(36,0,0,12) });
@@ -175,13 +175,13 @@ namespace TweakHub.Views
 
             var actionsPanel = new StackPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center };
             var execBtn = new Button { Style = GetStyleOrDefault("ExecuteButtonStyle"), Margin = new Thickness(0,0,8,0) };
-            execBtn.Content = new StackPanel { Orientation = Orientation.Horizontal, Children = { new TextBlock { Text = "▶️", FontSize = 14, Margin = new Thickness(0,0,8,0), Foreground = Brushes.White }, new TextBlock { Text = script.Language == ScriptLanguage.PowerShell ? "Run" : "Execute" } } };
+            execBtn.Content = new StackPanel { Orientation = Orientation.Horizontal, Children = { new TextBlock { Text = "\uE768", FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons"), FontSize = 13, Margin = new Thickness(0,0,8,0), Foreground = Brushes.White }, new TextBlock { Text = script.Language == ScriptLanguage.PowerShell ? "Run" : "Execute" } } };
             var cancelBtn = new Button { Content = "Stop", Style = GetStyleOrDefault("DangerButtonStyle"), Margin = new Thickness(0,0,8,0), Visibility = Visibility.Collapsed };
-            var exportBtn = new Button { Content = "Export", Style = GetStyleOrDefault("ModernButtonStyle"), Margin = new Thickness(0,0,8,0) };
-            var editBtn = new Button { Style = GetStyleOrDefault("ModernButtonStyle"), Margin = new Thickness(0,0,8,0) };
-            editBtn.Content = new StackPanel { Orientation = Orientation.Horizontal, Children = { new TextBlock { Text = "✏️", FontSize = 14, Margin = new Thickness(0,0,8,0), Foreground = Brushes.White }, new TextBlock { Text = "Edit" } } };
+            var exportBtn = new Button { Content = "Export", Style = GetStyleOrDefault("SecondaryButtonStyle"), Margin = new Thickness(0,0,8,0) };
+            var editBtn = new Button { Style = GetStyleOrDefault("SecondaryButtonStyle"), Margin = new Thickness(0,0,8,0) };
+            editBtn.Content = new StackPanel { Orientation = Orientation.Horizontal, Children = { new TextBlock { Text = "\uE70F", FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons"), FontSize = 13, Margin = new Thickness(0,0,8,0) }, new TextBlock { Text = "Edit" } } };
             var deleteBtn = new Button { Style = GetStyleOrDefault("DangerButtonStyle") };
-            deleteBtn.Content = new StackPanel { Orientation = Orientation.Horizontal, Children = { new TextBlock { Text = "🗑️", FontSize = 14, Margin = new Thickness(0,0,8,0), Foreground = Brushes.White }, new TextBlock { Text = "Delete" } } };
+            deleteBtn.Content = new StackPanel { Orientation = Orientation.Horizontal, Children = { new TextBlock { Text = "\uE74D", FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons"), FontSize = 13, Margin = new Thickness(0,0,8,0) }, new TextBlock { Text = "Delete" } } };
             
             actionsPanel.Children.Add(execBtn); actionsPanel.Children.Add(cancelBtn); actionsPanel.Children.Add(exportBtn); actionsPanel.Children.Add(editBtn); actionsPanel.Children.Add(deleteBtn);
             Grid.SetColumn(actionsPanel,1); Grid.SetRow(actionsPanel,0); grid.Children.Add(actionsPanel);

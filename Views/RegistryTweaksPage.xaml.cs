@@ -123,7 +123,7 @@ namespace TweakHub.Views
 
             var info = new StackPanel();
             var header = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0,0,0,8) };
-            header.Children.Add(new TextBlock { Text = "🧩", FontSize = 16, Margin = new Thickness(0,0,8,0) });
+            header.Children.Add(new TextBlock { Text = "\uE8B7", FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons"), FontSize = 16, Margin = new Thickness(0,0,8,0) });
             header.Children.Add(new TextBlock { Text = t.Name, FontSize = 16, FontWeight = FontWeights.Medium });
             info.Children.Add(header);
             info.Children.Add(new TextBlock { Text = $"{t.RegistryPath}\\{t.RegistryKey}", Margin = new Thickness(16,0,0,0), Opacity = 0.8 });
@@ -131,16 +131,16 @@ namespace TweakHub.Views
             Grid.SetColumn(info,0); grid.Children.Add(info);
 
             var actions = new StackPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center };
-            var viewBtn = new Button { Style = GetStyleOrDefault("ModernButtonStyle"), Margin = new Thickness(0,0,8,0) };
-            viewBtn.Content = new StackPanel { Orientation = Orientation.Horizontal, Children = { new TextBlock { Text = "👁️", Margin = new Thickness(0,0,8,0) }, new TextBlock { Text = "View" } } };
+            var viewBtn = new Button { Style = GetStyleOrDefault("SecondaryButtonStyle"), Margin = new Thickness(0,0,8,0) };
+            viewBtn.Content = new StackPanel { Orientation = Orientation.Horizontal, Children = { new TextBlock { Text = "\uE890", FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons"), Margin = new Thickness(0,0,8,0) }, new TextBlock { Text = "View" } } };
             var applyBtn = new Button { Style = GetStyleOrDefault("ExecuteButtonStyle"), Margin = new Thickness(0,0,8,0) };
-            applyBtn.Content = new StackPanel { Orientation = Orientation.Horizontal, Children = { new TextBlock { Text = "▶️", Margin = new Thickness(0,0,8,0) }, new TextBlock { Text = "Apply" } } };
-            var restoreBtn = new Button { Style = GetStyleOrDefault("ModernButtonStyle"), Margin = new Thickness(0,0,8,0) };
-            restoreBtn.Content = new StackPanel { Orientation = Orientation.Horizontal, Children = { new TextBlock { Text = "↩️", Margin = new Thickness(0,0,8,0) }, new TextBlock { Text = "Restore" } } };
-            var editBtn = new Button { Style = GetStyleOrDefault("ModernButtonStyle"), Margin = new Thickness(0,0,8,0) };
-            editBtn.Content = new StackPanel { Orientation = Orientation.Horizontal, Children = { new TextBlock { Text = "✏️", Margin = new Thickness(0,0,8,0) }, new TextBlock { Text = "Edit" } } };
+            applyBtn.Content = new StackPanel { Orientation = Orientation.Horizontal, Children = { new TextBlock { Text = "\uE768", FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons"), Margin = new Thickness(0,0,8,0) }, new TextBlock { Text = "Apply" } } };
+            var restoreBtn = new Button { Style = GetStyleOrDefault("SecondaryButtonStyle"), Margin = new Thickness(0,0,8,0) };
+            restoreBtn.Content = new StackPanel { Orientation = Orientation.Horizontal, Children = { new TextBlock { Text = "\uE777", FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons"), Margin = new Thickness(0,0,8,0) }, new TextBlock { Text = "Restore" } } };
+            var editBtn = new Button { Style = GetStyleOrDefault("SecondaryButtonStyle"), Margin = new Thickness(0,0,8,0) };
+            editBtn.Content = new StackPanel { Orientation = Orientation.Horizontal, Children = { new TextBlock { Text = "\uE70F", FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons"), Margin = new Thickness(0,0,8,0) }, new TextBlock { Text = "Edit" } } };
             var deleteBtn = new Button { Style = GetStyleOrDefault("DangerButtonStyle") };
-            deleteBtn.Content = new StackPanel { Orientation = Orientation.Horizontal, Children = { new TextBlock { Text = "🗑️", Margin = new Thickness(0,0,8,0) }, new TextBlock { Text = "Delete" } } };
+            deleteBtn.Content = new StackPanel { Orientation = Orientation.Horizontal, Children = { new TextBlock { Text = "\uE74D", FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons"), Margin = new Thickness(0,0,8,0) }, new TextBlock { Text = "Delete" } } };
             actions.Children.Add(viewBtn); actions.Children.Add(applyBtn); actions.Children.Add(restoreBtn); actions.Children.Add(editBtn); actions.Children.Add(deleteBtn);
             Grid.SetColumn(actions,1); grid.Children.Add(actions);
 
@@ -239,8 +239,7 @@ namespace TweakHub.Views
 
         private void OpenCustomTweakDialog(CustomRegistryTweak? existing = null)
         {
-            var theme = Services.ThemeService.Instance;
-            var isDark = theme != null && (theme.CurrentTheme == Services.AppTheme.Dark || (theme.CurrentTheme == Services.AppTheme.System));
+            var isDark = Services.ThemeService.Instance.IsDark;
 
             var dialog = new Window
             {

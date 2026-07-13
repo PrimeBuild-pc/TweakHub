@@ -11,16 +11,12 @@ namespace TweakHub;
 /// </summary>
 public partial class MainWindow : Window
 {
-    private readonly ThemeService _themeService;
-    private Button? _activeButton = null;
+    private Button? _activeButton;
 
     public MainWindow()
     {
         InitializeComponent();
-        _themeService = ThemeService.Instance;
-
         Loaded += MainWindow_Loaded;
-        UpdateThemeButton();
     }
 
     private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -54,36 +50,6 @@ public partial class MainWindow : Window
         NavigateToAbout();
     }
 
-    private void ThemeToggleButton_Click(object sender, RoutedEventArgs e)
-    {
-        _themeService.CurrentTheme = _themeService.CurrentTheme == Services.AppTheme.Dark
-            ? Services.AppTheme.Light
-            : Services.AppTheme.Dark;
-        UpdateThemeButton();
-    }
-
-    private void UpdateThemeButton()
-    {
-        var isDark = _themeService.CurrentTheme == Services.AppTheme.Dark ||
-                     (_themeService.CurrentTheme == Services.AppTheme.System && IsSystemDarkTheme());
-
-        ThemeIcon.Text = isDark ? "☀️" : "🌙";
-        ThemeText.Text = isDark ? "Light Theme" : "Dark Theme";
-    }
-
-    private bool IsSystemDarkTheme()
-    {
-        try
-        {
-            using var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize");
-            var value = key?.GetValue("AppsUseLightTheme");
-            return value is int intValue && intValue == 0;
-        }
-        catch
-        {
-            return false;
-        }
-    }
 
     private void NavigateToRegistryTweaks()
     {

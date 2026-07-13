@@ -144,7 +144,8 @@ namespace TweakHub.Views
             var iconText = new TextBlock
             {
                 Text = GetCategoryIcon(categoryName),
-                FontSize = 20,
+                FontFamily = new FontFamily("Segoe Fluent Icons"),
+                FontSize = 18,
                 Margin = new Thickness(0, 0, 12, 0),
                 VerticalAlignment = VerticalAlignment.Center
             };
@@ -208,19 +209,16 @@ namespace TweakHub.Views
             return panel;
         }
 
-        private string GetCategoryIcon(string category)
+        private static string GetCategoryIcon(string category) => category switch
         {
-            return category switch
-            {
-                "System Tools" => "⚙️",
-                "Monitoring" => "📊",
-                "Benchmarking" => "🏁",
-                "Storage" => "💾",
-                "Graphics" => "🎮",
-                "Input & Display" => "🖥️",
-                _ => "🔧"
-            };
-        }
+            "System Tools" => "\uE713",
+            "Monitoring" => "\uE9D9",
+            "Benchmarking" => "\uE9D2",
+            "Storage" => "\uEDA2",
+            "Graphics" => "\uE7FC",
+            "Input & Display" => "\uE7F4",
+            _ => "\uE90F"
+        };
 
         private Border CreateToolCard(ExternalTool tool)
         {
@@ -259,8 +257,9 @@ namespace TweakHub.Views
 
             var iconText = new TextBlock
             {
-                Text = tool.Icon,
-                FontSize = 20,
+                Text = GetCategoryIcon(tool.Category),
+                FontFamily = new FontFamily("Segoe Fluent Icons"),
+                FontSize = 18,
                 Margin = new Thickness(0, 0, 10, 0),
                 VerticalAlignment = VerticalAlignment.Center
             };
@@ -329,6 +328,7 @@ namespace TweakHub.Views
             var actionIcon = new TextBlock
             {
                 Text = GetDownloadIcon(tool),
+                FontFamily = new FontFamily("Segoe Fluent Icons"),
                 FontSize = 12,
                 VerticalAlignment = VerticalAlignment.Center
             };
@@ -351,7 +351,7 @@ namespace TweakHub.Views
             {
                 var uninstallBtn = new Button
                 {
-                    Content = new TextBlock { Text = "🗑️", FontSize = 12 },
+                    Content = new TextBlock { Text = "\uE74D", FontFamily = new FontFamily("Segoe Fluent Icons"), FontSize = 12 },
                     ToolTip = "Uninstall",
                     Padding = new Thickness(4, 0, 4, 0),
                     Margin = new Thickness(6, 0, 0, 0),
@@ -411,15 +411,8 @@ namespace TweakHub.Views
             LoadExternalTools();
         }
 
-        private string GetDownloadIcon(ExternalTool tool)
-        {
-            if (!string.IsNullOrWhiteSpace(tool.WingetId))
-                return "⬇️"; // Winget download
-            else if (!string.IsNullOrEmpty(tool.DownloadUrl) && tool.DownloadUrl.Contains("github.com"))
-                return "📦"; // GitHub package
-            else
-                return "🌐"; // Website link
-        }
+        private static string GetDownloadIcon(ExternalTool tool) =>
+            !string.IsNullOrWhiteSpace(tool.WingetId) ? "\uE896" : "\uE774";
 
         private string GetActionText(ExternalTool tool)
         {
@@ -449,7 +442,7 @@ namespace TweakHub.Views
             {
                 if (e.Success)
                 {
-                    this.ProgressText.Text = $"✅ {e.Message}";
+                    this.ProgressText.Text = e.Message;
                     this.ProgressBar.Value = 100;
 
 
@@ -468,7 +461,7 @@ namespace TweakHub.Views
                 }
                 else
                 {
-                    this.ProgressText.Text = $"❌ {e.Message}";
+                    this.ProgressText.Text = e.Message;
                     this.ProgressBar.Value = 0;
 
                     // Hide progress panel after 5 seconds for errors

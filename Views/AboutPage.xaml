@@ -6,7 +6,7 @@
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="About"
-      Background="{DynamicResource SystemControlBackgroundBaseLowBrush}">
+      Background="Transparent">
 
     <Page.Resources>
         <Style TargetType="Hyperlink">

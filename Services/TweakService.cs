@@ -59,7 +59,7 @@ namespace TweakHub.Services
             {
                 Name = "CPU & Processor Optimization",
                 Description = "Optimize CPU scheduling, priority, and processor performance",
-                Icon = "🔥"
+                Icon = "\uE945"
             };
 
             category.Tweaks.Add(new PerformanceTweak
@@ -127,7 +127,7 @@ namespace TweakHub.Services
             {
                 Name = "Network Latency Reduction",
                 Description = "Optimize network stack for minimal latency and maximum responsiveness",
-                Icon = "🌐"
+                Icon = "\uE968"
             };
 
             category.Tweaks.Add(new PerformanceTweak
@@ -153,7 +153,7 @@ namespace TweakHub.Services
             {
                 Name = "Gaming Performance",
                 Description = "Optimize system for gaming performance and input responsiveness",
-                Icon = "🎮"
+                Icon = "\uE7FC"
             };
 
             category.Tweaks.Add(new PerformanceTweak
@@ -207,7 +207,7 @@ namespace TweakHub.Services
             {
                 Name = "System Responsiveness",
                 Description = "Improve overall system responsiveness and UI performance",
-                Icon = "⚡"
+                Icon = "\uE945"
             };
 
             category.Tweaks.Add(new PerformanceTweak
@@ -247,7 +247,7 @@ namespace TweakHub.Services
             {
                 Name = "Advanced",
                 Description = "Higher-impact changes that trade Windows functionality for lower background activity",
-                Icon = "⚠️"
+                Icon = "\uE83D"
             };
 
             category.Tweaks.Add(new PerformanceTweak
@@ -274,7 +274,7 @@ namespace TweakHub.Services
             {
                 Name = "Visual Effects & Performance",
                 Description = "Optimize visual effects for better performance and responsiveness",
-                Icon = "🎨"
+                Icon = "\uE790"
             };
 
             category.Tweaks.Add(new PerformanceTweak
