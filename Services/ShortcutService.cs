@@ -1123,8 +1123,7 @@ namespace TweakHub.Services
                 {
                     FileName = shortcut.Command,
                     Arguments = shortcut.Arguments,
-                    UseShellExecute = true,
-                    Verb = "runas" // Run as administrator when needed
+                    UseShellExecute = true
                 };
 
                 Process.Start(startInfo);

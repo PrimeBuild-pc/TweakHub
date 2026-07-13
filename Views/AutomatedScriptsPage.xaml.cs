@@ -1,11 +1,11 @@
 using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Microsoft.Win32;
 using TweakHub.Services;
 using TweakHub.Models;
 using TweakHub.Views.Dialogs;
@@ -17,6 +17,7 @@ namespace TweakHub.Views
         private readonly PowerShellService _powerShellService;
         private readonly UserDataService _userDataService;
         private readonly ObservableCollection<CustomScript> _customScripts = new();
+        private readonly Dictionary<string, CancellationTokenSource> _runningScripts = new();
 
         public AutomatedScriptsPage()
         {
@@ -32,6 +33,42 @@ namespace TweakHub.Views
             var loaded = _userDataService.LoadCustomScripts();
             _customScripts.Clear();
             foreach (var s in loaded) _customScripts.Add(s);
+        }
+
+        private void ImportScriptsButton_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new OpenFileDialog
+            {
+                Filter = "Scripts (*.ps1;*.cmd;*.bat)|*.ps1;*.cmd;*.bat",
+                Multiselect = true
+            };
+            if (dialog.ShowDialog() != true) return;
+
+            foreach (var path in dialog.FileNames)
+            {
+                _customScripts.Add(new CustomScript
+                {
+                    Name = System.IO.Path.GetFileNameWithoutExtension(path),
+                    Language = System.IO.Path.GetExtension(path).Equals(".ps1", StringComparison.OrdinalIgnoreCase)
+                        ? ScriptLanguage.PowerShell
+                        : ScriptLanguage.Cmd,
+                    Content = System.IO.File.ReadAllText(path)
+                });
+            }
+            _userDataService.SaveCustomScripts(_customScripts);
+            RefreshCustomScriptCards();
+        }
+
+        private void ExportScript(CustomScript script)
+        {
+            var extension = script.Language == ScriptLanguage.PowerShell ? ".ps1" : ".cmd";
+            var dialog = new SaveFileDialog
+            {
+                Filter = script.Language == ScriptLanguage.PowerShell ? "PowerShell (*.ps1)|*.ps1" : "CMD (*.cmd)|*.cmd",
+                FileName = script.Name + extension,
+                DefaultExt = extension
+            };
+            if (dialog.ShowDialog() == true) System.IO.File.WriteAllText(dialog.FileName, script.Content);
         }
 
         private void NewScriptButton_Click(object sender, RoutedEventArgs e)
@@ -58,8 +95,9 @@ namespace TweakHub.Views
 
             var langPanel = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0,0,0,12) };
             var psRadio = new RadioButton { Content = "PowerShell", IsChecked = true, Margin = new Thickness(0,0,12,0) };
-            var cmdRadio = new RadioButton { Content = "CMD Batch" };
-            langPanel.Children.Add(psRadio); langPanel.Children.Add(cmdRadio);
+            var cmdRadio = new RadioButton { Content = "CMD Batch", Margin = new Thickness(0,0,20,0) };
+            var adminCheck = new CheckBox { Content = "Requires administrator", VerticalAlignment = VerticalAlignment.Center };
+            langPanel.Children.Add(psRadio); langPanel.Children.Add(cmdRadio); langPanel.Children.Add(adminCheck);
             Grid.SetRow(langPanel,1); grid.Children.Add(langPanel);
 
             var contentBox = new TextBox
@@ -87,7 +125,8 @@ namespace TweakHub.Views
                 {
                     Name = name,
                     Language = psRadio.IsChecked == true ? ScriptLanguage.PowerShell : ScriptLanguage.Cmd,
-                    Content = contentBox.Text
+                    Content = contentBox.Text,
+                    RequiresAdministrator = adminCheck.IsChecked == true
                 };
                 _customScripts.Add(script);
                 _userDataService.SaveCustomScripts(_customScripts);
@@ -131,28 +170,48 @@ namespace TweakHub.Views
             header.Children.Add(new TextBlock { Text = script.Language == ScriptLanguage.PowerShell ? "🧩" : "📄", FontSize = 24, Margin = new Thickness(0,0,12,0), Foreground = (System.Windows.Media.Brush)FindResource("IconBrush") });
             header.Children.Add(new TextBlock { Text = script.Name, FontSize = 18, FontWeight = FontWeights.SemiBold, Foreground = (System.Windows.Media.Brush)FindResource("SystemControlForegroundBaseHighBrush") });
             infoPanel.Children.Add(header);
-            infoPanel.Children.Add(new TextBlock { Text = script.Language == ScriptLanguage.PowerShell ? "Custom PowerShell script" : "Custom CMD batch script", Style = (Style)FindResource("DescriptionTextStyle"), Margin = new Thickness(36,0,0,12) });
+            infoPanel.Children.Add(new TextBlock { Text = $"{(script.Language == ScriptLanguage.PowerShell ? "PowerShell" : "CMD")} • {(script.RequiresAdministrator ? "Administrator" : "Current user")}", Style = (Style)FindResource("DescriptionTextStyle"), Margin = new Thickness(36,0,0,12) });
             Grid.SetRow(infoPanel,0); Grid.SetColumn(infoPanel,0); grid.Children.Add(infoPanel);
 
             var actionsPanel = new StackPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center };
             var execBtn = new Button { Style = GetStyleOrDefault("ExecuteButtonStyle"), Margin = new Thickness(0,0,8,0) };
             execBtn.Content = new StackPanel { Orientation = Orientation.Horizontal, Children = { new TextBlock { Text = "▶️", FontSize = 14, Margin = new Thickness(0,0,8,0), Foreground = Brushes.White }, new TextBlock { Text = script.Language == ScriptLanguage.PowerShell ? "Run" : "Execute" } } };
+            var cancelBtn = new Button { Content = "Stop", Style = GetStyleOrDefault("DangerButtonStyle"), Margin = new Thickness(0,0,8,0), Visibility = Visibility.Collapsed };
+            var exportBtn = new Button { Content = "Export", Style = GetStyleOrDefault("ModernButtonStyle"), Margin = new Thickness(0,0,8,0) };
             var editBtn = new Button { Style = GetStyleOrDefault("ModernButtonStyle"), Margin = new Thickness(0,0,8,0) };
             editBtn.Content = new StackPanel { Orientation = Orientation.Horizontal, Children = { new TextBlock { Text = "✏️", FontSize = 14, Margin = new Thickness(0,0,8,0), Foreground = Brushes.White }, new TextBlock { Text = "Edit" } } };
             var deleteBtn = new Button { Style = GetStyleOrDefault("DangerButtonStyle") };
             deleteBtn.Content = new StackPanel { Orientation = Orientation.Horizontal, Children = { new TextBlock { Text = "🗑️", FontSize = 14, Margin = new Thickness(0,0,8,0), Foreground = Brushes.White }, new TextBlock { Text = "Delete" } } };
             
-            actionsPanel.Children.Add(execBtn); actionsPanel.Children.Add(editBtn); actionsPanel.Children.Add(deleteBtn);
+            actionsPanel.Children.Add(execBtn); actionsPanel.Children.Add(cancelBtn); actionsPanel.Children.Add(exportBtn); actionsPanel.Children.Add(editBtn); actionsPanel.Children.Add(deleteBtn);
             Grid.SetColumn(actionsPanel,1); Grid.SetRow(actionsPanel,0); grid.Children.Add(actionsPanel);
 
             card.Child = grid;
-            execBtn.Click += async (_, __) => await ExecuteCustomScript(script);
+            execBtn.Click += async (_, __) =>
+            {
+                if (_runningScripts.ContainsKey(script.Id)) return;
+                using var cancellation = new CancellationTokenSource();
+                _runningScripts[script.Id] = cancellation;
+                execBtn.IsEnabled = false;
+                cancelBtn.Visibility = Visibility.Visible;
+                try { await ExecuteCustomScript(script, cancellation.Token); }
+                finally
+                {
+                    _runningScripts.Remove(script.Id);
+                    execBtn.IsEnabled = true;
+                    cancelBtn.Visibility = Visibility.Collapsed;
+                }
+            };
+            cancelBtn.Click += (_, __) => cancellationFor(script.Id)?.Cancel();
+            exportBtn.Click += (_, __) => ExportScript(script);
             editBtn.Click += (_, __) => EditCustomScript(script);
             deleteBtn.Click += (_, __) => DeleteCustomScript(script);
             NameScope.SetNameScope(card, new NameScope());
             return card;
-        }
 
+            CancellationTokenSource? cancellationFor(string id) =>
+                _runningScripts.TryGetValue(id, out var value) ? value : null;
+        }
 
         private Style GetStyleOrDefault(string key)
         {
@@ -160,58 +219,46 @@ namespace TweakHub.Views
             return style ?? (Application.Current.TryFindResource("ModernButtonStyle") as Style ?? new Style(typeof(Button)));
         }
 
-        private async Task ExecuteCustomScript(CustomScript script)
+        private async Task ExecuteCustomScript(CustomScript script, CancellationToken cancellationToken)
         {
-            try
-            {
-                var result = script.Language == ScriptLanguage.PowerShell
-                    ? await _powerShellService.ExecuteScriptAsync(script.Content)
-                    : await ExecuteCmdScript(script);
-                var details = string.Join("\n", new[] { result.Output.Trim(), result.Error.Trim() }.Where(s => s.Length > 0));
+            if (script.RequiresAdministrator && MessageBox.Show(
+                    $"Run '{script.Name}' with administrator privileges?",
+                    "Administrator Script",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Warning) != MessageBoxResult.Yes)
+                return;
 
-                MessageBox.Show(
-                    result.Success ? $"Script completed successfully.\n\n{details}".Trim() : $"Script failed (exit {result.ExitCode}).\n\n{details}".Trim(),
-                    script.Name,
-                    MessageBoxButton.OK,
-                    result.Success ? MessageBoxImage.Information : MessageBoxImage.Error);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error executing script: {ex.Message}");
-            }
+            var result = script.Language == ScriptLanguage.PowerShell
+                ? await _powerShellService.ExecuteScriptAsync(
+                    script.Content,
+                    script.RequiresAdministrator,
+                    TimeSpan.FromMinutes(15),
+                    cancellationToken)
+                : await ExecuteCmdScript(script, cancellationToken);
+            var details = string.Join("\n", new[] { result.Output.Trim(), result.Error.Trim() }.Where(s => s.Length > 0));
+            var summary = result.Success
+                ? $"Script completed in {result.Duration.TotalSeconds:F1}s."
+                : $"Script failed (exit {result.ExitCode}) after {result.Duration.TotalSeconds:F1}s.";
+
+            MessageBox.Show(
+                $"{summary}\n\n{details}".Trim(),
+                script.Name,
+                MessageBoxButton.OK,
+                result.Success ? MessageBoxImage.Information : MessageBoxImage.Error);
         }
 
-        private static async Task<PowerShellResult> ExecuteCmdScript(CustomScript script)
+        private async Task<PowerShellResult> ExecuteCmdScript(CustomScript script, CancellationToken cancellationToken)
         {
             var path = System.IO.Path.Combine(System.IO.Path.GetTempPath(), $"TweakHub-{script.Id}.cmd");
             try
             {
-                await System.IO.File.WriteAllTextAsync(path, script.Content);
-                using var process = new Process
-                {
-                    StartInfo = new ProcessStartInfo
-                    {
-                        FileName = "cmd.exe",
-                        UseShellExecute = false,
-                        RedirectStandardOutput = true,
-                        RedirectStandardError = true,
-                        CreateNoWindow = true
-                    }
-                };
-                process.StartInfo.ArgumentList.Add("/d");
-                process.StartInfo.ArgumentList.Add("/c");
-                process.StartInfo.ArgumentList.Add(path);
-                process.Start();
-                var output = process.StandardOutput.ReadToEndAsync();
-                var error = process.StandardError.ReadToEndAsync();
-                await process.WaitForExitAsync();
-                return new PowerShellResult
-                {
-                    Success = process.ExitCode == 0,
-                    ExitCode = process.ExitCode,
-                    Output = await output,
-                    Error = await error
-                };
+                await System.IO.File.WriteAllTextAsync(path, script.Content, cancellationToken);
+                var escapedPath = path.Replace("'", "''");
+                return await _powerShellService.ExecuteScriptAsync(
+                    $"& cmd.exe /d /c '{escapedPath}'\nexit $LASTEXITCODE",
+                    script.RequiresAdministrator,
+                    TimeSpan.FromMinutes(15),
+                    cancellationToken);
             }
             finally
             {
@@ -243,9 +290,11 @@ namespace TweakHub.Views
 
             var langPanel = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 0, 0, 12) };
             var psRadio = new RadioButton { Content = "PowerShell", IsChecked = script.Language == ScriptLanguage.PowerShell, Margin = new Thickness(0, 0, 12, 0) };
-            var cmdRadio = new RadioButton { Content = "CMD Batch", IsChecked = script.Language == ScriptLanguage.Cmd };
+            var cmdRadio = new RadioButton { Content = "CMD Batch", IsChecked = script.Language == ScriptLanguage.Cmd, Margin = new Thickness(0,0,20,0) };
+            var adminCheck = new CheckBox { Content = "Requires administrator", IsChecked = script.RequiresAdministrator, VerticalAlignment = VerticalAlignment.Center };
             langPanel.Children.Add(psRadio);
             langPanel.Children.Add(cmdRadio);
+            langPanel.Children.Add(adminCheck);
             Grid.SetRow(langPanel, 1);
             grid.Children.Add(langPanel);
 
@@ -283,6 +332,7 @@ namespace TweakHub.Views
                 script.Name = name;
                 script.Language = psRadio.IsChecked == true ? ScriptLanguage.PowerShell : ScriptLanguage.Cmd;
                 script.Content = contentBox.Text;
+                script.RequiresAdministrator = adminCheck.IsChecked == true;
 
                 // Save to disk
                 _userDataService.SaveCustomScripts(_customScripts);
@@ -486,7 +536,10 @@ namespace TweakHub.Views
                     }
                 ";
 
-                var result = await _powerShellService.ExecuteScriptAsync(script);
+                var result = await _powerShellService.ExecuteScriptAsync(
+                    script,
+                    requireAdministrator: true,
+                    timeout: TimeSpan.FromMinutes(90));
                 var logPath = System.IO.Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                     "TweakHub",

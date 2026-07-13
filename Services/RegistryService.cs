@@ -184,6 +184,10 @@ namespace TweakHub.Services
             try
             {
                 ValidateLocation(keyPath, valueName);
+                var kind = explicitKind ?? (value is null ? RegistryValueKind.String : GetValueKind(value));
+                if (RequiresElevation(keyPath) && !Elevation.IsAdministrator)
+                    return RunElevatedReg(value is null ? "delete" : "add", keyPath, valueName, value, kind);
+
                 var (root, subKeyPath) = ParsePath(keyPath);
                 using var key = root.CreateSubKey(subKeyPath, true);
                 if (key is null) return false;
@@ -191,7 +195,7 @@ namespace TweakHub.Services
                 if (value is null)
                     key.DeleteValue(valueName, false);
                 else
-                    key.SetValue(valueName, Normalize(value), explicitKind ?? GetValueKind(value));
+                    key.SetValue(valueName, Normalize(value), kind);
 
                 return true;
             }
@@ -239,11 +243,72 @@ namespace TweakHub.Services
 
         private bool DeleteRegistryValue(string keyPath, string valueName)
         {
+            if (RequiresElevation(keyPath) && !Elevation.IsAdministrator)
+                return RunElevatedReg("delete", keyPath, valueName, null, RegistryValueKind.String);
+
             var (root, subKeyPath) = ParsePath(keyPath);
             using var key = root.OpenSubKey(subKeyPath, writable: true);
             key?.DeleteValue(valueName, false);
             return true;
         }
+
+        private static bool RequiresElevation(string keyPath) =>
+            !keyPath.StartsWith("HKCU\\", StringComparison.OrdinalIgnoreCase) &&
+            !keyPath.StartsWith("HKEY_CURRENT_USER\\", StringComparison.OrdinalIgnoreCase);
+
+        private static bool RunElevatedReg(
+            string action,
+            string keyPath,
+            string valueName,
+            object? value,
+            RegistryValueKind kind)
+        {
+            try
+            {
+                var startInfo = new ProcessStartInfo
+                {
+                    FileName = "reg.exe",
+                    UseShellExecute = true,
+                    Verb = "runas"
+                };
+                startInfo.ArgumentList.Add(action);
+                startInfo.ArgumentList.Add(keyPath);
+                startInfo.ArgumentList.Add("/v");
+                startInfo.ArgumentList.Add(valueName);
+                if (action == "add")
+                {
+                    startInfo.ArgumentList.Add("/t");
+                    startInfo.ArgumentList.Add(kind switch
+                    {
+                        RegistryValueKind.DWord => "REG_DWORD",
+                        RegistryValueKind.QWord => "REG_QWORD",
+                        RegistryValueKind.Binary => "REG_BINARY",
+                        RegistryValueKind.MultiString => "REG_MULTI_SZ",
+                        RegistryValueKind.ExpandString => "REG_EXPAND_SZ",
+                        _ => "REG_SZ"
+                    });
+                    startInfo.ArgumentList.Add("/d");
+                    startInfo.ArgumentList.Add(FormatRegData(value, kind));
+                }
+                startInfo.ArgumentList.Add("/f");
+                using var process = Process.Start(startInfo);
+                process?.WaitForExit();
+                return process?.ExitCode == 0;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private static string FormatRegData(object? value, RegistryValueKind kind) => kind switch
+        {
+            RegistryValueKind.DWord => unchecked((uint)Convert.ToInt32(value, CultureInfo.InvariantCulture)).ToString(CultureInfo.InvariantCulture),
+            RegistryValueKind.QWord => Convert.ToInt64(value, CultureInfo.InvariantCulture).ToString(CultureInfo.InvariantCulture),
+            RegistryValueKind.Binary => Convert.ToHexString((byte[])(value ?? Array.Empty<byte>())),
+            RegistryValueKind.MultiString => string.Join("\\0", (string[])(value ?? Array.Empty<string>())),
+            _ => Convert.ToString(value, CultureInfo.InvariantCulture) ?? string.Empty
+        };
 
         private void LoadBackups()
         {

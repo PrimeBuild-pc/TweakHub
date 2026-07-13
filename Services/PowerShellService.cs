@@ -16,68 +16,151 @@ namespace TweakHub.Services
 
         public PowerShellResult ExecuteCommand(string command) => ExecuteScript(command);
 
-        public async Task<PowerShellResult> ExecuteScriptAsync(string script)
+        public async Task<PowerShellResult> ExecuteScriptAsync(
+            string script,
+            bool requireAdministrator = false,
+            TimeSpan? timeout = null,
+            CancellationToken cancellationToken = default)
         {
-            var scriptPath = Path.Combine(Path.GetTempPath(), $"TweakHub-{Guid.NewGuid():N}.ps1");
+            var id = Guid.NewGuid().ToString("N");
+            var scriptPath = Path.Combine(Path.GetTempPath(), $"TweakHub-{id}.ps1");
+            var outputPath = Path.Combine(Path.GetTempPath(), $"TweakHub-{id}.out");
+            var errorPath = Path.Combine(Path.GetTempPath(), $"TweakHub-{id}.err");
+            var wrapperPath = Path.Combine(Path.GetTempPath(), $"TweakHub-{id}-elevated.ps1");
+            var stopwatch = Stopwatch.StartNew();
+
+            using var timeoutSource = timeout is null ? null : new CancellationTokenSource(timeout.Value);
+            using var linkedSource = timeoutSource is null
+                ? CancellationTokenSource.CreateLinkedTokenSource(cancellationToken)
+                : CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, timeoutSource.Token);
 
             try
             {
-                await File.WriteAllTextAsync(scriptPath, script, new UTF8Encoding(false));
+                await File.WriteAllTextAsync(scriptPath, script, new UTF8Encoding(false), linkedSource.Token);
+                var elevated = requireAdministrator && !Elevation.IsAdministrator;
+                var startInfo = elevated
+                    ? await CreateElevatedStartInfo(scriptPath, wrapperPath, outputPath, errorPath, linkedSource.Token)
+                    : CreateStartInfo(scriptPath);
 
-                using var process = new Process
+                using var process = new Process { StartInfo = startInfo };
+                if (!process.Start()) return Failure("Failed to start PowerShell process", stopwatch.Elapsed);
+
+                Task<string>? outputTask = null;
+                Task<string>? errorTask = null;
+                if (!elevated)
                 {
-                    StartInfo = new ProcessStartInfo
+                    outputTask = process.StandardOutput.ReadToEndAsync(linkedSource.Token);
+                    errorTask = process.StandardError.ReadToEndAsync(linkedSource.Token);
+                }
+
+                try
+                {
+                    await process.WaitForExitAsync(linkedSource.Token);
+                }
+                catch (OperationCanceledException)
+                {
+                    try { process.Kill(entireProcessTree: true); } catch { }
+                    return new PowerShellResult
                     {
-                        FileName = "powershell.exe",
-                        UseShellExecute = false,
-                        RedirectStandardOutput = true,
-                        RedirectStandardError = true,
-                        CreateNoWindow = true
-                    }
-                };
-                process.StartInfo.ArgumentList.Add("-NoProfile");
-                process.StartInfo.ArgumentList.Add("-NonInteractive");
-                process.StartInfo.ArgumentList.Add("-ExecutionPolicy");
-                process.StartInfo.ArgumentList.Add("Bypass");
-                process.StartInfo.ArgumentList.Add("-File");
-                process.StartInfo.ArgumentList.Add(scriptPath);
+                        Success = false,
+                        Error = timeoutSource?.IsCancellationRequested == true ? "Script timed out." : "Script cancelled.",
+                        ExitCode = -1,
+                        TimedOut = timeoutSource?.IsCancellationRequested == true,
+                        Duration = stopwatch.Elapsed
+                    };
+                }
 
-                if (!process.Start())
-                    return Failure("Failed to start PowerShell process");
-
-                var outputTask = process.StandardOutput.ReadToEndAsync();
-                var errorTask = process.StandardError.ReadToEndAsync();
-                await process.WaitForExitAsync();
+                var output = elevated
+                    ? await ReadIfExists(outputPath)
+                    : await outputTask!;
+                var error = elevated
+                    ? await ReadIfExists(errorPath)
+                    : await errorTask!;
 
                 return new PowerShellResult
                 {
                     Success = process.ExitCode == 0,
-                    Output = await outputTask,
-                    Error = await errorTask,
-                    ExitCode = process.ExitCode
+                    Output = output,
+                    Error = error,
+                    ExitCode = process.ExitCode,
+                    Duration = stopwatch.Elapsed
                 };
             }
             catch (Exception ex)
             {
-                return Failure(ex.Message);
+                return Failure(ex.Message, stopwatch.Elapsed);
             }
             finally
             {
-                try { File.Delete(scriptPath); } catch { }
+                foreach (var path in new[] { scriptPath, wrapperPath, outputPath, errorPath })
+                    try { File.Delete(path); } catch { }
             }
         }
 
-        public bool IsAdministrator()
+        public bool IsAdministrator() => Elevation.IsAdministrator;
+
+        private static ProcessStartInfo CreateStartInfo(string scriptPath)
         {
-            var result = ExecuteCommand("([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')");
-            return result.Success && result.Output.Trim().Equals("True", StringComparison.OrdinalIgnoreCase);
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = "powershell.exe",
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = true
+            };
+            AddPowerShellArguments(startInfo, scriptPath);
+            return startInfo;
         }
 
-        private static PowerShellResult Failure(string error) => new()
+        private static async Task<ProcessStartInfo> CreateElevatedStartInfo(
+            string scriptPath,
+            string wrapperPath,
+            string outputPath,
+            string errorPath,
+            CancellationToken cancellationToken)
+        {
+            static string Quote(string value) => value.Replace("'", "''");
+            var wrapper = $$"""
+                $ErrorActionPreference = 'Stop'
+                try {
+                    & '{{Quote(scriptPath)}}' *> '{{Quote(outputPath)}}'
+                    exit $LASTEXITCODE
+                } catch {
+                    $_ | Out-String | Set-Content -LiteralPath '{{Quote(errorPath)}}'
+                    exit 1
+                }
+                """;
+            await File.WriteAllTextAsync(wrapperPath, wrapper, new UTF8Encoding(false), cancellationToken);
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = "powershell.exe",
+                UseShellExecute = true,
+                Verb = "runas"
+            };
+            AddPowerShellArguments(startInfo, wrapperPath);
+            return startInfo;
+        }
+
+        private static void AddPowerShellArguments(ProcessStartInfo startInfo, string scriptPath)
+        {
+            startInfo.ArgumentList.Add("-NoProfile");
+            startInfo.ArgumentList.Add("-NonInteractive");
+            startInfo.ArgumentList.Add("-ExecutionPolicy");
+            startInfo.ArgumentList.Add("Bypass");
+            startInfo.ArgumentList.Add("-File");
+            startInfo.ArgumentList.Add(scriptPath);
+        }
+
+        private static async Task<string> ReadIfExists(string path) =>
+            File.Exists(path) ? await File.ReadAllTextAsync(path) : string.Empty;
+
+        private static PowerShellResult Failure(string error, TimeSpan duration) => new()
         {
             Success = false,
             Error = error,
-            ExitCode = -1
+            ExitCode = -1,
+            Duration = duration
         };
     }
 
@@ -87,5 +170,7 @@ namespace TweakHub.Services
         public string Output { get; set; } = string.Empty;
         public string Error { get; set; } = string.Empty;
         public int ExitCode { get; set; }
+        public bool TimedOut { get; set; }
+        public TimeSpan Duration { get; set; }
     }
 }

@@ -645,7 +645,7 @@ namespace TweakHub.Views
                     }
                 ";
 
-                var result = await _powerShellService.ExecuteScriptAsync(script);
+                var result = await _powerShellService.ExecuteScriptAsync(script, requireAdministrator: true, timeout: TimeSpan.FromMinutes(5));
 
                 progress.UpdateStatus("Finalizing...");
                 progress.UpdateProgress(90);

@@ -100,6 +100,7 @@ namespace TweakHub.Models
         public string Name { get; set; } = string.Empty;
         public ScriptLanguage Language { get; set; } = ScriptLanguage.PowerShell;
         public string Content { get; set; } = string.Empty;
+        public bool RequiresAdministrator { get; set; }
     }
 
     public class CustomRegistryTweak

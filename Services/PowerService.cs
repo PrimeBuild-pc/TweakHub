@@ -40,8 +40,8 @@ public class PowerService
             Save();
         }
 
-        var result = await RunAsync("/setacvalueindex", scheme, "SUB_PROCESSOR", settingAlias, targetAcValue.ToString(CultureInfo.InvariantCulture));
-        if (result.Success) result = await RunAsync("/setactive", scheme);
+        var result = await RunMutationAsync("/setacvalueindex", scheme, "SUB_PROCESSOR", settingAlias, targetAcValue.ToString(CultureInfo.InvariantCulture));
+        if (result.Success) result = await RunMutationAsync("/setactive", scheme);
         var verified = result.Success && await GetAcValueAsync(scheme, settingAlias) == targetAcValue;
         Log("power-apply", id, verified, verified ? null : result.Error);
         return verified;
@@ -51,13 +51,13 @@ public class PowerService
     {
         if (!_backup.Settings.TryGetValue(id, out var backup)) return false;
 
-        var result = await RunAsync(
+        var result = await RunMutationAsync(
             "/setacvalueindex",
             backup.Scheme,
             "SUB_PROCESSOR",
             backup.Alias,
             backup.AcValue.ToString(CultureInfo.InvariantCulture));
-        if (result.Success) result = await RunAsync("/setactive", backup.Scheme);
+        if (result.Success) result = await RunMutationAsync("/setactive", backup.Scheme);
         var verified = result.Success && await GetAcValueAsync(backup.Scheme, backup.Alias) == backup.AcValue;
         if (verified)
         {
@@ -83,7 +83,7 @@ public class PowerService
             Save();
         }
 
-        var result = await RunAsync("/setactive", HighPerformanceScheme);
+        var result = await RunMutationAsync("/setactive", HighPerformanceScheme);
         var verified = result.Success &&
                        string.Equals(await GetActiveSchemeAsync(), HighPerformanceScheme, StringComparison.OrdinalIgnoreCase);
         Log("power-plan-apply", HighPerformanceScheme, verified, verified ? null : result.Error);
@@ -94,7 +94,7 @@ public class PowerService
     {
         if (string.IsNullOrWhiteSpace(_backup.ActiveScheme)) return false;
         var original = _backup.ActiveScheme;
-        var result = await RunAsync("/setactive", original);
+        var result = await RunMutationAsync("/setactive", original);
         var verified = result.Success &&
                        string.Equals(await GetActiveSchemeAsync(), original, StringComparison.OrdinalIgnoreCase);
         if (verified)
@@ -140,6 +140,29 @@ public class PowerService
         return values.Count >= 2
             ? unchecked((int)uint.Parse(values[^2].Groups[1].Value, NumberStyles.HexNumber, CultureInfo.InvariantCulture))
             : null;
+    }
+
+    private static async Task<ProcessResult> RunMutationAsync(params string[] arguments)
+    {
+        if (Elevation.IsAdministrator) return await RunAsync(arguments);
+        try
+        {
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = "powercfg.exe",
+                UseShellExecute = true,
+                Verb = "runas"
+            };
+            foreach (var argument in arguments) startInfo.ArgumentList.Add(argument);
+            using var process = Process.Start(startInfo);
+            if (process is null) return new ProcessResult(false, string.Empty, "Failed to start powercfg.");
+            await process.WaitForExitAsync();
+            return new ProcessResult(process.ExitCode == 0, string.Empty, process.ExitCode == 0 ? string.Empty : $"powercfg exited with {process.ExitCode}.");
+        }
+        catch (Exception ex)
+        {
+            return new ProcessResult(false, string.Empty, ex.Message);
+        }
     }
 
     private static async Task<ProcessResult> RunAsync(params string[] arguments)

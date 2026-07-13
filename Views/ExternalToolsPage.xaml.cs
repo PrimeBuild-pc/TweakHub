@@ -411,7 +411,10 @@ namespace TweakHub.Views
                 var favs = _shortcutService.ExternalTools.Where(t => t.IsFavorite).Select(t => t.Name).ToList();
                 UserDataService.Instance.SaveFavoriteTools(favs);
             }
-            catch { }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Unable to save favorites", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
         private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)

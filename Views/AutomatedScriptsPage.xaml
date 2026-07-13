@@ -49,6 +49,12 @@
                            TextWrapping="Wrap"/>
             </StackPanel>
             <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top" Margin="0,2,0,0">
+                <Button Style="{StaticResource ModernButtonStyle}" Click="ImportScriptsButton_Click" Padding="12,6" Margin="0,0,8,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="📥" FontSize="11" Margin="0,0,6,0"/>
+                        <TextBlock Text="Import" FontSize="12"/>
+                    </StackPanel>
+                </Button>
                 <Button x:Name="NewScriptButton" Style="{StaticResource ModernButtonStyle}" Click="NewScriptButton_Click" Padding="12,6">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="➕" FontSize="11" Margin="0,0,6,0" Foreground="White"/>

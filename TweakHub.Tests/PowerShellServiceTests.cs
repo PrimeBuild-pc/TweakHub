@@ -14,4 +14,16 @@ public class PowerShellServiceTests
         Assert.That(result.ExitCode, Is.EqualTo(7));
         Assert.That(result.Success, Is.False);
     }
+
+    [Test]
+    public async Task ExecuteScriptAsync_StopsAtTimeout()
+    {
+        var result = await PowerShellService.Instance.ExecuteScriptAsync(
+            "Start-Sleep -Seconds 10",
+            timeout: TimeSpan.FromMilliseconds(500));
+
+        Assert.That(result.Success, Is.False);
+        Assert.That(result.TimedOut, Is.True);
+        Assert.That(result.Duration, Is.LessThan(TimeSpan.FromSeconds(5)));
+    }
 }
