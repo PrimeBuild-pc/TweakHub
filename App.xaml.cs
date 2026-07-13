@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Windows;
 using Microsoft.Win32;
 using TweakHub.Services;
@@ -55,9 +56,18 @@ public partial class App : Application
 
     private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
     {
-        MessageBox.Show($"An unexpected error occurred: {e.Exception.Message}", "TweakHub Error",
+        var logPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "TweakHub", "crash.log");
+        try
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(logPath)!);
+            File.AppendAllText(logPath, $"{DateTimeOffset.Now:O}{Environment.NewLine}{e.Exception}{Environment.NewLine}{Environment.NewLine}");
+        }
+        catch { }
+
+        MessageBox.Show($"An unexpected error occurred: {e.Exception.Message}\n\nDetails: {logPath}", "TweakHub Error",
             MessageBoxButton.OK, MessageBoxImage.Error);
         e.Handled = true;
+        Shutdown(-1);
     }
 
 }
