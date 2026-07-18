@@ -11,14 +11,13 @@ namespace TweakHub.Services
 {
     public class RegistryService : INotifyPropertyChanged
     {
-        private static RegistryService? _instance;
         private readonly Dictionary<string, RegistryBackup> _backups = new(StringComparer.OrdinalIgnoreCase);
         private readonly string _dataPath;
         private readonly string _backupFile;
         private readonly string _logFile;
         private DateTime? _lastBackupCreatedAt;
 
-        public static RegistryService Instance => _instance ??= new RegistryService();
+        public static RegistryService Instance { get; } = new();
         public event PropertyChangedEventHandler? PropertyChanged;
         public int BackupCount => _backups.Count;
 
@@ -55,7 +54,7 @@ namespace TweakHub.Services
 
         public bool ApplyTweak(PerformanceTweak tweak, bool enable)
         {
-            if (tweak.Type != TweakType.Registry || !tweak.IsAvailable) return false;
+            if (tweak.Type != TweakType.Registry) return false;
             return enable
                 ? ApplyValueWithBackup(tweak.RegistryPath, tweak.RegistryKey, tweak.EnabledValue)
                 : RestoreRegistryValue(tweak.RegistryPath, tweak.RegistryKey);
@@ -177,7 +176,7 @@ namespace TweakHub.Services
             var addedKeys = new List<string>();
             try
             {
-                foreach (var tweak in tweaks.Where(t => t.Type == TweakType.Registry && t.IsAvailable))
+                foreach (var tweak in tweaks.Where(t => t.Type == TweakType.Registry))
                 {
                     var key = BackupKey(tweak.RegistryPath, tweak.RegistryKey);
                     if (_backups.ContainsKey(key)) continue;
@@ -278,7 +277,6 @@ namespace TweakHub.Services
 
         public bool CheckTweakStatus(PerformanceTweak tweak)
         {
-            if (!tweak.IsAvailable) return false;
             var current = GetRegistryValue(tweak.RegistryPath, tweak.RegistryKey);
             return ValuesEqual(current, tweak.EnabledValue);
         }

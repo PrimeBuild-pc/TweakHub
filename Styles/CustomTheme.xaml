@@ -89,41 +89,6 @@
         <Setter Property="Cursor" Value="Hand"/>
     </Style>
 
-    <Style x:Key="PillToggleStyle" TargetType="CheckBox">
-        <Setter Property="Width" Value="40"/>
-        <Setter Property="Height" Value="20"/>
-        <Setter Property="Cursor" Value="Hand"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="CheckBox">
-                    <Grid>
-                        <Border x:Name="Track" CornerRadius="10"
-                                Background="{DynamicResource SystemControlBackgroundListMediumBrush}"
-                                BorderBrush="{DynamicResource SystemControlBorderBaseMediumBrush}"
-                                BorderThickness="1"/>
-                        <Ellipse x:Name="Thumb" Width="12" Height="12" Margin="4"
-                                 HorizontalAlignment="Left" Fill="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Track" Property="Background" Value="{DynamicResource CardHoverBrush}"/>
-                        </Trigger>
-                        <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="Track" Property="Background" Value="{DynamicResource AccentBrush}"/>
-                            <Setter TargetName="Track" Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
-                            <Setter TargetName="Thumb" Property="Fill" Value="{DynamicResource AccentForegroundBrush}"/>
-                            <Setter TargetName="Thumb" Property="HorizontalAlignment" Value="Right"/>
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value="0.45"/>
-                            <Setter Property="Cursor" Value="Arrow"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
     <Style x:Key="PreviewIconButtonStyle" TargetType="Button" BasedOn="{StaticResource SecondaryButtonStyle}">
         <Setter Property="Width" Value="32"/>
         <Setter Property="Height" Value="32"/>

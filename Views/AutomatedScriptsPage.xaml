@@ -2,8 +2,7 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-            xmlns:local="clr-namespace:TweakHub.Views"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Automated Scripts"
@@ -19,6 +18,176 @@
             <Setter Property="Margin" Value="0,0,0,12"/>
         </Style>
 
+        <DataTemplate x:Key="BuiltInScriptTemplate">
+            <Border Style="{StaticResource ScriptCardStyle}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                            <TextBlock Text="{Binding Icon}" FontFamily="Segoe Fluent Icons" FontSize="18" Margin="0,0,8,0"
+                                       Foreground="{DynamicResource IconBrush}"/>
+                            <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="SemiBold"
+                                       Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                        </StackPanel>
+                        <TextBlock Text="{Binding Description}" Style="{StaticResource DescriptionTextStyle}" Margin="26,0,0,8"/>
+                        <StackPanel Orientation="Horizontal" Margin="26,0,0,0">
+                            <Border Background="{DynamicResource SuccessBrush}" CornerRadius="8" Padding="5,2" Margin="0,0,6,0">
+                                <TextBlock Text="Safe" FontSize="9" Foreground="{DynamicResource SuccessForegroundBrush}" FontWeight="Medium"/>
+                            </Border>
+                            <Border Background="{DynamicResource AccentBrush}" CornerRadius="8" Padding="6,2">
+                                <TextBlock Text="{Binding Category}" FontSize="10" Foreground="{DynamicResource AccentForegroundBrush}" FontWeight="Medium"/>
+                            </Border>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Button Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,6,0"
+                                Click="BuiltInScript_View_Click" Tag="{Binding ElementName=PreviewPanel}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE890;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0"/>
+                                <TextBlock Text="View" FontSize="12"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Style="{StaticResource ExecuteButtonStyle}" Click="BuiltInScript_Execute_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE768;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0"
+                                           Foreground="{DynamicResource AccentForegroundBrush}"/>
+                                <TextBlock Text="{Binding ExecuteText}" FontSize="12"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                    <Border x:Name="PreviewPanel" Tag="{Binding ElementName=PreviewText}"
+                            Grid.Row="1" Grid.ColumnSpan="2" Margin="0,12,0,0" CornerRadius="8"
+                            BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}" BorderThickness="1"
+                            Background="{DynamicResource SystemControlBackgroundBaseLowBrush}" Visibility="Collapsed">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="150"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="Details" FontWeight="SemiBold" Margin="12,8,12,4"/>
+                            <Border Grid.Row="1" Margin="12" CornerRadius="6"
+                                    BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}" BorderThickness="1"
+                                    Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                    <TextBox x:Name="PreviewText" IsReadOnly="True" TextWrapping="Wrap" FontFamily="Consolas"
+                                             FontSize="13" Background="Transparent" BorderThickness="0"/>
+                                </ScrollViewer>
+                            </Border>
+                            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="12,0,12,12">
+                                <Button Style="{StaticResource SecondaryButtonStyle}" Padding="12,6" Click="CopyBuiltInScript_Click"
+                                        Tag="{Binding ElementName=PreviewText}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="&#xE8C8;" FontFamily="Segoe Fluent Icons" Margin="0,0,6,0"/>
+                                        <TextBlock Text="Copy"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="CustomScriptTemplate">
+            <Border Style="{StaticResource ScriptCardStyle}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                            <TextBlock FontFamily="Segoe Fluent Icons" FontSize="18" Margin="0,0,8,0"
+                                       Foreground="{DynamicResource IconBrush}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Text" Value="&#xE8B7;"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Language}" Value="Cmd">
+                                                <Setter Property="Text" Value="&#xE8A5;"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="SemiBold"
+                                       Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                        </StackPanel>
+                        <TextBlock Margin="26,0,0,8" Style="{StaticResource DescriptionTextStyle}">
+                            <Run>
+                                <Run.Style>
+                                    <Style TargetType="Run">
+                                        <Setter Property="Text" Value="PowerShell"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Language}" Value="Cmd">
+                                                <Setter Property="Text" Value="CMD"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Run.Style>
+                            </Run><Run Text=" • "/>
+                            <Run>
+                                <Run.Style>
+                                    <Style TargetType="Run">
+                                        <Setter Property="Text" Value="Current user"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding RequiresAdministrator}" Value="True">
+                                                <Setter Property="Text" Value="Administrator"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Run.Style>
+                            </Run>
+                        </TextBlock>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Button Style="{StaticResource ExecuteButtonStyle}" Margin="0,0,8,0"
+                                Click="ExecuteCustomScript_Click" Tag="{Binding ElementName=CancelScriptButton}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE768;" FontFamily="Segoe Fluent Icons" FontSize="13" Margin="0,0,8,0"
+                                           Foreground="{DynamicResource AccentForegroundBrush}"/>
+                                <TextBlock>
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Text" Value="Run"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Language}" Value="Cmd">
+                                                    <Setter Property="Text" Value="Execute"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="CancelScriptButton" Content="Stop" Style="{StaticResource DangerButtonStyle}"
+                                Margin="0,0,8,0" Visibility="Collapsed" Click="CancelCustomScript_Click"/>
+                        <Button Content="Export" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0"
+                                Click="ExportCustomScript_Click"/>
+                        <Button Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0" Click="EditCustomScript_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE70F;" FontFamily="Segoe Fluent Icons" FontSize="13" Margin="0,0,8,0"/>
+                                <TextBlock Text="Edit"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Style="{StaticResource DangerButtonStyle}" Click="DeleteCustomScript_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE74D;" FontFamily="Segoe Fluent Icons" FontSize="13" Margin="0,0,8,0"/>
+                                <TextBlock Text="Delete"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </DataTemplate>
     </Page.Resources>
 
     <Grid Margin="32">
@@ -26,22 +195,16 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
-        <!-- Header -->
-        <Grid Grid.Row="0" Margin="0,0,0,20">
+        <Grid Margin="0,0,0,20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0">
-                <TextBlock Text="Automated Scripts"
-                           FontSize="28" FontWeight="Light"
-                           Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"
-                           Margin="0,0,0,6"/>
+            <StackPanel>
+                <TextBlock Text="Automated Scripts" FontSize="28" FontWeight="Light"
+                           Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}" Margin="0,0,0,6"/>
                 <TextBlock Text="Run maintenance commands and manage your custom PowerShell or CMD scripts."
-                           FontSize="12"
-                           Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
-                           TextWrapping="Wrap"/>
+                           FontSize="12" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" TextWrapping="Wrap"/>
             </StackPanel>
             <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top" Margin="0,2,0,0">
                 <Button Style="{StaticResource SecondaryButtonStyle}" Click="ImportScriptsButton_Click" Padding="12,6" Margin="0,0,8,0">
@@ -50,179 +213,21 @@
                         <TextBlock Text="Import" FontSize="12"/>
                     </StackPanel>
                 </Button>
-                <Button x:Name="NewScriptButton" Style="{StaticResource ModernButtonStyle}" Click="NewScriptButton_Click" Padding="12,6">
+                <Button Style="{StaticResource ModernButtonStyle}" Click="NewScriptButton_Click" Padding="12,6">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="&#xE710;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0" Foreground="{DynamicResource AccentForegroundBrush}"/>
+                        <TextBlock Text="&#xE710;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0"
+                                   Foreground="{DynamicResource AccentForegroundBrush}"/>
                         <TextBlock Text="New Script" FontSize="12"/>
                     </StackPanel>
                 </Button>
             </StackPanel>
         </Grid>
 
-        <!-- Scripts List -->
-    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <StackPanel x:Name="ScriptsHostPanel">
-                <!-- WinGet Installation Script -->
-                <Border Style="{StaticResource ScriptCardStyle}">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-
-                        <StackPanel Grid.Column="0" Grid.Row="0">
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
-                                <TextBlock Text="&#xE7B8;" FontFamily="Segoe Fluent Icons" FontSize="18" Margin="0,0,8,0"
-                                           Foreground="{DynamicResource IconBrush}"/>
-                                <TextBlock Text="Install WinGet Package Manager"
-                                           FontSize="14" FontWeight="SemiBold"
-                                           Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
-                            </StackPanel>
-
-                            <TextBlock Text="Install Microsoft WinGet package manager if not present. Includes multiple installation methods with automatic fallback."
-                                       Style="{StaticResource DescriptionTextStyle}"
-                                       Margin="26,0,0,8"/>
-
-                            <StackPanel Orientation="Horizontal" Margin="26,0,0,0">
-                                <Border Background="{DynamicResource SuccessBrush}" CornerRadius="8" Padding="5,2" Margin="0,0,6,0">
-                                    <TextBlock Text="Safe" FontSize="9" Foreground="{DynamicResource SuccessForegroundBrush}" FontWeight="Medium"/>
-                                </Border>
-                                <Border Background="{DynamicResource AccentBrush}" CornerRadius="8" Padding="6,2">
-                                    <TextBlock Text="Package Manager" FontSize="10" Foreground="{DynamicResource AccentForegroundBrush}" FontWeight="Medium"/>
-                                </Border>
-                            </StackPanel>
-                        </StackPanel>
-
-                        <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center">
-                            <Button Style="{StaticResource SecondaryButtonStyle}" Click="WinGetInstallation_View_Click" Margin="0,0,6,0">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="&#xE890;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0"/>
-                                    <TextBlock Text="View" FontSize="12"/>
-                                </StackPanel>
-                            </Button>
-                            <Button Style="{StaticResource ExecuteButtonStyle}" Click="WinGetInstallation_Click">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="&#xE768;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0" Foreground="{DynamicResource AccentForegroundBrush}"/>
-                                    <TextBlock Text="Execute" FontSize="12"/>
-                                </StackPanel>
-                            </Button>
-                        </StackPanel>
-                        <Border Grid.Row="1" Grid.ColumnSpan="2" Margin="0,12,0,0" CornerRadius="8" BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}" BorderThickness="1"
-                                Background="{DynamicResource SystemControlBackgroundBaseLowBrush}" x:Name="WinGetPreviewPanel" Visibility="Collapsed">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="150"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-                                <DockPanel Grid.Row="0" Margin="12,8,12,4">
-                                    <TextBlock Text="Details" FontWeight="SemiBold"/>
-                                </DockPanel>
-                                <Border Grid.Row="1" Margin="12" CornerRadius="6" BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}" BorderThickness="1"
-                                        Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
-                                    <ScrollViewer VerticalScrollBarVisibility="Auto">
-                                        <TextBox x:Name="WinGetPreviewText" IsReadOnly="True" TextWrapping="Wrap" FontFamily="Consolas" FontSize="13" Background="Transparent" BorderThickness="0"/>
-                                    </ScrollViewer>
-                                </Border>
-                                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="12,0,12,12">
-                                    <Button Style="{StaticResource SecondaryButtonStyle}" Padding="12,6" Click="CopyScript_Click" Tag="{x:Reference WinGetPreviewText}">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="&#xE8C8;" FontFamily="Segoe Fluent Icons" Margin="0,0,6,0"/>
-                                            <TextBlock Text="Copy"/>
-                                        </StackPanel>
-                                    </Button>
-                                </StackPanel>
-                            </Grid>
-                        </Border>
-                    </Grid>
-                </Border>
-
-                <!-- DISM + SFC System Repair Script -->
-                <Border Style="{StaticResource ScriptCardStyle}">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-
-                        <StackPanel Grid.Column="0" Grid.Row="0">
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
-                                <TextBlock Text="&#xE90F;" FontFamily="Segoe Fluent Icons" FontSize="18" Margin="0,0,8,0"
-                                           Foreground="{DynamicResource IconBrush}"/>
-                                <TextBlock Text="DISM + SFC System Repair"
-                                           FontSize="14" FontWeight="SemiBold"
-                                           Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
-                            </StackPanel>
-
-                            <TextBlock Text="Run comprehensive Windows system file integrity checks and repairs"
-                                       Style="{StaticResource DescriptionTextStyle}"
-                                       Margin="26,0,0,8"/>
-
-                            <StackPanel Orientation="Horizontal" Margin="26,0,0,0">
-                                <Border Background="{DynamicResource SuccessBrush}" CornerRadius="8" Padding="5,2" Margin="0,0,6,0">
-                                    <TextBlock Text="Safe" FontSize="9" Foreground="{DynamicResource SuccessForegroundBrush}" FontWeight="Medium"/>
-                                </Border>
-                                <Border Background="{DynamicResource AccentBrush}" CornerRadius="8" Padding="6,2">
-                                    <TextBlock Text="Repair" FontSize="10" Foreground="{DynamicResource AccentForegroundBrush}" FontWeight="Medium"/>
-                                </Border>
-                            </StackPanel>
-                        </StackPanel>
-
-                        <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center">
-                            <Button Style="{StaticResource SecondaryButtonStyle}" Click="DismSfcRepair_View_Click" Margin="0,0,6,0">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="&#xE890;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0"/>
-                                    <TextBlock Text="View" FontSize="12"/>
-                                </StackPanel>
-                            </Button>
-                            <Button Style="{StaticResource ExecuteButtonStyle}" Click="DismSfcRepair_Click">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="&#xE768;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0" Foreground="{DynamicResource AccentForegroundBrush}"/>
-                                    <TextBlock Text="Run Repair" FontSize="12"/>
-                                </StackPanel>
-                            </Button>
-                        </StackPanel>
-                        <Border Grid.Row="1" Grid.ColumnSpan="2" Margin="0,12,0,0" CornerRadius="8" BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}" BorderThickness="1"
-                                Background="{DynamicResource SystemControlBackgroundBaseLowBrush}" x:Name="DismPreviewPanel" Visibility="Collapsed">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="150"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-                                <DockPanel Grid.Row="0" Margin="12,8,12,4">
-                                    <TextBlock Text="Details" FontWeight="SemiBold"/>
-                                </DockPanel>
-                                <Border Grid.Row="1" Margin="12" CornerRadius="6" BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}" BorderThickness="1"
-                                        Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
-                                    <ScrollViewer VerticalScrollBarVisibility="Auto">
-                                        <TextBox x:Name="DismPreviewText" IsReadOnly="True" TextWrapping="Wrap" FontFamily="Consolas" FontSize="13" Background="Transparent" BorderThickness="0"/>
-                                    </ScrollViewer>
-                                </Border>
-                                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="12,0,12,12">
-                                    <Button Style="{StaticResource SecondaryButtonStyle}" Padding="12,6" Click="CopyScript_Click" Tag="{x:Reference DismPreviewText}">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="&#xE8C8;" FontFamily="Segoe Fluent Icons" Margin="0,0,6,0"/>
-                                            <TextBlock Text="Copy"/>
-                                        </StackPanel>
-                                    </Button>
-                                </StackPanel>
-                            </Grid>
-                        </Border>
-                    </Grid>
-                </Border>
-
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <ItemsControl x:Name="BuiltInScriptsControl" ItemTemplate="{StaticResource BuiltInScriptTemplate}"/>
+                <ItemsControl x:Name="CustomScriptsControl" ItemTemplate="{StaticResource CustomScriptTemplate}"/>
             </StackPanel>
         </ScrollViewer>
-
-        
     </Grid>
 </Page>

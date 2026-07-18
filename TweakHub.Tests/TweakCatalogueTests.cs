@@ -31,7 +31,6 @@ public class TweakCatalogueTests
             "disable_transparency",
             "optimize_visual_effects"
         }));
-        Assert.That(tweaks, Has.All.Property("IsAvailable").True);
         Assert.That(
             tweaks.Where(tweak => new[]
             {

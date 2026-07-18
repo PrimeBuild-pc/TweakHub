@@ -10,13 +10,12 @@ namespace TweakHub.Services;
 
 public sealed class ThemeService : INotifyPropertyChanged
 {
-    private static ThemeService? _instance;
     private string _themeMode = "System";
     private string _customAccent = string.Empty;
     private bool _transparencyEnabled = true;
     private bool _isDark;
 
-    public static ThemeService Instance => _instance ??= new ThemeService();
+    public static ThemeService Instance { get; } = new();
     public string ThemeMode => _themeMode;
     public string CustomAccent => _customAccent;
     public bool UseSystemAccent => string.IsNullOrEmpty(_customAccent);
@@ -160,6 +159,8 @@ public sealed class ThemeService : INotifyPropertyChanged
             SetBrush(app, "CardBrush", WithAlpha(surface, (byte)(_transparencyEnabled ? 224 : 255)));
             SetBrush(app, "CardHoverBrush", Blend(surface, primary, 0.06));
             SetBrush(app, "CardPressedBrush", Blend(surface, primary, 0.10));
+            SetBrush(app, "TabViewItemHeaderBackgroundSelected", Blend(surface, primary, 0.06));
+            SetBrush(app, "TabViewItemHeaderForegroundSelected", primary);
             SetBrush(app, "SelectionBrush", surface);
             SetBrush(app, "SelectionForegroundBrush", primary);
             SetBrush(app, "SubtleFillBrush", hover);

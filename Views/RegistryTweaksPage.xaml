@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:TweakHub.Views"
+      xmlns:ui="http://schemas.modernwpf.com/2019"
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Registry Tweaks"
@@ -13,94 +14,30 @@
         <!-- Converter to toggle preview visibility -->
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
 
-        <!-- Tab visuals: padding, spacing, contrast -->
-        <Style x:Key="PaddedTabControl" TargetType="TabControl">
+        <Style x:Key="PaddedTabControl" TargetType="TabControl" BasedOn="{StaticResource {x:Type TabControl}}">
             <Setter Property="Margin" Value="0,0,0,12"/>
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="ClipToBounds" Value="False"/>
-            <Setter Property="UseLayoutRounding" Value="True"/>
-            <Setter Property="ItemsPanel">
-                <Setter.Value>
-                    <ItemsPanelTemplate>
-                        <TabPanel Margin="0" ClipToBounds="False"/>
-                    </ItemsPanelTemplate>
-                </Setter.Value>
-            </Setter>
-            <!-- Bookmark header row: "Sections:" + tabs on the same line -->
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="TabControl">
-                        <Grid ClipToBounds="False" SnapsToDevicePixels="False">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <!-- Header (label + tabs) -->
-                            <DockPanel Grid.Row="0" LastChildFill="True" Margin="4,0,0,0" ClipToBounds="False">
-                                <TextBlock Text="Sections:"
-                                           FontSize="12"
-                                           Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"
-                                           VerticalAlignment="Center"
-                                           Margin="0,0,14,0"/>
-                                <TabPanel x:Name="HeaderPanel"
-                                          IsItemsHost="True"
-                                          Background="Transparent"
-                                          VerticalAlignment="Center"
-                                          Margin="6,0,0,0"
-                                          ClipToBounds="False"/>
-                            </DockPanel>
-                            <!-- Contenuto selezionato -->
-                            <ContentPresenter x:Name="PART_SelectedContentHost"
-                                              Grid.Row="1"
-                                              Margin="0,12,0,0"
-                                              ContentSource="SelectedContent"
-                                              Focusable="False"
-                                              SnapsToDevicePixels="False"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
         </Style>
 
-        <Style x:Key="ModernTabItem" TargetType="TabItem">
+        <Style x:Key="ModernTabItem" TargetType="TabItem" BasedOn="{StaticResource {x:Type TabItem}}">
             <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Padding" Value="14,8"/>
             <Setter Property="Margin" Value="0,0,4,0"/>
-            <Setter Property="FontWeight" Value="Normal"/>
             <Setter Property="FontSize" Value="13"/>
             <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Panel.ZIndex" Value="1"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="TabItem">
-                        <Border x:Name="Root"
-                                Background="Transparent"
-                                CornerRadius="8"
-                                Padding="{TemplateBinding Padding}"
-                                ClipToBounds="False">
-                            <ContentPresenter ContentSource="Header"
-                                              RecognizesAccessKey="True"
-                                              HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Foreground" Value="{DynamicResource SelectionForegroundBrush}"/>
-                                <Setter TargetName="Root" Property="Background" Value="{DynamicResource SystemControlBackgroundListLowBrush}"/>
-                            </Trigger>
-                            <Trigger Property="IsSelected" Value="True">
-                                <Setter Property="Foreground" Value="{DynamicResource SelectionForegroundBrush}"/>
-                                <Setter Property="FontWeight" Value="SemiBold"/>
-                                <Setter Property="Panel.ZIndex" Value="3"/>
-                                <Setter TargetName="Root" Property="Background" Value="{DynamicResource SelectionBrush}"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                    <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundListLowBrush}"/>
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                    <Setter Property="Background" Value="{DynamicResource CardHoverBrush}"/>
+                    <Setter Property="FontWeight" Value="SemiBold"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
 
         <Style x:Key="TweakItemStyle" TargetType="Border">
@@ -259,16 +196,15 @@
                                                                            Margin="0,0,10,0" Foreground="{DynamicResource WarningBrush}"
                                                                            Visibility="{Binding IsRestartPending, Converter={StaticResource BoolToVis}}"
                                                                            ToolTip="Restart Windows to make this change fully effective"/>
-                                                                <CheckBox IsChecked="{Binding IsEnabled, Mode=TwoWay}"
-                                                                          IsEnabled="{Binding IsAvailable}"
-                                                                          Style="{StaticResource PillToggleStyle}"
-                                                                          VerticalAlignment="Center"
-                                                                          Margin="0,0,12,0"
-                                                                          Tag="{Binding}"
-                                                                          Click="TweakToggle_Click"/>
+                                                                <ui:ToggleSwitch IsOn="{Binding IsEnabled, Mode=TwoWay}"
+                                                                                 OffContent="{x:Null}" OnContent="{x:Null}"
+                                                                                 VerticalAlignment="Center"
+                                                                                 Margin="0,0,12,0"
+                                                                                 Tag="{Binding}"
+                                                                                 AutomationProperties.Name="Enable tweak"
+                                                                                 Toggled="TweakToggle_Toggled"/>
 
                                                                 <Button Style="{StaticResource PreviewIconButtonStyle}"
-                                                                        IsEnabled="{Binding IsAvailable}"
                                                                         Click="ViewTweak_Click"
                                                                         AutomationProperties.Name="Preview registry changes"
                                                                         VerticalAlignment="Center"
@@ -331,7 +267,88 @@
                                 </Button>
                             </Grid>
                         </Border>
-                        <ItemsControl x:Name="CustomTweaksList"/>
+                        <ItemsControl x:Name="CustomTweaksList">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource TweakItemStyle}">
+                                        <StackPanel>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel>
+                                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                                        <TextBlock Text="&#xE8B7;" FontFamily="Segoe Fluent Icons" FontSize="16" Margin="0,0,8,0"/>
+                                                        <TextBlock Text="{Binding Name}" FontSize="16" FontWeight="Medium"/>
+                                                    </StackPanel>
+                                                    <TextBlock Margin="16,0,0,0" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}">
+                                                        <Run Text="{Binding RegistryPath}"/><Run Text="\"/><Run Text="{Binding RegistryKey}"/>
+                                                    </TextBlock>
+                                                    <TextBlock Margin="16,2,0,0" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}">
+                                                        <Run Text="{Binding ValueType}"/><Run Text=": "/><Run Text="{Binding Data}"/>
+                                                    </TextBlock>
+                                                </StackPanel>
+                                                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                                                    <Button Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0"
+                                                            Click="ViewCustomTweak_Click" Tag="{Binding ElementName=CustomPreviewPanel}">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="&#xE890;" FontFamily="Segoe Fluent Icons" Margin="0,0,8,0"/>
+                                                            <TextBlock Text="View"/>
+                                                        </StackPanel>
+                                                    </Button>
+                                                    <Button Style="{StaticResource ExecuteButtonStyle}" Margin="0,0,8,0" Click="ApplyCustomTweak_Click">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="&#xE768;" FontFamily="Segoe Fluent Icons" Margin="0,0,8,0"/>
+                                                            <TextBlock Text="Apply"/>
+                                                        </StackPanel>
+                                                    </Button>
+                                                    <Button Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0" Click="RestoreCustomTweak_Click">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="&#xE777;" FontFamily="Segoe Fluent Icons" Margin="0,0,8,0"/>
+                                                            <TextBlock Text="Restore"/>
+                                                        </StackPanel>
+                                                    </Button>
+                                                    <Button Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0" Click="EditCustomTweak_Click">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="&#xE70F;" FontFamily="Segoe Fluent Icons" Margin="0,0,8,0"/>
+                                                            <TextBlock Text="Edit"/>
+                                                        </StackPanel>
+                                                    </Button>
+                                                    <Button Style="{StaticResource DangerButtonStyle}" Click="DeleteCustomTweak_Click">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="&#xE74D;" FontFamily="Segoe Fluent Icons" Margin="0,0,8,0"/>
+                                                            <TextBlock Text="Delete"/>
+                                                        </StackPanel>
+                                                    </Button>
+                                                </StackPanel>
+                                            </Grid>
+                                            <Border x:Name="CustomPreviewPanel" Tag="{Binding ElementName=CustomPreviewText}"
+                                                    Margin="0,12,0,0" CornerRadius="8" BorderThickness="1"
+                                                    BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}"
+                                                    Background="{DynamicResource SystemControlBackgroundBaseLowBrush}"
+                                                    Visibility="Collapsed">
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="150"/>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock Text="Details" FontWeight="SemiBold" Margin="12,8,12,4"/>
+                                                    <Border Grid.Row="1" Margin="12" CornerRadius="6" BorderThickness="1"
+                                                            BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}"
+                                                            Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+                                                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                                            <TextBox x:Name="CustomPreviewText" IsReadOnly="True" TextWrapping="Wrap"
+                                                                     FontFamily="Consolas" BorderThickness="0" Background="Transparent"/>
+                                                        </ScrollViewer>
+                                                    </Border>
+                                                </Grid>
+                                            </Border>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>

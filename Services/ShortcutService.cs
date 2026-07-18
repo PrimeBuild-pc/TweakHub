@@ -7,8 +7,7 @@ namespace TweakHub.Services;
 
 public sealed class ShortcutService
 {
-    private static ShortcutService? _instance;
-    public static ShortcutService Instance => _instance ??= new ShortcutService();
+    public static ShortcutService Instance { get; } = new();
 
     public ObservableCollection<SystemShortcut> SystemShortcuts { get; } = new();
     public ObservableCollection<ExternalTool> ExternalTools { get; } = new();
@@ -30,6 +29,8 @@ public sealed class ShortcutService
             new SystemShortcut { Name = "System Information", Description = "View detailed system information", Command = "msinfo32", Category = "System Information" },
             new SystemShortcut { Name = "Registry Editor", Description = "Edit the Windows registry", Command = "regedit", Category = "Advanced Tools" },
             new SystemShortcut { Name = "Services", Description = "Manage Windows services", Command = "services.msc", Category = "System Management" },
+            new SystemShortcut { Name = "Event Viewer", Description = "Review Windows system and application events", Command = "eventvwr.msc", Category = "System Management" },
+            new SystemShortcut { Name = "Disk Management", Description = "Manage disks, partitions and drive letters", Command = "diskmgmt.msc", Category = "System Management" },
             new SystemShortcut { Name = "Task Manager", Description = "Monitor processes and performance", Command = "taskmgr", Category = "Performance" },
             new SystemShortcut { Name = "Resource Monitor", Description = "Inspect detailed resource usage", Command = "resmon", Category = "Performance" },
             new SystemShortcut { Name = "Power Options", Description = "Configure power and sleep settings", Command = "powercfg.cpl", Category = "Power Management" },
@@ -229,7 +230,6 @@ public sealed class ShortcutService
             Process.Start(new ProcessStartInfo
             {
                 FileName = shortcut.Command,
-                Arguments = shortcut.Arguments,
                 UseShellExecute = true
             });
             return true;

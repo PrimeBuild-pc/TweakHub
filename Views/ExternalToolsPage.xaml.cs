@@ -537,44 +537,24 @@ namespace TweakHub.Views
         {
             Dispatcher.Invoke(() =>
             {
-                if (e.Success)
-                {
-                    this.ProgressText.Text = e.Message;
-                    this.ProgressBar.Value = 100;
-
-
-                    // Hide progress panel after 3 seconds
-                    var timer = new System.Windows.Threading.DispatcherTimer
-                    {
-                        Interval = TimeSpan.FromSeconds(3)
-                    };
-                    timer.Tick += (s, args) =>
-                    {
-                        timer.Stop();
-                        this.ProgressPanel.Visibility = Visibility.Collapsed;
-                        this.ProgressBar.Value = 0;
-                    };
-                    timer.Start();
-                }
-                else
-                {
-                    this.ProgressText.Text = e.Message;
-                    this.ProgressBar.Value = 0;
-
-                    // Hide progress panel after 5 seconds for errors
-                    var timer = new System.Windows.Threading.DispatcherTimer
-                    {
-                        Interval = TimeSpan.FromSeconds(5)
-                    };
-                    timer.Tick += (s, args) =>
-                    {
-                        timer.Stop();
-                        this.ProgressPanel.Visibility = Visibility.Collapsed;
-                    };
-                    timer.Start();
-                }
+                this.ProgressText.Text = e.Message;
+                this.ProgressBar.Value = e.Success ? 100 : 0;
+                HideProgressAfter(TimeSpan.FromSeconds(e.Success ? 3 : 5));
             });
         }
+
+        private void HideProgressAfter(TimeSpan delay)
+        {
+            var timer = new System.Windows.Threading.DispatcherTimer { Interval = delay };
+            timer.Tick += (_, _) =>
+            {
+                timer.Stop();
+                this.ProgressPanel.Visibility = Visibility.Collapsed;
+                this.ProgressBar.Value = 0;
+            };
+            timer.Start();
+        }
+
         private void ShowLoadError()
         {
             Dispatcher.Invoke(() =>

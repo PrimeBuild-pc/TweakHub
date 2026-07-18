@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using ToggleSwitch = ModernWpf.Controls.ToggleSwitch;
 using TweakHub.Models;
 using TweakHub.Services;
 using TweakHub.Views.Dialogs;
@@ -14,6 +15,7 @@ namespace TweakHub.Views
         private readonly RegistryService _registryService;
         private readonly UserDataService _userData = UserDataService.Instance;
         private readonly ObservableCollection<CustomRegistryTweak> _customTweaks = new();
+        private bool _ignoreToggleEvent;
         public RegistryTweaksPage()
         {
             InitializeComponent();
@@ -21,6 +23,7 @@ namespace TweakHub.Views
             _registryService = RegistryService.Instance;
 
             DataContext = _registryService;
+            CustomTweaksList.ItemsSource = _customTweaks;
 
             Loaded += RegistryTweaksPage_Loaded;
             _tweakService.PropertyChanged += TweakService_PropertyChanged;
@@ -56,7 +59,6 @@ namespace TweakHub.Views
 
             await LoadTweaksAsync();
             LoadCustomTweaks();
-            RenderCustomTweaks();
         }
 
         private async Task LoadTweaksAsync()
@@ -94,97 +96,51 @@ namespace TweakHub.Views
             foreach (var t in _userData.LoadCustomTweaks()) _customTweaks.Add(t);
         }
 
-        private void RenderCustomTweaks()
+        private void ViewCustomTweak_Click(object sender, RoutedEventArgs e)
         {
-            CustomTweaksList.Items.Clear();
-            foreach (var tweak in _customTweaks)
-                CustomTweaksList.Items.Add(CreateCustomTweakCard(tweak));
+            if (sender is not Button { DataContext: CustomRegistryTweak tweak, Tag: Border preview }
+                || preview.Tag is not TextBox textBox) return;
+
+            textBox.Text = $"reg add \"{tweak.RegistryPath}\" /v \"{tweak.RegistryKey}\" /t {tweak.ValueType} /d {tweak.Data} /f";
+            preview.Visibility = preview.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
         }
 
-        private Border CreateCustomTweakCard(CustomRegistryTweak t)
+        private void ApplyCustomTweak_Click(object sender, RoutedEventArgs e)
         {
-            var card = new Border { Style = (Style)FindResource("TweakItemStyle") };
-            var root = new StackPanel();
-
-            var grid = new Grid();
-            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-
-            var info = new StackPanel();
-            var header = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0,0,0,8) };
-            header.Children.Add(new TextBlock { Text = "\uE8B7", FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons"), FontSize = 16, Margin = new Thickness(0,0,8,0) });
-            header.Children.Add(new TextBlock { Text = t.Name, FontSize = 16, FontWeight = FontWeights.Medium });
-            info.Children.Add(header);
-            var pathText = new TextBlock { Text = $"{t.RegistryPath}\\{t.RegistryKey}", Margin = new Thickness(16,0,0,0) };
-            var valueText = new TextBlock { Text = $"{t.ValueType}: {t.Data}", Margin = new Thickness(16,2,0,0) };
-            pathText.SetResourceReference(TextBlock.ForegroundProperty, "SystemControlForegroundBaseMediumBrush");
-            valueText.SetResourceReference(TextBlock.ForegroundProperty, "SystemControlForegroundBaseMediumBrush");
-            info.Children.Add(pathText);
-            info.Children.Add(valueText);
-            Grid.SetColumn(info,0); grid.Children.Add(info);
-
-            var actions = new StackPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center };
-            var viewBtn = new Button { Style = GetStyleOrDefault("SecondaryButtonStyle"), Margin = new Thickness(0,0,8,0) };
-            viewBtn.Content = new StackPanel { Orientation = Orientation.Horizontal, Children = { new TextBlock { Text = "\uE890", FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons"), Margin = new Thickness(0,0,8,0) }, new TextBlock { Text = "View" } } };
-            var applyBtn = new Button { Style = GetStyleOrDefault("ExecuteButtonStyle"), Margin = new Thickness(0,0,8,0) };
-            applyBtn.Content = new StackPanel { Orientation = Orientation.Horizontal, Children = { new TextBlock { Text = "\uE768", FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons"), Margin = new Thickness(0,0,8,0) }, new TextBlock { Text = "Apply" } } };
-            var restoreBtn = new Button { Style = GetStyleOrDefault("SecondaryButtonStyle"), Margin = new Thickness(0,0,8,0) };
-            restoreBtn.Content = new StackPanel { Orientation = Orientation.Horizontal, Children = { new TextBlock { Text = "\uE777", FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons"), Margin = new Thickness(0,0,8,0) }, new TextBlock { Text = "Restore" } } };
-            var editBtn = new Button { Style = GetStyleOrDefault("SecondaryButtonStyle"), Margin = new Thickness(0,0,8,0) };
-            editBtn.Content = new StackPanel { Orientation = Orientation.Horizontal, Children = { new TextBlock { Text = "\uE70F", FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons"), Margin = new Thickness(0,0,8,0) }, new TextBlock { Text = "Edit" } } };
-            var deleteBtn = new Button { Style = GetStyleOrDefault("DangerButtonStyle") };
-            deleteBtn.Content = new StackPanel { Orientation = Orientation.Horizontal, Children = { new TextBlock { Text = "\uE74D", FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons"), Margin = new Thickness(0,0,8,0) }, new TextBlock { Text = "Delete" } } };
-            actions.Children.Add(viewBtn); actions.Children.Add(applyBtn); actions.Children.Add(restoreBtn); actions.Children.Add(editBtn); actions.Children.Add(deleteBtn);
-            Grid.SetColumn(actions,1); grid.Children.Add(actions);
-
-            var preview = new Border { Margin = new Thickness(0,12,0,0), CornerRadius = new CornerRadius(8), BorderBrush = GetBrushOrDefault("SystemControlBorderBaseLowBrush"), BorderThickness = new Thickness(1), Background = GetBrushOrDefault("SystemControlBackgroundBaseLowBrush"), Visibility = Visibility.Collapsed };
-            var pGrid = new Grid(); pGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto }); pGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(150) });
-            var pHead = new DockPanel { Margin = new Thickness(12,8,12,4) }; pHead.Children.Add(new TextBlock { Text = "Details", FontWeight = FontWeights.SemiBold }); pGrid.Children.Add(pHead);
-            var inner = new Border { Margin = new Thickness(12), CornerRadius = new CornerRadius(6), BorderBrush = GetBrushOrDefault("SystemControlBorderBaseLowBrush"), BorderThickness = new Thickness(1), Background = GetBrushOrDefault("SystemControlBackgroundChromeMediumLowBrush") };
-            var scroll = new ScrollViewer { VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
-            var tb = new TextBox { IsReadOnly = true, TextWrapping = TextWrapping.Wrap, FontFamily = new System.Windows.Media.FontFamily("Consolas"), BorderThickness = new Thickness(0), Background = System.Windows.Media.Brushes.Transparent };
-            scroll.Content = tb; inner.Child = scroll; Grid.SetRow(inner,1); pGrid.Children.Add(inner);
-            preview.Child = pGrid;
-
-            // Handlers
-            viewBtn.Click += (_, __) =>
+            if (sender is not Button { DataContext: CustomRegistryTweak tweak }) return;
+            try
             {
-                var cmd = $"reg add \"{t.RegistryPath}\" /v \"{t.RegistryKey}\" /t {t.ValueType} /d {t.Data} /f";
-                tb.Text = cmd;
-                preview.Visibility = preview.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
-            };
-            applyBtn.Click += (_, __) =>
+                var value = ParseRegistryData(tweak.ValueType, tweak.Data, out var kind);
+                MessageBox.Show(_registryService.ApplyValueWithBackup(tweak.RegistryPath, tweak.RegistryKey, value, kind)
+                    ? "Applied."
+                    : "Failed to apply.");
+            }
+            catch (Exception ex)
             {
-                try
-                {
-                    object? parsed = ParseRegistryData(t.ValueType, t.Data, out var kind);
-                    var ok = _registryService.ApplyValueWithBackup(t.RegistryPath, t.RegistryKey, parsed, kind);
-                    MessageBox.Show(ok ? "Applied." : "Failed to apply.");
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error: {ex.Message}");
-                }
-            };
-            restoreBtn.Click += (_, __) => MessageBox.Show(
-                _registryService.RestoreRegistryValue(t.RegistryPath, t.RegistryKey) ? "Restored." : "No backup is available for this value.");
+                MessageBox.Show($"Error: {ex.Message}");
+            }
+        }
 
-            editBtn.Click += (_, __) => OpenCustomTweakDialog(t);
-            deleteBtn.Click += (_, __) =>
-            {
-                var owner = Window.GetWindow(this);
-                var proceed = StyledMessageDialog.ShowYesNo(owner, "Confirm", $"Delete '{t.Name}'?");
-                if (!proceed) return;
-                var toRemove = _customTweaks.FirstOrDefault(x => x.Id == t.Id);
-                if (toRemove != null) _customTweaks.Remove(toRemove);
-                _userData.SaveCustomTweaks(_customTweaks);
-                RenderCustomTweaks();
-            };
+        private void RestoreCustomTweak_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button { DataContext: CustomRegistryTweak tweak })
+                MessageBox.Show(_registryService.RestoreRegistryValue(tweak.RegistryPath, tweak.RegistryKey)
+                    ? "Restored."
+                    : "No backup is available for this value.");
+        }
 
-            root.Children.Add(grid);
-            root.Children.Add(preview);
-            card.Child = root;
-            return card;
+        private void EditCustomTweak_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button { DataContext: CustomRegistryTweak tweak }) OpenCustomTweakDialog(tweak);
+        }
+
+        private void DeleteCustomTweak_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is not Button { DataContext: CustomRegistryTweak tweak }
+                || !StyledMessageDialog.ShowYesNo(Window.GetWindow(this), "Confirm", $"Delete '{tweak.Name}'?")) return;
+
+            _customTweaks.Remove(tweak);
+            _userData.SaveCustomTweaks(_customTweaks);
         }
 
         private object? ParseRegistryData(string valueType, string data, out Microsoft.Win32.RegistryValueKind? explicitKind)
@@ -330,7 +286,7 @@ namespace TweakHub.Views
                     existing.Data = data;
                 }
                 _userData.SaveCustomTweaks(_customTweaks);
-                RenderCustomTweaks();
+                CustomTweaksList.Items.Refresh();
                 dialog.Close();
             };
 
@@ -340,102 +296,77 @@ namespace TweakHub.Views
 
         private Style GetStyleOrDefault(string key) => (Style)FindResource(key);
 
-        private System.Windows.Media.Brush GetBrushOrDefault(string key, string fallback = "#444444")
+        private async void TweakToggle_Toggled(object sender, RoutedEventArgs e)
         {
-            var brush = TryFindResource(key) as System.Windows.Media.Brush ?? Application.Current.TryFindResource(key) as System.Windows.Media.Brush;
-            if (brush != null) return brush;
-            var conv = new System.Windows.Media.BrushConverter();
-            var obj = conv.ConvertFromString(fallback);
-            return obj as System.Windows.Media.Brush ?? System.Windows.Media.Brushes.Gray;
-        }
+            if (_ignoreToggleEvent || sender is not ToggleSwitch toggle || toggle.Tag is not PerformanceTweak tweak
+                || !toggle.IsKeyboardFocusWithin) return;
 
-
-        private async void TweakToggle_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender is CheckBox checkBox && checkBox.Tag is PerformanceTweak tweak)
+            var targetState = toggle.IsOn;
+            if (tweak.RiskLevel >= 3 && MessageBox.Show(
+                    $"This tweak has a high risk level ({tweak.RiskLevel}/5).\n\n" +
+                    $"Description: {tweak.Description}\n\n" +
+                    "Are you sure you want to apply this change?",
+                    "High Risk Tweak Warning",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Warning) != MessageBoxResult.Yes)
             {
-                // Desired final state after applying this tweak
-                var targetState = checkBox.IsChecked == true;
-                
-                // Show confirmation for high-risk tweaks
-                if (tweak.RiskLevel >= 3)
-                {
-                    var result = MessageBox.Show(
-                        $"This tweak has a high risk level ({tweak.RiskLevel}/5).\n\n" +
-                        $"Description: {tweak.Description}\n\n" +
-                        "Are you sure you want to apply this change?",
-                        "High Risk Tweak Warning",
-                        MessageBoxButton.YesNo,
-                        MessageBoxImage.Warning);
+                RevertToggle(toggle, tweak, !targetState);
+                return;
+            }
 
-                    if (result != MessageBoxResult.Yes)
-                    {
-                        // Revert the checkbox state
-                        checkBox.IsChecked = !targetState;
-                        tweak.IsEnabled = !targetState;
-                        return;
-                    }
-
-
-
-                }
-
-                // Disable the checkbox while processing
-                checkBox.IsEnabled = false;
-
-                try
-                {
-                    var success = await _tweakService.ApplyTweakAsync(tweak, targetState);
-
-                    if (success)
-                    {
-                        NotifyMainWindowBadgeUpdate();
-                    }
-
-                    if (!success)
-                    {
-                        MessageBox.Show(
-                            $"Failed to apply tweak: {tweak.Name}\n\n" +
-                            "This may be due to insufficient permissions or system restrictions.",
-                            "Tweak Application Failed",
-
-
-
-                            MessageBoxButton.OK,
-                            MessageBoxImage.Error);
-
-                        // Revert the checkbox state
-                        checkBox.IsChecked = !targetState;
-                        tweak.IsEnabled = !targetState;
-                    }
-                    else if (tweak.RequiresRestart && !_tweakService.RestartNoticeShownThisSession)
-                    {
-                        _tweakService.RestartNoticeShownThisSession = true;
-                        var dialog = new TweakHub.Views.Dialogs.RestartRequiredDialog(
-                            "A system restart is required for the changes to take effect.")
-                        {
-                            Owner = Window.GetWindow(this)
-                        };
-                        dialog.ShowDialog();
-                    }
-                }
-                catch (Exception ex)
+            toggle.IsEnabled = false;
+            try
+            {
+                var success = await _tweakService.ApplyTweakAsync(tweak, targetState);
+                if (!success)
                 {
                     MessageBox.Show(
-                        $"An error occurred while applying the tweak:\n\n{ex.Message}",
-                        "Error",
+                        $"Failed to apply tweak: {tweak.Name}\n\n" +
+                        "This may be due to insufficient permissions or system restrictions.",
+                        "Tweak Application Failed",
                         MessageBoxButton.OK,
                         MessageBoxImage.Error);
-
-
-                    // Revert the checkbox state
-                    checkBox.IsChecked = !targetState;
-                    tweak.IsEnabled = !targetState;
+                    RevertToggle(toggle, tweak, !targetState);
                 }
-                finally
+                else
                 {
-                    checkBox.IsEnabled = true;
+                    NotifyMainWindowBadgeUpdate();
+                    if (tweak.RequiresRestart && !_tweakService.RestartNoticeShownThisSession)
+                    {
+                        _tweakService.RestartNoticeShownThisSession = true;
+                        new RestartRequiredDialog("A system restart is required for the changes to take effect.")
+                        {
+                            Owner = Window.GetWindow(this)
+                        }.ShowDialog();
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"An error occurred while applying the tweak:\n\n{ex.Message}",
+                    "Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                RevertToggle(toggle, tweak, !targetState);
+            }
+            finally
+            {
+                toggle.IsEnabled = true;
+            }
+        }
+
+        private void RevertToggle(ToggleSwitch toggle, PerformanceTweak tweak, bool state)
+        {
+            _ignoreToggleEvent = true;
+            try
+            {
+                toggle.IsOn = state;
+                tweak.IsEnabled = state;
+            }
+            finally
+            {
+                _ignoreToggleEvent = false;
             }
         }
 
@@ -466,24 +397,6 @@ namespace TweakHub.Views
                 _ => $"reg add \"{tweak.RegistryPath}\" /v \"{tweak.RegistryKey}\" /t {(tweak.EnabledValue is int ? "REG_DWORD" : tweak.EnabledValue is long ? "REG_QWORD" : "REG_SZ")} /d {(Equals(tweak.EnabledValue, -1) ? "ffffffff" : tweak.EnabledValue)} /f"
             };
             return $"# {tweak.Name}\n# Risk: {tweak.RiskLevel}/5\n\n# Apply\n{command}\n\n# Restore\nTweakHub restores the captured original value.";
-        }
-
-        private void CopyPreview_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender is Button btn && btn.Tag is PerformanceTweak tweak)
-            {
-                try
-                {
-                    if (!string.IsNullOrWhiteSpace(tweak.PreviewContent))
-                    {
-                        Clipboard.SetText(tweak.PreviewContent);
-                    }
-                }
-                catch
-                {
-                    // Ignore clipboard exceptions
-                }
-            }
         }
 
         private void BackupButton_Click(object sender, RoutedEventArgs e)
@@ -539,7 +452,7 @@ namespace TweakHub.Views
             // Apply recommended tweaks (risk level 1-2)
             var recommendedTweaks = _tweakService.TweakCategories
                 .SelectMany(c => c.Tweaks)
-                .Where(t => t.IsAvailable && t.RiskLevel <= 2 && !t.IsEnabled)
+                .Where(t => t.RiskLevel <= 2 && !t.IsEnabled)
                 .ToList();
 
             if (!recommendedTweaks.Any())
