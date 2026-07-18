@@ -10,6 +10,13 @@
     <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#F3F3F3"/>
     <SolidColorBrush x:Key="NavigationBrush" Color="#E6F3F3F3"/>
     <SolidColorBrush x:Key="CardBrush" Color="#E6FFFFFF"/>
+    <SolidColorBrush x:Key="CardHoverBrush" Color="#FFF5F5F5"/>
+    <SolidColorBrush x:Key="CardPressedBrush" Color="#FFE9E9E9"/>
+    <SolidColorBrush x:Key="SelectionBrush" Color="#FFFFFFFF"/>
+    <SolidColorBrush x:Key="SelectionForegroundBrush" Color="#1B1B1B"/>
+    <SolidColorBrush x:Key="AccentForegroundBrush" Color="White"/>
+    <SolidColorBrush x:Key="SuccessForegroundBrush" Color="White"/>
+    <SolidColorBrush x:Key="DangerForegroundBrush" Color="White"/>
     <SolidColorBrush x:Key="SubtleFillBrush" Color="#09000000"/>
     <SolidColorBrush x:Key="IconBrush" Color="#1B1B1B"/>
     <SolidColorBrush x:Key="IconSecondaryBrush" Color="#606060"/>
@@ -23,7 +30,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource SystemControlBorderBaseLowBrush}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="CornerRadius" Value="8"/>
-        <Setter Property="Padding" Value="20"/>
+        <Setter Property="Padding" Value="16"/>
         <Setter Property="Margin" Value="4"/>
     </Style>
 
@@ -43,7 +50,7 @@
 
     <Style x:Key="ModernButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="Background" Value="{DynamicResource AccentBrush}"/>
-        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Foreground" Value="{DynamicResource AccentForegroundBrush}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource AccentPressedBrush}"/>
         <Setter Property="Padding" Value="14,7"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
@@ -64,6 +71,7 @@
 
     <Style x:Key="DangerButtonStyle" TargetType="Button" BasedOn="{StaticResource ModernButtonStyle}">
         <Setter Property="Background" Value="{DynamicResource DangerBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource DangerForegroundBrush}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource DangerBrush}"/>
         <Setter Property="Padding" Value="18,9"/>
         <Setter Property="MinHeight" Value="36"/>
@@ -79,41 +87,6 @@
         <Setter Property="FontSize" Value="12"/>
         <Setter Property="MinHeight" Value="32"/>
         <Setter Property="Cursor" Value="Hand"/>
-    </Style>
-
-    <Style x:Key="PillToggleStyle" TargetType="CheckBox">
-        <Setter Property="Width" Value="40"/>
-        <Setter Property="Height" Value="20"/>
-        <Setter Property="Cursor" Value="Hand"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="CheckBox">
-                    <Grid>
-                        <Border x:Name="Track" CornerRadius="10"
-                                Background="{DynamicResource SystemControlBackgroundListMediumBrush}"
-                                BorderBrush="{DynamicResource SystemControlBorderBaseMediumBrush}"
-                                BorderThickness="1"/>
-                        <Ellipse x:Name="Thumb" Width="12" Height="12" Margin="4"
-                                 HorizontalAlignment="Left" Fill="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="Track" Property="Background" Value="{DynamicResource AccentBrush}"/>
-                            <Setter TargetName="Track" Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
-                            <Setter TargetName="Thumb" Property="Fill" Value="White"/>
-                            <Setter TargetName="Thumb" Property="HorizontalAlignment" Value="Right"/>
-                        </Trigger>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Track" Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value="0.45"/>
-                            <Setter Property="Cursor" Value="Arrow"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
     </Style>
 
     <Style x:Key="PreviewIconButtonStyle" TargetType="Button" BasedOn="{StaticResource SecondaryButtonStyle}">

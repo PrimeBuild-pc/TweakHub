@@ -10,7 +10,6 @@ namespace TweakHub.Services;
 public sealed class UserDataService
 {
     private const int ProfileVersion = 1;
-    private static UserDataService? _instance;
     private readonly string _favoritesFile;
     private readonly string _customScriptsFile;
     private readonly string _customTweaksFile;
@@ -18,7 +17,7 @@ public sealed class UserDataService
     private readonly string _appearanceFile;
     private readonly string _pendingRestartsFile;
 
-    public static UserDataService Instance => _instance ??= new UserDataService();
+    public static UserDataService Instance { get; } = new();
     public string DataDirectory { get; }
 
     private UserDataService() : this(AppDataPath.BasePath) { }

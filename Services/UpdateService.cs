@@ -21,9 +21,7 @@ public sealed class UpdateService
         ?? typeof(UpdateService).Assembly.GetName().Version?.ToString(3)
         ?? "0.0.0";
     private static readonly HttpClient HttpClient = CreateClient();
-    private static UpdateService? _instance;
-
-    public static UpdateService Instance => _instance ??= new UpdateService();
+    public static UpdateService Instance { get; } = new();
 
     private UpdateService() { }
 
@@ -36,11 +34,11 @@ public sealed class UpdateService
             var update = await FindUpdateAsync(cancellationToken);
             if (update == null)
             {
-                if (showNoUpdate) StyledMessageDialog.ShowOk(owner, "Check for Updates", "You're running the latest version.");
+                if (showNoUpdate) await AppDialog.ShowAsync(owner, "Check for Updates", "You're running the latest version.");
                 return;
             }
 
-            accepted = StyledMessageDialog.ShowConfirm(owner, "Update Available",
+            accepted = await AppDialog.ConfirmAsync(owner, "Update Available",
                 $"TweakHub {update.Version} is available.\n\nInstalled: {CurrentVersion}\n\nDownload, verify and install it now?",
                 "Update", "Later");
             if (!accepted) return;
@@ -78,7 +76,7 @@ public sealed class UpdateService
         {
             progressWindow?.Close();
             if (showNoUpdate || accepted)
-                StyledMessageDialog.ShowOk(owner, "Update Failed", $"TweakHub could not update automatically.\n\n{ex.Message}");
+                await AppDialog.ShowAsync(owner, "Update Failed", $"TweakHub could not update automatically.\n\n{ex.Message}");
         }
     }
 

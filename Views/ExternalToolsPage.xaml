@@ -14,97 +14,27 @@
             <Setter Property="Background" Value="{DynamicResource CardBrush}"/>
             <Setter Property="BorderBrush" Value="{DynamicResource SystemControlBorderBaseLowBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="CornerRadius" Value="8"/>
             <Setter Property="Padding" Value="16,12"/>
             <Setter Property="Margin" Value="6,5"/>
             <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Effect">
-                <Setter.Value>
-                    <DropShadowEffect Color="Black" Opacity="0.12" ShadowDepth="1" BlurRadius="8"/>
-                </Setter.Value>
-            </Setter>
+            <Setter Property="Focusable" Value="True"/>
+            <Setter Property="KeyboardNavigation.IsTabStop" Value="True"/>
+            <Setter Property="FocusVisualStyle" Value="{DynamicResource {x:Static SystemParameters.FocusVisualStyleKey}}"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
+                    <Setter Property="Background" Value="{DynamicResource CardHoverBrush}"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="CategoryExpanderStyle" TargetType="Expander">
+        <Style x:Key="CategoryExpanderStyle" TargetType="Expander" BasedOn="{StaticResource {x:Type Expander}}">
             <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderBrush" Value="{DynamicResource SystemControlBorderBaseLowBrush}"/>
             <Setter Property="BorderThickness" Value="0,0,0,1"/>
             <Setter Property="Padding" Value="0,12,0,16"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Expander">
-                        <Border Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                Padding="{TemplateBinding Padding}">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-
-                                <ToggleButton x:Name="HeaderSite"
-                                              Grid.Row="0"
-                                              IsChecked="{Binding Path=IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                              Background="Transparent"
-                                              BorderThickness="0"
-                                              HorizontalAlignment="Stretch"
-                                              HorizontalContentAlignment="Left"
-                                              Padding="0"
-                                              Margin="0,0,18,0"
-                                              Cursor="Hand">
-                                    <ToggleButton.Template>
-                                        <ControlTemplate TargetType="ToggleButton">
-                                            <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="*"/>
-                                                        <ColumnDefinition Width="Auto"/>
-                                                    </Grid.ColumnDefinitions>
-
-                                                    <ContentPresenter Grid.Column="0"
-                                                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                                      VerticalAlignment="Center"/>
-
-                                                    <TextBlock Grid.Column="1"
-                                                               x:Name="ExpanderIcon"
-                                                               Text="&#xE70D;"
-                                                               FontFamily="Segoe Fluent Icons"
-                                                               FontSize="12"
-                                                               VerticalAlignment="Center"
-                                                               Margin="8,0,0,0"
-                                                               Foreground="{DynamicResource IconBrush}"/>
-                                                </Grid>
-                                            </Border>
-                                            <ControlTemplate.Triggers>
-                                                <Trigger Property="IsChecked" Value="False">
-                                                    <Setter TargetName="ExpanderIcon" Property="Text" Value="&#xE76C;"/>
-                                                </Trigger>
-                                            </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </ToggleButton.Template>
-                                    <ContentPresenter ContentSource="Header"/>
-                                </ToggleButton>
-
-                                <ContentPresenter x:Name="ExpandSite"
-                                                  Grid.Row="1"
-                                                  Visibility="Collapsed"/>
-                            </Grid>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsExpanded" Value="True">
-                                <Setter TargetName="ExpandSite" Property="Visibility" Value="Visible"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         </Style>
     </Page.Resources>
 
@@ -133,12 +63,27 @@
             </StackPanel>
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
                 <Border CornerRadius="6" BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}" BorderThickness="1"
-                        Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}" Margin="0,0,8,0">
+                        Margin="0,0,8,0">
+                    <Border.Resources>
+                        <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="Transparent"/>
+                        <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="Transparent"/>
+                        <Thickness x:Key="TextControlBorderThemeThicknessFocused">0</Thickness>
+                    </Border.Resources>
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                    <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundListLowBrush}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
                     <DockPanel>
                         <TextBlock Text="&#xE721;" FontFamily="Segoe Fluent Icons" Margin="8,0,0,0" VerticalAlignment="Center" FontSize="12"
                                    Foreground="{DynamicResource IconSecondaryBrush}"/>
                         <TextBox x:Name="SearchBox" Width="190" Margin="6,0,8,0" BorderThickness="0" Background="Transparent"
-                                 VerticalContentAlignment="Center" Padding="0,4" FontSize="12"
+                                 FocusVisualStyle="{x:Null}" VerticalContentAlignment="Center" Padding="0,4" FontSize="12"
                                  TextChanged="SearchBox_TextChanged"/>
                     </DockPanel>
                 </Border>
@@ -154,7 +99,7 @@
                 </ToggleButton>
                 <Button x:Name="AddToolButton" Style="{StaticResource ModernButtonStyle}" Click="AddTool_Click">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="&#xE710;" FontFamily="Segoe Fluent Icons" Margin="0,0,6,0" Foreground="White"/>
+                        <TextBlock Text="&#xE710;" FontFamily="Segoe Fluent Icons" Margin="0,0,6,0" Foreground="{DynamicResource AccentForegroundBrush}"/>
                         <TextBlock Text="Add tool"/>
                     </StackPanel>
                 </Button>

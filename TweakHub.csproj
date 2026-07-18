@@ -41,17 +41,6 @@
     <None Include="TweakHub.Tests\**\*.cs" />
   </ItemGroup>
 
-  <!-- Help IDEs associate XAML + code-behind correctly -->
-  <ItemGroup>
-    <Page Update="Views\Dialogs\StyledMessageDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Update="Views\Dialogs\StyledMessageDialog.xaml.cs">
-      <DependentUpon>StyledMessageDialog.xaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
   <!-- Copy Scripts folder to output -->
   <ItemGroup>
     <None Update="Scripts\**\*">

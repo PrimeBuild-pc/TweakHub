@@ -7,8 +7,7 @@ namespace TweakHub.Services;
 
 public sealed class ShortcutService
 {
-    private static ShortcutService? _instance;
-    public static ShortcutService Instance => _instance ??= new ShortcutService();
+    public static ShortcutService Instance { get; } = new();
 
     public ObservableCollection<SystemShortcut> SystemShortcuts { get; } = new();
     public ObservableCollection<ExternalTool> ExternalTools { get; } = new();
@@ -30,6 +29,8 @@ public sealed class ShortcutService
             new SystemShortcut { Name = "System Information", Description = "View detailed system information", Command = "msinfo32", Category = "System Information" },
             new SystemShortcut { Name = "Registry Editor", Description = "Edit the Windows registry", Command = "regedit", Category = "Advanced Tools" },
             new SystemShortcut { Name = "Services", Description = "Manage Windows services", Command = "services.msc", Category = "System Management" },
+            new SystemShortcut { Name = "Event Viewer", Description = "Review Windows system and application events", Command = "eventvwr.msc", Category = "System Management" },
+            new SystemShortcut { Name = "Disk Management", Description = "Manage disks, partitions and drive letters", Command = "diskmgmt.msc", Category = "System Management" },
             new SystemShortcut { Name = "Task Manager", Description = "Monitor processes and performance", Command = "taskmgr", Category = "Performance" },
             new SystemShortcut { Name = "Resource Monitor", Description = "Inspect detailed resource usage", Command = "resmon", Category = "Performance" },
             new SystemShortcut { Name = "Power Options", Description = "Configure power and sleep settings", Command = "powercfg.cpl", Category = "Power Management" },
@@ -87,6 +88,13 @@ public sealed class ShortcutService
             new ExternalTool { Name = "PresentMon", Description = "Intel frame-presentation and performance monitoring", Category = "Monitoring & Diagnostics", WingetId = "Intel.PresentMon" },
             new ExternalTool { Name = "GPUView", Description = "Microsoft GPU and CPU performance trace visualization", Category = "Monitoring & Diagnostics", DownloadUrl = "https://learn.microsoft.com/windows-hardware/drivers/display/using-gpuview" },
             new ExternalTool { Name = "PeStudio", Description = "Static inspection of Windows executables without running them", Category = "Monitoring & Diagnostics", DownloadUrl = "https://www.winitor.com/download" },
+            new ExternalTool { Name = "Process Explorer", Description = "Sysinternals process, handle and DLL diagnostics", Category = "Monitoring & Diagnostics", WingetId = "Microsoft.Sysinternals.ProcessExplorer" },
+            new ExternalTool { Name = "Process Monitor", Description = "Real-time filesystem, Registry and process tracing", Category = "Monitoring & Diagnostics", WingetId = "Microsoft.Sysinternals.ProcessMonitor" },
+            new ExternalTool { Name = "Windows Performance Toolkit", Description = "Advanced ETW recording and analysis with WPR and WPA", Category = "Monitoring & Diagnostics", DownloadUrl = "https://learn.microsoft.com/windows-hardware/test/wpt/" },
+            new ExternalTool { Name = "NVIDIA FrameView", Description = "Frame-rate, frame-time, power and performance-per-watt monitoring", Category = "Monitoring & Diagnostics", WingetId = "Nvidia.FrameView" },
+            new ExternalTool { Name = "GPU Shark 2", Description = "Lightweight detailed GPU monitoring from Geeks3D", Category = "Monitoring & Diagnostics", DownloadUrl = "https://www.geeks3d.com/gpushark/" },
+            new ExternalTool { Name = "NVIDIA Nsight Systems", Description = "Advanced CPU and GPU workload profiling and timeline analysis", Category = "Monitoring & Diagnostics", DownloadUrl = "https://developer.nvidia.com/nsight-systems" },
+            new ExternalTool { Name = "AMD Radeon GPU Profiler", Description = "Low-level Radeon GPU performance and workload analysis", Category = "Monitoring & Diagnostics", DownloadUrl = "https://gpuopen.com/rgp/" },
 
             // GPU and display
             new ExternalTool { Name = "GPU-Z", Description = "GPU information, sensors and validation", Category = "GPU & Display", WingetId = "TechPowerUp.GPU-Z" },
@@ -126,12 +134,15 @@ public sealed class ShortcutService
             new ExternalTool { Name = "CrystalDiskInfo", Description = "Storage health and SMART information", Category = "Storage & USB", WingetId = "CrystalDewWorld.CrystalDiskInfo" },
             new ExternalTool { Name = "USBDeview", Description = "NirSoft inventory and management of current and historical USB devices", Category = "Storage & USB", WingetId = "NirSoft.USBDeview" },
             new ExternalTool { Name = "USB Latency Analyzer", Description = "Marius Heier USB latency tools; opens the official site without executing scripts", Category = "Storage & USB", DownloadUrl = "https://tools.mariusheier.com/" },
+            new ExternalTool { Name = "DiskSpd", Description = "Microsoft command-line storage load generator and benchmark", Category = "Storage & USB", WingetId = "Microsoft.DiskSpd" },
 
             // Network
             new ExternalTool { Name = "qBittorrent", Description = "Open-source BitTorrent client", Category = "Network", WingetId = "qBittorrent.qBittorrent" },
             new ExternalTool { Name = "TCP Optimizer", Description = "Inspect and tune Windows TCP/IP parameters", Category = "Network", DownloadUrl = "https://www.speedguide.net/downloads.php" },
             new ExternalTool { Name = "TCPView", Description = "Microsoft Sysinternals live TCP and UDP endpoint viewer", Category = "Network", WingetId = "Microsoft.Sysinternals.TCPView" },
             new ExternalTool { Name = "DNS Jumper", Description = "Test and switch DNS resolvers", Category = "Network", WingetId = "sordum.DnsJumper" },
+            new ExternalTool { Name = "iPerf3", Description = "Measure maximum TCP and UDP network throughput", Category = "Network", WingetId = "ar51an.iPerf3" },
+            new ExternalTool { Name = "Wireshark", Description = "Capture and inspect network traffic and protocols", Category = "Network", WingetId = "WiresharkFoundation.Wireshark" },
 
             // Audio
             new ExternalTool { Name = "FxSound", Description = "Audio equalizer and enhancement", Category = "Audio", WingetId = "FxSound.FxSound" },
@@ -151,6 +162,13 @@ public sealed class ShortcutService
             new ExternalTool { Name = "Cinebench Legacy Downloads", Description = "TechPowerUp archive for older Cinebench releases; the user chooses the version", Category = "Benchmarks & Stability", DownloadUrl = "https://www.techpowerup.com/download/maxon-cinebench/" },
             new ExternalTool { Name = "Linpack Xtreme", Description = "High-load CPU and memory stability test", Category = "Benchmarks & Stability", DownloadUrl = "https://www.techpowerup.com/download/linpack-xtreme/" },
             new ExternalTool { Name = "FurMark 2", Description = "GPU stress test and OpenGL/Vulkan benchmark", Category = "Benchmarks & Stability", WingetId = "Geeks3D.FurMark.2" },
+            new ExternalTool { Name = "MSI Kombustor", Description = "MSI GPU stress test and OpenGL/Vulkan benchmark", Category = "Benchmarks & Stability", DownloadUrl = "https://msikombustor.com/#download" },
+            new ExternalTool { Name = "y-cruncher", Description = "Heavy CPU, RAM and memory-controller benchmark and stress test", Category = "Benchmarks & Stability", DownloadUrl = "https://www.numberworld.org/y-cruncher/" },
+            new ExternalTool { Name = "memtest_vulkan", Description = "Vulkan-based GPU memory stability and error test", Category = "Benchmarks & Stability", DownloadUrl = "https://github.com/GpuZelenograd/memtest_vulkan" },
+            new ExternalTool { Name = "Superposition Benchmark", Description = "Modern Unigine GPU benchmark and stability test", Category = "Benchmarks & Stability", WingetId = "Unigine.SuperpositionBenchmark" },
+            new ExternalTool { Name = "3DMark", Description = "Industry-standard gaming CPU and GPU benchmark suite", Category = "Benchmarks & Stability", DownloadUrl = "https://benchmarks.ul.com/3dmark" },
+            new ExternalTool { Name = "Blender Benchmark", Description = "Real-world CPU and GPU rendering benchmark", Category = "Benchmarks & Stability", DownloadUrl = "https://opendata.blender.org/" },
+            new ExternalTool { Name = "Geekbench 6", Description = "Cross-platform CPU and GPU compute benchmark", Category = "Benchmarks & Stability", WingetId = "PrimateLabs.Geekbench.6" },
 
             // AI tools
             new ExternalTool { Name = "Google Antigravity", Description = "Google's agentic development environment", Category = "AI Tools", DownloadUrl = "https://antigravity.google/" },
@@ -212,7 +230,6 @@ public sealed class ShortcutService
             Process.Start(new ProcessStartInfo
             {
                 FileName = shortcut.Command,
-                Arguments = shortcut.Arguments,
                 UseShellExecute = true
             });
             return true;

@@ -16,6 +16,7 @@ namespace TweakHub.Views
             _shortcutService = ShortcutService.Instance;
 
             Loaded += QuickAccessPage_Loaded;
+            SizeChanged += (_, _) => UpdateGridColumns();
         }
 
         private void QuickAccessPage_Loaded(object sender, RoutedEventArgs e)
@@ -58,8 +59,8 @@ namespace TweakHub.Views
                 // Create grid for shortcuts in this category
                 var shortcutsGrid = new UniformGrid
                 {
-                    Columns = 2,
-                    Margin = new Thickness(0, 0, 0, 16)
+                    Columns = GetColumnCount(),
+                    Margin = new Thickness(0, 0, 0, 6)
                 };
 
                 foreach (var shortcut in group.OrderBy(s => s.Name))
@@ -70,6 +71,15 @@ namespace TweakHub.Views
 
                 ShortcutsContainer.Children.Add(shortcutsGrid);
             }
+        }
+
+        private int GetColumnCount() => ActualWidth >= 1100 ? 3 : ActualWidth >= 700 ? 2 : 1;
+
+        private void UpdateGridColumns()
+        {
+            var columns = GetColumnCount();
+            foreach (var grid in ShortcutsContainer.Children.OfType<UniformGrid>())
+                grid.Columns = columns;
         }
 
         private Button CreateShortcutButton(SystemShortcut shortcut)
@@ -93,8 +103,8 @@ namespace TweakHub.Views
             {
                 Text = GetCategoryIcon(shortcut.Category),
                 FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons"),
-                FontSize = 22,
-                Margin = new Thickness(0, 0, 16, 0),
+                FontSize = 20,
+                Margin = new Thickness(0, 0, 12, 0),
                 VerticalAlignment = VerticalAlignment.Top,
                 HorizontalAlignment = HorizontalAlignment.Center
             };
@@ -110,9 +120,9 @@ namespace TweakHub.Views
             var nameText = new TextBlock
             {
                 Text = shortcut.Name,
-                FontSize = 15,
+                FontSize = 14,
                 FontWeight = FontWeights.SemiBold,
-                Margin = new Thickness(0, 0, 0, 6),
+                Margin = new Thickness(0, 0, 0, 3),
                 TextWrapping = TextWrapping.Wrap,
                 MaxWidth = 320
             };
@@ -207,7 +217,7 @@ namespace TweakHub.Views
                     Text = "Failed to load shortcuts. Please restart TweakHub.",
                     HorizontalAlignment = HorizontalAlignment.Center,
                     VerticalAlignment = VerticalAlignment.Center,
-                    Foreground = System.Windows.Media.Brushes.Red
+                    Foreground = (System.Windows.Media.Brush)FindResource("DangerBrush")
                 };
                 ShortcutsContainer.Children.Add(errorText);
             });

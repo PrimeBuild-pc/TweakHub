@@ -9,12 +9,11 @@ namespace TweakHub.Services;
 public class PowerService
 {
     private const string HighPerformanceScheme = "8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c";
-    private static PowerService? _instance;
     private readonly string _dataFile;
     private readonly string _logFile;
     private PowerBackup _backup = new();
 
-    public static PowerService Instance => _instance ??= new PowerService();
+    public static PowerService Instance { get; } = new();
 
     private PowerService() : this(AppDataPath.BasePath) { }
 
