@@ -97,14 +97,14 @@
                                  HorizontalAlignment="Left" Fill="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
                     </Grid>
                     <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Track" Property="Background" Value="{DynamicResource SystemControlBackgroundListMediumBrush}"/>
+                        </Trigger>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter TargetName="Track" Property="Background" Value="{DynamicResource AccentBrush}"/>
                             <Setter TargetName="Track" Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
                             <Setter TargetName="Thumb" Property="Fill" Value="White"/>
                             <Setter TargetName="Thumb" Property="HorizontalAlignment" Value="Right"/>
-                        </Trigger>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Track" Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.45"/>

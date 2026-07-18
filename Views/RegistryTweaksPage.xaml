@@ -82,31 +82,21 @@
                                 CornerRadius="8"
                                 Padding="{TemplateBinding Padding}"
                                 ClipToBounds="False">
-                            <Grid>
-                                <ContentPresenter ContentSource="Header"
-                                                  RecognizesAccessKey="True"
-                                                  HorizontalAlignment="Center"
-                                                  VerticalAlignment="Center"/>
-                                <Border x:Name="Underline"
-                                        Height="2"
-                                        Background="Transparent"
-                                        VerticalAlignment="Bottom"
-                                        Margin="2,0,2,-1"
-                                        Opacity="0.60"/>
-                            </Grid>
+                            <ContentPresenter ContentSource="Header"
+                                              RecognizesAccessKey="True"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                                <Setter TargetName="Root" Property="Background" Value="{DynamicResource SystemControlBackgroundListLowBrush}"/>
+                            </Trigger>
                             <Trigger Property="IsSelected" Value="True">
                                 <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
                                 <Setter Property="FontWeight" Value="SemiBold"/>
                                 <Setter Property="Panel.ZIndex" Value="3"/>
-                                <Setter TargetName="Root" Property="Background" Value="{DynamicResource SystemControlBackgroundListMediumBrush}"/>
-                                <Setter TargetName="Underline" Property="Background" Value="{DynamicResource AccentBrush}"/>
-                            </Trigger>
-
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
-                                <Setter TargetName="Root" Property="Background" Value="{DynamicResource SystemControlBackgroundListLowBrush}"/>
+                                <Setter TargetName="Root" Property="Background" Value="{DynamicResource CardBrush}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>

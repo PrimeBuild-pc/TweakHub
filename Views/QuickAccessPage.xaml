@@ -35,11 +35,10 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
-                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource SystemControlBackgroundListLowBrush}"/>
+                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource SystemControlBackgroundListLowBrush}"/>
+                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource SystemControlBackgroundListMediumBrush}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>

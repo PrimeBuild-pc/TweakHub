@@ -49,17 +49,13 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Grid>
-                            <Border x:Name="Border" Background="{DynamicResource SystemControlBackgroundListMediumBrush}" CornerRadius="4">
-                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                  VerticalAlignment="Center" Margin="{TemplateBinding Padding}"/>
-                            </Border>
-                            <Border Width="3" Height="16" CornerRadius="2"
-                                    Background="{DynamicResource AccentBrush}" HorizontalAlignment="Left"/>
-                        </Grid>
+                        <Border x:Name="Border" Background="{DynamicResource CardBrush}" CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="Center" Margin="{TemplateBinding Padding}"/>
+                        </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource SystemControlBackgroundListLowBrush}"/>
+                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
