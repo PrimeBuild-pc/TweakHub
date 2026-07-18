@@ -159,6 +159,8 @@ public sealed class ThemeService : INotifyPropertyChanged
             SetBrush(app, "CardBrush", WithAlpha(surface, (byte)(_transparencyEnabled ? 224 : 255)));
             SetBrush(app, "CardHoverBrush", Blend(surface, primary, 0.06));
             SetBrush(app, "CardPressedBrush", Blend(surface, primary, 0.10));
+            SetBrush(app, "TabViewItemHeaderBackgroundSelected", Blend(surface, primary, 0.06));
+            SetBrush(app, "TabViewItemHeaderForegroundSelected", primary);
             SetBrush(app, "SelectionBrush", surface);
             SetBrush(app, "SelectionForegroundBrush", primary);
             SetBrush(app, "SubtleFillBrush", hover);

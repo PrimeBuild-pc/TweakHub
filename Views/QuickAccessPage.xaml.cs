@@ -60,7 +60,7 @@ namespace TweakHub.Views
                 var shortcutsGrid = new UniformGrid
                 {
                     Columns = GetColumnCount(),
-                    Margin = new Thickness(0, 0, 0, 16)
+                    Margin = new Thickness(0, 0, 0, 6)
                 };
 
                 foreach (var shortcut in group.OrderBy(s => s.Name))
@@ -73,7 +73,7 @@ namespace TweakHub.Views
             }
         }
 
-        private int GetColumnCount() => ActualWidth >= 700 ? 2 : 1;
+        private int GetColumnCount() => ActualWidth >= 1100 ? 3 : ActualWidth >= 700 ? 2 : 1;
 
         private void UpdateGridColumns()
         {
@@ -103,8 +103,8 @@ namespace TweakHub.Views
             {
                 Text = GetCategoryIcon(shortcut.Category),
                 FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons"),
-                FontSize = 22,
-                Margin = new Thickness(0, 0, 16, 0),
+                FontSize = 20,
+                Margin = new Thickness(0, 0, 12, 0),
                 VerticalAlignment = VerticalAlignment.Top,
                 HorizontalAlignment = HorizontalAlignment.Center
             };
@@ -120,9 +120,9 @@ namespace TweakHub.Views
             var nameText = new TextBlock
             {
                 Text = shortcut.Name,
-                FontSize = 15,
+                FontSize = 14,
                 FontWeight = FontWeights.SemiBold,
-                Margin = new Thickness(0, 0, 0, 6),
+                Margin = new Thickness(0, 0, 0, 3),
                 TextWrapping = TextWrapping.Wrap,
                 MaxWidth = 320
             };
