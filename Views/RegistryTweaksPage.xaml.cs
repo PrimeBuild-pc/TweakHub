@@ -49,11 +49,7 @@ namespace TweakHub.Views
             // Show one-time per-session disclaimer on first visit to Registry Tweaks section
             if (!_tweakService.RegistryDisclaimerShown)
             {
-                var dialog = new TweakHub.Views.Dialogs.DisclaimerDialog
-                {
-                    Owner = Window.GetWindow(this)
-                };
-                dialog.ShowDialog();
+                await AppDialog.ShowDisclaimerAsync(Window.GetWindow(this));
                 _tweakService.RegistryDisclaimerShown = true;
             }
 
@@ -134,10 +130,10 @@ namespace TweakHub.Views
             if (sender is Button { DataContext: CustomRegistryTweak tweak }) OpenCustomTweakDialog(tweak);
         }
 
-        private void DeleteCustomTweak_Click(object sender, RoutedEventArgs e)
+        private async void DeleteCustomTweak_Click(object sender, RoutedEventArgs e)
         {
             if (sender is not Button { DataContext: CustomRegistryTweak tweak }
-                || !StyledMessageDialog.ShowYesNo(Window.GetWindow(this), "Confirm", $"Delete '{tweak.Name}'?")) return;
+                || !await AppDialog.ConfirmAsync(Window.GetWindow(this), "Confirm", $"Delete '{tweak.Name}'?")) return;
 
             _customTweaks.Remove(tweak);
             _userData.SaveCustomTweaks(_customTweaks);
@@ -334,10 +330,8 @@ namespace TweakHub.Views
                     if (tweak.RequiresRestart && !_tweakService.RestartNoticeShownThisSession)
                     {
                         _tweakService.RestartNoticeShownThisSession = true;
-                        new RestartRequiredDialog("A system restart is required for the changes to take effect.")
-                        {
-                            Owner = Window.GetWindow(this)
-                        }.ShowDialog();
+                        await AppDialog.ShowRestartRequiredAsync(
+                            Window.GetWindow(this), "A system restart is required for the changes to take effect.");
                     }
                 }
             }
@@ -505,12 +499,8 @@ namespace TweakHub.Views
             if (requiresRestart && !_tweakService.RestartNoticeShownThisSession)
             {
                 _tweakService.RestartNoticeShownThisSession = true;
-                var dialog = new TweakHub.Views.Dialogs.RestartRequiredDialog(
-                    "Some changes require a system restart to take effect.")
-                {
-                    Owner = Window.GetWindow(this)
-                };
-                dialog.ShowDialog();
+                await AppDialog.ShowRestartRequiredAsync(
+                    Window.GetWindow(this), "Some changes require a system restart to take effect.");
             }
 
             MessageBox.Show(message, "Tweaks Applied", MessageBoxButton.OK, MessageBoxImage.Information);
