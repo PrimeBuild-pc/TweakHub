@@ -79,6 +79,12 @@ That folder carries custom tools, scripts, Registry tweaks, favorites, appearanc
 
 The installer provides a conventional per-PC setup. Installed builds store user data under `%AppData%\TweakHub` instead of beside the executable.
 
+You can also install or upgrade TweakHub with WinGet:
+
+```powershell
+winget install --id PrimeBuild.TweakHub --exact
+```
+
 > [!NOTE]
 > Releases may be unsigned and can trigger a Microsoft Defender SmartScreen warning.
 
@@ -118,7 +124,7 @@ dotnet publish TweakHub.csproj -c Release -r win-x64 --self-contained true -o pu
 
 ## CI/CD
 
-Every push and pull request to `main` runs the Windows build and tests. A `vX.Y.Z` tag matching the project version publishes the self-contained portable archive, installer and SHA-256 checksums to GitHub Releases.
+Every push and pull request to `main` runs the Windows build and tests. A `vX.Y.Z` tag matching the project version publishes the self-contained portable archive, installer and SHA-256 checksums to GitHub Releases. After the initial WinGet package is accepted, later releases automatically submit an updated `PrimeBuild.TweakHub` manifest.
 
 Generated binaries belong in Releases, not in Git.
 

@@ -101,3 +101,14 @@ jobs:
             installer/Output/*.sha256
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # v1.0.1 bootstraps the package manually; later releases can update it automatically.
+      - name: Publish to WinGet
+        if: steps.tag.outputs.tag != 'v1.0.1'
+        uses: vedantmgoyal9/winget-releaser@4ffc7888bffd451b357355dc214d43bb9f23917e # v2
+        with:
+          identifier: PrimeBuild.TweakHub
+          release-tag: ${{ steps.tag.outputs.tag }}
+          installers-regex: 'TweakHub-Setup-.*\.exe$'
+          max-versions-to-keep: 5
+          token: ${{ secrets.WINGET_TOKEN }}
