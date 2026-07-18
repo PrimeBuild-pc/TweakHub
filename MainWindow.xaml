@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TweakHub"
         xmlns:ui="http://schemas.modernwpf.com/2019"
         mc:Ignorable="d"
         Title="TweakHub - Windows 11 Tweak Utility"
@@ -15,202 +14,95 @@
         TextOptions.TextFormattingMode="Display"
         Background="{DynamicResource WindowBackgroundBrush}">
 
-    <Window.Resources>
-        <Style x:Key="SidebarButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="14,10"/>
-            <Setter Property="HorizontalContentAlignment" Value="Left"/>
-            <Setter Property="Margin" Value="0,2"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="Border" Background="{TemplateBinding Background}" CornerRadius="4">
-                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalAlignment="Center" Margin="{TemplateBinding Padding}"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Foreground" Value="{DynamicResource SelectionForegroundBrush}"/>
-                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource SystemControlBackgroundListLowBrush}"/>
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource SystemControlBackgroundListMediumBrush}"/>
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter TargetName="Border" Property="Opacity" Value="0.45"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="ActiveSidebarButtonStyle" TargetType="Button" BasedOn="{StaticResource SidebarButtonStyle}">
-            <Setter Property="Foreground" Value="{DynamicResource SelectionForegroundBrush}"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="Border" Background="{DynamicResource SelectionBrush}" CornerRadius="4">
-                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalAlignment="Center" Margin="{TemplateBinding Padding}"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource CardPressedBrush}"/>
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter TargetName="Border" Property="Opacity" Value="0.45"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Window.Resources>
-
-    <Grid Background="{DynamicResource WindowBackgroundBrush}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="280"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-
-        <!-- Sidebar -->
-        <Border Grid.Column="0"
-                Background="{DynamicResource NavigationBrush}"
-                BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}"
-                BorderThickness="0,0,1,0">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-
-                <!-- Header -->
-                <StackPanel Grid.Row="0" Margin="24,26,20,20">
-                    <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
-                        <Border Width="36" Height="36" CornerRadius="8"
-                                Background="{DynamicResource SubtleFillBrush}"
-                                BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}" BorderThickness="1">
-                            <Image Source="ico.ico" Width="24" Height="24"/>
-                        </Border>
-                        <TextBlock Text="TweakHub" FontSize="20" FontWeight="SemiBold"
-                                   Margin="12,0,0,0" VerticalAlignment="Center"
-                                   Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
-                    </StackPanel>
-                    <TextBlock Text="Windows 11 performance controls"
-                               Margin="48,0,0,0" FontSize="12"
-                               Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+    <ui:NavigationView x:Name="Navigation"
+                       PaneDisplayMode="Left"
+                       IsPaneOpen="True"
+                       IsPaneToggleButtonVisible="False"
+                       IsBackButtonVisible="Collapsed"
+                       IsSettingsVisible="False"
+                       AlwaysShowHeader="False"
+                       OpenPaneLength="280"
+                       Background="{DynamicResource WindowBackgroundBrush}"
+                       SelectionChanged="Navigation_SelectionChanged">
+        <ui:NavigationView.PaneHeader>
+            <StackPanel Margin="12,18,12,14">
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                    <Border Width="36" Height="36" CornerRadius="8"
+                            Background="{DynamicResource SubtleFillBrush}"
+                            BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}" BorderThickness="1">
+                        <Image Source="ico.ico" Width="24" Height="24"/>
+                    </Border>
+                    <TextBlock Text="TweakHub" FontSize="20" FontWeight="SemiBold"
+                               Margin="12,0,0,0" VerticalAlignment="Center"
+                               Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
                 </StackPanel>
+                <TextBlock Text="Windows 11 performance controls" Margin="48,0,0,0" FontSize="12"
+                           Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+            </StackPanel>
+        </ui:NavigationView.PaneHeader>
 
-                <!-- Navigation -->
-                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-                    <StackPanel Margin="12,0">
-                        <Button x:Name="RegistryTweaksButton" Style="{StaticResource SidebarButtonStyle}"
-                                Click="RegistryTweaksButton_Click">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
+        <ui:NavigationView.MenuItems>
+            <ui:NavigationViewItem x:Name="RegistryTweaksItem" Tag="registry">
+                <ui:NavigationViewItem.Icon><ui:FontIcon Glyph="&#xE945;"/></ui:NavigationViewItem.Icon>
+                <Grid Width="190">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Registry Tweaks" VerticalAlignment="Center"/>
+                    <Border x:Name="RegistryTweaksBadge" Grid.Column="1" Width="18" Height="18"
+                            CornerRadius="9" Background="{DynamicResource AccentBrush}"
+                            Margin="10,0,0,0" Visibility="Collapsed">
+                        <TextBlock x:Name="RegistryTweaksBadgeText" Text="0" FontSize="10" FontWeight="Bold"
+                                   Foreground="{DynamicResource AccentForegroundBrush}"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </Grid>
+            </ui:NavigationViewItem>
+            <ui:NavigationViewItem x:Name="ExternalToolsItem" Content="External Tools" Tag="tools">
+                <ui:NavigationViewItem.Icon><ui:FontIcon Glyph="&#xE90F;"/></ui:NavigationViewItem.Icon>
+            </ui:NavigationViewItem>
+            <ui:NavigationViewItem x:Name="AutomatedScriptsItem" Content="Automated Scripts" Tag="scripts">
+                <ui:NavigationViewItem.Icon><ui:FontIcon Glyph="&#xE756;"/></ui:NavigationViewItem.Icon>
+            </ui:NavigationViewItem>
+            <ui:NavigationViewItem x:Name="QuickAccessItem" Content="Quick Access" Tag="quick">
+                <ui:NavigationViewItem.Icon><ui:FontIcon Glyph="&#xE8F1;"/></ui:NavigationViewItem.Icon>
+            </ui:NavigationViewItem>
+            <ui:NavigationViewItem x:Name="AboutItem" Content="About" Tag="about">
+                <ui:NavigationViewItem.Icon><ui:FontIcon Glyph="&#xE946;"/></ui:NavigationViewItem.Icon>
+            </ui:NavigationViewItem>
+        </ui:NavigationView.MenuItems>
 
-                                <StackPanel Grid.Column="0" Orientation="Horizontal">
-                                    <TextBlock Text="&#xE945;" FontFamily="Segoe Fluent Icons" FontSize="16" Margin="0,0,12,0"/>
-                                    <TextBlock Text="Registry Tweaks"/>
-                                </StackPanel>
-                                <!-- Badge indicator -->
-                                <Border x:Name="RegistryTweaksBadge" 
-                                        Grid.Column="1"
-                                        Width="18" Height="18" 
-                                        CornerRadius="9" 
-                                        Background="{DynamicResource AccentBrush}"
-                                        VerticalAlignment="Center"
-                                        Margin="10,0,0,0"
-                                        Visibility="Collapsed">
-                                    <TextBlock x:Name="RegistryTweaksBadgeText" 
-                                               Text="0" 
-                                               FontSize="10" 
-                                               FontWeight="Bold"
-                                               Foreground="{DynamicResource AccentForegroundBrush}"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"/>
-                                </Border>
-                            </Grid>
-                        </Button>
-
-                        <Button x:Name="ExternalToolsButton" Style="{StaticResource SidebarButtonStyle}"
-                                Click="ExternalToolsButton_Click">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="&#xE90F;" FontFamily="Segoe Fluent Icons" FontSize="16" Margin="0,0,12,0"/>
-                                <TextBlock Text="External Tools"/>
-                            </StackPanel>
-                        </Button>
-
-                        <Button x:Name="AutomatedScriptsButton" Style="{StaticResource SidebarButtonStyle}"
-                                Click="AutomatedScriptsButton_Click">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="&#xE756;" FontFamily="Segoe Fluent Icons" FontSize="16" Margin="0,0,12,0"/>
-                                <TextBlock Text="Automated Scripts"/>
-                            </StackPanel>
-                        </Button>
-
-                        <Button x:Name="QuickAccessButton" Style="{StaticResource SidebarButtonStyle}"
-                                Click="QuickAccessButton_Click">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="&#xE8F1;" FontFamily="Segoe Fluent Icons" FontSize="16" Margin="0,0,12,0"/>
-                                <TextBlock Text="Quick Access"/>
-                            </StackPanel>
-                        </Button>
-
-                        <Button x:Name="AboutButton" Style="{StaticResource SidebarButtonStyle}"
-                                Click="AboutButton_Click">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="&#xE946;" FontFamily="Segoe Fluent Icons" FontSize="16" Margin="0,0,12,0"/>
-                                <TextBlock Text="About"/>
-                            </StackPanel>
-                        </Button>
+        <ui:NavigationView.PaneFooter>
+            <Border Margin="12" Padding="12,10" CornerRadius="8"
+                    BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}" BorderThickness="1"
+                    Cursor="Hand" ToolTip="Open appearance settings"
+                    AutomationProperties.Name="Appearance settings"
+                    Focusable="True" KeyboardNavigation.IsTabStop="True"
+                    MouseLeftButtonUp="AppearanceSettings_Click" KeyDown="AppearanceSettings_KeyDown">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Background" Value="{DynamicResource CardBrush}"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource CardHoverBrush}"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="&#xE790;" FontFamily="Segoe Fluent Icons" FontSize="15" Margin="0,0,10,0"
+                               Foreground="{DynamicResource AccentBrush}"/>
+                    <StackPanel>
+                        <TextBlock Text="Appearance settings" FontSize="12" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                        <TextBlock x:Name="AppearanceStatusText" FontSize="11" TextTrimming="CharacterEllipsis" MaxWidth="190"
+                                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
                     </StackPanel>
-                </ScrollViewer>
+                </StackPanel>
+            </Border>
+        </ui:NavigationView.PaneFooter>
 
-                <!-- Footer -->
-                <Border Grid.Row="2" Margin="20,12,20,20" Padding="12,10" CornerRadius="8"
-                        BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}" BorderThickness="1"
-                        Cursor="Hand" ToolTip="Open appearance settings"
-                        AutomationProperties.Name="Appearance settings"
-                        Focusable="True" KeyboardNavigation.IsTabStop="True"
-                        FocusVisualStyle="{DynamicResource {x:Static SystemParameters.FocusVisualStyleKey}}"
-                        MouseLeftButtonUp="AppearanceSettings_Click" KeyDown="AppearanceSettings_KeyDown">
-                    <Border.Style>
-                        <Style TargetType="Border">
-                            <Setter Property="Background" Value="{DynamicResource CardBrush}"/>
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="{DynamicResource CardHoverBrush}"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Border.Style>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="&#xE790;" FontFamily="Segoe Fluent Icons" FontSize="15" Margin="0,0,10,0"
-                                   Foreground="{DynamicResource AccentBrush}"/>
-                        <StackPanel>
-                            <TextBlock Text="Appearance settings" FontSize="12" FontWeight="SemiBold"
-                                       Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
-                            <TextBlock x:Name="AppearanceStatusText" FontSize="11" TextTrimming="CharacterEllipsis" MaxWidth="190"
-                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
-                        </StackPanel>
-                    </StackPanel>
-                </Border>
-            </Grid>
-        </Border>
-
-        <!-- Main Content -->
-        <Grid Grid.Column="1" Background="Transparent">
-            <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Background="Transparent"/>
-        </Grid>
-    </Grid>
+        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Background="Transparent"/>
+    </ui:NavigationView>
 </Window>

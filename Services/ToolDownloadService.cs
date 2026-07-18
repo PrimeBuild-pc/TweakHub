@@ -33,7 +33,7 @@ namespace TweakHub.Services
             if (!string.IsNullOrWhiteSpace(tool.PowerShellCommand))
             {
                 var preview = tool.PowerShellCommand.Length > 1200 ? tool.PowerShellCommand[..1200] + "…" : tool.PowerShellCommand;
-                if (!StyledMessageDialog.ShowConfirm(Application.Current.MainWindow, "Run Custom PowerShell Command",
+                if (!await AppDialog.ConfirmAsync(Application.Current.MainWindow, "Run Custom PowerShell Command",
                         $"Only run commands you trust. This command can download or modify software.\n\n{preview}", "Run", "Cancel"))
                     return false;
 
@@ -43,7 +43,7 @@ namespace TweakHub.Services
                 var details = result.Success ? result.Output : result.Error;
                 if (details.Length > 3000) details = details[^3000..];
                 Complete(tool.Name, result.Success, result.Success ? "Command completed." : "Command failed.");
-                StyledMessageDialog.ShowOk(Application.Current.MainWindow,
+                await AppDialog.ShowAsync(Application.Current.MainWindow,
                     result.Success ? "Command Completed" : "Command Failed",
                     $"{tool.Name} finished in {result.Duration.TotalSeconds:F1} seconds.\n\n{details}".Trim());
                 return result.Success;

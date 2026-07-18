@@ -122,9 +122,9 @@ namespace TweakHub.Views
             if (sender is Button { DataContext: CustomScript script }) EditCustomScript(script);
         }
 
-        private void DeleteCustomScript_Click(object sender, RoutedEventArgs e)
+        private async void DeleteCustomScript_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button { DataContext: CustomScript script }) DeleteCustomScript(script);
+            if (sender is Button { DataContext: CustomScript script }) await DeleteCustomScript(script);
         }
 
         private Style GetStyleOrDefault(string key) => (Style)FindResource(key);
@@ -229,7 +229,7 @@ namespace TweakHub.Views
             grid.Children.Add(buttonsPanel);
 
             cancelBtn.Click += (_, __) => dialog.Close();
-            saveBtn.Click += (_, __) =>
+            saveBtn.Click += async (_, __) =>
             {
                 var name = nameBox.Text.Trim();
                 if (string.IsNullOrWhiteSpace(name))
@@ -246,7 +246,7 @@ namespace TweakHub.Views
                 _userDataService.SaveCustomScripts(_customScripts);
                 dialog.Close();
                 CustomScriptsControl.Items.Refresh();
-                StyledMessageDialog.ShowOk(
+                await AppDialog.ShowAsync(
                     Window.GetWindow(this),
                     isNew ? "Script Created" : "Script Updated",
                     $"Script '{name}' was {(isNew ? "created" : "updated")} successfully.");
@@ -256,15 +256,13 @@ namespace TweakHub.Views
             dialog.ShowDialog();
         }
 
-        private void DeleteCustomScript(CustomScript script)
+        private async Task DeleteCustomScript(CustomScript script)
         {
             var owner = Window.GetWindow(this);
-            var proceed = StyledMessageDialog.ShowYesNo(
-                owner,
-                "Conferma Eliminazione",
-                $"Sei sicuro di voler eliminare lo script '{script.Name}'?\n\nQuesta operazione non può essere annullata.");
-
-            if (!proceed) return;
+            if (!await AppDialog.ConfirmAsync(
+                    owner,
+                    "Conferma Eliminazione",
+                    $"Sei sicuro di voler eliminare lo script '{script.Name}'?\n\nQuesta operazione non può essere annullata.")) return;
 
             var toRemove = _customScripts.FirstOrDefault(x => x.Id == script.Id);
             if (toRemove != null)
@@ -272,7 +270,7 @@ namespace TweakHub.Views
                 _customScripts.Remove(toRemove);
                 _userDataService.SaveCustomScripts(_customScripts);
 
-                StyledMessageDialog.ShowOk(
+                await AppDialog.ShowAsync(
                     owner,
                     "Script Eliminato",
                     $"Lo script '{script.Name}' è stato eliminato.");
