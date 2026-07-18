@@ -6,8 +6,7 @@ namespace TweakHub.Services
 {
     public class PowerShellService
     {
-        private static PowerShellService? _instance;
-        public static PowerShellService Instance => _instance ??= new PowerShellService();
+        public static PowerShellService Instance { get; } = new();
 
         private PowerShellService() { }
 

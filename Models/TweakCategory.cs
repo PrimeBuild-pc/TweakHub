@@ -45,10 +45,7 @@ namespace TweakHub.Models
         public string RegistryPath { get; set; } = string.Empty;
         public string RegistryKey { get; set; } = string.Empty;
         public object? EnabledValue { get; set; }
-        public object? DisabledValue { get; set; }
-        public string Category { get; set; } = string.Empty;
         public int RiskLevel { get; set; } = 1; // 1-5 scale
-        public bool IsAvailable { get; set; } = true;
 
         public bool IsPreviewVisible
         {
@@ -89,7 +86,6 @@ namespace TweakHub.Models
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public string Command { get; set; } = string.Empty;
-        public string Arguments { get; set; } = string.Empty;
         public string Category { get; set; } = string.Empty;
     }
 
@@ -117,6 +113,5 @@ namespace TweakHub.Models
         public string RegistryKey { get; set; } = string.Empty;
         public string ValueType { get; set; } = "REG_SZ"; // REG_DWORD, REG_QWORD, REG_SZ
         public string Data { get; set; } = string.Empty;
-        public int RiskLevel { get; set; } = 1;
     }
 }

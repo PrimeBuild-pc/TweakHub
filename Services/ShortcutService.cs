@@ -7,8 +7,7 @@ namespace TweakHub.Services;
 
 public sealed class ShortcutService
 {
-    private static ShortcutService? _instance;
-    public static ShortcutService Instance => _instance ??= new ShortcutService();
+    public static ShortcutService Instance { get; } = new();
 
     public ObservableCollection<SystemShortcut> SystemShortcuts { get; } = new();
     public ObservableCollection<ExternalTool> ExternalTools { get; } = new();
@@ -229,7 +228,6 @@ public sealed class ShortcutService
             Process.Start(new ProcessStartInfo
             {
                 FileName = shortcut.Command,
-                Arguments = shortcut.Arguments,
                 UseShellExecute = true
             });
             return true;

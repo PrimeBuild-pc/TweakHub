@@ -14,18 +14,30 @@ namespace TweakHub.Views
 {
     public partial class AutomatedScriptsPage : Page
     {
+        private sealed record BuiltInScriptCard(
+            string Id, string Icon, string Name, string Description, string Category, string ExecuteText);
+
         private readonly PowerShellService _powerShellService;
         private readonly UserDataService _userDataService;
         private readonly ObservableCollection<CustomScript> _customScripts = new();
         private readonly Dictionary<string, CancellationTokenSource> _runningScripts = new();
+        private readonly BuiltInScriptCard[] _builtInScripts =
+        [
+            new("winget", "\uE7B8", "Install WinGet Package Manager",
+                "Install Microsoft WinGet package manager if not present. Includes multiple installation methods with automatic fallback.",
+                "Package Manager", "Execute"),
+            new("dism", "\uE90F", "DISM + SFC System Repair",
+                "Run comprehensive Windows system file integrity checks and repairs", "Repair", "Run Repair")
+        ];
 
         public AutomatedScriptsPage()
         {
             InitializeComponent();
             _powerShellService = PowerShellService.Instance;
             _userDataService = UserDataService.Instance;
+            BuiltInScriptsControl.ItemsSource = _builtInScripts;
+            CustomScriptsControl.ItemsSource = _customScripts;
             LoadCustomScripts();
-            Loaded += (_, _) => RefreshCustomScriptCards();
         }
 
         private void LoadCustomScripts()
@@ -56,7 +68,6 @@ namespace TweakHub.Views
                 });
             }
             _userDataService.SaveCustomScripts(_customScripts);
-            RefreshCustomScriptCards();
         }
 
         private void ExportScript(CustomScript script)
@@ -74,60 +85,46 @@ namespace TweakHub.Views
         private void NewScriptButton_Click(object sender, RoutedEventArgs e) =>
             EditCustomScript(new CustomScript(), isNew: true);
 
-        private Border CreateCustomScriptCard(CustomScript script)
+        private async void ExecuteCustomScript_Click(object sender, RoutedEventArgs e)
         {
-            var card = new Border { Style = (Style)FindResource("ScriptCardStyle") };
-            var grid = new Grid();
-            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+            if (sender is not Button { DataContext: CustomScript script, Tag: Button cancelButton } executeButton
+                || _runningScripts.ContainsKey(script.Id)) return;
 
-            var infoPanel = new StackPanel { Margin = new Thickness(0,0,0,0) };
-            var header = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0,0,0,8) };
-            header.Children.Add(new TextBlock { Text = script.Language == ScriptLanguage.PowerShell ? "\uE8B7" : "\uE8A5", FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons"), FontSize = 18, Margin = new Thickness(0,0,8,0), Foreground = (System.Windows.Media.Brush)FindResource("IconBrush") });
-            header.Children.Add(new TextBlock { Text = script.Name, FontSize = 14, FontWeight = FontWeights.SemiBold, Foreground = (System.Windows.Media.Brush)FindResource("SystemControlForegroundBaseHighBrush") });
-            infoPanel.Children.Add(header);
-            infoPanel.Children.Add(new TextBlock { Text = $"{(script.Language == ScriptLanguage.PowerShell ? "PowerShell" : "CMD")} • {(script.RequiresAdministrator ? "Administrator" : "Current user")}", Style = (Style)FindResource("DescriptionTextStyle"), Margin = new Thickness(26,0,0,8) });
-            Grid.SetRow(infoPanel,0); Grid.SetColumn(infoPanel,0); grid.Children.Add(infoPanel);
-
-            var actionsPanel = new StackPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center };
-            var execBtn = new Button { Style = GetStyleOrDefault("ExecuteButtonStyle"), Margin = new Thickness(0,0,8,0) };
-            execBtn.Content = new StackPanel { Orientation = Orientation.Horizontal, Children = { new TextBlock { Text = "\uE768", FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons"), FontSize = 13, Margin = new Thickness(0,0,8,0), Foreground = (Brush)FindResource("AccentForegroundBrush") }, new TextBlock { Text = script.Language == ScriptLanguage.PowerShell ? "Run" : "Execute" } } };
-            var cancelBtn = new Button { Content = "Stop", Style = GetStyleOrDefault("DangerButtonStyle"), Margin = new Thickness(0,0,8,0), Visibility = Visibility.Collapsed };
-            var exportBtn = new Button { Content = "Export", Style = GetStyleOrDefault("SecondaryButtonStyle"), Margin = new Thickness(0,0,8,0) };
-            var editBtn = new Button { Style = GetStyleOrDefault("SecondaryButtonStyle"), Margin = new Thickness(0,0,8,0) };
-            editBtn.Content = new StackPanel { Orientation = Orientation.Horizontal, Children = { new TextBlock { Text = "\uE70F", FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons"), FontSize = 13, Margin = new Thickness(0,0,8,0) }, new TextBlock { Text = "Edit" } } };
-            var deleteBtn = new Button { Style = GetStyleOrDefault("DangerButtonStyle") };
-            deleteBtn.Content = new StackPanel { Orientation = Orientation.Horizontal, Children = { new TextBlock { Text = "\uE74D", FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons"), FontSize = 13, Margin = new Thickness(0,0,8,0) }, new TextBlock { Text = "Delete" } } };
-            
-            actionsPanel.Children.Add(execBtn); actionsPanel.Children.Add(cancelBtn); actionsPanel.Children.Add(exportBtn); actionsPanel.Children.Add(editBtn); actionsPanel.Children.Add(deleteBtn);
-            Grid.SetColumn(actionsPanel,1); Grid.SetRow(actionsPanel,0); grid.Children.Add(actionsPanel);
-
-            card.Child = grid;
-            execBtn.Click += async (_, __) =>
+            using var cancellation = new CancellationTokenSource();
+            _runningScripts[script.Id] = cancellation;
+            executeButton.IsEnabled = false;
+            cancelButton.Visibility = script.RequiresAdministrator ? Visibility.Collapsed : Visibility.Visible;
+            try
             {
-                if (_runningScripts.ContainsKey(script.Id)) return;
-                using var cancellation = new CancellationTokenSource();
-                _runningScripts[script.Id] = cancellation;
-                execBtn.IsEnabled = false;
-                cancelBtn.Visibility = script.RequiresAdministrator ? Visibility.Collapsed : Visibility.Visible;
-                try { await ExecuteCustomScript(script, cancellation.Token); }
-                finally
-                {
-                    _runningScripts.Remove(script.Id);
-                    execBtn.IsEnabled = true;
-                    cancelBtn.Visibility = Visibility.Collapsed;
-                }
-            };
-            cancelBtn.Click += (_, __) => cancellationFor(script.Id)?.Cancel();
-            exportBtn.Click += (_, __) => ExportScript(script);
-            editBtn.Click += (_, __) => EditCustomScript(script);
-            deleteBtn.Click += (_, __) => DeleteCustomScript(script);
-            return card;
+                await ExecuteCustomScript(script, cancellation.Token);
+            }
+            finally
+            {
+                _runningScripts.Remove(script.Id);
+                executeButton.IsEnabled = true;
+                cancelButton.Visibility = Visibility.Collapsed;
+            }
+        }
 
-            CancellationTokenSource? cancellationFor(string id) =>
-                _runningScripts.TryGetValue(id, out var value) ? value : null;
+        private void CancelCustomScript_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button { DataContext: CustomScript script }
+                && _runningScripts.TryGetValue(script.Id, out var cancellation)) cancellation.Cancel();
+        }
+
+        private void ExportCustomScript_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button { DataContext: CustomScript script }) ExportScript(script);
+        }
+
+        private void EditCustomScript_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button { DataContext: CustomScript script }) EditCustomScript(script);
+        }
+
+        private void DeleteCustomScript_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button { DataContext: CustomScript script }) DeleteCustomScript(script);
         }
 
         private Style GetStyleOrDefault(string key) => (Style)FindResource(key);
@@ -248,7 +245,7 @@ namespace TweakHub.Views
                 if (isNew) _customScripts.Add(script);
                 _userDataService.SaveCustomScripts(_customScripts);
                 dialog.Close();
-                RefreshCustomScriptCards();
+                CustomScriptsControl.Items.Refresh();
                 StyledMessageDialog.ShowOk(
                     Window.GetWindow(this),
                     isNew ? "Script Created" : "Script Updated",
@@ -274,9 +271,6 @@ namespace TweakHub.Views
             {
                 _customScripts.Remove(toRemove);
                 _userDataService.SaveCustomScripts(_customScripts);
-                
-                // Refresh UI
-                RefreshCustomScriptCards();
 
                 StyledMessageDialog.ShowOk(
                     owner,
@@ -285,56 +279,47 @@ namespace TweakHub.Views
             }
         }
 
-        private void RefreshCustomScriptCards()
+        private void BuiltInScript_View_Click(object sender, RoutedEventArgs e)
         {
-            var customCards = ScriptsHostPanel.Children.OfType<Border>()
-                .Where(card => Equals(card.Tag, "CustomScript"))
-                .ToList();
-            foreach (var card in customCards) ScriptsHostPanel.Children.Remove(card);
-            foreach (var script in _customScripts)
+            if (sender is not Button { DataContext: BuiltInScriptCard script, Tag: Border preview }
+                || preview.Tag is not TextBox textBox) return;
+
+            try
             {
-                var card = CreateCustomScriptCard(script);
-                card.Tag = "CustomScript";
-                ScriptsHostPanel.Children.Add(card);
+                textBox.Text = script.Id == "winget"
+                    ? LoadWinGetScript()
+                    : @"# DISM + SFC Repair Sequence
+DISM /Online /Cleanup-Image /CheckHealth
+DISM /Online /Cleanup-Image /ScanHealth
+DISM /Online /Cleanup-Image /RestoreHealth
+sfc /scannow";
             }
+            catch (Exception ex)
+            {
+                textBox.Text = "# Error loading script:\n" + ex.Message;
+            }
+            preview.Visibility = preview.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
         }
 
-        private void ToggleInlinePreview(string panelName, string textBoxName, string content)
+        private static string LoadWinGetScript()
         {
-            if (this.FindName(panelName) is Border panel && this.FindName(textBoxName) is TextBox tb)
-            {
-                tb.Text = content;
-                // Animate expand/collapse (simple opacity/height storyboard on demand)
-                bool willShow = panel.Visibility != Visibility.Visible;
-                if (willShow)
-                {
-                    panel.Visibility = Visibility.Visible;
-                    var sb = new System.Windows.Media.Animation.Storyboard();
-                    var fadeIn = new System.Windows.Media.Animation.DoubleAnimation(0, 1, new Duration(TimeSpan.FromMilliseconds(180)));
-                    System.Windows.Media.Animation.Storyboard.SetTarget(fadeIn, panel);
-                    System.Windows.Media.Animation.Storyboard.SetTargetProperty(fadeIn, new PropertyPath("Opacity"));
-                    var heightAnim = new System.Windows.Media.Animation.DoubleAnimation(0, 180, new Duration(TimeSpan.FromMilliseconds(180)));
-                    System.Windows.Media.Animation.Storyboard.SetTarget(heightAnim, panel);
-                    System.Windows.Media.Animation.Storyboard.SetTargetProperty(heightAnim, new PropertyPath("Height"));
-                    sb.Children.Add(fadeIn);
-                    sb.Children.Add(heightAnim);
-                    sb.Begin();
-                }
-                else
-                {
-                    var sb = new System.Windows.Media.Animation.Storyboard();
-                    var fadeOut = new System.Windows.Media.Animation.DoubleAnimation(panel.Opacity, 0, new Duration(TimeSpan.FromMilliseconds(140)));
-                    System.Windows.Media.Animation.Storyboard.SetTarget(fadeOut, panel);
-                    System.Windows.Media.Animation.Storyboard.SetTargetProperty(fadeOut, new PropertyPath("Opacity"));
-                    var heightAnim = new System.Windows.Media.Animation.DoubleAnimation(panel.ActualHeight, 0, new Duration(TimeSpan.FromMilliseconds(140)));
-                    System.Windows.Media.Animation.Storyboard.SetTarget(heightAnim, panel);
-                    System.Windows.Media.Animation.Storyboard.SetTargetProperty(heightAnim, new PropertyPath("Height"));
-                    sb.Children.Add(fadeOut);
-                    sb.Children.Add(heightAnim);
-                    sb.Completed += (_, __) => { panel.Visibility = Visibility.Collapsed; };
-                    sb.Begin();
-                }
-            }
+            var path = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Scripts", "WinGetInstall.ps1");
+            return System.IO.File.Exists(path)
+                ? System.IO.File.ReadAllText(path)
+                : "# WinGetInstall.ps1 not found in Scripts folder.";
+        }
+
+        private void BuiltInScript_Execute_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is not Button { DataContext: BuiltInScriptCard script }) return;
+            if (script.Id == "winget") WinGetInstallation_Click(sender, e);
+            else DismSfcRepair_Click(sender, e);
+        }
+
+        private void CopyBuiltInScript_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button { Tag: TextBox textBox })
+                try { Clipboard.SetText(textBox.Text ?? string.Empty); } catch { }
         }
 
         private async void WinGetInstallation_Click(object sender, RoutedEventArgs e)
@@ -376,28 +361,6 @@ namespace TweakHub.Views
             finally
             {
                 progress.Close();
-            }
-        }
-
-        private void WinGetInstallation_View_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                var scriptPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Scripts", "WinGetInstall.ps1");
-                string content;
-                if (System.IO.File.Exists(scriptPath))
-                {
-                    content = System.IO.File.ReadAllText(scriptPath);
-                }
-                else
-                {
-                    content = "# WinGetInstall.ps1 not found in Scripts folder.";
-                }
-                ToggleInlinePreview("WinGetPreviewPanel", "WinGetPreviewText", content);
-            }
-            catch (Exception ex)
-            {
-                ToggleInlinePreview("WinGetPreviewPanel", "WinGetPreviewText", "# Error loading script:\n" + ex.Message);
             }
         }
 
@@ -462,23 +425,6 @@ namespace TweakHub.Views
             }
         }
 
-        private void DismSfcRepair_View_Click(object sender, RoutedEventArgs e)
-        {
-            var content = @"# DISM + SFC Repair Sequence
-DISM /Online /Cleanup-Image /CheckHealth
-DISM /Online /Cleanup-Image /ScanHealth
-DISM /Online /Cleanup-Image /RestoreHealth
-sfc /scannow";
-            ToggleInlinePreview("DismPreviewPanel", "DismPreviewText", content);
-        }
-
-        private void CopyScript_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender is Button btn && btn.Tag is TextBox tb)
-            {
-                try { Clipboard.SetText(tb.Text ?? string.Empty); } catch { }
-            }
-        }
 
     }
 }

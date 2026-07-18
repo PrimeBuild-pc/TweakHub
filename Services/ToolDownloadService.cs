@@ -8,8 +8,7 @@ namespace TweakHub.Services
 {
     public class ToolDownloadService
     {
-        private static ToolDownloadService? _instance;
-        public static ToolDownloadService Instance => _instance ??= new ToolDownloadService();
+        public static ToolDownloadService Instance { get; } = new();
 
         public event EventHandler<DownloadProgressEventArgs>? DownloadProgress;
         public event EventHandler<DownloadCompletedEventArgs>? DownloadCompleted;

@@ -10,13 +10,12 @@ namespace TweakHub.Services;
 
 public sealed class ThemeService : INotifyPropertyChanged
 {
-    private static ThemeService? _instance;
     private string _themeMode = "System";
     private string _customAccent = string.Empty;
     private bool _transparencyEnabled = true;
     private bool _isDark;
 
-    public static ThemeService Instance => _instance ??= new ThemeService();
+    public static ThemeService Instance { get; } = new();
     public string ThemeMode => _themeMode;
     public string CustomAccent => _customAccent;
     public bool UseSystemAccent => string.IsNullOrEmpty(_customAccent);

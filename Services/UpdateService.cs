@@ -21,9 +21,7 @@ public sealed class UpdateService
         ?? typeof(UpdateService).Assembly.GetName().Version?.ToString(3)
         ?? "0.0.0";
     private static readonly HttpClient HttpClient = CreateClient();
-    private static UpdateService? _instance;
-
-    public static UpdateService Instance => _instance ??= new UpdateService();
+    public static UpdateService Instance { get; } = new();
 
     private UpdateService() { }
 

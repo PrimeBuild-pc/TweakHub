@@ -7,9 +7,7 @@ namespace TweakHub.Services
 {
     public class TweakService : INotifyPropertyChanged
     {
-        private static TweakService? _instance;
-
-        public static TweakService Instance => _instance ??= new TweakService();
+        public static TweakService Instance { get; } = new();
 
         public ObservableCollection<TweakCategory> TweakCategories { get; } = new();
 
@@ -75,8 +73,6 @@ namespace TweakHub.Services
                 RegistryPath = @"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\PriorityControl",
                 RegistryKey = "Win32PrioritySeparation",
                 EnabledValue = 0x26,
-                DisabledValue = null,
-                Category = "CPU & Processor Optimization",
                 RiskLevel = 3
             });
 
@@ -89,8 +85,6 @@ namespace TweakHub.Services
                 RegistryPath = @"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\54533251-82be-4824-96c1-47b60b740d00\893dee8e-2bef-41e0-89c6-b55d0929964c",
                 RegistryKey = "ValueMax",
                 EnabledValue = 0,   // Disable throttling
-                DisabledValue = 100, // Default throttling
-                Category = "CPU & Processor Optimization",
                 RiskLevel = 3
             });
 
@@ -103,8 +97,6 @@ namespace TweakHub.Services
                 RegistryPath = @"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\54533251-82be-4824-96c1-47b60b740d00\0cc5b647-c1df-4637-891a-dec35c318583",
                 RegistryKey = "ValueMax",
                 EnabledValue = 0,   // Disable core parking
-                DisabledValue = 100, // Default core parking
-                Category = "CPU & Processor Optimization",
                 RiskLevel = 3
             });
 
@@ -117,8 +109,6 @@ namespace TweakHub.Services
                 RegistryPath = @"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\User\PowerSchemes",
                 RegistryKey = "ActivePowerScheme",
                 EnabledValue = "8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c", // High Performance GUID
-                DisabledValue = "381b4222-f694-41f0-9685-ff5bb260df2e", // Balanced GUID
-                Category = "CPU & Processor Optimization",
                 RiskLevel = 3
             });
 
@@ -143,8 +133,6 @@ namespace TweakHub.Services
                 RegistryPath = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile",
                 RegistryKey = "NetworkThrottlingIndex",
                 EnabledValue = -1,
-                DisabledValue = null,
-                Category = "Network Latency Reduction",
                 RiskLevel = 3
             });
 
@@ -169,8 +157,6 @@ namespace TweakHub.Services
                 RegistryPath = @"HKEY_CURRENT_USER\Control Panel\Mouse",
                 RegistryKey = "MouseSpeed",
                 EnabledValue = "0", // Disabled
-                DisabledValue = "1", // Enabled
-                Category = "Gaming Performance",
                 RiskLevel = 1
             });
 
@@ -183,8 +169,6 @@ namespace TweakHub.Services
                 RegistryPath = @"HKEY_CURRENT_USER\System\GameConfigStore",
                 RegistryKey = "GameDVR_FSEBehaviorMode",
                 EnabledValue = 2, // Disabled
-                DisabledValue = 0, // Enabled
-                Category = "Gaming Performance",
                 RiskLevel = 1
             });
 
@@ -197,8 +181,6 @@ namespace TweakHub.Services
                 RegistryPath = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR",
                 RegistryKey = "AppCaptureEnabled",
                 EnabledValue = 0, // Disabled
-                DisabledValue = 1, // Enabled
-                Category = "Gaming Performance",
                 RiskLevel = 1
             });
 
@@ -223,8 +205,6 @@ namespace TweakHub.Services
                 RegistryPath = @"HKEY_CURRENT_USER\Control Panel\Desktop",
                 RegistryKey = "MenuShowDelay",
                 EnabledValue = "0", // Instant
-                DisabledValue = "400", // Default 400ms
-                Category = "System Responsiveness",
                 RiskLevel = 1
             });
 
@@ -237,8 +217,6 @@ namespace TweakHub.Services
                 RegistryPath = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Serialize",
                 RegistryKey = "StartupDelayInMSec",
                 EnabledValue = 0, // No delay
-                DisabledValue = 10000, // Default 10 seconds
-                Category = "System Responsiveness",
                 RiskLevel = 1
             });
 
@@ -263,8 +241,6 @@ namespace TweakHub.Services
                 RegistryPath = @"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WSearch",
                 RegistryKey = "Start",
                 EnabledValue = 4, // Disabled
-                DisabledValue = 2, // Automatic
-                Category = "Advanced",
                 RiskLevel = 3,
                 RequiresRestart = true
             });
@@ -290,8 +266,6 @@ namespace TweakHub.Services
                 RegistryPath = @"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate",
                 RegistryKey = "ExcludeWUDriversInQualityUpdate",
                 EnabledValue = 1,
-                DisabledValue = null,
-                Category = category.Name,
                 RiskLevel = 3,
                 RequiresRestart = true
             });
@@ -305,8 +279,6 @@ namespace TweakHub.Services
                 RegistryPath = @"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU",
                 RegistryKey = "AUOptions",
                 EnabledValue = 2,
-                DisabledValue = null,
-                Category = category.Name,
                 RiskLevel = 3,
                 RequiresRestart = true
             });
@@ -340,8 +312,6 @@ namespace TweakHub.Services
                 RegistryPath = @"HKEY_CURRENT_USER\Control Panel\Desktop\WindowMetrics",
                 RegistryKey = "MinAnimate",
                 EnabledValue = "0", // Disabled
-                DisabledValue = "1", // Enabled
-                Category = "Visual Effects & Performance",
                 RiskLevel = 1
             });
 
@@ -354,8 +324,6 @@ namespace TweakHub.Services
                 RegistryPath = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize",
                 RegistryKey = "EnableTransparency",
                 EnabledValue = 0, // Disabled
-                DisabledValue = 1, // Enabled
-                Category = "Visual Effects & Performance",
                 RiskLevel = 1
             });
 
@@ -368,8 +336,6 @@ namespace TweakHub.Services
                 RegistryPath = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects",
                 RegistryKey = "VisualFXSetting",
                 EnabledValue = 2, // Best performance
-                DisabledValue = 0, // Let Windows choose
-                Category = "Visual Effects & Performance",
                 RiskLevel = 1
             });
 

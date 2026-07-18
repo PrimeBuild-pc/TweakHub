@@ -260,7 +260,6 @@
                                                                            Visibility="{Binding IsRestartPending, Converter={StaticResource BoolToVis}}"
                                                                            ToolTip="Restart Windows to make this change fully effective"/>
                                                                 <CheckBox IsChecked="{Binding IsEnabled, Mode=TwoWay}"
-                                                                          IsEnabled="{Binding IsAvailable}"
                                                                           Style="{StaticResource PillToggleStyle}"
                                                                           VerticalAlignment="Center"
                                                                           Margin="0,0,12,0"
@@ -268,7 +267,6 @@
                                                                           Click="TweakToggle_Click"/>
 
                                                                 <Button Style="{StaticResource PreviewIconButtonStyle}"
-                                                                        IsEnabled="{Binding IsAvailable}"
                                                                         Click="ViewTweak_Click"
                                                                         AutomationProperties.Name="Preview registry changes"
                                                                         VerticalAlignment="Center"
@@ -331,7 +329,88 @@
                                 </Button>
                             </Grid>
                         </Border>
-                        <ItemsControl x:Name="CustomTweaksList"/>
+                        <ItemsControl x:Name="CustomTweaksList">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource TweakItemStyle}">
+                                        <StackPanel>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel>
+                                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                                        <TextBlock Text="&#xE8B7;" FontFamily="Segoe Fluent Icons" FontSize="16" Margin="0,0,8,0"/>
+                                                        <TextBlock Text="{Binding Name}" FontSize="16" FontWeight="Medium"/>
+                                                    </StackPanel>
+                                                    <TextBlock Margin="16,0,0,0" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}">
+                                                        <Run Text="{Binding RegistryPath}"/><Run Text="\"/><Run Text="{Binding RegistryKey}"/>
+                                                    </TextBlock>
+                                                    <TextBlock Margin="16,2,0,0" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}">
+                                                        <Run Text="{Binding ValueType}"/><Run Text=": "/><Run Text="{Binding Data}"/>
+                                                    </TextBlock>
+                                                </StackPanel>
+                                                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                                                    <Button Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0"
+                                                            Click="ViewCustomTweak_Click" Tag="{Binding ElementName=CustomPreviewPanel}">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="&#xE890;" FontFamily="Segoe Fluent Icons" Margin="0,0,8,0"/>
+                                                            <TextBlock Text="View"/>
+                                                        </StackPanel>
+                                                    </Button>
+                                                    <Button Style="{StaticResource ExecuteButtonStyle}" Margin="0,0,8,0" Click="ApplyCustomTweak_Click">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="&#xE768;" FontFamily="Segoe Fluent Icons" Margin="0,0,8,0"/>
+                                                            <TextBlock Text="Apply"/>
+                                                        </StackPanel>
+                                                    </Button>
+                                                    <Button Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0" Click="RestoreCustomTweak_Click">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="&#xE777;" FontFamily="Segoe Fluent Icons" Margin="0,0,8,0"/>
+                                                            <TextBlock Text="Restore"/>
+                                                        </StackPanel>
+                                                    </Button>
+                                                    <Button Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0" Click="EditCustomTweak_Click">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="&#xE70F;" FontFamily="Segoe Fluent Icons" Margin="0,0,8,0"/>
+                                                            <TextBlock Text="Edit"/>
+                                                        </StackPanel>
+                                                    </Button>
+                                                    <Button Style="{StaticResource DangerButtonStyle}" Click="DeleteCustomTweak_Click">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="&#xE74D;" FontFamily="Segoe Fluent Icons" Margin="0,0,8,0"/>
+                                                            <TextBlock Text="Delete"/>
+                                                        </StackPanel>
+                                                    </Button>
+                                                </StackPanel>
+                                            </Grid>
+                                            <Border x:Name="CustomPreviewPanel" Tag="{Binding ElementName=CustomPreviewText}"
+                                                    Margin="0,12,0,0" CornerRadius="8" BorderThickness="1"
+                                                    BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}"
+                                                    Background="{DynamicResource SystemControlBackgroundBaseLowBrush}"
+                                                    Visibility="Collapsed">
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="150"/>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock Text="Details" FontWeight="SemiBold" Margin="12,8,12,4"/>
+                                                    <Border Grid.Row="1" Margin="12" CornerRadius="6" BorderThickness="1"
+                                                            BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}"
+                                                            Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+                                                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                                            <TextBox x:Name="CustomPreviewText" IsReadOnly="True" TextWrapping="Wrap"
+                                                                     FontFamily="Consolas" BorderThickness="0" Background="Transparent"/>
+                                                        </ScrollViewer>
+                                                    </Border>
+                                                </Grid>
+                                            </Border>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
