@@ -131,12 +131,27 @@
             </StackPanel>
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
                 <Border CornerRadius="6" BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}" BorderThickness="1"
-                        Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}" Margin="0,0,8,0">
+                        Margin="0,0,8,0">
+                    <Border.Resources>
+                        <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="Transparent"/>
+                        <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="Transparent"/>
+                        <Thickness x:Key="TextControlBorderThemeThicknessFocused">0</Thickness>
+                    </Border.Resources>
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                    <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundListLowBrush}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
                     <DockPanel>
                         <TextBlock Text="&#xE721;" FontFamily="Segoe Fluent Icons" Margin="8,0,0,0" VerticalAlignment="Center" FontSize="12"
                                    Foreground="{DynamicResource IconSecondaryBrush}"/>
                         <TextBox x:Name="SearchBox" Width="190" Margin="6,0,8,0" BorderThickness="0" Background="Transparent"
-                                 VerticalContentAlignment="Center" Padding="0,4" FontSize="12"
+                                 FocusVisualStyle="{x:Null}" VerticalContentAlignment="Center" Padding="0,4" FontSize="12"
                                  TextChanged="SearchBox_TextChanged"/>
                     </DockPanel>
                 </Border>

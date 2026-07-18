@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using ToggleSwitch = ModernWpf.Controls.ToggleSwitch;
 using TweakHub.Models;
 using TweakHub.Services;
 using TweakHub.Views.Dialogs;
@@ -14,6 +15,7 @@ namespace TweakHub.Views
         private readonly RegistryService _registryService;
         private readonly UserDataService _userData = UserDataService.Instance;
         private readonly ObservableCollection<CustomRegistryTweak> _customTweaks = new();
+        private bool _ignoreToggleEvent;
         public RegistryTweaksPage()
         {
             InitializeComponent();
@@ -294,92 +296,77 @@ namespace TweakHub.Views
 
         private Style GetStyleOrDefault(string key) => (Style)FindResource(key);
 
-        private async void TweakToggle_Click(object sender, RoutedEventArgs e)
+        private async void TweakToggle_Toggled(object sender, RoutedEventArgs e)
         {
-            if (sender is CheckBox checkBox && checkBox.Tag is PerformanceTweak tweak)
+            if (_ignoreToggleEvent || sender is not ToggleSwitch toggle || toggle.Tag is not PerformanceTweak tweak
+                || !toggle.IsKeyboardFocusWithin) return;
+
+            var targetState = toggle.IsOn;
+            if (tweak.RiskLevel >= 3 && MessageBox.Show(
+                    $"This tweak has a high risk level ({tweak.RiskLevel}/5).\n\n" +
+                    $"Description: {tweak.Description}\n\n" +
+                    "Are you sure you want to apply this change?",
+                    "High Risk Tweak Warning",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Warning) != MessageBoxResult.Yes)
             {
-                // Desired final state after applying this tweak
-                var targetState = checkBox.IsChecked == true;
-                
-                // Show confirmation for high-risk tweaks
-                if (tweak.RiskLevel >= 3)
-                {
-                    var result = MessageBox.Show(
-                        $"This tweak has a high risk level ({tweak.RiskLevel}/5).\n\n" +
-                        $"Description: {tweak.Description}\n\n" +
-                        "Are you sure you want to apply this change?",
-                        "High Risk Tweak Warning",
-                        MessageBoxButton.YesNo,
-                        MessageBoxImage.Warning);
+                RevertToggle(toggle, tweak, !targetState);
+                return;
+            }
 
-                    if (result != MessageBoxResult.Yes)
-                    {
-                        // Revert the checkbox state
-                        checkBox.IsChecked = !targetState;
-                        tweak.IsEnabled = !targetState;
-                        return;
-                    }
-
-
-
-                }
-
-                // Disable the checkbox while processing
-                checkBox.IsEnabled = false;
-
-                try
-                {
-                    var success = await _tweakService.ApplyTweakAsync(tweak, targetState);
-
-                    if (success)
-                    {
-                        NotifyMainWindowBadgeUpdate();
-                    }
-
-                    if (!success)
-                    {
-                        MessageBox.Show(
-                            $"Failed to apply tweak: {tweak.Name}\n\n" +
-                            "This may be due to insufficient permissions or system restrictions.",
-                            "Tweak Application Failed",
-
-
-
-                            MessageBoxButton.OK,
-                            MessageBoxImage.Error);
-
-                        // Revert the checkbox state
-                        checkBox.IsChecked = !targetState;
-                        tweak.IsEnabled = !targetState;
-                    }
-                    else if (tweak.RequiresRestart && !_tweakService.RestartNoticeShownThisSession)
-                    {
-                        _tweakService.RestartNoticeShownThisSession = true;
-                        var dialog = new TweakHub.Views.Dialogs.RestartRequiredDialog(
-                            "A system restart is required for the changes to take effect.")
-                        {
-                            Owner = Window.GetWindow(this)
-                        };
-                        dialog.ShowDialog();
-                    }
-                }
-                catch (Exception ex)
+            toggle.IsEnabled = false;
+            try
+            {
+                var success = await _tweakService.ApplyTweakAsync(tweak, targetState);
+                if (!success)
                 {
                     MessageBox.Show(
-                        $"An error occurred while applying the tweak:\n\n{ex.Message}",
-                        "Error",
+                        $"Failed to apply tweak: {tweak.Name}\n\n" +
+                        "This may be due to insufficient permissions or system restrictions.",
+                        "Tweak Application Failed",
                         MessageBoxButton.OK,
                         MessageBoxImage.Error);
-
-
-                    // Revert the checkbox state
-                    checkBox.IsChecked = !targetState;
-                    tweak.IsEnabled = !targetState;
+                    RevertToggle(toggle, tweak, !targetState);
                 }
-                finally
+                else
                 {
-                    checkBox.IsEnabled = true;
+                    NotifyMainWindowBadgeUpdate();
+                    if (tweak.RequiresRestart && !_tweakService.RestartNoticeShownThisSession)
+                    {
+                        _tweakService.RestartNoticeShownThisSession = true;
+                        new RestartRequiredDialog("A system restart is required for the changes to take effect.")
+                        {
+                            Owner = Window.GetWindow(this)
+                        }.ShowDialog();
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"An error occurred while applying the tweak:\n\n{ex.Message}",
+                    "Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                RevertToggle(toggle, tweak, !targetState);
+            }
+            finally
+            {
+                toggle.IsEnabled = true;
+            }
+        }
+
+        private void RevertToggle(ToggleSwitch toggle, PerformanceTweak tweak, bool state)
+        {
+            _ignoreToggleEvent = true;
+            try
+            {
+                toggle.IsOn = state;
+                tweak.IsEnabled = state;
+            }
+            finally
+            {
+                _ignoreToggleEvent = false;
             }
         }
 
