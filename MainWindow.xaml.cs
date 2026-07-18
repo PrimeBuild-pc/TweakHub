@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using TweakHub.Services;
 using TweakHub.Views;
 
@@ -63,7 +64,14 @@ public partial class MainWindow : Window
 
     private void AboutButton_Click(object sender, RoutedEventArgs e) => NavigateToAbout();
 
-    private void AppearanceSettings_Click(object sender, System.Windows.Input.MouseButtonEventArgs e) => NavigateToAbout();
+    private void AppearanceSettings_Click(object sender, MouseButtonEventArgs e) => NavigateToAbout();
+
+    private void AppearanceSettings_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key is not (Key.Enter or Key.Space)) return;
+        e.Handled = true;
+        NavigateToAbout();
+    }
 
     private void ThemeService_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) =>
         AppearanceStatusText.Text = _themeService.StatusText;

@@ -34,10 +34,14 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="{DynamicResource SelectionForegroundBrush}"/>
                                 <Setter TargetName="Border" Property="Background" Value="{DynamicResource SystemControlBackgroundListLowBrush}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
                                 <Setter TargetName="Border" Property="Background" Value="{DynamicResource SystemControlBackgroundListMediumBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Border" Property="Opacity" Value="0.45"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -46,16 +50,20 @@
         </Style>
 
         <Style x:Key="ActiveSidebarButtonStyle" TargetType="Button" BasedOn="{StaticResource SidebarButtonStyle}">
+            <Setter Property="Foreground" Value="{DynamicResource SelectionForegroundBrush}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="Border" Background="{DynamicResource CardBrush}" CornerRadius="4">
+                        <Border x:Name="Border" Background="{DynamicResource SelectionBrush}" CornerRadius="4">
                             <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalAlignment="Center" Margin="{TemplateBinding Padding}"/>
                         </Border>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"/>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource CardPressedBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Border" Property="Opacity" Value="0.45"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -111,8 +119,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <StackPanel Grid.Column="0" Orientation="Horizontal">
-                                    <TextBlock Text="&#xE945;" FontFamily="Segoe Fluent Icons" FontSize="16" Margin="0,0,12,0"
-                                               Foreground="{DynamicResource IconBrush}"/>
+                                    <TextBlock Text="&#xE945;" FontFamily="Segoe Fluent Icons" FontSize="16" Margin="0,0,12,0"/>
                                     <TextBlock Text="Registry Tweaks"/>
                                 </StackPanel>
                                 <!-- Badge indicator -->
@@ -128,7 +135,7 @@
                                                Text="0" 
                                                FontSize="10" 
                                                FontWeight="Bold"
-                                               Foreground="White"
+                                               Foreground="{DynamicResource AccentForegroundBrush}"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"/>
                                 </Border>
@@ -138,8 +145,7 @@
                         <Button x:Name="ExternalToolsButton" Style="{StaticResource SidebarButtonStyle}"
                                 Click="ExternalToolsButton_Click">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="&#xE90F;" FontFamily="Segoe Fluent Icons" FontSize="16" Margin="0,0,12,0"
-                                           Foreground="{DynamicResource IconBrush}"/>
+                                <TextBlock Text="&#xE90F;" FontFamily="Segoe Fluent Icons" FontSize="16" Margin="0,0,12,0"/>
                                 <TextBlock Text="External Tools"/>
                             </StackPanel>
                         </Button>
@@ -147,8 +153,7 @@
                         <Button x:Name="AutomatedScriptsButton" Style="{StaticResource SidebarButtonStyle}"
                                 Click="AutomatedScriptsButton_Click">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="&#xE756;" FontFamily="Segoe Fluent Icons" FontSize="16" Margin="0,0,12,0"
-                                           Foreground="{DynamicResource IconBrush}"/>
+                                <TextBlock Text="&#xE756;" FontFamily="Segoe Fluent Icons" FontSize="16" Margin="0,0,12,0"/>
                                 <TextBlock Text="Automated Scripts"/>
                             </StackPanel>
                         </Button>
@@ -156,8 +161,7 @@
                         <Button x:Name="QuickAccessButton" Style="{StaticResource SidebarButtonStyle}"
                                 Click="QuickAccessButton_Click">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="&#xE8F1;" FontFamily="Segoe Fluent Icons" FontSize="16" Margin="0,0,12,0"
-                                           Foreground="{DynamicResource IconBrush}"/>
+                                <TextBlock Text="&#xE8F1;" FontFamily="Segoe Fluent Icons" FontSize="16" Margin="0,0,12,0"/>
                                 <TextBlock Text="Quick Access"/>
                             </StackPanel>
                         </Button>
@@ -165,8 +169,7 @@
                         <Button x:Name="AboutButton" Style="{StaticResource SidebarButtonStyle}"
                                 Click="AboutButton_Click">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="&#xE946;" FontFamily="Segoe Fluent Icons" FontSize="16" Margin="0,0,12,0"
-                                           Foreground="{DynamicResource IconBrush}"/>
+                                <TextBlock Text="&#xE946;" FontFamily="Segoe Fluent Icons" FontSize="16" Margin="0,0,12,0"/>
                                 <TextBlock Text="About"/>
                             </StackPanel>
                         </Button>
@@ -174,11 +177,23 @@
                 </ScrollViewer>
 
                 <!-- Footer -->
-                <Border Grid.Row="2" Margin="20,12,20,20" Padding="12,10" CornerRadius="6"
-                        Background="{DynamicResource CardBrush}"
+                <Border Grid.Row="2" Margin="20,12,20,20" Padding="12,10" CornerRadius="8"
                         BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}" BorderThickness="1"
                         Cursor="Hand" ToolTip="Open appearance settings"
-                        MouseLeftButtonUp="AppearanceSettings_Click">
+                        AutomationProperties.Name="Appearance settings"
+                        Focusable="True" KeyboardNavigation.IsTabStop="True"
+                        FocusVisualStyle="{DynamicResource {x:Static SystemParameters.FocusVisualStyleKey}}"
+                        MouseLeftButtonUp="AppearanceSettings_Click" KeyDown="AppearanceSettings_KeyDown">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Background" Value="{DynamicResource CardBrush}"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="{DynamicResource CardHoverBrush}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="&#xE790;" FontFamily="Segoe Fluent Icons" FontSize="15" Margin="0,0,10,0"
                                    Foreground="{DynamicResource AccentBrush}"/>

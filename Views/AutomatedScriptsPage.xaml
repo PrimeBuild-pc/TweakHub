@@ -14,7 +14,7 @@
             <Setter Property="Background" Value="{DynamicResource CardBrush}"/>
             <Setter Property="BorderBrush" Value="{DynamicResource SystemControlBorderBaseLowBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="CornerRadius" Value="8"/>
             <Setter Property="Padding" Value="16,12"/>
             <Setter Property="Margin" Value="0,0,0,12"/>
         </Style>
@@ -52,7 +52,7 @@
                 </Button>
                 <Button x:Name="NewScriptButton" Style="{StaticResource ModernButtonStyle}" Click="NewScriptButton_Click" Padding="12,6">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="&#xE710;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0" Foreground="White"/>
+                        <TextBlock Text="&#xE710;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0" Foreground="{DynamicResource AccentForegroundBrush}"/>
                         <TextBlock Text="New Script" FontSize="12"/>
                     </StackPanel>
                 </Button>
@@ -89,10 +89,10 @@
 
                             <StackPanel Orientation="Horizontal" Margin="26,0,0,0">
                                 <Border Background="{DynamicResource SuccessBrush}" CornerRadius="8" Padding="5,2" Margin="0,0,6,0">
-                                    <TextBlock Text="Safe" FontSize="9" Foreground="White" FontWeight="Medium"/>
+                                    <TextBlock Text="Safe" FontSize="9" Foreground="{DynamicResource SuccessForegroundBrush}" FontWeight="Medium"/>
                                 </Border>
-                                <Border Background="{DynamicResource AccentBrush}" CornerRadius="10" Padding="6,2">
-                                    <TextBlock Text="Package Manager" FontSize="10" Foreground="White" FontWeight="Medium"/>
+                                <Border Background="{DynamicResource AccentBrush}" CornerRadius="8" Padding="6,2">
+                                    <TextBlock Text="Package Manager" FontSize="10" Foreground="{DynamicResource AccentForegroundBrush}" FontWeight="Medium"/>
                                 </Border>
                             </StackPanel>
                         </StackPanel>
@@ -106,7 +106,7 @@
                             </Button>
                             <Button Style="{StaticResource ExecuteButtonStyle}" Click="WinGetInstallation_Click">
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="&#xE768;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0" Foreground="White"/>
+                                    <TextBlock Text="&#xE768;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0" Foreground="{DynamicResource AccentForegroundBrush}"/>
                                     <TextBlock Text="Execute" FontSize="12"/>
                                 </StackPanel>
                             </Button>
@@ -168,10 +168,10 @@
 
                             <StackPanel Orientation="Horizontal" Margin="26,0,0,0">
                                 <Border Background="{DynamicResource SuccessBrush}" CornerRadius="8" Padding="5,2" Margin="0,0,6,0">
-                                    <TextBlock Text="Safe" FontSize="9" Foreground="White" FontWeight="Medium"/>
+                                    <TextBlock Text="Safe" FontSize="9" Foreground="{DynamicResource SuccessForegroundBrush}" FontWeight="Medium"/>
                                 </Border>
-                                <Border Background="{DynamicResource AccentBrush}" CornerRadius="10" Padding="6,2">
-                                    <TextBlock Text="Repair" FontSize="10" Foreground="White" FontWeight="Medium"/>
+                                <Border Background="{DynamicResource AccentBrush}" CornerRadius="8" Padding="6,2">
+                                    <TextBlock Text="Repair" FontSize="10" Foreground="{DynamicResource AccentForegroundBrush}" FontWeight="Medium"/>
                                 </Border>
                             </StackPanel>
                         </StackPanel>
@@ -185,7 +185,7 @@
                             </Button>
                             <Button Style="{StaticResource ExecuteButtonStyle}" Click="DismSfcRepair_Click">
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="&#xE768;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0" Foreground="White"/>
+                                    <TextBlock Text="&#xE768;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0" Foreground="{DynamicResource AccentForegroundBrush}"/>
                                     <TextBlock Text="Run Repair" FontSize="12"/>
                                 </StackPanel>
                             </Button>

@@ -79,7 +79,7 @@ public partial class App : Application
 
         var darkMode = ThemeService.Instance.IsDark ? 1 : 0;
         var roundedCorners = 2;
-        var backdrop = !ThemeService.Instance.TransparencyEnabled ? 1 : window is MainWindow ? 2 : 3;
+        var backdrop = !ThemeService.Instance.TransparencyEnabled || SystemParameters.HighContrast ? 1 : window is MainWindow ? 2 : 3;
         DwmSetWindowAttribute(handle, 20, ref darkMode, sizeof(int));
         DwmSetWindowAttribute(handle, 33, ref roundedCorners, sizeof(int));
         DwmSetWindowAttribute(handle, 38, ref backdrop, sizeof(int));

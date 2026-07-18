@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Automation;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using TweakHub.Models;
 using TweakHub.Services;
@@ -24,6 +26,7 @@ namespace TweakHub.Views
 
             Loaded += ExternalToolsPage_Loaded;
             Unloaded += ExternalToolsPage_Unloaded;
+            SizeChanged += (_, _) => UpdateGridColumns();
         }
 
         private void ExternalToolsPage_Unloaded(object sender, RoutedEventArgs e)
@@ -66,7 +69,7 @@ namespace TweakHub.Views
                     Margin = new Thickness(0, 0, 0, 16),
                     Style = (Style)FindResource("CategoryExpanderStyle")
                 };
-                var favGrid = new System.Windows.Controls.Primitives.UniformGrid { Columns = 3, Margin = new Thickness(0, 16, 0, 0) };
+                var favGrid = new System.Windows.Controls.Primitives.UniformGrid { Columns = GetToolColumnCount(), Margin = new Thickness(0, 16, 0, 0) };
                 foreach (var tool in favorites)
                 {
                     favGrid.Children.Add(CreateToolCard(tool));
@@ -104,7 +107,7 @@ namespace TweakHub.Views
 
                 var toolsGrid = new System.Windows.Controls.Primitives.UniformGrid
                 {
-                    Columns = 3,
+                    Columns = GetToolColumnCount(),
                     Margin = new Thickness(0, 16, 0, 0)
                 };
 
@@ -117,6 +120,16 @@ namespace TweakHub.Views
                 categoryExpander.Content = toolsGrid;
                 this.ToolsContainer.Children.Add(categoryExpander);
             }
+        }
+
+        private int GetToolColumnCount() => ActualWidth >= 1000 ? 3 : ActualWidth >= 650 ? 2 : 1;
+
+        private void UpdateGridColumns()
+        {
+            var columns = GetToolColumnCount();
+            foreach (var expander in ToolsContainer.Children.OfType<Expander>())
+                if (expander.Content is System.Windows.Controls.Primitives.UniformGrid grid)
+                    grid.Columns = columns;
         }
 
         private static int GetCategoryOrder(string category) => category switch
@@ -233,15 +246,15 @@ namespace TweakHub.Views
             {
                 Style = (Style)FindResource("ToolCardStyle"),
                 Tag = tool,
-                Cursor = System.Windows.Input.Cursors.Hand
+                ToolTip = GetActionText(tool),
+                Cursor = Cursors.Hand
             };
+            AutomationProperties.SetName(card, $"{tool.Name}. {GetActionText(tool)}");
 
-            card.MouseLeftButtonUp += async (s, e) =>
+            async Task RunAction()
             {
-                // Disable the card during action
                 card.IsEnabled = false;
                 card.Opacity = 0.7;
-
                 try
                 {
                     await _downloadService.DownloadOrOpenTool(tool);
@@ -251,6 +264,14 @@ namespace TweakHub.Views
                     card.IsEnabled = true;
                     card.Opacity = 1.0;
                 }
+            }
+
+            card.MouseLeftButtonUp += async (_, _) => await RunAction();
+            card.KeyDown += async (_, e) =>
+            {
+                if (e.Key is not (Key.Enter or Key.Space)) return;
+                e.Handled = true;
+                await RunAction();
             };
 
             var stackPanel = new StackPanel();
@@ -296,12 +317,14 @@ namespace TweakHub.Views
                 ToolTip = tool.IsFavorite ? "Unfavorite" : "Favorite",
                 Cursor = System.Windows.Input.Cursors.Hand
             };
+            AutomationProperties.SetName(favBtn, tool.IsFavorite ? "Remove from favorites" : "Add to favorites");
             favBtn.Click += (s, e) =>
             {
                 e.Handled = true; // Don't trigger card click
                 tool.IsFavorite = !tool.IsFavorite;
                 ((TextBlock)favBtn.Content).Text = tool.IsFavorite ? "★" : "☆";
                 favBtn.ToolTip = tool.IsFavorite ? "Unfavorite" : "Favorite";
+                AutomationProperties.SetName(favBtn, tool.IsFavorite ? "Remove from favorites" : "Add to favorites");
                 PersistFavorites();
                 LoadExternalTools();
             };
@@ -364,6 +387,7 @@ namespace TweakHub.Views
                     BorderThickness = new Thickness(0),
                     Cursor = System.Windows.Input.Cursors.Hand
                 };
+                AutomationProperties.SetName(editButton, $"Edit {tool.Name}");
                 editButton.Click += (_, e) =>
                 {
                     e.Handled = true;
@@ -379,6 +403,7 @@ namespace TweakHub.Views
                     BorderThickness = new Thickness(0),
                     Cursor = System.Windows.Input.Cursors.Hand
                 };
+                AutomationProperties.SetName(deleteButton, $"Delete {tool.Name}");
                 deleteButton.Click += (_, e) =>
                 {
                     e.Handled = true;
@@ -405,6 +430,7 @@ namespace TweakHub.Views
                     Cursor = System.Windows.Input.Cursors.Hand
                 };
 
+                AutomationProperties.SetName(uninstallBtn, $"Uninstall {tool.Name}");
                 uninstallBtn.Click += async (s, e) =>
                 {
                     e.Handled = true;

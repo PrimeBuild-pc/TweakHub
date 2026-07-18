@@ -35,7 +35,7 @@
             
             <!-- Progress Bar -->
             <ProgressBar x:Name="ProgressBar" Grid.Row="1"
-                         Height="8"
+                         Height="4"
                          Margin="0,0,0,12"
                          Background="{DynamicResource SystemControlBackgroundBaseLowBrush}"
                          Foreground="{DynamicResource AccentBrush}"
@@ -47,6 +47,8 @@
                        Text="Please wait..."
                        FontSize="12"
                        HorizontalAlignment="Center"
+                       TextAlignment="Center"
+                       TextWrapping="Wrap"
                        Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
         </Grid>
     </Border>

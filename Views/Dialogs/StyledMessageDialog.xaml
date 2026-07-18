@@ -38,8 +38,7 @@
                        Grid.Row="1"
                        Text="Message"
                        TextWrapping="Wrap"
-                       FontSize="14.5"
-                       Opacity="0.95"
+                       FontSize="14"
                        Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"
                        Margin="0,0,0,20"/>
 
@@ -65,7 +64,7 @@
                         Click="PrimaryButton_Click">
                     <TextBlock x:Name="PrimaryButtonText"
                                Text="OK"
-                               Foreground="White"
+                               Foreground="{DynamicResource AccentForegroundBrush}"
                                FontWeight="SemiBold"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"/>

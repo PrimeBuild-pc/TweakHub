@@ -115,8 +115,12 @@ namespace TweakHub.Views
             header.Children.Add(new TextBlock { Text = "\uE8B7", FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons"), FontSize = 16, Margin = new Thickness(0,0,8,0) });
             header.Children.Add(new TextBlock { Text = t.Name, FontSize = 16, FontWeight = FontWeights.Medium });
             info.Children.Add(header);
-            info.Children.Add(new TextBlock { Text = $"{t.RegistryPath}\\{t.RegistryKey}", Margin = new Thickness(16,0,0,0), Opacity = 0.8 });
-            info.Children.Add(new TextBlock { Text = $"{t.ValueType}: {t.Data}", Margin = new Thickness(16,2,0,0), Opacity = 0.8 });
+            var pathText = new TextBlock { Text = $"{t.RegistryPath}\\{t.RegistryKey}", Margin = new Thickness(16,0,0,0) };
+            var valueText = new TextBlock { Text = $"{t.ValueType}: {t.Data}", Margin = new Thickness(16,2,0,0) };
+            pathText.SetResourceReference(TextBlock.ForegroundProperty, "SystemControlForegroundBaseMediumBrush");
+            valueText.SetResourceReference(TextBlock.ForegroundProperty, "SystemControlForegroundBaseMediumBrush");
+            info.Children.Add(pathText);
+            info.Children.Add(valueText);
             Grid.SetColumn(info,0); grid.Children.Add(info);
 
             var actions = new StackPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center };
@@ -228,8 +232,6 @@ namespace TweakHub.Views
 
         private void OpenCustomTweakDialog(CustomRegistryTweak? existing = null)
         {
-            var isDark = Services.ThemeService.Instance.IsDark;
-
             var dialog = new Window
             {
                 Title = existing == null ? "Add Custom Registry Tweak" : "Edit Custom Registry Tweak",
@@ -237,7 +239,7 @@ namespace TweakHub.Views
                 Height = 480,
                 Owner = Window.GetWindow(this),
                 WindowStartupLocation = WindowStartupLocation.CenterOwner,
-                Background = isDark ? new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(30,30,30)) : (System.Windows.Media.Brush)Application.Current.FindResource("SystemControlBackgroundBaseLowBrush"),
+                Background = (System.Windows.Media.Brush)Application.Current.FindResource("WindowBackgroundBrush"),
                 ResizeMode = ResizeMode.NoResize
             };
             dialog.KeyDown += (_, ke) => { if (ke.Key == System.Windows.Input.Key.Escape) dialog.Close(); };
@@ -245,7 +247,7 @@ namespace TweakHub.Views
             var grid = new Grid { Margin = new Thickness(16) };
             for (int n=0; n<12; n++) grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
 
-            var title = new TextBlock { Text = existing == null ? "Create Custom Tweak" : "Edit Custom Tweak", FontSize = 16, FontWeight = FontWeights.SemiBold, Margin = new Thickness(0,0,0,12), Foreground = isDark ? System.Windows.Media.Brushes.White : (System.Windows.Media.Brush)Application.Current.FindResource("SystemControlForegroundBaseHighBrush") };
+            var title = new TextBlock { Text = existing == null ? "Create Custom Tweak" : "Edit Custom Tweak", FontSize = 20, FontWeight = FontWeights.SemiBold, Margin = new Thickness(0,0,0,16), Foreground = (System.Windows.Media.Brush)Application.Current.FindResource("SystemControlForegroundBaseHighBrush") };
             grid.Children.Add(title);
 
             var nameLbl = new TextBlock { Text = "Name", Margin = new Thickness(0,0,0,4) }; Grid.SetRow(nameLbl,1); grid.Children.Add(nameLbl);
@@ -279,7 +281,7 @@ namespace TweakHub.Views
             Grid.SetRow(dataBox,10); grid.Children.Add(dataBox);
 
             var buttons = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0,8,0,0) };
-            var cancel = new Button { Content = "Cancel", Style = GetStyleOrDefault("ModernButtonStyle"), Margin = new Thickness(0,0,8,0), MinWidth = 96, HorizontalContentAlignment = HorizontalAlignment.Center, VerticalContentAlignment = VerticalAlignment.Center };
+            var cancel = new Button { Content = "Cancel", Style = GetStyleOrDefault("SecondaryButtonStyle"), Margin = new Thickness(0,0,8,0), MinWidth = 96, HorizontalContentAlignment = HorizontalAlignment.Center, VerticalContentAlignment = VerticalAlignment.Center };
             var create = new Button { Content = existing == null ? "Create" : "Save", Style = GetStyleOrDefault("ExecuteButtonStyle"), MinWidth = 100, HorizontalContentAlignment = HorizontalAlignment.Center, VerticalContentAlignment = VerticalAlignment.Center };
             buttons.Children.Add(cancel); buttons.Children.Add(create);
             Grid.SetRow(buttons,11); grid.Children.Add(buttons);

@@ -84,16 +84,16 @@ namespace TweakHub.Views
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 
             var infoPanel = new StackPanel { Margin = new Thickness(0,0,0,0) };
-            var header = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0,0,0,12) };
-            header.Children.Add(new TextBlock { Text = script.Language == ScriptLanguage.PowerShell ? "\uE8B7" : "\uE8A5", FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons"), FontSize = 22, Margin = new Thickness(0,0,12,0), Foreground = (System.Windows.Media.Brush)FindResource("IconBrush") });
-            header.Children.Add(new TextBlock { Text = script.Name, FontSize = 18, FontWeight = FontWeights.SemiBold, Foreground = (System.Windows.Media.Brush)FindResource("SystemControlForegroundBaseHighBrush") });
+            var header = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0,0,0,8) };
+            header.Children.Add(new TextBlock { Text = script.Language == ScriptLanguage.PowerShell ? "\uE8B7" : "\uE8A5", FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons"), FontSize = 18, Margin = new Thickness(0,0,8,0), Foreground = (System.Windows.Media.Brush)FindResource("IconBrush") });
+            header.Children.Add(new TextBlock { Text = script.Name, FontSize = 14, FontWeight = FontWeights.SemiBold, Foreground = (System.Windows.Media.Brush)FindResource("SystemControlForegroundBaseHighBrush") });
             infoPanel.Children.Add(header);
-            infoPanel.Children.Add(new TextBlock { Text = $"{(script.Language == ScriptLanguage.PowerShell ? "PowerShell" : "CMD")} • {(script.RequiresAdministrator ? "Administrator" : "Current user")}", Style = (Style)FindResource("DescriptionTextStyle"), Margin = new Thickness(36,0,0,12) });
+            infoPanel.Children.Add(new TextBlock { Text = $"{(script.Language == ScriptLanguage.PowerShell ? "PowerShell" : "CMD")} • {(script.RequiresAdministrator ? "Administrator" : "Current user")}", Style = (Style)FindResource("DescriptionTextStyle"), Margin = new Thickness(26,0,0,8) });
             Grid.SetRow(infoPanel,0); Grid.SetColumn(infoPanel,0); grid.Children.Add(infoPanel);
 
             var actionsPanel = new StackPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center };
             var execBtn = new Button { Style = GetStyleOrDefault("ExecuteButtonStyle"), Margin = new Thickness(0,0,8,0) };
-            execBtn.Content = new StackPanel { Orientation = Orientation.Horizontal, Children = { new TextBlock { Text = "\uE768", FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons"), FontSize = 13, Margin = new Thickness(0,0,8,0), Foreground = Brushes.White }, new TextBlock { Text = script.Language == ScriptLanguage.PowerShell ? "Run" : "Execute" } } };
+            execBtn.Content = new StackPanel { Orientation = Orientation.Horizontal, Children = { new TextBlock { Text = "\uE768", FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons"), FontSize = 13, Margin = new Thickness(0,0,8,0), Foreground = (Brush)FindResource("AccentForegroundBrush") }, new TextBlock { Text = script.Language == ScriptLanguage.PowerShell ? "Run" : "Execute" } } };
             var cancelBtn = new Button { Content = "Stop", Style = GetStyleOrDefault("DangerButtonStyle"), Margin = new Thickness(0,0,8,0), Visibility = Visibility.Collapsed };
             var exportBtn = new Button { Content = "Export", Style = GetStyleOrDefault("SecondaryButtonStyle"), Margin = new Thickness(0,0,8,0) };
             var editBtn = new Button { Style = GetStyleOrDefault("SecondaryButtonStyle"), Margin = new Thickness(0,0,8,0) };
@@ -224,7 +224,7 @@ namespace TweakHub.Views
             grid.Children.Add(contentBox);
 
             var buttonsPanel = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right };
-            var cancelBtn = new Button { Content = "Cancel", Style = GetStyleOrDefault("ModernButtonStyle"), Margin = new Thickness(0, 0, 8, 0) };
+            var cancelBtn = new Button { Content = "Cancel", Style = GetStyleOrDefault("SecondaryButtonStyle"), Margin = new Thickness(0, 0, 8, 0) };
             var saveBtn = new Button { Content = isNew ? "Create" : "Save", Style = GetStyleOrDefault("ExecuteButtonStyle") };
             buttonsPanel.Children.Add(cancelBtn);
             buttonsPanel.Children.Add(saveBtn);

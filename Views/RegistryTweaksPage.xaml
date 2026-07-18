@@ -42,7 +42,6 @@
                                 <TextBlock Text="Sections:"
                                            FontSize="12"
                                            Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"
-                                           Opacity="0.9"
                                            VerticalAlignment="Center"
                                            Margin="0,0,14,0"/>
                                 <TabPanel x:Name="HeaderPanel"
@@ -89,14 +88,14 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource SelectionForegroundBrush}"/>
                                 <Setter TargetName="Root" Property="Background" Value="{DynamicResource SystemControlBackgroundListLowBrush}"/>
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource SelectionForegroundBrush}"/>
                                 <Setter Property="FontWeight" Value="SemiBold"/>
                                 <Setter Property="Panel.ZIndex" Value="3"/>
-                                <Setter TargetName="Root" Property="Background" Value="{DynamicResource CardBrush}"/>
+                                <Setter TargetName="Root" Property="Background" Value="{DynamicResource SelectionBrush}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -131,13 +130,12 @@
 
             <StackPanel>
                 <TextBlock Text="Registry Tweaks"
-                           FontSize="32" FontWeight="Light"
+                           FontSize="28" FontWeight="Light"
                            Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"
-                           Margin="0,0,0,10"/>
+                           Margin="0,0,0,6"/>
                 <TextBlock Text="Optimize Windows performance through registry modifications. Changes are automatically backed up."
-                           FontSize="14"
-                           Opacity="0.7"
-                           LineHeight="20"
+                           FontSize="12"
+                           LineHeight="18"
                            Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
                            TextWrapping="Wrap"/>
             </StackPanel>
@@ -146,7 +144,6 @@
                        Text="{Binding LastBackupStatusText}"
                        FontSize="11"
                        Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
-                       Opacity="0.9"
                        VerticalAlignment="Top"
                        Margin="0,6,0,0"/>
         </Grid>
@@ -184,7 +181,7 @@
             <Button x:Name="ApplyAllButton" Style="{StaticResource PrimaryActionButtonStyle}"
                     Click="ApplyAllButton_Click" Margin="0,0,12,0">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="&#xE73E;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0" Foreground="White"/>
+                    <TextBlock Text="&#xE73E;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0" Foreground="{DynamicResource AccentForegroundBrush}"/>
                     <TextBlock Text="Apply Recommended" FontSize="11"/>
                 </StackPanel>
             </Button>
@@ -193,7 +190,7 @@
             <Button x:Name="RestoreAllButton" Style="{StaticResource DangerButtonStyle}"
                     Click="RestoreAllButton_Click" IsEnabled="False">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="↩️" FontSize="11" Margin="0,0,6,0" Foreground="White"/>
+                    <TextBlock Text="&#xE7A7;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0" Foreground="{DynamicResource DangerForegroundBrush}"/>
                     <TextBlock Text="Restore All Changes" FontSize="11"/>
                 </StackPanel>
             </Button>
@@ -217,8 +214,8 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Margin="0,0,0,32">
-                                    <Border Margin="0,0,0,12" 
-                                            CornerRadius="10" 
+                                    <Border Margin="0,0,0,12"
+                                            CornerRadius="8"
                                             Padding="16,12"
                                             BorderThickness="1">
                                         <Border.Background>
@@ -232,7 +229,7 @@
                                                 <TextBlock Text="{Binding Icon}" FontFamily="Segoe Fluent Icons" FontSize="20" Margin="0,0,12,0" Foreground="{DynamicResource IconBrush}"/>
                                                 <TextBlock Text="{Binding Name}" FontSize="16" FontWeight="SemiBold" Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
                                             </StackPanel>
-                                            <TextBlock Text="{Binding Description}" FontSize="11" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" Opacity="0.7" TextWrapping="Wrap"/>
+                                            <TextBlock Text="{Binding Description}" FontSize="11" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" TextWrapping="Wrap"/>
                                         </StackPanel>
                                     </Border>
                                     <ItemsControl ItemsSource="{Binding Tweaks}">
@@ -252,7 +249,6 @@
                                                                 <TextBlock Text="{Binding Description}"
                                                                            FontSize="12"
                                                                            Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
-                                                                           Opacity="0.7"
                                                                            Margin="0,4,0,0"
                                                                            TextWrapping="Wrap"/>
                                                             </StackPanel>
@@ -274,6 +270,7 @@
                                                                 <Button Style="{StaticResource PreviewIconButtonStyle}"
                                                                         IsEnabled="{Binding IsAvailable}"
                                                                         Click="ViewTweak_Click"
+                                                                        AutomationProperties.Name="Preview registry changes"
                                                                         VerticalAlignment="Center"
                                                                         Tag="{Binding}"
                                                                         ToolTip="Preview registry changes">
@@ -283,11 +280,11 @@
                                                         </Grid>
                                                         
                                                         <!-- Preview content (keep below) -->
-                                                        <Border Visibility="{Binding IsPreviewVisible, Converter={StaticResource BoolToVis}}" 
-                                                                Margin="0,12,0,0" 
-                                                                CornerRadius="8" 
-                                                                BorderThickness="1" 
-                                                                BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}" 
+                                                        <Border Visibility="{Binding IsPreviewVisible, Converter={StaticResource BoolToVis}}"
+                                                                Margin="0,12,0,0"
+                                                                CornerRadius="8"
+                                                                BorderThickness="1"
+                                                                BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}"
                                                                 Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
                                                             <TextBlock Text="{Binding PreviewContent}" 
                                                                        FontFamily="Consolas" 
@@ -328,7 +325,7 @@
                                 </StackPanel>
                                 <Button Grid.Column="1" Style="{StaticResource ModernButtonStyle}" Click="AddCustomTweak_Click" MinWidth="140" Padding="16,8">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="&#xE710;" FontFamily="Segoe Fluent Icons" FontSize="13" Margin="0,0,8,0" Foreground="White"/>
+                                        <TextBlock Text="&#xE710;" FontFamily="Segoe Fluent Icons" FontSize="13" Margin="0,0,8,0" Foreground="{DynamicResource AccentForegroundBrush}"/>
                                         <TextBlock Text="New Tweak"/>
                                     </StackPanel>
                                 </Button>
