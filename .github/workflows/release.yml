@@ -102,9 +102,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # v1.0.1 bootstraps the package manually; later releases can update it automatically.
+      # Enable the WINGET_PUBLISHED repository variable after the initial package PR is approved.
       - name: Publish to WinGet
-        if: steps.tag.outputs.tag != 'v1.0.1'
+        if: vars.WINGET_PUBLISHED == 'true'
         uses: vedantmgoyal9/winget-releaser@4ffc7888bffd451b357355dc214d43bb9f23917e # v2
         with:
           identifier: PrimeBuild.TweakHub
