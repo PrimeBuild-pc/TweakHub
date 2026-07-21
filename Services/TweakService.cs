@@ -46,6 +46,8 @@ namespace TweakHub.Services
             LoadNetworkLatencyReductionTweaks();
             LoadGamingPerformanceTweaks();
             LoadSystemResponsivenessTweaks();
+            LoadMemoryManagementTweaks();
+            LoadPrivacyTweaks();
             LoadAdvancedTweaks();
             LoadWindowsUpdateTweaks();
             LoadVisualEffectsPerformanceTweaks();
@@ -223,6 +225,120 @@ namespace TweakHub.Services
             TweakCategories.Add(category);
         }
 
+        private void LoadMemoryManagementTweaks()
+        {
+            var category = new TweakCategory
+            {
+                Name = "Memory Management",
+                Description = "Windows normally uses spare RAM as cache and releases it immediately when applications need it. Leave SysMain and Prefetch enabled unless measurements identify them as the cause of a problem.",
+                Icon = "\uE950"
+            };
+
+            category.Tweaks.Add(new PerformanceTweak
+            {
+                Id = "disable_sysmain",
+                Name = "Disable SysMain (Superfetch)",
+                Description = "Stops and disables SysMain. Usually leave this on; consider disabling it only for documented slowdowns, especially while diagnosing a low-memory system or a mechanical system drive.",
+                Type = TweakType.Registry,
+                RegistryPath = @"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SysMain",
+                RegistryKey = "Start",
+                EnabledValue = 4,
+                RiskLevel = 3,
+                RequiresRestart = true
+            });
+
+            category.Tweaks.Add(new PerformanceTweak
+            {
+                Id = "disable_prefetch",
+                Name = "Disable Prefetch",
+                Description = "Disables application and boot prefetching. Usually leave this on; disable it only after documenting a Prefetch-related problem. It can make applications and games open more slowly.",
+                Type = TweakType.Registry,
+                RegistryPath = @"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters",
+                RegistryKey = "EnablePrefetcher",
+                EnabledValue = 0,
+                RiskLevel = 3,
+                RequiresRestart = true
+            });
+
+            TweakCategories.Add(category);
+        }
+
+        private void LoadPrivacyTweaks()
+        {
+            var category = new TweakCategory
+            {
+                Name = "Privacy & Device Control",
+                Description = "Reversible privacy and device-installation policies. Review high-risk items before applying them.",
+                Icon = "\uE72E"
+            };
+
+            category.Tweaks.Add(new PerformanceTweak
+            {
+                Id = "disable_windows_ai_policies",
+                Name = "Disable Windows AI Policies",
+                Description = "Hides the Windows AI components settings page and disables Notepad AI features. Package removal is available separately under Automated Scripts.",
+                Type = TweakType.Registry,
+                RegistryPath = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer",
+                RegistryKey = "SettingsPageVisibility",
+                EnabledValue = "hide:aicomponents",
+                RiskLevel = 4,
+                RequiresRestart = true
+            });
+
+            category.Tweaks.Add(new PerformanceTweak
+            {
+                Id = "disable_wpbt",
+                Name = "Disable Windows Platform Binary Table (WPBT)",
+                Description = "Prevents firmware-provided WPBT software from running at boot. This can disable vendor security, recovery or management software.",
+                Type = TweakType.Registry,
+                RegistryPath = @"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager",
+                RegistryKey = "DisableWpbtExecution",
+                EnabledValue = 1,
+                RiskLevel = 4,
+                RequiresRestart = true
+            });
+
+            category.Tweaks.Add(new PerformanceTweak
+            {
+                Id = "prevent_device_metadata",
+                Name = "Prevent Device Companion Apps",
+                Description = "Prevents automatic download of applications and metadata associated with connected devices. This does not block every driver from Windows Update.",
+                Type = TweakType.Registry,
+                RegistryPath = @"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Device Metadata",
+                RegistryKey = "PreventDeviceMetadataFromNetwork",
+                EnabledValue = 1,
+                RiskLevel = 3
+            });
+
+            category.Tweaks.Add(new PerformanceTweak
+            {
+                Id = "disable_device_coinstallers",
+                Name = "Disable Automatic Driver Search and Co-installers",
+                Description = "Disables automatic driver searching and all device co-installers. The effect is system-wide and is not limited to Razer devices.",
+                Type = TweakType.Registry,
+                RegistryPath = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\DriverSearching",
+                RegistryKey = "SearchOrderConfig",
+                EnabledValue = 0,
+                RiskLevel = 5,
+                RequiresRestart = true
+            });
+
+            category.Tweaks.Add(new PerformanceTweak
+            {
+                Id = "disable_notifications_calendar",
+                Name = "Disable Notifications and Calendar",
+                Description = "Disables Notification Center, toast notifications and the associated calendar flyout for the current user.",
+                Type = TweakType.Registry,
+                RegistryPath = @"HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Explorer",
+                RegistryKey = "DisableNotificationCenter",
+                EnabledValue = 1,
+                RiskLevel = 3,
+                RequiresRestart = true
+            });
+
+            TweakCategories.Add(category);
+        }
+
         private void LoadAdvancedTweaks()
         {
             var category = new TweakCategory
@@ -294,6 +410,33 @@ namespace TweakHub.Services
             new(@"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate", "DeferFeatureUpdatesPeriodInDays", 90)
         ];
 
+        private static readonly RegistryValueChange[] WindowsAiPolicies =
+        [
+            new(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer", "SettingsPageVisibility", "hide:aicomponents", Microsoft.Win32.RegistryValueKind.String),
+            new(@"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\WindowsNotepad", "DisableAIFeatures", 1)
+        ];
+
+        private static readonly RegistryValueChange[] DeviceCoInstallerPolicies =
+        [
+            new(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\DriverSearching", "SearchOrderConfig", 0),
+            new(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Device Installer", "DisableCoInstallers", 1)
+        ];
+
+        private static readonly RegistryValueChange[] NotificationPolicies =
+        [
+            new(@"HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Explorer", "DisableNotificationCenter", 1),
+            new(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\PushNotifications", "ToastEnabled", 0)
+        ];
+
+        internal static IReadOnlyList<RegistryValueChange> GetCompositeRegistryChanges(string id) => id switch
+        {
+            "windows_update_security_preset" => SecurityUpdatePreset,
+            "disable_windows_ai_policies" => WindowsAiPolicies,
+            "disable_device_coinstallers" => DeviceCoInstallerPolicies,
+            "disable_notifications_calendar" => NotificationPolicies,
+            _ => []
+        };
+
         private void LoadVisualEffectsPerformanceTweaks()
         {
             var category = new TweakCategory
@@ -348,6 +491,7 @@ namespace TweakHub.Services
             if (result)
             {
                 tweak.IsEnabled = targetEnabled;
+                tweak.IsPartiallyApplied = false;
                 if (tweak.RequiresRestart)
                 {
                     tweak.IsRestartPending = true;
@@ -359,23 +503,67 @@ namespace TweakHub.Services
             return result;
         }
 
-        private static Task<bool> ApplyCoreAsync(PerformanceTweak tweak, bool enable) => tweak.Id switch
+        private static Task<bool> ApplyCoreAsync(PerformanceTweak tweak, bool enable)
         {
-            "disable_cpu_throttling" => enable
-                ? PowerService.Instance.ApplyProcessorSettingAsync(tweak.Id, "PROCTHROTTLEMIN", 100)
-                : PowerService.Instance.RestoreProcessorSettingAsync(tweak.Id),
-            "disable_core_parking" => enable
-                ? PowerService.Instance.ApplyProcessorSettingAsync(tweak.Id, "CPMINCORES", 100)
-                : PowerService.Instance.RestoreProcessorSettingAsync(tweak.Id),
-            "high_performance_power_plan" => enable
-                ? PowerService.Instance.ApplyHighPerformancePlanAsync()
-                : PowerService.Instance.RestorePowerPlanAsync(),
-            "disable_mouse_acceleration" => Task.Run(() => ApplyMouseAcceleration(enable)),
-            "windows_update_security_preset" => enable
-                ? RegistryService.Instance.ApplyValuesWithBackupAsync(SecurityUpdatePreset)
-                : RegistryService.Instance.RestoreValuesAsync(SecurityUpdatePreset),
-            _ => Task.Run(() => RegistryService.Instance.ApplyTweak(tweak, enable))
-        };
+            var changes = GetCompositeRegistryChanges(tweak.Id);
+            if (changes.Count > 0)
+                return enable
+                    ? RegistryService.Instance.ApplyValuesWithBackupAsync(changes)
+                    : RegistryService.Instance.RestoreValuesAsync(changes);
+
+            return tweak.Id switch
+            {
+                "disable_cpu_throttling" => enable
+                    ? PowerService.Instance.ApplyProcessorSettingAsync(tweak.Id, "PROCTHROTTLEMIN", 100)
+                    : PowerService.Instance.RestoreProcessorSettingAsync(tweak.Id),
+                "disable_core_parking" => enable
+                    ? PowerService.Instance.ApplyProcessorSettingAsync(tweak.Id, "CPMINCORES", 100)
+                    : PowerService.Instance.RestoreProcessorSettingAsync(tweak.Id),
+                "high_performance_power_plan" => enable
+                    ? PowerService.Instance.ApplyHighPerformancePlanAsync()
+                    : PowerService.Instance.RestorePowerPlanAsync(),
+                "disable_mouse_acceleration" => Task.Run(() => ApplyMouseAcceleration(enable)),
+                "disable_sysmain" => ApplyServiceTweakAsync(tweak, "SysMain", enable),
+                "disable_windows_search" => ApplyServiceTweakAsync(tweak, "WSearch", enable),
+                _ => Task.Run(() => RegistryService.Instance.ApplyTweak(tweak, enable))
+            };
+        }
+
+        private static async Task<bool> ApplyServiceTweakAsync(PerformanceTweak tweak, string serviceName, bool disable)
+        {
+            var registry = RegistryService.Instance;
+            if (disable)
+            {
+                registry.CreateBackup([tweak]);
+                var result = await PowerShellService.Instance.ExecuteScriptAsync($$"""
+                    $ErrorActionPreference = 'Stop'
+                    Set-Service -Name '{{serviceName}}' -StartupType Disabled
+                    Stop-Service -Name '{{serviceName}}' -Force -ErrorAction SilentlyContinue
+                    """, requireAdministrator: true, timeout: TimeSpan.FromMinutes(2));
+                var success = result.Success
+                    && Equals(registry.GetRegistryValue(tweak.RegistryPath, tweak.RegistryKey), 4)
+                    && await IsServiceStoppedAsync(serviceName);
+                if (!success) registry.RestoreRegistryValue(tweak.RegistryPath, tweak.RegistryKey);
+                return success;
+            }
+
+            if (!registry.RestoreRegistryValue(tweak.RegistryPath, tweak.RegistryKey)) return false;
+            var start = Convert.ToInt32(registry.GetRegistryValue(tweak.RegistryPath, tweak.RegistryKey) ?? 4);
+            if (start != 4)
+                await PowerShellService.Instance.ExecuteScriptAsync(
+                    $"Start-Service -Name '{serviceName}' -ErrorAction SilentlyContinue",
+                    requireAdministrator: true,
+                    timeout: TimeSpan.FromMinutes(2));
+            return true;
+        }
+
+        internal static async Task<bool> IsServiceStoppedAsync(string serviceName)
+        {
+            var result = await PowerShellService.Instance.ExecuteScriptAsync(
+                $"if ((Get-Service -Name '{serviceName}' -ErrorAction Stop).Status -ne 'Stopped') {{ exit 1 }}",
+                timeout: TimeSpan.FromSeconds(10));
+            return result.Success;
+        }
 
         private static bool ApplyMouseAcceleration(bool disable)
         {
@@ -419,21 +607,46 @@ namespace TweakHub.Services
             return (restored, failed);
         }
 
-        private static bool HasBackup(PerformanceTweak tweak) => tweak.Id switch
+        private static bool HasBackup(PerformanceTweak tweak)
         {
-            "disable_cpu_throttling" or "disable_core_parking" or "high_performance_power_plan" =>
-                PowerService.Instance.HasBackup(tweak.Id),
-            "disable_mouse_acceleration" => new[] { "MouseSpeed", "MouseThreshold1", "MouseThreshold2" }
-                .Any(name => RegistryService.Instance.HasBackup(@"HKEY_CURRENT_USER\Control Panel\Mouse", name)),
-            "windows_update_security_preset" => SecurityUpdatePreset.Any(change =>
-                RegistryService.Instance.HasBackup(change.KeyPath, change.ValueName)),
-            _ => RegistryService.Instance.HasBackup(tweak.RegistryPath, tweak.RegistryKey)
-        };
+            var changes = GetCompositeRegistryChanges(tweak.Id);
+            if (changes.Count > 0)
+                return changes.Any(change => RegistryService.Instance.HasBackup(change.KeyPath, change.ValueName));
+
+            return tweak.Id switch
+            {
+                "disable_cpu_throttling" or "disable_core_parking" or "high_performance_power_plan" =>
+                    PowerService.Instance.HasBackup(tweak.Id),
+                "disable_mouse_acceleration" => new[] { "MouseSpeed", "MouseThreshold1", "MouseThreshold2" }
+                    .Any(name => RegistryService.Instance.HasBackup(@"HKEY_CURRENT_USER\Control Panel\Mouse", name)),
+                _ => RegistryService.Instance.HasBackup(tweak.RegistryPath, tweak.RegistryKey)
+            };
+        }
 
         public async Task RefreshTweakStatesAsync()
         {
             foreach (var tweak in TweakCategories.SelectMany(category => category.Tweaks))
             {
+                var changes = GetCompositeRegistryChanges(tweak.Id);
+                if (changes.Count > 0)
+                {
+                    var matches = changes.Count(change =>
+                        Equals(RegistryService.Instance.GetRegistryValue(change.KeyPath, change.ValueName), change.Value));
+                    tweak.IsEnabled = matches == changes.Count;
+                    tweak.IsPartiallyApplied = matches > 0 && matches < changes.Count;
+                    continue;
+                }
+
+                if (tweak.Id == "disable_mouse_acceleration")
+                {
+                    var matches = new[] { "MouseSpeed", "MouseThreshold1", "MouseThreshold2" }
+                        .Count(name => Equals(RegistryService.Instance.GetRegistryValue(@"HKEY_CURRENT_USER\Control Panel\Mouse", name), "0"));
+                    tweak.IsEnabled = matches == 3;
+                    tweak.IsPartiallyApplied = matches is > 0 and < 3;
+                    continue;
+                }
+
+                tweak.IsPartiallyApplied = false;
                 tweak.IsEnabled = tweak.Id switch
                 {
                     "disable_cpu_throttling" => await PowerService.Instance
@@ -441,10 +654,8 @@ namespace TweakHub.Services
                     "disable_core_parking" => await PowerService.Instance
                         .IsProcessorSettingActiveAsync("CPMINCORES", 100),
                     "high_performance_power_plan" => await PowerService.Instance.IsHighPerformancePlanActiveAsync(),
-                    "disable_mouse_acceleration" => new[] { "MouseSpeed", "MouseThreshold1", "MouseThreshold2" }
-                        .All(name => Equals(RegistryService.Instance.GetRegistryValue(@"HKEY_CURRENT_USER\Control Panel\Mouse", name), "0")),
-                    "windows_update_security_preset" => SecurityUpdatePreset.All(change =>
-                        Equals(RegistryService.Instance.GetRegistryValue(change.KeyPath, change.ValueName), change.Value)),
+                    "disable_sysmain" => RegistryService.Instance.CheckTweakStatus(tweak) && await IsServiceStoppedAsync("SysMain"),
+                    "disable_windows_search" => RegistryService.Instance.CheckTweakStatus(tweak) && await IsServiceStoppedAsync("WSearch"),
                     _ => RegistryService.Instance.CheckTweakStatus(tweak)
                 };
             }

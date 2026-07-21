@@ -36,8 +36,8 @@ It runs as the current user and requests administrator privileges only when an o
 |---|---|
 | **Registry & power** | Curated Windows 11 tweaks, automatic backups, verification and rollback |
 | **Portable profiles** | Custom tools, scripts, tweaks, favorites and appearance stored beside the app |
-| **Automation** | PowerShell and CMD scripts with preview, elevation, timeout and cancellation |
-| **Repair** | Verified DISM and SFC repair workflow with saved output |
+| **Automation** | Built-in maintenance commands plus portable PowerShell and CMD scripts with preview, elevation, timeout and cancellation |
+| **Repair** | DISM, SFC and online CHKDSK repair workflow plus policy, update, network and memory diagnostics with portable logs |
 | **Toolbox** | Categorized Winget packages, trusted HTTPS links and user-created tool cards |
 | **Quick access** | Common Windows administration consoles and control panels in one place |
 | **Appearance** | System, light or dark theme with accent and transparency controls |
@@ -101,13 +101,22 @@ Portable builds keep their state in `Data` beside the application files:
 | `custom-tweaks.json` | User-created Registry entries |
 | `custom-tools.json` | User-created external-tool cards |
 | `favorites.json` | Favorite external tools |
+| `favorite-tweaks.json` | Favorite built-in and custom Registry tweaks |
 | `appearance.json` | Theme, accent and transparency preferences |
 | `pending-restarts.json` | Tweaks waiting for a Windows restart |
 
-Use **About & Settings → Portable configuration** to export or import the complete user profile as a `.tweakhub.json` file. Machine-specific rollback backups are intentionally excluded from profiles.
+Use **About & Settings → Portable configuration** to export or import the complete user profile as a `.tweakhub.json` file. Machine-specific rollback backups are intentionally excluded from profiles. Script and repair output is written to `Data/Logs` in portable builds. Successful built-in script runs are tracked per Windows user in `%LocalAppData%\TweakHub\machine-script-history.json`; this history never travels with the portable profile.
 
 > [!CAUTION]
 > Do not delete backup files before restoring outstanding changes. When moving TweakHub, copy the complete portable folder—not only `TweakHub.exe`.
+
+## Memory and privacy tools
+
+SysMain and Prefetch should normally remain enabled. Disable them only after measurements identify them as the source of a real problem; doing so can make applications and games load more slowly.
+
+**Empty Standby List** requires Microsoft Sysinternals RAMMap from External Tools. Windows uses otherwise free RAM as cache and releases it immediately when applications need it. Emptying cached RAM routinely does not improve FPS or general performance and should not be scheduled.
+
+The device-metadata and Windows Update driver policies affect different content: preventing device companion apps does not block every driver, while the driver exclusion policy omits packages Windows Update classifies as drivers. High-risk AI removal and third-party hosts-list scripts always require explicit confirmation.
 
 ## Build from source
 

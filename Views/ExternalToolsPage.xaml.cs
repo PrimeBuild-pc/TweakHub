@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using TweakHub.Models;
 using TweakHub.Services;
+using TweakHub.Views.Dialogs;
 
 namespace TweakHub.Views
 {
@@ -318,14 +319,14 @@ namespace TweakHub.Views
                 Cursor = System.Windows.Input.Cursors.Hand
             };
             AutomationProperties.SetName(favBtn, tool.IsFavorite ? "Remove from favorites" : "Add to favorites");
-            favBtn.Click += (s, e) =>
+            favBtn.Click += async (s, e) =>
             {
                 e.Handled = true; // Don't trigger card click
                 tool.IsFavorite = !tool.IsFavorite;
                 ((TextBlock)favBtn.Content).Text = tool.IsFavorite ? "★" : "☆";
                 favBtn.ToolTip = tool.IsFavorite ? "Unfavorite" : "Favorite";
                 AutomationProperties.SetName(favBtn, tool.IsFavorite ? "Remove from favorites" : "Add to favorites");
-                PersistFavorites();
+                await PersistFavoritesAsync();
                 LoadExternalTools();
             };
 
@@ -404,12 +405,12 @@ namespace TweakHub.Views
                     Cursor = System.Windows.Input.Cursors.Hand
                 };
                 AutomationProperties.SetName(deleteButton, $"Delete {tool.Name}");
-                deleteButton.Click += (_, e) =>
+                deleteButton.Click += async (_, e) =>
                 {
                     e.Handled = true;
-                    if (MessageBox.Show($"Delete {tool.Name}?", "Delete Custom Tool", MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes) return;
+                    if (!await AppDialog.ConfirmAsync(Window.GetWindow(this), "Delete Custom Tool", $"Delete {tool.Name}?", "Delete", "Cancel")) return;
                     _shortcutService.DeleteCustomTool(tool);
-                    PersistFavorites();
+                    await PersistFavoritesAsync();
                     LoadExternalTools();
                 };
                 footerPanel.Children.Add(editButton);
@@ -434,8 +435,8 @@ namespace TweakHub.Views
                 uninstallBtn.Click += async (s, e) =>
                 {
                     e.Handled = true;
-                    var result = MessageBox.Show($"Are you sure you want to uninstall {tool.Name}?", "Confirm Uninstall", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-                    if (result == MessageBoxResult.Yes)
+                    if (await AppDialog.ConfirmAsync(Window.GetWindow(this), "Confirm Uninstall",
+                            $"Are you sure you want to uninstall {tool.Name}?", "Uninstall", "Cancel"))
                     {
                         card.IsEnabled = false;
                         card.Opacity = 0.7;
@@ -463,7 +464,7 @@ namespace TweakHub.Views
             return card;
         }
 
-        private void PersistFavorites()
+        private async Task PersistFavoritesAsync()
         {
             try
             {
@@ -472,7 +473,7 @@ namespace TweakHub.Views
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Unable to save favorites", MessageBoxButton.OK, MessageBoxImage.Warning);
+                await AppDialog.ShowWarningAsync(Window.GetWindow(this), "Unable to Save Favorites", ex.Message);
             }
         }
 
@@ -490,7 +491,7 @@ namespace TweakHub.Views
 
         private void AddTool_Click(object sender, RoutedEventArgs e) => EditCustomTool(null);
 
-        private void EditCustomTool(ExternalTool? tool)
+        private async void EditCustomTool(ExternalTool? tool)
         {
             var dialog = new TweakHub.Views.Dialogs.CustomToolDialog(_shortcutService.GetToolCategories(), tool)
             {
@@ -504,7 +505,7 @@ namespace TweakHub.Views
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Unable to Save Tool", MessageBoxButton.OK, MessageBoxImage.Error);
+                await AppDialog.ShowErrorAsync(Window.GetWindow(this), "Unable to Save Tool", ex.Message);
             }
         }
 

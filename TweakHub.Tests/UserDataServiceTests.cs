@@ -26,6 +26,7 @@ public class UserDataServiceTests
             };
             source.SaveCustomTools([tool]);
             source.SaveFavoriteTools(["custom:custom-tool"]);
+            source.SaveFavoriteTweaks(["builtin:disable_game_bar", "custom:registry-tool"]);
             source.SaveAppearance(new AppearanceSettings { Theme = "Dark", AccentColor = "#336699", Transparency = false });
             source.MarkRestartPending("restart-required");
             Assert.That(source.LoadPendingRestartIds(), Does.Contain("restart-required"));
@@ -37,6 +38,7 @@ public class UserDataServiceTests
             {
                 Assert.That(destination.LoadCustomTools().Single().PowerShellCommand, Does.Contain("winget install"));
                 Assert.That(destination.LoadFavoriteTools(), Does.Contain("custom:custom-tool"));
+                Assert.That(destination.LoadFavoriteTweaks(), Is.EquivalentTo(new[] { "builtin:disable_game_bar", "custom:registry-tool" }));
                 Assert.That(appearance.AccentColor, Is.EqualTo("#336699"));
                 Assert.That(appearance.Transparency, Is.False);
             });

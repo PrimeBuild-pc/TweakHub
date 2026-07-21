@@ -50,10 +50,7 @@ namespace TweakHub.Services
 
                 try
                 {
-                    if (elevated)
-                        await process.WaitForExitAsync();
-                    else
-                        await process.WaitForExitAsync(linkedSource.Token);
+                    await process.WaitForExitAsync(linkedSource.Token);
                 }
                 catch (OperationCanceledException)
                 {
@@ -122,7 +119,8 @@ namespace TweakHub.Services
                 $ErrorActionPreference = 'Stop'
                 try {
                     & '{{Quote(scriptPath)}}' *> '{{Quote(outputPath)}}'
-                    exit $LASTEXITCODE
+                    if (-not $?) { exit 1 }
+                    exit 0
                 } catch {
                     $_ | Out-String | Set-Content -LiteralPath '{{Quote(errorPath)}}'
                     exit 1
@@ -133,7 +131,8 @@ namespace TweakHub.Services
             {
                 FileName = "powershell.exe",
                 UseShellExecute = true,
-                Verb = "runas"
+                Verb = "runas",
+                WindowStyle = ProcessWindowStyle.Hidden
             };
             AddPowerShellArguments(startInfo, wrapperPath);
             return startInfo;
@@ -141,6 +140,8 @@ namespace TweakHub.Services
 
         private static void AddPowerShellArguments(ProcessStartInfo startInfo, string scriptPath)
         {
+            startInfo.ArgumentList.Add("-WindowStyle");
+            startInfo.ArgumentList.Add("Hidden");
             startInfo.ArgumentList.Add("-NoProfile");
             startInfo.ArgumentList.Add("-NonInteractive");
             startInfo.ArgumentList.Add("-ExecutionPolicy");

@@ -116,6 +116,7 @@ namespace TweakHub.Services
                     ValuesEqual(GetRegistryValue(change.KeyPath, change.ValueName), Normalize(change.Value)));
                 foreach (var change in changes)
                     Log("apply", change.KeyPath, change.ValueName, success, success ? null : result.Error);
+                if (!success) await RestoreValuesAsync(changes);
                 return success;
             }
             catch (Exception ex)
@@ -171,16 +172,20 @@ namespace TweakHub.Services
             _ => "REG_SZ"
         };
 
-        public int CreateBackup(IEnumerable<PerformanceTweak> tweaks)
+        public int CreateBackup(IEnumerable<PerformanceTweak> tweaks) => CreateBackupValues(
+            tweaks.Where(tweak => tweak.Type == TweakType.Registry)
+                .Select(tweak => new RegistryValueChange(tweak.RegistryPath, tweak.RegistryKey, tweak.EnabledValue)));
+
+        public int CreateBackupValues(IEnumerable<RegistryValueChange> changes)
         {
             var addedKeys = new List<string>();
             try
             {
-                foreach (var tweak in tweaks.Where(t => t.Type == TweakType.Registry))
+                foreach (var change in changes)
                 {
-                    var key = BackupKey(tweak.RegistryPath, tweak.RegistryKey);
+                    var key = BackupKey(change.KeyPath, change.ValueName);
                     if (_backups.ContainsKey(key)) continue;
-                    _backups[key] = ReadBackup(tweak.RegistryPath, tweak.RegistryKey);
+                    _backups[key] = ReadBackup(change.KeyPath, change.ValueName);
                     addedKeys.Add(key);
                 }
 
@@ -275,11 +280,11 @@ namespace TweakHub.Services
             }
         }
 
-        public bool CheckTweakStatus(PerformanceTweak tweak)
-        {
-            var current = GetRegistryValue(tweak.RegistryPath, tweak.RegistryKey);
-            return ValuesEqual(current, tweak.EnabledValue);
-        }
+        public bool CheckTweakStatus(PerformanceTweak tweak) =>
+            IsValueSet(tweak.RegistryPath, tweak.RegistryKey, tweak.EnabledValue);
+
+        public bool IsValueSet(string keyPath, string valueName, object? expected) =>
+            expected is not null && ValuesEqual(GetRegistryValue(keyPath, valueName), Normalize(expected));
 
         private RegistryBackup ReadBackup(string keyPath, string valueName)
         {
@@ -337,7 +342,8 @@ namespace TweakHub.Services
                 {
                     FileName = "reg.exe",
                     UseShellExecute = true,
-                    Verb = "runas"
+                    Verb = "runas",
+                    WindowStyle = ProcessWindowStyle.Hidden
                 };
                 startInfo.ArgumentList.Add(action);
                 startInfo.ArgumentList.Add(keyPath);

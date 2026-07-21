@@ -22,6 +22,9 @@ public class ShortcutServiceTests
         Assert.That(tools, Has.Count.InRange(90, 125));
         Assert.That(tools.Select(tool => tool.Name), Is.Unique);
         Assert.That(tools.Select(tool => tool.Category).Distinct(), Is.SubsetOf(categories));
+        Assert.That(tools.Select(tool => tool.Name), Does.Contain("Flow Launcher").And.Contain("FancyWM").And.Contain("Power Settings Explorer"));
+        Assert.That(tools.Single(tool => tool.Name == "Power Settings Explorer").DownloadUrl,
+            Is.EqualTo("https://www.mediafire.com/file/wt37sbsejk7iepm/PowerSettingsExplorer.zip/file"));
         Assert.That(tools.Where(tool => tool.WingetId.Length > 0).Select(tool => tool.WingetId), Is.Unique);
         Assert.That(tools, Has.All.Matches<ExternalTool>(tool =>
         {
@@ -31,5 +34,20 @@ public class ShortcutServiceTests
                            && !tool.DownloadUrl.Contains("get.activated.win", StringComparison.OrdinalIgnoreCase);
             return hasWingetId ^ hasHttpsUrl && safePage;
         }));
+    }
+
+    [Test]
+    public void QuickAccessIncludesPolicyEditorAndTaskScheduler()
+    {
+        var service = ShortcutService.Instance;
+        service.Initialize();
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(service.SystemShortcuts.Single(shortcut => shortcut.Name == "Group Policy Editor").Command,
+                Is.EqualTo("gpedit.msc"));
+            Assert.That(service.SystemShortcuts.Single(shortcut => shortcut.Name == "Task Scheduler").Command,
+                Is.EqualTo("taskschd.msc"));
+        });
     }
 }

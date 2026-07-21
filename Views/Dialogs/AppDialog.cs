@@ -9,6 +9,12 @@ public static class AppDialog
     public static async Task ShowAsync(Window? owner, string title, string message, string buttonText = "OK") =>
         await Create(owner, title, message, buttonText).ShowAsync();
 
+    public static async Task ShowWarningAsync(Window? owner, string title, string message, string buttonText = "OK") =>
+        await Create(owner, title, message, buttonText, kind: "Warning").ShowAsync();
+
+    public static async Task ShowErrorAsync(Window? owner, string title, string message, string buttonText = "OK") =>
+        await Create(owner, title, message, buttonText, kind: "Error").ShowAsync();
+
     public static async Task<bool> ConfirmAsync(
         Window? owner,
         string title,
@@ -37,18 +43,37 @@ public static class AppDialog
         string title,
         string message,
         string primaryButtonText,
-        string? secondaryButtonText = null) => new()
+        string? secondaryButtonText = null,
+        string? kind = null)
     {
-        Owner = owner ?? Application.Current.MainWindow,
-        Title = title,
-        Content = new TextBlock
+        var text = new TextBlock { Text = message, TextWrapping = TextWrapping.Wrap, MaxWidth = 520 };
+        text.SetResourceReference(TextBlock.ForegroundProperty, "SystemControlForegroundBaseHighBrush");
+        FrameworkElement content = text;
+        if (kind != null)
         {
-            Text = message,
-            TextWrapping = TextWrapping.Wrap,
-            MaxWidth = 520
-        },
-        PrimaryButtonText = primaryButtonText,
-        SecondaryButtonText = secondaryButtonText ?? string.Empty,
-        DefaultButton = ContentDialogButton.Primary
-    };
+            var icon = new TextBlock
+            {
+                Text = kind == "Error" ? "\uEA39" : "\uE7BA",
+                FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons"),
+                FontSize = 20,
+                Margin = new Thickness(0, 0, 12, 0),
+                VerticalAlignment = VerticalAlignment.Top
+            };
+            icon.SetResourceReference(TextBlock.ForegroundProperty, kind == "Error" ? "DangerBrush" : "WarningBrush");
+            var panel = new StackPanel { Orientation = Orientation.Horizontal };
+            panel.Children.Add(icon);
+            panel.Children.Add(text);
+            content = panel;
+        }
+
+        return new ContentDialog
+        {
+            Owner = owner ?? Application.Current.MainWindow,
+            Title = title,
+            Content = content,
+            PrimaryButtonText = primaryButtonText,
+            SecondaryButtonText = secondaryButtonText ?? string.Empty,
+            DefaultButton = ContentDialogButton.Primary
+        };
+    }
 }

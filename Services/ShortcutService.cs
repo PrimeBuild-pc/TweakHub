@@ -38,7 +38,9 @@ public sealed class ShortcutService
             new SystemShortcut { Name = "Sound Settings", Description = "Configure audio devices", Command = "mmsys.cpl", Category = "Audio" },
             new SystemShortcut { Name = "Display Settings", Description = "Configure displays", Command = "ms-settings:display", Category = "Display" },
             new SystemShortcut { Name = "Windows Features", Description = "Enable or disable Windows features", Command = "optionalfeatures", Category = "System Management" },
-            new SystemShortcut { Name = "Disk Cleanup", Description = "Free disk space with the Windows utility", Command = "cleanmgr", Category = "Maintenance" }
+            new SystemShortcut { Name = "Disk Cleanup", Description = "Free disk space with the Windows utility", Command = "cleanmgr", Category = "Maintenance" },
+            new SystemShortcut { Name = "Group Policy Editor", Description = "Edit local Windows group policies (Pro and Enterprise editions)", Command = "gpedit.msc", Category = "Advanced Tools" },
+            new SystemShortcut { Name = "Task Scheduler", Description = "Create and manage scheduled tasks", Command = "taskschd.msc", Category = "System Management" }
         }) SystemShortcuts.Add(shortcut);
     }
 
@@ -48,21 +50,23 @@ public sealed class ShortcutService
         foreach (var tool in new[]
         {
             // System utilities
-            new ExternalTool { Name = "PowerToys", Description = "Official Microsoft utilities for Windows power users", Category = "System Utilities", WingetId = "Microsoft.PowerToys" },
-            new ExternalTool { Name = "Autoruns", Description = "Inspect and manage every Windows startup location", Category = "System Utilities", WingetId = "Microsoft.Sysinternals.Autoruns" },
-            new ExternalTool { Name = "Bulk Crap Uninstaller", Description = "Open-source bulk application uninstaller", Category = "System Utilities", WingetId = "Klocman.BulkCrapUninstaller" },
+            new ExternalTool { Name = "PowerToys", Description = "Official Microsoft utilities for Windows power users", Category = "System Utilities", WingetId = "Microsoft.PowerToys", TerminalCommand = "PowerToys.exe", ExecutableName = "PowerToys.exe" },
+            new ExternalTool { Name = "Flow Launcher", Description = "Open-source quick launcher for apps, files, commands and web searches", Category = "System Utilities", DownloadUrl = "https://github.com/Flow-Launcher/Flow.Launcher" },
+            new ExternalTool { Name = "FancyWM", Description = "Dynamic tiling window manager for Windows", Category = "System Utilities", DownloadUrl = "https://github.com/FancyWM/fancywm" },
+            new ExternalTool { Name = "Autoruns", Description = "Inspect and manage every Windows startup location", Category = "System Utilities", WingetId = "Microsoft.Sysinternals.Autoruns", TerminalCommand = "Autoruns.exe", ExecutableName = "Autoruns.exe" },
+            new ExternalTool { Name = "Bulk Crap Uninstaller", Description = "Open-source bulk application uninstaller", Category = "System Utilities", WingetId = "Klocman.BulkCrapUninstaller", TerminalCommand = "BCUninstaller.exe", ExecutableName = "BCUninstaller.exe" },
             new ExternalTool { Name = "Cleanmgr+", Description = "Extended replacement for the classic Windows Disk Cleanup", Category = "System Utilities", DownloadUrl = "https://github.com/builtbybel/CleanmgrPlus" },
             new ExternalTool { Name = "Device Cleanup Tool", Description = "Remove records for non-present devices; opens the MajorGeeks information page", Category = "System Utilities", DownloadUrl = "https://www.majorgeeks.com/files/details/device_cleanup_tool.html" },
-            new ExternalTool { Name = "DISM++", Description = "Graphical Windows image servicing and cleanup utility", Category = "System Utilities", WingetId = "ChuyuTeam.DISM++" },
-            new ExternalTool { Name = "Driver Store Explorer", Description = "Inspect and remove packages from the Windows driver store", Category = "System Utilities", WingetId = "lostindark.DriverStoreExplorer" },
+            new ExternalTool { Name = "DISM++", Description = "Graphical Windows image servicing and cleanup utility", Category = "System Utilities", WingetId = "ChuyuTeam.DISM++", ExecutableName = "Dism++x64.exe" },
+            new ExternalTool { Name = "Driver Store Explorer", Description = "Inspect and remove packages from the Windows driver store", Category = "System Utilities", WingetId = "lostindark.DriverStoreExplorer", ExecutableName = "Rapr.exe" },
             new ExternalTool { Name = "Snappy Driver Installer Origin", Description = "Open-source offline driver installer and index", Category = "System Utilities", WingetId = "GlennDelahoy.SnappyDriverInstallerOrigin" },
             new ExternalTool { Name = "UniGetUI", Description = "Graphical interface for WinGet and other package managers", Category = "System Utilities", DownloadUrl = "https://github.com/marticliment/UniGetUI" },
-            new ExternalTool { Name = "ViVeTool GUI", Description = "Graphical interface for Windows feature configuration IDs", Category = "System Utilities", WingetId = "PeterStrick.ViVeTool-GUI" },
-            new ExternalTool { Name = "Winhance", Description = "Configure and customize Windows from a transparent open-source UI", Category = "System Utilities", WingetId = "memstechtips.Winhance" },
+            new ExternalTool { Name = "ViVeTool GUI", Description = "Graphical interface for Windows feature configuration IDs", Category = "System Utilities", WingetId = "PeterStrick.ViVeTool-GUI", ExecutableName = "ViVeTool_GUI.exe" },
+            new ExternalTool { Name = "Winhance", Description = "Configure and customize Windows from a transparent open-source UI", Category = "System Utilities", WingetId = "memstechtips.Winhance", TerminalCommand = "Winhance.exe", ExecutableName = "Winhance.exe" },
             new ExternalTool { Name = "Wintoys", Description = "Windows maintenance and customization dashboard from Microsoft Store", Category = "System Utilities", DownloadUrl = "https://apps.microsoft.com/detail/9P8LTPGCBZXD" },
             new ExternalTool { Name = "WinUtil", Description = "Chris Titus Tech Windows utility; opens the official project, never a remote script", Category = "System Utilities", DownloadUrl = "https://github.com/ChrisTitusTech/winutil" },
-            new ExternalTool { Name = "Everything", Description = "Fast local file and folder search", Category = "System Utilities", WingetId = "voidtools.Everything" },
-            new ExternalTool { Name = "WizTree", Description = "Fast visual disk-space analyzer", Category = "System Utilities", WingetId = "AntibodySoftware.WizTree" },
+            new ExternalTool { Name = "Everything", Description = "Fast local file and folder search", Category = "System Utilities", WingetId = "voidtools.Everything", TerminalCommand = "Everything.exe", ExecutableName = "Everything.exe" },
+            new ExternalTool { Name = "WizTree", Description = "Fast visual disk-space analyzer", Category = "System Utilities", WingetId = "AntibodySoftware.WizTree", TerminalCommand = "WizTree64.exe", ExecutableName = "WizTree64.exe" },
 
             // CPU and memory
             new ExternalTool { Name = "CPU-Z", Description = "CPU, memory and platform information", Category = "CPU & Memory", WingetId = "CPUID.CPU-Z" },
@@ -118,6 +122,7 @@ public sealed class ShortcutService
             // Firmware and power
             new ExternalTool { Name = "SCEWIN GUI Better", Description = "Unofficial GUI for advanced AMI firmware-variable editing; use only with a recovery plan", Category = "Firmware & Power", DownloadUrl = "https://github.com/loko8002/SCEWIN-GUI-BETTER1" },
             new ExternalTool { Name = "SCEHUB", Description = "Community SCEWIN binaries and troubleshooting; firmware changes can make a system unbootable", Category = "Firmware & Power", DownloadUrl = "https://github.com/ab3lkaizen/SCEHUB" },
+            new ExternalTool { Name = "Power Settings Explorer", Description = "Inspect hidden Windows power-plan settings; opens the stable MediaFire download page", Category = "Firmware & Power", DownloadUrl = "https://www.mediafire.com/file/wt37sbsejk7iepm/PowerSettingsExplorer.zip/file" },
 
             // Gaming and input
             new ExternalTool { Name = "DLSS Swapper", Description = "Manage DLSS versions in supported games", Category = "Gaming & Input", DownloadUrl = "https://github.com/beeradmoore/dlss-swapper" },

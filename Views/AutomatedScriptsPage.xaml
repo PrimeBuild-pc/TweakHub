@@ -9,6 +9,7 @@
       Background="Transparent">
 
     <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
         <Style x:Key="ScriptCardStyle" TargetType="Border">
             <Setter Property="Background" Value="{DynamicResource CardBrush}"/>
             <Setter Property="BorderBrush" Value="{DynamicResource SystemControlBorderBaseLowBrush}"/>
@@ -35,12 +36,13 @@
                                        Foreground="{DynamicResource IconBrush}"/>
                             <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="SemiBold"
                                        Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                            <TextBlock Text="&#xE73E;" FontFamily="Segoe Fluent Icons" FontSize="14" Margin="8,0,0,0"
+                                       Foreground="{DynamicResource SuccessBrush}"
+                                       Visibility="{Binding IsCompleted, Converter={StaticResource BoolToVis}}"
+                                       ToolTip="{Binding CompletionToolTip}"/>
                         </StackPanel>
                         <TextBlock Text="{Binding Description}" Style="{StaticResource DescriptionTextStyle}" Margin="26,0,0,8"/>
                         <StackPanel Orientation="Horizontal" Margin="26,0,0,0">
-                            <Border Background="{DynamicResource SuccessBrush}" CornerRadius="8" Padding="5,2" Margin="0,0,6,0">
-                                <TextBlock Text="Safe" FontSize="9" Foreground="{DynamicResource SuccessForegroundBrush}" FontWeight="Medium"/>
-                            </Border>
                             <Border Background="{DynamicResource AccentBrush}" CornerRadius="8" Padding="6,2">
                                 <TextBlock Text="{Binding Category}" FontSize="10" Foreground="{DynamicResource AccentForegroundBrush}" FontWeight="Medium"/>
                             </Border>
@@ -72,13 +74,17 @@
                                 <RowDefinition Height="150"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <TextBlock Text="Details" FontWeight="SemiBold" Margin="12,8,12,4"/>
+                            <TextBlock Text="Details" FontWeight="SemiBold" Margin="12,8,12,4"
+                                       Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
                             <Border Grid.Row="1" Margin="12" CornerRadius="6"
                                     BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}" BorderThickness="1"
                                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
                                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                                     <TextBox x:Name="PreviewText" IsReadOnly="True" TextWrapping="Wrap" FontFamily="Consolas"
-                                             FontSize="13" Background="Transparent" BorderThickness="0"/>
+                                             FontSize="13" Background="Transparent" BorderThickness="0"
+                                             Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"
+                                             SelectionBrush="{DynamicResource AccentBrush}"
+                                             SelectionTextBrush="{DynamicResource AccentForegroundBrush}"/>
                                 </ScrollViewer>
                             </Border>
                             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="12,0,12,12">

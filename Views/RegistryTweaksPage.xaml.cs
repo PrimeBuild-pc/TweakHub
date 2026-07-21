@@ -15,6 +15,9 @@ namespace TweakHub.Views
         private readonly RegistryService _registryService;
         private readonly UserDataService _userData = UserDataService.Instance;
         private readonly ObservableCollection<CustomRegistryTweak> _customTweaks = new();
+        private readonly ObservableCollection<PerformanceTweak> _favoriteBuiltInTweaks = new();
+        private readonly ObservableCollection<CustomRegistryTweak> _favoriteCustomTweaks = new();
+        private HashSet<string> _favoriteTweakKeys = [];
         private bool _ignoreToggleEvent;
         public RegistryTweaksPage()
         {
@@ -24,6 +27,8 @@ namespace TweakHub.Views
 
             DataContext = _registryService;
             CustomTweaksList.ItemsSource = _customTweaks;
+            FavoriteBuiltInTweaksList.ItemsSource = _favoriteBuiltInTweaks;
+            FavoriteCustomTweaksList.ItemsSource = _favoriteCustomTweaks;
 
             Loaded += RegistryTweaksPage_Loaded;
             _tweakService.PropertyChanged += TweakService_PropertyChanged;
@@ -55,6 +60,7 @@ namespace TweakHub.Views
 
             await LoadTweaksAsync();
             LoadCustomTweaks();
+            LoadFavoriteTweaks();
         }
 
         private async Task LoadTweaksAsync()
@@ -89,8 +95,79 @@ namespace TweakHub.Views
         private void LoadCustomTweaks()
         {
             _customTweaks.Clear();
-            foreach (var t in _userData.LoadCustomTweaks()) _customTweaks.Add(t);
+            foreach (var tweak in _userData.LoadCustomTweaks())
+            {
+                RefreshCustomTweakState(tweak);
+                _customTweaks.Add(tweak);
+            }
         }
+
+        private void RefreshCustomTweakState(CustomRegistryTweak tweak)
+        {
+            try
+            {
+                var value = ParseRegistryData(tweak.ValueType, tweak.Data, out _);
+                tweak.IsApplied = _registryService.IsValueSet(tweak.RegistryPath, tweak.RegistryKey, value);
+            }
+            catch { tweak.IsApplied = false; }
+        }
+
+        private void LoadFavoriteTweaks()
+        {
+            _favoriteTweakKeys = _userData.LoadFavoriteTweaks();
+            foreach (var tweak in _tweakService.TweakCategories.SelectMany(category => category.Tweaks))
+                tweak.IsFavorite = _favoriteTweakKeys.Contains(FavoriteKey(tweak));
+            foreach (var tweak in _customTweaks)
+                tweak.IsFavorite = _favoriteTweakKeys.Contains(FavoriteKey(tweak));
+            RefreshFavoriteLists();
+        }
+
+        private void FavoriteTweak_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is not Button button) return;
+            var key = button.DataContext switch
+            {
+                PerformanceTweak tweak => ToggleFavorite(tweak, FavoriteKey(tweak)),
+                CustomRegistryTweak tweak => ToggleFavorite(tweak, FavoriteKey(tweak)),
+                _ => null
+            };
+            if (key == null) return;
+            _userData.SaveFavoriteTweaks(_favoriteTweakKeys);
+            RefreshFavoriteLists();
+        }
+
+        private string ToggleFavorite(PerformanceTweak tweak, string key)
+        {
+            tweak.IsFavorite = !tweak.IsFavorite;
+            if (tweak.IsFavorite) _favoriteTweakKeys.Add(key); else _favoriteTweakKeys.Remove(key);
+            return key;
+        }
+
+        private string ToggleFavorite(CustomRegistryTweak tweak, string key)
+        {
+            tweak.IsFavorite = !tweak.IsFavorite;
+            if (tweak.IsFavorite) _favoriteTweakKeys.Add(key); else _favoriteTweakKeys.Remove(key);
+            return key;
+        }
+
+        private void RefreshFavoriteLists()
+        {
+            _favoriteBuiltInTweaks.Clear();
+            foreach (var tweak in _tweakService.TweakCategories.SelectMany(category => category.Tweaks).Where(tweak => tweak.IsFavorite))
+                _favoriteBuiltInTweaks.Add(tweak);
+            _favoriteCustomTweaks.Clear();
+            foreach (var tweak in _customTweaks.Where(tweak => tweak.IsFavorite))
+                _favoriteCustomTweaks.Add(tweak);
+
+            FavoriteBuiltInSection.Visibility = _favoriteBuiltInTweaks.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+            FavoriteCustomSection.Visibility = _favoriteCustomTweaks.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+            FavoritesEmptyText.Visibility = _favoriteBuiltInTweaks.Count + _favoriteCustomTweaks.Count == 0
+                ? Visibility.Visible
+                : Visibility.Collapsed;
+        }
+
+        private static string FavoriteKey(PerformanceTweak tweak) => $"builtin:{tweak.Id}";
+        private static string FavoriteKey(CustomRegistryTweak tweak) => $"custom:{tweak.Id}";
 
         private void ViewCustomTweak_Click(object sender, RoutedEventArgs e)
         {
@@ -101,28 +178,34 @@ namespace TweakHub.Views
             preview.Visibility = preview.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
         }
 
-        private void ApplyCustomTweak_Click(object sender, RoutedEventArgs e)
+        private async void ApplyCustomTweak_Click(object sender, RoutedEventArgs e)
         {
             if (sender is not Button { DataContext: CustomRegistryTweak tweak }) return;
             try
             {
                 var value = ParseRegistryData(tweak.ValueType, tweak.Data, out var kind);
-                MessageBox.Show(_registryService.ApplyValueWithBackup(tweak.RegistryPath, tweak.RegistryKey, value, kind)
-                    ? "Applied."
-                    : "Failed to apply.");
+                var success = _registryService.ApplyValueWithBackup(tweak.RegistryPath, tweak.RegistryKey, value, kind);
+                RefreshCustomTweakState(tweak);
+                if (success)
+                    await AppDialog.ShowAsync(Window.GetWindow(this), tweak.Name, "Registry tweak applied.");
+                else
+                    await AppDialog.ShowErrorAsync(Window.GetWindow(this), tweak.Name, "Failed to apply the Registry tweak.");
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error: {ex.Message}");
+                await AppDialog.ShowErrorAsync(Window.GetWindow(this), tweak.Name, ex.Message);
             }
         }
 
-        private void RestoreCustomTweak_Click(object sender, RoutedEventArgs e)
+        private async void RestoreCustomTweak_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button { DataContext: CustomRegistryTweak tweak })
-                MessageBox.Show(_registryService.RestoreRegistryValue(tweak.RegistryPath, tweak.RegistryKey)
-                    ? "Restored."
-                    : "No backup is available for this value.");
+            if (sender is not Button { DataContext: CustomRegistryTweak tweak }) return;
+            var success = _registryService.RestoreRegistryValue(tweak.RegistryPath, tweak.RegistryKey);
+            RefreshCustomTweakState(tweak);
+            if (success)
+                await AppDialog.ShowAsync(Window.GetWindow(this), tweak.Name, "Original Registry value restored.");
+            else
+                await AppDialog.ShowWarningAsync(Window.GetWindow(this), tweak.Name, "No backup is available for this value.");
         }
 
         private void EditCustomTweak_Click(object sender, RoutedEventArgs e)
@@ -136,7 +219,10 @@ namespace TweakHub.Views
                 || !await AppDialog.ConfirmAsync(Window.GetWindow(this), "Confirm", $"Delete '{tweak.Name}'?")) return;
 
             _customTweaks.Remove(tweak);
+            _favoriteTweakKeys.Remove(FavoriteKey(tweak));
             _userData.SaveCustomTweaks(_customTweaks);
+            _userData.SaveFavoriteTweaks(_favoriteTweakKeys);
+            RefreshFavoriteLists();
         }
 
         private object? ParseRegistryData(string valueType, string data, out Microsoft.Win32.RegistryValueKind? explicitKind)
@@ -239,11 +325,11 @@ namespace TweakHub.Views
             Grid.SetRow(buttons,11); grid.Children.Add(buttons);
 
             cancel.Click += (_, __) => dialog.Close();
-            create.Click += (_, __) =>
+            create.Click += async (_, __) =>
             {
                 if (string.IsNullOrWhiteSpace(nameBox.Text) || string.IsNullOrWhiteSpace(pathBox.Text) || string.IsNullOrWhiteSpace(keyBox.Text))
                 {
-                    MessageBox.Show("Please fill in name, path and value name.");
+                    await AppDialog.ShowWarningAsync(dialog, "Invalid Registry Tweak", "Please fill in name, path and value name.");
                     return;
                 }
                 string mapType(string s) => s.StartsWith("REG_DWORD") ? "REG_DWORD" : s.StartsWith("REG_QWORD") ? "REG_QWORD" : s;
@@ -258,7 +344,7 @@ namespace TweakHub.Views
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Invalid Registry Tweak", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    await AppDialog.ShowWarningAsync(dialog, "Invalid Registry Tweak", ex.Message);
                     return;
                 }
 
@@ -281,8 +367,10 @@ namespace TweakHub.Views
                     existing.ValueType = valueType;
                     existing.Data = data;
                 }
+                foreach (var tweak in _customTweaks) RefreshCustomTweakState(tweak);
                 _userData.SaveCustomTweaks(_customTweaks);
                 CustomTweaksList.Items.Refresh();
+                RefreshFavoriteLists();
                 dialog.Close();
             };
 
@@ -298,13 +386,13 @@ namespace TweakHub.Views
                 || !toggle.IsKeyboardFocusWithin) return;
 
             var targetState = toggle.IsOn;
-            if (tweak.RiskLevel >= 3 && MessageBox.Show(
-                    $"This tweak has a high risk level ({tweak.RiskLevel}/5).\n\n" +
-                    $"Description: {tweak.Description}\n\n" +
-                    "Are you sure you want to apply this change?",
+            if (tweak.RiskLevel >= 3 && !await AppDialog.ConfirmAsync(
+                    Window.GetWindow(this),
                     "High Risk Tweak Warning",
-                    MessageBoxButton.YesNo,
-                    MessageBoxImage.Warning) != MessageBoxResult.Yes)
+                    $"This tweak has a high risk level ({tweak.RiskLevel}/5).\n\n" +
+                    $"Description: {tweak.Description}\n\nAre you sure you want to apply this change?",
+                    "Apply",
+                    "Cancel"))
             {
                 RevertToggle(toggle, tweak, !targetState);
                 return;
@@ -316,12 +404,10 @@ namespace TweakHub.Views
                 var success = await _tweakService.ApplyTweakAsync(tweak, targetState);
                 if (!success)
                 {
-                    MessageBox.Show(
-                        $"Failed to apply tweak: {tweak.Name}\n\n" +
-                        "This may be due to insufficient permissions or system restrictions.",
+                    await AppDialog.ShowErrorAsync(
+                        Window.GetWindow(this),
                         "Tweak Application Failed",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Error);
+                        $"Failed to apply tweak: {tweak.Name}\n\nThis may be due to insufficient permissions or system restrictions.");
                     RevertToggle(toggle, tweak, !targetState);
                 }
                 else
@@ -337,11 +423,10 @@ namespace TweakHub.Views
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    $"An error occurred while applying the tweak:\n\n{ex.Message}",
-                    "Error",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                await AppDialog.ShowErrorAsync(
+                    Window.GetWindow(this),
+                    "Tweak Error",
+                    $"An error occurred while applying the tweak:\n\n{ex.Message}");
                 RevertToggle(toggle, tweak, !targetState);
             }
             finally
@@ -367,6 +452,7 @@ namespace TweakHub.Views
         private async void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
             await _tweakService.RefreshTweakStatesAsync();
+            foreach (var tweak in _customTweaks) RefreshCustomTweakState(tweak);
             NotifyMainWindowBadgeUpdate();
         }
 
@@ -381,11 +467,20 @@ namespace TweakHub.Views
 
         private static string BuildPreview(PerformanceTweak tweak)
         {
+            var changes = TweakService.GetCompositeRegistryChanges(tweak.Id);
+            if (changes.Count > 0)
+            {
+                var commands = changes.Select(change =>
+                    $"reg add \"{change.KeyPath}\" /v \"{change.ValueName}\" /t {change.Kind switch { Microsoft.Win32.RegistryValueKind.String => "REG_SZ", _ => "REG_DWORD" }} /d {change.Value} /f");
+                return $"# {tweak.Name}\n# Risk: {tweak.RiskLevel}/5\n\n# Apply\n{string.Join("\n", commands)}\n\n# Restore\nTweakHub restores every captured original value.";
+            }
+
             var command = tweak.Id switch
             {
                 "disable_cpu_throttling" => "powercfg /setacvalueindex SCHEME_CURRENT SUB_PROCESSOR PROCTHROTTLEMIN 100",
                 "disable_core_parking" => "powercfg /setacvalueindex SCHEME_CURRENT SUB_PROCESSOR CPMINCORES 100",
                 "high_performance_power_plan" => "powercfg /setactive SCHEME_MIN",
+                "disable_sysmain" => "Set-Service -Name SysMain -StartupType Disabled\nStop-Service -Name SysMain -Force",
                 "disable_mouse_acceleration" => "reg add \"HKCU\\Control Panel\\Mouse\" /v MouseSpeed /t REG_SZ /d 0 /f\nreg add \"HKCU\\Control Panel\\Mouse\" /v MouseThreshold1 /t REG_SZ /d 0 /f\nreg add \"HKCU\\Control Panel\\Mouse\" /v MouseThreshold2 /t REG_SZ /d 0 /f",
                 "windows_update_security_preset" => "reg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU\" /v AUOptions /t REG_DWORD /d 2 /f\nreg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU\" /v NoAutoUpdate /t REG_DWORD /d 0 /f\nreg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\" /v DeferFeatureUpdates /t REG_DWORD /d 1 /f\nreg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\" /v DeferFeatureUpdatesPeriodInDays /t REG_DWORD /d 90 /f",
                 _ => $"reg add \"{tweak.RegistryPath}\" /v \"{tweak.RegistryKey}\" /t {(tweak.EnabledValue is int ? "REG_DWORD" : tweak.EnabledValue is long ? "REG_QWORD" : "REG_SZ")} /d {(Equals(tweak.EnabledValue, -1) ? "ffffffff" : tweak.EnabledValue)} /f"
@@ -393,40 +488,34 @@ namespace TweakHub.Views
             return $"# {tweak.Name}\n# Risk: {tweak.RiskLevel}/5\n\n# Apply\n{command}\n\n# Restore\nTweakHub restores the captured original value.";
         }
 
-        private void BackupButton_Click(object sender, RoutedEventArgs e)
+        private async void BackupButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                var count = _registryService.CreateBackup(_tweakService.TweakCategories.SelectMany(c => c.Tweaks));
-                MessageBox.Show(
-                    $"Registry backup has been created successfully ({count} new value(s) captured).\n\n" +
-                    "Backup location: %AppData%\\TweakHub\\registry-backup.json",
+                var tweaks = _tweakService.TweakCategories.SelectMany(category => category.Tweaks).ToList();
+                var count = _registryService.CreateBackup(tweaks);
+                count += _registryService.CreateBackupValues(tweaks.SelectMany(tweak => TweakService.GetCompositeRegistryChanges(tweak.Id)));
+                await AppDialog.ShowAsync(
+                    Window.GetWindow(this),
                     "Backup Created",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Information);
+                    $"Registry backup created ({count} new value(s) captured).\n\n" +
+                    $"Backup location: {System.IO.Path.Combine(_userData.DataDirectory, "registry-backup.json")}");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    $"Failed to create backup:\n\n{ex.Message}",
-                    "Backup Failed",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                await AppDialog.ShowErrorAsync(Window.GetWindow(this), "Backup Failed", ex.Message);
             }
         }
 
         private async void ApplyAllButton_Click(object sender, RoutedEventArgs e)
         {
-            var result = MessageBox.Show(
-                "This will apply all recommended performance tweaks.\n\n" +
-                "A backup will be created automatically before applying changes.\n\n" +
-                "Do you want to continue?",
-                "Apply All Recommended Tweaks",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question);
-
-            if (result != MessageBoxResult.Yes)
-                return;
+            if (!await AppDialog.ConfirmAsync(
+                    Window.GetWindow(this),
+                    "Apply All Recommended Tweaks",
+                    "This will apply all recommended performance tweaks.\n\n" +
+                    "A backup will be created automatically before applying changes.",
+                    "Apply",
+                    "Cancel")) return;
 
             // Create backup first
             try
@@ -435,11 +524,8 @@ namespace TweakHub.Views
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    $"Failed to create backup. Operation cancelled.\n\n{ex.Message}",
-                    "Backup Failed",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                await AppDialog.ShowErrorAsync(Window.GetWindow(this), "Backup Failed",
+                    $"Failed to create backup. Operation cancelled.\n\n{ex.Message}");
                 return;
             }
 
@@ -451,11 +537,8 @@ namespace TweakHub.Views
 
             if (!recommendedTweaks.Any())
             {
-                MessageBox.Show(
-                    "All recommended tweaks are already applied.",
-                    "No Changes Needed",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Information);
+                await AppDialog.ShowAsync(Window.GetWindow(this), "No Changes Needed",
+                    "All recommended tweaks are already applied.");
                 return;
             }
 
@@ -503,16 +586,15 @@ namespace TweakHub.Views
                     Window.GetWindow(this), "Some changes require a system restart to take effect.");
             }
 
-            MessageBox.Show(message, "Tweaks Applied", MessageBoxButton.OK, MessageBoxImage.Information);
+            await AppDialog.ShowAsync(Window.GetWindow(this), "Tweaks Applied", message);
             NotifyMainWindowBadgeUpdate();
         }
 
         private async void CreateRestorePointButton_Click(object sender, RoutedEventArgs e)
         {
-            var info = "This will create a System Restore Point named 'TweakHub - Pre Tweaks'.\n\n" +
-                       "Note: Creating a restore point may take a minute and requires administrator privileges.";
-            var proceed = MessageBox.Show(info + "\n\nProceed?", "Create Restore Point", MessageBoxButton.YesNo, MessageBoxImage.Information);
-            if (proceed != MessageBoxResult.Yes) return;
+            var info = "This will silently create a System Restore Point named 'TweakHub - Pre Tweaks'.\n\n" +
+                       "Creating it may take a minute and requires administrator privileges.";
+            if (!await AppDialog.ConfirmAsync(Window.GetWindow(this), "Create Restore Point", info, "Create", "Cancel")) return;
 
             var progress = new ProgressWindow("Creating system restore point...");
             progress.Show();
@@ -538,17 +620,17 @@ namespace TweakHub.Views
 
                 if (result.Success && result.Output.Contains("OK"))
                 {
-                    MessageBox.Show("Restore point created successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    await AppDialog.ShowAsync(Window.GetWindow(this), "Restore Point Created", "Restore point created successfully.");
                 }
                 else
                 {
-                    MessageBox.Show($"Failed to create restore point.\n\n{result.Error}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    await AppDialog.ShowErrorAsync(Window.GetWindow(this), "Restore Point Failed", result.Error);
                 }
             }
             catch (Exception ex)
             {
                 progress.Close();
-                MessageBox.Show($"An error occurred:\n\n{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                await AppDialog.ShowErrorAsync(Window.GetWindow(this), "Restore Point Failed", ex.Message);
             }
         }
 
@@ -556,13 +638,12 @@ namespace TweakHub.Views
 
         private async void RestoreAllButton_Click(object sender, RoutedEventArgs e)
         {
-            var confirm = MessageBox.Show(
-                "This will attempt to restore all registry tweaks to their original values.\n\nProceed?",
-                "Restore All Changes",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Warning);
-            if (confirm != MessageBoxResult.Yes)
-                return;
+            if (!await AppDialog.ConfirmAsync(
+                    Window.GetWindow(this),
+                    "Restore All Changes",
+                    "This will attempt to restore all Registry tweaks to their original values.",
+                    "Restore",
+                    "Cancel")) return;
 
             var progress = new ProgressWindow("Restoring all registry tweaks...");
             progress.Show();
@@ -578,7 +659,7 @@ namespace TweakHub.Views
 
                 var msg = $"Restored {restored} tweak(s).";
                 if (failed > 0) msg += $"\n{failed} tweak(s) failed to restore.";
-                MessageBox.Show(msg, "Restore Complete", MessageBoxButton.OK, MessageBoxImage.Information);
+                await AppDialog.ShowAsync(Window.GetWindow(this), "Restore Complete", msg);
 
                 RestoreAllButton.Visibility = _tweakService.HasAppliedTweaksThisSession ? Visibility.Visible : Visibility.Collapsed;
 
@@ -587,7 +668,7 @@ namespace TweakHub.Views
             catch (Exception ex)
             {
                 progress.Close();
-                MessageBox.Show($"An error occurred while restoring:\n\n{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                await AppDialog.ShowErrorAsync(Window.GetWindow(this), "Restore Failed", ex.Message);
             }
         }
 

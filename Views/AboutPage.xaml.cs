@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using TweakHub.Services;
+using TweakHub.Views.Dialogs;
 
 namespace TweakHub.Views;
 
@@ -79,15 +80,15 @@ public partial class AboutPage : Page
         }
     }
 
-    private void ImportProfile_Click(object sender, RoutedEventArgs e)
+    private async void ImportProfile_Click(object sender, RoutedEventArgs e)
     {
         var dialog = new OpenFileDialog
         {
             Filter = "TweakHub profile (*.tweakhub.json;*.json)|*.tweakhub.json;*.json"
         };
         if (dialog.ShowDialog() != true) return;
-        if (MessageBox.Show("Importing replaces the current custom profile. Continue?", "Import TweakHub Profile",
-                MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes) return;
+        if (!await AppDialog.ConfirmAsync(Window.GetWindow(this), "Import TweakHub Profile",
+                "Importing replaces the current custom profile. Continue?", "Import", "Cancel")) return;
         try
         {
             var appearance = UserDataService.Instance.ImportProfile(dialog.FileName);

@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using TweakHub.Models;
 using TweakHub.Services;
+using TweakHub.Views.Dialogs;
 
 namespace TweakHub.Views
 {
@@ -164,7 +165,7 @@ namespace TweakHub.Views
             _ => "\uE8F1"
         };
 
-        private void ExecuteShortcut(SystemShortcut shortcut)
+        private async void ExecuteShortcut(SystemShortcut shortcut)
         {
             try
             {
@@ -172,21 +173,19 @@ namespace TweakHub.Views
 
                 if (!success)
                 {
-                    MessageBox.Show(
-                        $"Failed to execute shortcut: {shortcut.Name}\n\n" +
-                        "This may be due to insufficient permissions or the target application not being available.",
+                    await AppDialog.ShowWarningAsync(
+                        Window.GetWindow(this),
                         "Shortcut Execution Failed",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Warning);
+                        $"Failed to execute shortcut: {shortcut.Name}\n\n" +
+                        "This may be due to insufficient permissions or the target application not being available.");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    $"An error occurred while executing the shortcut:\n\n{ex.Message}",
-                    "Error",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                await AppDialog.ShowErrorAsync(
+                    Window.GetWindow(this),
+                    "Shortcut Error",
+                    $"An error occurred while executing the shortcut:\n\n{ex.Message}");
             }
         }
 

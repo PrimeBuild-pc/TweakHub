@@ -11,6 +11,7 @@ public sealed class UserDataService
 {
     private const int ProfileVersion = 1;
     private readonly string _favoritesFile;
+    private readonly string _favoriteTweaksFile;
     private readonly string _customScriptsFile;
     private readonly string _customTweaksFile;
     private readonly string _customToolsFile;
@@ -27,6 +28,7 @@ public sealed class UserDataService
         DataDirectory = dataDirectory;
         Directory.CreateDirectory(dataDirectory);
         _favoritesFile = Path.Combine(dataDirectory, "favorites.json");
+        _favoriteTweaksFile = Path.Combine(dataDirectory, "favorite-tweaks.json");
         _customScriptsFile = Path.Combine(dataDirectory, "custom-scripts.json");
         _customTweaksFile = Path.Combine(dataDirectory, "custom-tweaks.json");
         _customToolsFile = Path.Combine(dataDirectory, "custom-tools.json");
@@ -37,6 +39,10 @@ public sealed class UserDataService
     public HashSet<string> LoadFavoriteTools() => Load<HashSet<string>>(_favoritesFile);
     public void SaveFavoriteTools(IEnumerable<string> favorites) =>
         Save(_favoritesFile, favorites.ToHashSet(StringComparer.OrdinalIgnoreCase));
+
+    public HashSet<string> LoadFavoriteTweaks() => Load<HashSet<string>>(_favoriteTweaksFile);
+    public void SaveFavoriteTweaks(IEnumerable<string> favorites) =>
+        Save(_favoriteTweaksFile, favorites.ToHashSet(StringComparer.OrdinalIgnoreCase));
 
     public ObservableCollection<CustomScript> LoadCustomScripts() => new(Load<List<CustomScript>>(_customScriptsFile));
     public void SaveCustomScripts(IEnumerable<CustomScript> scripts) => Save(_customScriptsFile, scripts.ToList());
@@ -78,6 +84,7 @@ public sealed class UserDataService
             CustomTweaks = Load<List<CustomRegistryTweak>>(_customTweaksFile),
             CustomTools = Load<List<ExternalTool>>(_customToolsFile),
             FavoriteTools = LoadFavoriteTools(),
+            FavoriteTweaks = LoadFavoriteTweaks(),
             Appearance = LoadAppearance()
         };
         Save(path, profile);
@@ -97,6 +104,7 @@ public sealed class UserDataService
         SaveCustomTweaks(profile.CustomTweaks);
         SaveCustomTools(profile.CustomTools);
         SaveFavoriteTools(profile.FavoriteTools);
+        SaveFavoriteTweaks(profile.FavoriteTweaks);
         SaveAppearance(profile.Appearance);
         return profile.Appearance;
     }
@@ -109,6 +117,8 @@ public sealed class UserDataService
         tool.WingetId = tool.WingetId.Trim();
         tool.DownloadUrl = tool.DownloadUrl.Trim();
         tool.PowerShellCommand = tool.PowerShellCommand.Trim();
+        tool.TerminalCommand = tool.TerminalCommand.Trim();
+        tool.ExecutableName = tool.ExecutableName.Trim();
         if (tool.Name.Length is < 1 or > 100 || tool.Category.Length is < 1 or > 80 || tool.Description.Length > 500)
             throw new InvalidDataException("Name, category or description is invalid.");
         var actions = new[] { tool.WingetId, tool.DownloadUrl, tool.PowerShellCommand }.Count(value => value.Length > 0);
@@ -163,6 +173,7 @@ public sealed class UserDataService
         public List<CustomRegistryTweak> CustomTweaks { get; set; } = [];
         public List<ExternalTool> CustomTools { get; set; } = [];
         public HashSet<string> FavoriteTools { get; set; } = [];
+        public HashSet<string> FavoriteTweaks { get; set; } = [];
         public AppearanceSettings Appearance { get; set; } = new();
     }
 }
