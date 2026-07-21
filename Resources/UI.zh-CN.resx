@@ -1,0 +1,371 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="MainWindowTweakHubWindows11TweakUtility" xml:space="preserve">
+    <value>TweakHub - Windows 11 调整实用程序</value>
+  </data>
+  <data name="MainWindowWindows11PerformanceControls" xml:space="preserve">
+    <value>Windows 11 性能控制</value>
+  </data>
+  <data name="MainWindowRegistryTweaks" xml:space="preserve">
+    <value>注册表调整</value>
+  </data>
+  <data name="MainWindowExternalTools" xml:space="preserve">
+    <value>外部工具</value>
+  </data>
+  <data name="MainWindowAutomatedScripts" xml:space="preserve">
+    <value>自动化脚本</value>
+  </data>
+  <data name="MainWindowQuickAccess" xml:space="preserve">
+    <value>快速访问</value>
+  </data>
+  <data name="MainWindowAbout" xml:space="preserve">
+    <value>关于</value>
+  </data>
+  <data name="MainWindowOpenAppearanceSettings" xml:space="preserve">
+    <value>打开外观设置</value>
+  </data>
+  <data name="MainWindowAppearanceSettings" xml:space="preserve">
+    <value>外观设置</value>
+  </data>
+  <data name="MainWindowAppearanceSettings2" xml:space="preserve">
+    <value>外观设置</value>
+  </data>
+  <data name="AboutPageAbout" xml:space="preserve">
+    <value>关于</value>
+  </data>
+  <data name="AboutPageAboutAmpSettings" xml:space="preserve">
+    <value>关于和设置</value>
+  </data>
+  <data name="AboutPageApplicationInformationAppearanceAndUpdates" xml:space="preserve">
+    <value>应用程序信息、外观和更新</value>
+  </data>
+  <data name="AboutPageAppearance" xml:space="preserve">
+    <value>外观</value>
+  </data>
+  <data name="AboutPageFollowWindowsOrChooseA" xml:space="preserve">
+    <value>遵循 Windows 或选择固定主题、强调色和背景。</value>
+  </data>
+  <data name="AboutPageTheme" xml:space="preserve">
+    <value>主题</value>
+  </data>
+  <data name="AboutPageUseWindowsSetting" xml:space="preserve">
+    <value>使用 Windows 设置</value>
+  </data>
+  <data name="AboutPageLight" xml:space="preserve">
+    <value>浅色</value>
+  </data>
+  <data name="AboutPageDark" xml:space="preserve">
+    <value>深色</value>
+  </data>
+  <data name="AboutPageAccentColor" xml:space="preserve">
+    <value>强调色</value>
+  </data>
+  <data name="AboutPageUseWindowsAccentColor" xml:space="preserve">
+    <value>使用Windows强调色</value>
+  </data>
+  <data name="AboutPageHexColorForExample0078D4" xml:space="preserve">
+    <value>十六进制颜色，例如#0078D4</value>
+  </data>
+  <data name="AboutPageEffects" xml:space="preserve">
+    <value>效果</value>
+  </data>
+  <data name="AboutPageEnableMicaAndTransparency" xml:space="preserve">
+    <value>启用云母和透明度</value>
+  </data>
+  <data name="AboutPageLanguage" xml:space="preserve">
+    <value>语言</value>
+  </data>
+  <data name="AboutPageUseWindowsSetting2" xml:space="preserve">
+    <value>使用 Windows 设置</value>
+  </data>
+  <data name="AboutPageEnglish" xml:space="preserve">
+    <value>英语</value>
+  </data>
+  <data name="AboutPageEspaOl" xml:space="preserve">
+    <value>西班牙语</value>
+  </data>
+  <data name="AboutPageItaliano" xml:space="preserve">
+    <value>意大利语</value>
+  </data>
+  <data name="AboutPageApplyAppearance" xml:space="preserve">
+    <value>应用外观</value>
+  </data>
+  <data name="AboutPagePortableConfiguration" xml:space="preserve">
+    <value>便携式配置</value>
+  </data>
+  <data name="AboutPageExportOrImportCustomScripts" xml:space="preserve">
+    <value>将自定义脚本、注册表调整、外部工具、收藏夹和外观导出或导入为一个 JSON 配置文件。从不包括特定于计算机的回滚备份。</value>
+  </data>
+  <data name="AboutPageExportProfile" xml:space="preserve">
+    <value>导出配置文件</value>
+  </data>
+  <data name="AboutPageImportProfile" xml:space="preserve">
+    <value>导入配置文件</value>
+  </data>
+  <data name="AboutPageUpdates" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="AboutPageTweakHubChecksGitHubReleasesWhen" xml:space="preserve">
+    <value>TweakHub 在启动时检查 GitHub 版本。仅在您确认后才会下载、验证和安装更​​新。</value>
+  </data>
+  <data name="AboutPageCheckForUpdates" xml:space="preserve">
+    <value>检查更新</value>
+  </data>
+  <data name="AboutPageLicenseMITLicense" xml:space="preserve">
+    <value>许可证：MIT 许可证</value>
+  </data>
+  <data name="AboutPageThisSoftwareIsProvidedAs" xml:space="preserve">
+    <value>本软件按原样提供，不提供任何形式的保证。</value>
+  </data>
+  <data name="ProgressWindowProcessing" xml:space="preserve">
+    <value>正在处理...</value>
+  </data>
+  <data name="ProgressWindowProcessing2" xml:space="preserve">
+    <value>正在处理...</value>
+  </data>
+  <data name="ProgressWindowPleaseWait" xml:space="preserve">
+    <value>请稍候...</value>
+  </data>
+  <data name="WindowsVersionMessage" xml:space="preserve">
+    <value>TweakHub 支持 Windows 11 build 22000 或更高版本。</value>
+  </data>
+  <data name="WindowsVersionTitle" xml:space="preserve">
+    <value>不受支持的 Windows 版本</value>
+  </data>
+  <data name="UnexpectedErrorMessage" xml:space="preserve">
+    <value>发生意外错误：{0}
+
+详细信息：{1}</value>
+  </data>
+  <data name="UnexpectedErrorTitle" xml:space="preserve">
+    <value>TweakHub 错误</value>
+  </data>
+  <data name="ThemeSystem" xml:space="preserve">
+    <value>与 Windows 同步</value>
+  </data>
+  <data name="ThemeLight" xml:space="preserve">
+    <value>浅色模式</value>
+  </data>
+  <data name="ThemeDark" xml:space="preserve">
+    <value>深色模式</value>
+  </data>
+  <data name="SystemColor" xml:space="preserve">
+    <value>系统颜色</value>
+  </data>
+  <data name="AppearanceStatus" xml:space="preserve">
+    <value>{0} • {1}</value>
+  </data>
+  <data name="InvalidAccentColor" xml:space="preserve">
+    <value>以#RRGGBB 格式输入颜色。</value>
+  </data>
+  <data name="AppearanceSaveFailed" xml:space="preserve">
+    <value>外观已应用于此会话，但无法保存。</value>
+  </data>
+  <data name="DataLocation" xml:space="preserve">
+    <value>数据位置：{0}</value>
+  </data>
+  <data name="Applied" xml:space="preserve">
+    <value>已应用</value>
+  </data>
+  <data name="AppliedRestartLanguage" xml:space="preserve">
+    <value>已应用 — 重新启动 TweakHub 以更改语言</value>
+  </data>
+  <data name="ProfileSaveFilter" xml:space="preserve">
+    <value>TweakHub 配置文件 (*.tweakhub.json)|*.tweakhub.json|JSON 文件 (*.json)|*.json</value>
+  </data>
+  <data name="ProfileOpenFilter" xml:space="preserve">
+    <value>TweakHub 配置文件(*.tweakhub.json;*.json)|*.tweakhub.json;*.json</value>
+  </data>
+  <data name="ProfileExported" xml:space="preserve">
+    <value>导出的配置文件</value>
+  </data>
+  <data name="ImportProfileTitle" xml:space="preserve">
+    <value>导入 TweakHub 配置文件</value>
+  </data>
+  <data name="ImportProfileMessage" xml:space="preserve">
+    <value>导入将替换当前的自定义配置文件。继续？</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>导入</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="ProfileImported" xml:space="preserve">
+    <value>已导入配置文件</value>
+  </data>
+  <data name="ProfileImportedRestart" xml:space="preserve">
+    <value>已导入配置文件 — 重新启动 TweakHub 以更改语言</value>
+  </data>
+  <data name="Checking" xml:space="preserve">
+    <value>正在检查...</value>
+  </data>
+  <data name="CheckedJustNow" xml:space="preserve">
+    <value>刚刚检查</value>
+  </data>
+  <data name="Processing" xml:space="preserve">
+    <value>正在处理...</value>
+  </data>
+  <data name="PercentComplete" xml:space="preserve">
+    <value>{0:F0}% 完成</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>正常</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>是</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>否</value>
+  </data>
+  <data name="RestartRequired" xml:space="preserve">
+    <value>需要重新启动</value>
+  </data>
+  <data name="RestartRequiredMessage" xml:space="preserve">
+    <value>{0}
+
+此消息在每个会话中显示一次。</value>
+  </data>
+  <data name="DisclaimerTitle" xml:space="preserve">
+    <value>TweakHub 免责声明</value>
+  </data>
+  <data name="DisclaimerMessage" xml:space="preserve">
+    <value>TweakHub 可以更改 Windows 设置、注册表、启动配置和其他系统组件。在继续之前创建系统还原点。
+
+您需要自行承担风险。作者对可能发生的任何损坏、数据丢失或系统不稳定不承担任何责任。
+
+继续操作即表示您确认并接受这些条件。</value>
+  </data>
+  <data name="IUnderstand" xml:space="preserve">
+    <value>我了解</value>
+  </data>
+  <data name="ProfileTooLarge" xml:space="preserve">
+    <value>配置文件限制为 5 MB。</value>
+  </data>
+  <data name="ProfileInvalid" xml:space="preserve">
+    <value>配置文件为空或无效。</value>
+  </data>
+  <data name="ProfileVersionUnsupported" xml:space="preserve">
+    <value>不受支持的配置文件版本：{0}。</value>
+  </data>
+  <data name="ProfileTooManyEntries" xml:space="preserve">
+    <value>配置文件包含太多自定义条目。</value>
+  </data>
+  <data name="CustomToolFieldsInvalid" xml:space="preserve">
+    <value>名称、类别或说明无效。</value>
+  </data>
+  <data name="CustomToolActionRequired" xml:space="preserve">
+    <value>仅选择一个操作：Winget、HTTPS 链接或 PowerShell。</value>
+  </data>
+  <data name="WingetIdInvalid" xml:space="preserve">
+    <value>输入 Winget 程序包 ID，而不是命令行。</value>
+  </data>
+  <data name="HttpsRequired" xml:space="preserve">
+    <value>链接必须使用 HTTPS。</value>
+  </data>
+  <data name="PowerShellTooLong" xml:space="preserve">
+    <value>PowerShell 命令限制为 8192 个字符。</value>
+  </data>
+  <data name="CheckForUpdates" xml:space="preserve">
+    <value>检查更新</value>
+  </data>
+  <data name="LatestVersion" xml:space="preserve">
+    <value>您正在运行最新版本。</value>
+  </data>
+  <data name="UpdateAvailable" xml:space="preserve">
+    <value>可用更新</value>
+  </data>
+  <data name="UpdateAvailableMessage" xml:space="preserve">
+    <value>TweakHub {0} 可用。
+
+已安装：{1}
+
+立即下载、验证并安装吗？</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="Later" xml:space="preserve">
+    <value>稍后</value>
+  </data>
+  <data name="VerifiedPackageMissing" xml:space="preserve">
+    <value>此版本不包含此安装模式的验证包。</value>
+  </data>
+  <data name="UpdatingTweakHub" xml:space="preserve">
+    <value>更新 TweakHub</value>
+  </data>
+  <data name="DownloadingVerifiedUpdate" xml:space="preserve">
+    <value>正在下载经过验证的更新...</value>
+  </data>
+  <data name="UpdateFailed" xml:space="preserve">
+    <value>更新失败</value>
+  </data>
+  <data name="UpdateFailedMessage" xml:space="preserve">
+    <value>TweakHub 无法自动更新。
+
+{0}</value>
+  </data>
+  <data name="ChecksumMissing" xml:space="preserve">
+    <value>版本校验和丢失或无效。</value>
+  </data>
+  <data name="DownloadIncomplete" xml:space="preserve">
+    <value>更新下载不完整。</value>
+  </data>
+  <data name="ChecksumMismatch" xml:space="preserve">
+    <value>更新校验和与版本不匹配。</value>
+  </data>
+  <data name="PortableExecutableMissing" xml:space="preserve">
+    <value>可移植存档不包含 TweakHub.exe。</value>
+  </data>
+  <data name="UntrustedDownloadUrl" xml:space="preserve">
+    <value>该版本包含不受信任的下载 URL。</value>
+  </data>
+  <data name="BackupCreatedStatus" xml:space="preserve">
+    <value>创建的备份：{0}</value>
+  </data>
+  <data name="RegistryValueNameRequired" xml:space="preserve">
+    <value>需要注册表值名称。</value>
+  </data>
+  <data name="RegistryPathRequired" xml:space="preserve">
+    <value>注册表路径是必需的。</value>
+  </data>
+  <data name="RegistryPathInvalid" xml:space="preserve">
+    <value>注册表路径必须包含受支持的根和子项。</value>
+  </data>
+  <data name="RegistryRootUnsupported" xml:space="preserve">
+    <value>不受支持的注册表根“{0}”。</value>
+  </data>
+  <data name="JustNow" xml:space="preserve">
+    <value>刚刚</value>
+  </data>
+  <data name="FewMomentsAgo" xml:space="preserve">
+    <value>几分钟前</value>
+  </data>
+  <data name="MinutesAgo" xml:space="preserve">
+    <value>{0} 分钟前</value>
+  </data>
+  <data name="HoursAgo" xml:space="preserve">
+    <value>{0} 小时前</value>
+  </data>
+  <data name="DaysAgo" xml:space="preserve">
+    <value>{0} 天前</value>
+  </data>
+  <data name="GitHubRepository" xml:space="preserve">
+    <value>GitHub 仓库</value>
+  </data>
+  <data name="DiscordServer" xml:space="preserve">
+    <value>Discord 服务器</value>
+  </data>
+</root>

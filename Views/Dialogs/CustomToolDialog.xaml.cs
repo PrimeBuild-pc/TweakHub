@@ -1,6 +1,7 @@
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using TweakHub.Localization;
 using TweakHub.Models;
 using TweakHub.Services;
 
@@ -16,10 +17,11 @@ public partial class CustomToolDialog : Window
         InitializeComponent();
         _id = existing?.Id ?? Guid.NewGuid().ToString("N");
         Tool = existing ?? new ExternalTool();
-        CategoryComboBox.ItemsSource = categories;
+        var categoryList = categories.ToList();
+        CategoryComboBox.ItemsSource = categoryList.Select(ShortcutService.LocalizeCategory);
         NameTextBox.Text = existing?.Name ?? string.Empty;
         DescriptionTextBox.Text = existing?.Description ?? string.Empty;
-        CategoryComboBox.Text = existing?.Category ?? categories.FirstOrDefault() ?? "Custom";
+        CategoryComboBox.Text = ShortcutService.LocalizeCategory(existing?.Category ?? categoryList.FirstOrDefault() ?? "Custom");
         RequiresAdministratorCheckBox.IsChecked = existing?.RequiresAdministrator == true;
 
         var action = existing?.PowerShellCommand.Length > 0 ? "PowerShell"
@@ -43,15 +45,15 @@ public partial class CustomToolDialog : Window
         var action = ActionComboBox.SelectedValue as string;
         ActionValueLabel.Text = action switch
         {
-            "Winget" => "Winget package ID",
-            "PowerShell" => "PowerShell command",
-            _ => "HTTPS URL"
+            "Winget" => L.Get("Tools:WingetPackageId"),
+            "PowerShell" => L.Get("Tools:PowerShellCommand"),
+            _ => L.Get("Tools:HttpsUrl")
         };
         ActionHelpText.Text = action switch
         {
-            "Winget" => "Example: Microsoft.PowerToys. TweakHub adds --id and --exact.",
-            "PowerShell" => "Commands such as irm ... | iex are allowed but are shown again for confirmation before execution.",
-            _ => "Use an HTTPS project page, download page or online file."
+            "Winget" => L.Get("Tools:WingetHelp"),
+            "PowerShell" => L.Get("Tools:PowerShellHelp"),
+            _ => L.Get("Tools:WebsiteHelp")
         };
         RequiresAdministratorCheckBox.Visibility = action == "PowerShell" ? Visibility.Visible : Visibility.Collapsed;
     }
@@ -65,7 +67,7 @@ public partial class CustomToolDialog : Window
             Id = _id,
             Name = NameTextBox.Text,
             Description = DescriptionTextBox.Text,
-            Category = CategoryComboBox.Text,
+            Category = ShortcutService.CategoryKey(CategoryComboBox.Text),
             IsCustom = true,
             IsFavorite = Tool.IsFavorite,
             RequiresAdministrator = action == "PowerShell" && RequiresAdministratorCheckBox.IsChecked == true,

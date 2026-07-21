@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Microsoft.Win32;
+using TweakHub.Localization;
 using TweakHub.Services;
 using TweakHub.Models;
 using TweakHub.Views.Dialogs;
@@ -35,7 +36,7 @@ namespace TweakHub.Views
             public void SetCompletion(DateTimeOffset? completedAt)
             {
                 IsCompleted = completedAt.HasValue;
-                CompletionToolTip = completedAt.HasValue ? $"Completed on this PC: {completedAt.Value.ToLocalTime():g}" : string.Empty;
+                CompletionToolTip = completedAt.HasValue ? L.Format("Scripts:CompletedOnThisPc", completedAt.Value.ToLocalTime().ToString("g", L.Culture)) : string.Empty;
             }
         }
 
@@ -45,56 +46,56 @@ namespace TweakHub.Views
         private readonly Dictionary<string, CancellationTokenSource> _runningScripts = new();
         private readonly BuiltInScriptCard[] _builtInScripts =
         [
-            new("winget", "\uE7B8", "Install WinGet Package Manager",
-                "Install Microsoft WinGet package manager if not present. Includes multiple installation methods with automatic fallback.",
-                "Package Manager", "Execute", false, 15,
-                "Install Microsoft WinGet if it is not already available?"),
-            new("ctt-winutil", "\uE756", "CTT Tool - Winutil",
-                "Download and run the current Chris Titus Tech Windows utility script.",
-                "Utilities", "Run", true, 30,
-                "This downloads and executes a remote script that can change over time. Only continue if you trust christitus.com."),
-            new("dism-sfc-chkdsk", "\uE90F", "DISM + SFC + CHKDSK System Repair",
-                "Repair the Windows image and system files, then scan the system drive for filesystem errors.",
-                "Repair", "Run Repair", true, 90,
-                "System repair can take 15–90 minutes. Do not close TweakHub while it is running.",
-                "A restart is recommended after repairs."),
-            new("component-cleanup", "\uE74D", "Component Store Cleanup",
-                "Remove superseded Windows component versions to reclaim disk space.",
-                "Maintenance", "Run Cleanup", true, 60,
-                "This removes superseded Windows components. Continue?"),
-            new("network-reset", "\uE968", "Network Stack Reset",
-                "Flush DNS and reset Winsock and TCP/IP to repair persistent network problems.",
-                "Network", "Run Reset", true, 15,
-                "This can affect static network settings and requires a restart. Continue?",
-                "Restart Windows before testing the connection."),
-            new("windows-update-reset", "\uE895", "Windows Update Components Reset",
-                "Recreate the Windows Update download and catalog caches when updates are stuck.",
-                "Repair", "Run Reset", true, 20,
-                "This clears cached update downloads and update history shown in Settings. Continue?"),
-            new("prevent-device-metadata", "\uE72E", "Prevent Device Companion Apps",
-                "Prevent Windows from downloading apps and metadata associated with connected devices.",
-                "Privacy", "Apply Policy", true, 10,
-                "This policy blocks device companion apps and metadata, but not necessarily every driver from Windows Update. Continue?"),
-            new("exclude-wu-drivers", "\uE895", "Exclude Drivers from Windows Update",
-                "Enable the Windows policy that excludes packages classified as drivers from quality updates.",
-                "Windows Update", "Apply Policy", true, 10,
-                "Windows Update will stop offering packages classified as drivers. Continue?"),
-            new("empty-standby-list", "\uE950", "Empty Standby List",
-                "Use Microsoft RAMMap to empty cached standby memory only when diagnosing a measured memory problem.",
-                "Memory", "Run Once", true, 10,
-                "Cached RAM is released automatically when applications need it. Emptying it routinely does not improve FPS or PC performance and can make games load more slowly. Continue only for a documented standby-list problem."),
-            new("remove-windows-ai", "\uE99A", "Windows AI - Disable and Remove",
-                "Disable Windows AI policies and remove available Copilot/CoreAI packages and Recall.",
-                "Privacy", "Run", true, 30,
-                "This removes packages and disables features. It is partially irreversible and TweakHub cannot guarantee automatic reinstallation. Continue?"),
-            new("adobe-hosts-block", "\uE968", "Adobe URL Block List - Enable",
-                "Add the maintained Ruddernation Designs Adobe block list to the hosts file inside TweakHub markers.",
-                "Privacy", "Enable", true, 10,
-                "This downloads a third-party list and blocks matching Adobe hosts system-wide. Continue?"),
-            new("adobe-hosts-unblock", "\uE777", "Adobe URL Block List - Remove",
-                "Remove only the hosts-file block previously added between TweakHub markers.",
-                "Privacy", "Remove", true, 10,
-                "Remove the TweakHub Adobe block from the hosts file?" )
+            new("winget", "\uE7B8", L.Get("Scripts:winget_Name"),
+                L.Get("Scripts:winget_Description"),
+                L.Get("Scripts:winget_Category"), L.Get("Scripts:winget_Execute"), false, 15,
+                L.Get("Scripts:winget_Confirmation")),
+            new("ctt-winutil", "\uE756", L.Get("Scripts:ctt_winutil_Name"),
+                L.Get("Scripts:ctt_winutil_Description"),
+                L.Get("Scripts:ctt_winutil_Category"), L.Get("Scripts:ctt_winutil_Execute"), true, 30,
+                L.Get("Scripts:ctt_winutil_Confirmation")),
+            new("dism-sfc-chkdsk", "\uE90F", L.Get("Scripts:dism_sfc_chkdsk_Name"),
+                L.Get("Scripts:dism_sfc_chkdsk_Description"),
+                L.Get("Scripts:dism_sfc_chkdsk_Category"), L.Get("Scripts:dism_sfc_chkdsk_Execute"), true, 90,
+                L.Get("Scripts:dism_sfc_chkdsk_Confirmation"),
+                L.Get("Scripts:dism_sfc_chkdsk_CompletionNote")),
+            new("component-cleanup", "\uE74D", L.Get("Scripts:component_cleanup_Name"),
+                L.Get("Scripts:component_cleanup_Description"),
+                L.Get("Scripts:component_cleanup_Category"), L.Get("Scripts:component_cleanup_Execute"), true, 60,
+                L.Get("Scripts:component_cleanup_Confirmation")),
+            new("network-reset", "\uE968", L.Get("Scripts:network_reset_Name"),
+                L.Get("Scripts:network_reset_Description"),
+                L.Get("Scripts:network_reset_Category"), L.Get("Scripts:network_reset_Execute"), true, 15,
+                L.Get("Scripts:network_reset_Confirmation"),
+                L.Get("Scripts:network_reset_CompletionNote")),
+            new("windows-update-reset", "\uE895", L.Get("Scripts:windows_update_reset_Name"),
+                L.Get("Scripts:windows_update_reset_Description"),
+                L.Get("Scripts:windows_update_reset_Category"), L.Get("Scripts:windows_update_reset_Execute"), true, 20,
+                L.Get("Scripts:windows_update_reset_Confirmation")),
+            new("prevent-device-metadata", "\uE72E", L.Get("Scripts:prevent_device_metadata_Name"),
+                L.Get("Scripts:prevent_device_metadata_Description"),
+                L.Get("Scripts:prevent_device_metadata_Category"), L.Get("Scripts:prevent_device_metadata_Execute"), true, 10,
+                L.Get("Scripts:prevent_device_metadata_Confirmation")),
+            new("exclude-wu-drivers", "\uE895", L.Get("Scripts:exclude_wu_drivers_Name"),
+                L.Get("Scripts:exclude_wu_drivers_Description"),
+                L.Get("Scripts:exclude_wu_drivers_Category"), L.Get("Scripts:exclude_wu_drivers_Execute"), true, 10,
+                L.Get("Scripts:exclude_wu_drivers_Confirmation")),
+            new("empty-standby-list", "\uE950", L.Get("Scripts:empty_standby_list_Name"),
+                L.Get("Scripts:empty_standby_list_Description"),
+                L.Get("Scripts:empty_standby_list_Category"), L.Get("Scripts:empty_standby_list_Execute"), true, 10,
+                L.Get("Scripts:empty_standby_list_Confirmation")),
+            new("remove-windows-ai", "\uE99A", L.Get("Scripts:remove_windows_ai_Name"),
+                L.Get("Scripts:remove_windows_ai_Description"),
+                L.Get("Scripts:remove_windows_ai_Category"), L.Get("Scripts:remove_windows_ai_Execute"), true, 30,
+                L.Get("Scripts:remove_windows_ai_Confirmation")),
+            new("adobe-hosts-block", "\uE968", L.Get("Scripts:adobe_hosts_block_Name"),
+                L.Get("Scripts:adobe_hosts_block_Description"),
+                L.Get("Scripts:adobe_hosts_block_Category"), L.Get("Scripts:adobe_hosts_block_Execute"), true, 10,
+                L.Get("Scripts:adobe_hosts_block_Confirmation")),
+            new("adobe-hosts-unblock", "\uE777", L.Get("Scripts:adobe_hosts_unblock_Name"),
+                L.Get("Scripts:adobe_hosts_unblock_Description"),
+                L.Get("Scripts:adobe_hosts_unblock_Category"), L.Get("Scripts:adobe_hosts_unblock_Execute"), true, 10,
+                L.Get("Scripts:adobe_hosts_unblock_Confirmation"))
         ];
 
         public AutomatedScriptsPage()
@@ -141,7 +142,7 @@ namespace TweakHub.Views
         {
             var dialog = new OpenFileDialog
             {
-                Filter = "Scripts (*.ps1;*.cmd;*.bat)|*.ps1;*.cmd;*.bat",
+                Filter = L.Get("Scripts:ImportFilter"),
                 Multiselect = true
             };
             if (dialog.ShowDialog() != true) return;
@@ -165,7 +166,7 @@ namespace TweakHub.Views
             var extension = script.Language == ScriptLanguage.PowerShell ? ".ps1" : ".cmd";
             var dialog = new SaveFileDialog
             {
-                Filter = script.Language == ScriptLanguage.PowerShell ? "PowerShell (*.ps1)|*.ps1" : "CMD (*.cmd)|*.cmd",
+                Filter = script.Language == ScriptLanguage.PowerShell ? L.Get("Scripts:PowerShellFilter") : L.Get("Scripts:CmdFilter"),
                 FileName = script.Name + extension,
                 DefaultExt = extension
             };
@@ -223,10 +224,10 @@ namespace TweakHub.Views
         {
             if (script.RequiresAdministrator && !await AppDialog.ConfirmAsync(
                     Window.GetWindow(this),
-                    "Administrator Script",
-                    $"Run '{script.Name}' with administrator privileges?",
-                    "Run",
-                    "Cancel")) return;
+                    L.Get("Scripts:AdministratorScript"),
+                    L.Format("Scripts:AdministratorScriptMessage", script.Name),
+                    L.Get("Scripts:Run"),
+                    L.Get("Scripts:Cancel"))) return;
 
             var result = script.Language == ScriptLanguage.PowerShell
                 ? await _powerShellService.ExecuteScriptAsync(
@@ -237,8 +238,8 @@ namespace TweakHub.Views
                 : await ExecuteCmdScript(script, cancellationToken);
             var details = string.Join("\n", new[] { result.Output.Trim(), result.Error.Trim() }.Where(s => s.Length > 0));
             var summary = result.Success
-                ? $"Script completed in {result.Duration.TotalSeconds:F1}s."
-                : $"Script failed (exit {result.ExitCode}) after {result.Duration.TotalSeconds:F1}s.";
+                ? L.Format("Scripts:CustomScriptCompleted", result.Duration.TotalSeconds)
+                : L.Format("Scripts:CustomScriptFailed", result.ExitCode, result.Duration.TotalSeconds);
 
             if (result.Success)
                 await AppDialog.ShowAsync(Window.GetWindow(this), script.Name, $"{summary}\n\n{details}".Trim());
@@ -269,7 +270,7 @@ namespace TweakHub.Views
         {
             var dialog = new Window
             {
-                Title = isNew ? "Create Custom Script" : "Edit Custom Script",
+                Title = L.Get(isNew ? "Scripts:CreateCustomScript" : "Scripts:EditCustomScript"),
                 Width = 560,
                 Height = 480,
                 WindowStartupLocation = WindowStartupLocation.CenterOwner,
@@ -283,14 +284,14 @@ namespace TweakHub.Views
             grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
             grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
 
-            var nameBox = new TextBox { Margin = new Thickness(0, 0, 0, 12), ToolTip = "Enter script name", Text = script.Name };
+            var nameBox = new TextBox { Margin = new Thickness(0, 0, 0, 12), ToolTip = L.Get("Scripts:EnterScriptName"), Text = script.Name };
             Grid.SetRow(nameBox, 0);
             grid.Children.Add(nameBox);
 
             var langPanel = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 0, 0, 12) };
             var psRadio = new RadioButton { Content = "PowerShell", IsChecked = script.Language == ScriptLanguage.PowerShell, Margin = new Thickness(0, 0, 12, 0) };
-            var cmdRadio = new RadioButton { Content = "CMD Batch", IsChecked = script.Language == ScriptLanguage.Cmd, Margin = new Thickness(0,0,20,0) };
-            var adminCheck = new CheckBox { Content = "Requires administrator", IsChecked = script.RequiresAdministrator, VerticalAlignment = VerticalAlignment.Center };
+            var cmdRadio = new RadioButton { Content = L.Get("Scripts:CmdBatch"), IsChecked = script.Language == ScriptLanguage.Cmd, Margin = new Thickness(0,0,20,0) };
+            var adminCheck = new CheckBox { Content = L.Get("Scripts:RequiresAdministrator"), IsChecked = script.RequiresAdministrator, VerticalAlignment = VerticalAlignment.Center };
             langPanel.Children.Add(psRadio);
             langPanel.Children.Add(cmdRadio);
             langPanel.Children.Add(adminCheck);
@@ -310,8 +311,8 @@ namespace TweakHub.Views
             grid.Children.Add(contentBox);
 
             var buttonsPanel = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right };
-            var cancelBtn = new Button { Content = "Cancel", Style = GetStyleOrDefault("SecondaryButtonStyle"), Margin = new Thickness(0, 0, 8, 0) };
-            var saveBtn = new Button { Content = isNew ? "Create" : "Save", Style = GetStyleOrDefault("ExecuteButtonStyle") };
+            var cancelBtn = new Button { Content = L.Get("Scripts:Cancel"), Style = GetStyleOrDefault("SecondaryButtonStyle"), Margin = new Thickness(0, 0, 8, 0) };
+            var saveBtn = new Button { Content = L.Get(isNew ? "Scripts:Create" : "Scripts:Save"), Style = GetStyleOrDefault("ExecuteButtonStyle") };
             buttonsPanel.Children.Add(cancelBtn);
             buttonsPanel.Children.Add(saveBtn);
             Grid.SetRow(buttonsPanel, 3);
@@ -323,7 +324,7 @@ namespace TweakHub.Views
                 var name = nameBox.Text.Trim();
                 if (string.IsNullOrWhiteSpace(name))
                 {
-                    await AppDialog.ShowWarningAsync(dialog, "Invalid Script", "Name required.");
+                    await AppDialog.ShowWarningAsync(dialog, L.Get("Scripts:InvalidScript"), L.Get("Scripts:NameRequired"));
                     return;
                 }
 
@@ -337,8 +338,8 @@ namespace TweakHub.Views
                 CustomScriptsControl.Items.Refresh();
                 await AppDialog.ShowAsync(
                     Window.GetWindow(this),
-                    isNew ? "Script Created" : "Script Updated",
-                    $"Script '{name}' was {(isNew ? "created" : "updated")} successfully.");
+                    L.Get(isNew ? "Scripts:ScriptCreated" : "Scripts:ScriptUpdated"),
+                    L.Format(isNew ? "Scripts:ScriptCreatedMessage" : "Scripts:ScriptUpdatedMessage", name));
             };
 
             dialog.Content = grid;
@@ -350,13 +351,13 @@ namespace TweakHub.Views
             var owner = Window.GetWindow(this);
             if (_runningScripts.ContainsKey(script.Id))
             {
-                await AppDialog.ShowAsync(owner, "Script Running", "Stop the script before deleting it.");
+                await AppDialog.ShowAsync(owner, L.Get("Scripts:ScriptRunning"), L.Get("Scripts:StopBeforeDeleting"));
                 return;
             }
             if (!await AppDialog.ConfirmAsync(
                     owner,
-                    "Conferma Eliminazione",
-                    $"Sei sicuro di voler eliminare lo script '{script.Name}'?\n\nQuesta operazione non può essere annullata.")) return;
+                    L.Get("Scripts:ConfirmDelete"),
+                    L.Format("Scripts:ConfirmDeleteMessage", script.Name))) return;
 
             var toRemove = _customScripts.FirstOrDefault(x => x.Id == script.Id);
             if (toRemove != null)
@@ -366,8 +367,8 @@ namespace TweakHub.Views
 
                 await AppDialog.ShowAsync(
                     owner,
-                    "Script Eliminato",
-                    $"Lo script '{script.Name}' è stato eliminato.");
+                    L.Get("Scripts:ScriptDeleted"),
+                    L.Format("Scripts:ScriptDeletedMessage", script.Name));
             }
         }
 
@@ -382,7 +383,7 @@ namespace TweakHub.Views
             }
             catch (Exception ex)
             {
-                textBox.Text = "# Error loading script:\n" + ex.Message;
+                textBox.Text = L.Format("Scripts:ScriptLoadError", ex.Message);
             }
             preview.Visibility = preview.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
         }
@@ -392,7 +393,7 @@ namespace TweakHub.Views
             var path = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Scripts", "WinGetInstall.ps1");
             return System.IO.File.Exists(path)
                 ? System.IO.File.ReadAllText(path)
-                : "# WinGetInstall.ps1 not found in Scripts folder.";
+                : L.Get("Scripts:WingetScriptMissingPreview");
         }
 
         internal static string GetBuiltInScript(string id) => id switch
@@ -549,24 +550,24 @@ Write-Output 'TweakHub Adobe block removed.'
         {
             if (!await AppDialog.ConfirmAsync(
                     Window.GetWindow(this),
-                    "Install WinGet Package Manager",
-                    "Install Microsoft WinGet if it is not already available?",
-                    "Install",
-                    "Cancel")) return;
+                    L.Get("Scripts:winget_Name"),
+                    L.Get("Scripts:winget_Confirmation"),
+                    L.Get("Scripts:Install"),
+                    L.Get("Scripts:Cancel"))) return;
 
             var scriptPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Scripts", "WinGetInstall.ps1");
             if (!System.IO.File.Exists(scriptPath))
             {
-                await AppDialog.ShowErrorAsync(Window.GetWindow(this), "Installation Error", "WinGetInstall.ps1 was not found.");
+                await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Scripts:InstallationError"), L.Get("Scripts:WingetScriptNotFound"));
                 return;
             }
 
-            var progress = new ProgressWindow("Installing WinGet Package Manager");
+            var progress = new ProgressWindow(L.Get("Scripts:InstallingWinget"));
             progress.Show();
 
             try
             {
-                progress.UpdateStatus("Running the WinGet installation script...");
+                progress.UpdateStatus(L.Get("Scripts:RunningWingetScript"));
                 var result = await _powerShellService.ExecuteScriptAsync(System.IO.File.ReadAllText(scriptPath));
                 var success = result.Success &&
                               (result.Output.Contains("SUCCESS:") || result.Output.Contains("ALREADY_INSTALLED:"));
@@ -574,14 +575,14 @@ Write-Output 'TweakHub Adobe block removed.'
                     MarkScriptCompleted(card);
 
                 if (success)
-                    await AppDialog.ShowAsync(Window.GetWindow(this), "Installation Complete", result.Output.Trim());
+                    await AppDialog.ShowAsync(Window.GetWindow(this), L.Get("Scripts:InstallationComplete"), result.Output.Trim());
                 else
-                    await AppDialog.ShowErrorAsync(Window.GetWindow(this), "Installation Failed",
-                        $"WinGet installation failed.\n\n{result.Error}\n{result.Output}".Trim());
+                    await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Scripts:InstallationFailed"),
+                        L.Format("Scripts:WingetInstallationFailed", result.Error, result.Output).Trim());
             }
             catch (Exception ex)
             {
-                await AppDialog.ShowErrorAsync(Window.GetWindow(this), "Installation Error", ex.Message);
+                await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Scripts:InstallationError"), ex.Message);
             }
             finally
             {
@@ -596,11 +597,11 @@ Write-Output 'TweakHub Adobe block removed.'
                     script.Name,
                     script.Confirmation,
                     script.ExecuteText,
-                    "Cancel")) return;
+                    L.Get("Scripts:Cancel"))) return;
 
             var progress = new ProgressWindow(script.Name);
             progress.Show();
-            progress.UpdateStatus("Running commands. Do not close TweakHub...");
+            progress.UpdateStatus(L.Get("Scripts:RunningCommands"));
             progress.UpdateProgress(10);
 
             try
@@ -619,22 +620,22 @@ Write-Output 'TweakHub Adobe block removed.'
                 }
                 catch (Exception ex)
                 {
-                    logPath = $"Log could not be saved: {ex.Message}";
+                    logPath = L.Format("Scripts:LogSaveFailed", ex.Message);
                 }
                 progress.UpdateProgress(100);
 
                 var details = string.Join("\n", new[] { result.Output.Trim(), result.Error.Trim() }.Where(value => value.Length > 0));
                 if (details.Length > 4000) details = details[^4000..];
-                var message = $"{(result.Success ? "Completed successfully." : $"Failed with exit code {result.ExitCode}.")}\n" +
-                              $"{script.CompletionNote}\n\n{details}\n\nLog: {logPath}".Trim();
+                var outcome = result.Success ? L.Get("Scripts:CompletedSuccessfully") : L.Format("Scripts:FailedExitCode", result.ExitCode);
+                var message = L.Format("Scripts:BuiltInResult", outcome, script.CompletionNote, details, logPath).Trim();
                 if (result.Success)
-                    await AppDialog.ShowAsync(Window.GetWindow(this), "Complete", message);
+                    await AppDialog.ShowAsync(Window.GetWindow(this), L.Get("Scripts:Complete"), message);
                 else
-                    await AppDialog.ShowErrorAsync(Window.GetWindow(this), "Failed", message);
+                    await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Scripts:Failed"), message);
             }
             catch (Exception ex)
             {
-                await AppDialog.ShowErrorAsync(Window.GetWindow(this), $"{script.Name} Failed", ex.Message);
+                await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Format("Scripts:NamedScriptFailed", script.Name), ex.Message);
             }
             finally
             {

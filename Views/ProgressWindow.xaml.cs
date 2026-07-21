@@ -1,13 +1,14 @@
 using System.Windows;
+using TweakHub.Localization;
 
 namespace TweakHub.Views
 {
     public partial class ProgressWindow : Window
     {
-        public ProgressWindow(string title = "Processing...")
+        public ProgressWindow(string? title = null)
         {
             InitializeComponent();
-            TitleText.Text = title;
+            TitleText.Text = title ?? L.Get("UI:Processing");
             Owner = Application.Current.MainWindow;
         }
 
@@ -16,7 +17,7 @@ namespace TweakHub.Views
             Dispatcher.Invoke(() =>
             {
                 ProgressBar.Value = percentage;
-                StatusText.Text = $"{percentage:F0}% complete";
+                StatusText.Text = L.Format("UI:PercentComplete", percentage);
             });
         }
 

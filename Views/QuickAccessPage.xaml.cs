@@ -1,6 +1,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using TweakHub.Localization;
 using TweakHub.Models;
 using TweakHub.Services;
 using TweakHub.Views.Dialogs;
@@ -52,7 +53,7 @@ namespace TweakHub.Views
                 // Category header
                 var categoryHeader = new TextBlock
                 {
-                    Text = group.Key,
+                    Text = ShortcutService.LocalizeCategory(group.Key),
                     Style = (Style)FindResource("CategoryHeaderStyle")
                 };
                 ShortcutsContainer.Children.Add(categoryHeader);
@@ -175,17 +176,16 @@ namespace TweakHub.Views
                 {
                     await AppDialog.ShowWarningAsync(
                         Window.GetWindow(this),
-                        "Shortcut Execution Failed",
-                        $"Failed to execute shortcut: {shortcut.Name}\n\n" +
-                        "This may be due to insufficient permissions or the target application not being available.");
+                        L.Get("Tools:ShortcutExecutionFailed"),
+                        L.Format("Tools:ShortcutExecutionFailedMessage", shortcut.Name));
                 }
             }
             catch (Exception ex)
             {
                 await AppDialog.ShowErrorAsync(
                     Window.GetWindow(this),
-                    "Shortcut Error",
-                    $"An error occurred while executing the shortcut:\n\n{ex.Message}");
+                    L.Get("Tools:ShortcutError"),
+                    L.Format("Tools:ShortcutErrorMessage", ex.Message));
             }
         }
 
@@ -213,7 +213,7 @@ namespace TweakHub.Views
                 ShortcutsContainer.Children.Clear();
                 var errorText = new TextBlock
                 {
-                    Text = "Failed to load shortcuts. Please restart TweakHub.",
+                    Text = L.Get("Tools:LoadShortcutsFailed"),
                     HorizontalAlignment = HorizontalAlignment.Center,
                     VerticalAlignment = VerticalAlignment.Center,
                     Foreground = (System.Windows.Media.Brush)FindResource("DangerBrush")

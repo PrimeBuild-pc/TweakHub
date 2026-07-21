@@ -1,0 +1,398 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AutomatedScriptsPageAutomatedScripts" xml:space="preserve">
+    <value>自动化脚本</value>
+  </data>
+  <data name="AutomatedScriptsPageView" xml:space="preserve">
+    <value>查看</value>
+  </data>
+  <data name="AutomatedScriptsPageDetails" xml:space="preserve">
+    <value>详情</value>
+  </data>
+  <data name="AutomatedScriptsPageCopy" xml:space="preserve">
+    <value>复制</value>
+  </data>
+  <data name="AutomatedScriptsPageStop" xml:space="preserve">
+    <value>停止</value>
+  </data>
+  <data name="AutomatedScriptsPageExport" xml:space="preserve">
+    <value>导出</value>
+  </data>
+  <data name="AutomatedScriptsPageEdit" xml:space="preserve">
+    <value>编辑</value>
+  </data>
+  <data name="AutomatedScriptsPageDelete" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="AutomatedScriptsPageAutomatedScripts2" xml:space="preserve">
+    <value>自动化脚本</value>
+  </data>
+  <data name="AutomatedScriptsPageRunMaintenanceCommandsAndManage" xml:space="preserve">
+    <value>运行维护命令并管理您的自定义 PowerShell 或 CMD 脚本。</value>
+  </data>
+  <data name="AutomatedScriptsPageImport" xml:space="preserve">
+    <value>导入</value>
+  </data>
+  <data name="AutomatedScriptsPageNewScript" xml:space="preserve">
+    <value>新脚本</value>
+  </data>
+  <data name="winget_Name" xml:space="preserve">
+    <value>安装 WinGet 包管理器</value>
+  </data>
+  <data name="winget_Description" xml:space="preserve">
+    <value>如果未安装 Microsoft WinGet 包管理器，请进行安装。包括多种安装方法，并带有自动回退。</value>
+  </data>
+  <data name="winget_Category" xml:space="preserve">
+    <value>包管理器</value>
+  </data>
+  <data name="winget_Execute" xml:space="preserve">
+    <value>执行</value>
+  </data>
+  <data name="winget_Confirmation" xml:space="preserve">
+    <value>如果 Microsoft WinGet 尚不可用，是否安装？</value>
+  </data>
+  <data name="ctt_winutil_Name" xml:space="preserve">
+    <value>CTT 工具 - Winutil</value>
+  </data>
+  <data name="ctt_winutil_Description" xml:space="preserve">
+    <value>下载并运行当前 Chris Titus Tech Windows 实用脚本。</value>
+  </data>
+  <data name="ctt_winutil_Category" xml:space="preserve">
+    <value>实用工具</value>
+  </data>
+  <data name="ctt_winutil_Execute" xml:space="preserve">
+    <value>运行</value>
+  </data>
+  <data name="ctt_winutil_Confirmation" xml:space="preserve">
+    <value>这会下载并执行一个可能随时间变化的远程脚本。只有在信任 christitus.com 时才继续。</value>
+  </data>
+  <data name="dism_sfc_chkdsk_Name" xml:space="preserve">
+    <value>DISM + SFC + CHKDSK 系统修复</value>
+  </data>
+  <data name="dism_sfc_chkdsk_Description" xml:space="preserve">
+    <value>修复 Windows 映像和系统文件，然后扫描系统驱动器以检查文件系统错误。</value>
+  </data>
+  <data name="dism_sfc_chkdsk_Category" xml:space="preserve">
+    <value>修复</value>
+  </data>
+  <data name="dism_sfc_chkdsk_Execute" xml:space="preserve">
+    <value>运行修复</value>
+  </data>
+  <data name="dism_sfc_chkdsk_Confirmation" xml:space="preserve">
+    <value>系统修复可能需要 15–90 分钟。运行过程中请不要关闭 TweakHub。</value>
+  </data>
+  <data name="dism_sfc_chkdsk_CompletionNote" xml:space="preserve">
+    <value>修复后建议重启。</value>
+  </data>
+  <data name="component_cleanup_Name" xml:space="preserve">
+    <value>组件存储清理</value>
+  </data>
+  <data name="component_cleanup_Description" xml:space="preserve">
+    <value>删除已替代的 Windows 组件版本以回收磁盘空间。</value>
+  </data>
+  <data name="component_cleanup_Category" xml:space="preserve">
+    <value>维护</value>
+  </data>
+  <data name="component_cleanup_Execute" xml:space="preserve">
+    <value>运行清理</value>
+  </data>
+  <data name="component_cleanup_Confirmation" xml:space="preserve">
+    <value>这将删除已被替代的 Windows 组件。是否继续？</value>
+  </data>
+  <data name="network_reset_Name" xml:space="preserve">
+    <value>网络堆栈重置</value>
+  </data>
+  <data name="network_reset_Description" xml:space="preserve">
+    <value>清除 DNS 并重置 Winsock 和 TCP/IP 以修复持续的网络问题。</value>
+  </data>
+  <data name="network_reset_Category" xml:space="preserve">
+    <value>网络</value>
+  </data>
+  <data name="network_reset_Execute" xml:space="preserve">
+    <value>运行重置</value>
+  </data>
+  <data name="network_reset_Confirmation" xml:space="preserve">
+    <value>这可能会影响静态网络设置，需要重启。是否继续？</value>
+  </data>
+  <data name="network_reset_CompletionNote" xml:space="preserve">
+    <value>在测试连接之前请重启 Windows。</value>
+  </data>
+  <data name="windows_update_reset_Name" xml:space="preserve">
+    <value>Windows 更新组件重置</value>
+  </data>
+  <data name="windows_update_reset_Description" xml:space="preserve">
+    <value>重新创建 Windows 更新下载和目录缓存，当更新卡住时。</value>
+  </data>
+  <data name="windows_update_reset_Category" xml:space="preserve">
+    <value>修复</value>
+  </data>
+  <data name="windows_update_reset_Execute" xml:space="preserve">
+    <value>运行重置</value>
+  </data>
+  <data name="windows_update_reset_Confirmation" xml:space="preserve">
+    <value>这将清除在设置中显示的缓存更新下载和更新历史记录。是否继续？</value>
+  </data>
+  <data name="prevent_device_metadata_Name" xml:space="preserve">
+    <value>阻止设备伴随应用</value>
+  </data>
+  <data name="prevent_device_metadata_Description" xml:space="preserve">
+    <value>防止 Windows 下载与已连接设备相关的应用和元数据。</value>
+  </data>
+  <data name="prevent_device_metadata_Category" xml:space="preserve">
+    <value>隐私</value>
+  </data>
+  <data name="prevent_device_metadata_Execute" xml:space="preserve">
+    <value>应用策略</value>
+  </data>
+  <data name="prevent_device_metadata_Confirmation" xml:space="preserve">
+    <value>此策略会阻止设备伴随应用和元数据，但不一定会阻止 Windows 更新中的所有驱动程序。是否继续？</value>
+  </data>
+  <data name="exclude_wu_drivers_Name" xml:space="preserve">
+    <value>从 Windows 更新中排除驱动程序</value>
+  </data>
+  <data name="exclude_wu_drivers_Description" xml:space="preserve">
+    <value>启用 Windows 策略，将被归类为驱动程序的更新包排除在质量更新之外。</value>
+  </data>
+  <data name="exclude_wu_drivers_Category" xml:space="preserve">
+    <value>Windows 更新</value>
+  </data>
+  <data name="exclude_wu_drivers_Execute" xml:space="preserve">
+    <value>应用策略</value>
+  </data>
+  <data name="exclude_wu_drivers_Confirmation" xml:space="preserve">
+    <value>Windows 更新将停止提供被归类为驱动程序的更新包。是否继续？</value>
+  </data>
+  <data name="empty_standby_list_Name" xml:space="preserve">
+    <value>清空待机列表</value>
+  </data>
+  <data name="empty_standby_list_Description" xml:space="preserve">
+    <value>仅在诊断有量化内存问题时，使用 Microsoft RAMMap 清空缓存的待机内存。</value>
+  </data>
+  <data name="empty_standby_list_Category" xml:space="preserve">
+    <value>内存</value>
+  </data>
+  <data name="empty_standby_list_Execute" xml:space="preserve">
+    <value>运行一次</value>
+  </data>
+  <data name="empty_standby_list_Confirmation" xml:space="preserve">
+    <value>当应用程序需要时，缓存的 RAM 会自动释放。常规清空不会提高 FPS 或 PC 性能，可能会导致游戏加载更慢。仅在有文档记录的待机列表问题时继续。</value>
+  </data>
+  <data name="remove_windows_ai_Name" xml:space="preserve">
+    <value>Windows AI - 禁用并移除</value>
+  </data>
+  <data name="remove_windows_ai_Description" xml:space="preserve">
+    <value>禁用 Windows AI 策略并移除可用的 Copilot/CoreAI 软件包和 Recall。</value>
+  </data>
+  <data name="remove_windows_ai_Category" xml:space="preserve">
+    <value>隐私</value>
+  </data>
+  <data name="remove_windows_ai_Execute" xml:space="preserve">
+    <value>运行</value>
+  </data>
+  <data name="remove_windows_ai_Confirmation" xml:space="preserve">
+    <value>这将移除软件包并禁用功能。操作部分不可逆，TweakHub 无法保证自动重新安装。是否继续？</value>
+  </data>
+  <data name="adobe_hosts_block_Name" xml:space="preserve">
+    <value>Adobe URL 阻止列表 - 启用</value>
+  </data>
+  <data name="adobe_hosts_block_Description" xml:space="preserve">
+    <value>将维护的 Ruddernation Designs Adobe 阻止列表添加到 TweakHub 标记内的 hosts 文件中。</value>
+  </data>
+  <data name="adobe_hosts_block_Category" xml:space="preserve">
+    <value>隐私</value>
+  </data>
+  <data name="adobe_hosts_block_Execute" xml:space="preserve">
+    <value>启用</value>
+  </data>
+  <data name="adobe_hosts_block_Confirmation" xml:space="preserve">
+    <value>这将下载第三方列表并在系统范围内阻止匹配的 Adobe 主机。是否继续？</value>
+  </data>
+  <data name="adobe_hosts_unblock_Name" xml:space="preserve">
+    <value>Adobe URL 阻止列表 - 移除</value>
+  </data>
+  <data name="adobe_hosts_unblock_Description" xml:space="preserve">
+    <value>仅删除之前在 TweakHub 标记之间添加的 hosts 文件块。</value>
+  </data>
+  <data name="adobe_hosts_unblock_Category" xml:space="preserve">
+    <value>隐私</value>
+  </data>
+  <data name="adobe_hosts_unblock_Execute" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="adobe_hosts_unblock_Confirmation" xml:space="preserve">
+    <value>从 hosts 文件中删除 TweakHub Adobe 块？</value>
+  </data>
+  <data name="CompletedOnThisPc" xml:space="preserve">
+    <value>已在此电脑完成：{0}</value>
+  </data>
+  <data name="ImportFilter" xml:space="preserve">
+    <value>脚本 (*.ps1;*.cmd;*.bat)|*.ps1;*.cmd;*.bat</value>
+  </data>
+  <data name="PowerShellFilter" xml:space="preserve">
+    <value>PowerShell (*.ps1)|*.ps1</value>
+  </data>
+  <data name="CmdFilter" xml:space="preserve">
+    <value>CMD (*.cmd)|*.cmd</value>
+  </data>
+  <data name="AdministratorScript" xml:space="preserve">
+    <value>管理员脚本</value>
+  </data>
+  <data name="AdministratorScriptMessage" xml:space="preserve">
+    <value>以管理员权限运行 '{0}'？</value>
+  </data>
+  <data name="Run" xml:space="preserve">
+    <value>运行</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="CustomScriptCompleted" xml:space="preserve">
+    <value>脚本在 {0:F1} 秒内完成。</value>
+  </data>
+  <data name="CustomScriptFailed" xml:space="preserve">
+    <value>脚本失败（退出代码 {0}），用时 {1:F1} 秒。</value>
+  </data>
+  <data name="CreateCustomScript" xml:space="preserve">
+    <value>创建自定义脚本</value>
+  </data>
+  <data name="EditCustomScript" xml:space="preserve">
+    <value>编辑自定义脚本</value>
+  </data>
+  <data name="EnterScriptName" xml:space="preserve">
+    <value>输入脚本名称</value>
+  </data>
+  <data name="CmdBatch" xml:space="preserve">
+    <value>CMD 批处理</value>
+  </data>
+  <data name="RequiresAdministrator" xml:space="preserve">
+    <value>需要管理员权限</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>创建</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="InvalidScript" xml:space="preserve">
+    <value>无效脚本</value>
+  </data>
+  <data name="NameRequired" xml:space="preserve">
+    <value>名称是必填项。</value>
+  </data>
+  <data name="ScriptCreated" xml:space="preserve">
+    <value>脚本已创建</value>
+  </data>
+  <data name="ScriptUpdated" xml:space="preserve">
+    <value>脚本已更新</value>
+  </data>
+  <data name="ScriptCreatedMessage" xml:space="preserve">
+    <value>脚本 '{0}' 创建成功。</value>
+  </data>
+  <data name="ScriptUpdatedMessage" xml:space="preserve">
+    <value>脚本 '{0}' 更新成功。</value>
+  </data>
+  <data name="ScriptRunning" xml:space="preserve">
+    <value>脚本运行中</value>
+  </data>
+  <data name="StopBeforeDeleting" xml:space="preserve">
+    <value>删除前请停止脚本。</value>
+  </data>
+  <data name="ConfirmDelete" xml:space="preserve">
+    <value>确认删除</value>
+  </data>
+  <data name="ConfirmDeleteMessage" xml:space="preserve">
+    <value>您确定要删除脚本 '{0}' 吗？
+
+此操作无法撤销。</value>
+  </data>
+  <data name="ScriptDeleted" xml:space="preserve">
+    <value>脚本已删除</value>
+  </data>
+  <data name="ScriptDeletedMessage" xml:space="preserve">
+    <value>脚本 '{0}' 已被删除。</value>
+  </data>
+  <data name="ScriptLoadError" xml:space="preserve">
+    <value># 加载脚本时出错：
+{0}</value>
+  </data>
+  <data name="WingetScriptMissingPreview" xml:space="preserve">
+    <value>在 Scripts 文件夹中未找到 WinGetInstall.ps1。</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>安装</value>
+  </data>
+  <data name="InstallationError" xml:space="preserve">
+    <value>安装错误</value>
+  </data>
+  <data name="WingetScriptNotFound" xml:space="preserve">
+    <value>未找到 WinGetInstall.ps1。</value>
+  </data>
+  <data name="InstallingWinget" xml:space="preserve">
+    <value>正在安装 WinGet 包管理器</value>
+  </data>
+  <data name="RunningWingetScript" xml:space="preserve">
+    <value>正在运行 WinGet 安装脚本...</value>
+  </data>
+  <data name="InstallationComplete" xml:space="preserve">
+    <value>安装完成</value>
+  </data>
+  <data name="InstallationFailed" xml:space="preserve">
+    <value>安装失败</value>
+  </data>
+  <data name="WingetInstallationFailed" xml:space="preserve">
+    <value>WinGet 安装失败。
+
+{0}
+{1}</value>
+  </data>
+  <data name="RunningCommands" xml:space="preserve">
+    <value>正在运行命令。请勿关闭 TweakHub...</value>
+  </data>
+  <data name="LogSaveFailed" xml:space="preserve">
+    <value>日志无法保存：{0}</value>
+  </data>
+  <data name="CompletedSuccessfully" xml:space="preserve">
+    <value>成功完成。</value>
+  </data>
+  <data name="FailedExitCode" xml:space="preserve">
+    <value>失败，退出代码 {0}。</value>
+  </data>
+  <data name="BuiltInResult" xml:space="preserve">
+    <value>{0}
+{1}
+
+{2}
+
+日志：{3}</value>
+  </data>
+  <data name="Complete" xml:space="preserve">
+    <value>完成</value>
+  </data>
+  <data name="Failed" xml:space="preserve">
+    <value>失败</value>
+  </data>
+  <data name="NamedScriptFailed" xml:space="preserve">
+    <value>{0} 失败</value>
+  </data>
+  <data name="CurrentUser" xml:space="preserve">
+    <value>当前用户</value>
+  </data>
+  <data name="Administrator" xml:space="preserve">
+    <value>管理员</value>
+  </data>
+  <data name="Execute" xml:space="preserve">
+    <value>执行</value>
+  </data>
+</root>

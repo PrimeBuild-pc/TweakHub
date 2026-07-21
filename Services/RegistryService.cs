@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
+using TweakHub.Localization;
 using TweakHub.Models;
 
 namespace TweakHub.Services
@@ -44,7 +45,7 @@ namespace TweakHub.Services
 
         public string LastBackupStatusText => LastBackupCreatedAt is null
             ? string.Empty
-            : $"Backup created: {FormatRelativeTime(DateTime.Now - LastBackupCreatedAt.Value)}";
+            : L.Format("UI:BackupCreatedStatus", FormatRelativeTime(DateTime.Now - LastBackupCreatedAt.Value));
 
         public void Initialize()
         {
@@ -440,17 +441,17 @@ namespace TweakHub.Services
         {
             _ = ParsePath(keyPath);
             if (string.IsNullOrWhiteSpace(valueName))
-                throw new ArgumentException("Registry value name is required.", nameof(valueName));
+                throw new ArgumentException(L.Get("UI:RegistryValueNameRequired"), nameof(valueName));
         }
 
         private static (RegistryKey Root, string SubKeyPath) ParsePath(string keyPath)
         {
             if (string.IsNullOrWhiteSpace(keyPath))
-                throw new ArgumentException("Registry path is required.", nameof(keyPath));
+                throw new ArgumentException(L.Get("UI:RegistryPathRequired"), nameof(keyPath));
 
             var parts = keyPath.Split('\\', 2, StringSplitOptions.TrimEntries);
             if (parts.Length != 2 || string.IsNullOrWhiteSpace(parts[1]))
-                throw new ArgumentException("Registry path must include a supported root and subkey.", nameof(keyPath));
+                throw new ArgumentException(L.Get("UI:RegistryPathInvalid"), nameof(keyPath));
 
             var root = parts[0].ToUpperInvariant() switch
             {
@@ -459,7 +460,7 @@ namespace TweakHub.Services
                 "HKEY_CLASSES_ROOT" or "HKCR" => Registry.ClassesRoot,
                 "HKEY_USERS" or "HKU" => Registry.Users,
                 "HKEY_CURRENT_CONFIG" or "HKCC" => Registry.CurrentConfig,
-                _ => throw new ArgumentException($"Unsupported registry root '{parts[0]}'.", nameof(keyPath))
+                _ => throw new ArgumentException(L.Format("UI:RegistryRootUnsupported", parts[0]), nameof(keyPath))
             };
             return (root, parts[1]);
         }
@@ -513,11 +514,11 @@ namespace TweakHub.Services
 
         private static string FormatRelativeTime(TimeSpan delta)
         {
-            if (delta.TotalSeconds < 10) return "just now";
-            if (delta.TotalMinutes < 1) return "a few moments ago";
-            if (delta.TotalMinutes < 60) return $"{(int)delta.TotalMinutes}m ago";
-            if (delta.TotalHours < 24) return $"{(int)delta.TotalHours}h ago";
-            return $"{(int)delta.TotalDays}d ago";
+            if (delta.TotalSeconds < 10) return L.Get("UI:JustNow");
+            if (delta.TotalMinutes < 1) return L.Get("UI:FewMomentsAgo");
+            if (delta.TotalMinutes < 60) return L.Format("UI:MinutesAgo", (int)delta.TotalMinutes);
+            if (delta.TotalHours < 24) return L.Format("UI:HoursAgo", (int)delta.TotalHours);
+            return L.Format("UI:DaysAgo", (int)delta.TotalDays);
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null) =>

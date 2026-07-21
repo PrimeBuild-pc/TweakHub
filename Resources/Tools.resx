@@ -1,0 +1,761 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ExternalToolsPageExternalTools" xml:space="preserve">
+    <value>External Tools</value>
+  </data>
+  <data name="ExternalToolsPageExternalTools2" xml:space="preserve">
+    <value>External Tools</value>
+  </data>
+  <data name="ExternalToolsPageInstallCuratedToolsOrAdd" xml:space="preserve">
+    <value>Install curated tools or add your own Winget, PowerShell and website cards.</value>
+  </data>
+  <data name="ExternalToolsPageShowFavoritesOnly" xml:space="preserve">
+    <value>Show favorites only</value>
+  </data>
+  <data name="ExternalToolsPageFavorites" xml:space="preserve">
+    <value>Favorites</value>
+  </data>
+  <data name="ExternalToolsPageAddTool" xml:space="preserve">
+    <value>Add tool</value>
+  </data>
+  <data name="ExternalToolsPageDownloading" xml:space="preserve">
+    <value>Downloading...</value>
+  </data>
+  <data name="QuickAccessPageQuickAccess" xml:space="preserve">
+    <value>Quick Access</value>
+  </data>
+  <data name="QuickAccessPageQuickAccess2" xml:space="preserve">
+    <value>Quick Access</value>
+  </data>
+  <data name="QuickAccessPageQuickShortcutsToWindowsControl" xml:space="preserve">
+    <value>Quick shortcuts to Windows control panels, system settings, and advanced configuration tools.</value>
+  </data>
+  <data name="CustomToolDialogCustomExternalTool" xml:space="preserve">
+    <value>Custom External Tool</value>
+  </data>
+  <data name="CustomToolDialogCustomExternalTool2" xml:space="preserve">
+    <value>Custom external tool</value>
+  </data>
+  <data name="CustomToolDialogCreateAReusableWebsiteWinget" xml:space="preserve">
+    <value>Create a reusable website, Winget or PowerShell card. PowerShell runs only after confirmation.</value>
+  </data>
+  <data name="CustomToolDialogName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="CustomToolDialogDescription" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="CustomToolDialogCategory" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="CustomToolDialogAction" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="CustomToolDialogOpenHTTPSWebsiteOrOnline" xml:space="preserve">
+    <value>Open HTTPS website or online file</value>
+  </data>
+  <data name="CustomToolDialogInstallExactWingetPackageID" xml:space="preserve">
+    <value>Install exact Winget package ID</value>
+  </data>
+  <data name="CustomToolDialogRunPowerShellCommand" xml:space="preserve">
+    <value>Run PowerShell command</value>
+  </data>
+  <data name="CustomToolDialogValue" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="CustomToolDialogRequestAdministratorPrivileges" xml:space="preserve">
+    <value>Request administrator privileges</value>
+  </data>
+  <data name="CustomToolDialogCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CustomToolDialogSaveTool" xml:space="preserve">
+    <value>Save tool</value>
+  </data>
+  <data name="ShortcutNameDeviceManager" xml:space="preserve">
+    <value>Device Manager</value>
+  </data>
+  <data name="ShortcutNameSystemInformation" xml:space="preserve">
+    <value>System Information</value>
+  </data>
+  <data name="ShortcutNameRegistryEditor" xml:space="preserve">
+    <value>Registry Editor</value>
+  </data>
+  <data name="ShortcutNameServices" xml:space="preserve">
+    <value>Services</value>
+  </data>
+  <data name="ShortcutNameEventViewer" xml:space="preserve">
+    <value>Event Viewer</value>
+  </data>
+  <data name="ShortcutNameDiskManagement" xml:space="preserve">
+    <value>Disk Management</value>
+  </data>
+  <data name="ShortcutNameTaskManager" xml:space="preserve">
+    <value>Task Manager</value>
+  </data>
+  <data name="ShortcutNameResourceMonitor" xml:space="preserve">
+    <value>Resource Monitor</value>
+  </data>
+  <data name="ShortcutNamePowerOptions" xml:space="preserve">
+    <value>Power Options</value>
+  </data>
+  <data name="ShortcutNameNetworkConnections" xml:space="preserve">
+    <value>Network Connections</value>
+  </data>
+  <data name="ShortcutNameSoundSettings" xml:space="preserve">
+    <value>Sound Settings</value>
+  </data>
+  <data name="ShortcutNameDisplaySettings" xml:space="preserve">
+    <value>Display Settings</value>
+  </data>
+  <data name="ShortcutNameWindowsFeatures" xml:space="preserve">
+    <value>Windows Features</value>
+  </data>
+  <data name="ShortcutNameDiskCleanup" xml:space="preserve">
+    <value>Disk Cleanup</value>
+  </data>
+  <data name="ShortcutNameGroupPolicyEditor" xml:space="preserve">
+    <value>Group Policy Editor</value>
+  </data>
+  <data name="ShortcutNameTaskScheduler" xml:space="preserve">
+    <value>Task Scheduler</value>
+  </data>
+  <data name="DescriptionManageHardwareDevicesAndDrivers" xml:space="preserve">
+    <value>Manage hardware devices and drivers</value>
+  </data>
+  <data name="DescriptionViewDetailedSystemInformation" xml:space="preserve">
+    <value>View detailed system information</value>
+  </data>
+  <data name="DescriptionEditTheWindowsRegistry" xml:space="preserve">
+    <value>Edit the Windows registry</value>
+  </data>
+  <data name="DescriptionManageWindowsServices" xml:space="preserve">
+    <value>Manage Windows services</value>
+  </data>
+  <data name="DescriptionReviewWindowsSystemAndApplicationEvents" xml:space="preserve">
+    <value>Review Windows system and application events</value>
+  </data>
+  <data name="DescriptionManageDisksPartitionsAndDriveLetters" xml:space="preserve">
+    <value>Manage disks, partitions and drive letters</value>
+  </data>
+  <data name="DescriptionMonitorProcessesAndPerformance" xml:space="preserve">
+    <value>Monitor processes and performance</value>
+  </data>
+  <data name="DescriptionInspectDetailedResourceUsage" xml:space="preserve">
+    <value>Inspect detailed resource usage</value>
+  </data>
+  <data name="DescriptionConfigurePowerAndSleepSettings" xml:space="preserve">
+    <value>Configure power and sleep settings</value>
+  </data>
+  <data name="DescriptionManageNetworkAdapters" xml:space="preserve">
+    <value>Manage network adapters</value>
+  </data>
+  <data name="DescriptionConfigureAudioDevices" xml:space="preserve">
+    <value>Configure audio devices</value>
+  </data>
+  <data name="DescriptionConfigureDisplays" xml:space="preserve">
+    <value>Configure displays</value>
+  </data>
+  <data name="DescriptionEnableOrDisableWindowsFeatures" xml:space="preserve">
+    <value>Enable or disable Windows features</value>
+  </data>
+  <data name="DescriptionFreeDiskSpaceWithTheWindowsUtility" xml:space="preserve">
+    <value>Free disk space with the Windows utility</value>
+  </data>
+  <data name="DescriptionEditLocalWindowsGroupPoliciesProAnd" xml:space="preserve">
+    <value>Edit local Windows group policies (Pro and Enterprise editions)</value>
+  </data>
+  <data name="DescriptionCreateAndManageScheduledTasks" xml:space="preserve">
+    <value>Create and manage scheduled tasks</value>
+  </data>
+  <data name="DescriptionOfficialMicrosoftUtilitiesForWindowsPowerUsers" xml:space="preserve">
+    <value>Official Microsoft utilities for Windows power users</value>
+  </data>
+  <data name="DescriptionOpenSourceQuickLauncherForAppsFiles" xml:space="preserve">
+    <value>Open-source quick launcher for apps, files, commands and web searches</value>
+  </data>
+  <data name="DescriptionDynamicTilingWindowManagerForWindows" xml:space="preserve">
+    <value>Dynamic tiling window manager for Windows</value>
+  </data>
+  <data name="DescriptionInspectAndManageEveryWindowsStartupLocation" xml:space="preserve">
+    <value>Inspect and manage every Windows startup location</value>
+  </data>
+  <data name="DescriptionOpenSourceBulkApplicationUninstaller" xml:space="preserve">
+    <value>Open-source bulk application uninstaller</value>
+  </data>
+  <data name="DescriptionExtendedReplacementForTheClassicWindowsDisk" xml:space="preserve">
+    <value>Extended replacement for the classic Windows Disk Cleanup</value>
+  </data>
+  <data name="DescriptionRemoveRecordsForNonPresentDevicesOpens" xml:space="preserve">
+    <value>Remove records for non-present devices; opens the MajorGeeks information page</value>
+  </data>
+  <data name="DescriptionGraphicalWindowsImageServicingAndCleanupUtility" xml:space="preserve">
+    <value>Graphical Windows image servicing and cleanup utility</value>
+  </data>
+  <data name="DescriptionInspectAndRemovePackagesFromTheWindows" xml:space="preserve">
+    <value>Inspect and remove packages from the Windows driver store</value>
+  </data>
+  <data name="DescriptionOpenSourceOfflineDriverInstallerAndIndex" xml:space="preserve">
+    <value>Open-source offline driver installer and index</value>
+  </data>
+  <data name="DescriptionGraphicalInterfaceForWinGetAndOtherPackage" xml:space="preserve">
+    <value>Graphical interface for WinGet and other package managers</value>
+  </data>
+  <data name="DescriptionGraphicalInterfaceForWindowsFeatureConfigurationIDs" xml:space="preserve">
+    <value>Graphical interface for Windows feature configuration IDs</value>
+  </data>
+  <data name="DescriptionConfigureAndCustomizeWindowsFromATransparent" xml:space="preserve">
+    <value>Configure and customize Windows from a transparent open-source UI</value>
+  </data>
+  <data name="DescriptionWindowsMaintenanceAndCustomizationDashboardFromMicrosoft" xml:space="preserve">
+    <value>Windows maintenance and customization dashboard from Microsoft Store</value>
+  </data>
+  <data name="DescriptionChrisTitusTechWindowsUtilityOpensThe" xml:space="preserve">
+    <value>Chris Titus Tech Windows utility; opens the official project, never a remote script</value>
+  </data>
+  <data name="DescriptionFastLocalFileAndFolderSearch" xml:space="preserve">
+    <value>Fast local file and folder search</value>
+  </data>
+  <data name="DescriptionFastVisualDiskSpaceAnalyzer" xml:space="preserve">
+    <value>Fast visual disk-space analyzer</value>
+  </data>
+  <data name="DescriptionCPUMemoryAndPlatformInformation" xml:space="preserve">
+    <value>CPU, memory and platform information</value>
+  </data>
+  <data name="DescriptionOfficialAMDRyzenMonitoringAndOverclockingUtility" xml:space="preserve">
+    <value>Official AMD Ryzen monitoring and overclocking utility</value>
+  </data>
+  <data name="DescriptionInspectAMDRyzenMemoryTimingsAndInfinity" xml:space="preserve">
+    <value>Inspect AMD Ryzen memory timings and Infinity Fabric settings</value>
+  </data>
+  <data name="DescriptionManageWindowsCPUSets" xml:space="preserve">
+    <value>Manage Windows CPU Sets</value>
+  </data>
+  <data name="DescriptionInspectAndManageCPUThreadAffinity" xml:space="preserve">
+    <value>Inspect and manage CPU thread affinity</value>
+  </data>
+  <data name="DescriptionProcessPriorityAffinityAndResponsivenessControls" xml:space="preserve">
+    <value>Process priority, affinity and responsiveness controls</value>
+  </data>
+  <data name="DescriptionInspectAndConfigureCPUCoreParkingAnd" xml:space="preserve">
+    <value>Inspect and configure CPU core parking and frequency scaling</value>
+  </data>
+  <data name="DescriptionCycleStressTestsAcrossIndividualCPUCores" xml:space="preserve">
+    <value>Cycle stress tests across individual CPU cores</value>
+  </data>
+  <data name="DescriptionAdvancedAMDSMUMSRAndPowerTable" xml:space="preserve">
+    <value>Advanced AMD SMU, MSR and power-table inspection</value>
+  </data>
+  <data name="DescriptionOfficialIntelAPOInterfaceForSupportedProcessors" xml:space="preserve">
+    <value>Official Intel APO interface for supported processors and games</value>
+  </data>
+  <data name="DescriptionAdvancedGraphicalLauncherForKarhuRAMTest" xml:space="preserve">
+    <value>Advanced graphical launcher for Karhu RAM Test</value>
+  </data>
+  <data name="DescriptionCommunityMemoryStabilityTestDownloadsTheUser" xml:space="preserve">
+    <value>Community memory stability test; downloads the user-provided GitHub release archive</value>
+  </data>
+  <data name="DescriptionBootableMemoryDiagnostics" xml:space="preserve">
+    <value>Bootable memory diagnostics</value>
+  </data>
+  <data name="DescriptionDetailedHardwareInformationAndSensorMonitoring" xml:space="preserve">
+    <value>Detailed hardware information and sensor monitoring</value>
+  </data>
+  <data name="DescriptionCPUIDHardwareTemperatureVoltageAndFanMonitoring" xml:space="preserve">
+    <value>CPUID hardware temperature, voltage and fan monitoring</value>
+  </data>
+  <data name="DescriptionMicrosoftSysinternalsPhysicalMemoryAnalyzer" xml:space="preserve">
+    <value>Microsoft Sysinternals physical-memory analyzer</value>
+  </data>
+  <data name="DescriptionAnalyzeRealTimeAudioAndDPCLatency" xml:space="preserve">
+    <value>Analyze real-time audio and DPC latency</value>
+  </data>
+  <data name="DescriptionOpenSourceFanCurveAndSensorControl" xml:space="preserve">
+    <value>Open-source fan curve and sensor control</value>
+  </data>
+  <data name="DescriptionIntelFramePresentationAndPerformanceMonitoring" xml:space="preserve">
+    <value>Intel frame-presentation and performance monitoring</value>
+  </data>
+  <data name="DescriptionMicrosoftGPUAndCPUPerformanceTraceVisualization" xml:space="preserve">
+    <value>Microsoft GPU and CPU performance trace visualization</value>
+  </data>
+  <data name="DescriptionStaticInspectionOfWindowsExecutablesWithoutRunning" xml:space="preserve">
+    <value>Static inspection of Windows executables without running them</value>
+  </data>
+  <data name="DescriptionSysinternalsProcessHandleAndDLLDiagnostics" xml:space="preserve">
+    <value>Sysinternals process, handle and DLL diagnostics</value>
+  </data>
+  <data name="DescriptionRealTimeFilesystemRegistryAndProcessTracing" xml:space="preserve">
+    <value>Real-time filesystem, Registry and process tracing</value>
+  </data>
+  <data name="DescriptionAdvancedETWRecordingAndAnalysisWithWPR" xml:space="preserve">
+    <value>Advanced ETW recording and analysis with WPR and WPA</value>
+  </data>
+  <data name="DescriptionFrameRateFrameTimePowerAndPerformance" xml:space="preserve">
+    <value>Frame-rate, frame-time, power and performance-per-watt monitoring</value>
+  </data>
+  <data name="DescriptionLightweightDetailedGPUMonitoringFromGeeks3D" xml:space="preserve">
+    <value>Lightweight detailed GPU monitoring from Geeks3D</value>
+  </data>
+  <data name="DescriptionAdvancedCPUAndGPUWorkloadProfilingAnd" xml:space="preserve">
+    <value>Advanced CPU and GPU workload profiling and timeline analysis</value>
+  </data>
+  <data name="DescriptionLowLevelRadeonGPUPerformanceAndWorkload" xml:space="preserve">
+    <value>Low-level Radeon GPU performance and workload analysis</value>
+  </data>
+  <data name="DescriptionGPUInformationSensorsAndValidation" xml:space="preserve">
+    <value>GPU information, sensors and validation</value>
+  </data>
+  <data name="DescriptionGPUMonitoringFanCurvesAndOverclockingControls" xml:space="preserve">
+    <value>GPU monitoring, fan curves and overclocking controls</value>
+  </data>
+  <data name="DescriptionFrameRateLimitingAndInGamePerformance" xml:space="preserve">
+    <value>Frame-rate limiting and in-game performance overlay</value>
+  </data>
+  <data name="DescriptionPaidAMDGPUTuningUtilityFromMicrosoft" xml:space="preserve">
+    <value>Paid AMD GPU tuning utility from Microsoft Store</value>
+  </data>
+  <data name="DescriptionLegacyFreeAMDGPUTuningUtilityFrom" xml:space="preserve">
+    <value>Legacy free AMD GPU tuning utility from Igor's Lab</value>
+  </data>
+  <data name="DescriptionAdvancedAMDRadeonPowerLimitEditor" xml:space="preserve">
+    <value>Advanced AMD Radeon power-limit editor</value>
+  </data>
+  <data name="DescriptionLightweightOpenSourceAMDRadeonTuningInterface" xml:space="preserve">
+    <value>Lightweight open-source AMD Radeon tuning interface</value>
+  </data>
+  <data name="DescriptionInspectAdvancedNVIDIADriverProfiles" xml:space="preserve">
+    <value>Inspect advanced NVIDIA driver profiles</value>
+  </data>
+  <data name="DescriptionCustomizeNVIDIADriverInstallations" xml:space="preserve">
+    <value>Customize NVIDIA driver installations</value>
+  </data>
+  <data name="DescriptionCompletelyRemoveGraphicsDriversBeforeReinstalling" xml:space="preserve">
+    <value>Completely remove graphics drivers before reinstalling</value>
+  </data>
+  <data name="DescriptionAdvancedNVIDIAGraphicsCardFirmwareUtility" xml:space="preserve">
+    <value>Advanced NVIDIA graphics-card firmware utility</value>
+  </data>
+  <data name="DescriptionAdvancedAMDGraphicsCardFirmwareUtilityFormerly" xml:space="preserve">
+    <value>Advanced AMD graphics-card firmware utility formerly ATIFlash</value>
+  </data>
+  <data name="DescriptionCommunityTroubleshootingUtilityForMultiplaneOverlayIssues" xml:space="preserve">
+    <value>Community troubleshooting utility for Multiplane Overlay issues</value>
+  </data>
+  <data name="DescriptionInspectAndEditDisplayResolutionsAndEDID" xml:space="preserve">
+    <value>Inspect and edit display resolutions and EDID data</value>
+  </data>
+  <data name="DescriptionAutomateNVIDIADigitalVibranceAndAMDSaturation" xml:space="preserve">
+    <value>Automate NVIDIA Digital Vibrance and AMD saturation per game</value>
+  </data>
+  <data name="DescriptionOpenSourceRGBDeviceControl" xml:space="preserve">
+    <value>Open-source RGB device control</value>
+  </data>
+  <data name="DescriptionUnifiedRGBLightingAndDeviceEffects" xml:space="preserve">
+    <value>Unified RGB lighting and device effects</value>
+  </data>
+  <data name="DescriptionUnofficialGUIForAdvancedAMIFirmwareVariable" xml:space="preserve">
+    <value>Unofficial GUI for advanced AMI firmware-variable editing; use only with a recovery plan</value>
+  </data>
+  <data name="DescriptionCommunitySCEWINBinariesAndTroubleshootingFirmwareChanges" xml:space="preserve">
+    <value>Community SCEWIN binaries and troubleshooting; firmware changes can make a system unbootable</value>
+  </data>
+  <data name="DescriptionInspectHiddenWindowsPowerPlanSettingsOpens" xml:space="preserve">
+    <value>Inspect hidden Windows power-plan settings; opens the stable MediaFire download page</value>
+  </data>
+  <data name="DescriptionManageDLSSVersionsInSupportedGames" xml:space="preserve">
+    <value>Manage DLSS versions in supported games</value>
+  </data>
+  <data name="DescriptionUpscalerInjectionAndCompatibilityLayerForSupported" xml:space="preserve">
+    <value>Upscaler injection and compatibility layer for supported games</value>
+  </data>
+  <data name="DescriptionCommunityDirectX12UpscalerAndFrameGeneration" xml:space="preserve">
+    <value>Community DirectX 12 upscaler and frame-generation compatibility mod</value>
+  </data>
+  <data name="DescriptionLightweightOpenSourceConfigurableCrosshairOverlay" xml:space="preserve">
+    <value>Lightweight open-source configurable crosshair overlay</value>
+  </data>
+  <data name="DescriptionOpenSourceMouseAccelerationDriver" xml:space="preserve">
+    <value>Open-source mouse acceleration driver</value>
+  </data>
+  <data name="DescriptionAdvancedUSBHIDPollingRateFilterDriver" xml:space="preserve">
+    <value>Advanced USB HID polling-rate filter driver</value>
+  </data>
+  <data name="DescriptionBrowserBasedCalibrationForSupportedPlayStationControllers" xml:space="preserve">
+    <value>Browser-based calibration for supported PlayStation controllers</value>
+  </data>
+  <data name="DescriptionOfficialBrowserBasedMousePollingRateTester" xml:space="preserve">
+    <value>Official browser-based mouse polling-rate tester</value>
+  </data>
+  <data name="DescriptionStoragePerformanceBenchmark" xml:space="preserve">
+    <value>Storage performance benchmark</value>
+  </data>
+  <data name="DescriptionStorageHealthAndSMARTInformation" xml:space="preserve">
+    <value>Storage health and SMART information</value>
+  </data>
+  <data name="DescriptionNirSoftInventoryAndManagementOfCurrentAnd" xml:space="preserve">
+    <value>NirSoft inventory and management of current and historical USB devices</value>
+  </data>
+  <data name="DescriptionMariusHeierUSBLatencyToolsOpensThe" xml:space="preserve">
+    <value>Marius Heier USB latency tools; opens the official site without executing scripts</value>
+  </data>
+  <data name="DescriptionMicrosoftCommandLineStorageLoadGeneratorAnd" xml:space="preserve">
+    <value>Microsoft command-line storage load generator and benchmark</value>
+  </data>
+  <data name="DescriptionOpenSourceBitTorrentClient" xml:space="preserve">
+    <value>Open-source BitTorrent client</value>
+  </data>
+  <data name="DescriptionInspectAndTuneWindowsTCPIPParameters" xml:space="preserve">
+    <value>Inspect and tune Windows TCP/IP parameters</value>
+  </data>
+  <data name="DescriptionMicrosoftSysinternalsLiveTCPAndUDPEndpoint" xml:space="preserve">
+    <value>Microsoft Sysinternals live TCP and UDP endpoint viewer</value>
+  </data>
+  <data name="DescriptionTestAndSwitchDNSResolvers" xml:space="preserve">
+    <value>Test and switch DNS resolvers</value>
+  </data>
+  <data name="DescriptionMeasureMaximumTCPAndUDPNetworkThroughput" xml:space="preserve">
+    <value>Measure maximum TCP and UDP network throughput</value>
+  </data>
+  <data name="DescriptionCaptureAndInspectNetworkTrafficAndProtocols" xml:space="preserve">
+    <value>Capture and inspect network traffic and protocols</value>
+  </data>
+  <data name="DescriptionAudioEqualizerAndEnhancement" xml:space="preserve">
+    <value>Audio equalizer and enhancement</value>
+  </data>
+  <data name="DescriptionSystemWideParametricAudioEqualizer" xml:space="preserve">
+    <value>System-wide parametric audio equalizer</value>
+  </data>
+  <data name="DescriptionGraphicalInterfaceForEqualizerAPO" xml:space="preserve">
+    <value>Graphical interface for Equalizer APO</value>
+  </data>
+  <data name="DescriptionSteelSeriesDeviceControlSonarAudioAndGame" xml:space="preserve">
+    <value>SteelSeries device control, Sonar audio and game capture</value>
+  </data>
+  <data name="DescriptionHardwareDiagnosticsMonitoringAndSystemBenchmarks" xml:space="preserve">
+    <value>Hardware diagnostics, monitoring and system benchmarks</value>
+  </data>
+  <data name="DescriptionFrameTimeCaptureAndPerformanceAnalysis" xml:space="preserve">
+    <value>Frame-time capture and performance analysis</value>
+  </data>
+  <data name="DescriptionCPUGPUMemoryAndPowerStabilityTesting" xml:space="preserve">
+    <value>CPU, GPU, memory and power stability testing</value>
+  </data>
+  <data name="DescriptionCPUAndMemoryStressTesting" xml:space="preserve">
+    <value>CPU and memory stress testing</value>
+  </data>
+  <data name="DescriptionUnigineGPUBenchmarkAndStabilityTest" xml:space="preserve">
+    <value>Unigine GPU benchmark and stability test</value>
+  </data>
+  <data name="DescriptionBenchmarkLauncherValidationAndResultManagement" xml:space="preserve">
+    <value>Benchmark launcher, validation and result management</value>
+  </data>
+  <data name="DescriptionCurrentOfficialMaxonCPUAndGPURendering" xml:space="preserve">
+    <value>Current official Maxon CPU and GPU rendering benchmark</value>
+  </data>
+  <data name="DescriptionLegacyMaxonCPURenderingBenchmark" xml:space="preserve">
+    <value>Legacy Maxon CPU rendering benchmark</value>
+  </data>
+  <data name="DescriptionTechPowerUpArchiveForOlderCinebenchReleasesThe" xml:space="preserve">
+    <value>TechPowerUp archive for older Cinebench releases; the user chooses the version</value>
+  </data>
+  <data name="DescriptionHighLoadCPUAndMemoryStabilityTest" xml:space="preserve">
+    <value>High-load CPU and memory stability test</value>
+  </data>
+  <data name="DescriptionGPUStressTestAndOpenGLVulkanBenchmark" xml:space="preserve">
+    <value>GPU stress test and OpenGL/Vulkan benchmark</value>
+  </data>
+  <data name="DescriptionMSIGPUStressTestAndOpenGLVulkan" xml:space="preserve">
+    <value>MSI GPU stress test and OpenGL/Vulkan benchmark</value>
+  </data>
+  <data name="DescriptionHeavyCPURAMAndMemoryControllerBenchmark" xml:space="preserve">
+    <value>Heavy CPU, RAM and memory-controller benchmark and stress test</value>
+  </data>
+  <data name="DescriptionVulkanBasedGPUMemoryStabilityAndError" xml:space="preserve">
+    <value>Vulkan-based GPU memory stability and error test</value>
+  </data>
+  <data name="DescriptionModernUnigineGPUBenchmarkAndStabilityTest" xml:space="preserve">
+    <value>Modern Unigine GPU benchmark and stability test</value>
+  </data>
+  <data name="DescriptionIndustryStandardGamingCPUAndGPUBenchmark" xml:space="preserve">
+    <value>Industry-standard gaming CPU and GPU benchmark suite</value>
+  </data>
+  <data name="DescriptionRealWorldCPUAndGPURenderingBenchmark" xml:space="preserve">
+    <value>Real-world CPU and GPU rendering benchmark</value>
+  </data>
+  <data name="DescriptionCrossPlatformCPUAndGPUComputeBenchmark" xml:space="preserve">
+    <value>Cross-platform CPU and GPU compute benchmark</value>
+  </data>
+  <data name="DescriptionGoogleSAgenticDevelopmentEnvironment" xml:space="preserve">
+    <value>Google's agentic development environment</value>
+  </data>
+  <data name="DescriptionAIFirstCodeEditor" xml:space="preserve">
+    <value>AI-first code editor</value>
+  </data>
+  <data name="DescriptionRunAndManageLocalLanguageModels" xml:space="preserve">
+    <value>Run and manage local language models</value>
+  </data>
+  <data name="DescriptionOpenSourceAICodingAgentForThe" xml:space="preserve">
+    <value>Open-source AI coding agent for the terminal</value>
+  </data>
+  <data name="DescriptionMinimalExtensibleTerminalCodingAgentFramework" xml:space="preserve">
+    <value>Minimal extensible terminal coding-agent framework</value>
+  </data>
+  <data name="DescriptionAgenticTerminalAndDevelopmentEnvironment" xml:space="preserve">
+    <value>Agentic terminal and development environment</value>
+  </data>
+  <data name="DescriptionLocalInterfaceForTrainingAndRunningOpen" xml:space="preserve">
+    <value>Local interface for training and running open models</value>
+  </data>
+  <data name="DescriptionDiscoverDownloadAndRunLocalLanguageModels" xml:space="preserve">
+    <value>Discover, download and run local language models</value>
+  </data>
+  <data name="DescriptionOpenSourceLocalAIDesktopApplication" xml:space="preserve">
+    <value>Open-source local AI desktop application</value>
+  </data>
+  <data name="DuplicateToolName" xml:space="preserve">
+    <value>A tool with this name already exists.</value>
+  </data>
+  <data name="CategorySystemUtilities" xml:space="preserve">
+    <value>System Utilities</value>
+  </data>
+  <data name="CategoryCPUMemory" xml:space="preserve">
+    <value>CPU &amp; Memory</value>
+  </data>
+  <data name="CategoryFirmwarePower" xml:space="preserve">
+    <value>Firmware &amp; Power</value>
+  </data>
+  <data name="CategoryMonitoringDiagnostics" xml:space="preserve">
+    <value>Monitoring &amp; Diagnostics</value>
+  </data>
+  <data name="CategoryGPUDisplay" xml:space="preserve">
+    <value>GPU &amp; Display</value>
+  </data>
+  <data name="CategoryGamingInput" xml:space="preserve">
+    <value>Gaming &amp; Input</value>
+  </data>
+  <data name="CategoryStorageUSB" xml:space="preserve">
+    <value>Storage &amp; USB</value>
+  </data>
+  <data name="CategoryNetwork" xml:space="preserve">
+    <value>Network</value>
+  </data>
+  <data name="CategoryAudio" xml:space="preserve">
+    <value>Audio</value>
+  </data>
+  <data name="CategoryBenchmarksStability" xml:space="preserve">
+    <value>Benchmarks &amp; Stability</value>
+  </data>
+  <data name="CategoryAITools" xml:space="preserve">
+    <value>AI Tools</value>
+  </data>
+  <data name="CategorySystemManagement" xml:space="preserve">
+    <value>System Management</value>
+  </data>
+  <data name="CategorySystemInformation" xml:space="preserve">
+    <value>System Information</value>
+  </data>
+  <data name="CategoryAdvancedTools" xml:space="preserve">
+    <value>Advanced Tools</value>
+  </data>
+  <data name="CategoryPerformance" xml:space="preserve">
+    <value>Performance</value>
+  </data>
+  <data name="CategoryPowerManagement" xml:space="preserve">
+    <value>Power Management</value>
+  </data>
+  <data name="CategoryDisplay" xml:space="preserve">
+    <value>Display</value>
+  </data>
+  <data name="CategoryMaintenance" xml:space="preserve">
+    <value>Maintenance</value>
+  </data>
+  <data name="CategoryCustom" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="WingetPackageId" xml:space="preserve">
+    <value>Winget package ID</value>
+  </data>
+  <data name="PowerShellCommand" xml:space="preserve">
+    <value>PowerShell command</value>
+  </data>
+  <data name="HttpsUrl" xml:space="preserve">
+    <value>HTTPS URL</value>
+  </data>
+  <data name="WingetHelp" xml:space="preserve">
+    <value>Example: Microsoft.PowerToys. TweakHub adds --id and --exact.</value>
+  </data>
+  <data name="PowerShellHelp" xml:space="preserve">
+    <value>Commands such as irm ... | iex are allowed but are shown again for confirmation before execution.</value>
+  </data>
+  <data name="WebsiteHelp" xml:space="preserve">
+    <value>Use an HTTPS project page, download page or online file.</value>
+  </data>
+  <data name="ToolCount" xml:space="preserve">
+    <value>Tools: {0}</value>
+  </data>
+  <data name="Favorites" xml:space="preserve">
+    <value>Favorites</value>
+  </data>
+  <data name="Unfavorite" xml:space="preserve">
+    <value>Unfavorite</value>
+  </data>
+  <data name="Favorite" xml:space="preserve">
+    <value>Favorite</value>
+  </data>
+  <data name="RemoveFromFavorites" xml:space="preserve">
+    <value>Remove from favorites</value>
+  </data>
+  <data name="AddToFavorites" xml:space="preserve">
+    <value>Add to favorites</value>
+  </data>
+  <data name="EditCustomTool" xml:space="preserve">
+    <value>Edit custom tool</value>
+  </data>
+  <data name="EditToolNamed" xml:space="preserve">
+    <value>Edit {0}</value>
+  </data>
+  <data name="DeleteCustomTool" xml:space="preserve">
+    <value>Delete custom tool</value>
+  </data>
+  <data name="DeleteToolNamed" xml:space="preserve">
+    <value>Delete {0}</value>
+  </data>
+  <data name="DeleteToolMessage" xml:space="preserve">
+    <value>Delete {0}?</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Uninstall" xml:space="preserve">
+    <value>Uninstall</value>
+  </data>
+  <data name="UninstallNamed" xml:space="preserve">
+    <value>Uninstall {0}</value>
+  </data>
+  <data name="ConfirmUninstall" xml:space="preserve">
+    <value>Confirm Uninstall</value>
+  </data>
+  <data name="ConfirmUninstallMessage" xml:space="preserve">
+    <value>Are you sure you want to uninstall {0}?</value>
+  </data>
+  <data name="UnableSaveFavorites" xml:space="preserve">
+    <value>Unable to Save Favorites</value>
+  </data>
+  <data name="UnableSaveTool" xml:space="preserve">
+    <value>Unable to Save Tool</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Install</value>
+  </data>
+  <data name="Website" xml:space="preserve">
+    <value>Website</value>
+  </data>
+  <data name="Run" xml:space="preserve">
+    <value>Run</value>
+  </data>
+  <data name="LoadToolsFailed" xml:space="preserve">
+    <value>Failed to load external tools. Please restart TweakHub.</value>
+  </data>
+  <data name="ShortcutExecutionFailed" xml:space="preserve">
+    <value>Shortcut Execution Failed</value>
+  </data>
+  <data name="ShortcutExecutionFailedMessage" xml:space="preserve">
+    <value>Failed to execute shortcut: {0}
+
+This may be due to insufficient permissions or the target application not being available.</value>
+  </data>
+  <data name="ShortcutError" xml:space="preserve">
+    <value>Shortcut Error</value>
+  </data>
+  <data name="ShortcutErrorMessage" xml:space="preserve">
+    <value>An error occurred while executing the shortcut:
+
+{0}</value>
+  </data>
+  <data name="LoadShortcutsFailed" xml:space="preserve">
+    <value>Failed to load shortcuts. Please restart TweakHub.</value>
+  </data>
+  <data name="ToolInstalledTitle" xml:space="preserve">
+    <value>{0} Installed</value>
+  </data>
+  <data name="RunPowerShellTitle" xml:space="preserve">
+    <value>Run Custom PowerShell Command</value>
+  </data>
+  <data name="RunPowerShellMessage" xml:space="preserve">
+    <value>Only run commands you trust. This command can download or modify software.
+
+{0}</value>
+  </data>
+  <data name="RunningPowerShell" xml:space="preserve">
+    <value>Running PowerShell command...</value>
+  </data>
+  <data name="CommandCompleted" xml:space="preserve">
+    <value>Command completed.</value>
+  </data>
+  <data name="CommandFailed" xml:space="preserve">
+    <value>Command failed.</value>
+  </data>
+  <data name="CommandCompletedTitle" xml:space="preserve">
+    <value>Command Completed</value>
+  </data>
+  <data name="CommandFailedTitle" xml:space="preserve">
+    <value>Command Failed</value>
+  </data>
+  <data name="CommandFinishedMessage" xml:space="preserve">
+    <value>{0} finished in {1:F1} seconds.
+
+{2}</value>
+  </data>
+  <data name="StartingAction" xml:space="preserve">
+    <value>Starting {0}...</value>
+  </data>
+  <data name="ActionCompleted" xml:space="preserve">
+    <value>{0} completed: {1}</value>
+  </data>
+  <data name="ActionFailed" xml:space="preserve">
+    <value>{0} failed: {1}</value>
+  </data>
+  <data name="InstallationCompleted" xml:space="preserve">
+    <value>Installation completed.</value>
+  </data>
+  <data name="TerminalCommand" xml:space="preserve">
+    <value>Terminal command: {0}</value>
+  </data>
+  <data name="InstallationLocation" xml:space="preserve">
+    <value>Installation location: "{0}"</value>
+  </data>
+  <data name="ExecutableLocation" xml:space="preserve">
+    <value>Executable: "{0}"</value>
+  </data>
+  <data name="WingetPathMissing" xml:space="preserve">
+    <value>WinGet did not expose a terminal alias or executable path.</value>
+  </data>
+  <data name="PackageId" xml:space="preserve">
+    <value>Package: {0}</value>
+  </data>
+  <data name="CheckWingetCommand" xml:space="preserve">
+    <value>Check with: winget list --id "{0}" --exact</value>
+  </data>
+  <data name="ActionInstallation" xml:space="preserve">
+    <value>installation</value>
+  </data>
+  <data name="ActionUninstall" xml:space="preserve">
+    <value>uninstall</value>
+  </data>
+</root>

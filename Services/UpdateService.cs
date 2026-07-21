@@ -8,6 +8,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Windows;
+using TweakHub.Localization;
 using TweakHub.Views;
 using TweakHub.Views.Dialogs;
 
@@ -34,13 +35,13 @@ public sealed class UpdateService
             var update = await FindUpdateAsync(cancellationToken);
             if (update == null)
             {
-                if (showNoUpdate) await AppDialog.ShowAsync(owner, "Check for Updates", "You're running the latest version.");
+                if (showNoUpdate) await AppDialog.ShowAsync(owner, L.Get("UI:CheckForUpdates"), L.Get("UI:LatestVersion"));
                 return;
             }
 
-            accepted = await AppDialog.ConfirmAsync(owner, "Update Available",
-                $"TweakHub {update.Version} is available.\n\nInstalled: {CurrentVersion}\n\nDownload, verify and install it now?",
-                "Update", "Later");
+            accepted = await AppDialog.ConfirmAsync(owner, L.Get("UI:UpdateAvailable"),
+                L.Format("UI:UpdateAvailableMessage", update.Version, CurrentVersion),
+                L.Get("UI:Update"), L.Get("UI:Later"));
             if (!accepted) return;
 
             var package = AppDataPath.IsPortable
@@ -51,10 +52,10 @@ public sealed class UpdateService
             var checksum = package == null ? null : update.Assets.FirstOrDefault(asset =>
                 asset.Name.Equals(package.Name + ".sha256", StringComparison.OrdinalIgnoreCase));
             if (package == null || checksum == null)
-                throw new InvalidOperationException("This release does not contain a verified package for this installation mode.");
+                throw new InvalidOperationException(L.Get("UI:VerifiedPackageMissing"));
 
-            progressWindow = new ProgressWindow("Updating TweakHub") { Owner = owner };
-            progressWindow.UpdateStatus("Downloading verified update...");
+            progressWindow = new ProgressWindow(L.Get("UI:UpdatingTweakHub")) { Owner = owner };
+            progressWindow.UpdateStatus(L.Get("UI:DownloadingVerifiedUpdate"));
             progressWindow.Show();
             var progress = new Progress<double>(progressWindow.UpdateProgress);
             var packagePath = await DownloadAndVerifyAsync(package, checksum, progress, cancellationToken);
@@ -76,7 +77,7 @@ public sealed class UpdateService
         {
             progressWindow?.Close();
             if (showNoUpdate || accepted)
-                await AppDialog.ShowAsync(owner, "Update Failed", $"TweakHub could not update automatically.\n\n{ex.Message}");
+                await AppDialog.ShowAsync(owner, L.Get("UI:UpdateFailed"), L.Format("UI:UpdateFailedMessage", ex.Message));
         }
     }
 
@@ -97,7 +98,7 @@ public sealed class UpdateService
         ValidateGitHubAsset(checksum);
         var checksumText = await HttpClient.GetStringAsync(checksum.DownloadUrl, cancellationToken);
         var expectedHash = Regex.Match(checksumText, "[A-Fa-f0-9]{64}").Value;
-        if (expectedHash.Length != 64) throw new InvalidDataException("The release checksum is missing or invalid.");
+        if (expectedHash.Length != 64) throw new InvalidDataException(L.Get("UI:ChecksumMissing"));
 
         var path = Path.Combine(Path.GetTempPath(), $"TweakHub-{Guid.NewGuid():N}{Path.GetExtension(package.Name)}");
         try
@@ -117,12 +118,12 @@ public sealed class UpdateService
                 if (total > 0) progress.Report(downloaded * 100d / total);
             }
             await output.FlushAsync(cancellationToken);
-            if (package.Size > 0 && downloaded != package.Size) throw new InvalidDataException("The update download is incomplete.");
+            if (package.Size > 0 && downloaded != package.Size) throw new InvalidDataException(L.Get("UI:DownloadIncomplete"));
 
             await using var file = File.OpenRead(path);
             var actualHash = Convert.ToHexString(await SHA256.HashDataAsync(file, cancellationToken));
             if (!actualHash.Equals(expectedHash, StringComparison.OrdinalIgnoreCase))
-                throw new InvalidDataException("The update checksum does not match the release.");
+                throw new InvalidDataException(L.Get("UI:ChecksumMismatch"));
             progress.Report(100);
             return path;
         }
@@ -140,7 +141,7 @@ public sealed class UpdateService
         Directory.CreateDirectory(payload);
         ZipFile.ExtractToDirectory(zipPath, payload);
         var executable = Directory.GetFiles(payload, "TweakHub.exe", SearchOption.AllDirectories).SingleOrDefault()
-            ?? throw new InvalidDataException("The portable archive does not contain TweakHub.exe.");
+            ?? throw new InvalidDataException(L.Get("UI:PortableExecutableMissing"));
         var source = Path.GetDirectoryName(executable)!;
         var target = AppContext.BaseDirectory.TrimEnd(Path.DirectorySeparatorChar);
         var scriptPath = Path.Combine(root, "update.ps1");
@@ -170,7 +171,7 @@ public sealed class UpdateService
         if (!Uri.TryCreate(asset.DownloadUrl, UriKind.Absolute, out var uri)
             || uri.Scheme != Uri.UriSchemeHttps
             || !uri.Host.Equals("github.com", StringComparison.OrdinalIgnoreCase))
-            throw new InvalidDataException("The release contains an untrusted download URL.");
+            throw new InvalidDataException(L.Get("UI:UntrustedDownloadUrl"));
     }
 
     public static bool IsNewerVersion(string current, string latest)

@@ -3,6 +3,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows;
 using Microsoft.Win32;
+using TweakHub.Localization;
 using TweakHub.Models;
 using TweakHub.Views.Dialogs;
 
@@ -32,7 +33,7 @@ namespace TweakHub.Services
                     aliasAvailable = !string.IsNullOrWhiteSpace(tool.TerminalCommand) && ResolveOnPath(tool.TerminalCommand) != null;
                 }
                 catch { }
-                await AppDialog.ShowAsync(Application.Current.MainWindow, $"{tool.Name} Installed",
+                await AppDialog.ShowAsync(Application.Current.MainWindow, L.Format("Tools:ToolInstalledTitle", tool.Name),
                     BuildLaunchHint(tool, path, aliasAvailable));
             }
             return success;
@@ -49,19 +50,19 @@ namespace TweakHub.Services
             if (!string.IsNullOrWhiteSpace(tool.PowerShellCommand))
             {
                 var preview = tool.PowerShellCommand.Length > 1200 ? tool.PowerShellCommand[..1200] + "…" : tool.PowerShellCommand;
-                if (!await AppDialog.ConfirmAsync(Application.Current.MainWindow, "Run Custom PowerShell Command",
-                        $"Only run commands you trust. This command can download or modify software.\n\n{preview}", "Run", "Cancel"))
+                if (!await AppDialog.ConfirmAsync(Application.Current.MainWindow, L.Get("Tools:RunPowerShellTitle"),
+                        L.Format("Tools:RunPowerShellMessage", preview), L.Get("Tools:Run"), L.Get("Tools:Cancel")))
                     return false;
 
-                Progress(tool.Name, 0, "Running PowerShell command...");
+                Progress(tool.Name, 0, L.Get("Tools:RunningPowerShell"));
                 var result = await PowerShellService.Instance.ExecuteScriptAsync(
                     tool.PowerShellCommand, tool.RequiresAdministrator, TimeSpan.FromMinutes(15));
                 var details = result.Success ? result.Output : result.Error;
                 if (details.Length > 3000) details = details[^3000..];
-                Complete(tool.Name, result.Success, result.Success ? "Command completed." : "Command failed.");
+                Complete(tool.Name, result.Success, L.Get(result.Success ? "Tools:CommandCompleted" : "Tools:CommandFailed"));
                 await AppDialog.ShowAsync(Application.Current.MainWindow,
-                    result.Success ? "Command Completed" : "Command Failed",
-                    $"{tool.Name} finished in {result.Duration.TotalSeconds:F1} seconds.\n\n{details}".Trim());
+                    L.Get(result.Success ? "Tools:CommandCompletedTitle" : "Tools:CommandFailedTitle"),
+                    L.Format("Tools:CommandFinishedMessage", tool.Name, result.Duration.TotalSeconds, details).Trim());
                 return result.Success;
             }
 
@@ -89,7 +90,8 @@ namespace TweakHub.Services
         {
             if (string.IsNullOrWhiteSpace(arguments)) return false;
 
-            Progress(tool.Name, 0, $"Starting {action}...");
+            var actionText = L.Get(action == "installation" ? "Tools:ActionInstallation" : "Tools:ActionUninstall");
+            Progress(tool.Name, 0, L.Format("Tools:StartingAction", actionText));
 
             try
             {
@@ -117,7 +119,7 @@ namespace TweakHub.Services
                 Complete(
                     tool.Name,
                     success,
-                    success ? $"{action} completed: {tool.Name}" : $"{action} failed: {tool.Name}");
+                    L.Format(success ? "Tools:ActionCompleted" : "Tools:ActionFailed", actionText, tool.Name));
                 return success;
             }
             catch (Exception ex)
@@ -129,16 +131,16 @@ namespace TweakHub.Services
 
         internal static string BuildLaunchHint(ExternalTool tool, string? resolvedPath, bool terminalCommandAvailable = true)
         {
-            var lines = new List<string> { "Installation completed." };
+            var lines = new List<string> { L.Get("Tools:InstallationCompleted") };
             if (terminalCommandAvailable && !string.IsNullOrWhiteSpace(tool.TerminalCommand))
-                lines.Add($"Terminal command: {tool.TerminalCommand}");
+                lines.Add(L.Format("Tools:TerminalCommand", tool.TerminalCommand));
             if (!string.IsNullOrWhiteSpace(resolvedPath))
-                lines.Add($"{(Directory.Exists(resolvedPath) ? "Installation location" : "Executable")}: \"{resolvedPath}\"");
+                lines.Add(L.Format(Directory.Exists(resolvedPath) ? "Tools:InstallationLocation" : "Tools:ExecutableLocation", resolvedPath));
             if (lines.Count == 1)
             {
-                lines.Add("WinGet did not expose a terminal alias or executable path.");
-                lines.Add($"Package: {tool.WingetId}");
-                lines.Add($"Check with: winget list --id \"{tool.WingetId}\" --exact");
+                lines.Add(L.Get("Tools:WingetPathMissing"));
+                lines.Add(L.Format("Tools:PackageId", tool.WingetId));
+                lines.Add(L.Format("Tools:CheckWingetCommand", tool.WingetId));
             }
             return string.Join(Environment.NewLine, lines);
         }

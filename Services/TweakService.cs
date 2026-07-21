@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using TweakHub.Localization;
 using TweakHub.Models;
 
 namespace TweakHub.Services
@@ -61,16 +62,16 @@ namespace TweakHub.Services
         {
             var category = new TweakCategory
             {
-                Name = "CPU & Processor Optimization",
-                Description = "Optimize CPU scheduling, priority, and processor performance",
+                Name = L.Get("Tweaks:CategoryOrTweakNameCPUProcessorOptimization"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionOptimizeCPUSchedulingPriorityAndProcessor"),
                 Icon = "\uE945"
             };
 
             category.Tweaks.Add(new PerformanceTweak
             {
                 Id = "cpu_priority_separation",
-                Name = "Prioritize Foreground Programs",
-                Description = "Uses the Windows foreground-program scheduling profile and restores the captured original value.",
+                Name = L.Get("Tweaks:CategoryOrTweakNamePrioritizeForegroundPrograms"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionUsesTheWindowsForegroundProgramScheduling"),
                 Type = TweakType.Registry,
                 RegistryPath = @"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\PriorityControl",
                 RegistryKey = "Win32PrioritySeparation",
@@ -81,8 +82,8 @@ namespace TweakHub.Services
             category.Tweaks.Add(new PerformanceTweak
             {
                 Id = "disable_cpu_throttling",
-                Name = "Maximum CPU Performance on AC",
-                Description = "Sets the active power plan minimum processor state to 100% while plugged in. Increases power use and heat.",
+                Name = L.Get("Tweaks:CategoryOrTweakNameMaximumCPUPerformanceOnAC"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionSetsTheActivePowerPlanMinimum"),
                 Type = TweakType.Power,
                 RegistryPath = @"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\54533251-82be-4824-96c1-47b60b740d00\893dee8e-2bef-41e0-89c6-b55d0929964c",
                 RegistryKey = "ValueMax",
@@ -93,8 +94,8 @@ namespace TweakHub.Services
             category.Tweaks.Add(new PerformanceTweak
             {
                 Id = "disable_core_parking",
-                Name = "Disable CPU Core Parking",
-                Description = "Sets the active power plan minimum parked cores to 100% while plugged in. Increases power use and heat.",
+                Name = L.Get("Tweaks:CategoryOrTweakNameDisableCPUCoreParking"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionSetsTheActivePowerPlanMinimum2"),
                 Type = TweakType.Power,
                 RegistryPath = @"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\54533251-82be-4824-96c1-47b60b740d00\0cc5b647-c1df-4637-891a-dec35c318583",
                 RegistryKey = "ValueMax",
@@ -105,8 +106,8 @@ namespace TweakHub.Services
             category.Tweaks.Add(new PerformanceTweak
             {
                 Id = "high_performance_power_plan",
-                Name = "Force High Performance Power Plan",
-                Description = "Activates the Windows High Performance plan and restores the previously active plan when disabled.",
+                Name = L.Get("Tweaks:CategoryOrTweakNameForceHighPerformancePowerPlan"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionActivatesTheWindowsHighPerformancePlan"),
                 Type = TweakType.Power,
                 RegistryPath = @"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\User\PowerSchemes",
                 RegistryKey = "ActivePowerScheme",
@@ -121,16 +122,16 @@ namespace TweakHub.Services
         {
             var category = new TweakCategory
             {
-                Name = "Network Latency Reduction",
-                Description = "Optimize network stack for minimal latency and maximum responsiveness",
+                Name = L.Get("Tweaks:CategoryOrTweakNameNetworkLatencyReduction"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionOptimizeNetworkStackForMinimalLatency"),
                 Icon = "\uE968"
             };
 
             category.Tweaks.Add(new PerformanceTweak
             {
                 Id = "optimize_network_throttling",
-                Name = "Disable Network Throttling Index",
-                Description = "Uses the disabled DWORD value and restores the captured original setting.",
+                Name = L.Get("Tweaks:CategoryOrTweakNameDisableNetworkThrottlingIndex"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionUsesTheDisabledDWORDValueAnd"),
                 Type = TweakType.Registry,
                 RegistryPath = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile",
                 RegistryKey = "NetworkThrottlingIndex",
@@ -145,16 +146,16 @@ namespace TweakHub.Services
         {
             var category = new TweakCategory
             {
-                Name = "Gaming Performance",
-                Description = "Optimize system for gaming performance and input responsiveness",
+                Name = L.Get("Tweaks:CategoryOrTweakNameGamingPerformance"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionOptimizeSystemForGamingPerformanceAnd"),
                 Icon = "\uE7FC"
             };
 
             category.Tweaks.Add(new PerformanceTweak
             {
                 Id = "disable_mouse_acceleration",
-                Name = "Disable Mouse Acceleration",
-                Description = "Changes MouseSpeed and both threshold values as one restorable operation.",
+                Name = L.Get("Tweaks:CategoryOrTweakNameDisableMouseAcceleration"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionChangesMouseSpeedAndBothThresholdValues"),
                 Type = TweakType.Registry,
                 RegistryPath = @"HKEY_CURRENT_USER\Control Panel\Mouse",
                 RegistryKey = "MouseSpeed",
@@ -165,8 +166,8 @@ namespace TweakHub.Services
             category.Tweaks.Add(new PerformanceTweak
             {
                 Id = "disable_fullscreen_optimizations",
-                Name = "Disable Fullscreen Optimizations",
-                Description = "Disables Windows fullscreen optimizations for better gaming performance",
+                Name = L.Get("Tweaks:CategoryOrTweakNameDisableFullscreenOptimizations"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionDisablesWindowsFullscreenOptimizationsForBetter"),
                 Type = TweakType.Registry,
                 RegistryPath = @"HKEY_CURRENT_USER\System\GameConfigStore",
                 RegistryKey = "GameDVR_FSEBehaviorMode",
@@ -177,8 +178,8 @@ namespace TweakHub.Services
             category.Tweaks.Add(new PerformanceTweak
             {
                 Id = "disable_game_bar",
-                Name = "Disable Xbox Game Bar",
-                Description = "Disables Xbox Game Bar to reduce gaming overhead and improve performance",
+                Name = L.Get("Tweaks:CategoryOrTweakNameDisableXboxGameBar"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionDisablesXboxGameBarToReduce"),
                 Type = TweakType.Registry,
                 RegistryPath = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR",
                 RegistryKey = "AppCaptureEnabled",
@@ -193,16 +194,16 @@ namespace TweakHub.Services
         {
             var category = new TweakCategory
             {
-                Name = "System Responsiveness",
-                Description = "Improve overall system responsiveness and UI performance",
+                Name = L.Get("Tweaks:CategoryOrTweakNameSystemResponsiveness"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionImproveOverallSystemResponsivenessAndUI"),
                 Icon = "\uE945"
             };
 
             category.Tweaks.Add(new PerformanceTweak
             {
                 Id = "reduce_menu_delay",
-                Name = "Reduce Menu Show Delay",
-                Description = "Makes menus appear instantly for better responsiveness",
+                Name = L.Get("Tweaks:CategoryOrTweakNameReduceMenuShowDelay"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionMakesMenusAppearInstantlyForBetter"),
                 Type = TweakType.Registry,
                 RegistryPath = @"HKEY_CURRENT_USER\Control Panel\Desktop",
                 RegistryKey = "MenuShowDelay",
@@ -213,8 +214,8 @@ namespace TweakHub.Services
             category.Tweaks.Add(new PerformanceTweak
             {
                 Id = "disable_startup_delay",
-                Name = "Disable Startup Application Delay",
-                Description = "Removes artificial delay for startup applications",
+                Name = L.Get("Tweaks:CategoryOrTweakNameDisableStartupApplicationDelay"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionRemovesArtificialDelayForStartupApplications"),
                 Type = TweakType.Registry,
                 RegistryPath = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Serialize",
                 RegistryKey = "StartupDelayInMSec",
@@ -229,16 +230,16 @@ namespace TweakHub.Services
         {
             var category = new TweakCategory
             {
-                Name = "Memory Management",
-                Description = "Windows normally uses spare RAM as cache and releases it immediately when applications need it. Leave SysMain and Prefetch enabled unless measurements identify them as the cause of a problem.",
+                Name = L.Get("Tweaks:CategoryOrTweakNameMemoryManagement"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionWindowsNormallyUsesSpareRAMAs"),
                 Icon = "\uE950"
             };
 
             category.Tweaks.Add(new PerformanceTweak
             {
                 Id = "disable_sysmain",
-                Name = "Disable SysMain (Superfetch)",
-                Description = "Stops and disables SysMain. Usually leave this on; consider disabling it only for documented slowdowns, especially while diagnosing a low-memory system or a mechanical system drive.",
+                Name = L.Get("Tweaks:CategoryOrTweakNameDisableSysMainSuperfetch"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionStopsAndDisablesSysMainUsuallyLeave"),
                 Type = TweakType.Registry,
                 RegistryPath = @"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SysMain",
                 RegistryKey = "Start",
@@ -250,8 +251,8 @@ namespace TweakHub.Services
             category.Tweaks.Add(new PerformanceTweak
             {
                 Id = "disable_prefetch",
-                Name = "Disable Prefetch",
-                Description = "Disables application and boot prefetching. Usually leave this on; disable it only after documenting a Prefetch-related problem. It can make applications and games open more slowly.",
+                Name = L.Get("Tweaks:CategoryOrTweakNameDisablePrefetch"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionDisablesApplicationAndBootPrefetchingUsually"),
                 Type = TweakType.Registry,
                 RegistryPath = @"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters",
                 RegistryKey = "EnablePrefetcher",
@@ -267,16 +268,16 @@ namespace TweakHub.Services
         {
             var category = new TweakCategory
             {
-                Name = "Privacy & Device Control",
-                Description = "Reversible privacy and device-installation policies. Review high-risk items before applying them.",
+                Name = L.Get("Tweaks:CategoryOrTweakNamePrivacyDeviceControl"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionReversiblePrivacyAndDeviceInstallationPolicies"),
                 Icon = "\uE72E"
             };
 
             category.Tweaks.Add(new PerformanceTweak
             {
                 Id = "disable_windows_ai_policies",
-                Name = "Disable Windows AI Policies",
-                Description = "Hides the Windows AI components settings page and disables Notepad AI features. Package removal is available separately under Automated Scripts.",
+                Name = L.Get("Tweaks:CategoryOrTweakNameDisableWindowsAIPolicies"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionHidesTheWindowsAIComponentsSettings"),
                 Type = TweakType.Registry,
                 RegistryPath = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer",
                 RegistryKey = "SettingsPageVisibility",
@@ -288,8 +289,8 @@ namespace TweakHub.Services
             category.Tweaks.Add(new PerformanceTweak
             {
                 Id = "disable_wpbt",
-                Name = "Disable Windows Platform Binary Table (WPBT)",
-                Description = "Prevents firmware-provided WPBT software from running at boot. This can disable vendor security, recovery or management software.",
+                Name = L.Get("Tweaks:CategoryOrTweakNameDisableWindowsPlatformBinaryTableWPBT"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionPreventsFirmwareProvidedWPBTSoftwareFrom"),
                 Type = TweakType.Registry,
                 RegistryPath = @"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager",
                 RegistryKey = "DisableWpbtExecution",
@@ -301,8 +302,8 @@ namespace TweakHub.Services
             category.Tweaks.Add(new PerformanceTweak
             {
                 Id = "prevent_device_metadata",
-                Name = "Prevent Device Companion Apps",
-                Description = "Prevents automatic download of applications and metadata associated with connected devices. This does not block every driver from Windows Update.",
+                Name = L.Get("Tweaks:CategoryOrTweakNamePreventDeviceCompanionApps"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionPreventsAutomaticDownloadOfApplicationsAnd"),
                 Type = TweakType.Registry,
                 RegistryPath = @"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Device Metadata",
                 RegistryKey = "PreventDeviceMetadataFromNetwork",
@@ -313,8 +314,8 @@ namespace TweakHub.Services
             category.Tweaks.Add(new PerformanceTweak
             {
                 Id = "disable_device_coinstallers",
-                Name = "Disable Automatic Driver Search and Co-installers",
-                Description = "Disables automatic driver searching and all device co-installers. The effect is system-wide and is not limited to Razer devices.",
+                Name = L.Get("Tweaks:CategoryOrTweakNameDisableAutomaticDriverSearchAndCo"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionDisablesAutomaticDriverSearchingAndAll"),
                 Type = TweakType.Registry,
                 RegistryPath = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\DriverSearching",
                 RegistryKey = "SearchOrderConfig",
@@ -326,8 +327,8 @@ namespace TweakHub.Services
             category.Tweaks.Add(new PerformanceTweak
             {
                 Id = "disable_notifications_calendar",
-                Name = "Disable Notifications and Calendar",
-                Description = "Disables Notification Center, toast notifications and the associated calendar flyout for the current user.",
+                Name = L.Get("Tweaks:CategoryOrTweakNameDisableNotificationsAndCalendar"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionDisablesNotificationCenterToastNotificationsAnd"),
                 Type = TweakType.Registry,
                 RegistryPath = @"HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Explorer",
                 RegistryKey = "DisableNotificationCenter",
@@ -343,16 +344,16 @@ namespace TweakHub.Services
         {
             var category = new TweakCategory
             {
-                Name = "Advanced",
-                Description = "Higher-impact changes that trade Windows functionality for lower background activity",
+                Name = L.Get("Tweaks:CategoryOrTweakNameAdvanced"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionHigherImpactChangesThatTradeWindows"),
                 Icon = "\uE83D"
             };
 
             category.Tweaks.Add(new PerformanceTweak
             {
                 Id = "disable_windows_search",
-                Name = "Disable Windows Search Indexing",
-                Description = "Disables Windows Search indexing and restores the captured service configuration when re-enabled.",
+                Name = L.Get("Tweaks:CategoryOrTweakNameDisableWindowsSearchIndexing"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionDisablesWindowsSearchIndexingAndRestores"),
                 Type = TweakType.Registry,
                 RegistryPath = @"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WSearch",
                 RegistryKey = "Start",
@@ -368,16 +369,16 @@ namespace TweakHub.Services
         {
             var category = new TweakCategory
             {
-                Name = "Windows Update Control",
-                Description = "Control driver delivery and use a conservative manual update policy",
+                Name = L.Get("Tweaks:CategoryOrTweakNameWindowsUpdateControl"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionControlDriverDeliveryAndUseA"),
                 Icon = "\uE895"
             };
 
             category.Tweaks.Add(new PerformanceTweak
             {
                 Id = "disable_automatic_driver_updates",
-                Name = "Exclude Drivers from Windows Update",
-                Description = "Prevents Windows Update quality updates from automatically delivering device drivers.",
+                Name = L.Get("Tweaks:CategoryOrTweakNameExcludeDriversFromWindowsUpdate"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionPreventsWindowsUpdateQualityUpdatesFrom"),
                 Type = TweakType.Registry,
                 RegistryPath = @"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate",
                 RegistryKey = "ExcludeWUDriversInQualityUpdate",
@@ -389,8 +390,8 @@ namespace TweakHub.Services
             category.Tweaks.Add(new PerformanceTweak
             {
                 Id = "windows_update_security_preset",
-                Name = "Manual Security Update Preset",
-                Description = "Notifies before downloads and defers feature updates by 90 days. Security and quality updates remain available for manual installation.",
+                Name = L.Get("Tweaks:CategoryOrTweakNameManualSecurityUpdatePreset"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionNotifiesBeforeDownloadsAndDefersFeature"),
                 Type = TweakType.Registry,
                 RegistryPath = @"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU",
                 RegistryKey = "AUOptions",
@@ -441,16 +442,16 @@ namespace TweakHub.Services
         {
             var category = new TweakCategory
             {
-                Name = "Visual Effects & Performance",
-                Description = "Optimize visual effects for better performance and responsiveness",
+                Name = L.Get("Tweaks:CategoryOrTweakNameVisualEffectsPerformance"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionOptimizeVisualEffectsForBetterPerformance"),
                 Icon = "\uE790"
             };
 
             category.Tweaks.Add(new PerformanceTweak
             {
                 Id = "disable_animations",
-                Name = "Disable Window Animations",
-                Description = "Disables window animations for faster UI response and lower resource usage",
+                Name = L.Get("Tweaks:CategoryOrTweakNameDisableWindowAnimations"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionDisablesWindowAnimationsForFasterUI"),
                 Type = TweakType.Registry,
                 RegistryPath = @"HKEY_CURRENT_USER\Control Panel\Desktop\WindowMetrics",
                 RegistryKey = "MinAnimate",
@@ -461,8 +462,8 @@ namespace TweakHub.Services
             category.Tweaks.Add(new PerformanceTweak
             {
                 Id = "disable_transparency",
-                Name = "Disable Window Transparency",
-                Description = "Disables window transparency effects to improve performance",
+                Name = L.Get("Tweaks:CategoryOrTweakNameDisableWindowTransparency"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionDisablesWindowTransparencyEffectsToImprove"),
                 Type = TweakType.Registry,
                 RegistryPath = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize",
                 RegistryKey = "EnableTransparency",
@@ -473,8 +474,8 @@ namespace TweakHub.Services
             category.Tweaks.Add(new PerformanceTweak
             {
                 Id = "optimize_visual_effects",
-                Name = "Optimize for Performance",
-                Description = "Sets visual effects to 'Adjust for best performance' mode",
+                Name = L.Get("Tweaks:CategoryOrTweakNameOptimizeForPerformance"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionSetsVisualEffectsToAdjustFor"),
                 Type = TweakType.Registry,
                 RegistryPath = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects",
                 RegistryKey = "VisualFXSetting",

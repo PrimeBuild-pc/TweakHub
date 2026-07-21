@@ -93,6 +93,7 @@ namespace TweakHub.Models
         public string Theme { get; set; } = "System";
         public string AccentColor { get; set; } = string.Empty;
         public bool Transparency { get; set; } = true;
+        public string Language { get; set; } = "System";
     }
 
     public class SystemShortcut

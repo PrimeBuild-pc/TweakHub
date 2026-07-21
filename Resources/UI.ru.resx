@@ -1,0 +1,371 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="MainWindowTweakHubWindows11TweakUtility" xml:space="preserve">
+    <value>TweakHub — Утилита настройки Windows 11</value>
+  </data>
+  <data name="MainWindowWindows11PerformanceControls" xml:space="preserve">
+    <value>Контроль производительности Windows 11</value>
+  </data>
+  <data name="MainWindowRegistryTweaks" xml:space="preserve">
+    <value>Настройки реестра</value>
+  </data>
+  <data name="MainWindowExternalTools" xml:space="preserve">
+    <value>Внешние инструменты</value>
+  </data>
+  <data name="MainWindowAutomatedScripts" xml:space="preserve">
+    <value>Автоматические сценарии</value>
+  </data>
+  <data name="MainWindowQuickAccess" xml:space="preserve">
+    <value>Быстрый Доступ</value>
+  </data>
+  <data name="MainWindowAbout" xml:space="preserve">
+    <value>О программе</value>
+  </data>
+  <data name="MainWindowOpenAppearanceSettings" xml:space="preserve">
+    <value>Открыть настройки внешнего вида</value>
+  </data>
+  <data name="MainWindowAppearanceSettings" xml:space="preserve">
+    <value>Настройки внешнего вида</value>
+  </data>
+  <data name="MainWindowAppearanceSettings2" xml:space="preserve">
+    <value>Настройки внешнего вида</value>
+  </data>
+  <data name="AboutPageAbout" xml:space="preserve">
+    <value>О программе</value>
+  </data>
+  <data name="AboutPageAboutAmpSettings" xml:space="preserve">
+    <value>О программе и настройках</value>
+  </data>
+  <data name="AboutPageApplicationInformationAppearanceAndUpdates" xml:space="preserve">
+    <value>Информация о приложении, внешний вид и обновления</value>
+  </data>
+  <data name="AboutPageAppearance" xml:space="preserve">
+    <value>Внешний вид</value>
+  </data>
+  <data name="AboutPageFollowWindowsOrChooseA" xml:space="preserve">
+    <value>Следуйте Windows или выберите фиксированную тему, цвет акцента и фон.</value>
+  </data>
+  <data name="AboutPageTheme" xml:space="preserve">
+    <value>Тема</value>
+  </data>
+  <data name="AboutPageUseWindowsSetting" xml:space="preserve">
+    <value>Использовать настройки Windows</value>
+  </data>
+  <data name="AboutPageLight" xml:space="preserve">
+    <value>Светлый</value>
+  </data>
+  <data name="AboutPageDark" xml:space="preserve">
+    <value>Темный</value>
+  </data>
+  <data name="AboutPageAccentColor" xml:space="preserve">
+    <value>Акцентный цвет</value>
+  </data>
+  <data name="AboutPageUseWindowsAccentColor" xml:space="preserve">
+    <value>Использовать акцентный цвет Windows</value>
+  </data>
+  <data name="AboutPageHexColorForExample0078D4" xml:space="preserve">
+    <value>Шестнадцатеричный цвет, например #0078D4</value>
+  </data>
+  <data name="AboutPageEffects" xml:space="preserve">
+    <value>Эффекты</value>
+  </data>
+  <data name="AboutPageEnableMicaAndTransparency" xml:space="preserve">
+    <value>Включить слюду и прозрачность</value>
+  </data>
+  <data name="AboutPageLanguage" xml:space="preserve">
+    <value>Язык</value>
+  </data>
+  <data name="AboutPageUseWindowsSetting2" xml:space="preserve">
+    <value>Использовать Windows настройка</value>
+  </data>
+  <data name="AboutPageEnglish" xml:space="preserve">
+    <value>Английский</value>
+  </data>
+  <data name="AboutPageEspaOl" xml:space="preserve">
+    <value>Español</value>
+  </data>
+  <data name="AboutPageItaliano" xml:space="preserve">
+    <value>Italiano</value>
+  </data>
+  <data name="AboutPageApplyAppearance" xml:space="preserve">
+    <value>Применить внешний вид</value>
+  </data>
+  <data name="AboutPagePortableConfiguration" xml:space="preserve">
+    <value>Портативная конфигурация</value>
+  </data>
+  <data name="AboutPageExportOrImportCustomScripts" xml:space="preserve">
+    <value>Экспорт или импорт пользовательских сценариев, настроек реестра, внешних инструментов, избранного и внешнего вида как один профиль JSON. Резервные копии отката для конкретного компьютера никогда не включаются.</value>
+  </data>
+  <data name="AboutPageExportProfile" xml:space="preserve">
+    <value>Профиль экспорта</value>
+  </data>
+  <data name="AboutPageImportProfile" xml:space="preserve">
+    <value>Профиль импорта</value>
+  </data>
+  <data name="AboutPageUpdates" xml:space="preserve">
+    <value>Обновления</value>
+  </data>
+  <data name="AboutPageTweakHubChecksGitHubReleasesWhen" xml:space="preserve">
+    <value>TweakHub проверяет выпуски GitHub при запуске. Обновления загружаются, проверяются и устанавливаются только после вашего подтверждения.</value>
+  </data>
+  <data name="AboutPageCheckForUpdates" xml:space="preserve">
+    <value>Проверить наличие обновлений</value>
+  </data>
+  <data name="AboutPageLicenseMITLicense" xml:space="preserve">
+    <value>Лицензия: Лицензия MIT</value>
+  </data>
+  <data name="AboutPageThisSoftwareIsProvidedAs" xml:space="preserve">
+    <value>Это программное обеспечение предоставляется как есть, без каких-либо гарантий.</value>
+  </data>
+  <data name="ProgressWindowProcessing" xml:space="preserve">
+    <value>Обработка...</value>
+  </data>
+  <data name="ProgressWindowProcessing2" xml:space="preserve">
+    <value>Обработка...</value>
+  </data>
+  <data name="ProgressWindowPleaseWait" xml:space="preserve">
+    <value>Пожалуйста, подождите...</value>
+  </data>
+  <data name="WindowsVersionMessage" xml:space="preserve">
+    <value>TweakHub поддерживает Windows 11, сборка 22000 или новее.</value>
+  </data>
+  <data name="WindowsVersionTitle" xml:space="preserve">
+    <value>Неподдерживаемая версия Windows</value>
+  </data>
+  <data name="UnexpectedErrorMessage" xml:space="preserve">
+    <value>Произошла непредвиденная ошибка: {0}
+
+Подробности: {1}</value>
+  </data>
+  <data name="UnexpectedErrorTitle" xml:space="preserve">
+    <value>Ошибка TweakHub</value>
+  </data>
+  <data name="ThemeSystem" xml:space="preserve">
+    <value>Синхронизировано с Windows</value>
+  </data>
+  <data name="ThemeLight" xml:space="preserve">
+    <value>Светлый режим</value>
+  </data>
+  <data name="ThemeDark" xml:space="preserve">
+    <value>Темный режим</value>
+  </data>
+  <data name="SystemColor" xml:space="preserve">
+    <value>Системный цвет</value>
+  </data>
+  <data name="AppearanceStatus" xml:space="preserve">
+    <value>{0} • {1}</value>
+  </data>
+  <data name="InvalidAccentColor" xml:space="preserve">
+    <value>Введите цвет в #RRGGBB format.</value>
+  </data>
+  <data name="AppearanceSaveFailed" xml:space="preserve">
+    <value>Внешний вид был применен для этого сеанса, но не удалось сохранить.</value>
+  </data>
+  <data name="DataLocation" xml:space="preserve">
+    <value>Расположение данных: {0}</value>
+  </data>
+  <data name="Applied" xml:space="preserve">
+    <value>Применено</value>
+  </data>
+  <data name="AppliedRestartLanguage" xml:space="preserve">
+    <value>Применено — перезапустите TweakHub, чтобы изменить язык</value>
+  </data>
+  <data name="ProfileSaveFilter" xml:space="preserve">
+    <value>Профиль TweakHub (*.tweakhub.json)|*.tweakhub.json|JSON файлы (*.json)|*.json</value>
+  </data>
+  <data name="ProfileOpenFilter" xml:space="preserve">
+    <value>Профиль TweakHub (*.tweakhub.json;*.json)|*.tweakhub.json;*.json</value>
+  </data>
+  <data name="ProfileExported" xml:space="preserve">
+    <value>Профиль экспортирован</value>
+  </data>
+  <data name="ImportProfileTitle" xml:space="preserve">
+    <value>Импортировать профиль TweakHub</value>
+  </data>
+  <data name="ImportProfileMessage" xml:space="preserve">
+    <value>При импорте текущий пользовательский профиль заменяется. Продолжить?</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Импортировать</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Отменить</value>
+  </data>
+  <data name="ProfileImported" xml:space="preserve">
+    <value>Профиль импортирован</value>
+  </data>
+  <data name="ProfileImportedRestart" xml:space="preserve">
+    <value>Профиль импортирован — перезапустите TweakHub, чтобы изменить язык</value>
+  </data>
+  <data name="Checking" xml:space="preserve">
+    <value>Проверка...</value>
+  </data>
+  <data name="CheckedJustNow" xml:space="preserve">
+    <value>Проверено только что сейчас</value>
+  </data>
+  <data name="Processing" xml:space="preserve">
+    <value>Обработка...</value>
+  </data>
+  <data name="PercentComplete" xml:space="preserve">
+    <value>{0:F0}% завершено</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>ОК</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Да</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="RestartRequired" xml:space="preserve">
+    <value>Требуется перезагрузка</value>
+  </data>
+  <data name="RestartRequiredMessage" xml:space="preserve">
+    <value>{0}
+
+Это сообщение отображается один раз за сеанс.</value>
+  </data>
+  <data name="DisclaimerTitle" xml:space="preserve">
+    <value>Отказ от ответственности TweakHub</value>
+  </data>
+  <data name="DisclaimerMessage" xml:space="preserve">
+    <value>TweakHub может вносить изменения в настройки Windows, реестр, конфигурацию загрузки и другие компоненты системы. Прежде чем продолжить, создайте точку восстановления системы.
+
+Вы действуете на свой страх и риск. Автор не несет ответственности за любой ущерб, потерю данных или нестабильность системы, которые могут возникнуть.
+
+Продолжая, вы признаете и принимаете эти условия.</value>
+  </data>
+  <data name="IUnderstand" xml:space="preserve">
+    <value>Я понимаю</value>
+  </data>
+  <data name="ProfileTooLarge" xml:space="preserve">
+    <value>Файлы профиля ограничены 5 МБ.</value>
+  </data>
+  <data name="ProfileInvalid" xml:space="preserve">
+    <value>Профиль пуст или недействителен.</value>
+  </data>
+  <data name="ProfileVersionUnsupported" xml:space="preserve">
+    <value>Неподдерживаемая версия профиля: {0}.</value>
+  </data>
+  <data name="ProfileTooManyEntries" xml:space="preserve">
+    <value>Профиль содержит слишком много пользовательских записей.</value>
+  </data>
+  <data name="CustomToolFieldsInvalid" xml:space="preserve">
+    <value>Имя, категория или описание недопустимы.</value>
+  </data>
+  <data name="CustomToolActionRequired" xml:space="preserve">
+    <value>Выберите ровно одно действие: Winget, ссылку HTTPS или PowerShell.</value>
+  </data>
+  <data name="WingetIdInvalid" xml:space="preserve">
+    <value>Введите идентификатор пакета Winget, а не командную строку.</value>
+  </data>
+  <data name="HttpsRequired" xml:space="preserve">
+    <value>Ссылки должны использоваться HTTPS.</value>
+  </data>
+  <data name="PowerShellTooLong" xml:space="preserve">
+    <value>Команды PowerShell ограничены 8192 символами.</value>
+  </data>
+  <data name="CheckForUpdates" xml:space="preserve">
+    <value>Проверить наличие обновлений</value>
+  </data>
+  <data name="LatestVersion" xml:space="preserve">
+    <value>Вы используете последнюю версию.</value>
+  </data>
+  <data name="UpdateAvailable" xml:space="preserve">
+    <value>Доступно обновление</value>
+  </data>
+  <data name="UpdateAvailableMessage" xml:space="preserve">
+    <value>TweakHub {0} доступен.
+
+Установлено: {1}
+
+Загрузите, проверьте и установите его сейчас?</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Обновить</value>
+  </data>
+  <data name="Later" xml:space="preserve">
+    <value>Позже</value>
+  </data>
+  <data name="VerifiedPackageMissing" xml:space="preserve">
+    <value>Этот выпуск не содержит проверенного пакета для этого режима установки.</value>
+  </data>
+  <data name="UpdatingTweakHub" xml:space="preserve">
+    <value>Обновление TweakHub</value>
+  </data>
+  <data name="DownloadingVerifiedUpdate" xml:space="preserve">
+    <value>Загрузка проверенного обновления...</value>
+  </data>
+  <data name="UpdateFailed" xml:space="preserve">
+    <value>Обновить Ошибка</value>
+  </data>
+  <data name="UpdateFailedMessage" xml:space="preserve">
+    <value>TweakHub не смог обновиться автоматически.
+
+{0}</value>
+  </data>
+  <data name="ChecksumMissing" xml:space="preserve">
+    <value>Контрольная сумма выпуска отсутствует или недействительна.</value>
+  </data>
+  <data name="DownloadIncomplete" xml:space="preserve">
+    <value>Загрузка обновления не завершена.</value>
+  </data>
+  <data name="ChecksumMismatch" xml:space="preserve">
+    <value>Контрольная сумма обновления не соответствует выпуску.</value>
+  </data>
+  <data name="PortableExecutableMissing" xml:space="preserve">
+    <value>Переносной архив не содержит TweakHub.exe.</value>
+  </data>
+  <data name="UntrustedDownloadUrl" xml:space="preserve">
+    <value>Выпуск содержит ненадежный URL-адрес загрузки.</value>
+  </data>
+  <data name="BackupCreatedStatus" xml:space="preserve">
+    <value>Резервная копия создана: {0}</value>
+  </data>
+  <data name="RegistryValueNameRequired" xml:space="preserve">
+    <value>Необходимо имя значения реестра.</value>
+  </data>
+  <data name="RegistryPathRequired" xml:space="preserve">
+    <value>Путь к реестру: требуется.</value>
+  </data>
+  <data name="RegistryPathInvalid" xml:space="preserve">
+    <value>Путь реестра должен включать поддерживаемый корень и подраздел.</value>
+  </data>
+  <data name="RegistryRootUnsupported" xml:space="preserve">
+    <value>Неподдерживаемый корень реестра '{0}'.</value>
+  </data>
+  <data name="JustNow" xml:space="preserve">
+    <value>только сейчас</value>
+  </data>
+  <data name="FewMomentsAgo" xml:space="preserve">
+    <value>несколько минут назад</value>
+  </data>
+  <data name="MinutesAgo" xml:space="preserve">
+    <value>{0}м назад</value>
+  </data>
+  <data name="HoursAgo" xml:space="preserve">
+    <value>{0}ч назад</value>
+  </data>
+  <data name="DaysAgo" xml:space="preserve">
+    <value>{0}д назад</value>
+  </data>
+  <data name="GitHubRepository" xml:space="preserve">
+    <value>Репозиторий GitHub</value>
+  </data>
+  <data name="DiscordServer" xml:space="preserve">
+    <value>Сервер Discord</value>
+  </data>
+</root>

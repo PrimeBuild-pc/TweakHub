@@ -45,6 +45,8 @@ It runs as the current user and requests administrator privileges only when an o
 
 TweakHub supports **Windows 11 build 22000 or newer**.
 
+The interface and installer support English, Russian, Simplified Chinese, Spanish and Italian. TweakHub follows the Windows display language by default; an explicit language can be selected under **About & Settings**.
+
 ## Screenshots
 
 <p align="center">

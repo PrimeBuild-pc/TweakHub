@@ -1,0 +1,522 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="RegistryTweaksPageRegistryTweaks" xml:space="preserve">
+    <value>Ajustes del Registro</value>
+  </data>
+  <data name="RegistryTweaksPageOnlyPartOfThisGrouped" xml:space="preserve">
+    <value>Actualmente solo se aplica parte de este ajuste agrupado</value>
+  </data>
+  <data name="RegistryTweaksPageRestartWindowsToMakeThis" xml:space="preserve">
+    <value>Reinicie Windows para que este cambio tenga efecto completo</value>
+  </data>
+  <data name="RegistryTweaksPageAddOrRemoveFromFavorites" xml:space="preserve">
+    <value>Agregar o quitar de favoritos</value>
+  </data>
+  <data name="RegistryTweaksPageToggleFavorite" xml:space="preserve">
+    <value>Alternar favorito</value>
+  </data>
+  <data name="RegistryTweaksPageEnableTweak" xml:space="preserve">
+    <value>Habilitar ajuste</value>
+  </data>
+  <data name="RegistryTweaksPagePreviewRegistryChanges" xml:space="preserve">
+    <value>Previsualizar cambios en el registro</value>
+  </data>
+  <data name="RegistryTweaksPagePreviewRegistryChanges2" xml:space="preserve">
+    <value>Previsualizar cambios en el registro</value>
+  </data>
+  <data name="RegistryTweaksPageThisRegistryValueCurrentlyMatches" xml:space="preserve">
+    <value>Este valor del Registro coincide actualmente con el ajuste personalizado</value>
+  </data>
+  <data name="RegistryTweaksPageAddOrRemoveFromFavorites2" xml:space="preserve">
+    <value>Agregar o quitar de favoritos</value>
+  </data>
+  <data name="RegistryTweaksPageToggleFavorite2" xml:space="preserve">
+    <value>Alternar favorito</value>
+  </data>
+  <data name="RegistryTweaksPageView" xml:space="preserve">
+    <value>Ver</value>
+  </data>
+  <data name="RegistryTweaksPageApply" xml:space="preserve">
+    <value>Aplicar</value>
+  </data>
+  <data name="RegistryTweaksPageRestore" xml:space="preserve">
+    <value>Restaurar</value>
+  </data>
+  <data name="RegistryTweaksPageEdit" xml:space="preserve">
+    <value>Editar</value>
+  </data>
+  <data name="RegistryTweaksPageDelete" xml:space="preserve">
+    <value>Eliminar</value>
+  </data>
+  <data name="RegistryTweaksPageDetails" xml:space="preserve">
+    <value>Detalles</value>
+  </data>
+  <data name="RegistryTweaksPageRegistryTweaks2" xml:space="preserve">
+    <value>Ajustes del Registro</value>
+  </data>
+  <data name="RegistryTweaksPageOptimizeWindowsPerformanceThroughRegistry" xml:space="preserve">
+    <value>Optimiza el rendimiento de Windows mediante modificaciones del registro. Los cambios se respaldan automáticamente.</value>
+  </data>
+  <data name="RegistryTweaksPageRefreshStatus" xml:space="preserve">
+    <value>Actualizar estado</value>
+  </data>
+  <data name="RegistryTweaksPageCreateBackup" xml:space="preserve">
+    <value>Crear copia de seguridad</value>
+  </data>
+  <data name="RegistryTweaksPageCreateRestorePoint" xml:space="preserve">
+    <value>Crear punto de restauración</value>
+  </data>
+  <data name="RegistryTweaksPageApplyRecommended" xml:space="preserve">
+    <value>Aplicar recomendado</value>
+  </data>
+  <data name="RegistryTweaksPageRestoreAllChanges" xml:space="preserve">
+    <value>Restaurar todos los cambios</value>
+  </data>
+  <data name="RegistryTweaksPageRecommended" xml:space="preserve">
+    <value>Recomendado</value>
+  </data>
+  <data name="RegistryTweaksPageCustomTweaks" xml:space="preserve">
+    <value>Ajustes personalizados</value>
+  </data>
+  <data name="RegistryTweaksPageCustomRegistryTweaks" xml:space="preserve">
+    <value>Ajustes personalizados del registro</value>
+  </data>
+  <data name="RegistryTweaksPageCreateAndManageYourOwn" xml:space="preserve">
+    <value>Cree y administre sus propios registros del registro.</value>
+  </data>
+  <data name="RegistryTweaksPageNewTweak" xml:space="preserve">
+    <value>Nuevo ajuste</value>
+  </data>
+  <data name="RegistryTweaksPageFavorites" xml:space="preserve">
+    <value>Favoritos</value>
+  </data>
+  <data name="RegistryTweaksPageNoFavoriteRegistryTweaksYet" xml:space="preserve">
+    <value>Aún no hay ajustes de Registro favoritos. Selecciona una estrella para agregar uno.</value>
+  </data>
+  <data name="RegistryTweaksPageRecommended2" xml:space="preserve">
+    <value>Recomendado</value>
+  </data>
+  <data name="RegistryTweaksPageCustomTweaks2" xml:space="preserve">
+    <value>Ajustes Personalizados</value>
+  </data>
+  <data name="CategoryOrTweakNameCPUProcessorOptimization" xml:space="preserve">
+    <value>Optimización de CPU y Procesador</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionOptimizeCPUSchedulingPriorityAndProcessor" xml:space="preserve">
+    <value>Optimiza la programación de la CPU, la prioridad y el rendimiento del procesador</value>
+  </data>
+  <data name="CategoryOrTweakNamePrioritizeForegroundPrograms" xml:space="preserve">
+    <value>Priorizar Programas en Primer Plano</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionUsesTheWindowsForegroundProgramScheduling" xml:space="preserve">
+    <value>Utiliza el perfil de programación de programas en primer plano de Windows y restaura el valor original capturado.</value>
+  </data>
+  <data name="CategoryOrTweakNameMaximumCPUPerformanceOnAC" xml:space="preserve">
+    <value>Rendimiento Máximo de la CPU con Corriente</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionSetsTheActivePowerPlanMinimum" xml:space="preserve">
+    <value>Establece el estado mínimo del procesador del plan de energía activo al 100% mientras está enchufado. Aumenta el consumo de energía y el calor.</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableCPUCoreParking" xml:space="preserve">
+    <value>Desactivar Aparcamiento de Núcleos de CPU</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionSetsTheActivePowerPlanMinimum2" xml:space="preserve">
+    <value>Establece los núcleos en reposo mínimos del plan de energía activo al 100% mientras está enchufado. Aumenta el consumo de energía y el calor.</value>
+  </data>
+  <data name="CategoryOrTweakNameForceHighPerformancePowerPlan" xml:space="preserve">
+    <value>Forzar Plan de Energía de Alto Rendimiento</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionActivatesTheWindowsHighPerformancePlan" xml:space="preserve">
+    <value>Activa el plan de Alto Rendimiento de Windows y restaura el plan previamente activo cuando se desactiva.</value>
+  </data>
+  <data name="CategoryOrTweakNameNetworkLatencyReduction" xml:space="preserve">
+    <value>Reducción de Latencia de Red</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionOptimizeNetworkStackForMinimalLatency" xml:space="preserve">
+    <value>Optimiza la pila de red para una latencia mínima y máxima capacidad de respuesta</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableNetworkThrottlingIndex" xml:space="preserve">
+    <value>Deshabilitar el Índice de Limitación de Red</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionUsesTheDisabledDWORDValueAnd" xml:space="preserve">
+    <value>Usa el valor DWORD deshabilitado y restaura la configuración original capturada.</value>
+  </data>
+  <data name="CategoryOrTweakNameGamingPerformance" xml:space="preserve">
+    <value>Rendimiento en Juegos</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionOptimizeSystemForGamingPerformanceAnd" xml:space="preserve">
+    <value>Optimiza el sistema para el rendimiento en juegos y la capacidad de respuesta del control de entrada</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableMouseAcceleration" xml:space="preserve">
+    <value>Desactivar la Aceleración del Ratón</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionChangesMouseSpeedAndBothThresholdValues" xml:space="preserve">
+    <value>Cambia la velocidad del ratón y ambos valores de umbral como una única operación restaurable.</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableFullscreenOptimizations" xml:space="preserve">
+    <value>Desactivar optimizaciones de pantalla completa</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisablesWindowsFullscreenOptimizationsForBetter" xml:space="preserve">
+    <value>Desactiva las optimizaciones de pantalla completa de Windows para mejorar el rendimiento en juegos</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableXboxGameBar" xml:space="preserve">
+    <value>Desactivar barra de juegos de Xbox</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisablesXboxGameBarToReduce" xml:space="preserve">
+    <value>Desactiva la barra de juegos de Xbox para reducir la sobrecarga en juegos y mejorar el rendimiento</value>
+  </data>
+  <data name="CategoryOrTweakNameSystemResponsiveness" xml:space="preserve">
+    <value>Capacidad de respuesta del sistema</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionImproveOverallSystemResponsivenessAndUI" xml:space="preserve">
+    <value>Mejora la capacidad de respuesta general del sistema y el rendimiento de la interfaz de usuario</value>
+  </data>
+  <data name="CategoryOrTweakNameReduceMenuShowDelay" xml:space="preserve">
+    <value>Reducir el tiempo de aparición del menú</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionMakesMenusAppearInstantlyForBetter" xml:space="preserve">
+    <value>Hace que los menús aparezcan al instante para una mejor capacidad de respuesta</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableStartupApplicationDelay" xml:space="preserve">
+    <value>Desactivar el retraso de aplicaciones al inicio</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionRemovesArtificialDelayForStartupApplications" xml:space="preserve">
+    <value>Elimina el retraso artificial para las aplicaciones de inicio</value>
+  </data>
+  <data name="CategoryOrTweakNameMemoryManagement" xml:space="preserve">
+    <value>Gestión de memoria</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionWindowsNormallyUsesSpareRAMAs" xml:space="preserve">
+    <value>Windows normalmente usa la RAM disponible como caché y la libera inmediatamente cuando las aplicaciones la necesitan. Mantenga SysMain y Prefetch habilitados a menos que las mediciones identifiquen que son la causa de un problema.</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableSysMainSuperfetch" xml:space="preserve">
+    <value>Desactivar SysMain (Superfetch)</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionStopsAndDisablesSysMainUsuallyLeave" xml:space="preserve">
+    <value>Detiene y desactiva SysMain. Por lo general, mantener esto activado; considere desactivarlo solo para ralentizaciones documentadas, especialmente al diagnosticar un sistema con poca memoria o un disco duro mecánico.</value>
+  </data>
+  <data name="CategoryOrTweakNameDisablePrefetch" xml:space="preserve">
+    <value>Desactivar Prefetch</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisablesApplicationAndBootPrefetchingUsually" xml:space="preserve">
+    <value>Desactiva la precarga de aplicaciones y del arranque. Por lo general, mantener esto activado; desactívelo solo después de documentar un problema relacionado con Prefetch. Puede hacer que las aplicaciones y los juegos se abran más lentamente.</value>
+  </data>
+  <data name="CategoryOrTweakNamePrivacyDeviceControl" xml:space="preserve">
+    <value>Privacidad y control de dispositivos</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionReversiblePrivacyAndDeviceInstallationPolicies" xml:space="preserve">
+    <value>Políticas de privacidad y de instalación de dispositivos reversibles. Revise los elementos de alto riesgo antes de aplicarlos.</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableWindowsAIPolicies" xml:space="preserve">
+    <value>Desactivar políticas de IA de Windows</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionHidesTheWindowsAIComponentsSettings" xml:space="preserve">
+    <value>Oculta la página de configuración de los componentes de IA de Windows y desactiva las funciones de IA de Bloc de notas. La eliminación del paquete está disponible por separado bajo Scripts Automatizados.</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableWindowsPlatformBinaryTableWPBT" xml:space="preserve">
+    <value>Desactivar la Tabla de Binarios de la Plataforma de Windows (WPBT)</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionPreventsFirmwareProvidedWPBTSoftwareFrom" xml:space="preserve">
+    <value>Evita que el software WPBT proporcionado por el firmware se ejecute al iniciar. Esto puede desactivar el software de seguridad, recuperación o administración del proveedor.</value>
+  </data>
+  <data name="CategoryOrTweakNamePreventDeviceCompanionApps" xml:space="preserve">
+    <value>Evitar Aplicaciones Compañeras de Dispositivos</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionPreventsAutomaticDownloadOfApplicationsAnd" xml:space="preserve">
+    <value>Evita la descarga automática de aplicaciones y metadatos asociados con dispositivos conectados. Esto no bloquea todos los controladores desde Windows Update.</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableAutomaticDriverSearchAndCo" xml:space="preserve">
+    <value>Desactivar Búsqueda Automática de Controladores y Co-instaladores</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisablesAutomaticDriverSearchingAndAll" xml:space="preserve">
+    <value>Desactiva la búsqueda automática de controladores y todos los co-instaladores de dispositivos. El efecto es a nivel del sistema y no está limitado a dispositivos Razer.</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableNotificationsAndCalendar" xml:space="preserve">
+    <value>Desactivar Notificaciones y Calendario</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisablesNotificationCenterToastNotificationsAnd" xml:space="preserve">
+    <value>Desactiva el Centro de Notificaciones, las notificaciones tipo toast y la ventana emergente de calendario asociada para el usuario actual.</value>
+  </data>
+  <data name="CategoryOrTweakNameAdvanced" xml:space="preserve">
+    <value>Avanzado</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionHigherImpactChangesThatTradeWindows" xml:space="preserve">
+    <value>Cambios de mayor impacto que intercambian la funcionalidad de Windows por menor actividad en segundo plano</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableWindowsSearchIndexing" xml:space="preserve">
+    <value>Desactivar la indexación de búsqueda de Windows</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisablesWindowsSearchIndexingAndRestores" xml:space="preserve">
+    <value>Desactiva la indexación de búsqueda de Windows y restaura la configuración del servicio capturado cuando se vuelve a habilitar.</value>
+  </data>
+  <data name="CategoryOrTweakNameWindowsUpdateControl" xml:space="preserve">
+    <value>Control de Windows Update</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionControlDriverDeliveryAndUseA" xml:space="preserve">
+    <value>Controla la entrega de controladores y utiliza una política de actualización manual conservadora</value>
+  </data>
+  <data name="CategoryOrTweakNameExcludeDriversFromWindowsUpdate" xml:space="preserve">
+    <value>Excluir controladores de Windows Update</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionPreventsWindowsUpdateQualityUpdatesFrom" xml:space="preserve">
+    <value>Evita que las actualizaciones de calidad de Windows Update entreguen automáticamente controladores de dispositivos.</value>
+  </data>
+  <data name="CategoryOrTweakNameManualSecurityUpdatePreset" xml:space="preserve">
+    <value>Preajuste de actualización de seguridad manual</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionNotifiesBeforeDownloadsAndDefersFeature" xml:space="preserve">
+    <value>Notifica antes de las descargas y pospone las actualizaciones de funciones por 90 días. Las actualizaciones de seguridad y de calidad siguen disponibles para instalación manual.</value>
+  </data>
+  <data name="CategoryOrTweakNameVisualEffectsPerformance" xml:space="preserve">
+    <value>Efectos visuales y rendimiento</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionOptimizeVisualEffectsForBetterPerformance" xml:space="preserve">
+    <value>Optimizar efectos visuales para un mejor rendimiento y capacidad de respuesta</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableWindowAnimations" xml:space="preserve">
+    <value>Desactivar animaciones de ventana</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisablesWindowAnimationsForFasterUI" xml:space="preserve">
+    <value>Desactiva las animaciones de ventana para una respuesta de IU más rápida y menor uso de recursos</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableWindowTransparency" xml:space="preserve">
+    <value>Desactivar transparencia de ventana</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisablesWindowTransparencyEffectsToImprove" xml:space="preserve">
+    <value>Desactiva los efectos de transparencia de las ventanas para mejorar el rendimiento</value>
+  </data>
+  <data name="CategoryOrTweakNameOptimizeForPerformance" xml:space="preserve">
+    <value>Optimizar para rendimiento</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionSetsVisualEffectsToAdjustFor" xml:space="preserve">
+    <value>Configura los efectos visuales en el modo 'Ajustar para obtener el mejor rendimiento'</value>
+  </data>
+  <data name="RegistryTweakApplied" xml:space="preserve">
+    <value>Ajuste del Registro aplicado.</value>
+  </data>
+  <data name="RegistryTweakApplyFailed" xml:space="preserve">
+    <value>Error al aplicar el ajuste del Registro.</value>
+  </data>
+  <data name="RegistryValueRestored" xml:space="preserve">
+    <value>Valor original del Registro restaurado.</value>
+  </data>
+  <data name="NoBackupAvailable" xml:space="preserve">
+    <value>No hay copia de seguridad disponible para este valor.</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Confirmar</value>
+  </data>
+  <data name="DeleteTweakMessage" xml:space="preserve">
+    <value>¿Eliminar '{0}'?</value>
+  </data>
+  <data name="DwordInvalid" xml:space="preserve">
+    <value>DWORD debe ser un entero válido de 32 bits.</value>
+  </data>
+  <data name="QwordInvalid" xml:space="preserve">
+    <value>QWORD debe ser un entero válido de 64 bits.</value>
+  </data>
+  <data name="BinaryInvalid" xml:space="preserve">
+    <value>Los datos binarios deben contener pares completos de bytes hexadecimales.</value>
+  </data>
+  <data name="AddCustomRegistryTweak" xml:space="preserve">
+    <value>Agregar modificación personalizada del registro</value>
+  </data>
+  <data name="EditCustomRegistryTweak" xml:space="preserve">
+    <value>Editar modificación personalizada del registro</value>
+  </data>
+  <data name="CreateCustomTweak" xml:space="preserve">
+    <value>Crear modificación personalizada</value>
+  </data>
+  <data name="EditCustomTweak" xml:space="preserve">
+    <value>Editar modificación personalizada</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="RegistryPathLabel" xml:space="preserve">
+    <value>Ruta del Registro (por ejemplo, HKCU\Software\...)</value>
+  </data>
+  <data name="ValueName" xml:space="preserve">
+    <value>Nombre del Valor</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Tipo</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Valor</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Crear</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Guardar</value>
+  </data>
+  <data name="InvalidRegistryTweak" xml:space="preserve">
+    <value>Ajuste de Registro Inválido</value>
+  </data>
+  <data name="RequiredCustomFields" xml:space="preserve">
+    <value>Por favor, complete el nombre, la ruta y el nombre del valor.</value>
+  </data>
+  <data name="HighRiskWarning" xml:space="preserve">
+    <value>Advertencia de Alta Riesgo de Ajuste</value>
+  </data>
+  <data name="HighRiskMessage" xml:space="preserve">
+    <value>Este ajuste tiene un nivel de alto riesgo ({0}/5).
+
+Descripción: {1}
+
+¿Está seguro de que desea aplicar este cambio?</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Aplicar</value>
+  </data>
+  <data name="TweakApplicationFailed" xml:space="preserve">
+    <value>Aplicación del Ajuste Fallida</value>
+  </data>
+  <data name="TweakApplicationFailedMessage" xml:space="preserve">
+    <value>No se pudo aplicar el ajuste: {0}
+
+Esto puede deberse a permisos insuficientes o restricciones del sistema.</value>
+  </data>
+  <data name="RestartForChanges" xml:space="preserve">
+    <value>Se requiere reiniciar el sistema para que los cambios surtan efecto.</value>
+  </data>
+  <data name="TweakError" xml:space="preserve">
+    <value>Error de Ajuste</value>
+  </data>
+  <data name="TweakErrorMessage" xml:space="preserve">
+    <value>Ocurrió un error al aplicar el ajuste:
+
+{0}</value>
+  </data>
+  <data name="CompositePreview" xml:space="preserve">
+    <value># {0}
+# Riesgo: {1}/5
+
+# Aplicar
+{2}
+
+# Restaurar
+TweakHub restaura todos los valores originales capturados.</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value># {0}
+# Riesgo: {1}/5
+
+# Aplicar
+{2}
+
+# Restaurar
+TweakHub restaura el valor original capturado.</value>
+  </data>
+  <data name="BackupCreated" xml:space="preserve">
+    <value>Copia de seguridad creada</value>
+  </data>
+  <data name="BackupCreatedMessage" xml:space="preserve">
+    <value>Copia de seguridad del registro creada ({0} nuevo(s) valor(es) capturado(s))
+
+Ubicación de la copia de seguridad: {1}</value>
+  </data>
+  <data name="BackupFailed" xml:space="preserve">
+    <value>Copia de seguridad fallida</value>
+  </data>
+  <data name="ApplyAllRecommended" xml:space="preserve">
+    <value>Aplicar todas las mejoras recomendadas</value>
+  </data>
+  <data name="ApplyAllRecommendedMessage" xml:space="preserve">
+    <value>Esto aplicará todas las mejoras de rendimiento recomendadas.
+
+Se creará una copia de seguridad automáticamente antes de aplicar los cambios.</value>
+  </data>
+  <data name="BackupFailedMessage" xml:space="preserve">
+    <value>No se pudo crear la copia de seguridad. Operación cancelada.
+
+{0}</value>
+  </data>
+  <data name="NoChangesNeeded" xml:space="preserve">
+    <value>No se necesitan cambios</value>
+  </data>
+  <data name="RecommendedAlreadyApplied" xml:space="preserve">
+    <value>Todas las mejoras recomendadas ya están aplicadas.</value>
+  </data>
+  <data name="ApplyingRecommended" xml:space="preserve">
+    <value>Aplicando {0} mejoras recomendadas...</value>
+  </data>
+  <data name="AppliedCount" xml:space="preserve">
+    <value>Aplicado: {0}</value>
+  </data>
+  <data name="FailedCount" xml:space="preserve">
+    <value>No se pudo aplicar: {0}</value>
+  </data>
+  <data name="SomeChangesRequireRestart" xml:space="preserve">
+    <value>Algunos cambios requieren reiniciar el sistema para que tengan efecto.</value>
+  </data>
+  <data name="TweaksApplied" xml:space="preserve">
+    <value>Ajustes aplicados</value>
+  </data>
+  <data name="CreateRestorePointMessage" xml:space="preserve">
+    <value>Esto creará silenciosamente un Punto de Restauración del Sistema llamado 'TweakHub - Pre Tweaks'.
+
+Crearlo puede tardar un minuto y requiere privilegios de administrador.</value>
+  </data>
+  <data name="CreateRestorePoint" xml:space="preserve">
+    <value>Crear Punto de Restauración</value>
+  </data>
+  <data name="CreatingRestorePoint" xml:space="preserve">
+    <value>Creando punto de restauración del sistema...</value>
+  </data>
+  <data name="RequestingRestorePoint" xml:space="preserve">
+    <value>Solicitando punto de restauración...</value>
+  </data>
+  <data name="RestorePointCreated" xml:space="preserve">
+    <value>Punto de Restauración Creado</value>
+  </data>
+  <data name="RestorePointCreatedMessage" xml:space="preserve">
+    <value>Punto de restauración creado con éxito.</value>
+  </data>
+  <data name="RestorePointFailed" xml:space="preserve">
+    <value>Error al crear Punto de Restauración</value>
+  </data>
+  <data name="RestoreAllChanges" xml:space="preserve">
+    <value>Restaurar todos los cambios</value>
+  </data>
+  <data name="RestoreAllMessage" xml:space="preserve">
+    <value>Esto intentará restaurar todos los ajustes del Registro a sus valores originales.</value>
+  </data>
+  <data name="Restore" xml:space="preserve">
+    <value>Restaurar</value>
+  </data>
+  <data name="RestoringAll" xml:space="preserve">
+    <value>Restaurando todos los ajustes del registro...</value>
+  </data>
+  <data name="Restoring" xml:space="preserve">
+    <value>Restaurando...</value>
+  </data>
+  <data name="RestoredCount" xml:space="preserve">
+    <value>Restaurado: {0}</value>
+  </data>
+  <data name="RestoreFailedCount" xml:space="preserve">
+    <value>Error al restaurar: {0}</value>
+  </data>
+  <data name="RestoreComplete" xml:space="preserve">
+    <value>Restauración completa</value>
+  </data>
+  <data name="RestoreFailed" xml:space="preserve">
+    <value>Error al restaurar</value>
+  </data>
+</root>

@@ -1,0 +1,371 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="MainWindowTweakHubWindows11TweakUtility" xml:space="preserve">
+    <value>TweakHub - Windows 11 Tweak Utility</value>
+  </data>
+  <data name="MainWindowWindows11PerformanceControls" xml:space="preserve">
+    <value>Windows 11 performance controls</value>
+  </data>
+  <data name="MainWindowRegistryTweaks" xml:space="preserve">
+    <value>Registry Tweaks</value>
+  </data>
+  <data name="MainWindowExternalTools" xml:space="preserve">
+    <value>External Tools</value>
+  </data>
+  <data name="MainWindowAutomatedScripts" xml:space="preserve">
+    <value>Automated Scripts</value>
+  </data>
+  <data name="MainWindowQuickAccess" xml:space="preserve">
+    <value>Quick Access</value>
+  </data>
+  <data name="MainWindowAbout" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="MainWindowOpenAppearanceSettings" xml:space="preserve">
+    <value>Open appearance settings</value>
+  </data>
+  <data name="MainWindowAppearanceSettings" xml:space="preserve">
+    <value>Appearance settings</value>
+  </data>
+  <data name="MainWindowAppearanceSettings2" xml:space="preserve">
+    <value>Appearance settings</value>
+  </data>
+  <data name="AboutPageAbout" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="AboutPageAboutAmpSettings" xml:space="preserve">
+    <value>About &amp; Settings</value>
+  </data>
+  <data name="AboutPageApplicationInformationAppearanceAndUpdates" xml:space="preserve">
+    <value>Application information, appearance and updates</value>
+  </data>
+  <data name="AboutPageAppearance" xml:space="preserve">
+    <value>Appearance</value>
+  </data>
+  <data name="AboutPageFollowWindowsOrChooseA" xml:space="preserve">
+    <value>Follow Windows or choose a fixed theme, accent color and backdrop.</value>
+  </data>
+  <data name="AboutPageTheme" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="AboutPageUseWindowsSetting" xml:space="preserve">
+    <value>Use Windows setting</value>
+  </data>
+  <data name="AboutPageLight" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="AboutPageDark" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="AboutPageAccentColor" xml:space="preserve">
+    <value>Accent color</value>
+  </data>
+  <data name="AboutPageUseWindowsAccentColor" xml:space="preserve">
+    <value>Use Windows accent color</value>
+  </data>
+  <data name="AboutPageHexColorForExample0078D4" xml:space="preserve">
+    <value>Hex color, for example #0078D4</value>
+  </data>
+  <data name="AboutPageEffects" xml:space="preserve">
+    <value>Effects</value>
+  </data>
+  <data name="AboutPageEnableMicaAndTransparency" xml:space="preserve">
+    <value>Enable Mica and transparency</value>
+  </data>
+  <data name="AboutPageLanguage" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="AboutPageUseWindowsSetting2" xml:space="preserve">
+    <value>Use Windows setting</value>
+  </data>
+  <data name="AboutPageEnglish" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="AboutPageEspaOl" xml:space="preserve">
+    <value>Español</value>
+  </data>
+  <data name="AboutPageItaliano" xml:space="preserve">
+    <value>Italiano</value>
+  </data>
+  <data name="AboutPageApplyAppearance" xml:space="preserve">
+    <value>Apply appearance</value>
+  </data>
+  <data name="AboutPagePortableConfiguration" xml:space="preserve">
+    <value>Portable configuration</value>
+  </data>
+  <data name="AboutPageExportOrImportCustomScripts" xml:space="preserve">
+    <value>Export or import custom scripts, Registry tweaks, external tools, favorites and appearance as one JSON profile. Machine-specific rollback backups are never included.</value>
+  </data>
+  <data name="AboutPageExportProfile" xml:space="preserve">
+    <value>Export profile</value>
+  </data>
+  <data name="AboutPageImportProfile" xml:space="preserve">
+    <value>Import profile</value>
+  </data>
+  <data name="AboutPageUpdates" xml:space="preserve">
+    <value>Updates</value>
+  </data>
+  <data name="AboutPageTweakHubChecksGitHubReleasesWhen" xml:space="preserve">
+    <value>TweakHub checks GitHub Releases when it starts. Updates are downloaded, verified and installed only after your confirmation.</value>
+  </data>
+  <data name="AboutPageCheckForUpdates" xml:space="preserve">
+    <value>Check for updates</value>
+  </data>
+  <data name="AboutPageLicenseMITLicense" xml:space="preserve">
+    <value>License: MIT License</value>
+  </data>
+  <data name="AboutPageThisSoftwareIsProvidedAs" xml:space="preserve">
+    <value>This software is provided as is, without warranty of any kind.</value>
+  </data>
+  <data name="ProgressWindowProcessing" xml:space="preserve">
+    <value>Processing...</value>
+  </data>
+  <data name="ProgressWindowProcessing2" xml:space="preserve">
+    <value>Processing...</value>
+  </data>
+  <data name="ProgressWindowPleaseWait" xml:space="preserve">
+    <value>Please wait...</value>
+  </data>
+  <data name="WindowsVersionMessage" xml:space="preserve">
+    <value>TweakHub supports Windows 11 build 22000 or newer.</value>
+  </data>
+  <data name="WindowsVersionTitle" xml:space="preserve">
+    <value>Unsupported Windows version</value>
+  </data>
+  <data name="UnexpectedErrorMessage" xml:space="preserve">
+    <value>An unexpected error occurred: {0}
+
+Details: {1}</value>
+  </data>
+  <data name="UnexpectedErrorTitle" xml:space="preserve">
+    <value>TweakHub Error</value>
+  </data>
+  <data name="ThemeSystem" xml:space="preserve">
+    <value>Synced with Windows</value>
+  </data>
+  <data name="ThemeLight" xml:space="preserve">
+    <value>Light mode</value>
+  </data>
+  <data name="ThemeDark" xml:space="preserve">
+    <value>Dark mode</value>
+  </data>
+  <data name="SystemColor" xml:space="preserve">
+    <value>System color</value>
+  </data>
+  <data name="AppearanceStatus" xml:space="preserve">
+    <value>{0} • {1}</value>
+  </data>
+  <data name="InvalidAccentColor" xml:space="preserve">
+    <value>Enter a color in #RRGGBB format.</value>
+  </data>
+  <data name="AppearanceSaveFailed" xml:space="preserve">
+    <value>The appearance was applied for this session but could not be saved.</value>
+  </data>
+  <data name="DataLocation" xml:space="preserve">
+    <value>Data location: {0}</value>
+  </data>
+  <data name="Applied" xml:space="preserve">
+    <value>Applied</value>
+  </data>
+  <data name="AppliedRestartLanguage" xml:space="preserve">
+    <value>Applied — restart TweakHub to change language</value>
+  </data>
+  <data name="ProfileSaveFilter" xml:space="preserve">
+    <value>TweakHub profile (*.tweakhub.json)|*.tweakhub.json|JSON files (*.json)|*.json</value>
+  </data>
+  <data name="ProfileOpenFilter" xml:space="preserve">
+    <value>TweakHub profile (*.tweakhub.json;*.json)|*.tweakhub.json;*.json</value>
+  </data>
+  <data name="ProfileExported" xml:space="preserve">
+    <value>Profile exported</value>
+  </data>
+  <data name="ImportProfileTitle" xml:space="preserve">
+    <value>Import TweakHub Profile</value>
+  </data>
+  <data name="ImportProfileMessage" xml:space="preserve">
+    <value>Importing replaces the current custom profile. Continue?</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ProfileImported" xml:space="preserve">
+    <value>Profile imported</value>
+  </data>
+  <data name="ProfileImportedRestart" xml:space="preserve">
+    <value>Profile imported — restart TweakHub to change language</value>
+  </data>
+  <data name="Checking" xml:space="preserve">
+    <value>Checking...</value>
+  </data>
+  <data name="CheckedJustNow" xml:space="preserve">
+    <value>Checked just now</value>
+  </data>
+  <data name="Processing" xml:space="preserve">
+    <value>Processing...</value>
+  </data>
+  <data name="PercentComplete" xml:space="preserve">
+    <value>{0:F0}% complete</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="RestartRequired" xml:space="preserve">
+    <value>Restart Required</value>
+  </data>
+  <data name="RestartRequiredMessage" xml:space="preserve">
+    <value>{0}
+
+This message is shown once per session.</value>
+  </data>
+  <data name="DisclaimerTitle" xml:space="preserve">
+    <value>TweakHub Disclaimer</value>
+  </data>
+  <data name="DisclaimerMessage" xml:space="preserve">
+    <value>TweakHub can make changes to Windows settings, the registry, boot configuration, and other system components. Create a system restore point before proceeding.
+
+You proceed at your own risk. The author assumes no responsibility for any damage, data loss, or system instability that may occur.
+
+By continuing, you acknowledge and accept these conditions.</value>
+  </data>
+  <data name="IUnderstand" xml:space="preserve">
+    <value>I Understand</value>
+  </data>
+  <data name="ProfileTooLarge" xml:space="preserve">
+    <value>Profile files are limited to 5 MB.</value>
+  </data>
+  <data name="ProfileInvalid" xml:space="preserve">
+    <value>The profile is empty or invalid.</value>
+  </data>
+  <data name="ProfileVersionUnsupported" xml:space="preserve">
+    <value>Unsupported profile version: {0}.</value>
+  </data>
+  <data name="ProfileTooManyEntries" xml:space="preserve">
+    <value>The profile contains too many custom entries.</value>
+  </data>
+  <data name="CustomToolFieldsInvalid" xml:space="preserve">
+    <value>Name, category or description is invalid.</value>
+  </data>
+  <data name="CustomToolActionRequired" xml:space="preserve">
+    <value>Choose exactly one action: Winget, HTTPS link or PowerShell.</value>
+  </data>
+  <data name="WingetIdInvalid" xml:space="preserve">
+    <value>Enter a Winget package ID, not a command line.</value>
+  </data>
+  <data name="HttpsRequired" xml:space="preserve">
+    <value>Links must use HTTPS.</value>
+  </data>
+  <data name="PowerShellTooLong" xml:space="preserve">
+    <value>PowerShell commands are limited to 8192 characters.</value>
+  </data>
+  <data name="CheckForUpdates" xml:space="preserve">
+    <value>Check for Updates</value>
+  </data>
+  <data name="LatestVersion" xml:space="preserve">
+    <value>You're running the latest version.</value>
+  </data>
+  <data name="UpdateAvailable" xml:space="preserve">
+    <value>Update Available</value>
+  </data>
+  <data name="UpdateAvailableMessage" xml:space="preserve">
+    <value>TweakHub {0} is available.
+
+Installed: {1}
+
+Download, verify and install it now?</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="Later" xml:space="preserve">
+    <value>Later</value>
+  </data>
+  <data name="VerifiedPackageMissing" xml:space="preserve">
+    <value>This release does not contain a verified package for this installation mode.</value>
+  </data>
+  <data name="UpdatingTweakHub" xml:space="preserve">
+    <value>Updating TweakHub</value>
+  </data>
+  <data name="DownloadingVerifiedUpdate" xml:space="preserve">
+    <value>Downloading verified update...</value>
+  </data>
+  <data name="UpdateFailed" xml:space="preserve">
+    <value>Update Failed</value>
+  </data>
+  <data name="UpdateFailedMessage" xml:space="preserve">
+    <value>TweakHub could not update automatically.
+
+{0}</value>
+  </data>
+  <data name="ChecksumMissing" xml:space="preserve">
+    <value>The release checksum is missing or invalid.</value>
+  </data>
+  <data name="DownloadIncomplete" xml:space="preserve">
+    <value>The update download is incomplete.</value>
+  </data>
+  <data name="ChecksumMismatch" xml:space="preserve">
+    <value>The update checksum does not match the release.</value>
+  </data>
+  <data name="PortableExecutableMissing" xml:space="preserve">
+    <value>The portable archive does not contain TweakHub.exe.</value>
+  </data>
+  <data name="UntrustedDownloadUrl" xml:space="preserve">
+    <value>The release contains an untrusted download URL.</value>
+  </data>
+  <data name="BackupCreatedStatus" xml:space="preserve">
+    <value>Backup created: {0}</value>
+  </data>
+  <data name="RegistryValueNameRequired" xml:space="preserve">
+    <value>Registry value name is required.</value>
+  </data>
+  <data name="RegistryPathRequired" xml:space="preserve">
+    <value>Registry path is required.</value>
+  </data>
+  <data name="RegistryPathInvalid" xml:space="preserve">
+    <value>Registry path must include a supported root and subkey.</value>
+  </data>
+  <data name="RegistryRootUnsupported" xml:space="preserve">
+    <value>Unsupported registry root '{0}'.</value>
+  </data>
+  <data name="JustNow" xml:space="preserve">
+    <value>just now</value>
+  </data>
+  <data name="FewMomentsAgo" xml:space="preserve">
+    <value>a few moments ago</value>
+  </data>
+  <data name="MinutesAgo" xml:space="preserve">
+    <value>{0}m ago</value>
+  </data>
+  <data name="HoursAgo" xml:space="preserve">
+    <value>{0}h ago</value>
+  </data>
+  <data name="DaysAgo" xml:space="preserve">
+    <value>{0}d ago</value>
+  </data>
+  <data name="GitHubRepository" xml:space="preserve">
+    <value>GitHub repository</value>
+  </data>
+  <data name="DiscordServer" xml:space="preserve">
+    <value>Discord server</value>
+  </data>
+</root>

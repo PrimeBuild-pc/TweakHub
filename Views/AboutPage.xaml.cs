@@ -3,6 +3,7 @@ using Microsoft.Win32;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
+using TweakHub.Localization;
 using TweakHub.Services;
 using TweakHub.Views.Dialogs;
 
@@ -16,7 +17,7 @@ public partial class AboutPage : Page
     {
         InitializeComponent();
         VersionText.Text = $"TweakHub v{UpdateService.CurrentVersion}";
-        DataPathText.Text = $"Data location: {UserDataService.Instance.DataDirectory}";
+        DataPathText.Text = L.Format("UI:DataLocation", UserDataService.Instance.DataDirectory);
         LoadAppearanceControls();
     }
 
@@ -36,6 +37,7 @@ public partial class AboutPage : Page
         UseSystemAccentCheckBox.IsChecked = _themeService.UseSystemAccent;
         AccentColorTextBox.Text = _themeService.UseSystemAccent ? "#0078D4" : _themeService.CustomAccent;
         TransparencyCheckBox.IsChecked = _themeService.TransparencyEnabled;
+        LanguageComboBox.SelectedValue = L.Normalize(UserDataService.Instance.LoadAppearance().Language);
         UpdateAccentInput();
     }
 
@@ -50,10 +52,11 @@ public partial class AboutPage : Page
     private void ApplyAppearance_Click(object sender, RoutedEventArgs e)
     {
         var mode = ThemeModeComboBox.SelectedValue as string ?? "System";
+        var language = LanguageComboBox.SelectedValue as string ?? "System";
         if (_themeService.SetPreferences(mode, UseSystemAccentCheckBox.IsChecked == true,
-                AccentColorTextBox.Text, TransparencyCheckBox.IsChecked == true, out var error))
+                AccentColorTextBox.Text, TransparencyCheckBox.IsChecked == true, language, out var error))
         {
-            AppearanceResultText.Text = "Applied";
+            AppearanceResultText.Text = L.Get(L.RequiresRestart(language) ? "UI:AppliedRestartLanguage" : "UI:Applied");
         }
         else
         {
@@ -65,14 +68,14 @@ public partial class AboutPage : Page
     {
         var dialog = new SaveFileDialog
         {
-            Filter = "TweakHub profile (*.tweakhub.json)|*.tweakhub.json|JSON files (*.json)|*.json",
+            Filter = L.Get("UI:ProfileSaveFilter"),
             FileName = $"TweakHub-profile-{DateTime.Now:yyyyMMdd}.tweakhub.json"
         };
         if (dialog.ShowDialog() != true) return;
         try
         {
             UserDataService.Instance.ExportProfile(dialog.FileName);
-            ProfileResultText.Text = "Profile exported";
+            ProfileResultText.Text = L.Get("UI:ProfileExported");
         }
         catch (Exception ex)
         {
@@ -84,18 +87,18 @@ public partial class AboutPage : Page
     {
         var dialog = new OpenFileDialog
         {
-            Filter = "TweakHub profile (*.tweakhub.json;*.json)|*.tweakhub.json;*.json"
+            Filter = L.Get("UI:ProfileOpenFilter")
         };
         if (dialog.ShowDialog() != true) return;
-        if (!await AppDialog.ConfirmAsync(Window.GetWindow(this), "Import TweakHub Profile",
-                "Importing replaces the current custom profile. Continue?", "Import", "Cancel")) return;
+        if (!await AppDialog.ConfirmAsync(Window.GetWindow(this), L.Get("UI:ImportProfileTitle"),
+                L.Get("UI:ImportProfileMessage"), L.Get("UI:Import"), L.Get("UI:Cancel"))) return;
         try
         {
             var appearance = UserDataService.Instance.ImportProfile(dialog.FileName);
             _themeService.ImportAppearance(appearance);
             ShortcutService.Instance.Initialize();
             LoadAppearanceControls();
-            ProfileResultText.Text = "Profile imported";
+            ProfileResultText.Text = L.Get(L.RequiresRestart(appearance.Language) ? "UI:ProfileImportedRestart" : "UI:ProfileImported");
         }
         catch (Exception ex)
         {
@@ -106,9 +109,9 @@ public partial class AboutPage : Page
     private async void CheckForUpdates_Click(object sender, RoutedEventArgs e)
     {
         CheckForUpdatesButton.IsEnabled = false;
-        UpdateStatusText.Text = "Checking...";
+        UpdateStatusText.Text = L.Get("UI:Checking");
         await UpdateService.Instance.CheckAndPromptAsync(Window.GetWindow(this), showNoUpdate: true);
-        UpdateStatusText.Text = "Checked just now";
+        UpdateStatusText.Text = L.Get("UI:CheckedJustNow");
         CheckForUpdatesButton.IsEnabled = true;
     }
 }

@@ -1,0 +1,398 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AutomatedScriptsPageAutomatedScripts" xml:space="preserve">
+    <value>Автоматизированные сценарии</value>
+  </data>
+  <data name="AutomatedScriptsPageView" xml:space="preserve">
+    <value>Просмотреть</value>
+  </data>
+  <data name="AutomatedScriptsPageDetails" xml:space="preserve">
+    <value>Подробнее</value>
+  </data>
+  <data name="AutomatedScriptsPageCopy" xml:space="preserve">
+    <value>Копировать</value>
+  </data>
+  <data name="AutomatedScriptsPageStop" xml:space="preserve">
+    <value>Остановить</value>
+  </data>
+  <data name="AutomatedScriptsPageExport" xml:space="preserve">
+    <value>Экспорт</value>
+  </data>
+  <data name="AutomatedScriptsPageEdit" xml:space="preserve">
+    <value>Редактировать</value>
+  </data>
+  <data name="AutomatedScriptsPageDelete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="AutomatedScriptsPageAutomatedScripts2" xml:space="preserve">
+    <value>Автоматические сценарии</value>
+  </data>
+  <data name="AutomatedScriptsPageRunMaintenanceCommandsAndManage" xml:space="preserve">
+    <value>Выполнять команды обслуживания и управлять пользовательскими сценариями PowerShell или CMD.</value>
+  </data>
+  <data name="AutomatedScriptsPageImport" xml:space="preserve">
+    <value>Импорт</value>
+  </data>
+  <data name="AutomatedScriptsPageNewScript" xml:space="preserve">
+    <value>Новый сценарий</value>
+  </data>
+  <data name="winget_Name" xml:space="preserve">
+    <value>Установить диспетчер пакетов WinGet</value>
+  </data>
+  <data name="winget_Description" xml:space="preserve">
+    <value>Установить менеджер пакетов Microsoft WinGet, если он отсутствует. Включает несколько методов установки с автоматическим возвратом к резервной версии.</value>
+  </data>
+  <data name="winget_Category" xml:space="preserve">
+    <value>Менеджер пакетов.</value>
+  </data>
+  <data name="winget_Execute" xml:space="preserve">
+    <value>Выполнить</value>
+  </data>
+  <data name="winget_Confirmation" xml:space="preserve">
+    <value>Установить Microsoft WinGet, если он еще не доступен?</value>
+  </data>
+  <data name="ctt_winutil_Name" xml:space="preserve">
+    <value>CTT Tool - Winutil</value>
+  </data>
+  <data name="ctt_winutil_Description" xml:space="preserve">
+    <value>Загрузить и запустить текущий сценарий утилиты Chris Titus Tech для Windows.</value>
+  </data>
+  <data name="ctt_winutil_Category" xml:space="preserve">
+    <value>Утилиты</value>
+  </data>
+  <data name="ctt_winutil_Execute" xml:space="preserve">
+    <value>Запустить</value>
+  </data>
+  <data name="ctt_winutil_Confirmation" xml:space="preserve">
+    <value>При этом загружается и выполняется удаленный сценарий, который может меняться со временем. Продолжайте, только если вы доверяете christitus.com.</value>
+  </data>
+  <data name="dism_sfc_chkdsk_Name" xml:space="preserve">
+    <value>DISM + SFC + CHKDSK Восстановление системы</value>
+  </data>
+  <data name="dism_sfc_chkdsk_Description" xml:space="preserve">
+    <value>Восстановите образ Windows и системные файлы, затем просканируйте системный диск на наличие ошибок файловой системы.</value>
+  </data>
+  <data name="dism_sfc_chkdsk_Category" xml:space="preserve">
+    <value>Восстановить</value>
+  </data>
+  <data name="dism_sfc_chkdsk_Execute" xml:space="preserve">
+    <value>Запустите Repair</value>
+  </data>
+  <data name="dism_sfc_chkdsk_Confirmation" xml:space="preserve">
+    <value>Восстановление системы может занять 15–90 минут. Не закрывайте TweakHub во время его работы.</value>
+  </data>
+  <data name="dism_sfc_chkdsk_CompletionNote" xml:space="preserve">
+    <value>После ремонта рекомендуется перезапустить.</value>
+  </data>
+  <data name="component_cleanup_Name" xml:space="preserve">
+    <value>Очистка хранилища компонентов</value>
+  </data>
+  <data name="component_cleanup_Description" xml:space="preserve">
+    <value>Удалите замененные версии компонентов Windows, чтобы освободить место на диске.</value>
+  </data>
+  <data name="component_cleanup_Category" xml:space="preserve">
+    <value>Обслуживание</value>
+  </data>
+  <data name="component_cleanup_Execute" xml:space="preserve">
+    <value>Выполнить очистку</value>
+  </data>
+  <data name="component_cleanup_Confirmation" xml:space="preserve">
+    <value>При этом будут удалены замененные компоненты Windows. Продолжить?</value>
+  </data>
+  <data name="network_reset_Name" xml:space="preserve">
+    <value>Сброс сетевого стека</value>
+  </data>
+  <data name="network_reset_Description" xml:space="preserve">
+    <value>Очистка DNS и сброс Winsock и TCP/IP для устранения постоянных проблем с сетью.</value>
+  </data>
+  <data name="network_reset_Category" xml:space="preserve">
+    <value>Сеть</value>
+  </data>
+  <data name="network_reset_Execute" xml:space="preserve">
+    <value>Выполнить сброс</value>
+  </data>
+  <data name="network_reset_Confirmation" xml:space="preserve">
+    <value>Это может повлиять на статические настройки сети и потребует перезагрузки. Продолжить?</value>
+  </data>
+  <data name="network_reset_CompletionNote" xml:space="preserve">
+    <value>Перезагрузите Windows перед проверкой соединения.</value>
+  </data>
+  <data name="windows_update_reset_Name" xml:space="preserve">
+    <value>Сброс компонентов обновления Windows</value>
+  </data>
+  <data name="windows_update_reset_Description" xml:space="preserve">
+    <value>Воссоздайте кэши загрузки и каталога Центра обновления Windows, если обновления зависли.</value>
+  </data>
+  <data name="windows_update_reset_Category" xml:space="preserve">
+    <value>Восстановить</value>
+  </data>
+  <data name="windows_update_reset_Execute" xml:space="preserve">
+    <value>Выполнить сброс</value>
+  </data>
+  <data name="windows_update_reset_Confirmation" xml:space="preserve">
+    <value>Это очищает кэшированные загрузки обновлений и историю обновлений, отображаемую в настройках. Продолжить?</value>
+  </data>
+  <data name="prevent_device_metadata_Name" xml:space="preserve">
+    <value>Запретить приложения-компаньоны устройства</value>
+  </data>
+  <data name="prevent_device_metadata_Description" xml:space="preserve">
+    <value>Запретить Windows загружать приложения и метаданные, связанные с подключенными устройствами.</value>
+  </data>
+  <data name="prevent_device_metadata_Category" xml:space="preserve">
+    <value>Конфиденциальность</value>
+  </data>
+  <data name="prevent_device_metadata_Execute" xml:space="preserve">
+    <value>Применить политику</value>
+  </data>
+  <data name="prevent_device_metadata_Confirmation" xml:space="preserve">
+    <value>Эта политика блокирует сопутствующие приложения и метаданные устройства, но не обязательно все драйверы из Центра обновления Windows. Продолжить?</value>
+  </data>
+  <data name="exclude_wu_drivers_Name" xml:space="preserve">
+    <value>Исключить драйверы из Центра обновления Windows</value>
+  </data>
+  <data name="exclude_wu_drivers_Description" xml:space="preserve">
+    <value>Включите политику Windows, которая исключает пакеты, классифицированные как драйверы, из качественных обновлений.</value>
+  </data>
+  <data name="exclude_wu_drivers_Category" xml:space="preserve">
+    <value>Центр обновления Windows</value>
+  </data>
+  <data name="exclude_wu_drivers_Execute" xml:space="preserve">
+    <value>Применить политику</value>
+  </data>
+  <data name="exclude_wu_drivers_Confirmation" xml:space="preserve">
+    <value>Центр обновления Windows перестанет предлагать пакеты, классифицированные как драйверы. Продолжить?</value>
+  </data>
+  <data name="empty_standby_list_Name" xml:space="preserve">
+    <value>Очистить резервный список</value>
+  </data>
+  <data name="empty_standby_list_Description" xml:space="preserve">
+    <value>Используйте Microsoft RAMMap для очистки кэшированной резервной памяти только при диагностике измеренной проблемы с памятью.</value>
+  </data>
+  <data name="empty_standby_list_Category" xml:space="preserve">
+    <value>Память</value>
+  </data>
+  <data name="empty_standby_list_Execute" xml:space="preserve">
+    <value>Один раз</value>
+  </data>
+  <data name="empty_standby_list_Confirmation" xml:space="preserve">
+    <value>Кэшированная оперативная память освобождается автоматически, когда приложениям это необходимо. Регулярная его очистка не улучшает FPS или производительность ПК и может замедлить загрузку игр. Продолжайте только в случае задокументированной проблемы с резервным списком.</value>
+  </data>
+  <data name="remove_windows_ai_Name" xml:space="preserve">
+    <value>Windows AI — отключить и удалить</value>
+  </data>
+  <data name="remove_windows_ai_Description" xml:space="preserve">
+    <value>Отключите политики Windows AI и удалите доступные пакеты Copilot/CoreAI и Recall.</value>
+  </data>
+  <data name="remove_windows_ai_Category" xml:space="preserve">
+    <value>Конфиденциальность</value>
+  </data>
+  <data name="remove_windows_ai_Execute" xml:space="preserve">
+    <value>Выполнить</value>
+  </data>
+  <data name="remove_windows_ai_Confirmation" xml:space="preserve">
+    <value>Это удаляет пакеты и отключает функции. Это частично необратимо, и TweakHub не может гарантировать автоматическую переустановку. Продолжить?</value>
+  </data>
+  <data name="adobe_hosts_block_Name" xml:space="preserve">
+    <value>Список заблокированных URL-адресов Adobe – Включить</value>
+  </data>
+  <data name="adobe_hosts_block_Description" xml:space="preserve">
+    <value>Добавьте поддерживаемый черный список Ruddernation Designs Adobe в файл хостов внутри маркеров TweakHub.</value>
+  </data>
+  <data name="adobe_hosts_block_Category" xml:space="preserve">
+    <value>Конфиденциальность</value>
+  </data>
+  <data name="adobe_hosts_block_Execute" xml:space="preserve">
+    <value>Включить</value>
+  </data>
+  <data name="adobe_hosts_block_Confirmation" xml:space="preserve">
+    <value>При этом загружается сторонний список и блокируются соответствующие хосты Adobe во всей системе. Продолжить?</value>
+  </data>
+  <data name="adobe_hosts_unblock_Name" xml:space="preserve">
+    <value>Список заблокированных URL-адресов Adobe – удалить</value>
+  </data>
+  <data name="adobe_hosts_unblock_Description" xml:space="preserve">
+    <value>Удалить только блок файла хостов, добавленный ранее между маркерами TweakHub.</value>
+  </data>
+  <data name="adobe_hosts_unblock_Category" xml:space="preserve">
+    <value>Конфиденциальность</value>
+  </data>
+  <data name="adobe_hosts_unblock_Execute" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="adobe_hosts_unblock_Confirmation" xml:space="preserve">
+    <value>Удалить блок Adobe TweakHub из файла хостов?</value>
+  </data>
+  <data name="CompletedOnThisPc" xml:space="preserve">
+    <value>Выполнено на этом компьютере: {0}</value>
+  </data>
+  <data name="ImportFilter" xml:space="preserve">
+    <value>Сценарии (*.ps1;*.cmd;*.bat)|*.ps1;*.cmd;*.bat</value>
+  </data>
+  <data name="PowerShellFilter" xml:space="preserve">
+    <value>PowerShell (*.ps1)|*.ps1</value>
+  </data>
+  <data name="CmdFilter" xml:space="preserve">
+    <value>CMD (*.cmd)|*.cmd</value>
+  </data>
+  <data name="AdministratorScript" xml:space="preserve">
+    <value>Сценарий администратора</value>
+  </data>
+  <data name="AdministratorScriptMessage" xml:space="preserve">
+    <value>Запустить '{0}' с правами администратора?</value>
+  </data>
+  <data name="Run" xml:space="preserve">
+    <value>Выполнить</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Отменить</value>
+  </data>
+  <data name="CustomScriptCompleted" xml:space="preserve">
+    <value>Сценарий завершен за {0:F1} с.</value>
+  </data>
+  <data name="CustomScriptFailed" xml:space="preserve">
+    <value>Скрипт не выполнен (выход {0}) через {1:F1} с.</value>
+  </data>
+  <data name="CreateCustomScript" xml:space="preserve">
+    <value>Создать собственный сценарий</value>
+  </data>
+  <data name="EditCustomScript" xml:space="preserve">
+    <value>Редактировать пользовательский сценарий</value>
+  </data>
+  <data name="EnterScriptName" xml:space="preserve">
+    <value>Введите имя сценария</value>
+  </data>
+  <data name="CmdBatch" xml:space="preserve">
+    <value>CMD Batch</value>
+  </data>
+  <data name="RequiresAdministrator" xml:space="preserve">
+    <value>Требуется администратор</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Создать</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
+  <data name="InvalidScript" xml:space="preserve">
+    <value>Неверный сценарий</value>
+  </data>
+  <data name="NameRequired" xml:space="preserve">
+    <value>Требуется имя.</value>
+  </data>
+  <data name="ScriptCreated" xml:space="preserve">
+    <value>Скрипт создан</value>
+  </data>
+  <data name="ScriptUpdated" xml:space="preserve">
+    <value>Скрипт обновлен</value>
+  </data>
+  <data name="ScriptCreatedMessage" xml:space="preserve">
+    <value>Сценарий '{0}' успешно создан.</value>
+  </data>
+  <data name="ScriptUpdatedMessage" xml:space="preserve">
+    <value>Сценарий '{0}' успешно обновлен.</value>
+  </data>
+  <data name="ScriptRunning" xml:space="preserve">
+    <value>Сценарий выполняется</value>
+  </data>
+  <data name="StopBeforeDeleting" xml:space="preserve">
+    <value>Остановите сценарий перед его удалением.</value>
+  </data>
+  <data name="ConfirmDelete" xml:space="preserve">
+    <value>Подтвердите удаление</value>
+  </data>
+  <data name="ConfirmDeleteMessage" xml:space="preserve">
+    <value>Вы уверены, что хотите удалить сценарий «{0}»?
+
+Это действие невозможно отменить.</value>
+  </data>
+  <data name="ScriptDeleted" xml:space="preserve">
+    <value>Сценарий удален</value>
+  </data>
+  <data name="ScriptDeletedMessage" xml:space="preserve">
+    <value>Скрипт '{0}' был удален.</value>
+  </data>
+  <data name="ScriptLoadError" xml:space="preserve">
+    <value># Ошибка загрузки сценария:
+{0}</value>
+  </data>
+  <data name="WingetScriptMissingPreview" xml:space="preserve">
+    <value># WinGetInstall.ps1 не найден в папке "Сценарии".</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Install</value>
+  </data>
+  <data name="InstallationError" xml:space="preserve">
+    <value>Ошибка установки</value>
+  </data>
+  <data name="WingetScriptNotFound" xml:space="preserve">
+    <value>WinGetInstall.ps1 не найден.</value>
+  </data>
+  <data name="InstallingWinget" xml:space="preserve">
+    <value>Установка диспетчера пакетов WinGet</value>
+  </data>
+  <data name="RunningWingetScript" xml:space="preserve">
+    <value>Запуск сценария установки WinGet...</value>
+  </data>
+  <data name="InstallationComplete" xml:space="preserve">
+    <value>Установка завершена</value>
+  </data>
+  <data name="InstallationFailed" xml:space="preserve">
+    <value>Ошибка установки</value>
+  </data>
+  <data name="WingetInstallationFailed" xml:space="preserve">
+    <value>Ошибка установки WinGet.
+
+{0}
+{1}</value>
+  </data>
+  <data name="RunningCommands" xml:space="preserve">
+    <value>Выполнение команд. Не закрывайте TweakHub...</value>
+  </data>
+  <data name="LogSaveFailed" xml:space="preserve">
+    <value>Не удалось сохранить журнал: {0}</value>
+  </data>
+  <data name="CompletedSuccessfully" xml:space="preserve">
+    <value>Завершено успешно.</value>
+  </data>
+  <data name="FailedExitCode" xml:space="preserve">
+    <value>Ошибка с кодом выхода {0}.</value>
+  </data>
+  <data name="BuiltInResult" xml:space="preserve">
+    <value>{0}
+{1}
+
+{2}
+
+Журнал: {3}</value>
+  </data>
+  <data name="Complete" xml:space="preserve">
+    <value>Завершено</value>
+  </data>
+  <data name="Failed" xml:space="preserve">
+    <value>Ошибка</value>
+  </data>
+  <data name="NamedScriptFailed" xml:space="preserve">
+    <value>{0} не удалось</value>
+  </data>
+  <data name="CurrentUser" xml:space="preserve">
+    <value>Текущий пользователь</value>
+  </data>
+  <data name="Administrator" xml:space="preserve">
+    <value>Администратор</value>
+  </data>
+  <data name="Execute" xml:space="preserve">
+    <value>Выполнить</value>
+  </data>
+</root>
