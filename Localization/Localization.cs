@@ -8,7 +8,7 @@ namespace TweakHub.Localization;
 public static class L
 {
     private static readonly ConcurrentDictionary<string, ResourceManager> Managers = new();
-    private static readonly string[] Supported = ["en", "ru", "zh-CN", "es", "it"];
+    private static readonly string[] Supported = ["en", "ru", "zh-CN", "es", "it", "ja"];
     private static CultureInfo _systemCulture = CultureInfo.CurrentUICulture;
 
     public static CultureInfo Culture { get; private set; } = CultureInfo.GetCultureInfo("en");
