@@ -23,7 +23,9 @@ Made with ❤️ for Windows power users.
 </div>
 
 > [!WARNING]
-> TweakHub changes Windows settings. Review every preview and create a restore point before applying changes.
+> **Use at your own risk.** TweakHub is intended for experienced technicians and power users as a fast way to review and apply selected system changes. It is not a one-click optimizer, and its tweaks should never be applied blindly.
+>
+> Some settings and scripts can reduce stability, performance or security, cause data loss, prevent Windows or connected hardware from working correctly, or—in exceptional cases—damage hardware. Review every preview, research changes you do not fully understand, and create a restore point and a verified backup before proceeding. You are solely responsible for the changes you apply and their consequences; to the maximum extent permitted by law, the authors and contributors accept no liability for damage to software, data or hardware.
 
 ## Why TweakHub?
 
