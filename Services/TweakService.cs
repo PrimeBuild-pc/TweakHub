@@ -55,7 +55,7 @@ namespace TweakHub.Services
             var pendingRestarts = UserDataService.Instance.LoadPendingRestartIds();
             foreach (var tweak in TweakCategories.SelectMany(category => category.Tweaks))
                 tweak.IsRestartPending = pendingRestarts.Contains(tweak.Id);
-            HasAppliedTweaksThisSession = RegistryService.Instance.BackupCount > 0 || PowerService.Instance.HasAnyBackup;
+            RefreshBackupState();
         }
 
         private void LoadCpuProcessorOptimizationTweaks()
@@ -337,6 +337,43 @@ namespace TweakHub.Services
                 RequiresRestart = true
             });
 
+            category.Tweaks.Add(new PerformanceTweak
+            {
+                Id = "disable_advertising_id",
+                Name = L.Get("Tweaks:CategoryOrTweakNameDisableAdvertisingId"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionDisableAdvertisingId"),
+                Type = TweakType.Registry,
+                RegistryPath = @"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo",
+                RegistryKey = "Enabled",
+                EnabledValue = 0,
+                RiskLevel = 2
+            });
+
+            category.Tweaks.Add(new PerformanceTweak
+            {
+                Id = "disable_tailored_experiences",
+                Name = L.Get("Tweaks:CategoryOrTweakNameDisableTailoredExperiences"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionDisableTailoredExperiences"),
+                Type = TweakType.Registry,
+                RegistryPath = @"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Privacy",
+                RegistryKey = "TailoredExperiencesWithDiagnosticDataEnabled",
+                EnabledValue = 0,
+                RiskLevel = 2
+            });
+
+            category.Tweaks.Add(new PerformanceTweak
+            {
+                Id = "disable_activity_history",
+                Name = L.Get("Tweaks:CategoryOrTweakNameDisableActivityHistory"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionDisableActivityHistory"),
+                Type = TweakType.Registry,
+                RegistryPath = @"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System",
+                RegistryKey = "EnableActivityFeed",
+                EnabledValue = 0,
+                RiskLevel = 3,
+                RequiresRestart = true
+            });
+
             TweakCategories.Add(category);
         }
 
@@ -387,19 +424,6 @@ namespace TweakHub.Services
                 RequiresRestart = true
             });
 
-            category.Tweaks.Add(new PerformanceTweak
-            {
-                Id = "windows_update_security_preset",
-                Name = L.Get("Tweaks:CategoryOrTweakNameManualSecurityUpdatePreset"),
-                Description = L.Get("Tweaks:CategoryOrTweakDescriptionNotifiesBeforeDownloadsAndDefersFeature"),
-                Type = TweakType.Registry,
-                RegistryPath = @"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU",
-                RegistryKey = "AUOptions",
-                EnabledValue = 2,
-                RiskLevel = 3,
-                RequiresRestart = true
-            });
-
             TweakCategories.Add(category);
         }
 
@@ -429,12 +453,20 @@ namespace TweakHub.Services
             new(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\PushNotifications", "ToastEnabled", 0)
         ];
 
+        private static readonly RegistryValueChange[] ActivityHistoryPolicies =
+        [
+            new(@"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System", "EnableActivityFeed", 0),
+            new(@"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System", "PublishUserActivities", 0),
+            new(@"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System", "UploadUserActivities", 0)
+        ];
+
         internal static IReadOnlyList<RegistryValueChange> GetCompositeRegistryChanges(string id) => id switch
         {
             "windows_update_security_preset" => SecurityUpdatePreset,
             "disable_windows_ai_policies" => WindowsAiPolicies,
             "disable_device_coinstallers" => DeviceCoInstallerPolicies,
             "disable_notifications_calendar" => NotificationPolicies,
+            "disable_activity_history" => ActivityHistoryPolicies,
             _ => []
         };
 
@@ -498,7 +530,7 @@ namespace TweakHub.Services
                     tweak.IsRestartPending = true;
                     UserDataService.Instance.MarkRestartPending(tweak.Id);
                 }
-                HasAppliedTweaksThisSession = RegistryService.Instance.BackupCount > 0 || PowerService.Instance.HasAnyBackup;
+                RefreshBackupState();
                 OnPropertyChanged(nameof(TweakCategories));
             }
             return result;
@@ -603,8 +635,23 @@ namespace TweakHub.Services
                 else failed++;
             }
 
+            var windowsUpdate = WindowsUpdatePresetService.Instance;
+            if (windowsUpdate.HasCompleteBackup)
+            {
+                var result = await windowsUpdate.RestoreAsync();
+                if (result.Success) restored++; else failed++;
+            }
+            else
+            {
+                var legacyPreset = GetCompositeRegistryChanges("windows_update_security_preset");
+                if (legacyPreset.Any(change => RegistryService.Instance.HasBackup(change.KeyPath, change.ValueName)))
+                {
+                    if (await RegistryService.Instance.RestoreValuesAsync(legacyPreset)) restored++; else failed++;
+                }
+            }
+
             await RefreshTweakStatesAsync();
-            HasAppliedTweaksThisSession = RegistryService.Instance.BackupCount > 0 || PowerService.Instance.HasAnyBackup;
+            RefreshBackupState();
             return (restored, failed);
         }
 
@@ -662,6 +709,14 @@ namespace TweakHub.Services
             }
             OnPropertyChanged(nameof(TweakCategories));
         }
+
+        internal static WindowsUpdatePreset RecommendedWindowsUpdatePreset => WindowsUpdatePreset.Security;
+
+        public static bool IsRecommended(PerformanceTweak tweak) =>
+            tweak.Id is not ("disable_sysmain" or "disable_prefetch");
+
+        public void RefreshBackupState() => HasAppliedTweaksThisSession =
+            RegistryService.Instance.BackupCount > 0 || PowerService.Instance.HasAnyBackup || WindowsUpdatePresetService.Instance.HasBackup;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {

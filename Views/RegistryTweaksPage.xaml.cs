@@ -1,5 +1,4 @@
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using ToggleSwitch = ModernWpf.Controls.ToggleSwitch;
@@ -15,6 +14,7 @@ namespace TweakHub.Views
         private readonly TweakService _tweakService;
         private readonly RegistryService _registryService;
         private readonly UserDataService _userData = UserDataService.Instance;
+        private readonly WindowsUpdatePresetService _windowsUpdatePresets = WindowsUpdatePresetService.Instance;
         private readonly ObservableCollection<CustomRegistryTweak> _customTweaks = new();
         private readonly ObservableCollection<PerformanceTweak> _favoriteBuiltInTweaks = new();
         private readonly ObservableCollection<CustomRegistryTweak> _favoriteCustomTweaks = new();
@@ -62,6 +62,7 @@ namespace TweakHub.Views
             await LoadTweaksAsync();
             LoadCustomTweaks();
             LoadFavoriteTweaks();
+            await RefreshWindowsUpdatePresetAsync();
         }
 
         private async Task LoadTweaksAsync()
@@ -75,6 +76,89 @@ namespace TweakHub.Views
 
             // Update sidebar badge immediately after initial state refresh
             NotifyMainWindowBadgeUpdate();
+        }
+
+        private async Task RefreshWindowsUpdatePresetAsync()
+        {
+            var preset = await _windowsUpdatePresets.DetectAsync();
+            WindowsUpdatePresetComboBox.SelectedValue = preset == WindowsUpdatePreset.Custom ? null : preset.ToString();
+            WindowsUpdatePresetStatusText.Text = L.Format("Tweaks:WindowsUpdateCurrentMode", L.Get($"Tweaks:WindowsUpdatePreset{preset}"));
+            UpdateWindowsUpdatePresetDescription();
+        }
+
+        private void WindowsUpdatePreset_SelectionChanged(object sender, SelectionChangedEventArgs e) =>
+            UpdateWindowsUpdatePresetDescription();
+
+        private void UpdateWindowsUpdatePresetDescription()
+        {
+            if (WindowsUpdatePresetDescriptionText == null) return;
+            var preset = WindowsUpdatePresetComboBox?.SelectedValue as string;
+            WindowsUpdatePresetDescriptionText.Text = preset == null
+                ? L.Get("Tweaks:WindowsUpdatePresetCustomDescription")
+                : L.Get($"Tweaks:WindowsUpdatePreset{preset}Description");
+            if (WindowsUpdatePresetPreview?.Visibility == Visibility.Visible) UpdateWindowsUpdatePresetPreview();
+        }
+
+        private async void ApplyWindowsUpdatePreset_Click(object sender, RoutedEventArgs e)
+        {
+            if (!Enum.TryParse<WindowsUpdatePreset>(WindowsUpdatePresetComboBox.SelectedValue as string, out var preset)) return;
+            if (preset == WindowsUpdatePreset.Disabled && !await AppDialog.ConfirmAsync(
+                    Window.GetWindow(this),
+                    L.Get("Tweaks:WindowsUpdateDisableTitle"),
+                    L.Get("Tweaks:WindowsUpdateDisableWarning"),
+                    L.Get("Tweaks:Apply"),
+                    L.Get("Tweaks:Cancel"))) return;
+
+            WindowsUpdatePresetComboBox.IsEnabled = false;
+            var progress = new ProgressWindow(L.Get("Tweaks:WindowsUpdateApplying"));
+            progress.Show();
+            try
+            {
+                var result = await _windowsUpdatePresets.ApplyAsync(preset);
+                _tweakService.RefreshBackupState();
+                if (!result.Success)
+                {
+                    await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Tweaks:WindowsUpdateApplyFailed"), result.Error);
+                    return;
+                }
+
+                await _tweakService.RefreshTweakStatesAsync();
+                await RefreshWindowsUpdatePresetAsync();
+                NotifyMainWindowBadgeUpdate();
+                await AppDialog.ShowAsync(Window.GetWindow(this), L.Get("Tweaks:WindowsUpdateApplied"),
+                    L.Format("Tweaks:WindowsUpdateAppliedMessage", L.Get($"Tweaks:WindowsUpdatePreset{preset}")));
+                if (preset is WindowsUpdatePreset.Default or WindowsUpdatePreset.Disabled && !_tweakService.RestartNoticeShownThisSession)
+                {
+                    _tweakService.RestartNoticeShownThisSession = true;
+                    await AppDialog.ShowRestartRequiredAsync(Window.GetWindow(this), L.Get("Tweaks:WindowsUpdateRestartMessage"));
+                }
+            }
+            catch (Exception ex)
+            {
+                await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Tweaks:WindowsUpdateApplyFailed"), ex.Message);
+            }
+            finally
+            {
+                _tweakService.RefreshBackupState();
+                progress.Close();
+                WindowsUpdatePresetComboBox.IsEnabled = true;
+            }
+        }
+
+        private void PreviewWindowsUpdatePreset_Click(object sender, RoutedEventArgs e)
+        {
+            WindowsUpdatePresetPreview.Visibility = WindowsUpdatePresetPreview.Visibility == Visibility.Visible
+                ? Visibility.Collapsed
+                : Visibility.Visible;
+            if (WindowsUpdatePresetPreview.Visibility == Visibility.Visible) UpdateWindowsUpdatePresetPreview();
+        }
+
+        private void UpdateWindowsUpdatePresetPreview()
+        {
+            WindowsUpdatePresetPreviewText.Text = Enum.TryParse<WindowsUpdatePreset>(
+                WindowsUpdatePresetComboBox.SelectedValue as string, out var preset)
+                ? _windowsUpdatePresets.GetPreview(preset)
+                : string.Empty;
         }
 
         private void NotifyMainWindowBadgeUpdate()
@@ -275,7 +359,7 @@ namespace TweakHub.Views
             {
                 Title = L.Get(existing == null ? "Tweaks:AddCustomRegistryTweak" : "Tweaks:EditCustomRegistryTweak"),
                 Width = 480,
-                Height = 480,
+                Height = 560,
                 Owner = Window.GetWindow(this),
                 WindowStartupLocation = WindowStartupLocation.CenterOwner,
                 Background = (System.Windows.Media.Brush)Application.Current.FindResource("WindowBackgroundBrush"),
@@ -284,7 +368,7 @@ namespace TweakHub.Views
             dialog.KeyDown += (_, ke) => { if (ke.Key == System.Windows.Input.Key.Escape) dialog.Close(); };
 
             var grid = new Grid { Margin = new Thickness(16) };
-            for (int n=0; n<12; n++) grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            for (int n = 0; n < 14; n++) grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
 
             var title = new TextBlock { Text = L.Get(existing == null ? "Tweaks:CreateCustomTweak" : "Tweaks:EditCustomTweak"), FontSize = 20, FontWeight = FontWeights.SemiBold, Margin = new Thickness(0,0,0,16), Foreground = (System.Windows.Media.Brush)Application.Current.FindResource("SystemControlForegroundBaseHighBrush") };
             grid.Children.Add(title);
@@ -293,15 +377,19 @@ namespace TweakHub.Views
             var nameBox = new TextBox { Height = 32, Margin = new Thickness(0,0,0,8), Text = existing?.Name ?? "" };
             Grid.SetRow(nameBox,2); grid.Children.Add(nameBox);
 
-            var pathLbl = new TextBlock { Text = L.Get("Tweaks:RegistryPathLabel") }; Grid.SetRow(pathLbl,3); grid.Children.Add(pathLbl);
+            var descriptionLbl = new TextBlock { Text = L.Get("Tweaks:Description") }; Grid.SetRow(descriptionLbl,3); grid.Children.Add(descriptionLbl);
+            var descriptionBox = new TextBox { Height = 48, MaxLength = 500, Margin = new Thickness(0,0,0,8), Text = existing?.Description ?? "", AcceptsReturn = true, TextWrapping = TextWrapping.Wrap };
+            Grid.SetRow(descriptionBox,4); grid.Children.Add(descriptionBox);
+
+            var pathLbl = new TextBlock { Text = L.Get("Tweaks:RegistryPathLabel") }; Grid.SetRow(pathLbl,5); grid.Children.Add(pathLbl);
             var pathBox = new TextBox { Height = 32, Margin = new Thickness(0,0,0,8), Text = existing?.RegistryPath ?? "" };
-            Grid.SetRow(pathBox,4); grid.Children.Add(pathBox);
+            Grid.SetRow(pathBox,6); grid.Children.Add(pathBox);
 
-            var keyLbl = new TextBlock { Text = L.Get("Tweaks:ValueName") }; Grid.SetRow(keyLbl,5); grid.Children.Add(keyLbl);
+            var keyLbl = new TextBlock { Text = L.Get("Tweaks:ValueName") }; Grid.SetRow(keyLbl,7); grid.Children.Add(keyLbl);
             var keyBox = new TextBox { Height = 32, Margin = new Thickness(0,0,0,8), Text = existing?.RegistryKey ?? "" };
-            Grid.SetRow(keyBox,6); grid.Children.Add(keyBox);
+            Grid.SetRow(keyBox,8); grid.Children.Add(keyBox);
 
-            var typeLbl = new TextBlock { Text = L.Get("Tweaks:Type") }; Grid.SetRow(typeLbl,7); grid.Children.Add(typeLbl);
+            var typeLbl = new TextBlock { Text = L.Get("Tweaks:Type") }; Grid.SetRow(typeLbl,9); grid.Children.Add(typeLbl);
             var typeBox = new ComboBox { Height = 32, Margin = new Thickness(0,0,0,8) };
             typeBox.ItemsSource = new[] { "REG_SZ", "REG_DWORD (32-bit)", "REG_QWORD (64-bit)", "REG_BINARY", "REG_MULTI_SZ", "REG_EXPAND_SZ" };
             typeBox.SelectedIndex = 0;
@@ -313,17 +401,17 @@ namespace TweakHub.Views
                 };
                 if (map.TryGetValue(current, out var idx)) typeBox.SelectedIndex = idx; else typeBox.SelectedIndex = 0;
             }
-            Grid.SetRow(typeBox,8); grid.Children.Add(typeBox);
+            Grid.SetRow(typeBox,10); grid.Children.Add(typeBox);
 
-            var dataLbl = new TextBlock { Text = L.Get("Tweaks:Value") }; Grid.SetRow(dataLbl,9); grid.Children.Add(dataLbl);
+            var dataLbl = new TextBlock { Text = L.Get("Tweaks:Value") }; Grid.SetRow(dataLbl,11); grid.Children.Add(dataLbl);
             var dataBox = new TextBox { Height = 28, Margin = new Thickness(0,0,0,8), Text = existing?.Data ?? "" };
-            Grid.SetRow(dataBox,10); grid.Children.Add(dataBox);
+            Grid.SetRow(dataBox,12); grid.Children.Add(dataBox);
 
             var buttons = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0,8,0,0) };
             var cancel = new Button { Content = L.Get("Tweaks:Cancel"), Style = GetStyleOrDefault("SecondaryButtonStyle"), Margin = new Thickness(0,0,8,0), MinWidth = 96, HorizontalContentAlignment = HorizontalAlignment.Center, VerticalContentAlignment = VerticalAlignment.Center };
             var create = new Button { Content = L.Get(existing == null ? "Tweaks:Create" : "Tweaks:Save"), Style = GetStyleOrDefault("ExecuteButtonStyle"), MinWidth = 100, HorizontalContentAlignment = HorizontalAlignment.Center, VerticalContentAlignment = VerticalAlignment.Center };
             buttons.Children.Add(cancel); buttons.Children.Add(create);
-            Grid.SetRow(buttons,11); grid.Children.Add(buttons);
+            Grid.SetRow(buttons,13); grid.Children.Add(buttons);
 
             cancel.Click += (_, __) => dialog.Close();
             create.Click += async (_, __) =>
@@ -354,6 +442,7 @@ namespace TweakHub.Views
                     _customTweaks.Add(new CustomRegistryTweak
                     {
                         Name = nameBox.Text.Trim(),
+                        Description = descriptionBox.Text.Trim(),
                         RegistryPath = path,
                         RegistryKey = valueName,
                         ValueType = valueType,
@@ -363,6 +452,7 @@ namespace TweakHub.Views
                 else
                 {
                     existing.Name = nameBox.Text.Trim();
+                    existing.Description = descriptionBox.Text.Trim();
                     existing.RegistryPath = path;
                     existing.RegistryKey = valueName;
                     existing.ValueType = valueType;
@@ -452,6 +542,7 @@ namespace TweakHub.Views
         private async void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
             await _tweakService.RefreshTweakStatesAsync();
+            await RefreshWindowsUpdatePresetAsync();
             foreach (var tweak in _customTweaks) RefreshCustomTweakState(tweak);
             NotifyMainWindowBadgeUpdate();
         }
@@ -482,7 +573,6 @@ namespace TweakHub.Views
                 "high_performance_power_plan" => "powercfg /setactive SCHEME_MIN",
                 "disable_sysmain" => "Set-Service -Name SysMain -StartupType Disabled\nStop-Service -Name SysMain -Force",
                 "disable_mouse_acceleration" => "reg add \"HKCU\\Control Panel\\Mouse\" /v MouseSpeed /t REG_SZ /d 0 /f\nreg add \"HKCU\\Control Panel\\Mouse\" /v MouseThreshold1 /t REG_SZ /d 0 /f\nreg add \"HKCU\\Control Panel\\Mouse\" /v MouseThreshold2 /t REG_SZ /d 0 /f",
-                "windows_update_security_preset" => "reg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU\" /v AUOptions /t REG_DWORD /d 2 /f\nreg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU\" /v NoAutoUpdate /t REG_DWORD /d 0 /f\nreg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\" /v DeferFeatureUpdates /t REG_DWORD /d 1 /f\nreg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\" /v DeferFeatureUpdatesPeriodInDays /t REG_DWORD /d 90 /f",
                 _ => $"reg add \"{tweak.RegistryPath}\" /v \"{tweak.RegistryKey}\" /t {(tweak.EnabledValue is int ? "REG_DWORD" : tweak.EnabledValue is long ? "REG_QWORD" : "REG_SZ")} /d {(Equals(tweak.EnabledValue, -1) ? "ffffffff" : tweak.EnabledValue)} /f"
             };
             return L.Format("Tweaks:Preview", tweak.Name, tweak.RiskLevel, command);
@@ -527,25 +617,40 @@ namespace TweakHub.Views
                 return;
             }
 
-            // Apply recommended tweaks (risk level 1-2)
             var recommendedTweaks = _tweakService.TweakCategories
                 .SelectMany(c => c.Tweaks)
-                .Where(t => t.RiskLevel <= 2 && !t.IsEnabled)
+                .Where(t => TweakService.IsRecommended(t) && !t.IsEnabled)
                 .ToList();
+            var updateNeedsChange = await _windowsUpdatePresets.DetectAsync() != TweakService.RecommendedWindowsUpdatePreset;
 
-            if (!recommendedTweaks.Any())
+            if (recommendedTweaks.Count == 0 && !updateNeedsChange)
             {
                 await AppDialog.ShowAsync(Window.GetWindow(this), L.Get("Tweaks:NoChangesNeeded"),
                     L.Get("Tweaks:RecommendedAlreadyApplied"));
                 return;
             }
 
-            var progressWindow = new ProgressWindow(L.Format("Tweaks:ApplyingRecommended", recommendedTweaks.Count));
+            var total = recommendedTweaks.Count + (updateNeedsChange ? 1 : 0);
+            var progressWindow = new ProgressWindow(L.Format("Tweaks:ApplyingRecommended", total));
             progressWindow.Show();
 
-            int applied = 0;
-            int failed = 0;
-            bool requiresRestart = false;
+            var applied = 0;
+            var failed = 0;
+            var requiresRestart = false;
+
+            if (updateNeedsChange)
+            {
+                try
+                {
+                    var result = await _windowsUpdatePresets.ApplyAsync(TweakService.RecommendedWindowsUpdatePreset);
+                    if (result.Success) applied++; else failed++;
+                }
+                catch
+                {
+                    failed++;
+                }
+                progressWindow.UpdateProgress((applied + failed) * 100 / total);
+            }
 
             foreach (var tweak in recommendedTweaks)
             {
@@ -555,22 +660,20 @@ namespace TweakHub.Views
                     if (success)
                     {
                         applied++;
-                        if (tweak.RequiresRestart)
-                            requiresRestart = true;
+                        if (tweak.RequiresRestart) requiresRestart = true;
                     }
-                    else
-                    {
-                        failed++;
-                    }
+                    else failed++;
                 }
                 catch
                 {
                     failed++;
                 }
 
-                progressWindow.UpdateProgress((applied + failed) * 100 / recommendedTweaks.Count);
+                progressWindow.UpdateProgress((applied + failed) * 100 / total);
             }
 
+            _tweakService.RefreshBackupState();
+            await RefreshWindowsUpdatePresetAsync();
             progressWindow.Close();
 
             var message = L.Format("Tweaks:AppliedCount", applied);
@@ -650,6 +753,7 @@ namespace TweakHub.Views
                 progress.UpdateStatus(L.Get("Tweaks:Restoring"));
                 progress.UpdateProgress(20);
                 var (restored, failed) = await _tweakService.RestoreAllTweaksAsync();
+                await RefreshWindowsUpdatePresetAsync();
 
                 progress.UpdateProgress(100);
                 progress.Close();

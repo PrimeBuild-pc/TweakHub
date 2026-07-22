@@ -273,12 +273,6 @@
   <data name="CategoryOrTweakDescriptionPreventsWindowsUpdateQualityUpdatesFrom" xml:space="preserve">
     <value>Impedisce agli aggiornamenti di qualità di Windows Update di installare automaticamente i driver dei dispositivi.</value>
   </data>
-  <data name="CategoryOrTweakNameManualSecurityUpdatePreset" xml:space="preserve">
-    <value>Preimpostazione di aggiornamento di sicurezza manuale</value>
-  </data>
-  <data name="CategoryOrTweakDescriptionNotifiesBeforeDownloadsAndDefersFeature" xml:space="preserve">
-    <value>Notifica prima dei download e rinvia gli aggiornamenti delle funzionalità di 90 giorni. Gli aggiornamenti di sicurezza e di qualità restano disponibili per l'installazione manuale.</value>
-  </data>
   <data name="CategoryOrTweakNameVisualEffectsPerformance" xml:space="preserve">
     <value>Effetti visivi e prestazioni</value>
   </data>
@@ -439,7 +433,7 @@ Posizione del backup: {1}</value>
     <value>Applica Tutte le Ottimizzazioni Consigliate</value>
   </data>
   <data name="ApplyAllRecommendedMessage" xml:space="preserve">
-    <value>Questo applicherà tutte le ottimizzazioni delle prestazioni consigliate.
+    <value>Verranno applicati il set per prestazioni e massima privacy e la modalità Sicurezza di Windows Update. Sono inclusi criteri privacy ad alto impatto che possono disabilitare funzioni di Windows o integrazioni dei dispositivi. SysMain e Prefetch resteranno invariati perché disabilitarli può ridurre le prestazioni.
 
 Un backup sarà creato automaticamente prima di applicare le modifiche.</value>
   </data>
@@ -518,5 +512,77 @@ La creazione potrebbe richiedere un minuto e necessita dei privilegi di amminist
   </data>
   <data name="RestoreFailed" xml:space="preserve">
     <value>Ripristino fallito</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableAdvertisingId" xml:space="preserve"><value>Disabilita ID pubblicitario</value></data>
+  <data name="CategoryOrTweakDescriptionDisableAdvertisingId" xml:space="preserve"><value>Impedisce alle app di usare l'identificatore pubblicitario dell'utente per la personalizzazione tra applicazioni.</value></data>
+  <data name="CategoryOrTweakNameDisableTailoredExperiences" xml:space="preserve"><value>Disabilita esperienze personalizzate</value></data>
+  <data name="CategoryOrTweakDescriptionDisableTailoredExperiences" xml:space="preserve"><value>Impedisce a Windows di personalizzare suggerimenti e offerte usando i dati di diagnostica.</value></data>
+  <data name="CategoryOrTweakNameDisableActivityHistory" xml:space="preserve"><value>Disabilita cronologia attività e sincronizzazione</value></data>
+  <data name="CategoryOrTweakDescriptionDisableActivityHistory" xml:space="preserve"><value>Disabilita il feed attività di Windows e impedisce la pubblicazione o il caricamento delle attività tra dispositivi.</value></data>
+  <data name="Description" xml:space="preserve">
+    <value>Descrizione</value>
+  </data>
+  <data name="WindowsUpdatePresets" xml:space="preserve">
+    <value>Modalità Windows Update</value>
+  </data>
+  <data name="WindowsUpdatePresetsDescription" xml:space="preserve">
+    <value>Scegli una configurazione completa di Windows Update inclusa localmente. TweakHub salva le impostazioni originali prima di modificarle.</value>
+  </data>
+  <data name="WindowsUpdatePresetDefault" xml:space="preserve">
+    <value>Predefinita</value>
+  </data>
+  <data name="WindowsUpdatePresetDisabled" xml:space="preserve">
+    <value>Disabilitata / arrestata</value>
+  </data>
+  <data name="WindowsUpdatePresetSecurity" xml:space="preserve">
+    <value>Sicurezza</value>
+  </data>
+  <data name="WindowsUpdatePresetCustom" xml:space="preserve">
+    <value>Personalizzata o applicata parzialmente</value>
+  </data>
+  <data name="WindowsUpdatePresetDefaultDescription" xml:space="preserve">
+    <value>Rimuove i criteri gestiti da queste modalità, ripristina l'avvio standard dei servizi e abilita le attività di aggiornamento.</value>
+  </data>
+  <data name="WindowsUpdatePresetDisabledDescription" xml:space="preserve">
+    <value>Arresta e disabilita servizi e attività di Windows Update, blocca gli aggiornamenti automatici e cancella i file già scaricati.</value>
+  </data>
+  <data name="WindowsUpdatePresetSecurityDescription" xml:space="preserve">
+    <value>Mantiene normali gli aggiornamenti di sicurezza e qualità, esclude i driver e rinvia gli aggiornamenti delle funzionalità di 365 giorni.</value>
+  </data>
+  <data name="WindowsUpdatePresetCustomDescription" xml:space="preserve">
+    <value>Le impostazioni correnti non corrispondono esattamente a una modalità TweakHub. Selezionane una per sostituirle.</value>
+  </data>
+  <data name="WindowsUpdateCurrentMode" xml:space="preserve">
+    <value>Modalità corrente: {0}</value>
+  </data>
+  <data name="WindowsUpdateBundledScript" xml:space="preserve">
+    <value>Script locale incluso; non viene scaricato codice remoto</value>
+  </data>
+  <data name="WindowsUpdateSelectedMode" xml:space="preserve">
+    <value>Modalità selezionata: {0}</value>
+  </data>
+  <data name="WindowsUpdateScriptMissing" xml:space="preserve">
+    <value>Lo script incluso per le modalità Windows Update è mancante.</value>
+  </data>
+  <data name="WindowsUpdateDisableTitle" xml:space="preserve">
+    <value>Disabilitare Windows Update?</value>
+  </data>
+  <data name="WindowsUpdateDisableWarning" xml:space="preserve">
+    <value>Questa modalità arresta i servizi, disabilita le attività correlate e cancella i file di aggiornamento scaricati. Gli aggiornamenti di sicurezza non verranno installati finché non selezioni un'altra modalità. Continuare?</value>
+  </data>
+  <data name="WindowsUpdateApplying" xml:space="preserve">
+    <value>Applicazione della modalità Windows Update...</value>
+  </data>
+  <data name="WindowsUpdateApplyFailed" xml:space="preserve">
+    <value>Applicazione della modalità Windows Update non riuscita</value>
+  </data>
+  <data name="WindowsUpdateApplied" xml:space="preserve">
+    <value>Modalità Windows Update applicata</value>
+  </data>
+  <data name="WindowsUpdateAppliedMessage" xml:space="preserve">
+    <value>La modalità {0} è stata applicata correttamente.</value>
+  </data>
+  <data name="WindowsUpdateRestartMessage" xml:space="preserve">
+    <value>Riavvia Windows per completare l'applicazione della modalità Windows Update.</value>
   </data>
 </root>

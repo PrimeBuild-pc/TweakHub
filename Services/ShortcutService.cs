@@ -207,63 +207,41 @@ public sealed class ShortcutService
             tool.IsFavorite = favorites.Contains(FavoriteKey(tool)) || favorites.Contains(tool.Name); // migrate old name-based favorites
     }
 
-    public static string LocalizeCategory(string category)
-    {
-        var key = category switch
+    private static readonly IReadOnlyDictionary<string, (string Resource, string Icon, int Order)> Categories =
+        new Dictionary<string, (string, string, int)>(StringComparer.OrdinalIgnoreCase)
         {
-            "System Utilities" => "Tools:CategorySystemUtilities",
-            "CPU & Memory" => "Tools:CategoryCPUMemory",
-            "Firmware & Power" => "Tools:CategoryFirmwarePower",
-            "Monitoring & Diagnostics" => "Tools:CategoryMonitoringDiagnostics",
-            "GPU & Display" => "Tools:CategoryGPUDisplay",
-            "Gaming & Input" => "Tools:CategoryGamingInput",
-            "Storage & USB" => "Tools:CategoryStorageUSB",
-            "Network" => "Tools:CategoryNetwork",
-            "Audio" => "Tools:CategoryAudio",
-            "Benchmarks & Stability" => "Tools:CategoryBenchmarksStability",
-            "AI Tools" => "Tools:CategoryAITools",
-            "System Management" => "Tools:CategorySystemManagement",
-            "System Information" => "Tools:CategorySystemInformation",
-            "Advanced Tools" => "Tools:CategoryAdvancedTools",
-            "Performance" => "Tools:CategoryPerformance",
-            "Power Management" => "Tools:CategoryPowerManagement",
-            "Display" => "Tools:CategoryDisplay",
-            "Maintenance" => "Tools:CategoryMaintenance",
-            "Custom" => "Tools:CategoryCustom",
-            _ => null
+            ["System Utilities"] = ("Tools:CategorySystemUtilities", "\uE713", 1),
+            ["CPU & Memory"] = ("Tools:CategoryCPUMemory", "\uE950", 2),
+            ["Firmware & Power"] = ("Tools:CategoryFirmwarePower", "\uE945", 3),
+            ["Monitoring & Diagnostics"] = ("Tools:CategoryMonitoringDiagnostics", "\uE9D9", 4),
+            ["GPU & Display"] = ("Tools:CategoryGPUDisplay", "\uE7F4", 5),
+            ["Gaming & Input"] = ("Tools:CategoryGamingInput", "\uE7FC", 6),
+            ["Storage & USB"] = ("Tools:CategoryStorageUSB", "\uEDA2", 7),
+            ["System Management"] = ("Tools:CategorySystemManagement", "\uE713", 8),
+            ["Performance"] = ("Tools:CategoryPerformance", "\uE9D9", 9),
+            ["System Information"] = ("Tools:CategorySystemInformation", "\uE946", 10),
+            ["Network"] = ("Tools:CategoryNetwork", "\uE968", 11),
+            ["Audio"] = ("Tools:CategoryAudio", "\uE767", 12),
+            ["Display"] = ("Tools:CategoryDisplay", "\uE7F4", 13),
+            ["Power Management"] = ("Tools:CategoryPowerManagement", "\uE945", 14),
+            ["Maintenance"] = ("Tools:CategoryMaintenance", "\uE74D", 15),
+            ["Advanced Tools"] = ("Tools:CategoryAdvancedTools", "\uE90F", 16),
+            ["Benchmarks & Stability"] = ("Tools:CategoryBenchmarksStability", "\uE9D2", 17),
+            ["AI Tools"] = ("Tools:CategoryAITools", "\uE99A", 18),
+            ["Custom"] = ("Tools:CategoryCustom", "\uE90F", 19)
         };
-        return key == null ? category : L.Get(key);
-    }
 
-    public static string CategoryKey(string display)
-    {
-        foreach (var category in BuiltInCategories)
-            if (LocalizeCategory(category).Equals(display, StringComparison.CurrentCultureIgnoreCase)) return category;
-        return display;
-    }
+    public static string LocalizeCategory(string category) =>
+        Categories.TryGetValue(category, out var metadata) ? L.Get(metadata.Resource) : category;
 
-    private static readonly string[] BuiltInCategories =
-    [
-        "System Utilities",
-        "CPU & Memory",
-        "Firmware & Power",
-        "Monitoring & Diagnostics",
-        "GPU & Display",
-        "Gaming & Input",
-        "Storage & USB",
-        "Network",
-        "Audio",
-        "Benchmarks & Stability",
-        "AI Tools",
-        "System Management",
-        "System Information",
-        "Advanced Tools",
-        "Performance",
-        "Power Management",
-        "Display",
-        "Maintenance",
-        "Custom",
-    ];
+    public static string CategoryKey(string display) => Categories.Keys.FirstOrDefault(category =>
+        LocalizeCategory(category).Equals(display, StringComparison.CurrentCultureIgnoreCase)) ?? display;
+
+    public static string CategoryIcon(string category) =>
+        Categories.TryGetValue(category, out var metadata) ? metadata.Icon : "\uE8F1";
+
+    public static int CategoryOrder(string category) =>
+        Categories.TryGetValue(category, out var metadata) ? metadata.Order : int.MaxValue;
 
     public IEnumerable<string> GetToolCategories() => ExternalTools.Select(tool => tool.Category).Distinct(StringComparer.OrdinalIgnoreCase).OrderBy(name => name);
 

@@ -273,12 +273,6 @@
   <data name="CategoryOrTweakDescriptionPreventsWindowsUpdateQualityUpdatesFrom" xml:space="preserve">
     <value>Prevents Windows Update quality updates from automatically delivering device drivers.</value>
   </data>
-  <data name="CategoryOrTweakNameManualSecurityUpdatePreset" xml:space="preserve">
-    <value>Manual Security Update Preset</value>
-  </data>
-  <data name="CategoryOrTweakDescriptionNotifiesBeforeDownloadsAndDefersFeature" xml:space="preserve">
-    <value>Notifies before downloads and defers feature updates by 90 days. Security and quality updates remain available for manual installation.</value>
-  </data>
   <data name="CategoryOrTweakNameVisualEffectsPerformance" xml:space="preserve">
     <value>Visual Effects &amp; Performance</value>
   </data>
@@ -439,7 +433,7 @@ Backup location: {1}</value>
     <value>Apply All Recommended Tweaks</value>
   </data>
   <data name="ApplyAllRecommendedMessage" xml:space="preserve">
-    <value>This will apply all recommended performance tweaks.
+    <value>This applies the performance and maximum-privacy set plus the Security Windows Update mode. It includes high-impact privacy policies that can disable Windows features or device integrations. SysMain and Prefetch stay unchanged because disabling them can reduce performance.
 
 A backup will be created automatically before applying changes.</value>
   </data>
@@ -518,5 +512,77 @@ Creating it may take a minute and requires administrator privileges.</value>
   </data>
   <data name="RestoreFailed" xml:space="preserve">
     <value>Restore Failed</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableAdvertisingId" xml:space="preserve"><value>Disable Advertising ID</value></data>
+  <data name="CategoryOrTweakDescriptionDisableAdvertisingId" xml:space="preserve"><value>Prevents apps from using the per-user advertising identifier for cross-app personalization.</value></data>
+  <data name="CategoryOrTweakNameDisableTailoredExperiences" xml:space="preserve"><value>Disable Tailored Experiences</value></data>
+  <data name="CategoryOrTweakDescriptionDisableTailoredExperiences" xml:space="preserve"><value>Stops Windows from personalizing suggestions and offers with diagnostic data.</value></data>
+  <data name="CategoryOrTweakNameDisableActivityHistory" xml:space="preserve"><value>Disable Activity History and Sync</value></data>
+  <data name="CategoryOrTweakDescriptionDisableActivityHistory" xml:space="preserve"><value>Disables the Windows activity feed and prevents user activities from being published or uploaded across devices.</value></data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="WindowsUpdatePresets" xml:space="preserve">
+    <value>Windows Update mode</value>
+  </data>
+  <data name="WindowsUpdatePresetsDescription" xml:space="preserve">
+    <value>Choose a complete, locally bundled Windows Update configuration. TweakHub captures the original settings before changing them.</value>
+  </data>
+  <data name="WindowsUpdatePresetDefault" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="WindowsUpdatePresetDisabled" xml:space="preserve">
+    <value>Disabled / stopped</value>
+  </data>
+  <data name="WindowsUpdatePresetSecurity" xml:space="preserve">
+    <value>Security</value>
+  </data>
+  <data name="WindowsUpdatePresetCustom" xml:space="preserve">
+    <value>Custom or partially applied</value>
+  </data>
+  <data name="WindowsUpdatePresetDefaultDescription" xml:space="preserve">
+    <value>Removes the policies managed by these presets, restores standard update service startup modes and enables update tasks.</value>
+  </data>
+  <data name="WindowsUpdatePresetDisabledDescription" xml:space="preserve">
+    <value>Stops and disables Windows Update services and tasks, blocks automatic updates and clears downloaded update files.</value>
+  </data>
+  <data name="WindowsUpdatePresetSecurityDescription" xml:space="preserve">
+    <value>Keeps security and quality updates on their normal schedule, excludes drivers and defers feature updates for 365 days.</value>
+  </data>
+  <data name="WindowsUpdatePresetCustomDescription" xml:space="preserve">
+    <value>The current Windows settings do not exactly match any TweakHub preset. Select a mode to replace them.</value>
+  </data>
+  <data name="WindowsUpdateCurrentMode" xml:space="preserve">
+    <value>Current mode: {0}</value>
+  </data>
+  <data name="WindowsUpdateBundledScript" xml:space="preserve">
+    <value>Bundled local script; no remote code is downloaded</value>
+  </data>
+  <data name="WindowsUpdateSelectedMode" xml:space="preserve">
+    <value>Selected mode: {0}</value>
+  </data>
+  <data name="WindowsUpdateScriptMissing" xml:space="preserve">
+    <value>The bundled Windows Update preset script is missing.</value>
+  </data>
+  <data name="WindowsUpdateDisableTitle" xml:space="preserve">
+    <value>Disable Windows Update?</value>
+  </data>
+  <data name="WindowsUpdateDisableWarning" xml:space="preserve">
+    <value>This stops update services, disables related tasks and deletes downloaded update files. Security updates will not be installed until another mode is selected. Continue?</value>
+  </data>
+  <data name="WindowsUpdateApplying" xml:space="preserve">
+    <value>Applying Windows Update mode...</value>
+  </data>
+  <data name="WindowsUpdateApplyFailed" xml:space="preserve">
+    <value>Windows Update mode failed</value>
+  </data>
+  <data name="WindowsUpdateApplied" xml:space="preserve">
+    <value>Windows Update mode applied</value>
+  </data>
+  <data name="WindowsUpdateAppliedMessage" xml:space="preserve">
+    <value>{0} mode was applied successfully.</value>
+  </data>
+  <data name="WindowsUpdateRestartMessage" xml:space="preserve">
+    <value>Restart Windows to finish applying the Windows Update mode.</value>
   </data>
 </root>

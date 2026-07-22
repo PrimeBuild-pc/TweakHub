@@ -98,6 +98,7 @@ Portable builds keep their state in `Data` beside the application files:
 |---|---|
 | `registry-backup.json` | Original Registry values waiting to be restored |
 | `power-backup.json` | Original power settings and active power plan |
+| `windows-update-backup.json` | Original Windows Update service and scheduled-task states |
 | `operations.jsonl` | Registry and power operation audit log |
 | `custom-scripts.json` | User-created PowerShell and CMD scripts |
 | `custom-tweaks.json` | User-created Registry entries |
@@ -118,7 +119,7 @@ SysMain and Prefetch should normally remain enabled. Disable them only after mea
 
 **Empty Standby List** requires Microsoft Sysinternals RAMMap from External Tools. Windows uses otherwise free RAM as cache and releases it immediately when applications need it. Emptying cached RAM routinely does not improve FPS or general performance and should not be scheduled.
 
-The device-metadata and Windows Update driver policies affect different content: preventing device companion apps does not block every driver, while the driver exclusion policy omits packages Windows Update classifies as drivers. High-risk AI removal and third-party hosts-list scripts always require explicit confirmation.
+The device-metadata and Windows Update driver policies affect different content: preventing device companion apps does not block every driver, while the driver exclusion policy omits packages Windows Update classifies as drivers. The Windows Update selector offers Default, Disabled and Security modes from a script bundled with TweakHub; Security keeps quality/security updates on their normal schedule while deferring feature updates for 365 days. High-risk AI removal and third-party hosts-list scripts always require explicit confirmation.
 
 ## Build from source
 

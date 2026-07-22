@@ -90,15 +90,6 @@
   <data name="AboutPageUseWindowsSetting2" xml:space="preserve">
     <value>使用 Windows 设置</value>
   </data>
-  <data name="AboutPageEnglish" xml:space="preserve">
-    <value>英语</value>
-  </data>
-  <data name="AboutPageEspaOl" xml:space="preserve">
-    <value>西班牙语</value>
-  </data>
-  <data name="AboutPageItaliano" xml:space="preserve">
-    <value>意大利语</value>
-  </data>
   <data name="AboutPageApplyAppearance" xml:space="preserve">
     <value>应用外观</value>
   </data>

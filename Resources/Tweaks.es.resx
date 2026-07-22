@@ -273,12 +273,6 @@
   <data name="CategoryOrTweakDescriptionPreventsWindowsUpdateQualityUpdatesFrom" xml:space="preserve">
     <value>Evita que las actualizaciones de calidad de Windows Update entreguen automáticamente controladores de dispositivos.</value>
   </data>
-  <data name="CategoryOrTweakNameManualSecurityUpdatePreset" xml:space="preserve">
-    <value>Preajuste de actualización de seguridad manual</value>
-  </data>
-  <data name="CategoryOrTweakDescriptionNotifiesBeforeDownloadsAndDefersFeature" xml:space="preserve">
-    <value>Notifica antes de las descargas y pospone las actualizaciones de funciones por 90 días. Las actualizaciones de seguridad y de calidad siguen disponibles para instalación manual.</value>
-  </data>
   <data name="CategoryOrTweakNameVisualEffectsPerformance" xml:space="preserve">
     <value>Efectos visuales y rendimiento</value>
   </data>
@@ -439,7 +433,7 @@ Ubicación de la copia de seguridad: {1}</value>
     <value>Aplicar todas las mejoras recomendadas</value>
   </data>
   <data name="ApplyAllRecommendedMessage" xml:space="preserve">
-    <value>Esto aplicará todas las mejoras de rendimiento recomendadas.
+    <value>Se aplicará el conjunto de rendimiento y máxima privacidad junto con el modo Seguridad de Windows Update. Incluye directivas de privacidad de alto impacto que pueden deshabilitar funciones de Windows o integraciones de dispositivos. SysMain y Prefetch no cambiarán porque deshabilitarlos puede reducir el rendimiento.
 
 Se creará una copia de seguridad automáticamente antes de aplicar los cambios.</value>
   </data>
@@ -519,4 +513,38 @@ Crearlo puede tardar un minuto y requiere privilegios de administrador.</value>
   <data name="RestoreFailed" xml:space="preserve">
     <value>Error al restaurar</value>
   </data>
+  <data name="CategoryOrTweakNameDisableAdvertisingId" xml:space="preserve"><value>Deshabilitar ID de publicidad</value></data>
+  <data name="CategoryOrTweakDescriptionDisableAdvertisingId" xml:space="preserve"><value>Impide que las aplicaciones usen el identificador publicitario del usuario para personalización entre aplicaciones.</value></data>
+  <data name="CategoryOrTweakNameDisableTailoredExperiences" xml:space="preserve"><value>Deshabilitar experiencias personalizadas</value></data>
+  <data name="CategoryOrTweakDescriptionDisableTailoredExperiences" xml:space="preserve"><value>Impide que Windows personalice sugerencias y ofertas mediante datos de diagnóstico.</value></data>
+  <data name="CategoryOrTweakNameDisableActivityHistory" xml:space="preserve"><value>Deshabilitar historial de actividad y sincronización</value></data>
+  <data name="CategoryOrTweakDescriptionDisableActivityHistory" xml:space="preserve"><value>Deshabilita la fuente de actividad e impide publicar o cargar actividades del usuario entre dispositivos.</value></data>
+  <data name="Description" xml:space="preserve">
+    <value>Descripción</value>
+  </data>
+  <data name="WindowsUpdatePresets" xml:space="preserve">
+    <value>Modo de Windows Update</value>
+  </data>
+  <data name="WindowsUpdatePresetsDescription" xml:space="preserve">
+    <value>Elige una configuración completa de Windows Update incluida localmente. TweakHub guarda los ajustes originales antes de modificarlos.</value>
+  </data>
+  <data name="WindowsUpdatePresetDefault" xml:space="preserve"><value>Predeterminado</value></data>
+  <data name="WindowsUpdatePresetDisabled" xml:space="preserve"><value>Deshabilitado / detenido</value></data>
+  <data name="WindowsUpdatePresetSecurity" xml:space="preserve"><value>Seguridad</value></data>
+  <data name="WindowsUpdatePresetCustom" xml:space="preserve"><value>Personalizado o aplicado parcialmente</value></data>
+  <data name="WindowsUpdatePresetDefaultDescription" xml:space="preserve"><value>Quita las directivas gestionadas por estos modos, restaura el inicio estándar de los servicios y habilita las tareas de actualización.</value></data>
+  <data name="WindowsUpdatePresetDisabledDescription" xml:space="preserve"><value>Detiene y deshabilita los servicios y tareas de Windows Update, bloquea las actualizaciones automáticas y elimina los archivos descargados.</value></data>
+  <data name="WindowsUpdatePresetSecurityDescription" xml:space="preserve"><value>Mantiene normales las actualizaciones de seguridad y calidad, excluye los controladores y aplaza 365 días las actualizaciones de características.</value></data>
+  <data name="WindowsUpdatePresetCustomDescription" xml:space="preserve"><value>La configuración actual no coincide exactamente con ningún modo de TweakHub. Selecciona uno para reemplazarla.</value></data>
+  <data name="WindowsUpdateCurrentMode" xml:space="preserve"><value>Modo actual: {0}</value></data>
+  <data name="WindowsUpdateBundledScript" xml:space="preserve"><value>Script local incluido; no se descarga código remoto</value></data>
+  <data name="WindowsUpdateSelectedMode" xml:space="preserve"><value>Modo seleccionado: {0}</value></data>
+  <data name="WindowsUpdateScriptMissing" xml:space="preserve"><value>Falta el script incluido de modos de Windows Update.</value></data>
+  <data name="WindowsUpdateDisableTitle" xml:space="preserve"><value>¿Deshabilitar Windows Update?</value></data>
+  <data name="WindowsUpdateDisableWarning" xml:space="preserve"><value>Este modo detiene los servicios, deshabilita las tareas relacionadas y elimina los archivos de actualización descargados. Las actualizaciones de seguridad no se instalarán hasta seleccionar otro modo. ¿Continuar?</value></data>
+  <data name="WindowsUpdateApplying" xml:space="preserve"><value>Aplicando el modo de Windows Update...</value></data>
+  <data name="WindowsUpdateApplyFailed" xml:space="preserve"><value>Error al aplicar el modo de Windows Update</value></data>
+  <data name="WindowsUpdateApplied" xml:space="preserve"><value>Modo de Windows Update aplicado</value></data>
+  <data name="WindowsUpdateAppliedMessage" xml:space="preserve"><value>El modo {0} se aplicó correctamente.</value></data>
+  <data name="WindowsUpdateRestartMessage" xml:space="preserve"><value>Reinicia Windows para terminar de aplicar el modo de Windows Update.</value></data>
 </root>

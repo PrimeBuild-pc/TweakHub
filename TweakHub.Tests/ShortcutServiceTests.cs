@@ -37,6 +37,14 @@ public class ShortcutServiceTests
     }
 
     [Test]
+    public void CategoryMetadataProvidesSharedOrderingIconsAndLocalization()
+    {
+        Assert.That(ShortcutService.CategoryOrder("System Utilities"), Is.LessThan(ShortcutService.CategoryOrder("AI Tools")));
+        Assert.That(ShortcutService.CategoryIcon("Network"), Is.EqualTo("\uE968"));
+        Assert.That(ShortcutService.LocalizeCategory("Custom category"), Is.EqualTo("Custom category"));
+    }
+
+    [Test]
     public void QuickAccessIncludesPolicyEditorAndTaskScheduler()
     {
         var service = ShortcutService.Instance;

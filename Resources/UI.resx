@@ -90,15 +90,6 @@
   <data name="AboutPageUseWindowsSetting2" xml:space="preserve">
     <value>Use Windows setting</value>
   </data>
-  <data name="AboutPageEnglish" xml:space="preserve">
-    <value>English</value>
-  </data>
-  <data name="AboutPageEspaOl" xml:space="preserve">
-    <value>Español</value>
-  </data>
-  <data name="AboutPageItaliano" xml:space="preserve">
-    <value>Italiano</value>
-  </data>
   <data name="AboutPageApplyAppearance" xml:space="preserve">
     <value>Apply appearance</value>
   </data>

@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Automation;
 using System.Windows.Controls;
@@ -17,6 +14,7 @@ namespace TweakHub.Views
     {
         private readonly ShortcutService _shortcutService;
         private readonly ToolDownloadService _downloadService;
+        private readonly IProgress<ToolProgress> _progress;
         private string _searchQuery = string.Empty;
         private bool _favoritesOnly;
 
@@ -25,25 +23,14 @@ namespace TweakHub.Views
             this.InitializeComponent();
             _shortcutService = ShortcutService.Instance;
             _downloadService = ToolDownloadService.Instance;
+            _progress = new Progress<ToolProgress>(OnDownloadProgress);
 
             Loaded += ExternalToolsPage_Loaded;
-            Unloaded += ExternalToolsPage_Unloaded;
             SizeChanged += (_, _) => UpdateGridColumns();
-        }
-
-        private void ExternalToolsPage_Unloaded(object sender, RoutedEventArgs e)
-        {
-            _downloadService.DownloadProgress -= OnDownloadProgress;
-            _downloadService.DownloadCompleted -= OnDownloadCompleted;
         }
 
         private void ExternalToolsPage_Loaded(object sender, RoutedEventArgs e)
         {
-            _downloadService.DownloadProgress -= OnDownloadProgress;
-            _downloadService.DownloadCompleted -= OnDownloadCompleted;
-            _downloadService.DownloadProgress += OnDownloadProgress;
-            _downloadService.DownloadCompleted += OnDownloadCompleted;
-
             try
             {
                 _shortcutService.Initialize();
@@ -95,7 +82,7 @@ namespace TweakHub.Views
                 .OrderByDescending(t => t.IsFavorite)
                 .ThenBy(t => t.Name)
                 .GroupBy(t => t.Category)
-                .OrderBy(g => GetCategoryOrder(g.Key));
+                .OrderBy(g => ShortcutService.CategoryOrder(g.Key));
 
             foreach (var group in groupedTools)
             {
@@ -135,22 +122,6 @@ namespace TweakHub.Views
                     grid.Columns = columns;
         }
 
-        private static int GetCategoryOrder(string category) => category switch
-        {
-            "System Utilities" => 1,
-            "CPU & Memory" => 2,
-            "Firmware & Power" => 3,
-            "Monitoring & Diagnostics" => 4,
-            "GPU & Display" => 5,
-            "Gaming & Input" => 6,
-            "Storage & USB" => 7,
-            "Network" => 8,
-            "Audio" => 9,
-            "Benchmarks & Stability" => 10,
-            "AI Tools" => 11,
-            _ => 99
-        };
-
         private StackPanel CreateCategoryHeader(string categoryName, int toolCount)
         {
             var headerPanel = new StackPanel
@@ -160,7 +131,7 @@ namespace TweakHub.Views
 
             var iconText = new TextBlock
             {
-                Text = GetCategoryIcon(categoryName),
+                Text = ShortcutService.CategoryIcon(categoryName),
                 FontFamily = new FontFamily("Segoe Fluent Icons"),
                 FontSize = 18,
                 Margin = new Thickness(0, 0, 12, 0),
@@ -227,22 +198,6 @@ namespace TweakHub.Views
             return panel;
         }
 
-        private static string GetCategoryIcon(string category) => category switch
-        {
-            "System Utilities" => "\uE713",
-            "CPU & Memory" => "\uE950",
-            "Firmware & Power" => "\uE945",
-            "Monitoring & Diagnostics" => "\uE9D9",
-            "GPU & Display" => "\uE7F4",
-            "Gaming & Input" => "\uE7FC",
-            "Storage & USB" => "\uEDA2",
-            "Network" => "\uE968",
-            "Audio" => "\uE767",
-            "Benchmarks & Stability" => "\uE9D2",
-            "AI Tools" => "\uE99A",
-            _ => "\uE90F"
-        };
-
         private Border CreateToolCard(ExternalTool tool)
         {
             var card = new Border
@@ -260,7 +215,7 @@ namespace TweakHub.Views
                 card.Opacity = 0.7;
                 try
                 {
-                    await _downloadService.DownloadOrOpenTool(tool);
+                    await _downloadService.DownloadOrOpenTool(tool, _progress);
                 }
                 finally
                 {
@@ -288,7 +243,7 @@ namespace TweakHub.Views
 
             var iconText = new TextBlock
             {
-                Text = GetCategoryIcon(tool.Category),
+                Text = ShortcutService.CategoryIcon(tool.Category),
                 FontFamily = new FontFamily("Segoe Fluent Icons"),
                 FontSize = 18,
                 Margin = new Thickness(0, 0, 10, 0),
@@ -444,7 +399,7 @@ namespace TweakHub.Views
                         card.Opacity = 0.7;
                         try
                         {
-                            await _downloadService.UninstallWithWinget(tool);
+                            await _downloadService.UninstallWithWinget(tool, _progress);
                         }
                         finally
                         {
@@ -525,25 +480,12 @@ namespace TweakHub.Views
             return L.Get("Tools:Run");
         }
 
-        private void OnDownloadProgress(object? sender, DownloadProgressEventArgs e)
+        private void OnDownloadProgress(ToolProgress progress)
         {
-            Dispatcher.Invoke(() =>
-            {
-                this.ProgressPanel.Visibility = Visibility.Visible;
-                this.ProgressText.Text = $"{e.ToolName}: {e.StatusMessage}";
-                if (e.ProgressPercentage >= 0)
-                    this.ProgressBar.Value = e.ProgressPercentage;
-            });
-        }
-
-        private void OnDownloadCompleted(object? sender, DownloadCompletedEventArgs e)
-        {
-            Dispatcher.Invoke(() =>
-            {
-                this.ProgressText.Text = e.Message;
-                this.ProgressBar.Value = e.Success ? 100 : 0;
-                HideProgressAfter(TimeSpan.FromSeconds(e.Success ? 3 : 5));
-            });
+            ProgressPanel.Visibility = Visibility.Visible;
+            ProgressText.Text = progress.IsCompleted ? progress.Message : $"{progress.ToolName}: {progress.Message}";
+            ProgressBar.Value = progress.Percentage;
+            if (progress.IsCompleted) HideProgressAfter(TimeSpan.FromSeconds(progress.Success ? 3 : 5));
         }
 
         private void HideProgressAfter(TimeSpan delay)

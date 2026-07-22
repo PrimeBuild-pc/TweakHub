@@ -84,19 +84,19 @@
                                        Margin="0,0,10,0" Foreground="{DynamicResource WarningBrush}"
                                        Visibility="{Binding IsPartiallyApplied, Converter={StaticResource BoolToVis}}"
                                        ToolTip="{loc:Loc Tweaks:RegistryTweaksPageOnlyPartOfThisGrouped}"/>
-                            <TextBlock Text="&#xE777;" FontFamily="Segoe Fluent Icons" FontSize="14"
-                                       Margin="0,0,10,0" Foreground="{DynamicResource WarningBrush}"
-                                       Visibility="{Binding IsRestartPending, Converter={StaticResource BoolToVis}}"
-                                       ToolTip="{loc:Loc Tweaks:RegistryTweaksPageRestartWindowsToMakeThis}"/>
                             <Button Style="{StaticResource FavoriteStarButtonStyle}" Margin="0,0,8,0"
                                     Click="FavoriteTweak_Click" ToolTip="{loc:Loc Tweaks:RegistryTweaksPageAddOrRemoveFromFavorites}"
                                     AutomationProperties.Name="{loc:Loc Tweaks:RegistryTweaksPageToggleFavorite}" Content="{Binding}"
                                     ContentTemplate="{StaticResource FavoriteStarTemplate}"/>
                             <ui:ToggleSwitch IsOn="{Binding IsEnabled, Mode=TwoWay}"
                                              OffContent="{x:Null}" OnContent="{x:Null}"
-                                             VerticalAlignment="Center" Margin="0,0,12,0"
+                                             VerticalAlignment="Center" Margin="0,0,10,0"
                                              Tag="{Binding}" AutomationProperties.Name="{loc:Loc Tweaks:RegistryTweaksPageEnableTweak}"
                                              Toggled="TweakToggle_Toggled"/>
+                            <TextBlock Text="&#xE777;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                                       Margin="0,0,10,0" Foreground="{DynamicResource WarningBrush}"
+                                       Visibility="{Binding IsRestartPending, Converter={StaticResource BoolToVis}}"
+                                       ToolTip="{loc:Loc Tweaks:RegistryTweaksPageRestartWindowsToMakeThis}"/>
                             <Button Style="{StaticResource PreviewIconButtonStyle}"
                                     Click="ViewTweak_Click" AutomationProperties.Name="{loc:Loc Tweaks:RegistryTweaksPagePreviewRegistryChanges}"
                                     Tag="{Binding}" ToolTip="{loc:Loc Tweaks:RegistryTweaksPagePreviewRegistryChanges2}">
@@ -133,6 +133,8 @@
                                            Visibility="{Binding IsApplied, Converter={StaticResource BoolToVis}}"
                                            ToolTip="{loc:Loc Tweaks:RegistryTweaksPageThisRegistryValueCurrentlyMatches}"/>
                             </StackPanel>
+                            <TextBlock Text="{Binding Description}" Margin="16,0,0,6" TextWrapping="Wrap"
+                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
                             <TextBlock Margin="16,0,0,0" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}">
                                 <Run Text="{Binding RegistryPath}"/><Run Text="\"/><Run Text="{Binding RegistryKey}"/>
                             </TextBlock>
@@ -276,7 +278,43 @@
             <TabControl Style="{StaticResource PaddedTabControl}" ItemContainerStyle="{StaticResource ModernTabItem}">
                 <TabItem Header="{loc:Loc Tweaks:RegistryTweaksPageRecommended}">
                     <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="0,8,16,0">
-                        <ItemsControl x:Name="TweakCategoriesControl">
+                        <StackPanel>
+                            <Border Style="{StaticResource CardStyle}" Margin="0,0,0,20">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                        <TextBlock Text="&#xE895;" FontFamily="Segoe Fluent Icons" FontSize="18" Margin="0,0,8,0"
+                                                   Foreground="{DynamicResource IconBrush}"/>
+                                        <TextBlock Text="{loc:Loc Tweaks:WindowsUpdatePresets}" FontSize="16" FontWeight="SemiBold"/>
+                                    </StackPanel>
+                                    <TextBlock Text="{loc:Loc Tweaks:WindowsUpdatePresetsDescription}" Style="{StaticResource DescriptionTextStyle}"
+                                               Margin="26,0,0,12"/>
+                                    <StackPanel Orientation="Horizontal" Margin="26,0,0,8">
+                                        <ComboBox x:Name="WindowsUpdatePresetComboBox" Width="260" SelectedValuePath="Tag"
+                                                  SelectionChanged="WindowsUpdatePreset_SelectionChanged">
+                                            <ComboBoxItem Content="{loc:Loc Tweaks:WindowsUpdatePresetDefault}" Tag="Default"/>
+                                            <ComboBoxItem Content="{loc:Loc Tweaks:WindowsUpdatePresetDisabled}" Tag="Disabled"/>
+                                            <ComboBoxItem Content="{loc:Loc Tweaks:WindowsUpdatePresetSecurity}" Tag="Security"/>
+                                        </ComboBox>
+                                        <Button Style="{StaticResource ModernButtonStyle}" Margin="8,0,0,0"
+                                                Content="{loc:Loc Tweaks:Apply}" Click="ApplyWindowsUpdatePreset_Click"/>
+                                        <Button Style="{StaticResource SecondaryButtonStyle}" Margin="8,0,0,0"
+                                                Content="{loc:Loc Tweaks:RegistryTweaksPagePreviewRegistryChanges}" Click="PreviewWindowsUpdatePreset_Click"/>
+                                    </StackPanel>
+                                    <TextBlock x:Name="WindowsUpdatePresetDescriptionText" Margin="26,0,0,4" TextWrapping="Wrap"
+                                               Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+                                    <TextBlock x:Name="WindowsUpdatePresetStatusText" Margin="26,0,0,0" FontWeight="SemiBold"
+                                               Foreground="{DynamicResource AccentBrush}"/>
+                                    <Border x:Name="WindowsUpdatePresetPreview" Visibility="Collapsed" Margin="26,12,0,0"
+                                            BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}" BorderThickness="1" CornerRadius="6"
+                                            Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+                                        <ScrollViewer MaxHeight="300" VerticalScrollBarVisibility="Auto">
+                                            <TextBox x:Name="WindowsUpdatePresetPreviewText" IsReadOnly="True" TextWrapping="NoWrap"
+                                                     FontFamily="Consolas" BorderThickness="0" Background="Transparent"/>
+                                        </ScrollViewer>
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+                            <ItemsControl x:Name="TweakCategoriesControl">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Margin="0,0,0,32">
@@ -299,7 +337,8 @@
                                     </StackPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                            </ItemsControl>
+                        </StackPanel>
                     </ScrollViewer>
                 </TabItem>
 

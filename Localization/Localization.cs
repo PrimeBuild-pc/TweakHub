@@ -11,14 +11,12 @@ public static class L
     private static readonly string[] Supported = ["en", "ru", "zh-CN", "es", "it"];
     private static CultureInfo _systemCulture = CultureInfo.CurrentUICulture;
 
-    public static string ConfiguredLanguage { get; private set; } = "System";
     public static CultureInfo Culture { get; private set; } = CultureInfo.GetCultureInfo("en");
 
     public static void Initialize(string? language)
     {
         _systemCulture = CultureInfo.CurrentUICulture;
-        ConfiguredLanguage = Normalize(language);
-        Culture = ResolveCulture(ConfiguredLanguage, _systemCulture);
+        Culture = ResolveCulture(language, _systemCulture);
         CultureInfo.CurrentUICulture = Culture;
         CultureInfo.DefaultThreadCurrentUICulture = Culture;
     }

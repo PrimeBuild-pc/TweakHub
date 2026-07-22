@@ -9,20 +9,19 @@ using TweakHub.Views.Dialogs;
 
 namespace TweakHub.Services
 {
+    public sealed record ToolProgress(string ToolName, int Percentage, string Message, bool IsCompleted = false, bool Success = false);
+
     public class ToolDownloadService
     {
         public static ToolDownloadService Instance { get; } = new();
 
-        public event EventHandler<DownloadProgressEventArgs>? DownloadProgress;
-        public event EventHandler<DownloadCompletedEventArgs>? DownloadCompleted;
-
         private ToolDownloadService() { }
 
-        public async Task<bool> InstallWithWinget(ExternalTool tool)
+        public async Task<bool> InstallWithWinget(ExternalTool tool, IProgress<ToolProgress>? progress = null)
         {
             if (string.IsNullOrWhiteSpace(tool.WingetId)) return false;
             var arguments = $"install --id \"{tool.WingetId}\" --exact --accept-source-agreements --accept-package-agreements";
-            var success = await RunWinget(tool, arguments, "installation");
+            var success = await RunWinget(tool, arguments, "installation", progress);
             if (success && tool.Category.Equals("System Utilities", StringComparison.OrdinalIgnoreCase))
             {
                 string? path = null;
@@ -39,13 +38,14 @@ namespace TweakHub.Services
             return success;
         }
 
-        public Task<bool> UninstallWithWinget(ExternalTool tool) =>
+        public Task<bool> UninstallWithWinget(ExternalTool tool, IProgress<ToolProgress>? progress = null) =>
             RunWinget(
                 tool,
                 $"uninstall --id \"{tool.WingetId}\" --exact --accept-source-agreements",
-                "uninstall");
+                "uninstall",
+                progress);
 
-        public async Task<bool> DownloadOrOpenTool(ExternalTool tool)
+        public async Task<bool> DownloadOrOpenTool(ExternalTool tool, IProgress<ToolProgress>? progress = null)
         {
             if (!string.IsNullOrWhiteSpace(tool.PowerShellCommand))
             {
@@ -54,12 +54,12 @@ namespace TweakHub.Services
                         L.Format("Tools:RunPowerShellMessage", preview), L.Get("Tools:Run"), L.Get("Tools:Cancel")))
                     return false;
 
-                Progress(tool.Name, 0, L.Get("Tools:RunningPowerShell"));
+                Report(progress, tool.Name, 0, L.Get("Tools:RunningPowerShell"));
                 var result = await PowerShellService.Instance.ExecuteScriptAsync(
                     tool.PowerShellCommand, tool.RequiresAdministrator, TimeSpan.FromMinutes(15));
                 var details = result.Success ? result.Output : result.Error;
                 if (details.Length > 3000) details = details[^3000..];
-                Complete(tool.Name, result.Success, L.Get(result.Success ? "Tools:CommandCompleted" : "Tools:CommandFailed"));
+                Complete(progress, tool.Name, result.Success, L.Get(result.Success ? "Tools:CommandCompleted" : "Tools:CommandFailed"));
                 await AppDialog.ShowAsync(Application.Current.MainWindow,
                     L.Get(result.Success ? "Tools:CommandCompletedTitle" : "Tools:CommandFailedTitle"),
                     L.Format("Tools:CommandFinishedMessage", tool.Name, result.Duration.TotalSeconds, details).Trim());
@@ -67,7 +67,7 @@ namespace TweakHub.Services
             }
 
             if (!string.IsNullOrWhiteSpace(tool.WingetId))
-                return await InstallWithWinget(tool);
+                return await InstallWithWinget(tool, progress);
 
             if (Uri.TryCreate(tool.DownloadUrl, UriKind.Absolute, out var uri) &&
                 (uri.Scheme == Uri.UriSchemeHttps || uri.Scheme == Uri.UriSchemeHttp))
@@ -79,19 +79,19 @@ namespace TweakHub.Services
                 }
                 catch (Exception ex)
                 {
-                    Complete(tool.Name, false, ex.Message);
+                    Complete(progress, tool.Name, false, ex.Message);
                 }
             }
 
             return false;
         }
 
-        private async Task<bool> RunWinget(ExternalTool tool, string arguments, string action)
+        private async Task<bool> RunWinget(ExternalTool tool, string arguments, string action, IProgress<ToolProgress>? progress)
         {
             if (string.IsNullOrWhiteSpace(arguments)) return false;
 
             var actionText = L.Get(action == "installation" ? "Tools:ActionInstallation" : "Tools:ActionUninstall");
-            Progress(tool.Name, 0, L.Format("Tools:StartingAction", actionText));
+            Report(progress, tool.Name, 0, L.Format("Tools:StartingAction", actionText));
 
             try
             {
@@ -108,8 +108,8 @@ namespace TweakHub.Services
                     }
                 };
 
-                process.OutputDataReceived += (_, e) => ReportWingetOutput(tool.Name, e.Data);
-                process.ErrorDataReceived += (_, e) => ReportWingetOutput(tool.Name, e.Data);
+                process.OutputDataReceived += (_, e) => ReportWingetOutput(progress, tool.Name, e.Data);
+                process.ErrorDataReceived += (_, e) => ReportWingetOutput(progress, tool.Name, e.Data);
                 process.Start();
                 process.BeginOutputReadLine();
                 process.BeginErrorReadLine();
@@ -117,6 +117,7 @@ namespace TweakHub.Services
 
                 var success = process.ExitCode == 0;
                 Complete(
+                    progress,
                     tool.Name,
                     success,
                     L.Format(success ? "Tools:ActionCompleted" : "Tools:ActionFailed", actionText, tool.Name));
@@ -124,7 +125,7 @@ namespace TweakHub.Services
             }
             catch (Exception ex)
             {
-                Complete(tool.Name, false, ex.Message);
+                Complete(progress, tool.Name, false, ex.Message);
                 return false;
             }
         }
@@ -216,11 +217,11 @@ namespace TweakHub.Services
             return null;
         }
 
-        private void ReportWingetOutput(string toolName, string? data)
+        private static void ReportWingetOutput(IProgress<ToolProgress>? progress, string toolName, string? data)
         {
             if (string.IsNullOrWhiteSpace(data)) return;
             var percentage = TryParsePercent(data);
-            Progress(toolName, percentage < 0 ? 0 : percentage, data);
+            Report(progress, toolName, percentage < 0 ? 0 : percentage, data);
         }
 
         internal static int TryParsePercent(string data)
@@ -229,38 +230,10 @@ namespace TweakHub.Services
             return match.Success && int.TryParse(match.Groups[1].Value, out var value) ? Math.Clamp(value, 0, 100) : -1;
         }
 
-        private void Progress(string toolName, int percentage, string message) =>
-            DownloadProgress?.Invoke(this, new DownloadProgressEventArgs(toolName, percentage, message));
+        private static void Report(IProgress<ToolProgress>? progress, string toolName, int percentage, string message) =>
+            progress?.Report(new(toolName, percentage, message));
 
-        private void Complete(string toolName, bool success, string message) =>
-            DownloadCompleted?.Invoke(this, new DownloadCompletedEventArgs(toolName, success, message));
-    }
-
-    public class DownloadProgressEventArgs : EventArgs
-    {
-        public string ToolName { get; }
-        public int ProgressPercentage { get; }
-        public string StatusMessage { get; }
-
-        public DownloadProgressEventArgs(string toolName, int progressPercentage, string statusMessage)
-        {
-            ToolName = toolName;
-            ProgressPercentage = progressPercentage;
-            StatusMessage = statusMessage;
-        }
-    }
-
-    public class DownloadCompletedEventArgs : EventArgs
-    {
-        public string ToolName { get; }
-        public bool Success { get; }
-        public string Message { get; }
-
-        public DownloadCompletedEventArgs(string toolName, bool success, string message)
-        {
-            ToolName = toolName;
-            Success = success;
-            Message = message;
-        }
+        private static void Complete(IProgress<ToolProgress>? progress, string toolName, bool success, string message) =>
+            progress?.Report(new(toolName, success ? 100 : 0, message, IsCompleted: true, Success: success));
     }
 }

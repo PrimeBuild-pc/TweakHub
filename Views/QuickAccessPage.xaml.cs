@@ -46,7 +46,7 @@ namespace TweakHub.Views
             // Group shortcuts by category
             var groupedShortcuts = _shortcutService.SystemShortcuts
                 .GroupBy(s => s.Category)
-                .OrderBy(g => GetCategoryOrder(g.Key));
+                .OrderBy(g => ShortcutService.CategoryOrder(g.Key));
 
             foreach (var group in groupedShortcuts)
             {
@@ -103,7 +103,7 @@ namespace TweakHub.Views
             // Icon
             var iconText = new TextBlock
             {
-                Text = GetCategoryIcon(shortcut.Category),
+                Text = ShortcutService.CategoryIcon(shortcut.Category),
                 FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons"),
                 FontSize = 20,
                 Margin = new Thickness(0, 0, 12, 0),
@@ -152,20 +152,6 @@ namespace TweakHub.Views
             return button;
         }
 
-        private static string GetCategoryIcon(string category) => category switch
-        {
-            "System Management" => "\uE713",
-            "System Information" => "\uE946",
-            "Advanced Tools" => "\uE90F",
-            "Performance" => "\uE9D9",
-            "Power Management" => "\uE945",
-            "Network" => "\uE968",
-            "Audio" => "\uE767",
-            "Display" => "\uE7F4",
-            "Maintenance" => "\uE74D",
-            _ => "\uE8F1"
-        };
-
         private async void ExecuteShortcut(SystemShortcut shortcut)
         {
             try
@@ -187,23 +173,6 @@ namespace TweakHub.Views
                     L.Get("Tools:ShortcutError"),
                     L.Format("Tools:ShortcutErrorMessage", ex.Message));
             }
-        }
-
-        private int GetCategoryOrder(string category)
-        {
-            return category switch
-            {
-                "System Management" => 1,
-                "Performance" => 2,
-                "System Information" => 3,
-                "Network" => 4,
-                "Audio" => 5,
-                "Display" => 6,
-                "Power Management" => 7,
-                "Maintenance" => 8,
-                "Advanced Tools" => 9,
-                _ => 10
-            };
         }
 
         private void ShowLoadError()

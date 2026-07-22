@@ -11,9 +11,9 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AssemblyTitle>TweakHub</AssemblyTitle>
     <AssemblyDescription>Windows 11 Performance Tweaking Application</AssemblyDescription>
-    <VersionPrefix>1.1.0</VersionPrefix>
-    <AssemblyVersion>1.1.0.0</AssemblyVersion>
-    <FileVersion>1.1.0.0</FileVersion>
+    <VersionPrefix>1.2.0</VersionPrefix>
+    <AssemblyVersion>1.2.0.0</AssemblyVersion>
+    <FileVersion>1.2.0.0</FileVersion>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     <Copyright>Copyright © 2025–2026</Copyright>
     <Company>TweakHub</Company>
@@ -32,6 +32,7 @@
   <ItemGroup>
     <Resource Include="ico.ico" />
     <None Update="portable.flag" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <None Update="THIRD_PARTY_NOTICES.md" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 
   <!-- Exclude embedded test project sources from app compilation -->
