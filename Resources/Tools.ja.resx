@@ -1,0 +1,761 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ExternalToolsPageExternalTools" xml:space="preserve">
+    <value>外部ツール</value>
+  </data>
+  <data name="ExternalToolsPageExternalTools2" xml:space="preserve">
+    <value>外部ツール</value>
+  </data>
+  <data name="ExternalToolsPageInstallCuratedToolsOrAdd" xml:space="preserve">
+    <value>厳選されたツールをインストールするか、独自の Winget、PowerShell、Web サイト カードを追加します。</value>
+  </data>
+  <data name="ExternalToolsPageShowFavoritesOnly" xml:space="preserve">
+    <value>お気に入りだけを表示</value>
+  </data>
+  <data name="ExternalToolsPageFavorites" xml:space="preserve">
+    <value>お気に入り</value>
+  </data>
+  <data name="ExternalToolsPageAddTool" xml:space="preserve">
+    <value>ツールを追加</value>
+  </data>
+  <data name="ExternalToolsPageDownloading" xml:space="preserve">
+    <value>ダウンロード中...</value>
+  </data>
+  <data name="QuickAccessPageQuickAccess" xml:space="preserve">
+    <value>クイックアクセス</value>
+  </data>
+  <data name="QuickAccessPageQuickAccess2" xml:space="preserve">
+    <value>クイックアクセス</value>
+  </data>
+  <data name="QuickAccessPageQuickShortcutsToWindowsControl" xml:space="preserve">
+    <value>Windows のコントロール パネル、システム設定、高度な構成ツールへのショートカットです。</value>
+  </data>
+  <data name="CustomToolDialogCustomExternalTool" xml:space="preserve">
+    <value>カスタム外部ツール</value>
+  </data>
+  <data name="CustomToolDialogCustomExternalTool2" xml:space="preserve">
+    <value>カスタム外部ツール</value>
+  </data>
+  <data name="CustomToolDialogCreateAReusableWebsiteWinget" xml:space="preserve">
+    <value>再利用可能な Web サイト、Winget、PowerShell カードを作成します。PowerShell は確認後にのみ実行されます。</value>
+  </data>
+  <data name="CustomToolDialogName" xml:space="preserve">
+    <value>名前</value>
+  </data>
+  <data name="CustomToolDialogDescription" xml:space="preserve">
+    <value>説明</value>
+  </data>
+  <data name="CustomToolDialogCategory" xml:space="preserve">
+    <value>カテゴリ</value>
+  </data>
+  <data name="CustomToolDialogAction" xml:space="preserve">
+    <value>操作</value>
+  </data>
+  <data name="CustomToolDialogOpenHTTPSWebsiteOrOnline" xml:space="preserve">
+    <value>HTTPS Web サイトまたはオンライン ファイルを開く</value>
+  </data>
+  <data name="CustomToolDialogInstallExactWingetPackageID" xml:space="preserve">
+    <value>指定した Winget パッケージ ID をインストール</value>
+  </data>
+  <data name="CustomToolDialogRunPowerShellCommand" xml:space="preserve">
+    <value>PowerShell コマンドを実行</value>
+  </data>
+  <data name="CustomToolDialogValue" xml:space="preserve">
+    <value>値</value>
+  </data>
+  <data name="CustomToolDialogRequestAdministratorPrivileges" xml:space="preserve">
+    <value>管理者権限を要求</value>
+  </data>
+  <data name="CustomToolDialogCancel" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="CustomToolDialogSaveTool" xml:space="preserve">
+    <value>ツールを保存</value>
+  </data>
+  <data name="ShortcutNameDeviceManager" xml:space="preserve">
+    <value>デバイス マネージャー</value>
+  </data>
+  <data name="ShortcutNameSystemInformation" xml:space="preserve">
+    <value>システム情報</value>
+  </data>
+  <data name="ShortcutNameRegistryEditor" xml:space="preserve">
+    <value>レジストリ エディター</value>
+  </data>
+  <data name="ShortcutNameServices" xml:space="preserve">
+    <value>サービス</value>
+  </data>
+  <data name="ShortcutNameEventViewer" xml:space="preserve">
+    <value>イベント ビューアー</value>
+  </data>
+  <data name="ShortcutNameDiskManagement" xml:space="preserve">
+    <value>ディスクの管理</value>
+  </data>
+  <data name="ShortcutNameTaskManager" xml:space="preserve">
+    <value>タスク マネージャー</value>
+  </data>
+  <data name="ShortcutNameResourceMonitor" xml:space="preserve">
+    <value>リソース モニター</value>
+  </data>
+  <data name="ShortcutNamePowerOptions" xml:space="preserve">
+    <value>電源オプション</value>
+  </data>
+  <data name="ShortcutNameNetworkConnections" xml:space="preserve">
+    <value>ネットワーク接続</value>
+  </data>
+  <data name="ShortcutNameSoundSettings" xml:space="preserve">
+    <value>サウンド設定</value>
+  </data>
+  <data name="ShortcutNameDisplaySettings" xml:space="preserve">
+    <value>ディスプレイ設定</value>
+  </data>
+  <data name="ShortcutNameWindowsFeatures" xml:space="preserve">
+    <value>Windows の機能</value>
+  </data>
+  <data name="ShortcutNameDiskCleanup" xml:space="preserve">
+    <value>ディスク クリーンアップ</value>
+  </data>
+  <data name="ShortcutNameGroupPolicyEditor" xml:space="preserve">
+    <value>グループ ポリシー エディター</value>
+  </data>
+  <data name="ShortcutNameTaskScheduler" xml:space="preserve">
+    <value>タスク スケジューラ</value>
+  </data>
+  <data name="DescriptionManageHardwareDevicesAndDrivers" xml:space="preserve">
+    <value>ハードウェア デバイスとドライバーを管理</value>
+  </data>
+  <data name="DescriptionViewDetailedSystemInformation" xml:space="preserve">
+    <value>詳細なシステム情報を表示</value>
+  </data>
+  <data name="DescriptionEditTheWindowsRegistry" xml:space="preserve">
+    <value>Windows レジストリを編集</value>
+  </data>
+  <data name="DescriptionManageWindowsServices" xml:space="preserve">
+    <value>Windows サービスを管理</value>
+  </data>
+  <data name="DescriptionReviewWindowsSystemAndApplicationEvents" xml:space="preserve">
+    <value>Windows のシステム イベントとアプリケーション イベントを確認</value>
+  </data>
+  <data name="DescriptionManageDisksPartitionsAndDriveLetters" xml:space="preserve">
+    <value>ディスク、パーティション、ドライブ文字を管理</value>
+  </data>
+  <data name="DescriptionMonitorProcessesAndPerformance" xml:space="preserve">
+    <value>プロセスとパフォーマンスを監視</value>
+  </data>
+  <data name="DescriptionInspectDetailedResourceUsage" xml:space="preserve">
+    <value>詳細なリソース使用状況を確認</value>
+  </data>
+  <data name="DescriptionConfigurePowerAndSleepSettings" xml:space="preserve">
+    <value>電源とスリープを設定</value>
+  </data>
+  <data name="DescriptionManageNetworkAdapters" xml:space="preserve">
+    <value>ネットワーク アダプターを管理</value>
+  </data>
+  <data name="DescriptionConfigureAudioDevices" xml:space="preserve">
+    <value>オーディオ デバイスを設定</value>
+  </data>
+  <data name="DescriptionConfigureDisplays" xml:space="preserve">
+    <value>ディスプレイを設定</value>
+  </data>
+  <data name="DescriptionEnableOrDisableWindowsFeatures" xml:space="preserve">
+    <value>Windows の機能を有効化または無効化</value>
+  </data>
+  <data name="DescriptionFreeDiskSpaceWithTheWindowsUtility" xml:space="preserve">
+    <value>Windows ユーティリティでディスク領域を解放</value>
+  </data>
+  <data name="DescriptionEditLocalWindowsGroupPoliciesProAnd" xml:space="preserve">
+    <value>Windows のローカル グループ ポリシーを編集（Pro および Enterprise エディション）</value>
+  </data>
+  <data name="DescriptionCreateAndManageScheduledTasks" xml:space="preserve">
+    <value>スケジュールされたタスクを作成、管理</value>
+  </data>
+  <data name="DescriptionOfficialMicrosoftUtilitiesForWindowsPowerUsers" xml:space="preserve">
+    <value>Windows パワー ユーザー向けの Microsoft 公式ユーティリティ</value>
+  </data>
+  <data name="DescriptionOpenSourceQuickLauncherForAppsFiles" xml:space="preserve">
+    <value>アプリ、ファイル、コマンド、Web 検索に対応するオープンソースのクイック ランチャー</value>
+  </data>
+  <data name="DescriptionDynamicTilingWindowManagerForWindows" xml:space="preserve">
+    <value>Windows 用の動的タイル型ウィンドウ マネージャー</value>
+  </data>
+  <data name="DescriptionInspectAndManageEveryWindowsStartupLocation" xml:space="preserve">
+    <value>Windows のすべてのスタートアップ場所を確認、管理</value>
+  </data>
+  <data name="DescriptionOpenSourceBulkApplicationUninstaller" xml:space="preserve">
+    <value>オープンソースの一括アプリ アンインストーラー</value>
+  </data>
+  <data name="DescriptionExtendedReplacementForTheClassicWindowsDisk" xml:space="preserve">
+    <value>従来の Windows ディスク クリーンアップを拡張した代替ツール</value>
+  </data>
+  <data name="DescriptionRemoveRecordsForNonPresentDevicesOpens" xml:space="preserve">
+    <value>接続されていないデバイスの記録を削除（MajorGeeks の情報ページを開きます）</value>
+  </data>
+  <data name="DescriptionGraphicalWindowsImageServicingAndCleanupUtility" xml:space="preserve">
+    <value>Windows イメージのサービスとクリーンアップを行うグラフィカル ツール</value>
+  </data>
+  <data name="DescriptionInspectAndRemovePackagesFromTheWindows" xml:space="preserve">
+    <value>Windows ドライバー ストアのパッケージを確認、削除</value>
+  </data>
+  <data name="DescriptionOpenSourceOfflineDriverInstallerAndIndex" xml:space="preserve">
+    <value>オープンソースのオフライン ドライバー インストーラーとインデックス</value>
+  </data>
+  <data name="DescriptionGraphicalInterfaceForWinGetAndOtherPackage" xml:space="preserve">
+    <value>WinGet などのパッケージ マネージャー用グラフィカル インターフェイス</value>
+  </data>
+  <data name="DescriptionGraphicalInterfaceForWindowsFeatureConfigurationIDs" xml:space="preserve">
+    <value>Windows 機能構成 ID 用のグラフィカル インターフェイス</value>
+  </data>
+  <data name="DescriptionConfigureAndCustomizeWindowsFromATransparent" xml:space="preserve">
+    <value>透明性のあるオープンソース UI から Windows を設定、カスタマイズ</value>
+  </data>
+  <data name="DescriptionWindowsMaintenanceAndCustomizationDashboardFromMicrosoft" xml:space="preserve">
+    <value>Microsoft Store の Windows メンテナンス、カスタマイズ ダッシュボード</value>
+  </data>
+  <data name="DescriptionChrisTitusTechWindowsUtilityOpensThe" xml:space="preserve">
+    <value>Chris Titus Tech の Windows ユーティリティ（リモート スクリプトではなく公式プロジェクトを開きます）</value>
+  </data>
+  <data name="DescriptionFastLocalFileAndFolderSearch" xml:space="preserve">
+    <value>ローカルのファイルとフォルダーを高速検索</value>
+  </data>
+  <data name="DescriptionFastVisualDiskSpaceAnalyzer" xml:space="preserve">
+    <value>高速な視覚的ディスク領域分析ツール</value>
+  </data>
+  <data name="DescriptionCPUMemoryAndPlatformInformation" xml:space="preserve">
+    <value>CPU、メモリ、プラットフォームの情報</value>
+  </data>
+  <data name="DescriptionOfficialAMDRyzenMonitoringAndOverclockingUtility" xml:space="preserve">
+    <value>AMD Ryzen 公式の監視、オーバークロック ユーティリティ</value>
+  </data>
+  <data name="DescriptionInspectAMDRyzenMemoryTimingsAndInfinity" xml:space="preserve">
+    <value>AMD Ryzen のメモリ タイミングと Infinity Fabric 設定を確認</value>
+  </data>
+  <data name="DescriptionManageWindowsCPUSets" xml:space="preserve">
+    <value>Windows CPU Sets を管理</value>
+  </data>
+  <data name="DescriptionInspectAndManageCPUThreadAffinity" xml:space="preserve">
+    <value>CPU スレッドのアフィニティを確認、管理</value>
+  </data>
+  <data name="DescriptionProcessPriorityAffinityAndResponsivenessControls" xml:space="preserve">
+    <value>プロセスの優先度、アフィニティ、応答性を制御</value>
+  </data>
+  <data name="DescriptionInspectAndConfigureCPUCoreParkingAnd" xml:space="preserve">
+    <value>CPU コア パーキングと周波数スケーリングを確認、設定</value>
+  </data>
+  <data name="DescriptionCycleStressTestsAcrossIndividualCPUCores" xml:space="preserve">
+    <value>個々の CPU コアを順番にストレス テスト</value>
+  </data>
+  <data name="DescriptionAdvancedAMDSMUMSRAndPowerTable" xml:space="preserve">
+    <value>AMD SMU、MSR、電力テーブルの高度な確認</value>
+  </data>
+  <data name="DescriptionOfficialIntelAPOInterfaceForSupportedProcessors" xml:space="preserve">
+    <value>対応プロセッサとゲーム向けの Intel APO 公式インターフェイス</value>
+  </data>
+  <data name="DescriptionAdvancedGraphicalLauncherForKarhuRAMTest" xml:space="preserve">
+    <value>Karhu RAM Test 用の高度なグラフィカル ランチャー</value>
+  </data>
+  <data name="DescriptionCommunityMemoryStabilityTestDownloadsTheUser" xml:space="preserve">
+    <value>コミュニティ製メモリ安定性テスト（ユーザー指定の GitHub リリース アーカイブをダウンロード）</value>
+  </data>
+  <data name="DescriptionBootableMemoryDiagnostics" xml:space="preserve">
+    <value>起動可能なメモリ診断ツール</value>
+  </data>
+  <data name="DescriptionDetailedHardwareInformationAndSensorMonitoring" xml:space="preserve">
+    <value>詳細なハードウェア情報とセンサー監視</value>
+  </data>
+  <data name="DescriptionCPUIDHardwareTemperatureVoltageAndFanMonitoring" xml:space="preserve">
+    <value>CPUID によるハードウェアの温度、電圧、ファン監視</value>
+  </data>
+  <data name="DescriptionMicrosoftSysinternalsPhysicalMemoryAnalyzer" xml:space="preserve">
+    <value>Microsoft Sysinternals の物理メモリ分析ツール</value>
+  </data>
+  <data name="DescriptionAnalyzeRealTimeAudioAndDPCLatency" xml:space="preserve">
+    <value>リアルタイム オーディオと DPC 遅延を分析</value>
+  </data>
+  <data name="DescriptionOpenSourceFanCurveAndSensorControl" xml:space="preserve">
+    <value>オープンソースのファン カーブ、センサー制御</value>
+  </data>
+  <data name="DescriptionIntelFramePresentationAndPerformanceMonitoring" xml:space="preserve">
+    <value>Intel のフレーム表示、パフォーマンス監視</value>
+  </data>
+  <data name="DescriptionMicrosoftGPUAndCPUPerformanceTraceVisualization" xml:space="preserve">
+    <value>Microsoft の GPU、CPU パフォーマンス トレースを視覚化</value>
+  </data>
+  <data name="DescriptionStaticInspectionOfWindowsExecutablesWithoutRunning" xml:space="preserve">
+    <value>Windows 実行ファイルを実行せずに静的解析</value>
+  </data>
+  <data name="DescriptionSysinternalsProcessHandleAndDLLDiagnostics" xml:space="preserve">
+    <value>Sysinternals によるプロセス、ハンドル、DLL の診断</value>
+  </data>
+  <data name="DescriptionRealTimeFilesystemRegistryAndProcessTracing" xml:space="preserve">
+    <value>ファイルシステム、レジストリ、プロセスをリアルタイム追跡</value>
+  </data>
+  <data name="DescriptionAdvancedETWRecordingAndAnalysisWithWPR" xml:space="preserve">
+    <value>WPR と WPA による高度な ETW 記録、分析</value>
+  </data>
+  <data name="DescriptionFrameRateFrameTimePowerAndPerformance" xml:space="preserve">
+    <value>フレーム レート、フレーム時間、消費電力、ワット パフォーマンスを監視</value>
+  </data>
+  <data name="DescriptionLightweightDetailedGPUMonitoringFromGeeks3D" xml:space="preserve">
+    <value>Geeks3D の軽量で詳細な GPU 監視ツール</value>
+  </data>
+  <data name="DescriptionAdvancedCPUAndGPUWorkloadProfilingAnd" xml:space="preserve">
+    <value>CPU、GPU ワークロードの高度なプロファイリングとタイムライン分析</value>
+  </data>
+  <data name="DescriptionLowLevelRadeonGPUPerformanceAndWorkload" xml:space="preserve">
+    <value>Radeon GPU の低レベル パフォーマンス、ワークロード分析</value>
+  </data>
+  <data name="DescriptionGPUInformationSensorsAndValidation" xml:space="preserve">
+    <value>GPU 情報、センサー、検証</value>
+  </data>
+  <data name="DescriptionGPUMonitoringFanCurvesAndOverclockingControls" xml:space="preserve">
+    <value>GPU 監視、ファン カーブ、オーバークロック制御</value>
+  </data>
+  <data name="DescriptionFrameRateLimitingAndInGamePerformance" xml:space="preserve">
+    <value>フレーム レート制限とゲーム内パフォーマンス オーバーレイ</value>
+  </data>
+  <data name="DescriptionPaidAMDGPUTuningUtilityFromMicrosoft" xml:space="preserve">
+    <value>Microsoft Store の有料 AMD GPU チューニング ユーティリティ</value>
+  </data>
+  <data name="DescriptionLegacyFreeAMDGPUTuningUtilityFrom" xml:space="preserve">
+    <value>Igor's Lab の旧無料 AMD GPU チューニング ユーティリティ</value>
+  </data>
+  <data name="DescriptionAdvancedAMDRadeonPowerLimitEditor" xml:space="preserve">
+    <value>AMD Radeon の高度な電力制限エディター</value>
+  </data>
+  <data name="DescriptionLightweightOpenSourceAMDRadeonTuningInterface" xml:space="preserve">
+    <value>軽量でオープンソースの AMD Radeon チューニング インターフェイス</value>
+  </data>
+  <data name="DescriptionInspectAdvancedNVIDIADriverProfiles" xml:space="preserve">
+    <value>NVIDIA ドライバーの高度なプロファイルを確認</value>
+  </data>
+  <data name="DescriptionCustomizeNVIDIADriverInstallations" xml:space="preserve">
+    <value>NVIDIA ドライバーのインストールをカスタマイズ</value>
+  </data>
+  <data name="DescriptionCompletelyRemoveGraphicsDriversBeforeReinstalling" xml:space="preserve">
+    <value>再インストール前にグラフィックス ドライバーを完全削除</value>
+  </data>
+  <data name="DescriptionAdvancedNVIDIAGraphicsCardFirmwareUtility" xml:space="preserve">
+    <value>NVIDIA グラフィックス カード用の高度なファームウェア ユーティリティ</value>
+  </data>
+  <data name="DescriptionAdvancedAMDGraphicsCardFirmwareUtilityFormerly" xml:space="preserve">
+    <value>AMD グラフィックス カード用の高度なファームウェア ユーティリティ（旧 ATIFlash）</value>
+  </data>
+  <data name="DescriptionCommunityTroubleshootingUtilityForMultiplaneOverlayIssues" xml:space="preserve">
+    <value>マルチプレーン オーバーレイ問題向けのコミュニティ製トラブルシューティング ツール</value>
+  </data>
+  <data name="DescriptionInspectAndEditDisplayResolutionsAndEDID" xml:space="preserve">
+    <value>ディスプレイ解像度と EDID データを確認、編集</value>
+  </data>
+  <data name="DescriptionAutomateNVIDIADigitalVibranceAndAMDSaturation" xml:space="preserve">
+    <value>ゲームごとに NVIDIA Digital Vibrance と AMD 彩度を自動設定</value>
+  </data>
+  <data name="DescriptionOpenSourceRGBDeviceControl" xml:space="preserve">
+    <value>オープンソースの RGB デバイス制御</value>
+  </data>
+  <data name="DescriptionUnifiedRGBLightingAndDeviceEffects" xml:space="preserve">
+    <value>RGB ライティングとデバイス効果を一元管理</value>
+  </data>
+  <data name="DescriptionUnofficialGUIForAdvancedAMIFirmwareVariable" xml:space="preserve">
+    <value>AMI ファームウェア変数を高度に編集する非公式 GUI（回復手段がある場合のみ使用してください）</value>
+  </data>
+  <data name="DescriptionCommunitySCEWINBinariesAndTroubleshootingFirmwareChanges" xml:space="preserve">
+    <value>コミュニティ製 SCEWIN バイナリとトラブルシューティング（ファームウェア変更により起動不能になる可能性があります）</value>
+  </data>
+  <data name="DescriptionInspectHiddenWindowsPowerPlanSettingsOpens" xml:space="preserve">
+    <value>Windows 電源プランの非表示設定を確認（安定版の MediaFire ダウンロード ページを開きます）</value>
+  </data>
+  <data name="DescriptionManageDLSSVersionsInSupportedGames" xml:space="preserve">
+    <value>対応ゲームの DLSS バージョンを管理</value>
+  </data>
+  <data name="DescriptionUpscalerInjectionAndCompatibilityLayerForSupported" xml:space="preserve">
+    <value>対応ゲーム用のアップスケーラー挿入、互換レイヤー</value>
+  </data>
+  <data name="DescriptionCommunityDirectX12UpscalerAndFrameGeneration" xml:space="preserve">
+    <value>コミュニティ製 DirectX 12 アップスケーラー、フレーム生成互換 MOD</value>
+  </data>
+  <data name="DescriptionLightweightOpenSourceConfigurableCrosshairOverlay" xml:space="preserve">
+    <value>軽量でオープンソースの設定可能なクロスヘア オーバーレイ</value>
+  </data>
+  <data name="DescriptionOpenSourceMouseAccelerationDriver" xml:space="preserve">
+    <value>オープンソースのマウス アクセラレーション ドライバー</value>
+  </data>
+  <data name="DescriptionAdvancedUSBHIDPollingRateFilterDriver" xml:space="preserve">
+    <value>高度な USB HID ポーリング レート フィルター ドライバー</value>
+  </data>
+  <data name="DescriptionBrowserBasedCalibrationForSupportedPlayStationControllers" xml:space="preserve">
+    <value>対応 PlayStation コントローラーをブラウザーで調整</value>
+  </data>
+  <data name="DescriptionOfficialBrowserBasedMousePollingRateTester" xml:space="preserve">
+    <value>公式のブラウザー ベース マウス ポーリング レート テスター</value>
+  </data>
+  <data name="DescriptionStoragePerformanceBenchmark" xml:space="preserve">
+    <value>ストレージ パフォーマンスのベンチマーク</value>
+  </data>
+  <data name="DescriptionStorageHealthAndSMARTInformation" xml:space="preserve">
+    <value>ストレージの状態と S.M.A.R.T. 情報</value>
+  </data>
+  <data name="DescriptionNirSoftInventoryAndManagementOfCurrentAnd" xml:space="preserve">
+    <value>NirSoft による現在および過去の USB デバイスの一覧、管理</value>
+  </data>
+  <data name="DescriptionMariusHeierUSBLatencyToolsOpensThe" xml:space="preserve">
+    <value>Marius Heier の USB 遅延ツール（スクリプトを実行せず公式サイトを開きます）</value>
+  </data>
+  <data name="DescriptionMicrosoftCommandLineStorageLoadGeneratorAnd" xml:space="preserve">
+    <value>Microsoft のコマンド ライン ストレージ負荷生成、ベンチマーク ツール</value>
+  </data>
+  <data name="DescriptionOpenSourceBitTorrentClient" xml:space="preserve">
+    <value>オープンソースの BitTorrent クライアント</value>
+  </data>
+  <data name="DescriptionInspectAndTuneWindowsTCPIPParameters" xml:space="preserve">
+    <value>Windows の TCP/IP パラメーターを確認、調整</value>
+  </data>
+  <data name="DescriptionMicrosoftSysinternalsLiveTCPAndUDPEndpoint" xml:space="preserve">
+    <value>Microsoft Sysinternals のリアルタイム TCP、UDP エンドポイント ビューアー</value>
+  </data>
+  <data name="DescriptionTestAndSwitchDNSResolvers" xml:space="preserve">
+    <value>DNS リゾルバーをテスト、切り替え</value>
+  </data>
+  <data name="DescriptionMeasureMaximumTCPAndUDPNetworkThroughput" xml:space="preserve">
+    <value>TCP、UDP ネットワークの最大スループットを測定</value>
+  </data>
+  <data name="DescriptionCaptureAndInspectNetworkTrafficAndProtocols" xml:space="preserve">
+    <value>ネットワーク トラフィックとプロトコルをキャプチャ、確認</value>
+  </data>
+  <data name="DescriptionAudioEqualizerAndEnhancement" xml:space="preserve">
+    <value>オーディオのイコライザーと拡張</value>
+  </data>
+  <data name="DescriptionSystemWideParametricAudioEqualizer" xml:space="preserve">
+    <value>システム全体で使えるパラメトリック オーディオ イコライザー</value>
+  </data>
+  <data name="DescriptionGraphicalInterfaceForEqualizerAPO" xml:space="preserve">
+    <value>Equalizer APO 用グラフィカル インターフェイス</value>
+  </data>
+  <data name="DescriptionSteelSeriesDeviceControlSonarAudioAndGame" xml:space="preserve">
+    <value>SteelSeries デバイス制御、Sonar オーディオ、ゲーム キャプチャ</value>
+  </data>
+  <data name="DescriptionHardwareDiagnosticsMonitoringAndSystemBenchmarks" xml:space="preserve">
+    <value>ハードウェア診断、監視、システム ベンチマーク</value>
+  </data>
+  <data name="DescriptionFrameTimeCaptureAndPerformanceAnalysis" xml:space="preserve">
+    <value>フレーム時間のキャプチャとパフォーマンス分析</value>
+  </data>
+  <data name="DescriptionCPUGPUMemoryAndPowerStabilityTesting" xml:space="preserve">
+    <value>CPU、GPU、メモリ、電源の安定性テスト</value>
+  </data>
+  <data name="DescriptionCPUAndMemoryStressTesting" xml:space="preserve">
+    <value>CPU とメモリのストレス テスト</value>
+  </data>
+  <data name="DescriptionUnigineGPUBenchmarkAndStabilityTest" xml:space="preserve">
+    <value>Unigine GPU ベンチマーク、安定性テスト</value>
+  </data>
+  <data name="DescriptionBenchmarkLauncherValidationAndResultManagement" xml:space="preserve">
+    <value>ベンチマークの起動、検証、結果管理</value>
+  </data>
+  <data name="DescriptionCurrentOfficialMaxonCPUAndGPURendering" xml:space="preserve">
+    <value>現行の Maxon 公式 CPU、GPU レンダリング ベンチマーク</value>
+  </data>
+  <data name="DescriptionLegacyMaxonCPURenderingBenchmark" xml:space="preserve">
+    <value>旧 Maxon CPU レンダリング ベンチマーク</value>
+  </data>
+  <data name="DescriptionTechPowerUpArchiveForOlderCinebenchReleasesThe" xml:space="preserve">
+    <value>旧 Cinebench リリースの TechPowerUp アーカイブ（バージョンはユーザーが選択）</value>
+  </data>
+  <data name="DescriptionHighLoadCPUAndMemoryStabilityTest" xml:space="preserve">
+    <value>高負荷 CPU、メモリ安定性テスト</value>
+  </data>
+  <data name="DescriptionGPUStressTestAndOpenGLVulkanBenchmark" xml:space="preserve">
+    <value>GPU ストレス テストと OpenGL/Vulkan ベンチマーク</value>
+  </data>
+  <data name="DescriptionMSIGPUStressTestAndOpenGLVulkan" xml:space="preserve">
+    <value>MSI の GPU ストレス テストと OpenGL/Vulkan ベンチマーク</value>
+  </data>
+  <data name="DescriptionHeavyCPURAMAndMemoryControllerBenchmark" xml:space="preserve">
+    <value>CPU、RAM、メモリ コントローラーの高負荷ベンチマーク、ストレス テスト</value>
+  </data>
+  <data name="DescriptionVulkanBasedGPUMemoryStabilityAndError" xml:space="preserve">
+    <value>Vulkan ベースの GPU メモリ安定性、エラー テスト</value>
+  </data>
+  <data name="DescriptionModernUnigineGPUBenchmarkAndStabilityTest" xml:space="preserve">
+    <value>最新の Unigine GPU ベンチマーク、安定性テスト</value>
+  </data>
+  <data name="DescriptionIndustryStandardGamingCPUAndGPUBenchmark" xml:space="preserve">
+    <value>業界標準のゲーム用 CPU、GPU ベンチマーク スイート</value>
+  </data>
+  <data name="DescriptionRealWorldCPUAndGPURenderingBenchmark" xml:space="preserve">
+    <value>実環境に基づく CPU、GPU レンダリング ベンチマーク</value>
+  </data>
+  <data name="DescriptionCrossPlatformCPUAndGPUComputeBenchmark" xml:space="preserve">
+    <value>クロスプラットフォームの CPU、GPU コンピューティング ベンチマーク</value>
+  </data>
+  <data name="DescriptionGoogleSAgenticDevelopmentEnvironment" xml:space="preserve">
+    <value>Google のエージェント型開発環境</value>
+  </data>
+  <data name="DescriptionAIFirstCodeEditor" xml:space="preserve">
+    <value>AI ファーストのコード エディター</value>
+  </data>
+  <data name="DescriptionRunAndManageLocalLanguageModels" xml:space="preserve">
+    <value>ローカル言語モデルを実行、管理</value>
+  </data>
+  <data name="DescriptionOpenSourceAICodingAgentForThe" xml:space="preserve">
+    <value>ターミナル用のオープンソース AI コーディング エージェント</value>
+  </data>
+  <data name="DescriptionMinimalExtensibleTerminalCodingAgentFramework" xml:space="preserve">
+    <value>最小構成で拡張可能なターミナル コーディング エージェント フレームワーク</value>
+  </data>
+  <data name="DescriptionAgenticTerminalAndDevelopmentEnvironment" xml:space="preserve">
+    <value>エージェント型ターミナル、開発環境</value>
+  </data>
+  <data name="DescriptionLocalInterfaceForTrainingAndRunningOpen" xml:space="preserve">
+    <value>オープン モデルの学習、実行用ローカル インターフェイス</value>
+  </data>
+  <data name="DescriptionDiscoverDownloadAndRunLocalLanguageModels" xml:space="preserve">
+    <value>ローカル言語モデルを検索、ダウンロード、実行</value>
+  </data>
+  <data name="DescriptionOpenSourceLocalAIDesktopApplication" xml:space="preserve">
+    <value>オープンソースのローカル AI デスクトップ アプリ</value>
+  </data>
+  <data name="DuplicateToolName" xml:space="preserve">
+    <value>同じ名前のツールがすでにあります。</value>
+  </data>
+  <data name="CategorySystemUtilities" xml:space="preserve">
+    <value>システム ユーティリティ</value>
+  </data>
+  <data name="CategoryCPUMemory" xml:space="preserve">
+    <value>CPU とメモリ</value>
+  </data>
+  <data name="CategoryFirmwarePower" xml:space="preserve">
+    <value>ファームウェアと電源</value>
+  </data>
+  <data name="CategoryMonitoringDiagnostics" xml:space="preserve">
+    <value>監視と診断</value>
+  </data>
+  <data name="CategoryGPUDisplay" xml:space="preserve">
+    <value>GPU とディスプレイ</value>
+  </data>
+  <data name="CategoryGamingInput" xml:space="preserve">
+    <value>ゲームと入力</value>
+  </data>
+  <data name="CategoryStorageUSB" xml:space="preserve">
+    <value>ストレージと USB</value>
+  </data>
+  <data name="CategoryNetwork" xml:space="preserve">
+    <value>ネットワーク</value>
+  </data>
+  <data name="CategoryAudio" xml:space="preserve">
+    <value>オーディオ</value>
+  </data>
+  <data name="CategoryBenchmarksStability" xml:space="preserve">
+    <value>ベンチマークと安定性</value>
+  </data>
+  <data name="CategoryAITools" xml:space="preserve">
+    <value>AI ツール</value>
+  </data>
+  <data name="CategorySystemManagement" xml:space="preserve">
+    <value>システム管理</value>
+  </data>
+  <data name="CategorySystemInformation" xml:space="preserve">
+    <value>システム情報</value>
+  </data>
+  <data name="CategoryAdvancedTools" xml:space="preserve">
+    <value>高度なツール</value>
+  </data>
+  <data name="CategoryPerformance" xml:space="preserve">
+    <value>パフォーマンス</value>
+  </data>
+  <data name="CategoryPowerManagement" xml:space="preserve">
+    <value>電源管理</value>
+  </data>
+  <data name="CategoryDisplay" xml:space="preserve">
+    <value>ディスプレイ</value>
+  </data>
+  <data name="CategoryMaintenance" xml:space="preserve">
+    <value>メンテナンス</value>
+  </data>
+  <data name="CategoryCustom" xml:space="preserve">
+    <value>カスタム</value>
+  </data>
+  <data name="WingetPackageId" xml:space="preserve">
+    <value>Winget パッケージ ID</value>
+  </data>
+  <data name="PowerShellCommand" xml:space="preserve">
+    <value>PowerShell コマンド</value>
+  </data>
+  <data name="HttpsUrl" xml:space="preserve">
+    <value>HTTPS URL</value>
+  </data>
+  <data name="WingetHelp" xml:space="preserve">
+    <value>例: Microsoft.PowerToys。TweakHub が --id と --exact を追加します。</value>
+  </data>
+  <data name="PowerShellHelp" xml:space="preserve">
+    <value>irm ... | iex などのコマンドも使用できますが、実行前に確認のため再表示されます。</value>
+  </data>
+  <data name="WebsiteHelp" xml:space="preserve">
+    <value>HTTPS のプロジェクト ページ、ダウンロード ページ、またはオンライン ファイルを指定してください。</value>
+  </data>
+  <data name="ToolCount" xml:space="preserve">
+    <value>ツール: {0}</value>
+  </data>
+  <data name="Favorites" xml:space="preserve">
+    <value>お気に入り</value>
+  </data>
+  <data name="Unfavorite" xml:space="preserve">
+    <value>お気に入りから削除</value>
+  </data>
+  <data name="Favorite" xml:space="preserve">
+    <value>お気に入り</value>
+  </data>
+  <data name="RemoveFromFavorites" xml:space="preserve">
+    <value>お気に入りから削除</value>
+  </data>
+  <data name="AddToFavorites" xml:space="preserve">
+    <value>お気に入りに追加</value>
+  </data>
+  <data name="EditCustomTool" xml:space="preserve">
+    <value>カスタム ツールを編集</value>
+  </data>
+  <data name="EditToolNamed" xml:space="preserve">
+    <value>{0} を編集</value>
+  </data>
+  <data name="DeleteCustomTool" xml:space="preserve">
+    <value>カスタム ツールを削除</value>
+  </data>
+  <data name="DeleteToolNamed" xml:space="preserve">
+    <value>{0} を削除</value>
+  </data>
+  <data name="DeleteToolMessage" xml:space="preserve">
+    <value>{0} を削除しますか?</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="Uninstall" xml:space="preserve">
+    <value>アンインストール</value>
+  </data>
+  <data name="UninstallNamed" xml:space="preserve">
+    <value>{0} をアンインストール</value>
+  </data>
+  <data name="ConfirmUninstall" xml:space="preserve">
+    <value>アンインストールの確認</value>
+  </data>
+  <data name="ConfirmUninstallMessage" xml:space="preserve">
+    <value>{0} をアンインストールしますか?</value>
+  </data>
+  <data name="UnableSaveFavorites" xml:space="preserve">
+    <value>お気に入りを保存できません</value>
+  </data>
+  <data name="UnableSaveTool" xml:space="preserve">
+    <value>ツールを保存できません</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>インストール</value>
+  </data>
+  <data name="Website" xml:space="preserve">
+    <value>Web サイト</value>
+  </data>
+  <data name="Run" xml:space="preserve">
+    <value>実行</value>
+  </data>
+  <data name="LoadToolsFailed" xml:space="preserve">
+    <value>外部ツールを読み込めませんでした。TweakHub を再起動してください。</value>
+  </data>
+  <data name="ShortcutExecutionFailed" xml:space="preserve">
+    <value>ショートカットの実行に失敗しました</value>
+  </data>
+  <data name="ShortcutExecutionFailedMessage" xml:space="preserve">
+    <value>ショートカットを実行できませんでした: {0}
+
+権限不足または対象アプリケーションが利用できないことが原因の可能性があります。</value>
+  </data>
+  <data name="ShortcutError" xml:space="preserve">
+    <value>ショートカット エラー</value>
+  </data>
+  <data name="ShortcutErrorMessage" xml:space="preserve">
+    <value>ショートカットの実行中にエラーが発生しました:
+
+{0}</value>
+  </data>
+  <data name="LoadShortcutsFailed" xml:space="preserve">
+    <value>ショートカットを読み込めませんでした。TweakHub を再起動してください。</value>
+  </data>
+  <data name="ToolInstalledTitle" xml:space="preserve">
+    <value>{0} をインストールしました</value>
+  </data>
+  <data name="RunPowerShellTitle" xml:space="preserve">
+    <value>カスタム PowerShell コマンドを実行</value>
+  </data>
+  <data name="RunPowerShellMessage" xml:space="preserve">
+    <value>信頼できるコマンドだけを実行してください。このコマンドはソフトウェアをダウンロードまたは変更する可能性があります。
+
+{0}</value>
+  </data>
+  <data name="RunningPowerShell" xml:space="preserve">
+    <value>PowerShell コマンドを実行中...</value>
+  </data>
+  <data name="CommandCompleted" xml:space="preserve">
+    <value>コマンドが完了しました。</value>
+  </data>
+  <data name="CommandFailed" xml:space="preserve">
+    <value>コマンドに失敗しました。</value>
+  </data>
+  <data name="CommandCompletedTitle" xml:space="preserve">
+    <value>コマンドが完了しました</value>
+  </data>
+  <data name="CommandFailedTitle" xml:space="preserve">
+    <value>コマンドに失敗しました</value>
+  </data>
+  <data name="CommandFinishedMessage" xml:space="preserve">
+    <value>{0} は {1:F1} 秒で終了しました。
+
+{2}</value>
+  </data>
+  <data name="StartingAction" xml:space="preserve">
+    <value>{0} を開始中...</value>
+  </data>
+  <data name="ActionCompleted" xml:space="preserve">
+    <value>{0} が完了しました: {1}</value>
+  </data>
+  <data name="ActionFailed" xml:space="preserve">
+    <value>{0} に失敗しました: {1}</value>
+  </data>
+  <data name="InstallationCompleted" xml:space="preserve">
+    <value>インストールが完了しました。</value>
+  </data>
+  <data name="TerminalCommand" xml:space="preserve">
+    <value>ターミナル コマンド: {0}</value>
+  </data>
+  <data name="InstallationLocation" xml:space="preserve">
+    <value>インストール先: "{0}"</value>
+  </data>
+  <data name="ExecutableLocation" xml:space="preserve">
+    <value>実行ファイル: "{0}"</value>
+  </data>
+  <data name="WingetPathMissing" xml:space="preserve">
+    <value>WinGet からターミナル エイリアスまたは実行ファイルのパスを取得できませんでした。</value>
+  </data>
+  <data name="PackageId" xml:space="preserve">
+    <value>パッケージ: {0}</value>
+  </data>
+  <data name="CheckWingetCommand" xml:space="preserve">
+    <value>次のコマンドで確認してください: winget list --id "{0}" --exact</value>
+  </data>
+  <data name="ActionInstallation" xml:space="preserve">
+    <value>インストール</value>
+  </data>
+  <data name="ActionUninstall" xml:space="preserve">
+    <value>アンインストール</value>
+  </data>
+</root>

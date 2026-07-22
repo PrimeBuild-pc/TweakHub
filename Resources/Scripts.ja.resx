@@ -1,0 +1,398 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AutomatedScriptsPageAutomatedScripts" xml:space="preserve">
+    <value>自動スクリプト</value>
+  </data>
+  <data name="AutomatedScriptsPageView" xml:space="preserve">
+    <value>表示</value>
+  </data>
+  <data name="AutomatedScriptsPageDetails" xml:space="preserve">
+    <value>詳細</value>
+  </data>
+  <data name="AutomatedScriptsPageCopy" xml:space="preserve">
+    <value>コピー</value>
+  </data>
+  <data name="AutomatedScriptsPageStop" xml:space="preserve">
+    <value>停止</value>
+  </data>
+  <data name="AutomatedScriptsPageExport" xml:space="preserve">
+    <value>エクスポート</value>
+  </data>
+  <data name="AutomatedScriptsPageEdit" xml:space="preserve">
+    <value>編集</value>
+  </data>
+  <data name="AutomatedScriptsPageDelete" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="AutomatedScriptsPageAutomatedScripts2" xml:space="preserve">
+    <value>自動スクリプト</value>
+  </data>
+  <data name="AutomatedScriptsPageRunMaintenanceCommandsAndManage" xml:space="preserve">
+    <value>メンテナンス コマンドを実行し、カスタム PowerShell または CMD スクリプトを管理します。</value>
+  </data>
+  <data name="AutomatedScriptsPageImport" xml:space="preserve">
+    <value>インポート</value>
+  </data>
+  <data name="AutomatedScriptsPageNewScript" xml:space="preserve">
+    <value>新しいスクリプト</value>
+  </data>
+  <data name="winget_Name" xml:space="preserve">
+    <value>WinGet パッケージ マネージャーをインストール</value>
+  </data>
+  <data name="winget_Description" xml:space="preserve">
+    <value>Microsoft WinGet パッケージ マネージャーがない場合にインストールします。自動フォールバックを備えた複数のインストール方法が含まれます。</value>
+  </data>
+  <data name="winget_Category" xml:space="preserve">
+    <value>パッケージ マネージャー</value>
+  </data>
+  <data name="winget_Execute" xml:space="preserve">
+    <value>実行</value>
+  </data>
+  <data name="winget_Confirmation" xml:space="preserve">
+    <value>Microsoft WinGet がまだ利用できない場合、インストールしますか?</value>
+  </data>
+  <data name="ctt_winutil_Name" xml:space="preserve">
+    <value>CTT Tool - Winutil</value>
+  </data>
+  <data name="ctt_winutil_Description" xml:space="preserve">
+    <value>最新の Chris Titus Tech Windows ユーティリティ スクリプトをダウンロードして実行します。</value>
+  </data>
+  <data name="ctt_winutil_Category" xml:space="preserve">
+    <value>ユーティリティ</value>
+  </data>
+  <data name="ctt_winutil_Execute" xml:space="preserve">
+    <value>実行</value>
+  </data>
+  <data name="ctt_winutil_Confirmation" xml:space="preserve">
+    <value>この操作は、今後内容が変わる可能性のあるリモート スクリプトをダウンロードして実行します。christitus.com を信頼できる場合のみ続行してください。</value>
+  </data>
+  <data name="dism_sfc_chkdsk_Name" xml:space="preserve">
+    <value>DISM + SFC + CHKDSK システム修復</value>
+  </data>
+  <data name="dism_sfc_chkdsk_Description" xml:space="preserve">
+    <value>Windows イメージとシステム ファイルを修復し、システム ドライブのファイルシステム エラーをスキャンします。</value>
+  </data>
+  <data name="dism_sfc_chkdsk_Category" xml:space="preserve">
+    <value>修復</value>
+  </data>
+  <data name="dism_sfc_chkdsk_Execute" xml:space="preserve">
+    <value>修復を実行</value>
+  </data>
+  <data name="dism_sfc_chkdsk_Confirmation" xml:space="preserve">
+    <value>システム修復には 15～90 分かかる場合があります。実行中は TweakHub を閉じないでください。</value>
+  </data>
+  <data name="dism_sfc_chkdsk_CompletionNote" xml:space="preserve">
+    <value>修復後は再起動を推奨します。</value>
+  </data>
+  <data name="component_cleanup_Name" xml:space="preserve">
+    <value>コンポーネント ストアのクリーンアップ</value>
+  </data>
+  <data name="component_cleanup_Description" xml:space="preserve">
+    <value>置き換え済みの Windows コンポーネント バージョンを削除して、ディスク領域を解放します。</value>
+  </data>
+  <data name="component_cleanup_Category" xml:space="preserve">
+    <value>メンテナンス</value>
+  </data>
+  <data name="component_cleanup_Execute" xml:space="preserve">
+    <value>クリーンアップを実行</value>
+  </data>
+  <data name="component_cleanup_Confirmation" xml:space="preserve">
+    <value>置き換え済みの Windows コンポーネントを削除します。続行しますか?</value>
+  </data>
+  <data name="network_reset_Name" xml:space="preserve">
+    <value>ネットワーク スタックのリセット</value>
+  </data>
+  <data name="network_reset_Description" xml:space="preserve">
+    <value>DNS キャッシュを消去し、Winsock と TCP/IP をリセットして、継続的なネットワーク問題を修復します。</value>
+  </data>
+  <data name="network_reset_Category" xml:space="preserve">
+    <value>ネットワーク</value>
+  </data>
+  <data name="network_reset_Execute" xml:space="preserve">
+    <value>リセットを実行</value>
+  </data>
+  <data name="network_reset_Confirmation" xml:space="preserve">
+    <value>静的ネットワーク設定に影響する可能性があり、再起動が必要です。続行しますか?</value>
+  </data>
+  <data name="network_reset_CompletionNote" xml:space="preserve">
+    <value>接続をテストする前に Windows を再起動してください。</value>
+  </data>
+  <data name="windows_update_reset_Name" xml:space="preserve">
+    <value>Windows Update コンポーネントのリセット</value>
+  </data>
+  <data name="windows_update_reset_Description" xml:space="preserve">
+    <value>更新が停止した場合に、Windows Update のダウンロード キャッシュとカタログ キャッシュを再作成します。</value>
+  </data>
+  <data name="windows_update_reset_Category" xml:space="preserve">
+    <value>修復</value>
+  </data>
+  <data name="windows_update_reset_Execute" xml:space="preserve">
+    <value>リセットを実行</value>
+  </data>
+  <data name="windows_update_reset_Confirmation" xml:space="preserve">
+    <value>キャッシュ済みの更新ファイルと、設定に表示される更新履歴を消去します。続行しますか?</value>
+  </data>
+  <data name="prevent_device_metadata_Name" xml:space="preserve">
+    <value>デバイス コンパニオン アプリを禁止</value>
+  </data>
+  <data name="prevent_device_metadata_Description" xml:space="preserve">
+    <value>接続されたデバイスに関連するアプリとメタデータを Windows がダウンロードしないようにします。</value>
+  </data>
+  <data name="prevent_device_metadata_Category" xml:space="preserve">
+    <value>プライバシー</value>
+  </data>
+  <data name="prevent_device_metadata_Execute" xml:space="preserve">
+    <value>ポリシーを適用</value>
+  </data>
+  <data name="prevent_device_metadata_Confirmation" xml:space="preserve">
+    <value>このポリシーはデバイス コンパニオン アプリとメタデータをブロックしますが、Windows Update のすべてのドライバーをブロックするとは限りません。続行しますか?</value>
+  </data>
+  <data name="exclude_wu_drivers_Name" xml:space="preserve">
+    <value>Windows Update からドライバーを除外</value>
+  </data>
+  <data name="exclude_wu_drivers_Description" xml:space="preserve">
+    <value>品質更新プログラムから、ドライバーとして分類されたパッケージを除外する Windows ポリシーを有効にします。</value>
+  </data>
+  <data name="exclude_wu_drivers_Category" xml:space="preserve">
+    <value>Windows Update</value>
+  </data>
+  <data name="exclude_wu_drivers_Execute" xml:space="preserve">
+    <value>ポリシーを適用</value>
+  </data>
+  <data name="exclude_wu_drivers_Confirmation" xml:space="preserve">
+    <value>Windows Update はドライバーとして分類されたパッケージを提供しなくなります。続行しますか?</value>
+  </data>
+  <data name="empty_standby_list_Name" xml:space="preserve">
+    <value>スタンバイ リストを空にする</value>
+  </data>
+  <data name="empty_standby_list_Description" xml:space="preserve">
+    <value>測定で確認されたメモリ問題を診断するときに限り、Microsoft RAMMap を使ってキャッシュ済みスタンバイ メモリを解放します。</value>
+  </data>
+  <data name="empty_standby_list_Category" xml:space="preserve">
+    <value>メモリ</value>
+  </data>
+  <data name="empty_standby_list_Execute" xml:space="preserve">
+    <value>1 回実行</value>
+  </data>
+  <data name="empty_standby_list_Confirmation" xml:space="preserve">
+    <value>キャッシュ済み RAM は、アプリケーションが必要とすると自動的に解放されます。日常的に空にしても FPS や PC のパフォーマンスは向上せず、ゲームの読み込みが遅くなる場合があります。スタンバイ リストに問題があることを確認済みの場合のみ続行してください。</value>
+  </data>
+  <data name="remove_windows_ai_Name" xml:space="preserve">
+    <value>Windows AI - 無効化と削除</value>
+  </data>
+  <data name="remove_windows_ai_Description" xml:space="preserve">
+    <value>Windows AI ポリシーを無効にし、利用可能な Copilot/CoreAI パッケージと Recall を削除します。</value>
+  </data>
+  <data name="remove_windows_ai_Category" xml:space="preserve">
+    <value>プライバシー</value>
+  </data>
+  <data name="remove_windows_ai_Execute" xml:space="preserve">
+    <value>実行</value>
+  </data>
+  <data name="remove_windows_ai_Confirmation" xml:space="preserve">
+    <value>この操作はパッケージを削除し、機能を無効にします。一部は元に戻せず、TweakHub は自動再インストールを保証できません。続行しますか?</value>
+  </data>
+  <data name="adobe_hosts_block_Name" xml:space="preserve">
+    <value>Adobe URL ブロック リスト - 有効化</value>
+  </data>
+  <data name="adobe_hosts_block_Description" xml:space="preserve">
+    <value>Ruddernation Designs が管理する Adobe ブロック リストを、TweakHub マーカー内の hosts ファイルに追加します。</value>
+  </data>
+  <data name="adobe_hosts_block_Category" xml:space="preserve">
+    <value>プライバシー</value>
+  </data>
+  <data name="adobe_hosts_block_Execute" xml:space="preserve">
+    <value>有効化</value>
+  </data>
+  <data name="adobe_hosts_block_Confirmation" xml:space="preserve">
+    <value>サードパーティ製リストをダウンロードし、一致する Adobe ホストをシステム全体でブロックします。続行しますか?</value>
+  </data>
+  <data name="adobe_hosts_unblock_Name" xml:space="preserve">
+    <value>Adobe URL ブロック リスト - 削除</value>
+  </data>
+  <data name="adobe_hosts_unblock_Description" xml:space="preserve">
+    <value>TweakHub マーカー間に以前追加された hosts ファイルのブロックだけを削除します。</value>
+  </data>
+  <data name="adobe_hosts_unblock_Category" xml:space="preserve">
+    <value>プライバシー</value>
+  </data>
+  <data name="adobe_hosts_unblock_Execute" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="adobe_hosts_unblock_Confirmation" xml:space="preserve">
+    <value>hosts ファイルから TweakHub の Adobe ブロックを削除しますか?</value>
+  </data>
+  <data name="CompletedOnThisPc" xml:space="preserve">
+    <value>この PC での完了日時: {0}</value>
+  </data>
+  <data name="ImportFilter" xml:space="preserve">
+    <value>スクリプト (*.ps1;*.cmd;*.bat)|*.ps1;*.cmd;*.bat</value>
+  </data>
+  <data name="PowerShellFilter" xml:space="preserve">
+    <value>PowerShell (*.ps1)|*.ps1</value>
+  </data>
+  <data name="CmdFilter" xml:space="preserve">
+    <value>CMD (*.cmd)|*.cmd</value>
+  </data>
+  <data name="AdministratorScript" xml:space="preserve">
+    <value>管理者スクリプト</value>
+  </data>
+  <data name="AdministratorScriptMessage" xml:space="preserve">
+    <value>'{0}' を管理者権限で実行しますか?</value>
+  </data>
+  <data name="Run" xml:space="preserve">
+    <value>実行</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="CustomScriptCompleted" xml:space="preserve">
+    <value>スクリプトは {0:F1} 秒で完了しました。</value>
+  </data>
+  <data name="CustomScriptFailed" xml:space="preserve">
+    <value>スクリプトは {1:F1} 秒後に失敗しました（終了コード {0}）。</value>
+  </data>
+  <data name="CreateCustomScript" xml:space="preserve">
+    <value>カスタム スクリプトを作成</value>
+  </data>
+  <data name="EditCustomScript" xml:space="preserve">
+    <value>カスタム スクリプトを編集</value>
+  </data>
+  <data name="EnterScriptName" xml:space="preserve">
+    <value>スクリプト名を入力</value>
+  </data>
+  <data name="CmdBatch" xml:space="preserve">
+    <value>CMD バッチ</value>
+  </data>
+  <data name="RequiresAdministrator" xml:space="preserve">
+    <value>管理者権限が必要</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>作成</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="InvalidScript" xml:space="preserve">
+    <value>無効なスクリプト</value>
+  </data>
+  <data name="NameRequired" xml:space="preserve">
+    <value>名前は必須です。</value>
+  </data>
+  <data name="ScriptCreated" xml:space="preserve">
+    <value>スクリプトを作成しました</value>
+  </data>
+  <data name="ScriptUpdated" xml:space="preserve">
+    <value>スクリプトを更新しました</value>
+  </data>
+  <data name="ScriptCreatedMessage" xml:space="preserve">
+    <value>スクリプト '{0}' を作成しました。</value>
+  </data>
+  <data name="ScriptUpdatedMessage" xml:space="preserve">
+    <value>スクリプト '{0}' を更新しました。</value>
+  </data>
+  <data name="ScriptRunning" xml:space="preserve">
+    <value>スクリプトを実行中</value>
+  </data>
+  <data name="StopBeforeDeleting" xml:space="preserve">
+    <value>削除する前にスクリプトを停止してください。</value>
+  </data>
+  <data name="ConfirmDelete" xml:space="preserve">
+    <value>削除の確認</value>
+  </data>
+  <data name="ConfirmDeleteMessage" xml:space="preserve">
+    <value>スクリプト '{0}' を削除しますか?
+
+この操作は元に戻せません。</value>
+  </data>
+  <data name="ScriptDeleted" xml:space="preserve">
+    <value>スクリプトを削除しました</value>
+  </data>
+  <data name="ScriptDeletedMessage" xml:space="preserve">
+    <value>スクリプト '{0}' を削除しました。</value>
+  </data>
+  <data name="ScriptLoadError" xml:space="preserve">
+    <value># スクリプトの読み込みエラー:
+{0}</value>
+  </data>
+  <data name="WingetScriptMissingPreview" xml:space="preserve">
+    <value># Scripts フォルダーに WinGetInstall.ps1 がありません。</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>インストール</value>
+  </data>
+  <data name="InstallationError" xml:space="preserve">
+    <value>インストール エラー</value>
+  </data>
+  <data name="WingetScriptNotFound" xml:space="preserve">
+    <value>WinGetInstall.ps1 が見つかりませんでした。</value>
+  </data>
+  <data name="InstallingWinget" xml:space="preserve">
+    <value>WinGet パッケージ マネージャーをインストール中</value>
+  </data>
+  <data name="RunningWingetScript" xml:space="preserve">
+    <value>WinGet インストール スクリプトを実行中...</value>
+  </data>
+  <data name="InstallationComplete" xml:space="preserve">
+    <value>インストールが完了しました</value>
+  </data>
+  <data name="InstallationFailed" xml:space="preserve">
+    <value>インストールに失敗しました</value>
+  </data>
+  <data name="WingetInstallationFailed" xml:space="preserve">
+    <value>WinGet のインストールに失敗しました。
+
+{0}
+{1}</value>
+  </data>
+  <data name="RunningCommands" xml:space="preserve">
+    <value>コマンドを実行中です。TweakHub を閉じないでください...</value>
+  </data>
+  <data name="LogSaveFailed" xml:space="preserve">
+    <value>ログを保存できませんでした: {0}</value>
+  </data>
+  <data name="CompletedSuccessfully" xml:space="preserve">
+    <value>正常に完了しました。</value>
+  </data>
+  <data name="FailedExitCode" xml:space="preserve">
+    <value>終了コード {0} で失敗しました。</value>
+  </data>
+  <data name="BuiltInResult" xml:space="preserve">
+    <value>{0}
+{1}
+
+{2}
+
+ログ: {3}</value>
+  </data>
+  <data name="Complete" xml:space="preserve">
+    <value>完了</value>
+  </data>
+  <data name="Failed" xml:space="preserve">
+    <value>失敗</value>
+  </data>
+  <data name="NamedScriptFailed" xml:space="preserve">
+    <value>{0} に失敗しました</value>
+  </data>
+  <data name="CurrentUser" xml:space="preserve">
+    <value>現在のユーザー</value>
+  </data>
+  <data name="Administrator" xml:space="preserve">
+    <value>管理者</value>
+  </data>
+  <data name="Execute" xml:space="preserve">
+    <value>実行</value>
+  </data>
+</root>

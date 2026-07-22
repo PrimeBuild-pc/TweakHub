@@ -28,6 +28,7 @@ Name: "russian"; MessagesFile: "compiler:Languages\Russian.isl"
 Name: "chinesesimplified"; MessagesFile: "Languages\ChineseSimplified.isl"
 Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
 Name: "italian"; MessagesFile: "compiler:Languages\Italian.isl"
+Name: "japanese"; MessagesFile: "compiler:Languages\Japanese.isl"
 
 [CustomMessages]
 english.CreateDesktopIcon=Create a &desktop icon
@@ -45,6 +46,9 @@ spanish.LaunchApp=Iniciar {#MyAppName}
 italian.CreateDesktopIcon=Crea un'icona sul &desktop
 italian.AdditionalIcons=Icone aggiuntive:
 italian.LaunchApp=Avvia {#MyAppName}
+japanese.CreateDesktopIcon=デスクトップ アイコンを作成(&D)
+japanese.AdditionalIcons=追加アイコン:
+japanese.LaunchApp={#MyAppName} を起動
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked

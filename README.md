@@ -14,7 +14,7 @@ Made with ❤️ for Windows power users.
 [![Latest release downloads](https://img.shields.io/github/downloads/PrimeBuild-pc/TweakHub/latest/total?style=flat-square&label=latest%20release)](https://github.com/PrimeBuild-pc/TweakHub/releases/latest)
 [![Windows 11](https://img.shields.io/badge/Windows-11-0078D4?style=flat-square&logo=windows11)](https://www.microsoft.com/windows/windows-11)
 [![.NET 10](https://img.shields.io/badge/.NET-10.0-512BD4?style=flat-square&logo=dotnet)](https://dotnet.microsoft.com/)
-[![Multilingual support](https://img.shields.io/badge/Languages-EN_%7C_RU_%7C_ZH--CN_%7C_ES_%7C_IT-0A66C2?style=flat-square&logo=googletranslate&logoColor=white)](#highlights)
+[![Multilingual support](https://img.shields.io/badge/Languages-EN_%7C_RU_%7C_ZH--CN_%7C_ES_%7C_IT_%7C_JA-0A66C2?style=flat-square&logo=googletranslate&logoColor=white)](#highlights)
 [![License](https://img.shields.io/github/license/PrimeBuild-pc/TweakHub?style=flat-square)](LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/PrimeBuild-pc/TweakHub?style=flat-square&logo=github)](https://github.com/PrimeBuild-pc/TweakHub/stargazers)
 
@@ -48,7 +48,7 @@ It runs as the current user and requests administrator privileges only when an o
 
 TweakHub supports **Windows 11 build 22000 or newer**.
 
-The interface and installer support English, Russian, Simplified Chinese, Spanish and Italian. TweakHub follows the Windows display language by default; an explicit language can be selected under **About & Settings**.
+The interface and installer support English, Russian, Simplified Chinese, Spanish, Italian and Japanese. TweakHub follows the Windows display language by default; an explicit language can be selected under **About & Settings**.
 
 ## Screenshots
 

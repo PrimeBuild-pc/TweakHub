@@ -90,6 +90,7 @@
                                 <ComboBoxItem Content="简体中文" Tag="zh-CN"/>
                                 <ComboBoxItem Content="Español" Tag="es"/>
                                 <ComboBoxItem Content="Italiano" Tag="it"/>
+                                <ComboBoxItem Content="日本語" Tag="ja"/>
                             </ComboBox>
                         </Grid>
 

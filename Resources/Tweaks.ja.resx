@@ -1,0 +1,600 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="RegistryTweaksPageRegistryTweaks" xml:space="preserve">
+    <value>レジストリ調整</value>
+  </data>
+  <data name="RegistryTweaksPageOnlyPartOfThisGrouped" xml:space="preserve">
+    <value>このグループ調整は現在一部だけ適用されています</value>
+  </data>
+  <data name="RegistryTweaksPageRestartWindowsToMakeThis" xml:space="preserve">
+    <value>変更を完全に有効にするには Windows を再起動してください</value>
+  </data>
+  <data name="RegistryTweaksPageAddOrRemoveFromFavorites" xml:space="preserve">
+    <value>お気に入りに追加または削除</value>
+  </data>
+  <data name="RegistryTweaksPageToggleFavorite" xml:space="preserve">
+    <value>お気に入りを切り替え</value>
+  </data>
+  <data name="RegistryTweaksPageEnableTweak" xml:space="preserve">
+    <value>調整を有効にする</value>
+  </data>
+  <data name="RegistryTweaksPagePreviewRegistryChanges" xml:space="preserve">
+    <value>レジストリ変更をプレビュー</value>
+  </data>
+  <data name="RegistryTweaksPagePreviewRegistryChanges2" xml:space="preserve">
+    <value>レジストリ変更をプレビュー</value>
+  </data>
+  <data name="RegistryTweaksPageThisRegistryValueCurrentlyMatches" xml:space="preserve">
+    <value>このレジストリ値は現在カスタム調整と一致しています</value>
+  </data>
+  <data name="RegistryTweaksPageAddOrRemoveFromFavorites2" xml:space="preserve">
+    <value>お気に入りに追加または削除</value>
+  </data>
+  <data name="RegistryTweaksPageToggleFavorite2" xml:space="preserve">
+    <value>お気に入りを切り替え</value>
+  </data>
+  <data name="RegistryTweaksPageView" xml:space="preserve">
+    <value>表示</value>
+  </data>
+  <data name="RegistryTweaksPageApply" xml:space="preserve">
+    <value>適用</value>
+  </data>
+  <data name="RegistryTweaksPageRestore" xml:space="preserve">
+    <value>復元</value>
+  </data>
+  <data name="RegistryTweaksPageEdit" xml:space="preserve">
+    <value>編集</value>
+  </data>
+  <data name="RegistryTweaksPageDelete" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="RegistryTweaksPageDetails" xml:space="preserve">
+    <value>詳細</value>
+  </data>
+  <data name="RegistryTweaksPageRegistryTweaks2" xml:space="preserve">
+    <value>レジストリ調整</value>
+  </data>
+  <data name="RegistryTweaksPageOptimizeWindowsPerformanceThroughRegistry" xml:space="preserve">
+    <value>レジストリの変更によって Windows のパフォーマンスを最適化します。変更は自動的にバックアップされます。</value>
+  </data>
+  <data name="RegistryTweaksPageRefreshStatus" xml:space="preserve">
+    <value>状態を更新</value>
+  </data>
+  <data name="RegistryTweaksPageCreateBackup" xml:space="preserve">
+    <value>バックアップを作成</value>
+  </data>
+  <data name="RegistryTweaksPageCreateRestorePoint" xml:space="preserve">
+    <value>復元ポイントを作成</value>
+  </data>
+  <data name="RegistryTweaksPageApplyRecommended" xml:space="preserve">
+    <value>推奨設定を適用</value>
+  </data>
+  <data name="RegistryTweaksPageRestoreAllChanges" xml:space="preserve">
+    <value>すべての変更を復元</value>
+  </data>
+  <data name="RegistryTweaksPageRecommended" xml:space="preserve">
+    <value>推奨</value>
+  </data>
+  <data name="RegistryTweaksPageCustomTweaks" xml:space="preserve">
+    <value>カスタム調整</value>
+  </data>
+  <data name="RegistryTweaksPageCustomRegistryTweaks" xml:space="preserve">
+    <value>カスタム レジストリ調整</value>
+  </data>
+  <data name="RegistryTweaksPageCreateAndManageYourOwn" xml:space="preserve">
+    <value>独自のレジストリ エントリを作成、管理します。</value>
+  </data>
+  <data name="RegistryTweaksPageNewTweak" xml:space="preserve">
+    <value>新しい調整</value>
+  </data>
+  <data name="RegistryTweaksPageFavorites" xml:space="preserve">
+    <value>お気に入り</value>
+  </data>
+  <data name="RegistryTweaksPageNoFavoriteRegistryTweaksYet" xml:space="preserve">
+    <value>お気に入りのレジストリ調整はまだありません。星を選択して追加してください。</value>
+  </data>
+  <data name="RegistryTweaksPageRecommended2" xml:space="preserve">
+    <value>推奨</value>
+  </data>
+  <data name="RegistryTweaksPageCustomTweaks2" xml:space="preserve">
+    <value>カスタム調整</value>
+  </data>
+  <data name="CategoryOrTweakNameCPUProcessorOptimization" xml:space="preserve">
+    <value>CPU とプロセッサの最適化</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionOptimizeCPUSchedulingPriorityAndProcessor" xml:space="preserve">
+    <value>CPU スケジューリング、優先度、プロセッサのパフォーマンスを最適化</value>
+  </data>
+  <data name="CategoryOrTweakNamePrioritizeForegroundPrograms" xml:space="preserve">
+    <value>フォアグラウンド プログラムを優先</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionUsesTheWindowsForegroundProgramScheduling" xml:space="preserve">
+    <value>Windows のフォアグラウンド プログラム用スケジューリング プロファイルを使用し、記録した元の値を復元します。</value>
+  </data>
+  <data name="CategoryOrTweakNameMaximumCPUPerformanceOnAC" xml:space="preserve">
+    <value>AC 電源接続時の CPU パフォーマンスを最大化</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionSetsTheActivePowerPlanMinimum" xml:space="preserve">
+    <value>電源接続時に、使用中の電源プランの最小プロセッサ状態を 100% に設定します。消費電力と発熱が増加します。</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableCPUCoreParking" xml:space="preserve">
+    <value>CPU コア パーキングを無効化</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionSetsTheActivePowerPlanMinimum2" xml:space="preserve">
+    <value>電源接続時に、使用中の電源プランで稼働する最小コア数を 100% に設定します。消費電力と発熱が増加します。</value>
+  </data>
+  <data name="CategoryOrTweakNameForceHighPerformancePowerPlan" xml:space="preserve">
+    <value>高パフォーマンス電源プランを強制</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionActivatesTheWindowsHighPerformancePlan" xml:space="preserve">
+    <value>Windows の高パフォーマンス電源プランを有効にし、無効化時には以前の電源プランを復元します。</value>
+  </data>
+  <data name="CategoryOrTweakNameNetworkLatencyReduction" xml:space="preserve">
+    <value>ネットワーク遅延の低減</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionOptimizeNetworkStackForMinimalLatency" xml:space="preserve">
+    <value>遅延を最小限に抑え、応答性を最大化するようネットワーク スタックを最適化</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableNetworkThrottlingIndex" xml:space="preserve">
+    <value>ネットワーク スロットリング インデックスを無効化</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionUsesTheDisabledDWORDValueAnd" xml:space="preserve">
+    <value>無効化用の DWORD 値を使用し、記録した元の設定を復元します。</value>
+  </data>
+  <data name="CategoryOrTweakNameGamingPerformance" xml:space="preserve">
+    <value>ゲーム パフォーマンス</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionOptimizeSystemForGamingPerformanceAnd" xml:space="preserve">
+    <value>ゲームのパフォーマンスと入力応答性に合わせてシステムを最適化</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableMouseAcceleration" xml:space="preserve">
+    <value>マウス アクセラレーションを無効化</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionChangesMouseSpeedAndBothThresholdValues" xml:space="preserve">
+    <value>MouseSpeed と 2 つのしきい値を、復元可能な 1 回の操作として変更します。</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableFullscreenOptimizations" xml:space="preserve">
+    <value>全画面表示の最適化を無効化</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisablesWindowsFullscreenOptimizationsForBetter" xml:space="preserve">
+    <value>ゲームのパフォーマンス向上のため、Windows の全画面表示の最適化を無効にします</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableXboxGameBar" xml:space="preserve">
+    <value>Xbox Game Bar を無効化</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisablesXboxGameBarToReduce" xml:space="preserve">
+    <value>ゲームのオーバーヘッドを減らしてパフォーマンスを向上するため、Xbox Game Bar を無効にします</value>
+  </data>
+  <data name="CategoryOrTweakNameSystemResponsiveness" xml:space="preserve">
+    <value>システムの応答性</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionImproveOverallSystemResponsivenessAndUI" xml:space="preserve">
+    <value>システム全体の応答性と UI パフォーマンスを向上</value>
+  </data>
+  <data name="CategoryOrTweakNameReduceMenuShowDelay" xml:space="preserve">
+    <value>メニュー表示の遅延を短縮</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionMakesMenusAppearInstantlyForBetter" xml:space="preserve">
+    <value>応答性を高めるため、メニューをすぐに表示します</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableStartupApplicationDelay" xml:space="preserve">
+    <value>スタートアップ アプリの遅延を無効化</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionRemovesArtificialDelayForStartupApplications" xml:space="preserve">
+    <value>スタートアップ アプリに対する人為的な遅延を削除します</value>
+  </data>
+  <data name="CategoryOrTweakNameMemoryManagement" xml:space="preserve">
+    <value>メモリ管理</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionWindowsNormallyUsesSpareRAMAs" xml:space="preserve">
+    <value>Windows は通常、空き RAM をキャッシュとして使用し、アプリケーションが必要とするとすぐに解放します。測定によって問題の原因だと確認されない限り、SysMain と Prefetch は有効のままにしてください。</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableSysMainSuperfetch" xml:space="preserve">
+    <value>SysMain（Superfetch）を無効化</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionStopsAndDisablesSysMainUsuallyLeave" xml:space="preserve">
+    <value>SysMain を停止して無効にします。通常は有効のままにしてください。特に、メモリの少ないシステムや機械式システム ドライブを診断中で、速度低下が記録されている場合に限り、無効化を検討してください。</value>
+  </data>
+  <data name="CategoryOrTweakNameDisablePrefetch" xml:space="preserve">
+    <value>Prefetch を無効化</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisablesApplicationAndBootPrefetchingUsually" xml:space="preserve">
+    <value>アプリケーションと起動のプリフェッチを無効にします。通常は有効のままにし、Prefetch 関連の問題を確認した場合だけ無効にしてください。アプリやゲームの起動が遅くなる可能性があります。</value>
+  </data>
+  <data name="CategoryOrTweakNamePrivacyDeviceControl" xml:space="preserve">
+    <value>プライバシーとデバイス制御</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionReversiblePrivacyAndDeviceInstallationPolicies" xml:space="preserve">
+    <value>元に戻せるプライバシーとデバイス インストールのポリシーです。適用前に高リスク項目を確認してください。</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableWindowsAIPolicies" xml:space="preserve">
+    <value>Windows AI ポリシーを無効化</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionHidesTheWindowsAIComponentsSettings" xml:space="preserve">
+    <value>Windows AI コンポーネントの設定ページを非表示にし、メモ帳の AI 機能を無効にします。パッケージの削除は自動スクリプトから個別に実行できます。</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableWindowsPlatformBinaryTableWPBT" xml:space="preserve">
+    <value>Windows Platform Binary Table（WPBT）を無効化</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionPreventsFirmwareProvidedWPBTSoftwareFrom" xml:space="preserve">
+    <value>ファームウェアが提供する WPBT ソフトウェアの起動時実行を防ぎます。ベンダーのセキュリティ、回復、管理ソフトウェアが無効になる可能性があります。</value>
+  </data>
+  <data name="CategoryOrTweakNamePreventDeviceCompanionApps" xml:space="preserve">
+    <value>デバイス コンパニオン アプリを禁止</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionPreventsAutomaticDownloadOfApplicationsAnd" xml:space="preserve">
+    <value>接続されたデバイスに関連するアプリとメタデータの自動ダウンロードを防ぎます。Windows Update のすべてのドライバーをブロックするものではありません。</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableAutomaticDriverSearchAndCo" xml:space="preserve">
+    <value>ドライバーの自動検索と共同インストーラーを無効化</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisablesAutomaticDriverSearchingAndAll" xml:space="preserve">
+    <value>ドライバーの自動検索とすべてのデバイス共同インストーラーを無効にします。システム全体に影響し、Razer デバイスだけに限定されません。</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableNotificationsAndCalendar" xml:space="preserve">
+    <value>通知とカレンダーを無効化</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisablesNotificationCenterToastNotificationsAnd" xml:space="preserve">
+    <value>現在のユーザーについて、通知センター、トースト通知、関連するカレンダー フライアウトを無効にします。</value>
+  </data>
+  <data name="CategoryOrTweakNameAdvanced" xml:space="preserve">
+    <value>詳細設定</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionHigherImpactChangesThatTradeWindows" xml:space="preserve">
+    <value>バックグラウンド動作を減らす代わりに Windows の機能を制限する、影響の大きい変更</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableWindowsSearchIndexing" xml:space="preserve">
+    <value>Windows Search のインデックス作成を無効化</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisablesWindowsSearchIndexingAndRestores" xml:space="preserve">
+    <value>Windows Search のインデックス作成を無効にし、再有効化時には記録したサービス設定を復元します。</value>
+  </data>
+  <data name="CategoryOrTweakNameWindowsUpdateControl" xml:space="preserve">
+    <value>Windows Update の制御</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionControlDriverDeliveryAndUseA" xml:space="preserve">
+    <value>ドライバーの配信を制御し、保守的な手動更新ポリシーを使用</value>
+  </data>
+  <data name="CategoryOrTweakNameExcludeDriversFromWindowsUpdate" xml:space="preserve">
+    <value>Windows Update からドライバーを除外</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionPreventsWindowsUpdateQualityUpdatesFrom" xml:space="preserve">
+    <value>Windows Update の品質更新プログラムがデバイス ドライバーを自動配信しないようにします。</value>
+  </data>
+  <data name="CategoryOrTweakNameVisualEffectsPerformance" xml:space="preserve">
+    <value>視覚効果とパフォーマンス</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionOptimizeVisualEffectsForBetterPerformance" xml:space="preserve">
+    <value>パフォーマンスと応答性を高めるよう視覚効果を最適化</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableWindowAnimations" xml:space="preserve">
+    <value>ウィンドウ アニメーションを無効化</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisablesWindowAnimationsForFasterUI" xml:space="preserve">
+    <value>UI の応答を速くしてリソース使用量を減らすため、ウィンドウ アニメーションを無効にします</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableWindowTransparency" xml:space="preserve">
+    <value>ウィンドウの透明効果を無効化</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisablesWindowTransparencyEffectsToImprove" xml:space="preserve">
+    <value>パフォーマンス向上のため、ウィンドウの透明効果を無効にします</value>
+  </data>
+  <data name="CategoryOrTweakNameOptimizeForPerformance" xml:space="preserve">
+    <value>パフォーマンスを優先</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionSetsVisualEffectsToAdjustFor" xml:space="preserve">
+    <value>視覚効果を「パフォーマンスを優先する」モードに設定します</value>
+  </data>
+  <data name="RegistryTweakApplied" xml:space="preserve">
+    <value>レジストリ調整を適用しました。</value>
+  </data>
+  <data name="RegistryTweakApplyFailed" xml:space="preserve">
+    <value>レジストリ調整を適用できませんでした。</value>
+  </data>
+  <data name="RegistryValueRestored" xml:space="preserve">
+    <value>元のレジストリ値を復元しました。</value>
+  </data>
+  <data name="NoBackupAvailable" xml:space="preserve">
+    <value>この値のバックアップはありません。</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>確認</value>
+  </data>
+  <data name="DeleteTweakMessage" xml:space="preserve">
+    <value>'{0}' を削除しますか?</value>
+  </data>
+  <data name="DwordInvalid" xml:space="preserve">
+    <value>DWORD は有効な 32 ビット整数である必要があります。</value>
+  </data>
+  <data name="QwordInvalid" xml:space="preserve">
+    <value>QWORD は有効な 64 ビット整数である必要があります。</value>
+  </data>
+  <data name="BinaryInvalid" xml:space="preserve">
+    <value>バイナリ データには完全な 16 進数のバイト ペアが必要です。</value>
+  </data>
+  <data name="AddCustomRegistryTweak" xml:space="preserve">
+    <value>カスタム レジストリ調整を追加</value>
+  </data>
+  <data name="EditCustomRegistryTweak" xml:space="preserve">
+    <value>カスタム レジストリ調整を編集</value>
+  </data>
+  <data name="CreateCustomTweak" xml:space="preserve">
+    <value>カスタム調整を作成</value>
+  </data>
+  <data name="EditCustomTweak" xml:space="preserve">
+    <value>カスタム調整を編集</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>名前</value>
+  </data>
+  <data name="RegistryPathLabel" xml:space="preserve">
+    <value>レジストリ パス（例: HKCU\Software\...）</value>
+  </data>
+  <data name="ValueName" xml:space="preserve">
+    <value>値の名前</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>種類</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>値</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>作成</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="InvalidRegistryTweak" xml:space="preserve">
+    <value>無効なレジストリ調整</value>
+  </data>
+  <data name="RequiredCustomFields" xml:space="preserve">
+    <value>名前、パス、値の名前を入力してください。</value>
+  </data>
+  <data name="HighRiskWarning" xml:space="preserve">
+    <value>高リスク調整の警告</value>
+  </data>
+  <data name="HighRiskMessage" xml:space="preserve">
+    <value>この調整のリスク レベルは高です（{0}/5）。
+
+説明: {1}
+
+この変更を適用しますか?</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>適用</value>
+  </data>
+  <data name="TweakApplicationFailed" xml:space="preserve">
+    <value>調整を適用できませんでした</value>
+  </data>
+  <data name="TweakApplicationFailedMessage" xml:space="preserve">
+    <value>調整を適用できませんでした: {0}
+
+権限不足またはシステムの制限が原因の可能性があります。</value>
+  </data>
+  <data name="RestartForChanges" xml:space="preserve">
+    <value>変更を有効にするにはシステムの再起動が必要です。</value>
+  </data>
+  <data name="TweakError" xml:space="preserve">
+    <value>調整エラー</value>
+  </data>
+  <data name="TweakErrorMessage" xml:space="preserve">
+    <value>調整の適用中にエラーが発生しました:
+
+{0}</value>
+  </data>
+  <data name="CompositePreview" xml:space="preserve">
+    <value># {0}
+# リスク: {1}/5
+
+# 適用
+{2}
+
+# 復元
+TweakHub は記録したすべての元の値を復元します。</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value># {0}
+# リスク: {1}/5
+
+# 適用
+{2}
+
+# 復元
+TweakHub は記録した元の値を復元します。</value>
+  </data>
+  <data name="BackupCreated" xml:space="preserve">
+    <value>バックアップを作成しました</value>
+  </data>
+  <data name="BackupCreatedMessage" xml:space="preserve">
+    <value>レジストリ バックアップを作成しました（{0} 個の新しい値を記録）。
+
+バックアップの保存場所: {1}</value>
+  </data>
+  <data name="BackupFailed" xml:space="preserve">
+    <value>バックアップに失敗しました</value>
+  </data>
+  <data name="ApplyAllRecommended" xml:space="preserve">
+    <value>すべての推奨調整を適用</value>
+  </data>
+  <data name="ApplyAllRecommendedMessage" xml:space="preserve">
+    <value>パフォーマンス設定と最大プライバシー設定に加え、セキュリティ Windows Update モードを適用します。Windows の機能やデバイス連携を無効にする可能性がある、影響の大きいプライバシー ポリシーが含まれます。SysMain と Prefetch は、無効にするとパフォーマンスが低下する可能性があるため変更しません。
+
+変更を適用する前にバックアップを自動作成します。</value>
+  </data>
+  <data name="BackupFailedMessage" xml:space="preserve">
+    <value>バックアップを作成できませんでした。操作をキャンセルしました。
+
+{0}</value>
+  </data>
+  <data name="NoChangesNeeded" xml:space="preserve">
+    <value>変更は不要です</value>
+  </data>
+  <data name="RecommendedAlreadyApplied" xml:space="preserve">
+    <value>すべての推奨調整はすでに適用されています。</value>
+  </data>
+  <data name="ApplyingRecommended" xml:space="preserve">
+    <value>{0} 件の推奨調整を適用中...</value>
+  </data>
+  <data name="AppliedCount" xml:space="preserve">
+    <value>適用済み: {0}</value>
+  </data>
+  <data name="FailedCount" xml:space="preserve">
+    <value>適用失敗: {0}</value>
+  </data>
+  <data name="SomeChangesRequireRestart" xml:space="preserve">
+    <value>一部の変更を有効にするにはシステムの再起動が必要です。</value>
+  </data>
+  <data name="TweaksApplied" xml:space="preserve">
+    <value>調整を適用しました</value>
+  </data>
+  <data name="CreateRestorePointMessage" xml:space="preserve">
+    <value>「TweakHub - Pre Tweaks」という名前のシステム復元ポイントをバックグラウンドで作成します。
+
+作成には 1 分ほどかかる場合があり、管理者権限が必要です。</value>
+  </data>
+  <data name="CreateRestorePoint" xml:space="preserve">
+    <value>復元ポイントを作成</value>
+  </data>
+  <data name="CreatingRestorePoint" xml:space="preserve">
+    <value>システム復元ポイントを作成中...</value>
+  </data>
+  <data name="RequestingRestorePoint" xml:space="preserve">
+    <value>復元ポイントを要求中...</value>
+  </data>
+  <data name="RestorePointCreated" xml:space="preserve">
+    <value>復元ポイントを作成しました</value>
+  </data>
+  <data name="RestorePointCreatedMessage" xml:space="preserve">
+    <value>復元ポイントを正常に作成しました。</value>
+  </data>
+  <data name="RestorePointFailed" xml:space="preserve">
+    <value>復元ポイントを作成できませんでした</value>
+  </data>
+  <data name="RestoreAllChanges" xml:space="preserve">
+    <value>すべての変更を復元</value>
+  </data>
+  <data name="RestoreAllMessage" xml:space="preserve">
+    <value>すべてのレジストリ調整を元の値に戻そうとします。</value>
+  </data>
+  <data name="Restore" xml:space="preserve">
+    <value>復元</value>
+  </data>
+  <data name="RestoringAll" xml:space="preserve">
+    <value>すべてのレジストリ調整を復元中...</value>
+  </data>
+  <data name="Restoring" xml:space="preserve">
+    <value>復元中...</value>
+  </data>
+  <data name="RestoredCount" xml:space="preserve">
+    <value>復元済み: {0}</value>
+  </data>
+  <data name="RestoreFailedCount" xml:space="preserve">
+    <value>復元失敗: {0}</value>
+  </data>
+  <data name="RestoreComplete" xml:space="preserve">
+    <value>復元が完了しました</value>
+  </data>
+  <data name="RestoreFailed" xml:space="preserve">
+    <value>復元に失敗しました</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableAdvertisingId" xml:space="preserve">
+    <value>広告 ID を無効化</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisableAdvertisingId" xml:space="preserve">
+    <value>アプリがユーザーごとの広告識別子をアプリ間のパーソナライズに使用できないようにします。</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableTailoredExperiences" xml:space="preserve">
+    <value>カスタマイズされたエクスペリエンスを無効化</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisableTailoredExperiences" xml:space="preserve">
+    <value>Windows が診断データを使って提案やおすすめをパーソナライズしないようにします。</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableActivityHistory" xml:space="preserve">
+    <value>アクティビティ履歴と同期を無効化</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisableActivityHistory" xml:space="preserve">
+    <value>Windows のアクティビティ フィードを無効にし、ユーザー アクティビティがデバイス間で公開またはアップロードされないようにします。</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>説明</value>
+  </data>
+  <data name="WindowsUpdatePresets" xml:space="preserve">
+    <value>Windows Update モード</value>
+  </data>
+  <data name="WindowsUpdatePresetsDescription" xml:space="preserve">
+    <value>ローカルに同梱された完全な Windows Update 構成を選択します。TweakHub は変更前に元の設定を記録します。</value>
+  </data>
+  <data name="WindowsUpdatePresetDefault" xml:space="preserve">
+    <value>既定</value>
+  </data>
+  <data name="WindowsUpdatePresetDisabled" xml:space="preserve">
+    <value>無効 / 停止</value>
+  </data>
+  <data name="WindowsUpdatePresetSecurity" xml:space="preserve">
+    <value>セキュリティ</value>
+  </data>
+  <data name="WindowsUpdatePresetCustom" xml:space="preserve">
+    <value>カスタムまたは一部適用済み</value>
+  </data>
+  <data name="WindowsUpdatePresetDefaultDescription" xml:space="preserve">
+    <value>これらのプリセットが管理するポリシーを削除し、更新サービスの標準起動モードを復元して、更新タスクを有効にします。</value>
+  </data>
+  <data name="WindowsUpdatePresetDisabledDescription" xml:space="preserve">
+    <value>Windows Update のサービスとタスクを停止して無効にし、自動更新をブロックして、ダウンロード済みの更新ファイルを消去します。</value>
+  </data>
+  <data name="WindowsUpdatePresetSecurityDescription" xml:space="preserve">
+    <value>セキュリティ更新と品質更新を通常のスケジュールに保ち、ドライバーを除外して、機能更新を 365 日延期します。</value>
+  </data>
+  <data name="WindowsUpdatePresetCustomDescription" xml:space="preserve">
+    <value>現在の Windows 設定は、どの TweakHub プリセットとも完全には一致しません。置き換えるモードを選択してください。</value>
+  </data>
+  <data name="WindowsUpdateCurrentMode" xml:space="preserve">
+    <value>現在のモード: {0}</value>
+  </data>
+  <data name="WindowsUpdateBundledScript" xml:space="preserve">
+    <value>同梱のローカル スクリプトを使用し、リモート コードはダウンロードしません</value>
+  </data>
+  <data name="WindowsUpdateSelectedMode" xml:space="preserve">
+    <value>選択したモード: {0}</value>
+  </data>
+  <data name="WindowsUpdateScriptMissing" xml:space="preserve">
+    <value>同梱の Windows Update プリセット スクリプトがありません。</value>
+  </data>
+  <data name="WindowsUpdateDisableTitle" xml:space="preserve">
+    <value>Windows Update を無効にしますか?</value>
+  </data>
+  <data name="WindowsUpdateDisableWarning" xml:space="preserve">
+    <value>更新サービスを停止し、関連タスクを無効にして、ダウンロード済みの更新ファイルを削除します。別のモードを選択するまでセキュリティ更新プログラムはインストールされません。続行しますか?</value>
+  </data>
+  <data name="WindowsUpdateApplying" xml:space="preserve">
+    <value>Windows Update モードを適用中...</value>
+  </data>
+  <data name="WindowsUpdateApplyFailed" xml:space="preserve">
+    <value>Windows Update モードの適用に失敗しました</value>
+  </data>
+  <data name="WindowsUpdateApplied" xml:space="preserve">
+    <value>Windows Update モードを適用しました</value>
+  </data>
+  <data name="WindowsUpdateAppliedMessage" xml:space="preserve">
+    <value>{0} モードを正常に適用しました。</value>
+  </data>
+  <data name="WindowsUpdateRestartMessage" xml:space="preserve">
+    <value>Windows Update モードの適用を完了するには Windows を再起動してください。</value>
+  </data>
+</root>

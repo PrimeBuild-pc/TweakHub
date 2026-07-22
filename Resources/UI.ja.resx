@@ -1,0 +1,362 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="MainWindowTweakHubWindows11TweakUtility" xml:space="preserve">
+    <value>TweakHub - Windows 11 調整ユーティリティ</value>
+  </data>
+  <data name="MainWindowWindows11PerformanceControls" xml:space="preserve">
+    <value>Windows 11 パフォーマンス設定</value>
+  </data>
+  <data name="MainWindowRegistryTweaks" xml:space="preserve">
+    <value>レジストリ調整</value>
+  </data>
+  <data name="MainWindowExternalTools" xml:space="preserve">
+    <value>外部ツール</value>
+  </data>
+  <data name="MainWindowAutomatedScripts" xml:space="preserve">
+    <value>自動スクリプト</value>
+  </data>
+  <data name="MainWindowQuickAccess" xml:space="preserve">
+    <value>クイックアクセス</value>
+  </data>
+  <data name="MainWindowAbout" xml:space="preserve">
+    <value>バージョン情報</value>
+  </data>
+  <data name="MainWindowOpenAppearanceSettings" xml:space="preserve">
+    <value>外観設定を開く</value>
+  </data>
+  <data name="MainWindowAppearanceSettings" xml:space="preserve">
+    <value>外観設定</value>
+  </data>
+  <data name="MainWindowAppearanceSettings2" xml:space="preserve">
+    <value>外観設定</value>
+  </data>
+  <data name="AboutPageAbout" xml:space="preserve">
+    <value>バージョン情報</value>
+  </data>
+  <data name="AboutPageAboutAmpSettings" xml:space="preserve">
+    <value>バージョン情報と設定</value>
+  </data>
+  <data name="AboutPageApplicationInformationAppearanceAndUpdates" xml:space="preserve">
+    <value>アプリケーション情報、外観、アップデート</value>
+  </data>
+  <data name="AboutPageAppearance" xml:space="preserve">
+    <value>外観</value>
+  </data>
+  <data name="AboutPageFollowWindowsOrChooseA" xml:space="preserve">
+    <value>Windows の設定に従うか、固定テーマ、アクセント カラー、背景を選択します。</value>
+  </data>
+  <data name="AboutPageTheme" xml:space="preserve">
+    <value>テーマ</value>
+  </data>
+  <data name="AboutPageUseWindowsSetting" xml:space="preserve">
+    <value>Windows の設定を使用</value>
+  </data>
+  <data name="AboutPageLight" xml:space="preserve">
+    <value>ライト</value>
+  </data>
+  <data name="AboutPageDark" xml:space="preserve">
+    <value>ダーク</value>
+  </data>
+  <data name="AboutPageAccentColor" xml:space="preserve">
+    <value>アクセント カラー</value>
+  </data>
+  <data name="AboutPageUseWindowsAccentColor" xml:space="preserve">
+    <value>Windows のアクセント カラーを使用</value>
+  </data>
+  <data name="AboutPageHexColorForExample0078D4" xml:space="preserve">
+    <value>16 進カラー（例: #0078D4）</value>
+  </data>
+  <data name="AboutPageEffects" xml:space="preserve">
+    <value>効果</value>
+  </data>
+  <data name="AboutPageEnableMicaAndTransparency" xml:space="preserve">
+    <value>Mica と透明効果を有効にする</value>
+  </data>
+  <data name="AboutPageLanguage" xml:space="preserve">
+    <value>言語</value>
+  </data>
+  <data name="AboutPageUseWindowsSetting2" xml:space="preserve">
+    <value>Windows の設定を使用</value>
+  </data>
+  <data name="AboutPageApplyAppearance" xml:space="preserve">
+    <value>外観を適用</value>
+  </data>
+  <data name="AboutPagePortableConfiguration" xml:space="preserve">
+    <value>ポータブル設定</value>
+  </data>
+  <data name="AboutPageExportOrImportCustomScripts" xml:space="preserve">
+    <value>カスタム スクリプト、レジストリ調整、外部ツール、お気に入り、外観を 1 つの JSON プロファイルとしてエクスポートまたはインポートします。コンピューター固有のロールバック バックアップは含まれません。</value>
+  </data>
+  <data name="AboutPageExportProfile" xml:space="preserve">
+    <value>プロファイルをエクスポート</value>
+  </data>
+  <data name="AboutPageImportProfile" xml:space="preserve">
+    <value>プロファイルをインポート</value>
+  </data>
+  <data name="AboutPageUpdates" xml:space="preserve">
+    <value>アップデート</value>
+  </data>
+  <data name="AboutPageTweakHubChecksGitHubReleasesWhen" xml:space="preserve">
+    <value>TweakHub は起動時に GitHub Releases を確認します。アップデートは確認後にのみダウンロード、検証、インストールされます。</value>
+  </data>
+  <data name="AboutPageCheckForUpdates" xml:space="preserve">
+    <value>アップデートを確認</value>
+  </data>
+  <data name="AboutPageLicenseMITLicense" xml:space="preserve">
+    <value>ライセンス: MIT License</value>
+  </data>
+  <data name="AboutPageThisSoftwareIsProvidedAs" xml:space="preserve">
+    <value>本ソフトウェアは現状のまま提供され、いかなる保証もありません。</value>
+  </data>
+  <data name="ProgressWindowProcessing" xml:space="preserve">
+    <value>処理中...</value>
+  </data>
+  <data name="ProgressWindowProcessing2" xml:space="preserve">
+    <value>処理中...</value>
+  </data>
+  <data name="ProgressWindowPleaseWait" xml:space="preserve">
+    <value>しばらくお待ちください...</value>
+  </data>
+  <data name="WindowsVersionMessage" xml:space="preserve">
+    <value>TweakHub は Windows 11 ビルド 22000 以降をサポートしています。</value>
+  </data>
+  <data name="WindowsVersionTitle" xml:space="preserve">
+    <value>サポートされていない Windows バージョン</value>
+  </data>
+  <data name="UnexpectedErrorMessage" xml:space="preserve">
+    <value>予期しないエラーが発生しました: {0}
+
+詳細: {1}</value>
+  </data>
+  <data name="UnexpectedErrorTitle" xml:space="preserve">
+    <value>TweakHub エラー</value>
+  </data>
+  <data name="ThemeSystem" xml:space="preserve">
+    <value>Windows と同期</value>
+  </data>
+  <data name="ThemeLight" xml:space="preserve">
+    <value>ライト モード</value>
+  </data>
+  <data name="ThemeDark" xml:space="preserve">
+    <value>ダーク モード</value>
+  </data>
+  <data name="SystemColor" xml:space="preserve">
+    <value>システム カラー</value>
+  </data>
+  <data name="AppearanceStatus" xml:space="preserve">
+    <value>{0} • {1}</value>
+  </data>
+  <data name="InvalidAccentColor" xml:space="preserve">
+    <value>#RRGGBB 形式で色を入力してください。</value>
+  </data>
+  <data name="AppearanceSaveFailed" xml:space="preserve">
+    <value>このセッションには外観を適用しましたが、設定を保存できませんでした。</value>
+  </data>
+  <data name="DataLocation" xml:space="preserve">
+    <value>データの保存場所: {0}</value>
+  </data>
+  <data name="Applied" xml:space="preserve">
+    <value>適用しました</value>
+  </data>
+  <data name="AppliedRestartLanguage" xml:space="preserve">
+    <value>適用しました — 言語を変更するには TweakHub を再起動してください</value>
+  </data>
+  <data name="ProfileSaveFilter" xml:space="preserve">
+    <value>TweakHub プロファイル (*.tweakhub.json)|*.tweakhub.json|JSON ファイル (*.json)|*.json</value>
+  </data>
+  <data name="ProfileOpenFilter" xml:space="preserve">
+    <value>TweakHub プロファイル (*.tweakhub.json;*.json)|*.tweakhub.json;*.json</value>
+  </data>
+  <data name="ProfileExported" xml:space="preserve">
+    <value>プロファイルをエクスポートしました</value>
+  </data>
+  <data name="ImportProfileTitle" xml:space="preserve">
+    <value>TweakHub プロファイルをインポート</value>
+  </data>
+  <data name="ImportProfileMessage" xml:space="preserve">
+    <value>インポートすると現在のカスタム プロファイルが置き換えられます。続行しますか?</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>インポート</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="ProfileImported" xml:space="preserve">
+    <value>プロファイルをインポートしました</value>
+  </data>
+  <data name="ProfileImportedRestart" xml:space="preserve">
+    <value>プロファイルをインポートしました — 言語を変更するには TweakHub を再起動してください</value>
+  </data>
+  <data name="Checking" xml:space="preserve">
+    <value>確認中...</value>
+  </data>
+  <data name="CheckedJustNow" xml:space="preserve">
+    <value>たった今確認しました</value>
+  </data>
+  <data name="Processing" xml:space="preserve">
+    <value>処理中...</value>
+  </data>
+  <data name="PercentComplete" xml:space="preserve">
+    <value>{0:F0}% 完了</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>はい</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>いいえ</value>
+  </data>
+  <data name="RestartRequired" xml:space="preserve">
+    <value>再起動が必要です</value>
+  </data>
+  <data name="RestartRequiredMessage" xml:space="preserve">
+    <value>{0}
+
+このメッセージはセッションごとに 1 回だけ表示されます。</value>
+  </data>
+  <data name="DisclaimerTitle" xml:space="preserve">
+    <value>TweakHub 免責事項</value>
+  </data>
+  <data name="DisclaimerMessage" xml:space="preserve">
+    <value>TweakHub は Windows の設定、レジストリ、ブート構成、その他のシステム コンポーネントを変更する場合があります。続行する前にシステムの復元ポイントを作成してください。
+
+操作は自己責任で行ってください。作者は、発生しうる損害、データ損失、システムの不安定化について一切の責任を負いません。
+
+続行すると、これらの条件を理解し同意したものとみなされます。</value>
+  </data>
+  <data name="IUnderstand" xml:space="preserve">
+    <value>理解しました</value>
+  </data>
+  <data name="ProfileTooLarge" xml:space="preserve">
+    <value>プロファイル ファイルの上限は 5 MB です。</value>
+  </data>
+  <data name="ProfileInvalid" xml:space="preserve">
+    <value>プロファイルが空か、無効です。</value>
+  </data>
+  <data name="ProfileVersionUnsupported" xml:space="preserve">
+    <value>サポートされていないプロファイル バージョンです: {0}。</value>
+  </data>
+  <data name="ProfileTooManyEntries" xml:space="preserve">
+    <value>プロファイルに含まれるカスタム エントリが多すぎます。</value>
+  </data>
+  <data name="CustomToolFieldsInvalid" xml:space="preserve">
+    <value>名前、カテゴリ、または説明が無効です。</value>
+  </data>
+  <data name="CustomToolActionRequired" xml:space="preserve">
+    <value>Winget、HTTPS リンク、PowerShell のいずれか 1 つの操作を選択してください。</value>
+  </data>
+  <data name="WingetIdInvalid" xml:space="preserve">
+    <value>コマンド ラインではなく Winget パッケージ ID を入力してください。</value>
+  </data>
+  <data name="HttpsRequired" xml:space="preserve">
+    <value>リンクには HTTPS を使用する必要があります。</value>
+  </data>
+  <data name="PowerShellTooLong" xml:space="preserve">
+    <value>PowerShell コマンドの上限は 8192 文字です。</value>
+  </data>
+  <data name="CheckForUpdates" xml:space="preserve">
+    <value>アップデートを確認</value>
+  </data>
+  <data name="LatestVersion" xml:space="preserve">
+    <value>最新バージョンを使用しています。</value>
+  </data>
+  <data name="UpdateAvailable" xml:space="preserve">
+    <value>アップデートがあります</value>
+  </data>
+  <data name="UpdateAvailableMessage" xml:space="preserve">
+    <value>TweakHub {0} を利用できます。
+
+インストール済み: {1}
+
+今すぐダウンロード、検証、インストールしますか?</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>アップデート</value>
+  </data>
+  <data name="Later" xml:space="preserve">
+    <value>後で</value>
+  </data>
+  <data name="VerifiedPackageMissing" xml:space="preserve">
+    <value>このリリースには、このインストール モード用の検証済みパッケージがありません。</value>
+  </data>
+  <data name="UpdatingTweakHub" xml:space="preserve">
+    <value>TweakHub をアップデート中</value>
+  </data>
+  <data name="DownloadingVerifiedUpdate" xml:space="preserve">
+    <value>検証済みアップデートをダウンロード中...</value>
+  </data>
+  <data name="UpdateFailed" xml:space="preserve">
+    <value>アップデートに失敗しました</value>
+  </data>
+  <data name="UpdateFailedMessage" xml:space="preserve">
+    <value>TweakHub を自動的にアップデートできませんでした。
+
+{0}</value>
+  </data>
+  <data name="ChecksumMissing" xml:space="preserve">
+    <value>リリースのチェックサムがないか、無効です。</value>
+  </data>
+  <data name="DownloadIncomplete" xml:space="preserve">
+    <value>アップデートのダウンロードが完了していません。</value>
+  </data>
+  <data name="ChecksumMismatch" xml:space="preserve">
+    <value>アップデートのチェックサムがリリースと一致しません。</value>
+  </data>
+  <data name="PortableExecutableMissing" xml:space="preserve">
+    <value>ポータブル アーカイブに TweakHub.exe が含まれていません。</value>
+  </data>
+  <data name="UntrustedDownloadUrl" xml:space="preserve">
+    <value>リリースに信頼できないダウンロード URL が含まれています。</value>
+  </data>
+  <data name="BackupCreatedStatus" xml:space="preserve">
+    <value>バックアップ作成日時: {0}</value>
+  </data>
+  <data name="RegistryValueNameRequired" xml:space="preserve">
+    <value>レジストリ値の名前は必須です。</value>
+  </data>
+  <data name="RegistryPathRequired" xml:space="preserve">
+    <value>レジストリ パスは必須です。</value>
+  </data>
+  <data name="RegistryPathInvalid" xml:space="preserve">
+    <value>レジストリ パスには、サポートされているルートとサブキーが必要です。</value>
+  </data>
+  <data name="RegistryRootUnsupported" xml:space="preserve">
+    <value>サポートされていないレジストリ ルートです: '{0}'。</value>
+  </data>
+  <data name="JustNow" xml:space="preserve">
+    <value>たった今</value>
+  </data>
+  <data name="FewMomentsAgo" xml:space="preserve">
+    <value>少し前</value>
+  </data>
+  <data name="MinutesAgo" xml:space="preserve">
+    <value>{0} 分前</value>
+  </data>
+  <data name="HoursAgo" xml:space="preserve">
+    <value>{0} 時間前</value>
+  </data>
+  <data name="DaysAgo" xml:space="preserve">
+    <value>{0} 日前</value>
+  </data>
+  <data name="GitHubRepository" xml:space="preserve">
+    <value>GitHub リポジトリ</value>
+  </data>
+  <data name="DiscordServer" xml:space="preserve">
+    <value>Discord サーバー</value>
+  </data>
+</root>
