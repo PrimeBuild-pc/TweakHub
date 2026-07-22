@@ -21,7 +21,7 @@ public class WindowsUpdatePresetServiceTests
             Assert.That(script, Does.Contain("Set-Policy $wu 'DeferFeatureUpdatesPeriodInDays' 365"));
             Assert.That(script, Does.Not.Contain("Set-Policy $wu 'DeferQualityUpdates'"));
             Assert.That(script, Does.Not.Contain("Set-Policy $wu 'DeferQualityUpdatesPeriodInDays'"));
-            Assert.That(script, Does.Contain("Save-Backup\nClear-ManagedPolicies"));
+            Assert.That(script, Does.Match("Save-Backup\\s+Clear-ManagedPolicies"));
             Assert.That(script, Does.Contain("Restore-Backup"));
             Assert.That(script, Does.Not.Contain("Invoke-WebRequest").And.Not.Contain("Invoke-RestMethod"));
         });
