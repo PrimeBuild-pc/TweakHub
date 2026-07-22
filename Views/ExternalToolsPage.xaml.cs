@@ -1,11 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Automation;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using TweakHub.Localization;
 using TweakHub.Models;
 using TweakHub.Services;
 using TweakHub.Views.Dialogs;
@@ -16,6 +14,7 @@ namespace TweakHub.Views
     {
         private readonly ShortcutService _shortcutService;
         private readonly ToolDownloadService _downloadService;
+        private readonly IProgress<ToolProgress> _progress;
         private string _searchQuery = string.Empty;
         private bool _favoritesOnly;
 
@@ -24,25 +23,14 @@ namespace TweakHub.Views
             this.InitializeComponent();
             _shortcutService = ShortcutService.Instance;
             _downloadService = ToolDownloadService.Instance;
+            _progress = new Progress<ToolProgress>(OnDownloadProgress);
 
             Loaded += ExternalToolsPage_Loaded;
-            Unloaded += ExternalToolsPage_Unloaded;
             SizeChanged += (_, _) => UpdateGridColumns();
-        }
-
-        private void ExternalToolsPage_Unloaded(object sender, RoutedEventArgs e)
-        {
-            _downloadService.DownloadProgress -= OnDownloadProgress;
-            _downloadService.DownloadCompleted -= OnDownloadCompleted;
         }
 
         private void ExternalToolsPage_Loaded(object sender, RoutedEventArgs e)
         {
-            _downloadService.DownloadProgress -= OnDownloadProgress;
-            _downloadService.DownloadCompleted -= OnDownloadCompleted;
-            _downloadService.DownloadProgress += OnDownloadProgress;
-            _downloadService.DownloadCompleted += OnDownloadCompleted;
-
             try
             {
                 _shortcutService.Initialize();
@@ -85,7 +73,8 @@ namespace TweakHub.Views
             {
                 toolSource = toolSource.Where(t => t.Name.Contains(_searchQuery, StringComparison.OrdinalIgnoreCase)
                     || t.Description.Contains(_searchQuery, StringComparison.OrdinalIgnoreCase)
-                    || t.Category.Contains(_searchQuery, StringComparison.OrdinalIgnoreCase));
+                    || t.Category.Contains(_searchQuery, StringComparison.OrdinalIgnoreCase)
+                    || ShortcutService.LocalizeCategory(t.Category).Contains(_searchQuery, StringComparison.CurrentCultureIgnoreCase));
             }
 
             // Group tools by category
@@ -93,7 +82,7 @@ namespace TweakHub.Views
                 .OrderByDescending(t => t.IsFavorite)
                 .ThenBy(t => t.Name)
                 .GroupBy(t => t.Category)
-                .OrderBy(g => GetCategoryOrder(g.Key));
+                .OrderBy(g => ShortcutService.CategoryOrder(g.Key));
 
             foreach (var group in groupedTools)
             {
@@ -133,22 +122,6 @@ namespace TweakHub.Views
                     grid.Columns = columns;
         }
 
-        private static int GetCategoryOrder(string category) => category switch
-        {
-            "System Utilities" => 1,
-            "CPU & Memory" => 2,
-            "Firmware & Power" => 3,
-            "Monitoring & Diagnostics" => 4,
-            "GPU & Display" => 5,
-            "Gaming & Input" => 6,
-            "Storage & USB" => 7,
-            "Network" => 8,
-            "Audio" => 9,
-            "Benchmarks & Stability" => 10,
-            "AI Tools" => 11,
-            _ => 99
-        };
-
         private StackPanel CreateCategoryHeader(string categoryName, int toolCount)
         {
             var headerPanel = new StackPanel
@@ -158,7 +131,7 @@ namespace TweakHub.Views
 
             var iconText = new TextBlock
             {
-                Text = GetCategoryIcon(categoryName),
+                Text = ShortcutService.CategoryIcon(categoryName),
                 FontFamily = new FontFamily("Segoe Fluent Icons"),
                 FontSize = 18,
                 Margin = new Thickness(0, 0, 12, 0),
@@ -168,7 +141,7 @@ namespace TweakHub.Views
 
             var nameText = new TextBlock
             {
-                Text = categoryName,
+                Text = ShortcutService.LocalizeCategory(categoryName),
                 FontSize = 16,
                 FontWeight = FontWeights.SemiBold,
                 VerticalAlignment = VerticalAlignment.Center
@@ -177,7 +150,7 @@ namespace TweakHub.Views
 
             var countText = new TextBlock
             {
-                Text = $"({toolCount} tools)",
+                Text = L.Format("Tools:ToolCount", toolCount),
                 FontSize = 12,
                 Margin = new Thickness(8, 0, 0, 0),
                 VerticalAlignment = VerticalAlignment.Center
@@ -205,7 +178,7 @@ namespace TweakHub.Views
             icon.SetResourceReference(TextBlock.ForegroundProperty, "IconBrush");
             var title = new TextBlock
             {
-                Text = "Favorites",
+                Text = L.Get("Tools:Favorites"),
                 FontSize = 16,
                 FontWeight = FontWeights.SemiBold,
                 VerticalAlignment = VerticalAlignment.Center
@@ -225,22 +198,6 @@ namespace TweakHub.Views
             return panel;
         }
 
-        private static string GetCategoryIcon(string category) => category switch
-        {
-            "System Utilities" => "\uE713",
-            "CPU & Memory" => "\uE950",
-            "Firmware & Power" => "\uE945",
-            "Monitoring & Diagnostics" => "\uE9D9",
-            "GPU & Display" => "\uE7F4",
-            "Gaming & Input" => "\uE7FC",
-            "Storage & USB" => "\uEDA2",
-            "Network" => "\uE968",
-            "Audio" => "\uE767",
-            "Benchmarks & Stability" => "\uE9D2",
-            "AI Tools" => "\uE99A",
-            _ => "\uE90F"
-        };
-
         private Border CreateToolCard(ExternalTool tool)
         {
             var card = new Border
@@ -258,7 +215,7 @@ namespace TweakHub.Views
                 card.Opacity = 0.7;
                 try
                 {
-                    await _downloadService.DownloadOrOpenTool(tool);
+                    await _downloadService.DownloadOrOpenTool(tool, _progress);
                 }
                 finally
                 {
@@ -286,7 +243,7 @@ namespace TweakHub.Views
 
             var iconText = new TextBlock
             {
-                Text = GetCategoryIcon(tool.Category),
+                Text = ShortcutService.CategoryIcon(tool.Category),
                 FontFamily = new FontFamily("Segoe Fluent Icons"),
                 FontSize = 18,
                 Margin = new Thickness(0, 0, 10, 0),
@@ -315,17 +272,17 @@ namespace TweakHub.Views
                 BorderThickness = new Thickness(0),
                 HorizontalAlignment = HorizontalAlignment.Right,
                 VerticalAlignment = VerticalAlignment.Top,
-                ToolTip = tool.IsFavorite ? "Unfavorite" : "Favorite",
+                ToolTip = L.Get(tool.IsFavorite ? "Tools:Unfavorite" : "Tools:Favorite"),
                 Cursor = System.Windows.Input.Cursors.Hand
             };
-            AutomationProperties.SetName(favBtn, tool.IsFavorite ? "Remove from favorites" : "Add to favorites");
+            AutomationProperties.SetName(favBtn, L.Get(tool.IsFavorite ? "Tools:RemoveFromFavorites" : "Tools:AddToFavorites"));
             favBtn.Click += async (s, e) =>
             {
                 e.Handled = true; // Don't trigger card click
                 tool.IsFavorite = !tool.IsFavorite;
                 ((TextBlock)favBtn.Content).Text = tool.IsFavorite ? "★" : "☆";
-                favBtn.ToolTip = tool.IsFavorite ? "Unfavorite" : "Favorite";
-                AutomationProperties.SetName(favBtn, tool.IsFavorite ? "Remove from favorites" : "Add to favorites");
+                favBtn.ToolTip = L.Get(tool.IsFavorite ? "Tools:Unfavorite" : "Tools:Favorite");
+                AutomationProperties.SetName(favBtn, L.Get(tool.IsFavorite ? "Tools:RemoveFromFavorites" : "Tools:AddToFavorites"));
                 await PersistFavoritesAsync();
                 LoadExternalTools();
             };
@@ -382,13 +339,13 @@ namespace TweakHub.Views
                 var editButton = new Button
                 {
                     Content = new TextBlock { Text = "\uE70F", FontFamily = new FontFamily("Segoe Fluent Icons"), FontSize = 12 },
-                    ToolTip = "Edit custom tool",
+                    ToolTip = L.Get("Tools:EditCustomTool"),
                     Padding = new Thickness(4, 0, 4, 0),
                     Background = Brushes.Transparent,
                     BorderThickness = new Thickness(0),
                     Cursor = System.Windows.Input.Cursors.Hand
                 };
-                AutomationProperties.SetName(editButton, $"Edit {tool.Name}");
+                AutomationProperties.SetName(editButton, L.Format("Tools:EditToolNamed", tool.Name));
                 editButton.Click += (_, e) =>
                 {
                     e.Handled = true;
@@ -397,18 +354,18 @@ namespace TweakHub.Views
                 var deleteButton = new Button
                 {
                     Content = new TextBlock { Text = "\uE74D", FontFamily = new FontFamily("Segoe Fluent Icons"), FontSize = 12 },
-                    ToolTip = "Delete custom tool",
+                    ToolTip = L.Get("Tools:DeleteCustomTool"),
                     Padding = new Thickness(4, 0, 4, 0),
                     Margin = new Thickness(4, 0, 0, 0),
                     Background = Brushes.Transparent,
                     BorderThickness = new Thickness(0),
                     Cursor = System.Windows.Input.Cursors.Hand
                 };
-                AutomationProperties.SetName(deleteButton, $"Delete {tool.Name}");
+                AutomationProperties.SetName(deleteButton, L.Format("Tools:DeleteToolNamed", tool.Name));
                 deleteButton.Click += async (_, e) =>
                 {
                     e.Handled = true;
-                    if (!await AppDialog.ConfirmAsync(Window.GetWindow(this), "Delete Custom Tool", $"Delete {tool.Name}?", "Delete", "Cancel")) return;
+                    if (!await AppDialog.ConfirmAsync(Window.GetWindow(this), L.Get("Tools:DeleteCustomTool"), L.Format("Tools:DeleteToolMessage", tool.Name), L.Get("Tools:Delete"), L.Get("Tools:Cancel"))) return;
                     _shortcutService.DeleteCustomTool(tool);
                     await PersistFavoritesAsync();
                     LoadExternalTools();
@@ -423,7 +380,7 @@ namespace TweakHub.Views
                 var uninstallBtn = new Button
                 {
                     Content = new TextBlock { Text = "\uE74D", FontFamily = new FontFamily("Segoe Fluent Icons"), FontSize = 12 },
-                    ToolTip = "Uninstall",
+                    ToolTip = L.Get("Tools:Uninstall"),
                     Padding = new Thickness(4, 0, 4, 0),
                     Margin = new Thickness(6, 0, 0, 0),
                     Background = Brushes.Transparent,
@@ -431,18 +388,18 @@ namespace TweakHub.Views
                     Cursor = System.Windows.Input.Cursors.Hand
                 };
 
-                AutomationProperties.SetName(uninstallBtn, $"Uninstall {tool.Name}");
+                AutomationProperties.SetName(uninstallBtn, L.Format("Tools:UninstallNamed", tool.Name));
                 uninstallBtn.Click += async (s, e) =>
                 {
                     e.Handled = true;
-                    if (await AppDialog.ConfirmAsync(Window.GetWindow(this), "Confirm Uninstall",
-                            $"Are you sure you want to uninstall {tool.Name}?", "Uninstall", "Cancel"))
+                    if (await AppDialog.ConfirmAsync(Window.GetWindow(this), L.Get("Tools:ConfirmUninstall"),
+                            L.Format("Tools:ConfirmUninstallMessage", tool.Name), L.Get("Tools:Uninstall"), L.Get("Tools:Cancel")))
                     {
                         card.IsEnabled = false;
                         card.Opacity = 0.7;
                         try
                         {
-                            await _downloadService.UninstallWithWinget(tool);
+                            await _downloadService.UninstallWithWinget(tool, _progress);
                         }
                         finally
                         {
@@ -473,7 +430,7 @@ namespace TweakHub.Views
             }
             catch (Exception ex)
             {
-                await AppDialog.ShowWarningAsync(Window.GetWindow(this), "Unable to Save Favorites", ex.Message);
+                await AppDialog.ShowWarningAsync(Window.GetWindow(this), L.Get("Tools:UnableSaveFavorites"), ex.Message);
             }
         }
 
@@ -505,7 +462,7 @@ namespace TweakHub.Views
             }
             catch (Exception ex)
             {
-                await AppDialog.ShowErrorAsync(Window.GetWindow(this), "Unable to Save Tool", ex.Message);
+                await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Tools:UnableSaveTool"), ex.Message);
             }
         }
 
@@ -515,33 +472,20 @@ namespace TweakHub.Views
         private string GetActionText(ExternalTool tool)
         {
             if (!string.IsNullOrWhiteSpace(tool.WingetId))
-                return "Install";
+                return L.Get("Tools:Install");
             if (!string.IsNullOrEmpty(tool.DownloadUrl) && tool.DownloadUrl.Contains("github.com"))
                 return "GitHub";
             if (!string.IsNullOrEmpty(tool.DownloadUrl))
-                return "Website";
-            return "Run";
+                return L.Get("Tools:Website");
+            return L.Get("Tools:Run");
         }
 
-        private void OnDownloadProgress(object? sender, DownloadProgressEventArgs e)
+        private void OnDownloadProgress(ToolProgress progress)
         {
-            Dispatcher.Invoke(() =>
-            {
-                this.ProgressPanel.Visibility = Visibility.Visible;
-                this.ProgressText.Text = $"{e.ToolName}: {e.StatusMessage}";
-                if (e.ProgressPercentage >= 0)
-                    this.ProgressBar.Value = e.ProgressPercentage;
-            });
-        }
-
-        private void OnDownloadCompleted(object? sender, DownloadCompletedEventArgs e)
-        {
-            Dispatcher.Invoke(() =>
-            {
-                this.ProgressText.Text = e.Message;
-                this.ProgressBar.Value = e.Success ? 100 : 0;
-                HideProgressAfter(TimeSpan.FromSeconds(e.Success ? 3 : 5));
-            });
+            ProgressPanel.Visibility = Visibility.Visible;
+            ProgressText.Text = progress.IsCompleted ? progress.Message : $"{progress.ToolName}: {progress.Message}";
+            ProgressBar.Value = progress.Percentage;
+            if (progress.IsCompleted) HideProgressAfter(TimeSpan.FromSeconds(progress.Success ? 3 : 5));
         }
 
         private void HideProgressAfter(TimeSpan delay)
@@ -563,7 +507,7 @@ namespace TweakHub.Views
                 this.ToolsContainer.Children.Clear();
                 var errorText = new TextBlock
                 {
-                    Text = "Failed to load external tools. Please restart TweakHub.",
+                    Text = L.Get("Tools:LoadToolsFailed"),
                     HorizontalAlignment = HorizontalAlignment.Center,
                     VerticalAlignment = VerticalAlignment.Center,
                     Foreground = Brushes.Red

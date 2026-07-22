@@ -1,0 +1,398 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AutomatedScriptsPageAutomatedScripts" xml:space="preserve">
+    <value>Automated Scripts</value>
+  </data>
+  <data name="AutomatedScriptsPageView" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="AutomatedScriptsPageDetails" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="AutomatedScriptsPageCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="AutomatedScriptsPageStop" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="AutomatedScriptsPageExport" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="AutomatedScriptsPageEdit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="AutomatedScriptsPageDelete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="AutomatedScriptsPageAutomatedScripts2" xml:space="preserve">
+    <value>Automated Scripts</value>
+  </data>
+  <data name="AutomatedScriptsPageRunMaintenanceCommandsAndManage" xml:space="preserve">
+    <value>Run maintenance commands and manage your custom PowerShell or CMD scripts.</value>
+  </data>
+  <data name="AutomatedScriptsPageImport" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="AutomatedScriptsPageNewScript" xml:space="preserve">
+    <value>New Script</value>
+  </data>
+  <data name="winget_Name" xml:space="preserve">
+    <value>Install WinGet Package Manager</value>
+  </data>
+  <data name="winget_Description" xml:space="preserve">
+    <value>Install Microsoft WinGet package manager if not present. Includes multiple installation methods with automatic fallback.</value>
+  </data>
+  <data name="winget_Category" xml:space="preserve">
+    <value>Package Manager</value>
+  </data>
+  <data name="winget_Execute" xml:space="preserve">
+    <value>Execute</value>
+  </data>
+  <data name="winget_Confirmation" xml:space="preserve">
+    <value>Install Microsoft WinGet if it is not already available?</value>
+  </data>
+  <data name="ctt_winutil_Name" xml:space="preserve">
+    <value>CTT Tool - Winutil</value>
+  </data>
+  <data name="ctt_winutil_Description" xml:space="preserve">
+    <value>Download and run the current Chris Titus Tech Windows utility script.</value>
+  </data>
+  <data name="ctt_winutil_Category" xml:space="preserve">
+    <value>Utilities</value>
+  </data>
+  <data name="ctt_winutil_Execute" xml:space="preserve">
+    <value>Run</value>
+  </data>
+  <data name="ctt_winutil_Confirmation" xml:space="preserve">
+    <value>This downloads and executes a remote script that can change over time. Only continue if you trust christitus.com.</value>
+  </data>
+  <data name="dism_sfc_chkdsk_Name" xml:space="preserve">
+    <value>DISM + SFC + CHKDSK System Repair</value>
+  </data>
+  <data name="dism_sfc_chkdsk_Description" xml:space="preserve">
+    <value>Repair the Windows image and system files, then scan the system drive for filesystem errors.</value>
+  </data>
+  <data name="dism_sfc_chkdsk_Category" xml:space="preserve">
+    <value>Repair</value>
+  </data>
+  <data name="dism_sfc_chkdsk_Execute" xml:space="preserve">
+    <value>Run Repair</value>
+  </data>
+  <data name="dism_sfc_chkdsk_Confirmation" xml:space="preserve">
+    <value>System repair can take 15–90 minutes. Do not close TweakHub while it is running.</value>
+  </data>
+  <data name="dism_sfc_chkdsk_CompletionNote" xml:space="preserve">
+    <value>A restart is recommended after repairs.</value>
+  </data>
+  <data name="component_cleanup_Name" xml:space="preserve">
+    <value>Component Store Cleanup</value>
+  </data>
+  <data name="component_cleanup_Description" xml:space="preserve">
+    <value>Remove superseded Windows component versions to reclaim disk space.</value>
+  </data>
+  <data name="component_cleanup_Category" xml:space="preserve">
+    <value>Maintenance</value>
+  </data>
+  <data name="component_cleanup_Execute" xml:space="preserve">
+    <value>Run Cleanup</value>
+  </data>
+  <data name="component_cleanup_Confirmation" xml:space="preserve">
+    <value>This removes superseded Windows components. Continue?</value>
+  </data>
+  <data name="network_reset_Name" xml:space="preserve">
+    <value>Network Stack Reset</value>
+  </data>
+  <data name="network_reset_Description" xml:space="preserve">
+    <value>Flush DNS and reset Winsock and TCP/IP to repair persistent network problems.</value>
+  </data>
+  <data name="network_reset_Category" xml:space="preserve">
+    <value>Network</value>
+  </data>
+  <data name="network_reset_Execute" xml:space="preserve">
+    <value>Run Reset</value>
+  </data>
+  <data name="network_reset_Confirmation" xml:space="preserve">
+    <value>This can affect static network settings and requires a restart. Continue?</value>
+  </data>
+  <data name="network_reset_CompletionNote" xml:space="preserve">
+    <value>Restart Windows before testing the connection.</value>
+  </data>
+  <data name="windows_update_reset_Name" xml:space="preserve">
+    <value>Windows Update Components Reset</value>
+  </data>
+  <data name="windows_update_reset_Description" xml:space="preserve">
+    <value>Recreate the Windows Update download and catalog caches when updates are stuck.</value>
+  </data>
+  <data name="windows_update_reset_Category" xml:space="preserve">
+    <value>Repair</value>
+  </data>
+  <data name="windows_update_reset_Execute" xml:space="preserve">
+    <value>Run Reset</value>
+  </data>
+  <data name="windows_update_reset_Confirmation" xml:space="preserve">
+    <value>This clears cached update downloads and update history shown in Settings. Continue?</value>
+  </data>
+  <data name="prevent_device_metadata_Name" xml:space="preserve">
+    <value>Prevent Device Companion Apps</value>
+  </data>
+  <data name="prevent_device_metadata_Description" xml:space="preserve">
+    <value>Prevent Windows from downloading apps and metadata associated with connected devices.</value>
+  </data>
+  <data name="prevent_device_metadata_Category" xml:space="preserve">
+    <value>Privacy</value>
+  </data>
+  <data name="prevent_device_metadata_Execute" xml:space="preserve">
+    <value>Apply Policy</value>
+  </data>
+  <data name="prevent_device_metadata_Confirmation" xml:space="preserve">
+    <value>This policy blocks device companion apps and metadata, but not necessarily every driver from Windows Update. Continue?</value>
+  </data>
+  <data name="exclude_wu_drivers_Name" xml:space="preserve">
+    <value>Exclude Drivers from Windows Update</value>
+  </data>
+  <data name="exclude_wu_drivers_Description" xml:space="preserve">
+    <value>Enable the Windows policy that excludes packages classified as drivers from quality updates.</value>
+  </data>
+  <data name="exclude_wu_drivers_Category" xml:space="preserve">
+    <value>Windows Update</value>
+  </data>
+  <data name="exclude_wu_drivers_Execute" xml:space="preserve">
+    <value>Apply Policy</value>
+  </data>
+  <data name="exclude_wu_drivers_Confirmation" xml:space="preserve">
+    <value>Windows Update will stop offering packages classified as drivers. Continue?</value>
+  </data>
+  <data name="empty_standby_list_Name" xml:space="preserve">
+    <value>Empty Standby List</value>
+  </data>
+  <data name="empty_standby_list_Description" xml:space="preserve">
+    <value>Use Microsoft RAMMap to empty cached standby memory only when diagnosing a measured memory problem.</value>
+  </data>
+  <data name="empty_standby_list_Category" xml:space="preserve">
+    <value>Memory</value>
+  </data>
+  <data name="empty_standby_list_Execute" xml:space="preserve">
+    <value>Run Once</value>
+  </data>
+  <data name="empty_standby_list_Confirmation" xml:space="preserve">
+    <value>Cached RAM is released automatically when applications need it. Emptying it routinely does not improve FPS or PC performance and can make games load more slowly. Continue only for a documented standby-list problem.</value>
+  </data>
+  <data name="remove_windows_ai_Name" xml:space="preserve">
+    <value>Windows AI - Disable and Remove</value>
+  </data>
+  <data name="remove_windows_ai_Description" xml:space="preserve">
+    <value>Disable Windows AI policies and remove available Copilot/CoreAI packages and Recall.</value>
+  </data>
+  <data name="remove_windows_ai_Category" xml:space="preserve">
+    <value>Privacy</value>
+  </data>
+  <data name="remove_windows_ai_Execute" xml:space="preserve">
+    <value>Run</value>
+  </data>
+  <data name="remove_windows_ai_Confirmation" xml:space="preserve">
+    <value>This removes packages and disables features. It is partially irreversible and TweakHub cannot guarantee automatic reinstallation. Continue?</value>
+  </data>
+  <data name="adobe_hosts_block_Name" xml:space="preserve">
+    <value>Adobe URL Block List - Enable</value>
+  </data>
+  <data name="adobe_hosts_block_Description" xml:space="preserve">
+    <value>Add the maintained Ruddernation Designs Adobe block list to the hosts file inside TweakHub markers.</value>
+  </data>
+  <data name="adobe_hosts_block_Category" xml:space="preserve">
+    <value>Privacy</value>
+  </data>
+  <data name="adobe_hosts_block_Execute" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="adobe_hosts_block_Confirmation" xml:space="preserve">
+    <value>This downloads a third-party list and blocks matching Adobe hosts system-wide. Continue?</value>
+  </data>
+  <data name="adobe_hosts_unblock_Name" xml:space="preserve">
+    <value>Adobe URL Block List - Remove</value>
+  </data>
+  <data name="adobe_hosts_unblock_Description" xml:space="preserve">
+    <value>Remove only the hosts-file block previously added between TweakHub markers.</value>
+  </data>
+  <data name="adobe_hosts_unblock_Category" xml:space="preserve">
+    <value>Privacy</value>
+  </data>
+  <data name="adobe_hosts_unblock_Execute" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="adobe_hosts_unblock_Confirmation" xml:space="preserve">
+    <value>Remove the TweakHub Adobe block from the hosts file?</value>
+  </data>
+  <data name="CompletedOnThisPc" xml:space="preserve">
+    <value>Completed on this PC: {0}</value>
+  </data>
+  <data name="ImportFilter" xml:space="preserve">
+    <value>Scripts (*.ps1;*.cmd;*.bat)|*.ps1;*.cmd;*.bat</value>
+  </data>
+  <data name="PowerShellFilter" xml:space="preserve">
+    <value>PowerShell (*.ps1)|*.ps1</value>
+  </data>
+  <data name="CmdFilter" xml:space="preserve">
+    <value>CMD (*.cmd)|*.cmd</value>
+  </data>
+  <data name="AdministratorScript" xml:space="preserve">
+    <value>Administrator Script</value>
+  </data>
+  <data name="AdministratorScriptMessage" xml:space="preserve">
+    <value>Run '{0}' with administrator privileges?</value>
+  </data>
+  <data name="Run" xml:space="preserve">
+    <value>Run</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CustomScriptCompleted" xml:space="preserve">
+    <value>Script completed in {0:F1}s.</value>
+  </data>
+  <data name="CustomScriptFailed" xml:space="preserve">
+    <value>Script failed (exit {0}) after {1:F1}s.</value>
+  </data>
+  <data name="CreateCustomScript" xml:space="preserve">
+    <value>Create Custom Script</value>
+  </data>
+  <data name="EditCustomScript" xml:space="preserve">
+    <value>Edit Custom Script</value>
+  </data>
+  <data name="EnterScriptName" xml:space="preserve">
+    <value>Enter script name</value>
+  </data>
+  <data name="CmdBatch" xml:space="preserve">
+    <value>CMD Batch</value>
+  </data>
+  <data name="RequiresAdministrator" xml:space="preserve">
+    <value>Requires administrator</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="InvalidScript" xml:space="preserve">
+    <value>Invalid Script</value>
+  </data>
+  <data name="NameRequired" xml:space="preserve">
+    <value>Name required.</value>
+  </data>
+  <data name="ScriptCreated" xml:space="preserve">
+    <value>Script Created</value>
+  </data>
+  <data name="ScriptUpdated" xml:space="preserve">
+    <value>Script Updated</value>
+  </data>
+  <data name="ScriptCreatedMessage" xml:space="preserve">
+    <value>Script '{0}' was created successfully.</value>
+  </data>
+  <data name="ScriptUpdatedMessage" xml:space="preserve">
+    <value>Script '{0}' was updated successfully.</value>
+  </data>
+  <data name="ScriptRunning" xml:space="preserve">
+    <value>Script Running</value>
+  </data>
+  <data name="StopBeforeDeleting" xml:space="preserve">
+    <value>Stop the script before deleting it.</value>
+  </data>
+  <data name="ConfirmDelete" xml:space="preserve">
+    <value>Confirm Deletion</value>
+  </data>
+  <data name="ConfirmDeleteMessage" xml:space="preserve">
+    <value>Are you sure you want to delete script '{0}'?
+
+This action cannot be undone.</value>
+  </data>
+  <data name="ScriptDeleted" xml:space="preserve">
+    <value>Script Deleted</value>
+  </data>
+  <data name="ScriptDeletedMessage" xml:space="preserve">
+    <value>Script '{0}' was deleted.</value>
+  </data>
+  <data name="ScriptLoadError" xml:space="preserve">
+    <value># Error loading script:
+{0}</value>
+  </data>
+  <data name="WingetScriptMissingPreview" xml:space="preserve">
+    <value># WinGetInstall.ps1 not found in Scripts folder.</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Install</value>
+  </data>
+  <data name="InstallationError" xml:space="preserve">
+    <value>Installation Error</value>
+  </data>
+  <data name="WingetScriptNotFound" xml:space="preserve">
+    <value>WinGetInstall.ps1 was not found.</value>
+  </data>
+  <data name="InstallingWinget" xml:space="preserve">
+    <value>Installing WinGet Package Manager</value>
+  </data>
+  <data name="RunningWingetScript" xml:space="preserve">
+    <value>Running the WinGet installation script...</value>
+  </data>
+  <data name="InstallationComplete" xml:space="preserve">
+    <value>Installation Complete</value>
+  </data>
+  <data name="InstallationFailed" xml:space="preserve">
+    <value>Installation Failed</value>
+  </data>
+  <data name="WingetInstallationFailed" xml:space="preserve">
+    <value>WinGet installation failed.
+
+{0}
+{1}</value>
+  </data>
+  <data name="RunningCommands" xml:space="preserve">
+    <value>Running commands. Do not close TweakHub...</value>
+  </data>
+  <data name="LogSaveFailed" xml:space="preserve">
+    <value>Log could not be saved: {0}</value>
+  </data>
+  <data name="CompletedSuccessfully" xml:space="preserve">
+    <value>Completed successfully.</value>
+  </data>
+  <data name="FailedExitCode" xml:space="preserve">
+    <value>Failed with exit code {0}.</value>
+  </data>
+  <data name="BuiltInResult" xml:space="preserve">
+    <value>{0}
+{1}
+
+{2}
+
+Log: {3}</value>
+  </data>
+  <data name="Complete" xml:space="preserve">
+    <value>Complete</value>
+  </data>
+  <data name="Failed" xml:space="preserve">
+    <value>Failed</value>
+  </data>
+  <data name="NamedScriptFailed" xml:space="preserve">
+    <value>{0} Failed</value>
+  </data>
+  <data name="CurrentUser" xml:space="preserve">
+    <value>Current user</value>
+  </data>
+  <data name="Administrator" xml:space="preserve">
+    <value>Administrator</value>
+  </data>
+  <data name="Execute" xml:space="preserve">
+    <value>Execute</value>
+  </data>
+</root>

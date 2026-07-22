@@ -31,9 +31,11 @@ public class TweakCatalogueTests
             "prevent_device_metadata",
             "disable_device_coinstallers",
             "disable_notifications_calendar",
+            "disable_advertising_id",
+            "disable_tailored_experiences",
+            "disable_activity_history",
             "disable_windows_search",
             "disable_automatic_driver_updates",
-            "windows_update_security_preset",
             "disable_animations",
             "disable_transparency",
             "optimize_visual_effects"
@@ -53,9 +55,9 @@ public class TweakCatalogueTests
                 "prevent_device_metadata",
                 "disable_device_coinstallers",
                 "disable_notifications_calendar",
+                "disable_activity_history",
                 "disable_windows_search",
-                "disable_automatic_driver_updates",
-                "windows_update_security_preset"
+                "disable_automatic_driver_updates"
             }.Contains(tweak.Id)),
             Has.All.Property("RiskLevel").GreaterThanOrEqualTo(3));
     }
@@ -71,24 +73,28 @@ public class TweakCatalogueTests
                 Is.EquivalentTo(new[] { "SearchOrderConfig", "DisableCoInstallers" }));
             Assert.That(TweakService.GetCompositeRegistryChanges("disable_notifications_calendar").Select(change => change.ValueName),
                 Is.EquivalentTo(new[] { "DisableNotificationCenter", "ToastEnabled" }));
+            Assert.That(TweakService.GetCompositeRegistryChanges("disable_activity_history").Select(change => change.ValueName),
+                Is.EquivalentTo(new[] { "EnableActivityFeed", "PublishUserActivities", "UploadUserActivities" }));
         });
+    }
+
+    [Test]
+    public void RecommendedSetUsesSecurityUpdatesAndAllTweaksExceptTheTwoDocumentedMemoryExceptions()
+    {
+        var service = TweakService.Instance;
+        service.LoadTweaks();
+        var tweaks = service.TweakCategories.SelectMany(category => category.Tweaks).ToList();
+
+        Assert.That(TweakService.RecommendedWindowsUpdatePreset, Is.EqualTo(WindowsUpdatePreset.Security));
+        Assert.That(tweaks.Where(tweak => tweak.Id is not ("disable_sysmain" or "disable_prefetch")),
+            Has.All.Matches<TweakHub.Models.PerformanceTweak>(TweakService.IsRecommended));
+        Assert.That(tweaks.Where(tweak => tweak.Id is "disable_sysmain" or "disable_prefetch"),
+            Has.None.Matches<TweakHub.Models.PerformanceTweak>(TweakService.IsRecommended));
     }
 
     [Test]
     public async Task MissingServiceIsNotDetectedAsStopped()
     {
         Assert.That(await TweakService.IsServiceStoppedAsync("TweakHub-Service-That-Does-Not-Exist"), Is.False);
-    }
-
-    [Test]
-    public void MemoryAndPrivacyTweaksAreExcludedFromRecommendedPreset()
-    {
-        var service = TweakService.Instance;
-        service.LoadTweaks();
-        var protectedCategories = service.TweakCategories
-            .Where(category => category.Name is "Memory Management" or "Privacy & Device Control")
-            .SelectMany(category => category.Tweaks);
-
-        Assert.That(protectedCategories, Has.All.Property("RiskLevel").GreaterThanOrEqualTo(3));
     }
 }

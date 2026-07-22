@@ -1,7 +1,8 @@
 <Window x:Class="TweakHub.Views.ProgressWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Processing..."
+      xmlns:loc="clr-namespace:TweakHub.Localization"
+        Title="{loc:Loc UI:ProgressWindowProcessing}"
         Width="400"
         Height="150"
         WindowStartupLocation="CenterOwner"
@@ -27,7 +28,7 @@
             
             <!-- Title -->
             <TextBlock x:Name="TitleText" Grid.Row="0"
-                       Text="Processing..."
+                       Text="{loc:Loc UI:ProgressWindowProcessing2}"
                        FontSize="16" FontWeight="Medium"
                        HorizontalAlignment="Center"
                        Margin="0,0,0,16"
@@ -44,7 +45,7 @@
             
             <!-- Status Text -->
             <TextBlock x:Name="StatusText" Grid.Row="2"
-                       Text="Please wait..."
+                       Text="{loc:Loc UI:ProgressWindowPleaseWait}"
                        FontSize="12"
                        HorizontalAlignment="Center"
                        TextAlignment="Center"

@@ -1,0 +1,544 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="RegistryTweaksPageRegistryTweaks" xml:space="preserve">
+    <value>注册表调整</value>
+  </data>
+  <data name="RegistryTweaksPageOnlyPartOfThisGrouped" xml:space="preserve">
+    <value>当前只有部分此分组调整已应用</value>
+  </data>
+  <data name="RegistryTweaksPageRestartWindowsToMakeThis" xml:space="preserve">
+    <value>重启 Windows 以使此更改完全生效</value>
+  </data>
+  <data name="RegistryTweaksPageAddOrRemoveFromFavorites" xml:space="preserve">
+    <value>添加或移除收藏</value>
+  </data>
+  <data name="RegistryTweaksPageToggleFavorite" xml:space="preserve">
+    <value>切换收藏</value>
+  </data>
+  <data name="RegistryTweaksPageEnableTweak" xml:space="preserve">
+    <value>启用调整</value>
+  </data>
+  <data name="RegistryTweaksPagePreviewRegistryChanges" xml:space="preserve">
+    <value>预览注册表更改</value>
+  </data>
+  <data name="RegistryTweaksPagePreviewRegistryChanges2" xml:space="preserve">
+    <value>预览注册表更改</value>
+  </data>
+  <data name="RegistryTweaksPageThisRegistryValueCurrentlyMatches" xml:space="preserve">
+    <value>此注册表值当前与自定义调整匹配</value>
+  </data>
+  <data name="RegistryTweaksPageAddOrRemoveFromFavorites2" xml:space="preserve">
+    <value>添加或移除收藏</value>
+  </data>
+  <data name="RegistryTweaksPageToggleFavorite2" xml:space="preserve">
+    <value>切换收藏</value>
+  </data>
+  <data name="RegistryTweaksPageView" xml:space="preserve">
+    <value>查看</value>
+  </data>
+  <data name="RegistryTweaksPageApply" xml:space="preserve">
+    <value>应用</value>
+  </data>
+  <data name="RegistryTweaksPageRestore" xml:space="preserve">
+    <value>还原</value>
+  </data>
+  <data name="RegistryTweaksPageEdit" xml:space="preserve">
+    <value>编辑</value>
+  </data>
+  <data name="RegistryTweaksPageDelete" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="RegistryTweaksPageDetails" xml:space="preserve">
+    <value>详情</value>
+  </data>
+  <data name="RegistryTweaksPageRegistryTweaks2" xml:space="preserve">
+    <value>注册表调整</value>
+  </data>
+  <data name="RegistryTweaksPageOptimizeWindowsPerformanceThroughRegistry" xml:space="preserve">
+    <value>通过注册表修改优化 Windows 性能。更改会自动备份。</value>
+  </data>
+  <data name="RegistryTweaksPageRefreshStatus" xml:space="preserve">
+    <value>刷新状态</value>
+  </data>
+  <data name="RegistryTweaksPageCreateBackup" xml:space="preserve">
+    <value>创建备份</value>
+  </data>
+  <data name="RegistryTweaksPageCreateRestorePoint" xml:space="preserve">
+    <value>创建还原点</value>
+  </data>
+  <data name="RegistryTweaksPageApplyRecommended" xml:space="preserve">
+    <value>应用推荐</value>
+  </data>
+  <data name="RegistryTweaksPageRestoreAllChanges" xml:space="preserve">
+    <value>恢复所有更改</value>
+  </data>
+  <data name="RegistryTweaksPageRecommended" xml:space="preserve">
+    <value>推荐</value>
+  </data>
+  <data name="RegistryTweaksPageCustomTweaks" xml:space="preserve">
+    <value>自定义调整</value>
+  </data>
+  <data name="RegistryTweaksPageCustomRegistryTweaks" xml:space="preserve">
+    <value>自定义注册表调整</value>
+  </data>
+  <data name="RegistryTweaksPageCreateAndManageYourOwn" xml:space="preserve">
+    <value>创建和管理您自己的注册表条目。</value>
+  </data>
+  <data name="RegistryTweaksPageNewTweak" xml:space="preserve">
+    <value>新调整</value>
+  </data>
+  <data name="RegistryTweaksPageFavorites" xml:space="preserve">
+    <value>收藏</value>
+  </data>
+  <data name="RegistryTweaksPageNoFavoriteRegistryTweaksYet" xml:space="preserve">
+    <value>还没有喜欢的注册表调整。选择一个星标以添加。</value>
+  </data>
+  <data name="RegistryTweaksPageRecommended2" xml:space="preserve">
+    <value>推荐</value>
+  </data>
+  <data name="RegistryTweaksPageCustomTweaks2" xml:space="preserve">
+    <value>自定义调整</value>
+  </data>
+  <data name="CategoryOrTweakNameCPUProcessorOptimization" xml:space="preserve">
+    <value>CPU 与处理器优化</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionOptimizeCPUSchedulingPriorityAndProcessor" xml:space="preserve">
+    <value>优化 CPU 调度、优先级和处理器性能</value>
+  </data>
+  <data name="CategoryOrTweakNamePrioritizeForegroundPrograms" xml:space="preserve">
+    <value>优先处理前台程序</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionUsesTheWindowsForegroundProgramScheduling" xml:space="preserve">
+    <value>使用 Windows 前台程序调度配置文件并恢复捕获的原始值。</value>
+  </data>
+  <data name="CategoryOrTweakNameMaximumCPUPerformanceOnAC" xml:space="preserve">
+    <value>交流电下的最大 CPU 性能</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionSetsTheActivePowerPlanMinimum" xml:space="preserve">
+    <value>在插入电源时将活动电源计划的最小处理器状态设置为 100%。增加功耗和热量。</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableCPUCoreParking" xml:space="preserve">
+    <value>禁用 CPU 核心停泊</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionSetsTheActivePowerPlanMinimum2" xml:space="preserve">
+    <value>将接通电源时的活动电源计划最小停驻核心设置为 100%。增加功耗和发热。</value>
+  </data>
+  <data name="CategoryOrTweakNameForceHighPerformancePowerPlan" xml:space="preserve">
+    <value>强制高性能电源计划</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionActivatesTheWindowsHighPerformancePlan" xml:space="preserve">
+    <value>激活 Windows 高性能计划，并在禁用时恢复先前的活动计划。</value>
+  </data>
+  <data name="CategoryOrTweakNameNetworkLatencyReduction" xml:space="preserve">
+    <value>网络延迟降低</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionOptimizeNetworkStackForMinimalLatency" xml:space="preserve">
+    <value>优化网络堆栈以实现最小延迟和最大响应性</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableNetworkThrottlingIndex" xml:space="preserve">
+    <value>禁用网络节流索引</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionUsesTheDisabledDWORDValueAnd" xml:space="preserve">
+    <value>使用已禁用的 DWORD 值并恢复捕获的原始设置。</value>
+  </data>
+  <data name="CategoryOrTweakNameGamingPerformance" xml:space="preserve">
+    <value>游戏性能</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionOptimizeSystemForGamingPerformanceAnd" xml:space="preserve">
+    <value>优化系统以提升游戏性能和输入响应性</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableMouseAcceleration" xml:space="preserve">
+    <value>禁用鼠标加速</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionChangesMouseSpeedAndBothThresholdValues" xml:space="preserve">
+    <value>更改鼠标速度和两个阈值作为一个可恢复的操作。</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableFullscreenOptimizations" xml:space="preserve">
+    <value>禁用全屏优化</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisablesWindowsFullscreenOptimizationsForBetter" xml:space="preserve">
+    <value>禁用 Windows 全屏优化以获得更好的游戏性能</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableXboxGameBar" xml:space="preserve">
+    <value>禁用 Xbox 游戏栏</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisablesXboxGameBarToReduce" xml:space="preserve">
+    <value>禁用 Xbox 游戏栏以减少游戏负担并提高性能</value>
+  </data>
+  <data name="CategoryOrTweakNameSystemResponsiveness" xml:space="preserve">
+    <value>系统响应能力</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionImproveOverallSystemResponsivenessAndUI" xml:space="preserve">
+    <value>提高整体系统响应能力和用户界面性能</value>
+  </data>
+  <data name="CategoryOrTweakNameReduceMenuShowDelay" xml:space="preserve">
+    <value>减少菜单显示延迟</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionMakesMenusAppearInstantlyForBetter" xml:space="preserve">
+    <value>使菜单瞬间出现以提高响应速度</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableStartupApplicationDelay" xml:space="preserve">
+    <value>禁用启动应用延迟</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionRemovesArtificialDelayForStartupApplications" xml:space="preserve">
+    <value>删除启动应用程序的人工延迟</value>
+  </data>
+  <data name="CategoryOrTweakNameMemoryManagement" xml:space="preserve">
+    <value>内存管理</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionWindowsNormallyUsesSpareRAMAs" xml:space="preserve">
+    <value>Windows 通常使用多余的 RAM 作为缓存，并在应用程序需要时立即释放。除非测量结果显示它们是问题的原因，否则请保持 SysMain 和 Prefetch 启用。</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableSysMainSuperfetch" xml:space="preserve">
+    <value>禁用 SysMain（Superfetch）</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionStopsAndDisablesSysMainUsuallyLeave" xml:space="preserve">
+    <value>停止并禁用 SysMain。通常保持启用状态；仅在有文档记录的性能下降或诊断低内存系统或机械系统盘时考虑禁用。</value>
+  </data>
+  <data name="CategoryOrTweakNameDisablePrefetch" xml:space="preserve">
+    <value>禁用 Prefetch</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisablesApplicationAndBootPrefetchingUsually" xml:space="preserve">
+    <value>禁用应用程序和启动预取功能。通常保持启用状态；仅在有 Prefetch 相关问题的文档记录后禁用。禁用可能使应用程序和游戏打开更慢。</value>
+  </data>
+  <data name="CategoryOrTweakNamePrivacyDeviceControl" xml:space="preserve">
+    <value>隐私与设备控制</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionReversiblePrivacyAndDeviceInstallationPolicies" xml:space="preserve">
+    <value>可逆的隐私和设备安装策略。应用前请检查高风险项。</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableWindowsAIPolicies" xml:space="preserve">
+    <value>禁用 Windows AI 策略</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionHidesTheWindowsAIComponentsSettings" xml:space="preserve">
+    <value>隐藏 Windows AI 组件设置页面并禁用记事本 AI 功能。软件包移除可在自动化脚本中单独使用。</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableWindowsPlatformBinaryTableWPBT" xml:space="preserve">
+    <value>禁用 Windows 平台二进制表 (WPBT)</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionPreventsFirmwareProvidedWPBTSoftwareFrom" xml:space="preserve">
+    <value>防止固件提供的 WPBT 软件在启动时运行。这可能会禁用厂商的安全、恢复或管理软件。</value>
+  </data>
+  <data name="CategoryOrTweakNamePreventDeviceCompanionApps" xml:space="preserve">
+    <value>阻止设备伴随应用</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionPreventsAutomaticDownloadOfApplicationsAnd" xml:space="preserve">
+    <value>防止自动下载与连接设备相关的应用程序和元数据。这不会阻止来自 Windows Update 的所有驱动程序。</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableAutomaticDriverSearchAndCo" xml:space="preserve">
+    <value>禁用自动驱动搜索和共同安装程序</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisablesAutomaticDriverSearchingAndAll" xml:space="preserve">
+    <value>禁用自动驱动搜索和所有设备共同安装程序。此效应是系统范围的，并不限于雷蛇设备。</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableNotificationsAndCalendar" xml:space="preserve">
+    <value>禁用通知和日历</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisablesNotificationCenterToastNotificationsAnd" xml:space="preserve">
+    <value>禁用通知中心、浮出通知以及当前用户的相关日历弹出窗口。</value>
+  </data>
+  <data name="CategoryOrTweakNameAdvanced" xml:space="preserve">
+    <value>高级</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionHigherImpactChangesThatTradeWindows" xml:space="preserve">
+    <value>高影响更改，以Windows功能换取较低的后台活动</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableWindowsSearchIndexing" xml:space="preserve">
+    <value>禁用Windows搜索索引</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisablesWindowsSearchIndexingAndRestores" xml:space="preserve">
+    <value>禁用Windows搜索索引，并在重新启用时还原捕获的服务配置。</value>
+  </data>
+  <data name="CategoryOrTweakNameWindowsUpdateControl" xml:space="preserve">
+    <value>Windows更新控制</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionControlDriverDeliveryAndUseA" xml:space="preserve">
+    <value>控制驱动程序交付，并使用保守的手动更新策略</value>
+  </data>
+  <data name="CategoryOrTweakNameExcludeDriversFromWindowsUpdate" xml:space="preserve">
+    <value>从Windows更新中排除驱动程序</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionPreventsWindowsUpdateQualityUpdatesFrom" xml:space="preserve">
+    <value>防止Windows更新质量更新自动交付设备驱动程序。</value>
+  </data>
+  <data name="CategoryOrTweakNameVisualEffectsPerformance" xml:space="preserve">
+    <value>视觉效果与性能</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionOptimizeVisualEffectsForBetterPerformance" xml:space="preserve">
+    <value>优化视觉效果以提升性能和响应速度</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableWindowAnimations" xml:space="preserve">
+    <value>禁用窗口动画</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisablesWindowAnimationsForFasterUI" xml:space="preserve">
+    <value>禁用窗口动画以加快界面响应并降低资源使用</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableWindowTransparency" xml:space="preserve">
+    <value>禁用窗口透明度</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisablesWindowTransparencyEffectsToImprove" xml:space="preserve">
+    <value>禁用窗口透明效果以提高性能</value>
+  </data>
+  <data name="CategoryOrTweakNameOptimizeForPerformance" xml:space="preserve">
+    <value>优化性能</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionSetsVisualEffectsToAdjustFor" xml:space="preserve">
+    <value>将视觉效果设置为“调整以获得最佳性能”模式</value>
+  </data>
+  <data name="RegistryTweakApplied" xml:space="preserve">
+    <value>注册表调整已应用。</value>
+  </data>
+  <data name="RegistryTweakApplyFailed" xml:space="preserve">
+    <value>注册表调整应用失败。</value>
+  </data>
+  <data name="RegistryValueRestored" xml:space="preserve">
+    <value>已恢复原始注册表值。</value>
+  </data>
+  <data name="NoBackupAvailable" xml:space="preserve">
+    <value>没有可用的该值备份。</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>确认</value>
+  </data>
+  <data name="DeleteTweakMessage" xml:space="preserve">
+    <value>删除 '{0}'？</value>
+  </data>
+  <data name="DwordInvalid" xml:space="preserve">
+    <value>DWORD 必须是有效的 32 位整数。</value>
+  </data>
+  <data name="QwordInvalid" xml:space="preserve">
+    <value>QWORD 必须是有效的 64 位整数。</value>
+  </data>
+  <data name="BinaryInvalid" xml:space="preserve">
+    <value>二进制数据必须包含完整的十六进制字节对。</value>
+  </data>
+  <data name="AddCustomRegistryTweak" xml:space="preserve">
+    <value>添加自定义注册表调整</value>
+  </data>
+  <data name="EditCustomRegistryTweak" xml:space="preserve">
+    <value>编辑自定义注册表调整</value>
+  </data>
+  <data name="CreateCustomTweak" xml:space="preserve">
+    <value>创建自定义调整</value>
+  </data>
+  <data name="EditCustomTweak" xml:space="preserve">
+    <value>编辑自定义调整</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="RegistryPathLabel" xml:space="preserve">
+    <value>注册表路径（例如，HKCU\Software\...）</value>
+  </data>
+  <data name="ValueName" xml:space="preserve">
+    <value>值名称</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>类型</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>值</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>创建</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="InvalidRegistryTweak" xml:space="preserve">
+    <value>无效的注册表调整</value>
+  </data>
+  <data name="RequiredCustomFields" xml:space="preserve">
+    <value>请填写名称、路径和值名称。</value>
+  </data>
+  <data name="HighRiskWarning" xml:space="preserve">
+    <value>高风险调整警告</value>
+  </data>
+  <data name="HighRiskMessage" xml:space="preserve">
+    <value>此调整具有高风险等级（{0}/5）。
+
+描述：{1}
+
+您确定要应用此更改吗？</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>应用</value>
+  </data>
+  <data name="TweakApplicationFailed" xml:space="preserve">
+    <value>调整应用失败</value>
+  </data>
+  <data name="TweakApplicationFailedMessage" xml:space="preserve">
+    <value>应用调整失败：{0}
+
+这可能是由于权限不足或系统限制造成的。</value>
+  </data>
+  <data name="RestartForChanges" xml:space="preserve">
+    <value>系统需要重启以使更改生效。</value>
+  </data>
+  <data name="TweakError" xml:space="preserve">
+    <value>调整错误</value>
+  </data>
+  <data name="TweakErrorMessage" xml:space="preserve">
+    <value>应用调整时发生错误：
+
+{0}</value>
+  </data>
+  <data name="CompositePreview" xml:space="preserve">
+    <value># {0}
+# 风险：{1}/5
+
+# 应用
+{2}
+
+# 恢复
+TweakHub 会恢复每一个捕获的原始值。</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value># {0}
+# 风险：{1}/5
+
+# 应用
+{2}
+
+# 恢复
+TweakHub 会恢复捕获的原始值。</value>
+  </data>
+  <data name="BackupCreated" xml:space="preserve">
+    <value>备份已创建</value>
+  </data>
+  <data name="BackupCreatedMessage" xml:space="preserve">
+    <value>注册表备份已创建（捕获了 {0} 个新值）。
+
+备份位置：{1}</value>
+  </data>
+  <data name="BackupFailed" xml:space="preserve">
+    <value>备份失败</value>
+  </data>
+  <data name="ApplyAllRecommended" xml:space="preserve">
+    <value>应用所有推荐的优化</value>
+  </data>
+  <data name="ApplyAllRecommendedMessage" xml:space="preserve">
+    <value>将应用性能与最高隐私设置以及 Windows 更新安全模式。其中包含可能禁用 Windows 功能或设备集成的高影响隐私策略。SysMain 和预读取保持不变，因为禁用它们可能降低性能。
+
+应用更改前会自动创建备份。</value>
+  </data>
+  <data name="BackupFailedMessage" xml:space="preserve">
+    <value>创建备份失败。操作已取消。
+
+{0}</value>
+  </data>
+  <data name="NoChangesNeeded" xml:space="preserve">
+    <value>无需更改</value>
+  </data>
+  <data name="RecommendedAlreadyApplied" xml:space="preserve">
+    <value>所有推荐的优化已应用。</value>
+  </data>
+  <data name="ApplyingRecommended" xml:space="preserve">
+    <value>正在应用 {0} 个推荐优化...</value>
+  </data>
+  <data name="AppliedCount" xml:space="preserve">
+    <value>已应用：{0}</value>
+  </data>
+  <data name="FailedCount" xml:space="preserve">
+    <value>应用失败: {0}</value>
+  </data>
+  <data name="SomeChangesRequireRestart" xml:space="preserve">
+    <value>某些更改需要重启系统后才能生效。</value>
+  </data>
+  <data name="TweaksApplied" xml:space="preserve">
+    <value>调整已应用</value>
+  </data>
+  <data name="CreateRestorePointMessage" xml:space="preserve">
+    <value>这将静默创建一个名为 'TweakHub - Pre Tweaks' 的系统还原点。
+
+创建可能需要一分钟，并且需要管理员权限。</value>
+  </data>
+  <data name="CreateRestorePoint" xml:space="preserve">
+    <value>创建还原点</value>
+  </data>
+  <data name="CreatingRestorePoint" xml:space="preserve">
+    <value>正在创建系统还原点...</value>
+  </data>
+  <data name="RequestingRestorePoint" xml:space="preserve">
+    <value>正在请求还原点...</value>
+  </data>
+  <data name="RestorePointCreated" xml:space="preserve">
+    <value>还原点已创建</value>
+  </data>
+  <data name="RestorePointCreatedMessage" xml:space="preserve">
+    <value>还原点创建成功。</value>
+  </data>
+  <data name="RestorePointFailed" xml:space="preserve">
+    <value>还原点创建失败</value>
+  </data>
+  <data name="RestoreAllChanges" xml:space="preserve">
+    <value>恢复所有更改</value>
+  </data>
+  <data name="RestoreAllMessage" xml:space="preserve">
+    <value>这将尝试将所有注册表调整恢复到原始值。</value>
+  </data>
+  <data name="Restore" xml:space="preserve">
+    <value>恢复</value>
+  </data>
+  <data name="RestoringAll" xml:space="preserve">
+    <value>正在恢复所有注册表调整...</value>
+  </data>
+  <data name="Restoring" xml:space="preserve">
+    <value>正在恢复...</value>
+  </data>
+  <data name="RestoredCount" xml:space="preserve">
+    <value>已恢复：{0}</value>
+  </data>
+  <data name="RestoreFailedCount" xml:space="preserve">
+    <value>恢复失败：{0}</value>
+  </data>
+  <data name="RestoreComplete" xml:space="preserve">
+    <value>恢复完成</value>
+  </data>
+  <data name="RestoreFailed" xml:space="preserve">
+    <value>恢复失败</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableAdvertisingId" xml:space="preserve"><value>禁用广告 ID</value></data>
+  <data name="CategoryOrTweakDescriptionDisableAdvertisingId" xml:space="preserve"><value>阻止应用使用每用户广告标识符进行跨应用个性化。</value></data>
+  <data name="CategoryOrTweakNameDisableTailoredExperiences" xml:space="preserve"><value>禁用定制体验</value></data>
+  <data name="CategoryOrTweakDescriptionDisableTailoredExperiences" xml:space="preserve"><value>阻止 Windows 使用诊断数据个性化建议和优惠。</value></data>
+  <data name="CategoryOrTweakNameDisableActivityHistory" xml:space="preserve"><value>禁用活动历史记录和同步</value></data>
+  <data name="CategoryOrTweakDescriptionDisableActivityHistory" xml:space="preserve"><value>禁用 Windows 活动源，并阻止在设备间发布或上传用户活动。</value></data>
+  <data name="Description" xml:space="preserve"><value>说明</value></data>
+  <data name="WindowsUpdatePresets" xml:space="preserve"><value>Windows 更新模式</value></data>
+  <data name="WindowsUpdatePresetsDescription" xml:space="preserve"><value>选择完整的本地内置 Windows 更新配置。TweakHub 会在更改前保存原始设置。</value></data>
+  <data name="WindowsUpdatePresetDefault" xml:space="preserve"><value>默认</value></data>
+  <data name="WindowsUpdatePresetDisabled" xml:space="preserve"><value>禁用／已停止</value></data>
+  <data name="WindowsUpdatePresetSecurity" xml:space="preserve"><value>安全</value></data>
+  <data name="WindowsUpdatePresetCustom" xml:space="preserve"><value>自定义或部分应用</value></data>
+  <data name="WindowsUpdatePresetDefaultDescription" xml:space="preserve"><value>删除这些模式管理的策略，恢复更新服务的标准启动方式并启用更新任务。</value></data>
+  <data name="WindowsUpdatePresetDisabledDescription" xml:space="preserve"><value>停止并禁用 Windows 更新服务和任务，阻止自动更新并清除已下载的更新文件。</value></data>
+  <data name="WindowsUpdatePresetSecurityDescription" xml:space="preserve"><value>安全和质量更新保持正常计划，排除驱动程序，并将功能更新推迟 365 天。</value></data>
+  <data name="WindowsUpdatePresetCustomDescription" xml:space="preserve"><value>当前 Windows 设置与任何 TweakHub 模式都不完全匹配。请选择一个模式替换它们。</value></data>
+  <data name="WindowsUpdateCurrentMode" xml:space="preserve"><value>当前模式：{0}</value></data>
+  <data name="WindowsUpdateBundledScript" xml:space="preserve"><value>本地内置脚本；不会下载远程代码</value></data>
+  <data name="WindowsUpdateSelectedMode" xml:space="preserve"><value>所选模式：{0}</value></data>
+  <data name="WindowsUpdateScriptMissing" xml:space="preserve"><value>缺少内置的 Windows 更新模式脚本。</value></data>
+  <data name="WindowsUpdateDisableTitle" xml:space="preserve"><value>禁用 Windows 更新？</value></data>
+  <data name="WindowsUpdateDisableWarning" xml:space="preserve"><value>此模式会停止更新服务、禁用相关任务并删除已下载的更新文件。在选择其他模式前不会安装安全更新。是否继续？</value></data>
+  <data name="WindowsUpdateApplying" xml:space="preserve"><value>正在应用 Windows 更新模式...</value></data>
+  <data name="WindowsUpdateApplyFailed" xml:space="preserve"><value>Windows 更新模式应用失败</value></data>
+  <data name="WindowsUpdateApplied" xml:space="preserve"><value>已应用 Windows 更新模式</value></data>
+  <data name="WindowsUpdateAppliedMessage" xml:space="preserve"><value>已成功应用 {0} 模式。</value></data>
+  <data name="WindowsUpdateRestartMessage" xml:space="preserve"><value>请重启 Windows 以完成更新模式的应用。</value></data>
+</root>

@@ -1,42 +1,40 @@
 using System.Windows;
 using System.Windows.Controls;
 using ModernWpf.Controls;
+using TweakHub.Localization;
 
 namespace TweakHub.Views.Dialogs;
 
 public static class AppDialog
 {
-    public static async Task ShowAsync(Window? owner, string title, string message, string buttonText = "OK") =>
-        await Create(owner, title, message, buttonText).ShowAsync();
+    public static async Task ShowAsync(Window? owner, string title, string message, string? buttonText = null) =>
+        await Create(owner, title, message, buttonText ?? L.Get("UI:OK")).ShowAsync();
 
-    public static async Task ShowWarningAsync(Window? owner, string title, string message, string buttonText = "OK") =>
-        await Create(owner, title, message, buttonText, kind: "Warning").ShowAsync();
+    public static async Task ShowWarningAsync(Window? owner, string title, string message, string? buttonText = null) =>
+        await Create(owner, title, message, buttonText ?? L.Get("UI:OK"), kind: "Warning").ShowAsync();
 
-    public static async Task ShowErrorAsync(Window? owner, string title, string message, string buttonText = "OK") =>
-        await Create(owner, title, message, buttonText, kind: "Error").ShowAsync();
+    public static async Task ShowErrorAsync(Window? owner, string title, string message, string? buttonText = null) =>
+        await Create(owner, title, message, buttonText ?? L.Get("UI:OK"), kind: "Error").ShowAsync();
 
     public static async Task<bool> ConfirmAsync(
         Window? owner,
         string title,
         string message,
-        string primaryButtonText = "Yes",
-        string secondaryButtonText = "No") =>
-        await Create(owner, title, message, primaryButtonText, secondaryButtonText).ShowAsync()
+        string? primaryButtonText = null,
+        string? secondaryButtonText = null) =>
+        await Create(owner, title, message, primaryButtonText ?? L.Get("UI:Yes"), secondaryButtonText ?? L.Get("UI:No")).ShowAsync()
             == ContentDialogResult.Primary;
 
     public static Task ShowRestartRequiredAsync(Window? owner, string message) => ShowAsync(
         owner,
-        "Restart Required",
-        $"{message}\n\nThis message is shown once per session.");
+        L.Get("UI:RestartRequired"),
+        L.Format("UI:RestartRequiredMessage", message));
 
     public static Task ShowDisclaimerAsync(Window? owner) => ShowAsync(
         owner,
-        "TweakHub Disclaimer",
-        "TweakHub can make changes to Windows settings, the registry, boot configuration, and other system components. " +
-        "Create a system restore point before proceeding.\n\n" +
-        "You proceed at your own risk. The author assumes no responsibility for any damage, data loss, or system instability that may occur.\n\n" +
-        "By continuing, you acknowledge and accept these conditions.",
-        "I Understand");
+        L.Get("UI:DisclaimerTitle"),
+        L.Get("UI:DisclaimerMessage"),
+        L.Get("UI:IUnderstand"));
 
     private static ContentDialog Create(
         Window? owner,

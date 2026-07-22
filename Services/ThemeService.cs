@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Media;
 using ModernWpf;
+using TweakHub.Localization;
 using TweakHub.Models;
 
 namespace TweakHub.Services;
@@ -21,7 +22,7 @@ public sealed class ThemeService : INotifyPropertyChanged
     public bool UseSystemAccent => string.IsNullOrEmpty(_customAccent);
     public bool TransparencyEnabled => _transparencyEnabled;
     public bool IsDark => _isDark;
-    public string StatusText => $"{(_themeMode == "System" ? "Synced with Windows" : _themeMode + " mode")} • {(UseSystemAccent ? "System color" : _customAccent)}";
+    public string StatusText => L.Format("UI:AppearanceStatus", L.Get($"UI:Theme{_themeMode}"), UseSystemAccent ? L.Get("UI:SystemColor") : _customAccent);
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -34,13 +35,14 @@ public sealed class ThemeService : INotifyPropertyChanged
         ApplyTheme();
     }
 
-    public bool SetPreferences(string themeMode, bool useSystemAccent, string customAccent, bool transparency, out string error)
+    public bool SetPreferences(string themeMode, bool useSystemAccent, string customAccent, bool transparency, string language, out string error)
     {
         themeMode = NormalizeTheme(themeMode);
         customAccent = useSystemAccent ? string.Empty : customAccent.Trim();
+        language = L.Normalize(language);
         if (!useSystemAccent && !TryParseColor(customAccent, out _))
         {
-            error = "Enter a color in #RRGGBB format.";
+            error = L.Get("UI:InvalidAccentColor");
             return false;
         }
 
@@ -54,14 +56,15 @@ public sealed class ThemeService : INotifyPropertyChanged
             {
                 Theme = _themeMode,
                 AccentColor = _customAccent,
-                Transparency = _transparencyEnabled
+                Transparency = _transparencyEnabled,
+                Language = language
             });
             error = string.Empty;
             return true;
         }
         catch
         {
-            error = "The appearance was applied for this session but could not be saved.";
+            error = L.Get("UI:AppearanceSaveFailed");
             return false;
         }
     }

@@ -1,9 +1,9 @@
-using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 using Microsoft.Win32;
+using TweakHub.Localization;
 using TweakHub.Services;
 
 namespace TweakHub;
@@ -15,9 +15,11 @@ public partial class App : Application
 {
     protected override void OnStartup(StartupEventArgs e)
     {
+        L.Initialize(UserDataService.Instance.LoadAppearance().Language);
+
         if (Environment.OSVersion.Version.Build < 22000)
         {
-            MessageBox.Show("TweakHub supports Windows 11 build 22000 or newer.", "Unsupported Windows version", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show(L.Get("UI:WindowsVersionMessage"), L.Get("UI:WindowsVersionTitle"), MessageBoxButton.OK, MessageBoxImage.Error);
             Shutdown();
             return;
         }
@@ -98,7 +100,7 @@ public partial class App : Application
         }
         catch { }
 
-        MessageBox.Show($"An unexpected error occurred: {e.Exception.Message}\n\nDetails: {logPath}", "TweakHub Error",
+        MessageBox.Show(L.Format("UI:UnexpectedErrorMessage", e.Exception.Message, logPath), L.Get("UI:UnexpectedErrorTitle"),
             MessageBoxButton.OK, MessageBoxImage.Error);
         e.Handled = true;
         Shutdown(-1);

@@ -1,6 +1,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using TweakHub.Localization;
 using TweakHub.Models;
 using TweakHub.Services;
 using TweakHub.Views.Dialogs;
@@ -45,14 +46,14 @@ namespace TweakHub.Views
             // Group shortcuts by category
             var groupedShortcuts = _shortcutService.SystemShortcuts
                 .GroupBy(s => s.Category)
-                .OrderBy(g => GetCategoryOrder(g.Key));
+                .OrderBy(g => ShortcutService.CategoryOrder(g.Key));
 
             foreach (var group in groupedShortcuts)
             {
                 // Category header
                 var categoryHeader = new TextBlock
                 {
-                    Text = group.Key,
+                    Text = ShortcutService.LocalizeCategory(group.Key),
                     Style = (Style)FindResource("CategoryHeaderStyle")
                 };
                 ShortcutsContainer.Children.Add(categoryHeader);
@@ -102,7 +103,7 @@ namespace TweakHub.Views
             // Icon
             var iconText = new TextBlock
             {
-                Text = GetCategoryIcon(shortcut.Category),
+                Text = ShortcutService.CategoryIcon(shortcut.Category),
                 FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons"),
                 FontSize = 20,
                 Margin = new Thickness(0, 0, 12, 0),
@@ -151,20 +152,6 @@ namespace TweakHub.Views
             return button;
         }
 
-        private static string GetCategoryIcon(string category) => category switch
-        {
-            "System Management" => "\uE713",
-            "System Information" => "\uE946",
-            "Advanced Tools" => "\uE90F",
-            "Performance" => "\uE9D9",
-            "Power Management" => "\uE945",
-            "Network" => "\uE968",
-            "Audio" => "\uE767",
-            "Display" => "\uE7F4",
-            "Maintenance" => "\uE74D",
-            _ => "\uE8F1"
-        };
-
         private async void ExecuteShortcut(SystemShortcut shortcut)
         {
             try
@@ -175,35 +162,17 @@ namespace TweakHub.Views
                 {
                     await AppDialog.ShowWarningAsync(
                         Window.GetWindow(this),
-                        "Shortcut Execution Failed",
-                        $"Failed to execute shortcut: {shortcut.Name}\n\n" +
-                        "This may be due to insufficient permissions or the target application not being available.");
+                        L.Get("Tools:ShortcutExecutionFailed"),
+                        L.Format("Tools:ShortcutExecutionFailedMessage", shortcut.Name));
                 }
             }
             catch (Exception ex)
             {
                 await AppDialog.ShowErrorAsync(
                     Window.GetWindow(this),
-                    "Shortcut Error",
-                    $"An error occurred while executing the shortcut:\n\n{ex.Message}");
+                    L.Get("Tools:ShortcutError"),
+                    L.Format("Tools:ShortcutErrorMessage", ex.Message));
             }
-        }
-
-        private int GetCategoryOrder(string category)
-        {
-            return category switch
-            {
-                "System Management" => 1,
-                "Performance" => 2,
-                "System Information" => 3,
-                "Network" => 4,
-                "Audio" => 5,
-                "Display" => 6,
-                "Power Management" => 7,
-                "Maintenance" => 8,
-                "Advanced Tools" => 9,
-                _ => 10
-            };
         }
 
         private void ShowLoadError()
@@ -213,7 +182,7 @@ namespace TweakHub.Views
                 ShortcutsContainer.Children.Clear();
                 var errorText = new TextBlock
                 {
-                    Text = "Failed to load shortcuts. Please restart TweakHub.",
+                    Text = L.Get("Tools:LoadShortcutsFailed"),
                     HorizontalAlignment = HorizontalAlignment.Center,
                     VerticalAlignment = VerticalAlignment.Center,
                     Foreground = (System.Windows.Media.Brush)FindResource("DangerBrush")

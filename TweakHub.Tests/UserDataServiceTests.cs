@@ -25,9 +25,17 @@ public class UserDataServiceTests
                 IsCustom = true
             };
             source.SaveCustomTools([tool]);
+            source.SaveCustomTweaks([new CustomRegistryTweak
+            {
+                Name = "Documented tweak",
+                Description = "Why this custom value exists",
+                RegistryPath = @"HKCU\Software\TweakHub",
+                RegistryKey = "Example",
+                Data = "1"
+            }]);
             source.SaveFavoriteTools(["custom:custom-tool"]);
             source.SaveFavoriteTweaks(["builtin:disable_game_bar", "custom:registry-tool"]);
-            source.SaveAppearance(new AppearanceSettings { Theme = "Dark", AccentColor = "#336699", Transparency = false });
+            source.SaveAppearance(new AppearanceSettings { Theme = "Dark", AccentColor = "#336699", Transparency = false, Language = "it" });
             source.MarkRestartPending("restart-required");
             Assert.That(source.LoadPendingRestartIds(), Does.Contain("restart-required"));
             source.ExportProfile(profilePath);
@@ -37,10 +45,12 @@ public class UserDataServiceTests
             Assert.Multiple(() =>
             {
                 Assert.That(destination.LoadCustomTools().Single().PowerShellCommand, Does.Contain("winget install"));
+                Assert.That(destination.LoadCustomTweaks().Single().Description, Is.EqualTo("Why this custom value exists"));
                 Assert.That(destination.LoadFavoriteTools(), Does.Contain("custom:custom-tool"));
                 Assert.That(destination.LoadFavoriteTweaks(), Is.EquivalentTo(new[] { "builtin:disable_game_bar", "custom:registry-tool" }));
                 Assert.That(appearance.AccentColor, Is.EqualTo("#336699"));
                 Assert.That(appearance.Transparency, Is.False);
+                Assert.That(appearance.Language, Is.EqualTo("it"));
             });
         }
         finally

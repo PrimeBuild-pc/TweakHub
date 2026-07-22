@@ -1,12 +1,13 @@
 <Page x:Class="TweakHub.Views.ExternalToolsPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:loc="clr-namespace:TweakHub.Localization"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:TweakHub.Views"
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="External Tools"
+      Title="{loc:Loc Tools:ExternalToolsPageExternalTools}"
       Background="Transparent">
 
     <Page.Resources>
@@ -52,11 +53,11 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0">
-                <TextBlock Text="External Tools"
+                <TextBlock Text="{loc:Loc Tools:ExternalToolsPageExternalTools2}"
                            FontSize="28" FontWeight="Light"
                            Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"
                            Margin="0,0,0,6"/>
-                <TextBlock Text="Install curated tools or add your own Winget, PowerShell and website cards."
+                <TextBlock Text="{loc:Loc Tools:ExternalToolsPageInstallCuratedToolsOrAdd}"
                            FontSize="12"
                            Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
                            TextWrapping="Wrap"/>
@@ -91,16 +92,16 @@
                               Background="{DynamicResource SubtleFillBrush}"
                               BorderBrush="{DynamicResource SystemControlBorderBaseMediumBrush}" BorderThickness="1"
                               Checked="FavoritesFilter_Changed" Unchecked="FavoritesFilter_Changed" Margin="0,0,8,0"
-                              ToolTip="Show favorites only">
+                              ToolTip="{loc:Loc Tools:ExternalToolsPageShowFavoritesOnly}">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="&#xE734;" FontFamily="Segoe Fluent Icons" Margin="0,0,6,0"/>
-                        <TextBlock Text="Favorites"/>
+                        <TextBlock Text="{loc:Loc Tools:ExternalToolsPageFavorites}"/>
                     </StackPanel>
                 </ToggleButton>
                 <Button x:Name="AddToolButton" Style="{StaticResource ModernButtonStyle}" Click="AddTool_Click">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="&#xE710;" FontFamily="Segoe Fluent Icons" Margin="0,0,6,0" Foreground="{DynamicResource AccentForegroundBrush}"/>
-                        <TextBlock Text="Add tool"/>
+                        <TextBlock Text="{loc:Loc Tools:ExternalToolsPageAddTool}"/>
                     </StackPanel>
                 </Button>
             </StackPanel>
@@ -122,7 +123,7 @@
                 Visibility="Collapsed">
             <StackPanel>
                 <TextBlock x:Name="ProgressText"
-                           Text="Downloading..."
+                           Text="{loc:Loc Tools:ExternalToolsPageDownloading}"
                            FontSize="12"
                            FontWeight="SemiBold"
                            Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"

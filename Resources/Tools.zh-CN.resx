@@ -1,0 +1,761 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ExternalToolsPageExternalTools" xml:space="preserve">
+    <value>外部工具</value>
+  </data>
+  <data name="ExternalToolsPageExternalTools2" xml:space="preserve">
+    <value>外部工具</value>
+  </data>
+  <data name="ExternalToolsPageInstallCuratedToolsOrAdd" xml:space="preserve">
+    <value>安装精选工具或添加您自己的 Winget、PowerShell 和网站卡片。</value>
+  </data>
+  <data name="ExternalToolsPageShowFavoritesOnly" xml:space="preserve">
+    <value>仅显示收藏</value>
+  </data>
+  <data name="ExternalToolsPageFavorites" xml:space="preserve">
+    <value>收藏</value>
+  </data>
+  <data name="ExternalToolsPageAddTool" xml:space="preserve">
+    <value>添加工具</value>
+  </data>
+  <data name="ExternalToolsPageDownloading" xml:space="preserve">
+    <value>正在下载...</value>
+  </data>
+  <data name="QuickAccessPageQuickAccess" xml:space="preserve">
+    <value>快速访问</value>
+  </data>
+  <data name="QuickAccessPageQuickAccess2" xml:space="preserve">
+    <value>快速访问</value>
+  </data>
+  <data name="QuickAccessPageQuickShortcutsToWindowsControl" xml:space="preserve">
+    <value>快速访问 Windows 控制面板、系统设置和高级配置工具的快捷方式。</value>
+  </data>
+  <data name="CustomToolDialogCustomExternalTool" xml:space="preserve">
+    <value>自定义外部工具</value>
+  </data>
+  <data name="CustomToolDialogCustomExternalTool2" xml:space="preserve">
+    <value>自定义外部工具</value>
+  </data>
+  <data name="CustomToolDialogCreateAReusableWebsiteWinget" xml:space="preserve">
+    <value>创建可重复使用的网站、Winget 或 PowerShell 卡。PowerShell 仅在确认后运行。</value>
+  </data>
+  <data name="CustomToolDialogName" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="CustomToolDialogDescription" xml:space="preserve">
+    <value>描述</value>
+  </data>
+  <data name="CustomToolDialogCategory" xml:space="preserve">
+    <value>类别</value>
+  </data>
+  <data name="CustomToolDialogAction" xml:space="preserve">
+    <value>操作</value>
+  </data>
+  <data name="CustomToolDialogOpenHTTPSWebsiteOrOnline" xml:space="preserve">
+    <value>打开 HTTPS 网站或在线文件</value>
+  </data>
+  <data name="CustomToolDialogInstallExactWingetPackageID" xml:space="preserve">
+    <value>安装指定的 Winget 包 ID</value>
+  </data>
+  <data name="CustomToolDialogRunPowerShellCommand" xml:space="preserve">
+    <value>运行 PowerShell 命令</value>
+  </data>
+  <data name="CustomToolDialogValue" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="CustomToolDialogRequestAdministratorPrivileges" xml:space="preserve">
+    <value>请求管理员权限</value>
+  </data>
+  <data name="CustomToolDialogCancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="CustomToolDialogSaveTool" xml:space="preserve">
+    <value>保存工具</value>
+  </data>
+  <data name="ShortcutNameDeviceManager" xml:space="preserve">
+    <value>设备管理器</value>
+  </data>
+  <data name="ShortcutNameSystemInformation" xml:space="preserve">
+    <value>系统信息</value>
+  </data>
+  <data name="ShortcutNameRegistryEditor" xml:space="preserve">
+    <value>注册表编辑器</value>
+  </data>
+  <data name="ShortcutNameServices" xml:space="preserve">
+    <value>服务</value>
+  </data>
+  <data name="ShortcutNameEventViewer" xml:space="preserve">
+    <value>事件查看器</value>
+  </data>
+  <data name="ShortcutNameDiskManagement" xml:space="preserve">
+    <value>磁盘管理</value>
+  </data>
+  <data name="ShortcutNameTaskManager" xml:space="preserve">
+    <value>任务管理器</value>
+  </data>
+  <data name="ShortcutNameResourceMonitor" xml:space="preserve">
+    <value>资源监视器</value>
+  </data>
+  <data name="ShortcutNamePowerOptions" xml:space="preserve">
+    <value>电源选项</value>
+  </data>
+  <data name="ShortcutNameNetworkConnections" xml:space="preserve">
+    <value>网络连接</value>
+  </data>
+  <data name="ShortcutNameSoundSettings" xml:space="preserve">
+    <value>声音设置</value>
+  </data>
+  <data name="ShortcutNameDisplaySettings" xml:space="preserve">
+    <value>显示设置</value>
+  </data>
+  <data name="ShortcutNameWindowsFeatures" xml:space="preserve">
+    <value>Windows 功能</value>
+  </data>
+  <data name="ShortcutNameDiskCleanup" xml:space="preserve">
+    <value>磁盘清理</value>
+  </data>
+  <data name="ShortcutNameGroupPolicyEditor" xml:space="preserve">
+    <value>组策略编辑器</value>
+  </data>
+  <data name="ShortcutNameTaskScheduler" xml:space="preserve">
+    <value>任务计划程序</value>
+  </data>
+  <data name="DescriptionManageHardwareDevicesAndDrivers" xml:space="preserve">
+    <value>管理硬件设备和驱动程序</value>
+  </data>
+  <data name="DescriptionViewDetailedSystemInformation" xml:space="preserve">
+    <value>查看详细的系统信息</value>
+  </data>
+  <data name="DescriptionEditTheWindowsRegistry" xml:space="preserve">
+    <value>编辑 Windows 注册表</value>
+  </data>
+  <data name="DescriptionManageWindowsServices" xml:space="preserve">
+    <value>管理 Windows 服务</value>
+  </data>
+  <data name="DescriptionReviewWindowsSystemAndApplicationEvents" xml:space="preserve">
+    <value>检查 Windows 系统和应用程序事件</value>
+  </data>
+  <data name="DescriptionManageDisksPartitionsAndDriveLetters" xml:space="preserve">
+    <value>管理磁盘、分区和驱动器字母</value>
+  </data>
+  <data name="DescriptionMonitorProcessesAndPerformance" xml:space="preserve">
+    <value>监视进程和性能</value>
+  </data>
+  <data name="DescriptionInspectDetailedResourceUsage" xml:space="preserve">
+    <value>检查详细的资源使用情况</value>
+  </data>
+  <data name="DescriptionConfigurePowerAndSleepSettings" xml:space="preserve">
+    <value>配置电源和睡眠设置</value>
+  </data>
+  <data name="DescriptionManageNetworkAdapters" xml:space="preserve">
+    <value>管理网络适配器</value>
+  </data>
+  <data name="DescriptionConfigureAudioDevices" xml:space="preserve">
+    <value>配置音频设备</value>
+  </data>
+  <data name="DescriptionConfigureDisplays" xml:space="preserve">
+    <value>配置显示器</value>
+  </data>
+  <data name="DescriptionEnableOrDisableWindowsFeatures" xml:space="preserve">
+    <value>启用或禁用 Windows 功能</value>
+  </data>
+  <data name="DescriptionFreeDiskSpaceWithTheWindowsUtility" xml:space="preserve">
+    <value>使用 Windows 实用程序释放磁盘空间</value>
+  </data>
+  <data name="DescriptionEditLocalWindowsGroupPoliciesProAnd" xml:space="preserve">
+    <value>编辑本地 Windows 组策略（专业版和企业版）</value>
+  </data>
+  <data name="DescriptionCreateAndManageScheduledTasks" xml:space="preserve">
+    <value>创建和管理计划任务</value>
+  </data>
+  <data name="DescriptionOfficialMicrosoftUtilitiesForWindowsPowerUsers" xml:space="preserve">
+    <value>面向 Windows 高级用户的官方 Microsoft 实用程序</value>
+  </data>
+  <data name="DescriptionOpenSourceQuickLauncherForAppsFiles" xml:space="preserve">
+    <value>用于应用、文件、命令和网页搜索的开源快速启动器</value>
+  </data>
+  <data name="DescriptionDynamicTilingWindowManagerForWindows" xml:space="preserve">
+    <value>用于 Windows 的动态平铺窗口管理器</value>
+  </data>
+  <data name="DescriptionInspectAndManageEveryWindowsStartupLocation" xml:space="preserve">
+    <value>检查和管理所有 Windows 启动位置</value>
+  </data>
+  <data name="DescriptionOpenSourceBulkApplicationUninstaller" xml:space="preserve">
+    <value>开源批量应用卸载工具</value>
+  </data>
+  <data name="DescriptionExtendedReplacementForTheClassicWindowsDisk" xml:space="preserve">
+    <value>经典 Windows 磁盘清理的扩展替代工具</value>
+  </data>
+  <data name="DescriptionRemoveRecordsForNonPresentDevicesOpens" xml:space="preserve">
+    <value>删除不存在设备的记录；打开 MajorGeeks 信息页面</value>
+  </data>
+  <data name="DescriptionGraphicalWindowsImageServicingAndCleanupUtility" xml:space="preserve">
+    <value>图形化 Windows 映像服务和清理工具</value>
+  </data>
+  <data name="DescriptionInspectAndRemovePackagesFromTheWindows" xml:space="preserve">
+    <value>检查并移除 Windows 驱动程序存储中的软件包</value>
+  </data>
+  <data name="DescriptionOpenSourceOfflineDriverInstallerAndIndex" xml:space="preserve">
+    <value>开源离线驱动安装程序和索引</value>
+  </data>
+  <data name="DescriptionGraphicalInterfaceForWinGetAndOtherPackage" xml:space="preserve">
+    <value>WinGet 和其他包管理器的图形界面</value>
+  </data>
+  <data name="DescriptionGraphicalInterfaceForWindowsFeatureConfigurationIDs" xml:space="preserve">
+    <value>Windows 功能配置 ID 的图形界面</value>
+  </data>
+  <data name="DescriptionConfigureAndCustomizeWindowsFromATransparent" xml:space="preserve">
+    <value>通过透明开源 UI 配置和自定义 Windows</value>
+  </data>
+  <data name="DescriptionWindowsMaintenanceAndCustomizationDashboardFromMicrosoft" xml:space="preserve">
+    <value>来自 Microsoft Store 的 Windows 维护和自定义仪表板</value>
+  </data>
+  <data name="DescriptionChrisTitusTechWindowsUtilityOpensThe" xml:space="preserve">
+    <value>Chris Titus Tech Windows 实用程序；打开官方项目，绝不运行远程脚本</value>
+  </data>
+  <data name="DescriptionFastLocalFileAndFolderSearch" xml:space="preserve">
+    <value>快速本地文件和文件夹搜索</value>
+  </data>
+  <data name="DescriptionFastVisualDiskSpaceAnalyzer" xml:space="preserve">
+    <value>快速可视化磁盘空间分析工具</value>
+  </data>
+  <data name="DescriptionCPUMemoryAndPlatformInformation" xml:space="preserve">
+    <value>CPU、内存和平台信息</value>
+  </data>
+  <data name="DescriptionOfficialAMDRyzenMonitoringAndOverclockingUtility" xml:space="preserve">
+    <value>官方 AMD Ryzen 监控和超频工具</value>
+  </data>
+  <data name="DescriptionInspectAMDRyzenMemoryTimingsAndInfinity" xml:space="preserve">
+    <value>检查 AMD Ryzen 内存时序和 Infinity Fabric 设置</value>
+  </data>
+  <data name="DescriptionManageWindowsCPUSets" xml:space="preserve">
+    <value>管理 Windows CPU 集合</value>
+  </data>
+  <data name="DescriptionInspectAndManageCPUThreadAffinity" xml:space="preserve">
+    <value>检查和管理 CPU 线程亲和性</value>
+  </data>
+  <data name="DescriptionProcessPriorityAffinityAndResponsivenessControls" xml:space="preserve">
+    <value>进程优先级、亲和性和响应控制</value>
+  </data>
+  <data name="DescriptionInspectAndConfigureCPUCoreParkingAnd" xml:space="preserve">
+    <value>检查和配置 CPU 核心停放和频率调节</value>
+  </data>
+  <data name="DescriptionCycleStressTestsAcrossIndividualCPUCores" xml:space="preserve">
+    <value>对各个 CPU 核心进行循环压力测试</value>
+  </data>
+  <data name="DescriptionAdvancedAMDSMUMSRAndPowerTable" xml:space="preserve">
+    <value>高级 AMD SMU、MSR 和功率表检查</value>
+  </data>
+  <data name="DescriptionOfficialIntelAPOInterfaceForSupportedProcessors" xml:space="preserve">
+    <value>支持的处理器和游戏的官方 Intel APO 接口</value>
+  </data>
+  <data name="DescriptionAdvancedGraphicalLauncherForKarhuRAMTest" xml:space="preserve">
+    <value>Karhu 内存测试的高级图形启动器</value>
+  </data>
+  <data name="DescriptionCommunityMemoryStabilityTestDownloadsTheUser" xml:space="preserve">
+    <value>社区内存稳定性测试；下载用户提供的 GitHub 发布归档</value>
+  </data>
+  <data name="DescriptionBootableMemoryDiagnostics" xml:space="preserve">
+    <value>可启动的内存诊断</value>
+  </data>
+  <data name="DescriptionDetailedHardwareInformationAndSensorMonitoring" xml:space="preserve">
+    <value>详细的硬件信息和传感器监控</value>
+  </data>
+  <data name="DescriptionCPUIDHardwareTemperatureVoltageAndFanMonitoring" xml:space="preserve">
+    <value>CPUID 硬件温度、电压和风扇监控</value>
+  </data>
+  <data name="DescriptionMicrosoftSysinternalsPhysicalMemoryAnalyzer" xml:space="preserve">
+    <value>Microsoft Sysinternals 物理内存分析器</value>
+  </data>
+  <data name="DescriptionAnalyzeRealTimeAudioAndDPCLatency" xml:space="preserve">
+    <value>分析实时音频和 DPC 延迟</value>
+  </data>
+  <data name="DescriptionOpenSourceFanCurveAndSensorControl" xml:space="preserve">
+    <value>开源风扇曲线和传感器控制</value>
+  </data>
+  <data name="DescriptionIntelFramePresentationAndPerformanceMonitoring" xml:space="preserve">
+    <value>英特尔帧呈现和性能监控</value>
+  </data>
+  <data name="DescriptionMicrosoftGPUAndCPUPerformanceTraceVisualization" xml:space="preserve">
+    <value>微软 GPU 和 CPU 性能跟踪可视化</value>
+  </data>
+  <data name="DescriptionStaticInspectionOfWindowsExecutablesWithoutRunning" xml:space="preserve">
+    <value>无需运行即可对 Windows 可执行文件进行静态检查</value>
+  </data>
+  <data name="DescriptionSysinternalsProcessHandleAndDLLDiagnostics" xml:space="preserve">
+    <value>Sysinternals 进程、句柄和 DLL 诊断</value>
+  </data>
+  <data name="DescriptionRealTimeFilesystemRegistryAndProcessTracing" xml:space="preserve">
+    <value>实时文件系统、注册表和进程跟踪</value>
+  </data>
+  <data name="DescriptionAdvancedETWRecordingAndAnalysisWithWPR" xml:space="preserve">
+    <value>使用 WPR 和 WPA 的高级 ETW 记录与分析</value>
+  </data>
+  <data name="DescriptionFrameRateFrameTimePowerAndPerformance" xml:space="preserve">
+    <value>帧率、帧时间、功耗和每瓦性能监控</value>
+  </data>
+  <data name="DescriptionLightweightDetailedGPUMonitoringFromGeeks3D" xml:space="preserve">
+    <value>来自 Geeks3D 的轻量级详细 GPU 监控</value>
+  </data>
+  <data name="DescriptionAdvancedCPUAndGPUWorkloadProfilingAnd" xml:space="preserve">
+    <value>高级 CPU 与 GPU 工作负载分析和时间线分析</value>
+  </data>
+  <data name="DescriptionLowLevelRadeonGPUPerformanceAndWorkload" xml:space="preserve">
+    <value>低端 Radeon GPU 性能和工作负载分析</value>
+  </data>
+  <data name="DescriptionGPUInformationSensorsAndValidation" xml:space="preserve">
+    <value>GPU 信息、传感器和验证</value>
+  </data>
+  <data name="DescriptionGPUMonitoringFanCurvesAndOverclockingControls" xml:space="preserve">
+    <value>GPU 监控、风扇曲线和超频控制</value>
+  </data>
+  <data name="DescriptionFrameRateLimitingAndInGamePerformance" xml:space="preserve">
+    <value>帧率限制和游戏内性能叠加</value>
+  </data>
+  <data name="DescriptionPaidAMDGPUTuningUtilityFromMicrosoft" xml:space="preserve">
+    <value>来自 Microsoft Store 的付费 AMD GPU 调校工具</value>
+  </data>
+  <data name="DescriptionLegacyFreeAMDGPUTuningUtilityFrom" xml:space="preserve">
+    <value>来自 Igor's Lab 的免费传统 AMD GPU 调校工具</value>
+  </data>
+  <data name="DescriptionAdvancedAMDRadeonPowerLimitEditor" xml:space="preserve">
+    <value>高级 AMD Radeon 功耗限制编辑器</value>
+  </data>
+  <data name="DescriptionLightweightOpenSourceAMDRadeonTuningInterface" xml:space="preserve">
+    <value>轻量级开源 AMD Radeon 调校界面</value>
+  </data>
+  <data name="DescriptionInspectAdvancedNVIDIADriverProfiles" xml:space="preserve">
+    <value>检查高级 NVIDIA 驱动配置文件</value>
+  </data>
+  <data name="DescriptionCustomizeNVIDIADriverInstallations" xml:space="preserve">
+    <value>自定义 NVIDIA 驱动安装</value>
+  </data>
+  <data name="DescriptionCompletelyRemoveGraphicsDriversBeforeReinstalling" xml:space="preserve">
+    <value>在重新安装前完全删除显卡驱动程序</value>
+  </data>
+  <data name="DescriptionAdvancedNVIDIAGraphicsCardFirmwareUtility" xml:space="preserve">
+    <value>高级 NVIDIA 显卡固件工具</value>
+  </data>
+  <data name="DescriptionAdvancedAMDGraphicsCardFirmwareUtilityFormerly" xml:space="preserve">
+    <value>高级 AMD 显卡固件工具，原名 ATIFlash</value>
+  </data>
+  <data name="DescriptionCommunityTroubleshootingUtilityForMultiplaneOverlayIssues" xml:space="preserve">
+    <value>用于多平面覆盖问题的社区故障排除工具</value>
+  </data>
+  <data name="DescriptionInspectAndEditDisplayResolutionsAndEDID" xml:space="preserve">
+    <value>检查和编辑显示分辨率及 EDID 数据</value>
+  </data>
+  <data name="DescriptionAutomateNVIDIADigitalVibranceAndAMDSaturation" xml:space="preserve">
+    <value>为每个游戏自动设置 NVIDIA 数字动态图像和 AMD 饱和度</value>
+  </data>
+  <data name="DescriptionOpenSourceRGBDeviceControl" xml:space="preserve">
+    <value>开源 RGB 设备控制</value>
+  </data>
+  <data name="DescriptionUnifiedRGBLightingAndDeviceEffects" xml:space="preserve">
+    <value>统一的 RGB 灯光和设备效果</value>
+  </data>
+  <data name="DescriptionUnofficialGUIForAdvancedAMIFirmwareVariable" xml:space="preserve">
+    <value>非官方 AMI 固件变量高级编辑 GUI；仅在有恢复计划时使用</value>
+  </data>
+  <data name="DescriptionCommunitySCEWINBinariesAndTroubleshootingFirmwareChanges" xml:space="preserve">
+    <value>社区 SCEWIN 二进制文件和故障排除；固件更改可能导致系统无法启动</value>
+  </data>
+  <data name="DescriptionInspectHiddenWindowsPowerPlanSettingsOpens" xml:space="preserve">
+    <value>检查隐藏的 Windows 电源计划设置；打开稳定的 MediaFire 下载页面</value>
+  </data>
+  <data name="DescriptionManageDLSSVersionsInSupportedGames" xml:space="preserve">
+    <value>在支持的游戏中管理 DLSS 版本</value>
+  </data>
+  <data name="DescriptionUpscalerInjectionAndCompatibilityLayerForSupported" xml:space="preserve">
+    <value>支持游戏的上采样注入和兼容层</value>
+  </data>
+  <data name="DescriptionCommunityDirectX12UpscalerAndFrameGeneration" xml:space="preserve">
+    <value>社区版 DirectX 12 上采样和帧生成兼容性修改</value>
+  </data>
+  <data name="DescriptionLightweightOpenSourceConfigurableCrosshairOverlay" xml:space="preserve">
+    <value>轻量级开源可配置准心叠加</value>
+  </data>
+  <data name="DescriptionOpenSourceMouseAccelerationDriver" xml:space="preserve">
+    <value>开源鼠标加速驱动</value>
+  </data>
+  <data name="DescriptionAdvancedUSBHIDPollingRateFilterDriver" xml:space="preserve">
+    <value>高级 USB HID 轮询率过滤驱动</value>
+  </data>
+  <data name="DescriptionBrowserBasedCalibrationForSupportedPlayStationControllers" xml:space="preserve">
+    <value>支持的 PlayStation 控制器的基于浏览器的校准</value>
+  </data>
+  <data name="DescriptionOfficialBrowserBasedMousePollingRateTester" xml:space="preserve">
+    <value>官方基于浏览器的鼠标轮询率测试器</value>
+  </data>
+  <data name="DescriptionStoragePerformanceBenchmark" xml:space="preserve">
+    <value>存储性能基准测试</value>
+  </data>
+  <data name="DescriptionStorageHealthAndSMARTInformation" xml:space="preserve">
+    <value>存储健康和SMART信息</value>
+  </data>
+  <data name="DescriptionNirSoftInventoryAndManagementOfCurrentAnd" xml:space="preserve">
+    <value>NirSoft当前和历史USB设备的清单和管理</value>
+  </data>
+  <data name="DescriptionMariusHeierUSBLatencyToolsOpensThe" xml:space="preserve">
+    <value>Marius Heier USB延迟工具；打开官网而不执行脚本</value>
+  </data>
+  <data name="DescriptionMicrosoftCommandLineStorageLoadGeneratorAnd" xml:space="preserve">
+    <value>微软命令行存储负载生成器和基准测试</value>
+  </data>
+  <data name="DescriptionOpenSourceBitTorrentClient" xml:space="preserve">
+    <value>开源BitTorrent客户端</value>
+  </data>
+  <data name="DescriptionInspectAndTuneWindowsTCPIPParameters" xml:space="preserve">
+    <value>检查和调整Windows TCP/IP参数</value>
+  </data>
+  <data name="DescriptionMicrosoftSysinternalsLiveTCPAndUDPEndpoint" xml:space="preserve">
+    <value>微软Sysinternals实时TCP和UDP端点查看器</value>
+  </data>
+  <data name="DescriptionTestAndSwitchDNSResolvers" xml:space="preserve">
+    <value>测试和切换DNS解析器</value>
+  </data>
+  <data name="DescriptionMeasureMaximumTCPAndUDPNetworkThroughput" xml:space="preserve">
+    <value>测量最大TCP和UDP网络吞吐量</value>
+  </data>
+  <data name="DescriptionCaptureAndInspectNetworkTrafficAndProtocols" xml:space="preserve">
+    <value>捕获和检查网络流量及协议</value>
+  </data>
+  <data name="DescriptionAudioEqualizerAndEnhancement" xml:space="preserve">
+    <value>音频均衡器和增强</value>
+  </data>
+  <data name="DescriptionSystemWideParametricAudioEqualizer" xml:space="preserve">
+    <value>系统范围的参数音频均衡器</value>
+  </data>
+  <data name="DescriptionGraphicalInterfaceForEqualizerAPO" xml:space="preserve">
+    <value>Equalizer APO 图形界面</value>
+  </data>
+  <data name="DescriptionSteelSeriesDeviceControlSonarAudioAndGame" xml:space="preserve">
+    <value>SteelSeries 设备控制、Sonar 音频和游戏捕捉</value>
+  </data>
+  <data name="DescriptionHardwareDiagnosticsMonitoringAndSystemBenchmarks" xml:space="preserve">
+    <value>硬件诊断、监控和系统基准测试</value>
+  </data>
+  <data name="DescriptionFrameTimeCaptureAndPerformanceAnalysis" xml:space="preserve">
+    <value>帧时间捕捉和性能分析</value>
+  </data>
+  <data name="DescriptionCPUGPUMemoryAndPowerStabilityTesting" xml:space="preserve">
+    <value>CPU、GPU、内存和功耗稳定性测试</value>
+  </data>
+  <data name="DescriptionCPUAndMemoryStressTesting" xml:space="preserve">
+    <value>CPU 和内存压力测试</value>
+  </data>
+  <data name="DescriptionUnigineGPUBenchmarkAndStabilityTest" xml:space="preserve">
+    <value>Unigine GPU 基准测试和稳定性测试</value>
+  </data>
+  <data name="DescriptionBenchmarkLauncherValidationAndResultManagement" xml:space="preserve">
+    <value>基准启动器、验证和结果管理</value>
+  </data>
+  <data name="DescriptionCurrentOfficialMaxonCPUAndGPURendering" xml:space="preserve">
+    <value>当前官方 Maxon CPU 和 GPU 渲染基准</value>
+  </data>
+  <data name="DescriptionLegacyMaxonCPURenderingBenchmark" xml:space="preserve">
+    <value>传统 Maxon CPU 渲染基准</value>
+  </data>
+  <data name="DescriptionTechPowerUpArchiveForOlderCinebenchReleasesThe" xml:space="preserve">
+    <value>TechPowerUp 旧版 Cinebench 发布归档；用户选择版本</value>
+  </data>
+  <data name="DescriptionHighLoadCPUAndMemoryStabilityTest" xml:space="preserve">
+    <value>高负载 CPU 和内存稳定性测试</value>
+  </data>
+  <data name="DescriptionGPUStressTestAndOpenGLVulkanBenchmark" xml:space="preserve">
+    <value>GPU 压力测试和 OpenGL/Vulkan 基准</value>
+  </data>
+  <data name="DescriptionMSIGPUStressTestAndOpenGLVulkan" xml:space="preserve">
+    <value>MSI GPU 压力测试和 OpenGL/Vulkan 基准</value>
+  </data>
+  <data name="DescriptionHeavyCPURAMAndMemoryControllerBenchmark" xml:space="preserve">
+    <value>重负载 CPU、RAM 和内存控制器基准及压力测试</value>
+  </data>
+  <data name="DescriptionVulkanBasedGPUMemoryStabilityAndError" xml:space="preserve">
+    <value>基于 Vulkan 的 GPU 内存稳定性和错误测试</value>
+  </data>
+  <data name="DescriptionModernUnigineGPUBenchmarkAndStabilityTest" xml:space="preserve">
+    <value>现代 Unigine GPU 基准和稳定性测试</value>
+  </data>
+  <data name="DescriptionIndustryStandardGamingCPUAndGPUBenchmark" xml:space="preserve">
+    <value>行业标准的游戏 CPU 和 GPU 基准套件</value>
+  </data>
+  <data name="DescriptionRealWorldCPUAndGPURenderingBenchmark" xml:space="preserve">
+    <value>真实世界的 CPU 和 GPU 渲染基准测试</value>
+  </data>
+  <data name="DescriptionCrossPlatformCPUAndGPUComputeBenchmark" xml:space="preserve">
+    <value>跨平台 CPU 和 GPU 计算基准测试</value>
+  </data>
+  <data name="DescriptionGoogleSAgenticDevelopmentEnvironment" xml:space="preserve">
+    <value>谷歌的自主开发环境</value>
+  </data>
+  <data name="DescriptionAIFirstCodeEditor" xml:space="preserve">
+    <value>以 AI 为先的代码编辑器</value>
+  </data>
+  <data name="DescriptionRunAndManageLocalLanguageModels" xml:space="preserve">
+    <value>运行和管理本地语言模型</value>
+  </data>
+  <data name="DescriptionOpenSourceAICodingAgentForThe" xml:space="preserve">
+    <value>终端的开源 AI 编码代理</value>
+  </data>
+  <data name="DescriptionMinimalExtensibleTerminalCodingAgentFramework" xml:space="preserve">
+    <value>最小可扩展的终端编码代理框架</value>
+  </data>
+  <data name="DescriptionAgenticTerminalAndDevelopmentEnvironment" xml:space="preserve">
+    <value>自主终端和开发环境</value>
+  </data>
+  <data name="DescriptionLocalInterfaceForTrainingAndRunningOpen" xml:space="preserve">
+    <value>用于训练和运行开源模型的本地接口</value>
+  </data>
+  <data name="DescriptionDiscoverDownloadAndRunLocalLanguageModels" xml:space="preserve">
+    <value>发现、下载和运行本地语言模型</value>
+  </data>
+  <data name="DescriptionOpenSourceLocalAIDesktopApplication" xml:space="preserve">
+    <value>开源本地 AI 桌面应用程序</value>
+  </data>
+  <data name="DuplicateToolName" xml:space="preserve">
+    <value>具有此名称的工具已存在。</value>
+  </data>
+  <data name="CategorySystemUtilities" xml:space="preserve">
+    <value>系统工具</value>
+  </data>
+  <data name="CategoryCPUMemory" xml:space="preserve">
+    <value>CPU 和内存</value>
+  </data>
+  <data name="CategoryFirmwarePower" xml:space="preserve">
+    <value>固件与电源</value>
+  </data>
+  <data name="CategoryMonitoringDiagnostics" xml:space="preserve">
+    <value>监控与诊断</value>
+  </data>
+  <data name="CategoryGPUDisplay" xml:space="preserve">
+    <value>GPU 与显示</value>
+  </data>
+  <data name="CategoryGamingInput" xml:space="preserve">
+    <value>游戏与输入</value>
+  </data>
+  <data name="CategoryStorageUSB" xml:space="preserve">
+    <value>存储与 USB</value>
+  </data>
+  <data name="CategoryNetwork" xml:space="preserve">
+    <value>网络</value>
+  </data>
+  <data name="CategoryAudio" xml:space="preserve">
+    <value>音频</value>
+  </data>
+  <data name="CategoryBenchmarksStability" xml:space="preserve">
+    <value>基准测试与稳定性</value>
+  </data>
+  <data name="CategoryAITools" xml:space="preserve">
+    <value>人工智能工具</value>
+  </data>
+  <data name="CategorySystemManagement" xml:space="preserve">
+    <value>系统管理</value>
+  </data>
+  <data name="CategorySystemInformation" xml:space="preserve">
+    <value>系统信息</value>
+  </data>
+  <data name="CategoryAdvancedTools" xml:space="preserve">
+    <value>高级工具</value>
+  </data>
+  <data name="CategoryPerformance" xml:space="preserve">
+    <value>性能</value>
+  </data>
+  <data name="CategoryPowerManagement" xml:space="preserve">
+    <value>电源管理</value>
+  </data>
+  <data name="CategoryDisplay" xml:space="preserve">
+    <value>显示</value>
+  </data>
+  <data name="CategoryMaintenance" xml:space="preserve">
+    <value>维护</value>
+  </data>
+  <data name="CategoryCustom" xml:space="preserve">
+    <value>自定义</value>
+  </data>
+  <data name="WingetPackageId" xml:space="preserve">
+    <value>Winget 包 ID</value>
+  </data>
+  <data name="PowerShellCommand" xml:space="preserve">
+    <value>PowerShell 命令</value>
+  </data>
+  <data name="HttpsUrl" xml:space="preserve">
+    <value>HTTPS 链接</value>
+  </data>
+  <data name="WingetHelp" xml:space="preserve">
+    <value>示例：Microsoft.PowerToys。TweakHub 添加了 --id 和 --exact。</value>
+  </data>
+  <data name="PowerShellHelp" xml:space="preserve">
+    <value>允许使用如 irm ... | iex 之类的命令，但执行前会再次显示以确认。</value>
+  </data>
+  <data name="WebsiteHelp" xml:space="preserve">
+    <value>使用 HTTPS 项目页面、下载页面或在线文件。</value>
+  </data>
+  <data name="ToolCount" xml:space="preserve">
+    <value>工具：{0}</value>
+  </data>
+  <data name="Favorites" xml:space="preserve">
+    <value>收藏</value>
+  </data>
+  <data name="Unfavorite" xml:space="preserve">
+    <value>取消收藏</value>
+  </data>
+  <data name="Favorite" xml:space="preserve">
+    <value>收藏</value>
+  </data>
+  <data name="RemoveFromFavorites" xml:space="preserve">
+    <value>从收藏中移除</value>
+  </data>
+  <data name="AddToFavorites" xml:space="preserve">
+    <value>添加到收藏</value>
+  </data>
+  <data name="EditCustomTool" xml:space="preserve">
+    <value>编辑自定义工具</value>
+  </data>
+  <data name="EditToolNamed" xml:space="preserve">
+    <value>编辑{0}</value>
+  </data>
+  <data name="DeleteCustomTool" xml:space="preserve">
+    <value>删除自定义工具</value>
+  </data>
+  <data name="DeleteToolNamed" xml:space="preserve">
+    <value>删除{0}</value>
+  </data>
+  <data name="DeleteToolMessage" xml:space="preserve">
+    <value>删除{0}？</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="Uninstall" xml:space="preserve">
+    <value>卸载</value>
+  </data>
+  <data name="UninstallNamed" xml:space="preserve">
+    <value>卸载 {0}</value>
+  </data>
+  <data name="ConfirmUninstall" xml:space="preserve">
+    <value>确认卸载</value>
+  </data>
+  <data name="ConfirmUninstallMessage" xml:space="preserve">
+    <value>您确定要卸载 {0} 吗？</value>
+  </data>
+  <data name="UnableSaveFavorites" xml:space="preserve">
+    <value>无法保存收藏夹</value>
+  </data>
+  <data name="UnableSaveTool" xml:space="preserve">
+    <value>无法保存工具</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>安装</value>
+  </data>
+  <data name="Website" xml:space="preserve">
+    <value>网站</value>
+  </data>
+  <data name="Run" xml:space="preserve">
+    <value>运行</value>
+  </data>
+  <data name="LoadToolsFailed" xml:space="preserve">
+    <value>加载外部工具失败。请重启 TweakHub。</value>
+  </data>
+  <data name="ShortcutExecutionFailed" xml:space="preserve">
+    <value>快捷方式执行失败</value>
+  </data>
+  <data name="ShortcutExecutionFailedMessage" xml:space="preserve">
+    <value>无法执行快捷方式：{0}
+
+这可能是由于权限不足或目标应用程序不可用。</value>
+  </data>
+  <data name="ShortcutError" xml:space="preserve">
+    <value>快捷方式错误</value>
+  </data>
+  <data name="ShortcutErrorMessage" xml:space="preserve">
+    <value>执行快捷方式时发生错误：
+
+{0}</value>
+  </data>
+  <data name="LoadShortcutsFailed" xml:space="preserve">
+    <value>无法加载快捷方式。请重启 TweakHub。</value>
+  </data>
+  <data name="ToolInstalledTitle" xml:space="preserve">
+    <value>已安装 {0}</value>
+  </data>
+  <data name="RunPowerShellTitle" xml:space="preserve">
+    <value>运行自定义 PowerShell 命令</value>
+  </data>
+  <data name="RunPowerShellMessage" xml:space="preserve">
+    <value>只运行您信任的命令。此命令可能会下载或修改软件。
+
+{0}</value>
+  </data>
+  <data name="RunningPowerShell" xml:space="preserve">
+    <value>正在运行 PowerShell 命令...</value>
+  </data>
+  <data name="CommandCompleted" xml:space="preserve">
+    <value>命令已完成。</value>
+  </data>
+  <data name="CommandFailed" xml:space="preserve">
+    <value>命令失败。</value>
+  </data>
+  <data name="CommandCompletedTitle" xml:space="preserve">
+    <value>命令已完成</value>
+  </data>
+  <data name="CommandFailedTitle" xml:space="preserve">
+    <value>命令失败</value>
+  </data>
+  <data name="CommandFinishedMessage" xml:space="preserve">
+    <value>{0} 在 {1:F1} 秒内完成。
+
+{2}</value>
+  </data>
+  <data name="StartingAction" xml:space="preserve">
+    <value>正在启动 {0}...</value>
+  </data>
+  <data name="ActionCompleted" xml:space="preserve">
+    <value>{0} 已完成：{1}</value>
+  </data>
+  <data name="ActionFailed" xml:space="preserve">
+    <value>{0} 失败：{1}</value>
+  </data>
+  <data name="InstallationCompleted" xml:space="preserve">
+    <value>安装完成。</value>
+  </data>
+  <data name="TerminalCommand" xml:space="preserve">
+    <value>终端命令：{0}</value>
+  </data>
+  <data name="InstallationLocation" xml:space="preserve">
+    <value>安装位置："{0}"</value>
+  </data>
+  <data name="ExecutableLocation" xml:space="preserve">
+    <value>可执行文件: "{0}"</value>
+  </data>
+  <data name="WingetPathMissing" xml:space="preserve">
+    <value>WinGet 未暴露终端别名或可执行路径。</value>
+  </data>
+  <data name="PackageId" xml:space="preserve">
+    <value>软件包: {0}</value>
+  </data>
+  <data name="CheckWingetCommand" xml:space="preserve">
+    <value>使用以下命令检查: winget list --id "{0}" --exact</value>
+  </data>
+  <data name="ActionInstallation" xml:space="preserve">
+    <value>安装</value>
+  </data>
+  <data name="ActionUninstall" xml:space="preserve">
+    <value>卸载</value>
+  </data>
+</root>

@@ -1,0 +1,544 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="RegistryTweaksPageRegistryTweaks" xml:space="preserve">
+    <value>Настройки реестра</value>
+  </data>
+  <data name="RegistryTweaksPageOnlyPartOfThisGrouped" xml:space="preserve">
+    <value>В настоящее время применяется только часть этой сгруппированной настройки</value>
+  </data>
+  <data name="RegistryTweaksPageRestartWindowsToMakeThis" xml:space="preserve">
+    <value>Перезапустите Windows, чтобы это изменение вступило в силу</value>
+  </data>
+  <data name="RegistryTweaksPageAddOrRemoveFromFavorites" xml:space="preserve">
+    <value>Добавьте или удалите из избранного</value>
+  </data>
+  <data name="RegistryTweaksPageToggleFavorite" xml:space="preserve">
+    <value>Переключить избранное</value>
+  </data>
+  <data name="RegistryTweaksPageEnableTweak" xml:space="preserve">
+    <value>Включить настройку</value>
+  </data>
+  <data name="RegistryTweaksPagePreviewRegistryChanges" xml:space="preserve">
+    <value>Предварительный просмотр изменений реестра</value>
+  </data>
+  <data name="RegistryTweaksPagePreviewRegistryChanges2" xml:space="preserve">
+    <value>Предварительный просмотр изменений реестра</value>
+  </data>
+  <data name="RegistryTweaksPageThisRegistryValueCurrentlyMatches" xml:space="preserve">
+    <value>Это значение реестра в настоящее время соответствует пользовательской настройке</value>
+  </data>
+  <data name="RegistryTweaksPageAddOrRemoveFromFavorites2" xml:space="preserve">
+    <value>Добавить или удалить из избранного</value>
+  </data>
+  <data name="RegistryTweaksPageToggleFavorite2" xml:space="preserve">
+    <value>Переключить избранное</value>
+  </data>
+  <data name="RegistryTweaksPageView" xml:space="preserve">
+    <value>Просмотреть</value>
+  </data>
+  <data name="RegistryTweaksPageApply" xml:space="preserve">
+    <value>Применить</value>
+  </data>
+  <data name="RegistryTweaksPageRestore" xml:space="preserve">
+    <value>Восстановить</value>
+  </data>
+  <data name="RegistryTweaksPageEdit" xml:space="preserve">
+    <value>Редактировать</value>
+  </data>
+  <data name="RegistryTweaksPageDelete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="RegistryTweaksPageDetails" xml:space="preserve">
+    <value>Подробнее</value>
+  </data>
+  <data name="RegistryTweaksPageRegistryTweaks2" xml:space="preserve">
+    <value>Настройки реестра</value>
+  </data>
+  <data name="RegistryTweaksPageOptimizeWindowsPerformanceThroughRegistry" xml:space="preserve">
+    <value>Оптимизация производительности Windows путем внесения изменений в реестр. Изменения автоматически сохраняются.</value>
+  </data>
+  <data name="RegistryTweaksPageRefreshStatus" xml:space="preserve">
+    <value>Обновить статус</value>
+  </data>
+  <data name="RegistryTweaksPageCreateBackup" xml:space="preserve">
+    <value>Создать резервную копию</value>
+  </data>
+  <data name="RegistryTweaksPageCreateRestorePoint" xml:space="preserve">
+    <value>Создать точку восстановления</value>
+  </data>
+  <data name="RegistryTweaksPageApplyRecommended" xml:space="preserve">
+    <value>Применить рекомендуется</value>
+  </data>
+  <data name="RegistryTweaksPageRestoreAllChanges" xml:space="preserve">
+    <value>Восстановить все изменения</value>
+  </data>
+  <data name="RegistryTweaksPageRecommended" xml:space="preserve">
+    <value>Рекомендуется</value>
+  </data>
+  <data name="RegistryTweaksPageCustomTweaks" xml:space="preserve">
+    <value>Пользовательские настройки</value>
+  </data>
+  <data name="RegistryTweaksPageCustomRegistryTweaks" xml:space="preserve">
+    <value>Пользовательские настройки реестра</value>
+  </data>
+  <data name="RegistryTweaksPageCreateAndManageYourOwn" xml:space="preserve">
+    <value>Создавайте свои собственные записи реестра и управляйте ими.</value>
+  </data>
+  <data name="RegistryTweaksPageNewTweak" xml:space="preserve">
+    <value>Новая настройка</value>
+  </data>
+  <data name="RegistryTweaksPageFavorites" xml:space="preserve">
+    <value>Избранное</value>
+  </data>
+  <data name="RegistryTweaksPageNoFavoriteRegistryTweaksYet" xml:space="preserve">
+    <value>Избранных настроек реестра пока нет. Выберите звездочку, чтобы добавить одну.</value>
+  </data>
+  <data name="RegistryTweaksPageRecommended2" xml:space="preserve">
+    <value>Рекомендуется</value>
+  </data>
+  <data name="RegistryTweaksPageCustomTweaks2" xml:space="preserve">
+    <value>Пользовательские настройки</value>
+  </data>
+  <data name="CategoryOrTweakNameCPUProcessorOptimization" xml:space="preserve">
+    <value>Оптимизация ЦП и процессора</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionOptimizeCPUSchedulingPriorityAndProcessor" xml:space="preserve">
+    <value>Оптимизация планирования ЦП, приоритета и производительности процессора</value>
+  </data>
+  <data name="CategoryOrTweakNamePrioritizeForegroundPrograms" xml:space="preserve">
+    <value>Приоритизировать программы приоритетного плана</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionUsesTheWindowsForegroundProgramScheduling" xml:space="preserve">
+    <value>Использует профиль планирования программы приоритетного плана Windows и восстанавливает полученное исходное значение.</value>
+  </data>
+  <data name="CategoryOrTweakNameMaximumCPUPerformanceOnAC" xml:space="preserve">
+    <value>Максимальная производительность ЦП при переменном токе</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionSetsTheActivePowerPlanMinimum" xml:space="preserve">
+    <value>Задает минимальное состояние процессора активного плана электропитания на 100 % при подключении к сети. Увеличивает энергопотребление и нагрев.</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableCPUCoreParking" xml:space="preserve">
+    <value>Отключить парковку ядра ЦП</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionSetsTheActivePowerPlanMinimum2" xml:space="preserve">
+    <value>Устанавливает минимальное количество припаркованных ядер активного плана электропитания на 100 % при подключении к сети. Увеличивает энергопотребление и нагрев.</value>
+  </data>
+  <data name="CategoryOrTweakNameForceHighPerformancePowerPlan" xml:space="preserve">
+    <value>Принудительно использовать план высокопроизводительного электропитания</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionActivatesTheWindowsHighPerformancePlan" xml:space="preserve">
+    <value>Активирует план высокой производительности Windows и восстанавливает ранее активный план при отключении.</value>
+  </data>
+  <data name="CategoryOrTweakNameNetworkLatencyReduction" xml:space="preserve">
+    <value>Сокращение задержки сети</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionOptimizeNetworkStackForMinimalLatency" xml:space="preserve">
+    <value>Оптимизация сетевого стека для минимальной задержки и максимальной скорости реагирования</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableNetworkThrottlingIndex" xml:space="preserve">
+    <value>Отключить индекс регулирования сети</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionUsesTheDisabledDWORDValueAnd" xml:space="preserve">
+    <value>Использует отключенное значение DWORD и восстанавливает записанные исходные настройки.</value>
+  </data>
+  <data name="CategoryOrTweakNameGamingPerformance" xml:space="preserve">
+    <value>Игровая производительность</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionOptimizeSystemForGamingPerformanceAnd" xml:space="preserve">
+    <value>Оптимизировать систему для игровой производительности и скорости реакции на ввод</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableMouseAcceleration" xml:space="preserve">
+    <value>Отключить ускорение мыши</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionChangesMouseSpeedAndBothThresholdValues" xml:space="preserve">
+    <value>Изменяет MouseSpeed ​​и оба пороговых значения как одну восстанавливаемую операцию.</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableFullscreenOptimizations" xml:space="preserve">
+    <value>Отключить полноэкранную оптимизацию</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisablesWindowsFullscreenOptimizationsForBetter" xml:space="preserve">
+    <value>Отключает полноэкранную оптимизацию Windows для повышения производительности в играх</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableXboxGameBar" xml:space="preserve">
+    <value>Отключить игровую панель Xbox</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisablesXboxGameBarToReduce" xml:space="preserve">
+    <value>Отключает игровую панель Xbox, чтобы уменьшить нагрузку на игру и повысить производительность</value>
+  </data>
+  <data name="CategoryOrTweakNameSystemResponsiveness" xml:space="preserve">
+    <value>Отзывчивость системы</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionImproveOverallSystemResponsivenessAndUI" xml:space="preserve">
+    <value>Улучшить общую отзывчивость системы и производительность пользовательского интерфейса</value>
+  </data>
+  <data name="CategoryOrTweakNameReduceMenuShowDelay" xml:space="preserve">
+    <value>Уменьшить задержку отображения меню</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionMakesMenusAppearInstantlyForBetter" xml:space="preserve">
+    <value>Мгновенно отображать меню для лучшего реагирования</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableStartupApplicationDelay" xml:space="preserve">
+    <value>Отключить задержку запуска приложения</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionRemovesArtificialDelayForStartupApplications" xml:space="preserve">
+    <value>Устраняет искусственную задержку запуска приложений</value>
+  </data>
+  <data name="CategoryOrTweakNameMemoryManagement" xml:space="preserve">
+    <value>Управление памятью</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionWindowsNormallyUsesSpareRAMAs" xml:space="preserve">
+    <value>Windows обычно использует свободную оперативную память в качестве кэша и освобождает ее немедленно, когда она требуется приложениям. Оставьте SysMain и Prefetch включенными, если измерения не идентифицируют их как причину проблемы.</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableSysMainSuperfetch" xml:space="preserve">
+    <value>Отключить SysMain (Superfetch)</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionStopsAndDisablesSysMainUsuallyLeave" xml:space="preserve">
+    <value>Останавливает и отключает SysMain. Обычно оставляйте это включенным; рассмотрите возможность его отключения только в случае документально подтвержденного замедления работы, особенно при диагностике системы с нехваткой памяти или механического системного диска.</value>
+  </data>
+  <data name="CategoryOrTweakNameDisablePrefetch" xml:space="preserve">
+    <value>Отключить предварительную выборку</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisablesApplicationAndBootPrefetchingUsually" xml:space="preserve">
+    <value>Отключает предварительную выборку приложений и загрузки. Обычно оставляйте это включенным; отключите его только после документирования проблемы, связанной с предварительной выборкой. Это может замедлить запуск приложений и игр.</value>
+  </data>
+  <data name="CategoryOrTweakNamePrivacyDeviceControl" xml:space="preserve">
+    <value>Конфиденциальность и контроль устройств</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionReversiblePrivacyAndDeviceInstallationPolicies" xml:space="preserve">
+    <value>Обратимые политики конфиденциальности и установки устройств. Просмотрите элементы высокого риска перед их применением.</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableWindowsAIPolicies" xml:space="preserve">
+    <value>Отключить политики Windows AI.</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionHidesTheWindowsAIComponentsSettings" xml:space="preserve">
+    <value>Скрывает страницу настроек компонентов Windows AI и отключает функции Notepad AI. Удаление пакета доступно отдельно в разделе «Автоматические сценарии».</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableWindowsPlatformBinaryTableWPBT" xml:space="preserve">
+    <value>Отключить двоичную таблицу платформы Windows (WPBT)</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionPreventsFirmwareProvidedWPBTSoftwareFrom" xml:space="preserve">
+    <value>Предотвращает запуск встроенного программного обеспечения WPBT при загрузке. Это может привести к отключению программного обеспечения безопасности, восстановления или управления поставщика.</value>
+  </data>
+  <data name="CategoryOrTweakNamePreventDeviceCompanionApps" xml:space="preserve">
+    <value>Запретить приложения Device Companion</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionPreventsAutomaticDownloadOfApplicationsAnd" xml:space="preserve">
+    <value>Предотвращает автоматическую загрузку приложений и метаданных, связанных с подключенными устройствами. Это не блокирует все драйверы из Центра обновления Windows.</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableAutomaticDriverSearchAndCo" xml:space="preserve">
+    <value>Отключить автоматический поиск драйверов и совместные установщики</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisablesAutomaticDriverSearchingAndAll" xml:space="preserve">
+    <value>Отключает автоматический поиск драйверов и совместные установщики всех устройств. Эффект распространяется на всю систему и не ограничивается устройствами Razer.</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableNotificationsAndCalendar" xml:space="preserve">
+    <value>Отключить уведомления и календарь</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisablesNotificationCenterToastNotificationsAnd" xml:space="preserve">
+    <value>Отключает Центр уведомлений, всплывающие уведомления и связанное с ним всплывающее окно календаря для текущего пользователя.</value>
+  </data>
+  <data name="CategoryOrTweakNameAdvanced" xml:space="preserve">
+    <value>Дополнительно</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionHigherImpactChangesThatTradeWindows" xml:space="preserve">
+    <value>Более серьезные изменения, которые меняют функциональность Windows на более низкую фоновую активность</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableWindowsSearchIndexing" xml:space="preserve">
+    <value>Отключить индексирование поиска Windows</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisablesWindowsSearchIndexingAndRestores" xml:space="preserve">
+    <value>Отключает индексирование поиска Windows и восстанавливает захваченную конфигурацию службы при повторном включении.</value>
+  </data>
+  <data name="CategoryOrTweakNameWindowsUpdateControl" xml:space="preserve">
+    <value>Управление обновлениями Windows</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionControlDriverDeliveryAndUseA" xml:space="preserve">
+    <value>Управление доставкой драйверов и использование консервативной политики обновления вручную</value>
+  </data>
+  <data name="CategoryOrTweakNameExcludeDriversFromWindowsUpdate" xml:space="preserve">
+    <value>Исключить драйверы из Центра обновления Windows</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionPreventsWindowsUpdateQualityUpdatesFrom" xml:space="preserve">
+    <value>Предотвращает автоматическую доставку драйверов устройств качественными обновлениями Центра обновления Windows.</value>
+  </data>
+  <data name="CategoryOrTweakNameVisualEffectsPerformance" xml:space="preserve">
+    <value>Визуальные эффекты и производительность</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionOptimizeVisualEffectsForBetterPerformance" xml:space="preserve">
+    <value>Оптимизация визуальных эффектов для повышения производительности и скорости реагирования</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableWindowAnimations" xml:space="preserve">
+    <value>Отключить анимацию окон</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisablesWindowAnimationsForFasterUI" xml:space="preserve">
+    <value>Отключает анимацию окон для более быстрого ответа пользовательского интерфейса и меньшего использования ресурсов</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableWindowTransparency" xml:space="preserve">
+    <value>Отключить прозрачность окон</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisablesWindowTransparencyEffectsToImprove" xml:space="preserve">
+    <value>Отключает эффекты прозрачности окон для повышения производительности</value>
+  </data>
+  <data name="CategoryOrTweakNameOptimizeForPerformance" xml:space="preserve">
+    <value>Оптимизация производительности</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionSetsVisualEffectsToAdjustFor" xml:space="preserve">
+    <value>Устанавливает визуальные эффекты в режим «Настройка для наилучшей производительности»</value>
+  </data>
+  <data name="RegistryTweakApplied" xml:space="preserve">
+    <value>Применена настройка реестра.</value>
+  </data>
+  <data name="RegistryTweakApplyFailed" xml:space="preserve">
+    <value>Не удалось применить настройку реестра.</value>
+  </data>
+  <data name="RegistryValueRestored" xml:space="preserve">
+    <value>Исходное значение реестра восстановлено.</value>
+  </data>
+  <data name="NoBackupAvailable" xml:space="preserve">
+    <value>Для этого значения резервная копия недоступна.</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Подтвердить</value>
+  </data>
+  <data name="DeleteTweakMessage" xml:space="preserve">
+    <value>Удалить '{0}'?</value>
+  </data>
+  <data name="DwordInvalid" xml:space="preserve">
+    <value>DWORD должен быть допустимым 32-битным целым числом.</value>
+  </data>
+  <data name="QwordInvalid" xml:space="preserve">
+    <value>QWORD должен быть допустимым 64-битным целым числом.</value>
+  </data>
+  <data name="BinaryInvalid" xml:space="preserve">
+    <value>Двоичные данные должны содержать полные пары шестнадцатеричных байтов.</value>
+  </data>
+  <data name="AddCustomRegistryTweak" xml:space="preserve">
+    <value>Добавить пользовательскую настройку реестра</value>
+  </data>
+  <data name="EditCustomRegistryTweak" xml:space="preserve">
+    <value>Редактировать пользовательскую настройку реестра</value>
+  </data>
+  <data name="CreateCustomTweak" xml:space="preserve">
+    <value>Создать пользовательскую настройку</value>
+  </data>
+  <data name="EditCustomTweak" xml:space="preserve">
+    <value>Редактировать пользовательскую настройку</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="RegistryPathLabel" xml:space="preserve">
+    <value>Путь реестра (например, HKCU\Software\...)</value>
+  </data>
+  <data name="ValueName" xml:space="preserve">
+    <value>Значение Имя</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Тип</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Значение</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Создать</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
+  <data name="InvalidRegistryTweak" xml:space="preserve">
+    <value>Неверная настройка реестра</value>
+  </data>
+  <data name="RequiredCustomFields" xml:space="preserve">
+    <value>Пожалуйста, укажите имя, путь и имя значения.</value>
+  </data>
+  <data name="HighRiskWarning" xml:space="preserve">
+    <value>Предупреждение о настройке высокого риска</value>
+  </data>
+  <data name="HighRiskMessage" xml:space="preserve">
+    <value>Эта настройка имеет высокий уровень риска ({0}/5).
+
+Описание: {1}
+
+Вы уверены, что хотите применить это изменение?</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Применить</value>
+  </data>
+  <data name="TweakApplicationFailed" xml:space="preserve">
+    <value>Ошибка приложения настройки</value>
+  </data>
+  <data name="TweakApplicationFailedMessage" xml:space="preserve">
+    <value>Не удалось применить настройку: {0}
+
+Это может быть связано с недостаточными разрешениями или системными ограничениями.</value>
+  </data>
+  <data name="RestartForChanges" xml:space="preserve">
+    <value>Чтобы изменения вступили в силу, требуется перезагрузка системы.</value>
+  </data>
+  <data name="TweakError" xml:space="preserve">
+    <value>Ошибка настройки</value>
+  </data>
+  <data name="TweakErrorMessage" xml:space="preserve">
+    <value>При применении настройки произошла ошибка:
+
+{0}</value>
+  </data>
+  <data name="CompositePreview" xml:space="preserve">
+    <value># {0}
+# Риск: {1}/5
+
+# Применить
+{2}
+
+# Восстановить
+TweakHub восстанавливает каждое захваченное исходное значение.</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value># {0}
+# Риск: {1}/5
+
+# Применить
+{2}
+
+# Восстановить
+TweakHub восстанавливает захваченное исходное значение.</value>
+  </data>
+  <data name="BackupCreated" xml:space="preserve">
+    <value>Резервная копия создана</value>
+  </data>
+  <data name="BackupCreatedMessage" xml:space="preserve">
+    <value>Резервная копия реестра создана (записано новых значений: {0}).
+
+Местоположение резервной копии: {1}</value>
+  </data>
+  <data name="BackupFailed" xml:space="preserve">
+    <value>Ошибка резервного копирования</value>
+  </data>
+  <data name="ApplyAllRecommended" xml:space="preserve">
+    <value>Применить все рекомендуемые настройки</value>
+  </data>
+  <data name="ApplyAllRecommendedMessage" xml:space="preserve">
+    <value>Будут применены настройки производительности и максимальной конфиденциальности, а также режим безопасности Центра обновления Windows. Набор включает политики конфиденциальности, способные отключить функции Windows или интеграцию устройств. SysMain и Prefetch останутся без изменений, поскольку их отключение может снизить производительность.
+
+Перед изменениями будет автоматически создана резервная копия.</value>
+  </data>
+  <data name="BackupFailedMessage" xml:space="preserve">
+    <value>Не удалось создать резервную копию. Операция отменена.
+
+{0}</value>
+  </data>
+  <data name="NoChangesNeeded" xml:space="preserve">
+    <value>Изменений не требуется</value>
+  </data>
+  <data name="RecommendedAlreadyApplied" xml:space="preserve">
+    <value>Все рекомендуемые настройки уже применены.</value>
+  </data>
+  <data name="ApplyingRecommended" xml:space="preserve">
+    <value>Применяется {0} рекомендуемых настроек...</value>
+  </data>
+  <data name="AppliedCount" xml:space="preserve">
+    <value>Применено: {0}</value>
+  </data>
+  <data name="FailedCount" xml:space="preserve">
+    <value>Не удалось применить: {0}</value>
+  </data>
+  <data name="SomeChangesRequireRestart" xml:space="preserve">
+    <value>Для вступления в силу некоторых изменений требуется перезагрузка системы.</value>
+  </data>
+  <data name="TweaksApplied" xml:space="preserve">
+    <value>Примененные настройки</value>
+  </data>
+  <data name="CreateRestorePointMessage" xml:space="preserve">
+    <value>При этом будет автоматически создана точка восстановления системы с именем «TweakHub — Pre Tweaks».
+
+Создание может занять минуту и ​​требует прав администратора.</value>
+  </data>
+  <data name="CreateRestorePoint" xml:space="preserve">
+    <value>Создать точку восстановления.</value>
+  </data>
+  <data name="CreatingRestorePoint" xml:space="preserve">
+    <value>Создание точки восстановления системы...</value>
+  </data>
+  <data name="RequestingRestorePoint" xml:space="preserve">
+    <value>Запрос точки восстановления...</value>
+  </data>
+  <data name="RestorePointCreated" xml:space="preserve">
+    <value>Точка восстановления создана</value>
+  </data>
+  <data name="RestorePointCreatedMessage" xml:space="preserve">
+    <value>Точка восстановления создана успешно.</value>
+  </data>
+  <data name="RestorePointFailed" xml:space="preserve">
+    <value>Точка восстановления не выполнена.</value>
+  </data>
+  <data name="RestoreAllChanges" xml:space="preserve">
+    <value>Восстановить все изменения</value>
+  </data>
+  <data name="RestoreAllMessage" xml:space="preserve">
+    <value>При этом будет предпринята попытка восстановить все настройки реестра до их исходных значений.</value>
+  </data>
+  <data name="Restore" xml:space="preserve">
+    <value>Восстановить</value>
+  </data>
+  <data name="RestoringAll" xml:space="preserve">
+    <value>Восстановление всех настроек реестра...</value>
+  </data>
+  <data name="Restoring" xml:space="preserve">
+    <value>Восстановление...</value>
+  </data>
+  <data name="RestoredCount" xml:space="preserve">
+    <value>Восстановлено: {0}</value>
+  </data>
+  <data name="RestoreFailedCount" xml:space="preserve">
+    <value>Не удалось восстановить: {0}</value>
+  </data>
+  <data name="RestoreComplete" xml:space="preserve">
+    <value>Восстановление завершено</value>
+  </data>
+  <data name="RestoreFailed" xml:space="preserve">
+    <value>Не удалось восстановить</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableAdvertisingId" xml:space="preserve"><value>Отключить рекламный идентификатор</value></data>
+  <data name="CategoryOrTweakDescriptionDisableAdvertisingId" xml:space="preserve"><value>Запрещает приложениям использовать рекламный идентификатор пользователя для персонализации.</value></data>
+  <data name="CategoryOrTweakNameDisableTailoredExperiences" xml:space="preserve"><value>Отключить персонализированные возможности</value></data>
+  <data name="CategoryOrTweakDescriptionDisableTailoredExperiences" xml:space="preserve"><value>Запрещает Windows персонализировать предложения с помощью диагностических данных.</value></data>
+  <data name="CategoryOrTweakNameDisableActivityHistory" xml:space="preserve"><value>Отключить журнал действий и синхронизацию</value></data>
+  <data name="CategoryOrTweakDescriptionDisableActivityHistory" xml:space="preserve"><value>Отключает ленту действий Windows и запрещает публикацию или отправку действий между устройствами.</value></data>
+  <data name="Description" xml:space="preserve"><value>Описание</value></data>
+  <data name="WindowsUpdatePresets" xml:space="preserve"><value>Режим Центра обновления Windows</value></data>
+  <data name="WindowsUpdatePresetsDescription" xml:space="preserve"><value>Выберите полную локально встроенную конфигурацию Центра обновления Windows. TweakHub сохранит исходные настройки перед изменением.</value></data>
+  <data name="WindowsUpdatePresetDefault" xml:space="preserve"><value>По умолчанию</value></data>
+  <data name="WindowsUpdatePresetDisabled" xml:space="preserve"><value>Отключено / остановлено</value></data>
+  <data name="WindowsUpdatePresetSecurity" xml:space="preserve"><value>Безопасность</value></data>
+  <data name="WindowsUpdatePresetCustom" xml:space="preserve"><value>Пользовательский или частично применённый</value></data>
+  <data name="WindowsUpdatePresetDefaultDescription" xml:space="preserve"><value>Удаляет управляемые этими режимами политики, восстанавливает стандартный запуск служб и включает задачи обновления.</value></data>
+  <data name="WindowsUpdatePresetDisabledDescription" xml:space="preserve"><value>Останавливает и отключает службы и задачи обновления, блокирует автоматические обновления и удаляет загруженные файлы.</value></data>
+  <data name="WindowsUpdatePresetSecurityDescription" xml:space="preserve"><value>Сохраняет обычный график обновлений безопасности и качества, исключает драйверы и откладывает обновления функций на 365 дней.</value></data>
+  <data name="WindowsUpdatePresetCustomDescription" xml:space="preserve"><value>Текущие настройки не соответствуют ни одному режиму TweakHub. Выберите режим, чтобы заменить их.</value></data>
+  <data name="WindowsUpdateCurrentMode" xml:space="preserve"><value>Текущий режим: {0}</value></data>
+  <data name="WindowsUpdateBundledScript" xml:space="preserve"><value>Встроенный локальный скрипт; удалённый код не загружается</value></data>
+  <data name="WindowsUpdateSelectedMode" xml:space="preserve"><value>Выбранный режим: {0}</value></data>
+  <data name="WindowsUpdateScriptMissing" xml:space="preserve"><value>Встроенный скрипт режимов Центра обновления Windows отсутствует.</value></data>
+  <data name="WindowsUpdateDisableTitle" xml:space="preserve"><value>Отключить Центр обновления Windows?</value></data>
+  <data name="WindowsUpdateDisableWarning" xml:space="preserve"><value>Этот режим останавливает службы, отключает связанные задачи и удаляет загруженные файлы обновлений. Обновления безопасности не будут устанавливаться до выбора другого режима. Продолжить?</value></data>
+  <data name="WindowsUpdateApplying" xml:space="preserve"><value>Применение режима Центра обновления Windows...</value></data>
+  <data name="WindowsUpdateApplyFailed" xml:space="preserve"><value>Не удалось применить режим Центра обновления Windows</value></data>
+  <data name="WindowsUpdateApplied" xml:space="preserve"><value>Режим Центра обновления Windows применён</value></data>
+  <data name="WindowsUpdateAppliedMessage" xml:space="preserve"><value>Режим {0} успешно применён.</value></data>
+  <data name="WindowsUpdateRestartMessage" xml:space="preserve"><value>Перезапустите Windows, чтобы завершить применение режима обновления.</value></data>
+</root>

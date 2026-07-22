@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using TweakHub.Localization;
 using TweakHub.Models;
 
 namespace TweakHub.Services;
@@ -92,12 +93,12 @@ public sealed class UserDataService
 
     public AppearanceSettings ImportProfile(string path)
     {
-        if (new FileInfo(path).Length > 5 * 1024 * 1024) throw new InvalidDataException("Profile files are limited to 5 MB.");
+        if (new FileInfo(path).Length > 5 * 1024 * 1024) throw new InvalidDataException(L.Get("UI:ProfileTooLarge"));
         var profile = JsonSerializer.Deserialize<UserProfile>(File.ReadAllText(path))
-            ?? throw new InvalidDataException("The profile is empty or invalid.");
-        if (profile.Version != ProfileVersion) throw new InvalidDataException($"Unsupported profile version: {profile.Version}.");
+            ?? throw new InvalidDataException(L.Get("UI:ProfileInvalid"));
+        if (profile.Version != ProfileVersion) throw new InvalidDataException(L.Format("UI:ProfileVersionUnsupported", profile.Version));
         if (profile.CustomScripts.Count > 500 || profile.CustomTweaks.Count > 500 || profile.CustomTools.Count > 500)
-            throw new InvalidDataException("The profile contains too many custom entries.");
+            throw new InvalidDataException(L.Get("UI:ProfileTooManyEntries"));
         foreach (var tool in profile.CustomTools) ValidateCustomTool(tool);
 
         SaveCustomScripts(profile.CustomScripts);
@@ -120,14 +121,14 @@ public sealed class UserDataService
         tool.TerminalCommand = tool.TerminalCommand.Trim();
         tool.ExecutableName = tool.ExecutableName.Trim();
         if (tool.Name.Length is < 1 or > 100 || tool.Category.Length is < 1 or > 80 || tool.Description.Length > 500)
-            throw new InvalidDataException("Name, category or description is invalid.");
+            throw new InvalidDataException(L.Get("UI:CustomToolFieldsInvalid"));
         var actions = new[] { tool.WingetId, tool.DownloadUrl, tool.PowerShellCommand }.Count(value => value.Length > 0);
-        if (actions != 1) throw new InvalidDataException("Choose exactly one action: Winget, HTTPS link or PowerShell.");
+        if (actions != 1) throw new InvalidDataException(L.Get("UI:CustomToolActionRequired"));
         if (tool.WingetId.Length > 0 && !Regex.IsMatch(tool.WingetId, "^[A-Za-z0-9][A-Za-z0-9._-]{1,127}$"))
-            throw new InvalidDataException("Enter a Winget package ID, not a command line.");
+            throw new InvalidDataException(L.Get("UI:WingetIdInvalid"));
         if (tool.DownloadUrl.Length > 0 && (!Uri.TryCreate(tool.DownloadUrl, UriKind.Absolute, out var uri) || uri.Scheme != Uri.UriSchemeHttps))
-            throw new InvalidDataException("Links must use HTTPS.");
-        if (tool.PowerShellCommand.Length > 8192) throw new InvalidDataException("PowerShell commands are limited to 8192 characters.");
+            throw new InvalidDataException(L.Get("UI:HttpsRequired"));
+        if (tool.PowerShellCommand.Length > 8192) throw new InvalidDataException(L.Get("UI:PowerShellTooLong"));
         tool.Id = string.IsNullOrWhiteSpace(tool.Id) ? Guid.NewGuid().ToString("N") : tool.Id;
         tool.IsCustom = true;
     }

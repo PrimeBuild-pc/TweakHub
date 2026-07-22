@@ -1,0 +1,761 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ExternalToolsPageExternalTools" xml:space="preserve">
+    <value>Внешние инструменты</value>
+  </data>
+  <data name="ExternalToolsPageExternalTools2" xml:space="preserve">
+    <value>Внешние инструменты</value>
+  </data>
+  <data name="ExternalToolsPageInstallCuratedToolsOrAdd" xml:space="preserve">
+    <value>Установите рекомендованные инструменты или добавьте свои собственные Winget, PowerShell и карточки веб-сайта.</value>
+  </data>
+  <data name="ExternalToolsPageShowFavoritesOnly" xml:space="preserve">
+    <value>Показать только избранное</value>
+  </data>
+  <data name="ExternalToolsPageFavorites" xml:space="preserve">
+    <value>Избранное</value>
+  </data>
+  <data name="ExternalToolsPageAddTool" xml:space="preserve">
+    <value>Добавить инструмент</value>
+  </data>
+  <data name="ExternalToolsPageDownloading" xml:space="preserve">
+    <value>Загрузка...</value>
+  </data>
+  <data name="QuickAccessPageQuickAccess" xml:space="preserve">
+    <value>Быстрый доступ</value>
+  </data>
+  <data name="QuickAccessPageQuickAccess2" xml:space="preserve">
+    <value>Быстрый доступ</value>
+  </data>
+  <data name="QuickAccessPageQuickShortcutsToWindowsControl" xml:space="preserve">
+    <value>Быстрые ярлыки для панелей управления Windows, системных настроек и инструментов расширенной настройки.</value>
+  </data>
+  <data name="CustomToolDialogCustomExternalTool" xml:space="preserve">
+    <value>Пользовательский внешний инструмент</value>
+  </data>
+  <data name="CustomToolDialogCustomExternalTool2" xml:space="preserve">
+    <value>Пользовательский внешний инструмент</value>
+  </data>
+  <data name="CustomToolDialogCreateAReusableWebsiteWinget" xml:space="preserve">
+    <value>Создайте многоразовый веб-сайт, карту Winget или PowerShell. PowerShell запускается только после подтверждения.</value>
+  </data>
+  <data name="CustomToolDialogName" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="CustomToolDialogDescription" xml:space="preserve">
+    <value>Описание</value>
+  </data>
+  <data name="CustomToolDialogCategory" xml:space="preserve">
+    <value>Категория</value>
+  </data>
+  <data name="CustomToolDialogAction" xml:space="preserve">
+    <value>Действие</value>
+  </data>
+  <data name="CustomToolDialogOpenHTTPSWebsiteOrOnline" xml:space="preserve">
+    <value>Открыть веб-сайт HTTPS или онлайн-файл</value>
+  </data>
+  <data name="CustomToolDialogInstallExactWingetPackageID" xml:space="preserve">
+    <value>Установить точный идентификатор пакета Winget</value>
+  </data>
+  <data name="CustomToolDialogRunPowerShellCommand" xml:space="preserve">
+    <value>Запустить команду PowerShell</value>
+  </data>
+  <data name="CustomToolDialogValue" xml:space="preserve">
+    <value>Значение</value>
+  </data>
+  <data name="CustomToolDialogRequestAdministratorPrivileges" xml:space="preserve">
+    <value>Запросить права администратора</value>
+  </data>
+  <data name="CustomToolDialogCancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="CustomToolDialogSaveTool" xml:space="preserve">
+    <value>Инструмент сохранения</value>
+  </data>
+  <data name="ShortcutNameDeviceManager" xml:space="preserve">
+    <value>Диспетчер устройств</value>
+  </data>
+  <data name="ShortcutNameSystemInformation" xml:space="preserve">
+    <value>Системная информация</value>
+  </data>
+  <data name="ShortcutNameRegistryEditor" xml:space="preserve">
+    <value>Редактор реестра</value>
+  </data>
+  <data name="ShortcutNameServices" xml:space="preserve">
+    <value>Службы</value>
+  </data>
+  <data name="ShortcutNameEventViewer" xml:space="preserve">
+    <value>Просмотр событий</value>
+  </data>
+  <data name="ShortcutNameDiskManagement" xml:space="preserve">
+    <value>Управление дисками</value>
+  </data>
+  <data name="ShortcutNameTaskManager" xml:space="preserve">
+    <value>Диспетчер задач</value>
+  </data>
+  <data name="ShortcutNameResourceMonitor" xml:space="preserve">
+    <value>Монитор ресурсов</value>
+  </data>
+  <data name="ShortcutNamePowerOptions" xml:space="preserve">
+    <value>Электропитание</value>
+  </data>
+  <data name="ShortcutNameNetworkConnections" xml:space="preserve">
+    <value>Сетевые подключения</value>
+  </data>
+  <data name="ShortcutNameSoundSettings" xml:space="preserve">
+    <value>Настройки звука</value>
+  </data>
+  <data name="ShortcutNameDisplaySettings" xml:space="preserve">
+    <value>Настройки дисплея</value>
+  </data>
+  <data name="ShortcutNameWindowsFeatures" xml:space="preserve">
+    <value>Функции Windows</value>
+  </data>
+  <data name="ShortcutNameDiskCleanup" xml:space="preserve">
+    <value>Очистка диска</value>
+  </data>
+  <data name="ShortcutNameGroupPolicyEditor" xml:space="preserve">
+    <value>Редактор групповой политики</value>
+  </data>
+  <data name="ShortcutNameTaskScheduler" xml:space="preserve">
+    <value>Планировщик задач</value>
+  </data>
+  <data name="DescriptionManageHardwareDevicesAndDrivers" xml:space="preserve">
+    <value>Управление аппаратными устройствами и драйверами</value>
+  </data>
+  <data name="DescriptionViewDetailedSystemInformation" xml:space="preserve">
+    <value>Просмотр подробной информации о системе</value>
+  </data>
+  <data name="DescriptionEditTheWindowsRegistry" xml:space="preserve">
+    <value>Редактирование реестра Windows</value>
+  </data>
+  <data name="DescriptionManageWindowsServices" xml:space="preserve">
+    <value>Управление службами Windows</value>
+  </data>
+  <data name="DescriptionReviewWindowsSystemAndApplicationEvents" xml:space="preserve">
+    <value>Просмотр событий системы и приложений Windows</value>
+  </data>
+  <data name="DescriptionManageDisksPartitionsAndDriveLetters" xml:space="preserve">
+    <value>Управление дисками, разделами и буквами дисков</value>
+  </data>
+  <data name="DescriptionMonitorProcessesAndPerformance" xml:space="preserve">
+    <value>Отслеживание процессов и производительности</value>
+  </data>
+  <data name="DescriptionInspectDetailedResourceUsage" xml:space="preserve">
+    <value>Проверка детального использования ресурсов</value>
+  </data>
+  <data name="DescriptionConfigurePowerAndSleepSettings" xml:space="preserve">
+    <value>Настройка параметров питания и сна</value>
+  </data>
+  <data name="DescriptionManageNetworkAdapters" xml:space="preserve">
+    <value>Управление сетевыми адаптерами</value>
+  </data>
+  <data name="DescriptionConfigureAudioDevices" xml:space="preserve">
+    <value>Настройка аудиоустройств</value>
+  </data>
+  <data name="DescriptionConfigureDisplays" xml:space="preserve">
+    <value>Настройка дисплеев</value>
+  </data>
+  <data name="DescriptionEnableOrDisableWindowsFeatures" xml:space="preserve">
+    <value>Включение или отключение функций Windows</value>
+  </data>
+  <data name="DescriptionFreeDiskSpaceWithTheWindowsUtility" xml:space="preserve">
+    <value>Освобождение места на диске с помощью утилиты Windows</value>
+  </data>
+  <data name="DescriptionEditLocalWindowsGroupPoliciesProAnd" xml:space="preserve">
+    <value>Редактирование локальных групповых политик Windows (версии Pro и Enterprise)</value>
+  </data>
+  <data name="DescriptionCreateAndManageScheduledTasks" xml:space="preserve">
+    <value>Создание запланированных задач и управление ими</value>
+  </data>
+  <data name="DescriptionOfficialMicrosoftUtilitiesForWindowsPowerUsers" xml:space="preserve">
+    <value>Официальные утилиты Microsoft для опытных пользователей Windows</value>
+  </data>
+  <data name="DescriptionOpenSourceQuickLauncherForAppsFiles" xml:space="preserve">
+    <value>Быстрый запуск приложений, файлов, команд и веб-поиска с открытым исходным кодом</value>
+  </data>
+  <data name="DescriptionDynamicTilingWindowManagerForWindows" xml:space="preserve">
+    <value>Динамический мозаичный оконный менеджер для Windows</value>
+  </data>
+  <data name="DescriptionInspectAndManageEveryWindowsStartupLocation" xml:space="preserve">
+    <value>Проверка и управление каждым местом запуска Windows</value>
+  </data>
+  <data name="DescriptionOpenSourceBulkApplicationUninstaller" xml:space="preserve">
+    <value>Массовая деинсталляция приложений с открытым исходным кодом</value>
+  </data>
+  <data name="DescriptionExtendedReplacementForTheClassicWindowsDisk" xml:space="preserve">
+    <value>Расширенная замена классической Windows Disk Cleanup</value>
+  </data>
+  <data name="DescriptionRemoveRecordsForNonPresentDevicesOpens" xml:space="preserve">
+    <value>Удаление записей об отсутствующих устройствах; открывает информационную страницу MajorGeeks</value>
+  </data>
+  <data name="DescriptionGraphicalWindowsImageServicingAndCleanupUtility" xml:space="preserve">
+    <value>Утилита графического обслуживания и очистки образов Windows</value>
+  </data>
+  <data name="DescriptionInspectAndRemovePackagesFromTheWindows" xml:space="preserve">
+    <value>Проверка и удаление пакетов из хранилища драйверов Windows</value>
+  </data>
+  <data name="DescriptionOpenSourceOfflineDriverInstallerAndIndex" xml:space="preserve">
+    <value>Автономный установщик и индекс драйверов с открытым исходным кодом</value>
+  </data>
+  <data name="DescriptionGraphicalInterfaceForWinGetAndOtherPackage" xml:space="preserve">
+    <value>Графический интерфейс для WinGet и других менеджеров пакетов</value>
+  </data>
+  <data name="DescriptionGraphicalInterfaceForWindowsFeatureConfigurationIDs" xml:space="preserve">
+    <value>Графический интерфейс для идентификаторов конфигурации функций Windows</value>
+  </data>
+  <data name="DescriptionConfigureAndCustomizeWindowsFromATransparent" xml:space="preserve">
+    <value>Настройка и настройка Windows с помощью прозрачного пользовательского интерфейса с открытым исходным кодом</value>
+  </data>
+  <data name="DescriptionWindowsMaintenanceAndCustomizationDashboardFromMicrosoft" xml:space="preserve">
+    <value>Информационная панель обслуживания и настройки Windows из Microsoft Store</value>
+  </data>
+  <data name="DescriptionChrisTitusTechWindowsUtilityOpensThe" xml:space="preserve">
+    <value>Утилита Криса Титуса Tech для Windows; открывает официальный проект, а не удаленный скрипт</value>
+  </data>
+  <data name="DescriptionFastLocalFileAndFolderSearch" xml:space="preserve">
+    <value>Быстрый локальный поиск файлов и папок</value>
+  </data>
+  <data name="DescriptionFastVisualDiskSpaceAnalyzer" xml:space="preserve">
+    <value>Быстрый визуальный анализатор дискового пространства</value>
+  </data>
+  <data name="DescriptionCPUMemoryAndPlatformInformation" xml:space="preserve">
+    <value>Информация о процессоре, памяти и платформе</value>
+  </data>
+  <data name="DescriptionOfficialAMDRyzenMonitoringAndOverclockingUtility" xml:space="preserve">
+    <value>Официальная утилита для мониторинга и разгона AMD Ryzen</value>
+  </data>
+  <data name="DescriptionInspectAMDRyzenMemoryTimingsAndInfinity" xml:space="preserve">
+    <value>Проверка таймингов памяти AMD Ryzen и настроек Infinity Fabric</value>
+  </data>
+  <data name="DescriptionManageWindowsCPUSets" xml:space="preserve">
+    <value>Управление наборами ЦП Windows</value>
+  </data>
+  <data name="DescriptionInspectAndManageCPUThreadAffinity" xml:space="preserve">
+    <value>Проверка и управление привязкой потоков ЦП</value>
+  </data>
+  <data name="DescriptionProcessPriorityAffinityAndResponsivenessControls" xml:space="preserve">
+    <value>Управление приоритетом процесса, привязкой и оперативностью</value>
+  </data>
+  <data name="DescriptionInspectAndConfigureCPUCoreParkingAnd" xml:space="preserve">
+    <value>Проверка и настройка парковки ядер ЦП и масштабирование частоты</value>
+  </data>
+  <data name="DescriptionCycleStressTestsAcrossIndividualCPUCores" xml:space="preserve">
+    <value>Циклическое стресс-тестирование отдельных ядер ЦП</value>
+  </data>
+  <data name="DescriptionAdvancedAMDSMUMSRAndPowerTable" xml:space="preserve">
+    <value>Расширенная проверка AMD SMU, MSR и таблицы мощности</value>
+  </data>
+  <data name="DescriptionOfficialIntelAPOInterfaceForSupportedProcessors" xml:space="preserve">
+    <value>Официальный интерфейс Intel APO для поддерживаемых процессоров и игр</value>
+  </data>
+  <data name="DescriptionAdvancedGraphicalLauncherForKarhuRAMTest" xml:space="preserve">
+    <value>Расширенная графическая панель запуска для Karhu RAM Test</value>
+  </data>
+  <data name="DescriptionCommunityMemoryStabilityTestDownloadsTheUser" xml:space="preserve">
+    <value>Тест стабильности памяти сообщества; загружает предоставленный пользователем архив выпуска GitHub</value>
+  </data>
+  <data name="DescriptionBootableMemoryDiagnostics" xml:space="preserve">
+    <value>Диагностика загрузочной памяти</value>
+  </data>
+  <data name="DescriptionDetailedHardwareInformationAndSensorMonitoring" xml:space="preserve">
+    <value>Подробная информация об оборудовании и мониторинг датчиков</value>
+  </data>
+  <data name="DescriptionCPUIDHardwareTemperatureVoltageAndFanMonitoring" xml:space="preserve">
+    <value>Контроль температуры, напряжения и вентилятора оборудования CPUID</value>
+  </data>
+  <data name="DescriptionMicrosoftSysinternalsPhysicalMemoryAnalyzer" xml:space="preserve">
+    <value>Анализатор физической памяти Microsoft Sysinternals</value>
+  </data>
+  <data name="DescriptionAnalyzeRealTimeAudioAndDPCLatency" xml:space="preserve">
+    <value>Анализ звука в реальном времени и задержки DPC</value>
+  </data>
+  <data name="DescriptionOpenSourceFanCurveAndSensorControl" xml:space="preserve">
+    <value>Кривая вентилятора с открытым исходным кодом и сенсорное управление</value>
+  </data>
+  <data name="DescriptionIntelFramePresentationAndPerformanceMonitoring" xml:space="preserve">
+    <value>Представление кадров Intel и мониторинг производительности</value>
+  </data>
+  <data name="DescriptionMicrosoftGPUAndCPUPerformanceTraceVisualization" xml:space="preserve">
+    <value>Визуализация отслеживания производительности графического процессора и процессора Microsoft</value>
+  </data>
+  <data name="DescriptionStaticInspectionOfWindowsExecutablesWithoutRunning" xml:space="preserve">
+    <value>Статическая проверка исполняемых файлов Windows без их запуска</value>
+  </data>
+  <data name="DescriptionSysinternalsProcessHandleAndDLLDiagnostics" xml:space="preserve">
+    <value>Системные процессы, обработка и диагностика DLL</value>
+  </data>
+  <data name="DescriptionRealTimeFilesystemRegistryAndProcessTracing" xml:space="preserve">
+    <value>Файловая система в реальном времени, реестр и трассировка процессов</value>
+  </data>
+  <data name="DescriptionAdvancedETWRecordingAndAnalysisWithWPR" xml:space="preserve">
+    <value>Расширенная запись и анализ ETW с помощью WPR и WPA</value>
+  </data>
+  <data name="DescriptionFrameRateFrameTimePowerAndPerformance" xml:space="preserve">
+    <value>Мониторинг частоты кадров, времени кадра, мощности и производительности на ватт</value>
+  </data>
+  <data name="DescriptionLightweightDetailedGPUMonitoringFromGeeks3D" xml:space="preserve">
+    <value>Легкий подробный мониторинг графического процессора от Geeks3D</value>
+  </data>
+  <data name="DescriptionAdvancedCPUAndGPUWorkloadProfilingAnd" xml:space="preserve">
+    <value>Расширенное профилирование рабочей нагрузки процессора и графического процессора и анализ временной шкалы</value>
+  </data>
+  <data name="DescriptionLowLevelRadeonGPUPerformanceAndWorkload" xml:space="preserve">
+    <value>Низкоуровневый анализ производительности графического процессора Radeon и анализ рабочей нагрузки</value>
+  </data>
+  <data name="DescriptionGPUInformationSensorsAndValidation" xml:space="preserve">
+    <value>Информация о графическом процессоре, датчики и проверка</value>
+  </data>
+  <data name="DescriptionGPUMonitoringFanCurvesAndOverclockingControls" xml:space="preserve">
+    <value>Мониторинг графического процессора, кривые вентиляторов и элементы управления разгоном</value>
+  </data>
+  <data name="DescriptionFrameRateLimitingAndInGamePerformance" xml:space="preserve">
+    <value>Ограничение частоты кадров и наложение производительности в игре</value>
+  </data>
+  <data name="DescriptionPaidAMDGPUTuningUtilityFromMicrosoft" xml:space="preserve">
+    <value>Платная утилита настройки графического процессора AMD из Microsoft Store</value>
+  </data>
+  <data name="DescriptionLegacyFreeAMDGPUTuningUtilityFrom" xml:space="preserve">
+    <value>Устаревшая бесплатная утилита настройки графического процессора AMD от лаборатории Игоря</value>
+  </data>
+  <data name="DescriptionAdvancedAMDRadeonPowerLimitEditor" xml:space="preserve">
+    <value>Расширенный редактор ограничения мощности AMD Radeon</value>
+  </data>
+  <data name="DescriptionLightweightOpenSourceAMDRadeonTuningInterface" xml:space="preserve">
+    <value>Легкий интерфейс настройки AMD Radeon с открытым исходным кодом</value>
+  </data>
+  <data name="DescriptionInspectAdvancedNVIDIADriverProfiles" xml:space="preserve">
+    <value>Проверка расширенных профилей драйверов NVIDIA</value>
+  </data>
+  <data name="DescriptionCustomizeNVIDIADriverInstallations" xml:space="preserve">
+    <value>Настройка установки драйверов NVIDIA</value>
+  </data>
+  <data name="DescriptionCompletelyRemoveGraphicsDriversBeforeReinstalling" xml:space="preserve">
+    <value>Полностью удалите графические драйверы перед переустановкой</value>
+  </data>
+  <data name="DescriptionAdvancedNVIDIAGraphicsCardFirmwareUtility" xml:space="preserve">
+    <value>Утилита расширенной прошивки видеокарты NVIDIA</value>
+  </data>
+  <data name="DescriptionAdvancedAMDGraphicsCardFirmwareUtilityFormerly" xml:space="preserve">
+    <value>Утилита расширенной прошивки видеокарты AMD, ранее ATIFlash</value>
+  </data>
+  <data name="DescriptionCommunityTroubleshootingUtilityForMultiplaneOverlayIssues" xml:space="preserve">
+    <value>Утилита сообщества по устранению неполадок при проблемах с многоплоскостным наложением</value>
+  </data>
+  <data name="DescriptionInspectAndEditDisplayResolutionsAndEDID" xml:space="preserve">
+    <value>Проверка и редактирование разрешения дисплея и данных EDID</value>
+  </data>
+  <data name="DescriptionAutomateNVIDIADigitalVibranceAndAMDSaturation" xml:space="preserve">
+    <value>Автоматизация NVIDIA Digital Vibrance и насыщенности AMD для каждой игры</value>
+  </data>
+  <data name="DescriptionOpenSourceRGBDeviceControl" xml:space="preserve">
+    <value>Управление устройствами RGB с открытым исходным кодом</value>
+  </data>
+  <data name="DescriptionUnifiedRGBLightingAndDeviceEffects" xml:space="preserve">
+    <value>Унифицированное освещение RGB и эффекты устройств</value>
+  </data>
+  <data name="DescriptionUnofficialGUIForAdvancedAMIFirmwareVariable" xml:space="preserve">
+    <value>Неофициальный графический интерфейс для расширенного редактирования переменных прошивки AMI; использовать только с планом восстановления</value>
+  </data>
+  <data name="DescriptionCommunitySCEWINBinariesAndTroubleshootingFirmwareChanges" xml:space="preserve">
+    <value>Двоичные файлы SCEWIN сообщества и устранение неполадок; изменения прошивки могут привести к невозможности загрузки системы</value>
+  </data>
+  <data name="DescriptionInspectHiddenWindowsPowerPlanSettingsOpens" xml:space="preserve">
+    <value>Проверьте скрытые настройки плана электропитания Windows; открывает стабильную страницу загрузки MediaFire</value>
+  </data>
+  <data name="DescriptionManageDLSSVersionsInSupportedGames" xml:space="preserve">
+    <value>Управление версиями DLSS в поддерживаемых играх</value>
+  </data>
+  <data name="DescriptionUpscalerInjectionAndCompatibilityLayerForSupported" xml:space="preserve">
+    <value>Уровень внедрения и совместимости апскейлера для поддерживаемых игр</value>
+  </data>
+  <data name="DescriptionCommunityDirectX12UpscalerAndFrameGeneration" xml:space="preserve">
+    <value>Мод совместимости с масштабированием и генерацией кадров Community DirectX 12</value>
+  </data>
+  <data name="DescriptionLightweightOpenSourceConfigurableCrosshairOverlay" xml:space="preserve">
+    <value>Легкое настраиваемое наложение перекрестия с открытым исходным кодом</value>
+  </data>
+  <data name="DescriptionOpenSourceMouseAccelerationDriver" xml:space="preserve">
+    <value>Драйвер ускорения мыши с открытым исходным кодом</value>
+  </data>
+  <data name="DescriptionAdvancedUSBHIDPollingRateFilterDriver" xml:space="preserve">
+    <value>Усовершенствованный драйвер фильтра скорости опроса USB HID</value>
+  </data>
+  <data name="DescriptionBrowserBasedCalibrationForSupportedPlayStationControllers" xml:space="preserve">
+    <value>Калибровка на основе браузера для поддерживаемых контроллеров PlayStation</value>
+  </data>
+  <data name="DescriptionOfficialBrowserBasedMousePollingRateTester" xml:space="preserve">
+    <value>Официальный тестер скорости опроса мыши на основе браузера</value>
+  </data>
+  <data name="DescriptionStoragePerformanceBenchmark" xml:space="preserve">
+    <value>Проверка производительности хранилища</value>
+  </data>
+  <data name="DescriptionStorageHealthAndSMARTInformation" xml:space="preserve">
+    <value>Информация о состоянии хранилища и SMART</value>
+  </data>
+  <data name="DescriptionNirSoftInventoryAndManagementOfCurrentAnd" xml:space="preserve">
+    <value>Инвентаризация NirSoft и управление текущими и историческими USB-устройствами</value>
+  </data>
+  <data name="DescriptionMariusHeierUSBLatencyToolsOpensThe" xml:space="preserve">
+    <value>Инструменты Marius Heier USB для измерения задержки; открывает официальный сайт без выполнения скриптов</value>
+  </data>
+  <data name="DescriptionMicrosoftCommandLineStorageLoadGeneratorAnd" xml:space="preserve">
+    <value>Генератор нагрузки хранилища командной строки Microsoft и тест производительности</value>
+  </data>
+  <data name="DescriptionOpenSourceBitTorrentClient" xml:space="preserve">
+    <value>Клиент BitTorrent с открытым исходным кодом</value>
+  </data>
+  <data name="DescriptionInspectAndTuneWindowsTCPIPParameters" xml:space="preserve">
+    <value>Проверка и настройка параметров Windows TCP/IP</value>
+  </data>
+  <data name="DescriptionMicrosoftSysinternalsLiveTCPAndUDPEndpoint" xml:space="preserve">
+    <value>Microsoft Sysinternals live TCP и UDP Endpoint Viewer</value>
+  </data>
+  <data name="DescriptionTestAndSwitchDNSResolvers" xml:space="preserve">
+    <value>Проверка и переключение преобразователей DNS</value>
+  </data>
+  <data name="DescriptionMeasureMaximumTCPAndUDPNetworkThroughput" xml:space="preserve">
+    <value>Измерение максимальной пропускной способности сети TCP и UDP</value>
+  </data>
+  <data name="DescriptionCaptureAndInspectNetworkTrafficAndProtocols" xml:space="preserve">
+    <value>Захват и проверка сетевого трафика и протоколов</value>
+  </data>
+  <data name="DescriptionAudioEqualizerAndEnhancement" xml:space="preserve">
+    <value>Эквалайзер и улучшение звука</value>
+  </data>
+  <data name="DescriptionSystemWideParametricAudioEqualizer" xml:space="preserve">
+    <value>Общесистемный параметрический эквалайзер звука</value>
+  </data>
+  <data name="DescriptionGraphicalInterfaceForEqualizerAPO" xml:space="preserve">
+    <value>Графический интерфейс для Equalizer APO</value>
+  </data>
+  <data name="DescriptionSteelSeriesDeviceControlSonarAudioAndGame" xml:space="preserve">
+    <value>Управление устройствами SteelSeries, звук Sonar и захват игр</value>
+  </data>
+  <data name="DescriptionHardwareDiagnosticsMonitoringAndSystemBenchmarks" xml:space="preserve">
+    <value>Диагностика оборудования, мониторинг и тестирование системы</value>
+  </data>
+  <data name="DescriptionFrameTimeCaptureAndPerformanceAnalysis" xml:space="preserve">
+    <value>Захват времени кадра и анализ производительности</value>
+  </data>
+  <data name="DescriptionCPUGPUMemoryAndPowerStabilityTesting" xml:space="preserve">
+    <value>Тестирование стабильности процессора, графического процессора, памяти и питания</value>
+  </data>
+  <data name="DescriptionCPUAndMemoryStressTesting" xml:space="preserve">
+    <value>Нагрузочное тестирование процессора и памяти</value>
+  </data>
+  <data name="DescriptionUnigineGPUBenchmarkAndStabilityTest" xml:space="preserve">
+    <value>Бенч-тест графического процессора Unigine и тест стабильности</value>
+  </data>
+  <data name="DescriptionBenchmarkLauncherValidationAndResultManagement" xml:space="preserve">
+    <value>Программа запуска тестов, проверка и управление результатами</value>
+  </data>
+  <data name="DescriptionCurrentOfficialMaxonCPUAndGPURendering" xml:space="preserve">
+    <value>Текущий официальный тест рендеринга процессоров и графических процессоров Maxon</value>
+  </data>
+  <data name="DescriptionLegacyMaxonCPURenderingBenchmark" xml:space="preserve">
+    <value>Устаревший тест рендеринга процессоров Maxon</value>
+  </data>
+  <data name="DescriptionTechPowerUpArchiveForOlderCinebenchReleasesThe" xml:space="preserve">
+    <value>Архив TechPowerUp для старых выпусков Cinebench; пользователь выбирает версию</value>
+  </data>
+  <data name="DescriptionHighLoadCPUAndMemoryStabilityTest" xml:space="preserve">
+    <value>Тест стабильности процессора и памяти при высокой нагрузке</value>
+  </data>
+  <data name="DescriptionGPUStressTestAndOpenGLVulkanBenchmark" xml:space="preserve">
+    <value>Стресс-тест графического процессора и тест OpenGL/Vulkan</value>
+  </data>
+  <data name="DescriptionMSIGPUStressTestAndOpenGLVulkan" xml:space="preserve">
+    <value>Стресс-тест графического процессора MSI и тест OpenGL/Vulkan</value>
+  </data>
+  <data name="DescriptionHeavyCPURAMAndMemoryControllerBenchmark" xml:space="preserve">
+    <value>Тестирование и стресс-тест тяжелого процессора, оперативной памяти и контроллера памяти</value>
+  </data>
+  <data name="DescriptionVulkanBasedGPUMemoryStabilityAndError" xml:space="preserve">
+    <value>тест стабильности и ошибок памяти графического процессора на базе Vulkan</value>
+  </data>
+  <data name="DescriptionModernUnigineGPUBenchmarkAndStabilityTest" xml:space="preserve">
+    <value>Современный тест графического процессора Unigine и тест стабильности</value>
+  </data>
+  <data name="DescriptionIndustryStandardGamingCPUAndGPUBenchmark" xml:space="preserve">
+    <value>Стандартный набор тестов для игровых процессоров и графических процессоров</value>
+  </data>
+  <data name="DescriptionRealWorldCPUAndGPURenderingBenchmark" xml:space="preserve">
+    <value>Реальный тест рендеринга CPU и GPU</value>
+  </data>
+  <data name="DescriptionCrossPlatformCPUAndGPUComputeBenchmark" xml:space="preserve">
+    <value>Кросс-платформенный тест вычислений CPU и GPU</value>
+  </data>
+  <data name="DescriptionGoogleSAgenticDevelopmentEnvironment" xml:space="preserve">
+    <value>Агентная среда разработки Google</value>
+  </data>
+  <data name="DescriptionAIFirstCodeEditor" xml:space="preserve">
+    <value>Редактор кода на основе искусственного интеллекта</value>
+  </data>
+  <data name="DescriptionRunAndManageLocalLanguageModels" xml:space="preserve">
+    <value>Запуск и управление моделями на местном языке</value>
+  </data>
+  <data name="DescriptionOpenSourceAICodingAgentForThe" xml:space="preserve">
+    <value>Агент кодирования AI с открытым исходным кодом для терминала</value>
+  </data>
+  <data name="DescriptionMinimalExtensibleTerminalCodingAgentFramework" xml:space="preserve">
+    <value>Минимальная расширяемая среда агента кодирования терминала</value>
+  </data>
+  <data name="DescriptionAgenticTerminalAndDevelopmentEnvironment" xml:space="preserve">
+    <value>Агентный терминал и среда разработки</value>
+  </data>
+  <data name="DescriptionLocalInterfaceForTrainingAndRunningOpen" xml:space="preserve">
+    <value>Локальный интерфейс для обучения и запуска открытых моделей</value>
+  </data>
+  <data name="DescriptionDiscoverDownloadAndRunLocalLanguageModels" xml:space="preserve">
+    <value>Обнаружение, загрузка и запуск моделей на местном языке</value>
+  </data>
+  <data name="DescriptionOpenSourceLocalAIDesktopApplication" xml:space="preserve">
+    <value>Локальное настольное приложение искусственного интеллекта с открытым исходным кодом</value>
+  </data>
+  <data name="DuplicateToolName" xml:space="preserve">
+    <value>Инструмент с таким названием уже существует.</value>
+  </data>
+  <data name="CategorySystemUtilities" xml:space="preserve">
+    <value>Системные утилиты</value>
+  </data>
+  <data name="CategoryCPUMemory" xml:space="preserve">
+    <value>ЦП и память</value>
+  </data>
+  <data name="CategoryFirmwarePower" xml:space="preserve">
+    <value>Прошивка и питание</value>
+  </data>
+  <data name="CategoryMonitoringDiagnostics" xml:space="preserve">
+    <value>Мониторинг и диагностика</value>
+  </data>
+  <data name="CategoryGPUDisplay" xml:space="preserve">
+    <value>Графический процессор и дисплей</value>
+  </data>
+  <data name="CategoryGamingInput" xml:space="preserve">
+    <value>Игры и ввод</value>
+  </data>
+  <data name="CategoryStorageUSB" xml:space="preserve">
+    <value>Хранилище и USB</value>
+  </data>
+  <data name="CategoryNetwork" xml:space="preserve">
+    <value>Сеть</value>
+  </data>
+  <data name="CategoryAudio" xml:space="preserve">
+    <value>Аудио</value>
+  </data>
+  <data name="CategoryBenchmarksStability" xml:space="preserve">
+    <value>Бенчмарки и стабильность</value>
+  </data>
+  <data name="CategoryAITools" xml:space="preserve">
+    <value>Инструменты искусственного интеллекта</value>
+  </data>
+  <data name="CategorySystemManagement" xml:space="preserve">
+    <value>Управление системой</value>
+  </data>
+  <data name="CategorySystemInformation" xml:space="preserve">
+    <value>Информация о системе</value>
+  </data>
+  <data name="CategoryAdvancedTools" xml:space="preserve">
+    <value>Дополнительные инструменты</value>
+  </data>
+  <data name="CategoryPerformance" xml:space="preserve">
+    <value>Производительность</value>
+  </data>
+  <data name="CategoryPowerManagement" xml:space="preserve">
+    <value>Управление питанием</value>
+  </data>
+  <data name="CategoryDisplay" xml:space="preserve">
+    <value>Дисплей</value>
+  </data>
+  <data name="CategoryMaintenance" xml:space="preserve">
+    <value>Обслуживание</value>
+  </data>
+  <data name="CategoryCustom" xml:space="preserve">
+    <value>Пользовательский</value>
+  </data>
+  <data name="WingetPackageId" xml:space="preserve">
+    <value>Идентификатор пакета Winget</value>
+  </data>
+  <data name="PowerShellCommand" xml:space="preserve">
+    <value>Команда PowerShell</value>
+  </data>
+  <data name="HttpsUrl" xml:space="preserve">
+    <value>URL-адрес HTTPS</value>
+  </data>
+  <data name="WingetHelp" xml:space="preserve">
+    <value>Пример: Microsoft.PowerToys. TweakHub добавляет --id и --exact.</value>
+  </data>
+  <data name="PowerShellHelp" xml:space="preserve">
+    <value>Такие команды, как irm ... | iex разрешены, но отображаются снова для подтверждения перед выполнением.</value>
+  </data>
+  <data name="WebsiteHelp" xml:space="preserve">
+    <value>Используйте страницу проекта HTTPS, страницу загрузки или онлайн-файл.</value>
+  </data>
+  <data name="ToolCount" xml:space="preserve">
+    <value>Инструменты: {0}</value>
+  </data>
+  <data name="Favorites" xml:space="preserve">
+    <value>Избранное</value>
+  </data>
+  <data name="Unfavorite" xml:space="preserve">
+    <value>Удалить из избранного</value>
+  </data>
+  <data name="Favorite" xml:space="preserve">
+    <value>Избранное</value>
+  </data>
+  <data name="RemoveFromFavorites" xml:space="preserve">
+    <value>Удалить из избранного</value>
+  </data>
+  <data name="AddToFavorites" xml:space="preserve">
+    <value>Добавить в избранное</value>
+  </data>
+  <data name="EditCustomTool" xml:space="preserve">
+    <value>Изменить пользовательский инструмент</value>
+  </data>
+  <data name="EditToolNamed" xml:space="preserve">
+    <value>Изменить {0}</value>
+  </data>
+  <data name="DeleteCustomTool" xml:space="preserve">
+    <value>Удалить пользовательский инструмент</value>
+  </data>
+  <data name="DeleteToolNamed" xml:space="preserve">
+    <value>Удалить {0}</value>
+  </data>
+  <data name="DeleteToolMessage" xml:space="preserve">
+    <value>Удалить {0}?</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="Uninstall" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="UninstallNamed" xml:space="preserve">
+    <value>Удалить {0}</value>
+  </data>
+  <data name="ConfirmUninstall" xml:space="preserve">
+    <value>Подтвердить удаление</value>
+  </data>
+  <data name="ConfirmUninstallMessage" xml:space="preserve">
+    <value>Вы уверены, что хотите удалить {0}?</value>
+  </data>
+  <data name="UnableSaveFavorites" xml:space="preserve">
+    <value>Невозможно сохранить избранное</value>
+  </data>
+  <data name="UnableSaveTool" xml:space="preserve">
+    <value>Невозможно сохранить инструмент</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Установить</value>
+  </data>
+  <data name="Website" xml:space="preserve">
+    <value>Веб-сайт</value>
+  </data>
+  <data name="Run" xml:space="preserve">
+    <value>Выполнить</value>
+  </data>
+  <data name="LoadToolsFailed" xml:space="preserve">
+    <value>Не удалось загрузить внешние инструменты. Пожалуйста, перезапустите TweakHub.</value>
+  </data>
+  <data name="ShortcutExecutionFailed" xml:space="preserve">
+    <value>Ошибка выполнения ярлыка</value>
+  </data>
+  <data name="ShortcutExecutionFailedMessage" xml:space="preserve">
+    <value>Не удалось выполнить ярлык: {0}
+
+Это может быть связано с недостаточными разрешениями или недоступностью целевого приложения.</value>
+  </data>
+  <data name="ShortcutError" xml:space="preserve">
+    <value>Ошибка ярлыка</value>
+  </data>
+  <data name="ShortcutErrorMessage" xml:space="preserve">
+    <value>Произошла ошибка при выполнении ярлыка:
+
+{0}</value>
+  </data>
+  <data name="LoadShortcutsFailed" xml:space="preserve">
+    <value>Не удалось загрузить ярлыки. Пожалуйста, перезапустите TweakHub.</value>
+  </data>
+  <data name="ToolInstalledTitle" xml:space="preserve">
+    <value>{0} Установлено</value>
+  </data>
+  <data name="RunPowerShellTitle" xml:space="preserve">
+    <value>Запуск пользовательской команды PowerShell</value>
+  </data>
+  <data name="RunPowerShellMessage" xml:space="preserve">
+    <value>Запускайте только те команды, которым вы доверяете. Эта команда может загружать или изменять программное обеспечение.
+
+{0}</value>
+  </data>
+  <data name="RunningPowerShell" xml:space="preserve">
+    <value>Выполнение команды PowerShell...</value>
+  </data>
+  <data name="CommandCompleted" xml:space="preserve">
+    <value>Команда выполнена.</value>
+  </data>
+  <data name="CommandFailed" xml:space="preserve">
+    <value>Команда не выполнена.</value>
+  </data>
+  <data name="CommandCompletedTitle" xml:space="preserve">
+    <value>Команда выполнена</value>
+  </data>
+  <data name="CommandFailedTitle" xml:space="preserve">
+    <value>Команда не выполнена</value>
+  </data>
+  <data name="CommandFinishedMessage" xml:space="preserve">
+    <value>{0} завершена через {1:F1} секунд.
+
+{2}</value>
+  </data>
+  <data name="StartingAction" xml:space="preserve">
+    <value>Начинается {0}...</value>
+  </data>
+  <data name="ActionCompleted" xml:space="preserve">
+    <value>{0} завершено: {1}</value>
+  </data>
+  <data name="ActionFailed" xml:space="preserve">
+    <value>{0} не удалось: {1}</value>
+  </data>
+  <data name="InstallationCompleted" xml:space="preserve">
+    <value>Установка завершена.</value>
+  </data>
+  <data name="TerminalCommand" xml:space="preserve">
+    <value>Команда терминала: {0}</value>
+  </data>
+  <data name="InstallationLocation" xml:space="preserve">
+    <value>Место установки: "{0}"</value>
+  </data>
+  <data name="ExecutableLocation" xml:space="preserve">
+    <value>Исполняемый файл: "{0}"</value>
+  </data>
+  <data name="WingetPathMissing" xml:space="preserve">
+    <value>WinGet не предоставил псевдоним терминала или путь к исполняемому файлу.</value>
+  </data>
+  <data name="PackageId" xml:space="preserve">
+    <value>Пакет: {0}</value>
+  </data>
+  <data name="CheckWingetCommand" xml:space="preserve">
+    <value>Проверьте с помощью: winget list --id "{0}" --exact</value>
+  </data>
+  <data name="ActionInstallation" xml:space="preserve">
+    <value>установка</value>
+  </data>
+  <data name="ActionUninstall" xml:space="preserve">
+    <value>удалить</value>
+  </data>
+</root>
