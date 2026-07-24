@@ -144,36 +144,6 @@
   <data name="windows_update_reset_Confirmation" xml:space="preserve">
     <value>Это очищает кэшированные загрузки обновлений и историю обновлений, отображаемую в настройках. Продолжить?</value>
   </data>
-  <data name="prevent_device_metadata_Name" xml:space="preserve">
-    <value>Запретить приложения-компаньоны устройства</value>
-  </data>
-  <data name="prevent_device_metadata_Description" xml:space="preserve">
-    <value>Запретить Windows загружать приложения и метаданные, связанные с подключенными устройствами.</value>
-  </data>
-  <data name="prevent_device_metadata_Category" xml:space="preserve">
-    <value>Конфиденциальность</value>
-  </data>
-  <data name="prevent_device_metadata_Execute" xml:space="preserve">
-    <value>Применить политику</value>
-  </data>
-  <data name="prevent_device_metadata_Confirmation" xml:space="preserve">
-    <value>Эта политика блокирует сопутствующие приложения и метаданные устройства, но не обязательно все драйверы из Центра обновления Windows. Продолжить?</value>
-  </data>
-  <data name="exclude_wu_drivers_Name" xml:space="preserve">
-    <value>Исключить драйверы из Центра обновления Windows</value>
-  </data>
-  <data name="exclude_wu_drivers_Description" xml:space="preserve">
-    <value>Включите политику Windows, которая исключает пакеты, классифицированные как драйверы, из качественных обновлений.</value>
-  </data>
-  <data name="exclude_wu_drivers_Category" xml:space="preserve">
-    <value>Центр обновления Windows</value>
-  </data>
-  <data name="exclude_wu_drivers_Execute" xml:space="preserve">
-    <value>Применить политику</value>
-  </data>
-  <data name="exclude_wu_drivers_Confirmation" xml:space="preserve">
-    <value>Центр обновления Windows перестанет предлагать пакеты, классифицированные как драйверы. Продолжить?</value>
-  </data>
   <data name="empty_standby_list_Name" xml:space="preserve">
     <value>Очистить резервный список</value>
   </data>

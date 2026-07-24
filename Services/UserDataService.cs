@@ -148,8 +148,6 @@ public sealed class UserDataService
         tool.WingetId = (tool.WingetId ?? string.Empty).Trim();
         tool.DownloadUrl = (tool.DownloadUrl ?? string.Empty).Trim();
         tool.PowerShellCommand = (tool.PowerShellCommand ?? string.Empty).Trim();
-        tool.TerminalCommand = (tool.TerminalCommand ?? string.Empty).Trim();
-        tool.ExecutableName = (tool.ExecutableName ?? string.Empty).Trim();
         if (tool.Name.Length is < 1 or > 100 || tool.Category.Length is < 1 or > 80 || tool.Description.Length > 500)
             throw new InvalidDataException(L.Get("UI:CustomToolFieldsInvalid"));
         var actions = new[] { tool.WingetId, tool.DownloadUrl, tool.PowerShellCommand }.Count(value => value.Length > 0);

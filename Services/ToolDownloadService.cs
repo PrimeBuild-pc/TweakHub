@@ -1,8 +1,6 @@
 using System.Diagnostics;
-using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows;
-using Microsoft.Win32;
 using TweakHub.Localization;
 using TweakHub.Models;
 using TweakHub.Views.Dialogs;
@@ -17,26 +15,10 @@ namespace TweakHub.Services
 
         private ToolDownloadService() { }
 
-        public async Task<bool> InstallWithWinget(ExternalTool tool, IProgress<ToolProgress>? progress = null)
-        {
-            if (string.IsNullOrWhiteSpace(tool.WingetId)) return false;
-            var arguments = $"install --id \"{tool.WingetId}\" --exact --accept-source-agreements --accept-package-agreements";
-            var success = await RunWinget(tool, arguments, "installation", progress);
-            if (success && tool.Category.Equals("System Utilities", StringComparison.OrdinalIgnoreCase))
-            {
-                string? path = null;
-                var aliasAvailable = false;
-                try
-                {
-                    path = ResolveExecutable(tool);
-                    aliasAvailable = !string.IsNullOrWhiteSpace(tool.TerminalCommand) && ResolveOnPath(tool.TerminalCommand) != null;
-                }
-                catch { }
-                await AppDialog.ShowAsync(Application.Current.MainWindow, L.Format("Tools:ToolInstalledTitle", tool.Name),
-                    BuildLaunchHint(tool, path, aliasAvailable));
-            }
-            return success;
-        }
+        public Task<bool> InstallWithWinget(ExternalTool tool, IProgress<ToolProgress>? progress = null) =>
+            string.IsNullOrWhiteSpace(tool.WingetId)
+                ? Task.FromResult(false)
+                : RunWinget(tool, $"install --id \"{tool.WingetId}\" --exact --accept-source-agreements --accept-package-agreements", "installation", progress);
 
         public Task<bool> UninstallWithWinget(ExternalTool tool, IProgress<ToolProgress>? progress = null) =>
             RunWinget(
@@ -128,93 +110,6 @@ namespace TweakHub.Services
                 Complete(progress, tool.Name, false, ex.Message);
                 return false;
             }
-        }
-
-        internal static string BuildLaunchHint(ExternalTool tool, string? resolvedPath, bool terminalCommandAvailable = true)
-        {
-            var lines = new List<string> { L.Get("Tools:InstallationCompleted") };
-            if (terminalCommandAvailable && !string.IsNullOrWhiteSpace(tool.TerminalCommand))
-                lines.Add(L.Format("Tools:TerminalCommand", tool.TerminalCommand));
-            if (!string.IsNullOrWhiteSpace(resolvedPath))
-                lines.Add(L.Format(Directory.Exists(resolvedPath) ? "Tools:InstallationLocation" : "Tools:ExecutableLocation", resolvedPath));
-            if (lines.Count == 1)
-            {
-                lines.Add(L.Get("Tools:WingetPathMissing"));
-                lines.Add(L.Format("Tools:PackageId", tool.WingetId));
-                lines.Add(L.Format("Tools:CheckWingetCommand", tool.WingetId));
-            }
-            return string.Join(Environment.NewLine, lines);
-        }
-
-        private static string? ResolveExecutable(ExternalTool tool)
-        {
-            var names = new[] { tool.TerminalCommand, tool.ExecutableName }
-                .Where(name => !string.IsNullOrWhiteSpace(name))
-                .Distinct(StringComparer.OrdinalIgnoreCase);
-            foreach (var name in names)
-            {
-                var path = ResolveOnPath(name) ?? ResolveAppPath(name);
-                if (path != null) return path;
-            }
-            return ResolveInstallLocation(tool, tool.ExecutableName);
-        }
-
-        private static string? ResolveOnPath(string executable)
-        {
-            if (Path.IsPathRooted(executable) && File.Exists(executable)) return Path.GetFullPath(executable);
-            var directories = (Environment.GetEnvironmentVariable("PATH") ?? string.Empty)
-                .Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries)
-                .Append(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "WinGet", "Links"));
-            var names = Path.HasExtension(executable)
-                ? new[] { executable }
-                : new[] { executable + ".exe", executable + ".cmd", executable + ".bat" };
-            return directories.SelectMany(directory => names.Select(name => Path.Combine(directory.Trim('"'), name)))
-                .FirstOrDefault(File.Exists);
-        }
-
-        private static string? ResolveAppPath(string executable)
-        {
-            foreach (var root in new[] { Registry.CurrentUser, Registry.LocalMachine })
-            {
-                foreach (var prefix in new[]
-                {
-                    @"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\",
-                    @"SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\App Paths\"
-                })
-                {
-                    using var key = root.OpenSubKey(prefix + executable);
-                    if (key?.GetValue(null) is string path && File.Exists(path)) return path;
-                }
-            }
-            return null;
-        }
-
-        private static string? ResolveInstallLocation(ExternalTool tool, string executable)
-        {
-            foreach (var root in new[] { Registry.CurrentUser, Registry.LocalMachine })
-            {
-                foreach (var prefix in new[]
-                {
-                    @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall",
-                    @"SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall"
-                })
-                {
-                    using var uninstall = root.OpenSubKey(prefix);
-                    if (uninstall == null) continue;
-                    foreach (var name in uninstall.GetSubKeyNames())
-                    {
-                        using var entry = uninstall.OpenSubKey(name);
-                        var displayName = entry?.GetValue("DisplayName") as string ?? string.Empty;
-                        if (!displayName.Contains(tool.Name, StringComparison.OrdinalIgnoreCase)
-                            && !name.Contains(tool.WingetId, StringComparison.OrdinalIgnoreCase)) continue;
-                        var location = entry?.GetValue("InstallLocation") as string;
-                        if (string.IsNullOrWhiteSpace(location)) continue;
-                        var candidate = string.IsNullOrWhiteSpace(executable) ? null : Path.Combine(location, executable);
-                        return candidate != null && File.Exists(candidate) ? candidate : location;
-                    }
-                }
-            }
-            return null;
         }
 
         private static void ReportWingetOutput(IProgress<ToolProgress>? progress, string toolName, string? data)

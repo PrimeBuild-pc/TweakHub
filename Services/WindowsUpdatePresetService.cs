@@ -20,9 +20,6 @@ internal sealed class WindowsUpdatePresetService
         Path.Combine(AppContext.BaseDirectory, "Scripts", "WindowsUpdatePreset.ps1"),
         Path.Combine(AppDataPath.BasePath, "windows-update-backup.json"));
 
-    internal static WindowsUpdatePreset[] SelectablePresets { get; } =
-        [WindowsUpdatePreset.Default, WindowsUpdatePreset.Disabled, WindowsUpdatePreset.Security];
-
     private static readonly RegistryValueChange[] PresetRegistryValues =
     [
         new(@"HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU", "NoAutoUpdate", null),
@@ -106,15 +103,6 @@ internal sealed class WindowsUpdatePresetService
         EnsureScriptExists();
         return $"# {L.Get("Tweaks:WindowsUpdateBundledScript")}\n# {L.Format("Tweaks:WindowsUpdateSelectedMode", L.Get($"Tweaks:WindowsUpdatePreset{preset}"))}\n\n" +
                File.ReadAllText(_scriptPath) + $"\n\n# {BuildInvocation(preset.ToString())}";
-    }
-
-    internal string ScriptText
-    {
-        get
-        {
-            EnsureScriptExists();
-            return File.ReadAllText(_scriptPath);
-        }
     }
 
     private Task<PowerShellResult> RunAsync(string preset, bool requireAdministrator, TimeSpan timeout)

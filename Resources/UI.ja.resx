@@ -185,9 +185,6 @@
   <data name="ImportProfileTitle" xml:space="preserve">
     <value>TweakHub プロファイルをインポート</value>
   </data>
-  <data name="ImportProfileMessage" xml:space="preserve">
-    <value>インポートすると現在のカスタム プロファイルが置き換えられます。続行しますか?</value>
-  </data>
   <data name="Import" xml:space="preserve">
     <value>インポート</value>
   </data>

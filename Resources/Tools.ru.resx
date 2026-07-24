@@ -691,9 +691,6 @@
   <data name="LoadShortcutsFailed" xml:space="preserve">
     <value>Не удалось загрузить ярлыки. Пожалуйста, перезапустите TweakHub.</value>
   </data>
-  <data name="ToolInstalledTitle" xml:space="preserve">
-    <value>{0} Установлено</value>
-  </data>
   <data name="RunPowerShellTitle" xml:space="preserve">
     <value>Запуск пользовательской команды PowerShell</value>
   </data>
@@ -730,27 +727,6 @@
   </data>
   <data name="ActionFailed" xml:space="preserve">
     <value>{0} не удалось: {1}</value>
-  </data>
-  <data name="InstallationCompleted" xml:space="preserve">
-    <value>Установка завершена.</value>
-  </data>
-  <data name="TerminalCommand" xml:space="preserve">
-    <value>Команда терминала: {0}</value>
-  </data>
-  <data name="InstallationLocation" xml:space="preserve">
-    <value>Место установки: "{0}"</value>
-  </data>
-  <data name="ExecutableLocation" xml:space="preserve">
-    <value>Исполняемый файл: "{0}"</value>
-  </data>
-  <data name="WingetPathMissing" xml:space="preserve">
-    <value>WinGet не предоставил псевдоним терминала или путь к исполняемому файлу.</value>
-  </data>
-  <data name="PackageId" xml:space="preserve">
-    <value>Пакет: {0}</value>
-  </data>
-  <data name="CheckWingetCommand" xml:space="preserve">
-    <value>Проверьте с помощью: winget list --id "{0}" --exact</value>
   </data>
   <data name="ActionInstallation" xml:space="preserve">
     <value>установка</value>

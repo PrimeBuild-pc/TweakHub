@@ -24,10 +24,6 @@ public class AutomatedScriptsPageTests
                 Does.Contain("winsock reset").And.Contain("int ip reset"));
             Assert.That(AutomatedScriptsPage.GetBuiltInScript("windows-update-reset"),
                 Does.Contain("SoftwareDistribution").And.Contain("catroot2"));
-            Assert.That(AutomatedScriptsPage.GetBuiltInScript("prevent-device-metadata"),
-                Does.Contain("PreventDeviceMetadataFromNetwork").And.Contain("gpupdate.exe"));
-            Assert.That(AutomatedScriptsPage.GetBuiltInScript("exclude-wu-drivers"),
-                Does.Contain("ExcludeWUDriversInQualityUpdate").And.Contain("gpupdate.exe"));
             Assert.That(AutomatedScriptsPage.GetBuiltInScript("empty-standby-list"),
                 Does.Contain("RAMMap").And.Contain("-Et"));
             Assert.That(AutomatedScriptsPage.GetBuiltInScript("adobe-hosts-block"),
@@ -96,7 +92,7 @@ public class AutomatedScriptsPageTests
         foreach (var id in new[]
         {
             "ctt-winutil", "dism-sfc-chkdsk", "component-cleanup", "network-reset", "windows-update-reset",
-            "prevent-device-metadata", "exclude-wu-drivers", "empty-standby-list", "remove-windows-ai",
+            "empty-standby-list", "remove-windows-ai",
             "adobe-hosts-block", "adobe-hosts-unblock"
         })
         {

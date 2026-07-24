@@ -691,9 +691,6 @@
   <data name="LoadShortcutsFailed" xml:space="preserve">
     <value>无法加载快捷方式。请重启 TweakHub。</value>
   </data>
-  <data name="ToolInstalledTitle" xml:space="preserve">
-    <value>已安装 {0}</value>
-  </data>
   <data name="RunPowerShellTitle" xml:space="preserve">
     <value>运行自定义 PowerShell 命令</value>
   </data>
@@ -730,27 +727,6 @@
   </data>
   <data name="ActionFailed" xml:space="preserve">
     <value>{0} 失败：{1}</value>
-  </data>
-  <data name="InstallationCompleted" xml:space="preserve">
-    <value>安装完成。</value>
-  </data>
-  <data name="TerminalCommand" xml:space="preserve">
-    <value>终端命令：{0}</value>
-  </data>
-  <data name="InstallationLocation" xml:space="preserve">
-    <value>安装位置："{0}"</value>
-  </data>
-  <data name="ExecutableLocation" xml:space="preserve">
-    <value>可执行文件: "{0}"</value>
-  </data>
-  <data name="WingetPathMissing" xml:space="preserve">
-    <value>WinGet 未暴露终端别名或可执行路径。</value>
-  </data>
-  <data name="PackageId" xml:space="preserve">
-    <value>软件包: {0}</value>
-  </data>
-  <data name="CheckWingetCommand" xml:space="preserve">
-    <value>使用以下命令检查: winget list --id "{0}" --exact</value>
   </data>
   <data name="ActionInstallation" xml:space="preserve">
     <value>安装</value>

@@ -185,9 +185,6 @@ Details: {1}</value>
   <data name="ImportProfileTitle" xml:space="preserve">
     <value>Import TweakHub Profile</value>
   </data>
-  <data name="ImportProfileMessage" xml:space="preserve">
-    <value>Importing replaces the current custom profile. Continue?</value>
-  </data>
   <data name="Import" xml:space="preserve">
     <value>Import</value>
   </data>

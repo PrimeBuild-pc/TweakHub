@@ -315,12 +315,6 @@
   <data name="DeleteTweakMessage" xml:space="preserve">
     <value>Eliminare '{0}'?</value>
   </data>
-  <data name="DwordInvalid" xml:space="preserve">
-    <value>DWORD deve essere un intero a 32 bit valido.</value>
-  </data>
-  <data name="QwordInvalid" xml:space="preserve">
-    <value>QWORD deve essere un intero a 64 bit valido.</value>
-  </data>
   <data name="BinaryInvalid" xml:space="preserve">
     <value>I dati binari devono contenere coppie di byte esadecimali complete.</value>
   </data>

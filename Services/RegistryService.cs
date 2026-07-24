@@ -353,15 +353,7 @@ namespace TweakHub.Services
                 if (action == "add")
                 {
                     startInfo.ArgumentList.Add("/t");
-                    startInfo.ArgumentList.Add(kind switch
-                    {
-                        RegistryValueKind.DWord => "REG_DWORD",
-                        RegistryValueKind.QWord => "REG_QWORD",
-                        RegistryValueKind.Binary => "REG_BINARY",
-                        RegistryValueKind.MultiString => "REG_MULTI_SZ",
-                        RegistryValueKind.ExpandString => "REG_EXPAND_SZ",
-                        _ => "REG_SZ"
-                    });
+                    startInfo.ArgumentList.Add(RegType(kind));
                     startInfo.ArgumentList.Add("/d");
                     startInfo.ArgumentList.Add(FormatRegData(value, kind));
                 }

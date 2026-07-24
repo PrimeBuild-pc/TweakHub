@@ -144,36 +144,6 @@
   <data name="windows_update_reset_Confirmation" xml:space="preserve">
     <value>This clears cached update downloads and update history shown in Settings. Continue?</value>
   </data>
-  <data name="prevent_device_metadata_Name" xml:space="preserve">
-    <value>Prevent Device Companion Apps</value>
-  </data>
-  <data name="prevent_device_metadata_Description" xml:space="preserve">
-    <value>Prevent Windows from downloading apps and metadata associated with connected devices.</value>
-  </data>
-  <data name="prevent_device_metadata_Category" xml:space="preserve">
-    <value>Privacy</value>
-  </data>
-  <data name="prevent_device_metadata_Execute" xml:space="preserve">
-    <value>Apply Policy</value>
-  </data>
-  <data name="prevent_device_metadata_Confirmation" xml:space="preserve">
-    <value>This policy blocks device companion apps and metadata, but not necessarily every driver from Windows Update. Continue?</value>
-  </data>
-  <data name="exclude_wu_drivers_Name" xml:space="preserve">
-    <value>Exclude Drivers from Windows Update</value>
-  </data>
-  <data name="exclude_wu_drivers_Description" xml:space="preserve">
-    <value>Enable the Windows policy that excludes packages classified as drivers from quality updates.</value>
-  </data>
-  <data name="exclude_wu_drivers_Category" xml:space="preserve">
-    <value>Windows Update</value>
-  </data>
-  <data name="exclude_wu_drivers_Execute" xml:space="preserve">
-    <value>Apply Policy</value>
-  </data>
-  <data name="exclude_wu_drivers_Confirmation" xml:space="preserve">
-    <value>Windows Update will stop offering packages classified as drivers. Continue?</value>
-  </data>
   <data name="empty_standby_list_Name" xml:space="preserve">
     <value>Empty Standby List</value>
   </data>

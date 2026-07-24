@@ -315,12 +315,6 @@
   <data name="DeleteTweakMessage" xml:space="preserve">
     <value>删除 '{0}'？</value>
   </data>
-  <data name="DwordInvalid" xml:space="preserve">
-    <value>DWORD 必须是有效的 32 位整数。</value>
-  </data>
-  <data name="QwordInvalid" xml:space="preserve">
-    <value>QWORD 必须是有效的 64 位整数。</value>
-  </data>
   <data name="BinaryInvalid" xml:space="preserve">
     <value>二进制数据必须包含完整的十六进制字节对。</value>
   </data>

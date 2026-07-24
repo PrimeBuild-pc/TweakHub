@@ -81,8 +81,6 @@ namespace TweakHub.Models
         public string DownloadUrl { get; set; } = string.Empty;
         public string WingetId { get; set; } = string.Empty;
         public string PowerShellCommand { get; set; } = string.Empty;
-        public string TerminalCommand { get; set; } = string.Empty;
-        public string ExecutableName { get; set; } = string.Empty;
         public bool RequiresAdministrator { get; set; }
         public bool IsCustom { get; set; }
         public bool IsFavorite { get; set; }

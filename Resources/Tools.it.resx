@@ -691,9 +691,6 @@ Questo potrebbe essere dovuto a permessi insufficienti o al fatto che l'applicaz
   <data name="LoadShortcutsFailed" xml:space="preserve">
     <value>Impossibile caricare i collegamenti. Si prega di riavviare TweakHub.</value>
   </data>
-  <data name="ToolInstalledTitle" xml:space="preserve">
-    <value>{0} Installato</value>
-  </data>
   <data name="RunPowerShellTitle" xml:space="preserve">
     <value>Esegui comando PowerShell personalizzato</value>
   </data>
@@ -730,27 +727,6 @@ Questo potrebbe essere dovuto a permessi insufficienti o al fatto che l'applicaz
   </data>
   <data name="ActionFailed" xml:space="preserve">
     <value>{0} fallito: {1}</value>
-  </data>
-  <data name="InstallationCompleted" xml:space="preserve">
-    <value>Installazione completata.</value>
-  </data>
-  <data name="TerminalCommand" xml:space="preserve">
-    <value>Comando da terminale: {0}</value>
-  </data>
-  <data name="InstallationLocation" xml:space="preserve">
-    <value>Posizione di installazione: "{0}"</value>
-  </data>
-  <data name="ExecutableLocation" xml:space="preserve">
-    <value>Eseguibile: "{0}"</value>
-  </data>
-  <data name="WingetPathMissing" xml:space="preserve">
-    <value>WinGet non ha esposto un alias del terminale o un percorso eseguibile.</value>
-  </data>
-  <data name="PackageId" xml:space="preserve">
-    <value>Pacchetto: {0}</value>
-  </data>
-  <data name="CheckWingetCommand" xml:space="preserve">
-    <value>Controlla con: winget list --id "{0}" --exact</value>
   </data>
   <data name="ActionInstallation" xml:space="preserve">
     <value>installazione</value>

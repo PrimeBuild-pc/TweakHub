@@ -51,23 +51,23 @@ public sealed class ShortcutService
         foreach (var tool in new[]
         {
             // System utilities
-            new ExternalTool { Name = "PowerToys", Description = L.Get("Tools:DescriptionOfficialMicrosoftUtilitiesForWindowsPowerUsers"), Category = "System Utilities", WingetId = "Microsoft.PowerToys", TerminalCommand = "PowerToys.exe", ExecutableName = "PowerToys.exe" },
+            new ExternalTool { Name = "PowerToys", Description = L.Get("Tools:DescriptionOfficialMicrosoftUtilitiesForWindowsPowerUsers"), Category = "System Utilities", WingetId = "Microsoft.PowerToys" },
             new ExternalTool { Name = "Flow Launcher", Description = L.Get("Tools:DescriptionOpenSourceQuickLauncherForAppsFiles"), Category = "System Utilities", DownloadUrl = "https://github.com/Flow-Launcher/Flow.Launcher" },
             new ExternalTool { Name = "FancyWM", Description = L.Get("Tools:DescriptionDynamicTilingWindowManagerForWindows"), Category = "System Utilities", DownloadUrl = "https://github.com/FancyWM/fancywm" },
-            new ExternalTool { Name = "Autoruns", Description = L.Get("Tools:DescriptionInspectAndManageEveryWindowsStartupLocation"), Category = "System Utilities", WingetId = "Microsoft.Sysinternals.Autoruns", TerminalCommand = "Autoruns.exe", ExecutableName = "Autoruns.exe" },
-            new ExternalTool { Name = "Bulk Crap Uninstaller", Description = L.Get("Tools:DescriptionOpenSourceBulkApplicationUninstaller"), Category = "System Utilities", WingetId = "Klocman.BulkCrapUninstaller", TerminalCommand = "BCUninstaller.exe", ExecutableName = "BCUninstaller.exe" },
+            new ExternalTool { Name = "Autoruns", Description = L.Get("Tools:DescriptionInspectAndManageEveryWindowsStartupLocation"), Category = "System Utilities", WingetId = "Microsoft.Sysinternals.Autoruns" },
+            new ExternalTool { Name = "Bulk Crap Uninstaller", Description = L.Get("Tools:DescriptionOpenSourceBulkApplicationUninstaller"), Category = "System Utilities", WingetId = "Klocman.BulkCrapUninstaller" },
             new ExternalTool { Name = "Cleanmgr+", Description = L.Get("Tools:DescriptionExtendedReplacementForTheClassicWindowsDisk"), Category = "System Utilities", DownloadUrl = "https://github.com/builtbybel/CleanmgrPlus" },
             new ExternalTool { Name = "Device Cleanup Tool", Description = L.Get("Tools:DescriptionRemoveRecordsForNonPresentDevicesOpens"), Category = "System Utilities", DownloadUrl = "https://www.majorgeeks.com/files/details/device_cleanup_tool.html" },
-            new ExternalTool { Name = "DISM++", Description = L.Get("Tools:DescriptionGraphicalWindowsImageServicingAndCleanupUtility"), Category = "System Utilities", WingetId = "ChuyuTeam.DISM++", ExecutableName = "Dism++x64.exe" },
-            new ExternalTool { Name = "Driver Store Explorer", Description = L.Get("Tools:DescriptionInspectAndRemovePackagesFromTheWindows"), Category = "System Utilities", WingetId = "lostindark.DriverStoreExplorer", ExecutableName = "Rapr.exe" },
+            new ExternalTool { Name = "DISM++", Description = L.Get("Tools:DescriptionGraphicalWindowsImageServicingAndCleanupUtility"), Category = "System Utilities", WingetId = "ChuyuTeam.DISM++" },
+            new ExternalTool { Name = "Driver Store Explorer", Description = L.Get("Tools:DescriptionInspectAndRemovePackagesFromTheWindows"), Category = "System Utilities", WingetId = "lostindark.DriverStoreExplorer" },
             new ExternalTool { Name = "Snappy Driver Installer Origin", Description = L.Get("Tools:DescriptionOpenSourceOfflineDriverInstallerAndIndex"), Category = "System Utilities", WingetId = "GlennDelahoy.SnappyDriverInstallerOrigin" },
             new ExternalTool { Name = "UniGetUI", Description = L.Get("Tools:DescriptionGraphicalInterfaceForWinGetAndOtherPackage"), Category = "System Utilities", DownloadUrl = "https://github.com/marticliment/UniGetUI" },
-            new ExternalTool { Name = "ViVeTool GUI", Description = L.Get("Tools:DescriptionGraphicalInterfaceForWindowsFeatureConfigurationIDs"), Category = "System Utilities", WingetId = "PeterStrick.ViVeTool-GUI", ExecutableName = "ViVeTool_GUI.exe" },
-            new ExternalTool { Name = "Winhance", Description = L.Get("Tools:DescriptionConfigureAndCustomizeWindowsFromATransparent"), Category = "System Utilities", WingetId = "memstechtips.Winhance", TerminalCommand = "Winhance.exe", ExecutableName = "Winhance.exe" },
+            new ExternalTool { Name = "ViVeTool GUI", Description = L.Get("Tools:DescriptionGraphicalInterfaceForWindowsFeatureConfigurationIDs"), Category = "System Utilities", WingetId = "PeterStrick.ViVeTool-GUI" },
+            new ExternalTool { Name = "Winhance", Description = L.Get("Tools:DescriptionConfigureAndCustomizeWindowsFromATransparent"), Category = "System Utilities", WingetId = "memstechtips.Winhance" },
             new ExternalTool { Name = "Wintoys", Description = L.Get("Tools:DescriptionWindowsMaintenanceAndCustomizationDashboardFromMicrosoft"), Category = "System Utilities", DownloadUrl = "https://apps.microsoft.com/detail/9P8LTPGCBZXD" },
             new ExternalTool { Name = "WinUtil", Description = L.Get("Tools:DescriptionChrisTitusTechWindowsUtilityOpensThe"), Category = "System Utilities", DownloadUrl = "https://github.com/ChrisTitusTech/winutil" },
-            new ExternalTool { Name = "Everything", Description = L.Get("Tools:DescriptionFastLocalFileAndFolderSearch"), Category = "System Utilities", WingetId = "voidtools.Everything", TerminalCommand = "Everything.exe", ExecutableName = "Everything.exe" },
-            new ExternalTool { Name = "WizTree", Description = L.Get("Tools:DescriptionFastVisualDiskSpaceAnalyzer"), Category = "System Utilities", WingetId = "AntibodySoftware.WizTree", TerminalCommand = "WizTree64.exe", ExecutableName = "WizTree64.exe" },
+            new ExternalTool { Name = "Everything", Description = L.Get("Tools:DescriptionFastLocalFileAndFolderSearch"), Category = "System Utilities", WingetId = "voidtools.Everything" },
+            new ExternalTool { Name = "WizTree", Description = L.Get("Tools:DescriptionFastVisualDiskSpaceAnalyzer"), Category = "System Utilities", WingetId = "AntibodySoftware.WizTree" },
 
             // CPU and memory
             new ExternalTool { Name = "CPU-Z", Description = L.Get("Tools:DescriptionCPUMemoryAndPlatformInformation"), Category = "CPU & Memory", WingetId = "CPUID.CPU-Z" },

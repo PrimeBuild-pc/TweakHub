@@ -144,36 +144,6 @@
   <data name="windows_update_reset_Confirmation" xml:space="preserve">
     <value>Questo cancella le cronologie e i download degli aggiornamenti memorizzati nella cache visualizzati in Impostazioni. Continuare?</value>
   </data>
-  <data name="prevent_device_metadata_Name" xml:space="preserve">
-    <value>Previeni App Compagne del Dispositivo</value>
-  </data>
-  <data name="prevent_device_metadata_Description" xml:space="preserve">
-    <value>Impedisci a Windows di scaricare app e metadati associati ai dispositivi collegati.</value>
-  </data>
-  <data name="prevent_device_metadata_Category" xml:space="preserve">
-    <value>Privacy</value>
-  </data>
-  <data name="prevent_device_metadata_Execute" xml:space="preserve">
-    <value>Applica la Politica</value>
-  </data>
-  <data name="prevent_device_metadata_Confirmation" xml:space="preserve">
-    <value>Questa politica blocca le app compagne dei dispositivi e i metadati, ma non necessariamente tutti i driver da Windows Update. Continuare?</value>
-  </data>
-  <data name="exclude_wu_drivers_Name" xml:space="preserve">
-    <value>Escludi i Driver da Windows Update</value>
-  </data>
-  <data name="exclude_wu_drivers_Description" xml:space="preserve">
-    <value>Abilita la politica di Windows che esclude i pacchetti classificati come driver dagli aggiornamenti di qualità.</value>
-  </data>
-  <data name="exclude_wu_drivers_Category" xml:space="preserve">
-    <value>Windows Update</value>
-  </data>
-  <data name="exclude_wu_drivers_Execute" xml:space="preserve">
-    <value>Applica politica</value>
-  </data>
-  <data name="exclude_wu_drivers_Confirmation" xml:space="preserve">
-    <value>Windows Update smetterà di offrire pacchetti classificati come driver. Continuare?</value>
-  </data>
   <data name="empty_standby_list_Name" xml:space="preserve">
     <value>Svuota elenco in standby</value>
   </data>

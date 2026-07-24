@@ -315,12 +315,6 @@
   <data name="DeleteTweakMessage" xml:space="preserve">
     <value>'{0}' を削除しますか?</value>
   </data>
-  <data name="DwordInvalid" xml:space="preserve">
-    <value>DWORD は有効な 32 ビット整数である必要があります。</value>
-  </data>
-  <data name="QwordInvalid" xml:space="preserve">
-    <value>QWORD は有効な 64 ビット整数である必要があります。</value>
-  </data>
   <data name="BinaryInvalid" xml:space="preserve">
     <value>バイナリ データには完全な 16 進数のバイト ペアが必要です。</value>
   </data>

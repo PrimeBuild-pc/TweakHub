@@ -691,9 +691,6 @@ This may be due to insufficient permissions or the target application not being 
   <data name="LoadShortcutsFailed" xml:space="preserve">
     <value>Failed to load shortcuts. Please restart TweakHub.</value>
   </data>
-  <data name="ToolInstalledTitle" xml:space="preserve">
-    <value>{0} Installed</value>
-  </data>
   <data name="RunPowerShellTitle" xml:space="preserve">
     <value>Run Custom PowerShell Command</value>
   </data>
@@ -730,27 +727,6 @@ This may be due to insufficient permissions or the target application not being 
   </data>
   <data name="ActionFailed" xml:space="preserve">
     <value>{0} failed: {1}</value>
-  </data>
-  <data name="InstallationCompleted" xml:space="preserve">
-    <value>Installation completed.</value>
-  </data>
-  <data name="TerminalCommand" xml:space="preserve">
-    <value>Terminal command: {0}</value>
-  </data>
-  <data name="InstallationLocation" xml:space="preserve">
-    <value>Installation location: "{0}"</value>
-  </data>
-  <data name="ExecutableLocation" xml:space="preserve">
-    <value>Executable: "{0}"</value>
-  </data>
-  <data name="WingetPathMissing" xml:space="preserve">
-    <value>WinGet did not expose a terminal alias or executable path.</value>
-  </data>
-  <data name="PackageId" xml:space="preserve">
-    <value>Package: {0}</value>
-  </data>
-  <data name="CheckWingetCommand" xml:space="preserve">
-    <value>Check with: winget list --id "{0}" --exact</value>
   </data>
   <data name="ActionInstallation" xml:space="preserve">
     <value>installation</value>

@@ -691,9 +691,6 @@
   <data name="LoadShortcutsFailed" xml:space="preserve">
     <value>ショートカットを読み込めませんでした。TweakHub を再起動してください。</value>
   </data>
-  <data name="ToolInstalledTitle" xml:space="preserve">
-    <value>{0} をインストールしました</value>
-  </data>
   <data name="RunPowerShellTitle" xml:space="preserve">
     <value>カスタム PowerShell コマンドを実行</value>
   </data>
@@ -730,27 +727,6 @@
   </data>
   <data name="ActionFailed" xml:space="preserve">
     <value>{0} に失敗しました: {1}</value>
-  </data>
-  <data name="InstallationCompleted" xml:space="preserve">
-    <value>インストールが完了しました。</value>
-  </data>
-  <data name="TerminalCommand" xml:space="preserve">
-    <value>ターミナル コマンド: {0}</value>
-  </data>
-  <data name="InstallationLocation" xml:space="preserve">
-    <value>インストール先: "{0}"</value>
-  </data>
-  <data name="ExecutableLocation" xml:space="preserve">
-    <value>実行ファイル: "{0}"</value>
-  </data>
-  <data name="WingetPathMissing" xml:space="preserve">
-    <value>WinGet からターミナル エイリアスまたは実行ファイルのパスを取得できませんでした。</value>
-  </data>
-  <data name="PackageId" xml:space="preserve">
-    <value>パッケージ: {0}</value>
-  </data>
-  <data name="CheckWingetCommand" xml:space="preserve">
-    <value>次のコマンドで確認してください: winget list --id "{0}" --exact</value>
   </data>
   <data name="ActionInstallation" xml:space="preserve">
     <value>インストール</value>

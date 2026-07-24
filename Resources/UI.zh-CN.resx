@@ -185,9 +185,6 @@
   <data name="ImportProfileTitle" xml:space="preserve">
     <value>导入 TweakHub 配置文件</value>
   </data>
-  <data name="ImportProfileMessage" xml:space="preserve">
-    <value>导入将替换当前的自定义配置文件。继续？</value>
-  </data>
   <data name="Import" xml:space="preserve">
     <value>导入</value>
   </data>

@@ -38,7 +38,6 @@ public sealed class RestartVerificationResult
     public string TargetPreset { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public RestartVerificationStatus Status { get; set; }
-    public DateTimeOffset VerifiedAt { get; set; }
 }
 
 public sealed class RestartVerificationService
@@ -128,8 +127,7 @@ public sealed class RestartVerificationService
                 Kind = operation.Kind,
                 TargetId = operation.TargetId,
                 TargetEnabled = operation.TargetEnabled,
-                TargetPreset = operation.TargetPreset,
-                VerifiedAt = DateTimeOffset.Now
+                TargetPreset = operation.TargetPreset
             };
 
             if (operation.Kind == RestartOperationKind.Tweak)

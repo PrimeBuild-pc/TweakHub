@@ -144,36 +144,6 @@
   <data name="windows_update_reset_Confirmation" xml:space="preserve">
     <value>キャッシュ済みの更新ファイルと、設定に表示される更新履歴を消去します。続行しますか?</value>
   </data>
-  <data name="prevent_device_metadata_Name" xml:space="preserve">
-    <value>デバイス コンパニオン アプリを禁止</value>
-  </data>
-  <data name="prevent_device_metadata_Description" xml:space="preserve">
-    <value>接続されたデバイスに関連するアプリとメタデータを Windows がダウンロードしないようにします。</value>
-  </data>
-  <data name="prevent_device_metadata_Category" xml:space="preserve">
-    <value>プライバシー</value>
-  </data>
-  <data name="prevent_device_metadata_Execute" xml:space="preserve">
-    <value>ポリシーを適用</value>
-  </data>
-  <data name="prevent_device_metadata_Confirmation" xml:space="preserve">
-    <value>このポリシーはデバイス コンパニオン アプリとメタデータをブロックしますが、Windows Update のすべてのドライバーをブロックするとは限りません。続行しますか?</value>
-  </data>
-  <data name="exclude_wu_drivers_Name" xml:space="preserve">
-    <value>Windows Update からドライバーを除外</value>
-  </data>
-  <data name="exclude_wu_drivers_Description" xml:space="preserve">
-    <value>品質更新プログラムから、ドライバーとして分類されたパッケージを除外する Windows ポリシーを有効にします。</value>
-  </data>
-  <data name="exclude_wu_drivers_Category" xml:space="preserve">
-    <value>Windows Update</value>
-  </data>
-  <data name="exclude_wu_drivers_Execute" xml:space="preserve">
-    <value>ポリシーを適用</value>
-  </data>
-  <data name="exclude_wu_drivers_Confirmation" xml:space="preserve">
-    <value>Windows Update はドライバーとして分類されたパッケージを提供しなくなります。続行しますか?</value>
-  </data>
   <data name="empty_standby_list_Name" xml:space="preserve">
     <value>スタンバイ リストを空にする</value>
   </data>

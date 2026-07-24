@@ -84,14 +84,6 @@ namespace TweakHub.Views
                 L.Get("Scripts:windows_update_reset_Description"),
                 L.Get("Scripts:windows_update_reset_Category"), L.Get("Scripts:windows_update_reset_Execute"), true, 20,
                 L.Get("Scripts:windows_update_reset_Confirmation")),
-            new("prevent-device-metadata", "\uE72E", L.Get("Scripts:prevent_device_metadata_Name"),
-                L.Get("Scripts:prevent_device_metadata_Description"),
-                L.Get("Scripts:prevent_device_metadata_Category"), L.Get("Scripts:prevent_device_metadata_Execute"), true, 10,
-                L.Get("Scripts:prevent_device_metadata_Confirmation")),
-            new("exclude-wu-drivers", "\uE895", L.Get("Scripts:exclude_wu_drivers_Name"),
-                L.Get("Scripts:exclude_wu_drivers_Description"),
-                L.Get("Scripts:exclude_wu_drivers_Category"), L.Get("Scripts:exclude_wu_drivers_Execute"), true, 10,
-                L.Get("Scripts:exclude_wu_drivers_Confirmation")),
             new("empty-standby-list", "\uE950", L.Get("Scripts:empty_standby_list_Name"),
                 L.Get("Scripts:empty_standby_list_Description"),
                 L.Get("Scripts:empty_standby_list_Category"), L.Get("Scripts:empty_standby_list_Execute"), true, 10,
@@ -777,30 +769,6 @@ try {
     foreach ($service in $services) { Start-Service $service -ErrorAction Continue }
 }
 Write-Output 'Windows Update caches recreated.'
-",
-            "prevent-device-metadata" => @"
-$ErrorActionPreference = 'Stop'
-$path = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\Device Metadata'
-New-Item -Path $path -Force | Out-Null
-New-ItemProperty -Path $path -Name 'PreventDeviceMetadataFromNetwork' -PropertyType DWord -Value 1 -Force | Out-Null
-& gpupdate.exe /target:computer /force
-if ($LASTEXITCODE -ne 0) { throw ""gpupdate failed with exit code $LASTEXITCODE"" }
-if ((Get-ItemPropertyValue -Path $path -Name 'PreventDeviceMetadataFromNetwork') -ne 1) {
-    throw 'Policy verification failed.'
-}
-Write-Output 'Prevent Device Companion Apps policy is enabled and verified.'
-",
-            "exclude-wu-drivers" => @"
-$ErrorActionPreference = 'Stop'
-$path = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate'
-New-Item -Path $path -Force | Out-Null
-New-ItemProperty -Path $path -Name 'ExcludeWUDriversInQualityUpdate' -PropertyType DWord -Value 1 -Force | Out-Null
-& gpupdate.exe /target:computer /force
-if ($LASTEXITCODE -ne 0) { throw ""gpupdate failed with exit code $LASTEXITCODE"" }
-if ((Get-ItemPropertyValue -Path $path -Name 'ExcludeWUDriversInQualityUpdate') -ne 1) {
-    throw 'Policy verification failed.'
-}
-Write-Output 'Driver exclusion policy is enabled and verified.'
 ",
             "empty-standby-list" => @"
 $ErrorActionPreference = 'Stop'

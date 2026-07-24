@@ -144,36 +144,6 @@
   <data name="windows_update_reset_Confirmation" xml:space="preserve">
     <value>这将清除在设置中显示的缓存更新下载和更新历史记录。是否继续？</value>
   </data>
-  <data name="prevent_device_metadata_Name" xml:space="preserve">
-    <value>阻止设备伴随应用</value>
-  </data>
-  <data name="prevent_device_metadata_Description" xml:space="preserve">
-    <value>防止 Windows 下载与已连接设备相关的应用和元数据。</value>
-  </data>
-  <data name="prevent_device_metadata_Category" xml:space="preserve">
-    <value>隐私</value>
-  </data>
-  <data name="prevent_device_metadata_Execute" xml:space="preserve">
-    <value>应用策略</value>
-  </data>
-  <data name="prevent_device_metadata_Confirmation" xml:space="preserve">
-    <value>此策略会阻止设备伴随应用和元数据，但不一定会阻止 Windows 更新中的所有驱动程序。是否继续？</value>
-  </data>
-  <data name="exclude_wu_drivers_Name" xml:space="preserve">
-    <value>从 Windows 更新中排除驱动程序</value>
-  </data>
-  <data name="exclude_wu_drivers_Description" xml:space="preserve">
-    <value>启用 Windows 策略，将被归类为驱动程序的更新包排除在质量更新之外。</value>
-  </data>
-  <data name="exclude_wu_drivers_Category" xml:space="preserve">
-    <value>Windows 更新</value>
-  </data>
-  <data name="exclude_wu_drivers_Execute" xml:space="preserve">
-    <value>应用策略</value>
-  </data>
-  <data name="exclude_wu_drivers_Confirmation" xml:space="preserve">
-    <value>Windows 更新将停止提供被归类为驱动程序的更新包。是否继续？</value>
-  </data>
   <data name="empty_standby_list_Name" xml:space="preserve">
     <value>清空待机列表</value>
   </data>

@@ -8,14 +8,9 @@ namespace TweakHub.Tests;
 public class WindowsUpdatePresetServiceTests
 {
     [Test]
-    public void ExposesExactlyThreeSelectablePresets() =>
-        Assert.That(WindowsUpdatePresetService.SelectablePresets,
-            Is.EqualTo(new[] { WindowsUpdatePreset.Default, WindowsUpdatePreset.Disabled, WindowsUpdatePreset.Security }));
-
-    [Test]
     public void SecurityDefersFeaturesButNotQualityOrSecurityUpdates()
     {
-        var script = WindowsUpdatePresetService.Instance.ScriptText;
+        var script = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "Scripts", "WindowsUpdatePreset.ps1"));
         Assert.Multiple(() =>
         {
             Assert.That(script, Does.Contain("Set-Policy $wu 'DeferFeatureUpdatesPeriodInDays' 365"));

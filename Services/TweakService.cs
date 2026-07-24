@@ -12,27 +12,15 @@ namespace TweakHub.Services
 
         public ObservableCollection<TweakCategory> TweakCategories { get; } = new();
 
-        // Session state flags
         private bool _hasAppliedTweaksThisSession;
-        private bool _restartNoticeShownThisSession;
         public bool HasAppliedTweaksThisSession
         {
             get => _hasAppliedTweaksThisSession;
             private set { _hasAppliedTweaksThisSession = value; OnPropertyChanged(); }
         }
 
-        public bool RestartNoticeShownThisSession
-        {
-            get => _restartNoticeShownThisSession;
-            set { _restartNoticeShownThisSession = value; OnPropertyChanged(); }
-        }
-
-        private bool _registryDisclaimerShown;
-        public bool RegistryDisclaimerShown
-        {
-            get => _registryDisclaimerShown;
-            set { _registryDisclaimerShown = value; OnPropertyChanged(); }
-        }
+        public bool RestartNoticeShownThisSession { get; set; }
+        public bool RegistryDisclaimerShown { get; set; }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -531,7 +519,6 @@ namespace TweakHub.Services
                     RestartVerificationService.Instance.TrackTweak(tweak.Id, targetEnabled);
                 }
                 RefreshBackupState();
-                OnPropertyChanged(nameof(TweakCategories));
             }
             return result;
         }
@@ -717,7 +704,6 @@ namespace TweakHub.Services
                     _ => RegistryService.Instance.CheckTweakStatus(tweak)
                 };
             }
-            OnPropertyChanged(nameof(TweakCategories));
         }
 
         internal static WindowsUpdatePreset RecommendedWindowsUpdatePreset => WindowsUpdatePreset.Security;

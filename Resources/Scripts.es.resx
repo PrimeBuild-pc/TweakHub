@@ -144,36 +144,6 @@
   <data name="windows_update_reset_Confirmation" xml:space="preserve">
     <value>Esto borra las descargas de actualizaciones en caché y el historial de actualizaciones que se muestra en Configuración. ¿Continuar?</value>
   </data>
-  <data name="prevent_device_metadata_Name" xml:space="preserve">
-    <value>Prevenir aplicaciones de dispositivos complementarios</value>
-  </data>
-  <data name="prevent_device_metadata_Description" xml:space="preserve">
-    <value>Evitar que Windows descargue aplicaciones y metadatos asociados con los dispositivos conectados.</value>
-  </data>
-  <data name="prevent_device_metadata_Category" xml:space="preserve">
-    <value>Privacidad</value>
-  </data>
-  <data name="prevent_device_metadata_Execute" xml:space="preserve">
-    <value>Aplicar directiva</value>
-  </data>
-  <data name="prevent_device_metadata_Confirmation" xml:space="preserve">
-    <value>Esta directiva bloquea las aplicaciones de dispositivos complementarios y los metadatos, pero no necesariamente todos los controladores desde Windows Update. ¿Continuar?</value>
-  </data>
-  <data name="exclude_wu_drivers_Name" xml:space="preserve">
-    <value>Excluir controladores de Windows Update</value>
-  </data>
-  <data name="exclude_wu_drivers_Description" xml:space="preserve">
-    <value>Habilitar la política de Windows que excluye los paquetes clasificados como controladores de las actualizaciones de calidad.</value>
-  </data>
-  <data name="exclude_wu_drivers_Category" xml:space="preserve">
-    <value>Actualización de Windows</value>
-  </data>
-  <data name="exclude_wu_drivers_Execute" xml:space="preserve">
-    <value>Aplicar Política</value>
-  </data>
-  <data name="exclude_wu_drivers_Confirmation" xml:space="preserve">
-    <value>La actualización de Windows dejará de ofrecer paquetes clasificados como controladores. ¿Continuar?</value>
-  </data>
   <data name="empty_standby_list_Name" xml:space="preserve">
     <value>Vaciar lista de espera</value>
   </data>
