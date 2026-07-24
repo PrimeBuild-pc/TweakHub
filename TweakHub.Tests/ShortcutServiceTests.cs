@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using TweakHub.Models;
 using TweakHub.Services;
+using TweakHub.Views;
 
 namespace TweakHub.Tests;
 
@@ -56,6 +57,26 @@ public class ShortcutServiceTests
                 Is.EqualTo("gpedit.msc"));
             Assert.That(service.SystemShortcuts.Single(shortcut => shortcut.Name == "Task Scheduler").Command,
                 Is.EqualTo("taskschd.msc"));
+        });
+    }
+
+    [Test]
+    public void ExternalToolFilterHandlesFavoritesAndSearchFields()
+    {
+        ExternalTool[] tools =
+        [
+            new() { Name = "Alpha", Description = "Hardware monitor", Category = "Network", IsFavorite = true },
+            new() { Name = "Beta", Description = "Packet inspector", Category = "Storage & USB" },
+            new() { Name = "Gamma", Description = "Launcher", Category = "Audio" }
+        ];
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(ExternalToolsPage.FilterTools(tools, "", true).Select(tool => tool.Name), Is.EqualTo(["Alpha"]));
+            Assert.That(ExternalToolsPage.FilterTools(tools, "ALPHA", false).Select(tool => tool.Name), Is.EqualTo(["Alpha"]));
+            Assert.That(ExternalToolsPage.FilterTools(tools, "packet", false).Select(tool => tool.Name), Is.EqualTo(["Beta"]));
+            Assert.That(ExternalToolsPage.FilterTools(tools, "storage", false).Select(tool => tool.Name), Is.EqualTo(["Beta"]));
+            Assert.That(ExternalToolsPage.FilterTools(tools, "missing", false), Is.Empty);
         });
     }
 }

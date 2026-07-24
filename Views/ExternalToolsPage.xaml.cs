@@ -1,8 +1,6 @@
 using System.Windows;
-using System.Windows.Automation;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using TweakHub.Localization;
 using TweakHub.Models;
 using TweakHub.Services;
@@ -12,6 +10,24 @@ namespace TweakHub.Views
 {
     public partial class ExternalToolsPage : Page
     {
+        private sealed record ToolItem(
+            ExternalTool Tool,
+            string ActionText,
+            string ActionIcon)
+        {
+            public string ToolIcon => ShortcutService.CategoryIcon(Tool.Category);
+            public string AutomationName => $"{Tool.Name}. {ActionText}";
+            public string EditAutomationName => L.Format("Tools:EditToolNamed", Tool.Name);
+            public string DeleteAutomationName => L.Format("Tools:DeleteToolNamed", Tool.Name);
+            public string UninstallAutomationName => L.Format("Tools:UninstallNamed", Tool.Name);
+        }
+
+        private sealed record ToolGroup(
+            string Name,
+            string Icon,
+            string CountText,
+            IReadOnlyList<ToolItem> Tools);
+
         private readonly ShortcutService _shortcutService;
         private readonly ToolDownloadService _downloadService;
         private readonly IProgress<ToolProgress> _progress;
@@ -20,13 +36,11 @@ namespace TweakHub.Views
 
         public ExternalToolsPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             _shortcutService = ShortcutService.Instance;
             _downloadService = ToolDownloadService.Instance;
             _progress = new Progress<ToolProgress>(OnDownloadProgress);
-
             Loaded += ExternalToolsPage_Loaded;
-            SizeChanged += (_, _) => UpdateGridColumns();
         }
 
         private void ExternalToolsPage_Loaded(object sender, RoutedEventArgs e)
@@ -45,392 +59,178 @@ namespace TweakHub.Views
 
         private void LoadExternalTools()
         {
-            this.ToolsContainer.Children.Clear();
+            LoadErrorText.Visibility = Visibility.Collapsed;
+            ToolsControl.ItemsSource = CreateToolGroups();
+        }
 
-            // Favorites pseudo-category at top
-            var favorites = _shortcutService.ExternalTools.Where(t => t.IsFavorite).OrderBy(t => t.Name).ToList();
-            if (!_favoritesOnly && favorites.Any())
+        private IReadOnlyList<ToolGroup> CreateToolGroups()
+        {
+            var groups = new List<ToolGroup>();
+            var favorites = _shortcutService.ExternalTools
+                .Where(tool => tool.IsFavorite)
+                .OrderBy(tool => tool.Name)
+                .ToList();
+
+            if (!_favoritesOnly && favorites.Count > 0)
             {
-                var favExpander = new Expander
-                {
-                    Header = CreateFavoritesHeader(favorites.Count),
-                    IsExpanded = true,
-                    Margin = new Thickness(0, 0, 0, 16),
-                    Style = (Style)FindResource("CategoryExpanderStyle")
-                };
-                var favGrid = new System.Windows.Controls.Primitives.UniformGrid { Columns = GetToolColumnCount(), Margin = new Thickness(0, 16, 0, 0) };
-                foreach (var tool in favorites)
-                {
-                    favGrid.Children.Add(CreateToolCard(tool));
-                }
-                favExpander.Content = favGrid;
-                this.ToolsContainer.Children.Add(favExpander);
+                groups.Add(new(
+                    L.Get("Tools:Favorites"),
+                    "\uE734",
+                    $"({favorites.Count})",
+                    favorites.Select(CreateToolItem).ToList()));
             }
 
-            IEnumerable<ExternalTool> toolSource = _shortcutService.ExternalTools;
-            if (_favoritesOnly) toolSource = toolSource.Where(tool => tool.IsFavorite);
-            if (!string.IsNullOrWhiteSpace(_searchQuery))
+            groups.AddRange(FilterTools(_shortcutService.ExternalTools, _searchQuery, _favoritesOnly)
+                .OrderByDescending(tool => tool.IsFavorite)
+                .ThenBy(tool => tool.Name)
+                .GroupBy(tool => tool.Category)
+                .OrderBy(group => ShortcutService.CategoryOrder(group.Key))
+                .Select(group => new ToolGroup(
+                    ShortcutService.LocalizeCategory(group.Key),
+                    ShortcutService.CategoryIcon(group.Key),
+                    L.Format("Tools:ToolCount", group.Count()),
+                    group.OrderByDescending(tool => tool.IsFavorite)
+                        .ThenBy(tool => tool.Name)
+                        .Select(CreateToolItem)
+                        .ToList())));
+
+            return groups;
+        }
+
+        private ToolItem CreateToolItem(ExternalTool tool) =>
+            new(tool, GetActionText(tool), GetDownloadIcon(tool));
+
+        internal static IEnumerable<ExternalTool> FilterTools(
+            IEnumerable<ExternalTool> tools,
+            string searchQuery,
+            bool favoritesOnly)
+        {
+            if (favoritesOnly)
+                tools = tools.Where(tool => tool.IsFavorite);
+
+            if (!string.IsNullOrWhiteSpace(searchQuery))
             {
-                toolSource = toolSource.Where(t => t.Name.Contains(_searchQuery, StringComparison.OrdinalIgnoreCase)
-                    || t.Description.Contains(_searchQuery, StringComparison.OrdinalIgnoreCase)
-                    || t.Category.Contains(_searchQuery, StringComparison.OrdinalIgnoreCase)
-                    || ShortcutService.LocalizeCategory(t.Category).Contains(_searchQuery, StringComparison.CurrentCultureIgnoreCase));
+                tools = tools.Where(tool =>
+                    tool.Name.Contains(searchQuery, StringComparison.OrdinalIgnoreCase)
+                    || tool.Description.Contains(searchQuery, StringComparison.OrdinalIgnoreCase)
+                    || tool.Category.Contains(searchQuery, StringComparison.OrdinalIgnoreCase)
+                    || ShortcutService.LocalizeCategory(tool.Category)
+                        .Contains(searchQuery, StringComparison.CurrentCultureIgnoreCase));
             }
 
-            // Group tools by category
-            var groupedTools = toolSource
-                .OrderByDescending(t => t.IsFavorite)
-                .ThenBy(t => t.Name)
-                .GroupBy(t => t.Category)
-                .OrderBy(g => ShortcutService.CategoryOrder(g.Key));
+            return tools;
+        }
 
-            foreach (var group in groupedTools)
+        private async void ToolCard_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is Border { DataContext: ToolItem item } card)
+                await RunToolAsync(card, item.Tool);
+        }
+
+        private async void ToolCard_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key is not (Key.Enter or Key.Space)
+                || sender is not Border { DataContext: ToolItem item } card)
+                return;
+
+            e.Handled = true;
+            await RunToolAsync(card, item.Tool);
+        }
+
+        private async Task RunToolAsync(Border card, ExternalTool tool)
+        {
+            card.IsEnabled = false;
+            card.Opacity = 0.7;
+            try
             {
-                // Create collapsible category section
-                var categoryExpander = new Expander
-                {
-                    Header = CreateCategoryHeader(group.Key, group.Count()),
-                    IsExpanded = true,
-                    Margin = new Thickness(0, 0, 0, 16),
-                    Style = (Style)FindResource("CategoryExpanderStyle")
-                };
-
-                var toolsGrid = new System.Windows.Controls.Primitives.UniformGrid
-                {
-                    Columns = GetToolColumnCount(),
-                    Margin = new Thickness(0, 16, 0, 0)
-                };
-
-                foreach (var tool in group.OrderByDescending(t => t.IsFavorite).ThenBy(t => t.Name))
-                {
-                    var toolCard = CreateToolCard(tool);
-                    toolsGrid.Children.Add(toolCard);
-                }
-
-                categoryExpander.Content = toolsGrid;
-                this.ToolsContainer.Children.Add(categoryExpander);
+                await _downloadService.DownloadOrOpenTool(tool, _progress);
+            }
+            finally
+            {
+                card.IsEnabled = true;
+                card.Opacity = 1;
             }
         }
 
-        private int GetToolColumnCount() => ActualWidth >= 1000 ? 3 : ActualWidth >= 650 ? 2 : 1;
-
-        private void UpdateGridColumns()
+        private async void FavoriteTool_Click(object sender, RoutedEventArgs e)
         {
-            var columns = GetToolColumnCount();
-            foreach (var expander in ToolsContainer.Children.OfType<Expander>())
-                if (expander.Content is System.Windows.Controls.Primitives.UniformGrid grid)
-                    grid.Columns = columns;
+            e.Handled = true;
+            if ((sender as FrameworkElement)?.DataContext is not ToolItem item) return;
+
+            item.Tool.IsFavorite = !item.Tool.IsFavorite;
+            await PersistFavoritesAsync();
+            LoadExternalTools();
         }
 
-        private StackPanel CreateCategoryHeader(string categoryName, int toolCount)
+        private void EditTool_Click(object sender, RoutedEventArgs e)
         {
-            var headerPanel = new StackPanel
-            {
-                Orientation = Orientation.Horizontal
-            };
-
-            var iconText = new TextBlock
-            {
-                Text = ShortcutService.CategoryIcon(categoryName),
-                FontFamily = new FontFamily("Segoe Fluent Icons"),
-                FontSize = 18,
-                Margin = new Thickness(0, 0, 12, 0),
-                VerticalAlignment = VerticalAlignment.Center
-            };
-            iconText.SetResourceReference(TextBlock.ForegroundProperty, "IconBrush");
-
-            var nameText = new TextBlock
-            {
-                Text = ShortcutService.LocalizeCategory(categoryName),
-                FontSize = 16,
-                FontWeight = FontWeights.SemiBold,
-                VerticalAlignment = VerticalAlignment.Center
-            };
-            nameText.SetResourceReference(TextBlock.ForegroundProperty, "SystemControlForegroundBaseHighBrush");
-
-            var countText = new TextBlock
-            {
-                Text = L.Format("Tools:ToolCount", toolCount),
-                FontSize = 12,
-                Margin = new Thickness(8, 0, 0, 0),
-                VerticalAlignment = VerticalAlignment.Center
-            };
-            countText.SetResourceReference(TextBlock.ForegroundProperty, "SystemControlForegroundBaseMediumBrush");
-
-            headerPanel.Children.Add(iconText);
-            headerPanel.Children.Add(nameText);
-            headerPanel.Children.Add(countText);
-
-            return headerPanel;
+            e.Handled = true;
+            if ((sender as FrameworkElement)?.DataContext is ToolItem item)
+                EditCustomTool(item.Tool);
         }
 
-        private StackPanel CreateFavoritesHeader(int count)
+        private async void DeleteTool_Click(object sender, RoutedEventArgs e)
         {
-            var panel = new StackPanel { Orientation = Orientation.Horizontal };
-            var icon = new TextBlock
-            {
-                Text = "\uE734",
-                FontFamily = new FontFamily("Segoe Fluent Icons"),
-                FontSize = 18,
-                Margin = new Thickness(0, 0, 12, 0),
-                VerticalAlignment = VerticalAlignment.Center
-            };
-            icon.SetResourceReference(TextBlock.ForegroundProperty, "IconBrush");
-            var title = new TextBlock
-            {
-                Text = L.Get("Tools:Favorites"),
-                FontSize = 16,
-                FontWeight = FontWeights.SemiBold,
-                VerticalAlignment = VerticalAlignment.Center
-            };
-            title.SetResourceReference(TextBlock.ForegroundProperty, "SystemControlForegroundBaseHighBrush");
-            var countText = new TextBlock
-            {
-                Text = $"({count})",
-                FontSize = 12,
-                Margin = new Thickness(8, 0, 0, 0),
-                VerticalAlignment = VerticalAlignment.Center
-            };
-            countText.SetResourceReference(TextBlock.ForegroundProperty, "SystemControlForegroundBaseMediumBrush");
-            panel.Children.Add(icon);
-            panel.Children.Add(title);
-            panel.Children.Add(countText);
-            return panel;
+            e.Handled = true;
+            if ((sender as FrameworkElement)?.DataContext is not ToolItem item) return;
+
+            var tool = item.Tool;
+            if (!await AppDialog.ConfirmAsync(
+                    Window.GetWindow(this),
+                    L.Get("Tools:DeleteCustomTool"),
+                    L.Format("Tools:DeleteToolMessage", tool.Name),
+                    L.Get("Tools:Delete"),
+                    L.Get("Tools:Cancel")))
+                return;
+
+            _shortcutService.DeleteCustomTool(tool);
+            await PersistFavoritesAsync();
+            LoadExternalTools();
         }
 
-        private Border CreateToolCard(ExternalTool tool)
+        private async void UninstallTool_Click(object sender, RoutedEventArgs e)
         {
-            var card = new Border
-            {
-                Style = (Style)FindResource("ToolCardStyle"),
-                Tag = tool,
-                ToolTip = GetActionText(tool),
-                Cursor = Cursors.Hand
-            };
-            AutomationProperties.SetName(card, $"{tool.Name}. {GetActionText(tool)}");
+            e.Handled = true;
+            if (sender is not Button { DataContext: ToolItem item, Tag: Border card }) return;
 
-            async Task RunAction()
+            var tool = item.Tool;
+            if (!await AppDialog.ConfirmAsync(
+                    Window.GetWindow(this),
+                    L.Get("Tools:ConfirmUninstall"),
+                    L.Format("Tools:ConfirmUninstallMessage", tool.Name),
+                    L.Get("Tools:Uninstall"),
+                    L.Get("Tools:Cancel")))
+                return;
+
+            card.IsEnabled = false;
+            card.Opacity = 0.7;
+            try
             {
-                card.IsEnabled = false;
-                card.Opacity = 0.7;
-                try
-                {
-                    await _downloadService.DownloadOrOpenTool(tool, _progress);
-                }
-                finally
-                {
-                    card.IsEnabled = true;
-                    card.Opacity = 1.0;
-                }
+                await _downloadService.UninstallWithWinget(tool, _progress);
             }
-
-            card.MouseLeftButtonUp += async (_, _) => await RunAction();
-            card.KeyDown += async (_, e) =>
+            finally
             {
-                if (e.Key is not (Key.Enter or Key.Space)) return;
-                e.Handled = true;
-                await RunAction();
-            };
-
-            var stackPanel = new StackPanel();
-
-            // Tool icon and name
-            var headerGrid = new Grid { Margin = new Thickness(0, 0, 0, 12) };
-            headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-            headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-
-            var headerPanel = new StackPanel { Orientation = Orientation.Horizontal };
-
-            var iconText = new TextBlock
-            {
-                Text = ShortcutService.CategoryIcon(tool.Category),
-                FontFamily = new FontFamily("Segoe Fluent Icons"),
-                FontSize = 18,
-                Margin = new Thickness(0, 0, 10, 0),
-                VerticalAlignment = VerticalAlignment.Center
-            };
-            iconText.SetResourceReference(TextBlock.ForegroundProperty, "IconBrush");
-
-            var nameText = new TextBlock
-            {
-                Text = tool.Name,
-                FontSize = 14,
-                FontWeight = FontWeights.SemiBold,
-                TextWrapping = TextWrapping.Wrap,
-                VerticalAlignment = VerticalAlignment.Center
-            };
-            nameText.SetResourceReference(TextBlock.ForegroundProperty, "SystemControlForegroundBaseHighBrush");
-
-            headerPanel.Children.Add(iconText);
-            headerPanel.Children.Add(nameText);
-
-            // Favorite star button
-            var favBtn = new Button
-            {
-                Content = new TextBlock { Text = tool.IsFavorite ? "★" : "☆", FontSize = 16 },
-                Background = Brushes.Transparent,
-                BorderThickness = new Thickness(0),
-                HorizontalAlignment = HorizontalAlignment.Right,
-                VerticalAlignment = VerticalAlignment.Top,
-                ToolTip = L.Get(tool.IsFavorite ? "Tools:Unfavorite" : "Tools:Favorite"),
-                Cursor = System.Windows.Input.Cursors.Hand
-            };
-            AutomationProperties.SetName(favBtn, L.Get(tool.IsFavorite ? "Tools:RemoveFromFavorites" : "Tools:AddToFavorites"));
-            favBtn.Click += async (s, e) =>
-            {
-                e.Handled = true; // Don't trigger card click
-                tool.IsFavorite = !tool.IsFavorite;
-                ((TextBlock)favBtn.Content).Text = tool.IsFavorite ? "★" : "☆";
-                favBtn.ToolTip = L.Get(tool.IsFavorite ? "Tools:Unfavorite" : "Tools:Favorite");
-                AutomationProperties.SetName(favBtn, L.Get(tool.IsFavorite ? "Tools:RemoveFromFavorites" : "Tools:AddToFavorites"));
-                await PersistFavoritesAsync();
-                LoadExternalTools();
-            };
-
-            headerGrid.Children.Add(headerPanel);
-            Grid.SetColumn(headerPanel, 0);
-            headerGrid.Children.Add(favBtn);
-            Grid.SetColumn(favBtn, 1);
-
-            // Description
-            var descriptionText = new TextBlock
-            {
-                Text = tool.Description,
-                FontSize = 11,
-                TextWrapping = TextWrapping.Wrap,
-                LineHeight = 14,
-                Margin = new Thickness(0, 0, 0, 12),
-                MaxHeight = 42, // Limit to ~3 lines
-                TextTrimming = TextTrimming.WordEllipsis
-            };
-            descriptionText.SetResourceReference(TextBlock.ForegroundProperty, "SystemControlForegroundBaseMediumBrush");
-
-            // Footer with install/uninstall icons
-            var footerPanel = new StackPanel
-            {
-                Orientation = Orientation.Horizontal,
-                HorizontalAlignment = HorizontalAlignment.Right
-            };
-
-            // Install/Open indicator
-            var actionIcon = new TextBlock
-            {
-                Text = GetDownloadIcon(tool),
-                FontFamily = new FontFamily("Segoe Fluent Icons"),
-                FontSize = 12,
-                VerticalAlignment = VerticalAlignment.Center
-            };
-            actionIcon.SetResourceReference(TextBlock.ForegroundProperty, "IconBrush");
-
-            var actionText = new TextBlock
-            {
-                Text = GetActionText(tool),
-                FontSize = 10,
-                Margin = new Thickness(4, 0, 8, 0),
-                VerticalAlignment = VerticalAlignment.Center
-            };
-            actionText.SetResourceReference(TextBlock.ForegroundProperty, "SystemControlForegroundBaseMediumBrush");
-
-            footerPanel.Children.Add(actionIcon);
-            footerPanel.Children.Add(actionText);
-
-            if (tool.IsCustom)
-            {
-                var editButton = new Button
-                {
-                    Content = new TextBlock { Text = "\uE70F", FontFamily = new FontFamily("Segoe Fluent Icons"), FontSize = 12 },
-                    ToolTip = L.Get("Tools:EditCustomTool"),
-                    Padding = new Thickness(4, 0, 4, 0),
-                    Background = Brushes.Transparent,
-                    BorderThickness = new Thickness(0),
-                    Cursor = System.Windows.Input.Cursors.Hand
-                };
-                AutomationProperties.SetName(editButton, L.Format("Tools:EditToolNamed", tool.Name));
-                editButton.Click += (_, e) =>
-                {
-                    e.Handled = true;
-                    EditCustomTool(tool);
-                };
-                var deleteButton = new Button
-                {
-                    Content = new TextBlock { Text = "\uE74D", FontFamily = new FontFamily("Segoe Fluent Icons"), FontSize = 12 },
-                    ToolTip = L.Get("Tools:DeleteCustomTool"),
-                    Padding = new Thickness(4, 0, 4, 0),
-                    Margin = new Thickness(4, 0, 0, 0),
-                    Background = Brushes.Transparent,
-                    BorderThickness = new Thickness(0),
-                    Cursor = System.Windows.Input.Cursors.Hand
-                };
-                AutomationProperties.SetName(deleteButton, L.Format("Tools:DeleteToolNamed", tool.Name));
-                deleteButton.Click += async (_, e) =>
-                {
-                    e.Handled = true;
-                    if (!await AppDialog.ConfirmAsync(Window.GetWindow(this), L.Get("Tools:DeleteCustomTool"), L.Format("Tools:DeleteToolMessage", tool.Name), L.Get("Tools:Delete"), L.Get("Tools:Cancel"))) return;
-                    _shortcutService.DeleteCustomTool(tool);
-                    await PersistFavoritesAsync();
-                    LoadExternalTools();
-                };
-                footerPanel.Children.Add(editButton);
-                footerPanel.Children.Add(deleteButton);
+                card.IsEnabled = true;
+                card.Opacity = 1;
             }
-
-            // Uninstall button for Winget tools
-            if (!string.IsNullOrWhiteSpace(tool.WingetId))
-            {
-                var uninstallBtn = new Button
-                {
-                    Content = new TextBlock { Text = "\uE74D", FontFamily = new FontFamily("Segoe Fluent Icons"), FontSize = 12 },
-                    ToolTip = L.Get("Tools:Uninstall"),
-                    Padding = new Thickness(4, 0, 4, 0),
-                    Margin = new Thickness(6, 0, 0, 0),
-                    Background = Brushes.Transparent,
-                    BorderThickness = new Thickness(0),
-                    Cursor = System.Windows.Input.Cursors.Hand
-                };
-
-                AutomationProperties.SetName(uninstallBtn, L.Format("Tools:UninstallNamed", tool.Name));
-                uninstallBtn.Click += async (s, e) =>
-                {
-                    e.Handled = true;
-                    if (await AppDialog.ConfirmAsync(Window.GetWindow(this), L.Get("Tools:ConfirmUninstall"),
-                            L.Format("Tools:ConfirmUninstallMessage", tool.Name), L.Get("Tools:Uninstall"), L.Get("Tools:Cancel")))
-                    {
-                        card.IsEnabled = false;
-                        card.Opacity = 0.7;
-                        try
-                        {
-                            await _downloadService.UninstallWithWinget(tool, _progress);
-                        }
-                        finally
-                        {
-                            card.IsEnabled = true;
-                            card.Opacity = 1.0;
-                        }
-                    }
-                };
-
-                footerPanel.Children.Add(uninstallBtn);
-            }
-
-            stackPanel.Children.Add(headerGrid);
-            stackPanel.Children.Add(descriptionText);
-            stackPanel.Children.Add(footerPanel);
-
-            card.Child = stackPanel;
-
-            return card;
         }
 
         private async Task PersistFavoritesAsync()
         {
             try
             {
-                var favs = _shortcutService.ExternalTools.Where(t => t.IsFavorite).Select(ShortcutService.FavoriteKey).ToList();
-                UserDataService.Instance.SaveFavoriteTools(favs);
+                var favorites = _shortcutService.ExternalTools
+                    .Where(tool => tool.IsFavorite)
+                    .Select(ShortcutService.FavoriteKey)
+                    .ToList();
+                UserDataService.Instance.SaveFavoriteTools(favorites);
             }
             catch (Exception ex)
             {
-                await AppDialog.ShowWarningAsync(Window.GetWindow(this), L.Get("Tools:UnableSaveFavorites"), ex.Message);
+                await AppDialog.ShowWarningAsync(
+                    Window.GetWindow(this),
+                    L.Get("Tools:UnableSaveFavorites"),
+                    ex.Message);
             }
         }
 
@@ -450,11 +250,12 @@ namespace TweakHub.Views
 
         private async void EditCustomTool(ExternalTool? tool)
         {
-            var dialog = new TweakHub.Views.Dialogs.CustomToolDialog(_shortcutService.GetToolCategories(), tool)
+            var dialog = new CustomToolDialog(_shortcutService.GetToolCategories(), tool)
             {
                 Owner = Window.GetWindow(this)
             };
             if (dialog.ShowDialog() != true) return;
+
             try
             {
                 _shortcutService.SaveCustomTool(dialog.Tool);
@@ -462,14 +263,17 @@ namespace TweakHub.Views
             }
             catch (Exception ex)
             {
-                await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Tools:UnableSaveTool"), ex.Message);
+                await AppDialog.ShowErrorAsync(
+                    Window.GetWindow(this),
+                    L.Get("Tools:UnableSaveTool"),
+                    ex.Message);
             }
         }
 
         private static string GetDownloadIcon(ExternalTool tool) =>
             !string.IsNullOrWhiteSpace(tool.WingetId) ? "\uE896" : "\uE774";
 
-        private string GetActionText(ExternalTool tool)
+        private static string GetActionText(ExternalTool tool)
         {
             if (!string.IsNullOrWhiteSpace(tool.WingetId))
                 return L.Get("Tools:Install");
@@ -485,7 +289,8 @@ namespace TweakHub.Views
             ProgressPanel.Visibility = Visibility.Visible;
             ProgressText.Text = progress.IsCompleted ? progress.Message : $"{progress.ToolName}: {progress.Message}";
             ProgressBar.Value = progress.Percentage;
-            if (progress.IsCompleted) HideProgressAfter(TimeSpan.FromSeconds(progress.Success ? 3 : 5));
+            if (progress.IsCompleted)
+                HideProgressAfter(TimeSpan.FromSeconds(progress.Success ? 3 : 5));
         }
 
         private void HideProgressAfter(TimeSpan delay)
@@ -494,27 +299,12 @@ namespace TweakHub.Views
             timer.Tick += (_, _) =>
             {
                 timer.Stop();
-                this.ProgressPanel.Visibility = Visibility.Collapsed;
-                this.ProgressBar.Value = 0;
+                ProgressPanel.Visibility = Visibility.Collapsed;
+                ProgressBar.Value = 0;
             };
             timer.Start();
         }
 
-        private void ShowLoadError()
-        {
-            Dispatcher.Invoke(() =>
-            {
-                this.ToolsContainer.Children.Clear();
-                var errorText = new TextBlock
-                {
-                    Text = L.Get("Tools:LoadToolsFailed"),
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    VerticalAlignment = VerticalAlignment.Center,
-                    Foreground = Brushes.Red
-                };
-                this.ToolsContainer.Children.Add(errorText);
-            });
-        }
-
+        private void ShowLoadError() => LoadErrorText.Visibility = Visibility.Visible;
     }
 }
