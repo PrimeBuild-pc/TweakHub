@@ -1,6 +1,5 @@
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using TweakHub.Localization;
 using TweakHub.Models;
 using TweakHub.Services;
@@ -10,26 +9,26 @@ namespace TweakHub.Views
 {
     public partial class QuickAccessPage : Page
     {
+        private sealed record ShortcutGroup(
+            string Name,
+            string Icon,
+            IReadOnlyList<SystemShortcut> Shortcuts);
+
         private readonly ShortcutService _shortcutService;
 
         public QuickAccessPage()
         {
             InitializeComponent();
             _shortcutService = ShortcutService.Instance;
-
             Loaded += QuickAccessPage_Loaded;
-            SizeChanged += (_, _) => UpdateGridColumns();
         }
 
         private void QuickAccessPage_Loaded(object sender, RoutedEventArgs e)
         {
             try
             {
-                // Ensure service is initialized before loading
                 if (_shortcutService.SystemShortcuts.Count == 0)
-                {
                     _shortcutService.Initialize();
-                }
                 LoadShortcuts();
             }
             catch (Exception ex)
@@ -41,124 +40,28 @@ namespace TweakHub.Views
 
         private void LoadShortcuts()
         {
-            ShortcutsContainer.Children.Clear();
-
-            // Group shortcuts by category
-            var groupedShortcuts = _shortcutService.SystemShortcuts
-                .GroupBy(s => s.Category)
-                .OrderBy(g => ShortcutService.CategoryOrder(g.Key));
-
-            foreach (var group in groupedShortcuts)
-            {
-                // Category header
-                var categoryHeader = new TextBlock
-                {
-                    Text = ShortcutService.LocalizeCategory(group.Key),
-                    Style = (Style)FindResource("CategoryHeaderStyle")
-                };
-                ShortcutsContainer.Children.Add(categoryHeader);
-
-                // Create grid for shortcuts in this category
-                var shortcutsGrid = new UniformGrid
-                {
-                    Columns = GetColumnCount(),
-                    Margin = new Thickness(0, 0, 0, 6)
-                };
-
-                foreach (var shortcut in group.OrderBy(s => s.Name))
-                {
-                    var button = CreateShortcutButton(shortcut);
-                    shortcutsGrid.Children.Add(button);
-                }
-
-                ShortcutsContainer.Children.Add(shortcutsGrid);
-            }
+            LoadErrorText.Visibility = Visibility.Collapsed;
+            ShortcutsControl.ItemsSource = _shortcutService.SystemShortcuts
+                .GroupBy(shortcut => shortcut.Category)
+                .OrderBy(group => ShortcutService.CategoryOrder(group.Key))
+                .Select(group => new ShortcutGroup(
+                    ShortcutService.LocalizeCategory(group.Key),
+                    ShortcutService.CategoryIcon(group.Key),
+                    group.OrderBy(shortcut => shortcut.Name).ToList()))
+                .ToList();
         }
 
-        private int GetColumnCount() => ActualWidth >= 1100 ? 3 : ActualWidth >= 700 ? 2 : 1;
-
-        private void UpdateGridColumns()
+        private void Shortcut_Click(object sender, RoutedEventArgs e)
         {
-            var columns = GetColumnCount();
-            foreach (var grid in ShortcutsContainer.Children.OfType<UniformGrid>())
-                grid.Columns = columns;
-        }
-
-        private Button CreateShortcutButton(SystemShortcut shortcut)
-        {
-            var button = new Button
-            {
-                Style = (Style)FindResource("ShortcutButtonStyle"),
-                Tag = shortcut
-            };
-
-            button.Click += (s, e) => ExecuteShortcut(shortcut);
-
-            var mainPanel = new StackPanel
-            {
-                Orientation = Orientation.Horizontal,
-                Margin = new Thickness(0)
-            };
-
-            // Icon
-            var iconText = new TextBlock
-            {
-                Text = ShortcutService.CategoryIcon(shortcut.Category),
-                FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons"),
-                FontSize = 20,
-                Margin = new Thickness(0, 0, 12, 0),
-                VerticalAlignment = VerticalAlignment.Top,
-                HorizontalAlignment = HorizontalAlignment.Center
-            };
-            iconText.SetResourceReference(TextBlock.ForegroundProperty, "IconBrush");
-
-            // Content panel with proper sizing
-            var contentPanel = new StackPanel
-            {
-                VerticalAlignment = VerticalAlignment.Top,
-                HorizontalAlignment = HorizontalAlignment.Left
-            };
-
-            var nameText = new TextBlock
-            {
-                Text = shortcut.Name,
-                FontSize = 14,
-                FontWeight = FontWeights.SemiBold,
-                Margin = new Thickness(0, 0, 0, 3),
-                TextWrapping = TextWrapping.Wrap,
-                MaxWidth = 320
-            };
-            nameText.SetResourceReference(TextBlock.ForegroundProperty, "SystemControlForegroundBaseHighBrush");
-
-            var descriptionText = new TextBlock
-            {
-                Text = shortcut.Description,
-                FontSize = 12,
-                LineHeight = 16,
-                TextWrapping = TextWrapping.Wrap,
-                MaxWidth = 320,
-                Margin = new Thickness(0, 0, 0, 0)
-            };
-            descriptionText.SetResourceReference(TextBlock.ForegroundProperty, "SystemControlForegroundBaseMediumBrush");
-
-            contentPanel.Children.Add(nameText);
-            contentPanel.Children.Add(descriptionText);
-
-            mainPanel.Children.Add(iconText);
-            mainPanel.Children.Add(contentPanel);
-
-            button.Content = mainPanel;
-
-            return button;
+            if ((sender as FrameworkElement)?.DataContext is SystemShortcut shortcut)
+                ExecuteShortcut(shortcut);
         }
 
         private async void ExecuteShortcut(SystemShortcut shortcut)
         {
             try
             {
-                var success = _shortcutService.ExecuteShortcut(shortcut);
-
-                if (!success)
+                if (!_shortcutService.ExecuteShortcut(shortcut))
                 {
                     await AppDialog.ShowWarningAsync(
                         Window.GetWindow(this),
@@ -175,20 +78,6 @@ namespace TweakHub.Views
             }
         }
 
-        private void ShowLoadError()
-        {
-            Dispatcher.Invoke(() =>
-            {
-                ShortcutsContainer.Children.Clear();
-                var errorText = new TextBlock
-                {
-                    Text = L.Get("Tools:LoadShortcutsFailed"),
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    VerticalAlignment = VerticalAlignment.Center,
-                    Foreground = (System.Windows.Media.Brush)FindResource("DangerBrush")
-                };
-                ShortcutsContainer.Children.Add(errorText);
-            });
-        }
+        private void ShowLoadError() => LoadErrorText.Visibility = Visibility.Visible;
     }
 }
