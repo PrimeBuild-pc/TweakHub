@@ -31,7 +31,7 @@
     <value>Быстрый Доступ</value>
   </data>
   <data name="MainWindowAbout" xml:space="preserve">
-    <value>О программе</value>
+    <value>Настройки</value>
   </data>
   <data name="MainWindowOpenAppearanceSettings" xml:space="preserve">
     <value>Открыть настройки внешнего вида</value>
@@ -43,13 +43,13 @@
     <value>Настройки внешнего вида</value>
   </data>
   <data name="AboutPageAbout" xml:space="preserve">
-    <value>О программе</value>
+    <value>Настройки</value>
   </data>
   <data name="AboutPageAboutAmpSettings" xml:space="preserve">
-    <value>О программе и настройках</value>
+    <value>Настройки</value>
   </data>
   <data name="AboutPageApplicationInformationAppearanceAndUpdates" xml:space="preserve">
-    <value>Информация о приложении, внешний вид и обновления</value>
+    <value>Настройки приложения, переносимые профили, обновления и информация.</value>
   </data>
   <data name="AboutPageAppearance" xml:space="preserve">
     <value>Внешний вид</value>

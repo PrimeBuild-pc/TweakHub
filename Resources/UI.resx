@@ -31,7 +31,7 @@
     <value>Quick Access</value>
   </data>
   <data name="MainWindowAbout" xml:space="preserve">
-    <value>About</value>
+    <value>Settings</value>
   </data>
   <data name="MainWindowOpenAppearanceSettings" xml:space="preserve">
     <value>Open appearance settings</value>
@@ -43,13 +43,13 @@
     <value>Appearance settings</value>
   </data>
   <data name="AboutPageAbout" xml:space="preserve">
-    <value>About</value>
+    <value>Settings</value>
   </data>
   <data name="AboutPageAboutAmpSettings" xml:space="preserve">
-    <value>About &amp; Settings</value>
+    <value>Settings</value>
   </data>
   <data name="AboutPageApplicationInformationAppearanceAndUpdates" xml:space="preserve">
-    <value>Application information, appearance and updates</value>
+    <value>Application settings, portable profiles, updates and information.</value>
   </data>
   <data name="AboutPageAppearance" xml:space="preserve">
     <value>Appearance</value>

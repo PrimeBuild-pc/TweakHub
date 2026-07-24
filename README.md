@@ -48,7 +48,7 @@ It runs as the current user and requests administrator privileges only when an o
 
 TweakHub supports **Windows 11 build 22000 or newer**.
 
-The interface and installer support English, Russian, Simplified Chinese, Spanish, Italian and Japanese. TweakHub follows the Windows display language by default; an explicit language can be selected under **About & Settings**.
+The interface and installer support English, Russian, Simplified Chinese, Spanish, Italian and Japanese. TweakHub follows the Windows display language by default; an explicit language can be selected under **Settings**.
 
 ## Screenshots
 
@@ -109,14 +109,15 @@ Portable builds keep their state in `Data` beside the application files:
 | `playbooks.json` | Ordered user-created tweak, exact-WinGet and custom-script workflows |
 | `favorites.json` | Favorite external tools |
 | `favorite-tweaks.json` | Favorite built-in and custom Registry tweaks |
+| `favorite-scripts.json` | Favorite built-in and custom automated scripts |
 | `appearance.json` | Theme, accent and transparency preferences |
 
-Use **About & Settings → Portable configuration** to export or import the complete user profile as a `.tweakhub.json` file. Import validates the complete profile before replacing anything and creates a recovery copy of the current profile first. Script and playbook output is written to `Data/Logs` in portable builds.
+Use **Settings → Portable configuration** to export or import the complete user profile as a `.tweakhub.json` file. Import validates the complete profile before replacing anything and creates a recovery copy of the current profile first. Script and playbook output is written to `Data/Logs` in portable builds.
 
 ### Intended customization workflow
 
 1. Put optional portable programs under `Apps` beside `TweakHub.exe`.
-2. Create PowerShell or CMD entries under **Automated Scripts**. Use the paths provided by TweakHub instead of machine-specific absolute paths:
+2. Create PowerShell or CMD entries under **Automated Scripts**. **Import Script Files** only reads selected `.ps1`, `.cmd` or `.bat` files into new custom scripts; it does not execute them, copy the original files or import a TweakHub profile. Use the paths provided by TweakHub instead of machine-specific absolute paths:
 
    ```powershell
    & "$env:TWEAKHUB_APPS\MyTool\MyTool.exe"
@@ -128,7 +129,7 @@ Use **About & Settings → Portable configuration** to export or import the comp
 
    `TWEAKHUB_ROOT` also points to the folder containing `TweakHub.exe`. Scripts start in that directory in normal and administrator mode.
 3. Create a playbook in **Automated Scripts** and order any built-in/custom tweaks, exact WinGet packages and saved custom scripts you want it to run.
-4. Export the complete profile from **About & Settings**. Copy `Apps` separately if another PC needs the same portable binaries.
+4. Export the complete profile from **Settings**. Copy `Apps` separately if another PC needs the same portable binaries.
 5. On the destination PC, import the profile, review unavailable references, populate `Apps` as needed, then preview and run the playbook. Execution stops at the first failed step and saves a log.
 
 An imported script is retained even if its referenced executable is absent. Running it then fails with the missing path; TweakHub never silently removes the script or reports false success.
@@ -137,7 +138,7 @@ An imported script is retained even if its referenced executable is absent. Runn
 |---|---|
 | Custom scripts, Registry tweaks and external-tool cards | Executables and other files under `Apps` |
 | User playbooks and exact WinGet application IDs | Installed-application state |
-| Tool/tweak favorites and appearance/language | Registry, power and Windows Update rollback backups |
+| Tool, tweak and automated-script favorites plus appearance/language | Registry, power and Windows Update rollback backups |
 | Unavailable user references, so they can be repaired later | Operation logs, script history and pending reboot checks |
 
 Successful built-in script runs and pending reboot verification are machine-specific and remain under `%LocalAppData%\TweakHub`; they never travel with the portable profile. After Windows restarts, TweakHub verifies tracked restart-required changes against their expected state and reports verified, failed, partial or unavailable results instead of merely clearing the indicator.

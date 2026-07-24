@@ -24,6 +24,7 @@ public sealed class UserDataService
     private static readonly JsonSerializerOptions JsonOptions = new() { WriteIndented = true };
     private readonly string _favoritesFile;
     private readonly string _favoriteTweaksFile;
+    private readonly string _favoriteScriptsFile;
     private readonly string _customScriptsFile;
     private readonly string _customTweaksFile;
     private readonly string _customToolsFile;
@@ -43,6 +44,7 @@ public sealed class UserDataService
         Directory.CreateDirectory(dataDirectory);
         _favoritesFile = Path.Combine(dataDirectory, "favorites.json");
         _favoriteTweaksFile = Path.Combine(dataDirectory, "favorite-tweaks.json");
+        _favoriteScriptsFile = Path.Combine(dataDirectory, "favorite-scripts.json");
         _customScriptsFile = Path.Combine(dataDirectory, "custom-scripts.json");
         _customTweaksFile = Path.Combine(dataDirectory, "custom-tweaks.json");
         _customToolsFile = Path.Combine(dataDirectory, "custom-tools.json");
@@ -58,6 +60,10 @@ public sealed class UserDataService
     public HashSet<string> LoadFavoriteTweaks() => Load<HashSet<string>>(_favoriteTweaksFile).ToHashSet(StringComparer.OrdinalIgnoreCase);
     public void SaveFavoriteTweaks(IEnumerable<string> favorites) =>
         Save(_favoriteTweaksFile, favorites.ToHashSet(StringComparer.OrdinalIgnoreCase));
+
+    public HashSet<string> LoadFavoriteScripts() => Load<HashSet<string>>(_favoriteScriptsFile).ToHashSet(StringComparer.OrdinalIgnoreCase);
+    public void SaveFavoriteScripts(IEnumerable<string> favorites) =>
+        Save(_favoriteScriptsFile, favorites.ToHashSet(StringComparer.OrdinalIgnoreCase));
 
     public ObservableCollection<CustomScript> LoadCustomScripts() => new(Load<List<CustomScript>>(_customScriptsFile));
     public void SaveCustomScripts(IEnumerable<CustomScript> scripts) => Save(_customScriptsFile, scripts.ToList());
@@ -85,6 +91,7 @@ public sealed class UserDataService
             Playbooks = Load<List<Playbook>>(_playbooksFile),
             FavoriteTools = LoadFavoriteTools(),
             FavoriteTweaks = LoadFavoriteTweaks(),
+            FavoriteScripts = LoadFavoriteScripts(),
             Appearance = LoadAppearance()
         };
         Save(path, profile);
@@ -112,6 +119,7 @@ public sealed class UserDataService
             [_playbooksFile] = profile.Playbooks,
             [_favoritesFile] = profile.FavoriteTools,
             [_favoriteTweaksFile] = profile.FavoriteTweaks,
+            [_favoriteScriptsFile] = profile.FavoriteScripts,
             [_appearanceFile] = profile.Appearance
         };
         ReplaceAll(writes);
@@ -184,9 +192,11 @@ public sealed class UserDataService
         profile.Playbooks ??= [];
         profile.FavoriteTools ??= [];
         profile.FavoriteTweaks ??= [];
+        profile.FavoriteScripts ??= [];
         profile.Appearance ??= new();
         profile.FavoriteTools = profile.FavoriteTools.ToHashSet(StringComparer.OrdinalIgnoreCase);
         profile.FavoriteTweaks = profile.FavoriteTweaks.ToHashSet(StringComparer.OrdinalIgnoreCase);
+        profile.FavoriteScripts = profile.FavoriteScripts.ToHashSet(StringComparer.OrdinalIgnoreCase);
     }
 
     private static void ValidateProfile(UserProfile profile)
@@ -194,7 +204,8 @@ public sealed class UserDataService
         if (profile.Version is not (1 or ProfileVersion))
             throw new InvalidDataException(L.Format("UI:ProfileVersionUnsupported", profile.Version));
         if (profile.CustomScripts.Count > 500 || profile.CustomTweaks.Count > 500 || profile.CustomTools.Count > 500
-            || profile.Playbooks.Count > 100 || profile.FavoriteTools.Count > 1000 || profile.FavoriteTweaks.Count > 1000)
+            || profile.Playbooks.Count > 100 || profile.FavoriteTools.Count > 1000 || profile.FavoriteTweaks.Count > 1000
+            || profile.FavoriteScripts.Count > 1000)
             throw new InvalidDataException(L.Get("UI:ProfileTooManyEntries"));
 
         foreach (var script in profile.CustomScripts)
@@ -219,7 +230,8 @@ public sealed class UserDataService
         if (profile.Appearance.Theme is not ("System" or "Light" or "Dark")
             || profile.Appearance.AccentColor.Length > 0 && !Regex.IsMatch(profile.Appearance.AccentColor, "^#[0-9A-Fa-f]{6}$")
             || profile.Appearance.Language is not ("System" or "en" or "ru" or "zh-CN" or "es" or "it" or "ja")
-            || profile.FavoriteTools.Concat(profile.FavoriteTweaks).Any(value => string.IsNullOrWhiteSpace(value) || value.Length > 200))
+            || profile.FavoriteTools.Concat(profile.FavoriteTweaks).Concat(profile.FavoriteScripts)
+                .Any(value => string.IsNullOrWhiteSpace(value) || value.Length > 200))
             throw new InvalidDataException(L.Get("UI:ProfileInvalid"));
     }
 
@@ -332,6 +344,7 @@ public sealed class UserDataService
         public List<Playbook> Playbooks { get; set; } = [];
         public HashSet<string> FavoriteTools { get; set; } = [];
         public HashSet<string> FavoriteTweaks { get; set; } = [];
+        public HashSet<string> FavoriteScripts { get; set; } = [];
         public AppearanceSettings Appearance { get; set; } = new();
     }
 }

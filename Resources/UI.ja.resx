@@ -31,7 +31,7 @@
     <value>クイックアクセス</value>
   </data>
   <data name="MainWindowAbout" xml:space="preserve">
-    <value>バージョン情報</value>
+    <value>設定</value>
   </data>
   <data name="MainWindowOpenAppearanceSettings" xml:space="preserve">
     <value>外観設定を開く</value>
@@ -43,13 +43,13 @@
     <value>外観設定</value>
   </data>
   <data name="AboutPageAbout" xml:space="preserve">
-    <value>バージョン情報</value>
+    <value>設定</value>
   </data>
   <data name="AboutPageAboutAmpSettings" xml:space="preserve">
-    <value>バージョン情報と設定</value>
+    <value>設定</value>
   </data>
   <data name="AboutPageApplicationInformationAppearanceAndUpdates" xml:space="preserve">
-    <value>アプリケーション情報、外観、アップデート</value>
+    <value>アプリ設定、ポータブル プロファイル、更新、情報。</value>
   </data>
   <data name="AboutPageAppearance" xml:space="preserve">
     <value>外観</value>

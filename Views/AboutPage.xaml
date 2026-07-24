@@ -30,7 +30,7 @@
 
         <StackPanel Grid.Row="0" Margin="0,0,0,20">
             <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
-                <TextBlock Text="&#xE946;" FontFamily="Segoe Fluent Icons" FontSize="28" Margin="0,0,12,0"
+                <TextBlock Text="&#xE713;" FontFamily="Segoe Fluent Icons" FontSize="28" Margin="0,0,12,0"
                            Foreground="{DynamicResource IconBrush}"/>
                 <TextBlock Text="{loc:Loc UI:AboutPageAboutAmpSettings}" FontSize="28" FontWeight="Light"
                            Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>

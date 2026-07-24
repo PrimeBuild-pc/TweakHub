@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -23,6 +24,7 @@ namespace TweakHub.Views
             : System.ComponentModel.INotifyPropertyChanged
         {
             private bool _isCompleted;
+            private bool _isFavorite;
             private string _completionToolTip = string.Empty;
             public event System.ComponentModel.PropertyChangedEventHandler? PropertyChanged;
             public bool IsCompleted
@@ -35,6 +37,12 @@ namespace TweakHub.Views
                 get => _completionToolTip;
                 private set { _completionToolTip = value; PropertyChanged?.Invoke(this, new(nameof(CompletionToolTip))); }
             }
+            public bool IsFavorite
+            {
+                get => _isFavorite;
+                private set { _isFavorite = value; PropertyChanged?.Invoke(this, new(nameof(IsFavorite))); }
+            }
+            public void SetFavorite(bool value) => IsFavorite = value;
             public void SetCompletion(DateTimeOffset? completedAt)
             {
                 IsCompleted = completedAt.HasValue;
@@ -47,6 +55,7 @@ namespace TweakHub.Views
         private readonly ObservableCollection<CustomScript> _customScripts = new();
         private readonly ObservableCollection<Playbook> _playbooks = new();
         private readonly Dictionary<string, CancellationTokenSource> _runningScripts = new();
+        private HashSet<string> _favoriteScriptKeys = [];
         private readonly BuiltInScriptCard[] _builtInScripts =
         [
             new("winget", "\uE7B8", L.Get("Scripts:winget_Name"),
@@ -111,6 +120,7 @@ namespace TweakHub.Views
             PlaybooksControl.ItemsSource = _playbooks;
             try { AppDataPath.EnsureAppsDirectory(); } catch { }
             LoadCustomScripts();
+            LoadFavoriteScripts();
             LoadPlaybooks();
             LoadScriptHistory();
         }
@@ -121,6 +131,42 @@ namespace TweakHub.Views
             _customScripts.Clear();
             foreach (var s in loaded) _customScripts.Add(s);
         }
+
+        private void LoadFavoriteScripts()
+        {
+            _favoriteScriptKeys = _userDataService.LoadFavoriteScripts();
+            foreach (var script in _builtInScripts)
+                script.SetFavorite(_favoriteScriptKeys.Contains(FavoriteKey(script)));
+            foreach (var script in _customScripts)
+                script.IsFavorite = _favoriteScriptKeys.Contains(FavoriteKey(script));
+        }
+
+        private void FavoriteScript_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is not Button button) return;
+            string? key = null;
+            bool favorite;
+            if (button.DataContext is BuiltInScriptCard builtIn)
+            {
+                favorite = !builtIn.IsFavorite;
+                builtIn.SetFavorite(favorite);
+                key = FavoriteKey(builtIn);
+            }
+            else if (button.DataContext is CustomScript custom)
+            {
+                favorite = !custom.IsFavorite;
+                custom.IsFavorite = favorite;
+                key = FavoriteKey(custom);
+                CustomScriptsControl.Items.Refresh();
+            }
+            else return;
+
+            if (favorite) _favoriteScriptKeys.Add(key); else _favoriteScriptKeys.Remove(key);
+            _userDataService.SaveFavoriteScripts(_favoriteScriptKeys);
+        }
+
+        private static string FavoriteKey(BuiltInScriptCard script) => $"builtin:{script.Id}";
+        private static string FavoriteKey(CustomScript script) => $"custom:{script.Id}";
 
         private void LoadPlaybooks()
         {
@@ -433,7 +479,7 @@ namespace TweakHub.Views
             }
         }
 
-        private void ImportScriptsButton_Click(object sender, RoutedEventArgs e)
+        private async void ImportScriptsButton_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new OpenFileDialog
             {
@@ -442,18 +488,33 @@ namespace TweakHub.Views
             };
             if (dialog.ShowDialog() != true) return;
 
-            foreach (var path in dialog.FileNames)
+            try
             {
-                _customScripts.Add(new CustomScript
+                var imported = dialog.FileNames.Select(path =>
                 {
-                    Name = System.IO.Path.GetFileNameWithoutExtension(path),
-                    Language = System.IO.Path.GetExtension(path).Equals(".ps1", StringComparison.OrdinalIgnoreCase)
-                        ? ScriptLanguage.PowerShell
-                        : ScriptLanguage.Cmd,
-                    Content = System.IO.File.ReadAllText(path)
-                });
+                    var extension = System.IO.Path.GetExtension(path);
+                    if (extension.ToLowerInvariant() is not (".ps1" or ".cmd" or ".bat"))
+                        throw new InvalidDataException(L.Format("Scripts:ScriptFileTypeUnsupported", System.IO.Path.GetFileName(path)));
+                    if (new System.IO.FileInfo(path).Length > 1024 * 1024)
+                        throw new InvalidDataException(L.Format("Scripts:ScriptFileTooLarge", System.IO.Path.GetFileName(path)));
+                    return new CustomScript
+                    {
+                        Name = System.IO.Path.GetFileNameWithoutExtension(path),
+                        Language = extension.Equals(".ps1", StringComparison.OrdinalIgnoreCase)
+                            ? ScriptLanguage.PowerShell
+                            : ScriptLanguage.Cmd,
+                        Content = System.IO.File.ReadAllText(path)
+                    };
+                }).ToList();
+                _userDataService.SaveCustomScripts(_customScripts.Concat(imported));
+                foreach (var script in imported) _customScripts.Add(script);
+                await AppDialog.ShowAsync(Window.GetWindow(this), L.Get("Scripts:ScriptFilesImported"),
+                    L.Format("Scripts:ScriptFilesImportedMessage", imported.Count));
             }
-            _userDataService.SaveCustomScripts(_customScripts);
+            catch (Exception ex)
+            {
+                await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Scripts:ScriptImportFailed"), ex.Message);
+            }
         }
 
         private void ExportScript(CustomScript script)
@@ -634,6 +695,8 @@ namespace TweakHub.Views
             {
                 _customScripts.Remove(toRemove);
                 _userDataService.SaveCustomScripts(_customScripts);
+                _favoriteScriptKeys.Remove(FavoriteKey(toRemove));
+                _userDataService.SaveFavoriteScripts(_favoriteScriptKeys);
 
                 await AppDialog.ShowAsync(
                     owner,

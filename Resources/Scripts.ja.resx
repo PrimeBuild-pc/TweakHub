@@ -43,7 +43,7 @@
     <value>メンテナンス コマンドを実行し、カスタム PowerShell または CMD スクリプトを管理します。</value>
   </data>
   <data name="AutomatedScriptsPageImport" xml:space="preserve">
-    <value>インポート</value>
+    <value>スクリプト ファイルをインポート</value>
   </data>
   <data name="AutomatedScriptsPageNewScript" xml:space="preserve">
     <value>新しいスクリプト</value>
@@ -499,5 +499,26 @@
   </data>
   <data name="SelectCatalogueApplication" xml:space="preserve">
     <value>既存の WinGet アプリを選択するか、下に入力してください</value>
+  </data>
+  <data name="FavoriteScript" xml:space="preserve">
+    <value>スクリプトのお気に入りを切り替える</value>
+  </data>
+  <data name="ScriptFileImportDescription" xml:space="preserve">
+    <value>スクリプト ファイルのインポートは .ps1、.cmd、.bat の内容を読み込み、新しいカスタム スクリプトを作成します。実行、元ファイルのコピー、TweakHub プロファイルのインポートは行いません。</value>
+  </data>
+  <data name="ScriptFilesImported" xml:space="preserve">
+    <value>スクリプト ファイルをインポートしました</value>
+  </data>
+  <data name="ScriptFilesImportedMessage" xml:space="preserve">
+    <value>{0} 個のカスタム スクリプトをインポートしました。実行前に確認してください。</value>
+  </data>
+  <data name="ScriptImportFailed" xml:space="preserve">
+    <value>スクリプトのインポートに失敗しました</value>
+  </data>
+  <data name="ScriptFileTooLarge" xml:space="preserve">
+    <value>{0} はスクリプトの上限 1 MB を超えています。</value>
+  </data>
+  <data name="ScriptFileTypeUnsupported" xml:space="preserve">
+    <value>{0} はサポートされている .ps1、.cmd、.bat ファイルではありません。</value>
   </data>
 </root>

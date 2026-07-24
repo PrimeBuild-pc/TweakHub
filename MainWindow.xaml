@@ -69,8 +69,8 @@
             <ui:NavigationViewItem x:Name="QuickAccessItem" Content="{loc:Loc UI:MainWindowQuickAccess}" Tag="quick">
                 <ui:NavigationViewItem.Icon><ui:FontIcon Glyph="&#xE8F1;"/></ui:NavigationViewItem.Icon>
             </ui:NavigationViewItem>
-            <ui:NavigationViewItem x:Name="AboutItem" Content="{loc:Loc UI:MainWindowAbout}" Tag="about">
-                <ui:NavigationViewItem.Icon><ui:FontIcon Glyph="&#xE946;"/></ui:NavigationViewItem.Icon>
+            <ui:NavigationViewItem x:Name="SettingsItem" Content="{loc:Loc UI:MainWindowAbout}" Tag="settings">
+                <ui:NavigationViewItem.Icon><ui:FontIcon Glyph="&#xE713;"/></ui:NavigationViewItem.Icon>
             </ui:NavigationViewItem>
         </ui:NavigationView.MenuItems>
 

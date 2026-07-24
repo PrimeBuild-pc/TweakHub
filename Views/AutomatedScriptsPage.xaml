@@ -11,6 +11,22 @@
 
     <Page.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        <DataTemplate x:Key="FavoriteScriptStarTemplate">
+            <TextBlock FontSize="18">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Text" Value="☆"/>
+                        <Setter Property="Foreground" Value="{DynamicResource IconSecondaryBrush}"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsFavorite}" Value="True">
+                                <Setter Property="Text" Value="★"/>
+                                <Setter Property="Foreground" Value="{DynamicResource AccentBrush}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </DataTemplate>
         <Style x:Key="ScriptCardStyle" TargetType="Border">
             <Setter Property="Background" Value="{DynamicResource CardBrush}"/>
             <Setter Property="BorderBrush" Value="{DynamicResource SystemControlBorderBaseLowBrush}"/>
@@ -50,6 +66,10 @@
                         </StackPanel>
                     </StackPanel>
                     <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Button Style="{StaticResource FavoriteStarButtonStyle}" Margin="0,0,8,0"
+                                Click="FavoriteScript_Click" ToolTip="{loc:Loc Scripts:FavoriteScript}"
+                                AutomationProperties.Name="{loc:Loc Scripts:FavoriteScript}" Content="{Binding}"
+                                ContentTemplate="{StaticResource FavoriteScriptStarTemplate}"/>
                         <Button Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,6,0"
                                 Click="BuiltInScript_View_Click" Tag="{Binding ElementName=PreviewPanel}">
                             <StackPanel Orientation="Horizontal">
@@ -185,6 +205,10 @@
                         </TextBlock>
                     </StackPanel>
                     <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Button Style="{StaticResource FavoriteStarButtonStyle}" Margin="0,0,8,0"
+                                Click="FavoriteScript_Click" ToolTip="{loc:Loc Scripts:FavoriteScript}"
+                                AutomationProperties.Name="{loc:Loc Scripts:FavoriteScript}" Content="{Binding}"
+                                ContentTemplate="{StaticResource FavoriteScriptStarTemplate}"/>
                         <Button Style="{StaticResource ExecuteButtonStyle}" Margin="0,0,8,0"
                                 Click="ExecuteCustomScript_Click" Tag="{Binding ElementName=CancelScriptButton}">
                             <StackPanel Orientation="Horizontal">
@@ -257,7 +281,8 @@
                         <TextBlock Text="{loc:Loc Scripts:NewPlaybook}" FontSize="12"/>
                     </StackPanel>
                 </Button>
-                <Button Style="{StaticResource SecondaryButtonStyle}" Click="ImportScriptsButton_Click" Padding="12,6" Margin="0,0,8,0">
+                <Button AutomationProperties.Name="{loc:Loc Scripts:AutomatedScriptsPageImport}"
+                        Style="{StaticResource SecondaryButtonStyle}" Click="ImportScriptsButton_Click" Padding="12,6" Margin="0,0,8,0">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="&#xE896;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0"/>
                         <TextBlock Text="{loc:Loc Scripts:AutomatedScriptsPageImport}" FontSize="12"/>
@@ -281,6 +306,7 @@
                 <TextBlock Text="{loc:Loc Scripts:BuiltInScripts}" Style="{StaticResource CategoryHeaderStyle}" Margin="0,0,0,8"/>
                 <ItemsControl x:Name="BuiltInScriptsControl" ItemTemplate="{StaticResource BuiltInScriptTemplate}"/>
                 <TextBlock Text="{loc:Loc Scripts:CustomScripts}" Style="{StaticResource CategoryHeaderStyle}" Margin="0,12,0,8"/>
+                <TextBlock Text="{loc:Loc Scripts:ScriptFileImportDescription}" Style="{StaticResource DescriptionTextStyle}" Margin="0,0,0,12"/>
                 <ItemsControl x:Name="CustomScriptsControl" ItemTemplate="{StaticResource CustomScriptTemplate}"/>
             </StackPanel>
         </ScrollViewer>

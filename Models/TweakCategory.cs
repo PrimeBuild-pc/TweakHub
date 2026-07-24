@@ -117,6 +117,8 @@ namespace TweakHub.Models
         public ScriptLanguage Language { get; set; } = ScriptLanguage.PowerShell;
         public string Content { get; set; } = string.Empty;
         public bool RequiresAdministrator { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
+        public bool IsFavorite { get; set; }
     }
 
     public class CustomRegistryTweak : System.ComponentModel.INotifyPropertyChanged

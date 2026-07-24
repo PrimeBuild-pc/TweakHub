@@ -31,7 +31,7 @@
     <value>快速访问</value>
   </data>
   <data name="MainWindowAbout" xml:space="preserve">
-    <value>关于</value>
+    <value>设置</value>
   </data>
   <data name="MainWindowOpenAppearanceSettings" xml:space="preserve">
     <value>打开外观设置</value>
@@ -43,13 +43,13 @@
     <value>外观设置</value>
   </data>
   <data name="AboutPageAbout" xml:space="preserve">
-    <value>关于</value>
+    <value>设置</value>
   </data>
   <data name="AboutPageAboutAmpSettings" xml:space="preserve">
-    <value>关于和设置</value>
+    <value>设置</value>
   </data>
   <data name="AboutPageApplicationInformationAppearanceAndUpdates" xml:space="preserve">
-    <value>应用程序信息、外观和更新</value>
+    <value>应用设置、便携配置文件、更新和信息。</value>
   </data>
   <data name="AboutPageAppearance" xml:space="preserve">
     <value>外观</value>

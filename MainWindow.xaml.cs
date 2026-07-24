@@ -49,7 +49,8 @@ public partial class MainWindow : Window
             "tools" => new ExternalToolsPage(),
             "scripts" => new AutomatedScriptsPage(),
             "quick" => new QuickAccessPage(),
-            _ => new AboutPage()
+            "settings" => new AboutPage(),
+            _ => new RegistryTweaksPage()
         });
         if (destination == "registry") UpdateRegistryTweaksBadge();
     }
@@ -65,9 +66,9 @@ public partial class MainWindow : Window
 
     private void NavigateToAppearance()
     {
-        Navigation.SelectedItem = AboutItem;
+        Navigation.SelectedItem = SettingsItem;
         if (MainFrame.Content is AboutPage) return;
-        Navigate("about");
+        Navigate("settings");
     }
 
     private void ThemeService_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) =>

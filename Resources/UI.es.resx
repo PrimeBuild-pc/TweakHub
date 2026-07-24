@@ -31,7 +31,7 @@
     <value>Acceso Rápido</value>
   </data>
   <data name="MainWindowAbout" xml:space="preserve">
-    <value>Acerca de</value>
+    <value>Configuración</value>
   </data>
   <data name="MainWindowOpenAppearanceSettings" xml:space="preserve">
     <value>Abrir configuración de apariencia</value>
@@ -43,13 +43,13 @@
     <value>Configuración de apariencia</value>
   </data>
   <data name="AboutPageAbout" xml:space="preserve">
-    <value>Acerca de</value>
+    <value>Configuración</value>
   </data>
   <data name="AboutPageAboutAmpSettings" xml:space="preserve">
-    <value>Acerca de y configuración</value>
+    <value>Configuración</value>
   </data>
   <data name="AboutPageApplicationInformationAppearanceAndUpdates" xml:space="preserve">
-    <value>Información de la aplicación, apariencia y actualizaciones</value>
+    <value>Configuración de la aplicación, perfiles portátiles, actualizaciones e información.</value>
   </data>
   <data name="AboutPageAppearance" xml:space="preserve">
     <value>Apariencia</value>

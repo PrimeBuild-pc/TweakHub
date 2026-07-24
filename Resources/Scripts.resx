@@ -43,7 +43,7 @@
     <value>Run maintenance commands and manage your custom PowerShell or CMD scripts.</value>
   </data>
   <data name="AutomatedScriptsPageImport" xml:space="preserve">
-    <value>Import</value>
+    <value>Import Script Files</value>
   </data>
   <data name="AutomatedScriptsPageNewScript" xml:space="preserve">
     <value>New Script</value>
@@ -499,5 +499,26 @@ Log: {2}</value>
   </data>
   <data name="SelectCatalogueApplication" xml:space="preserve">
     <value>Select an existing WinGet application or enter one below</value>
+  </data>
+  <data name="FavoriteScript" xml:space="preserve">
+    <value>Toggle script favorite</value>
+  </data>
+  <data name="ScriptFileImportDescription" xml:space="preserve">
+    <value>Import Script Files reads .ps1, .cmd, or .bat content into new custom scripts. It does not run them, copy the source files, or import a TweakHub profile.</value>
+  </data>
+  <data name="ScriptFilesImported" xml:space="preserve">
+    <value>Script files imported</value>
+  </data>
+  <data name="ScriptFilesImportedMessage" xml:space="preserve">
+    <value>Imported {0} custom script files. Review them before running.</value>
+  </data>
+  <data name="ScriptImportFailed" xml:space="preserve">
+    <value>Script import failed</value>
+  </data>
+  <data name="ScriptFileTooLarge" xml:space="preserve">
+    <value>{0} exceeds the 1 MB script limit.</value>
+  </data>
+  <data name="ScriptFileTypeUnsupported" xml:space="preserve">
+    <value>{0} is not a supported .ps1, .cmd, or .bat file.</value>
   </data>
 </root>

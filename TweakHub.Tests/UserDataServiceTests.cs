@@ -48,6 +48,7 @@ public class UserDataServiceTests
             }]);
             source.SaveFavoriteTools(["custom:custom-tool"]);
             source.SaveFavoriteTweaks(["builtin:disable_game_bar", "custom:registry-tool"]);
+            source.SaveFavoriteScripts(["builtin:dism-sfc-chkdsk", "custom:script-1"]);
             source.SaveAppearance(new AppearanceSettings { Theme = "Dark", AccentColor = "#336699", Transparency = false, Language = "it" });
             source.ExportProfile(profilePath);
 
@@ -62,6 +63,7 @@ public class UserDataServiceTests
                     Is.EqualTo("Microsoft.PowerToys"));
                 Assert.That(destination.LoadFavoriteTools(), Does.Contain("custom:custom-tool"));
                 Assert.That(destination.LoadFavoriteTweaks(), Is.EquivalentTo(new[] { "builtin:disable_game_bar", "custom:registry-tool" }));
+                Assert.That(destination.LoadFavoriteScripts(), Is.EquivalentTo(new[] { "builtin:dism-sfc-chkdsk", "custom:script-1" }));
                 Assert.That(result.Appearance.AccentColor, Is.EqualTo("#336699"));
                 Assert.That(result.Appearance.Transparency, Is.False);
                 Assert.That(result.Appearance.Language, Is.EqualTo("it"));
