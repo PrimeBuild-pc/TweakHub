@@ -597,4 +597,40 @@ TweakHub は記録した元の値を復元します。</value>
   <data name="WindowsUpdateRestartMessage" xml:space="preserve">
     <value>Windows Update モードの適用を完了するには Windows を再起動してください。</value>
   </data>
+  <data name="RestartVerificationTitle" xml:space="preserve">
+    <value>再起動後の確認</value>
+  </data>
+  <data name="RestartVerificationDescription" xml:space="preserve">
+    <value>Windows の再起動を待っていた変更を TweakHub が確認しました。</value>
+  </data>
+  <data name="RestartVerificationVerified" xml:space="preserve">
+    <value>確認済み: 期待した状態が有効です。</value>
+  </data>
+  <data name="RestartVerificationFailed" xml:space="preserve">
+    <value>失敗: 期待した状態が有効ではありません。</value>
+  </data>
+  <data name="RestartVerificationPartial" xml:space="preserve">
+    <value>一部のみ: グループ化された変更の一部だけが有効です。</value>
+  </data>
+  <data name="RestartVerificationUnavailable" xml:space="preserve">
+    <value>利用不可: 現在のカタログに項目がありません。</value>
+  </data>
+  <data name="RestartVerificationRetry" xml:space="preserve">
+    <value>再試行</value>
+  </data>
+  <data name="RestartVerificationRestore" xml:space="preserve">
+    <value>元の状態に復元</value>
+  </data>
+  <data name="RestartVerificationAcknowledge" xml:space="preserve">
+    <value>確認</value>
+  </data>
+  <data name="RestartVerificationRetryStarted" xml:space="preserve">
+    <value>変更を再適用しました。確認するには Windows を再起動してください。</value>
+  </data>
+  <data name="RestartVerificationRestored" xml:space="preserve">
+    <value>元の状態を復元しました。</value>
+  </data>
+  <data name="RestartVerificationActionFailed" xml:space="preserve">
+    <value>操作に失敗しました。</value>
+  </data>
 </root>

@@ -90,15 +90,21 @@ public partial class AboutPage : Page
             Filter = L.Get("UI:ProfileOpenFilter")
         };
         if (dialog.ShowDialog() != true) return;
-        if (!await AppDialog.ConfirmAsync(Window.GetWindow(this), L.Get("UI:ImportProfileTitle"),
-                L.Get("UI:ImportProfileMessage"), L.Get("UI:Import"), L.Get("UI:Cancel"))) return;
         try
         {
-            var appearance = UserDataService.Instance.ImportProfile(dialog.FileName);
-            _themeService.ImportAppearance(appearance);
+            var summary = UserDataService.Instance.InspectProfile(dialog.FileName);
+            if (!await AppDialog.ConfirmAsync(Window.GetWindow(this), L.Get("UI:ImportProfileTitle"),
+                    L.Format("UI:ImportProfileSummary", summary.Scripts, summary.Tweaks, summary.Tools, summary.Playbooks),
+                    L.Get("UI:Import"), L.Get("UI:Cancel"))) return;
+            var result = UserDataService.Instance.ImportProfile(dialog.FileName);
+            _themeService.ImportAppearance(result.Appearance);
             ShortcutService.Instance.Initialize();
             LoadAppearanceControls();
-            ProfileResultText.Text = L.Get(L.RequiresRestart(appearance.Language) ? "UI:ProfileImportedRestart" : "UI:ProfileImported");
+            var message = L.Format("UI:ProfileImportedSummary",
+                result.Scripts, result.Tweaks, result.Tools, result.Playbooks, result.RecoveryPath)
+                + (L.RequiresRestart(result.Appearance.Language) ? Environment.NewLine + L.Get("UI:ProfileImportedRestart") : string.Empty);
+            ProfileResultText.Text = L.Get("UI:ProfileImported");
+            await AppDialog.ShowAsync(Window.GetWindow(this), L.Get("UI:ImportProfileTitle"), message);
         }
         catch (Exception ex)
         {

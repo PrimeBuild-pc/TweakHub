@@ -585,4 +585,40 @@ Creating it may take a minute and requires administrator privileges.</value>
   <data name="WindowsUpdateRestartMessage" xml:space="preserve">
     <value>Restart Windows to finish applying the Windows Update mode.</value>
   </data>
+  <data name="RestartVerificationTitle" xml:space="preserve">
+    <value>Post-restart verification</value>
+  </data>
+  <data name="RestartVerificationDescription" xml:space="preserve">
+    <value>TweakHub checked the changes that were waiting for a Windows restart.</value>
+  </data>
+  <data name="RestartVerificationVerified" xml:space="preserve">
+    <value>Verified: the expected state is active.</value>
+  </data>
+  <data name="RestartVerificationFailed" xml:space="preserve">
+    <value>Failed: the expected state is not active.</value>
+  </data>
+  <data name="RestartVerificationPartial" xml:space="preserve">
+    <value>Partial: only part of the grouped change is active.</value>
+  </data>
+  <data name="RestartVerificationUnavailable" xml:space="preserve">
+    <value>Unavailable: this item no longer exists in the current catalogue.</value>
+  </data>
+  <data name="RestartVerificationRetry" xml:space="preserve">
+    <value>Retry</value>
+  </data>
+  <data name="RestartVerificationRestore" xml:space="preserve">
+    <value>Restore original</value>
+  </data>
+  <data name="RestartVerificationAcknowledge" xml:space="preserve">
+    <value>Acknowledge</value>
+  </data>
+  <data name="RestartVerificationRetryStarted" xml:space="preserve">
+    <value>The change was applied again. Restart Windows to verify it.</value>
+  </data>
+  <data name="RestartVerificationRestored" xml:space="preserve">
+    <value>The original state was restored.</value>
+  </data>
+  <data name="RestartVerificationActionFailed" xml:space="preserve">
+    <value>The operation failed.</value>
+  </data>
 </root>

@@ -63,6 +63,116 @@ namespace TweakHub.Views
             LoadCustomTweaks();
             LoadFavoriteTweaks();
             await RefreshWindowsUpdatePresetAsync();
+
+            var tweaks = _tweakService.TweakCategories.SelectMany(category => category.Tweaks).ToList();
+            RestartVerificationService.Instance.MigrateLegacyCurrentBoot(tweaks);
+            var pending = RestartVerificationService.Instance.CurrentBootPendingTweakIds();
+            foreach (var tweak in tweaks) tweak.IsRestartPending = pending.Contains(tweak.Id);
+            await ShowRestartVerificationAsync();
+        }
+
+        private async Task ShowRestartVerificationAsync()
+        {
+            var results = await RestartVerificationService.Instance.VerifyAfterRebootAsync();
+            if (results.Count == 0) return;
+
+            var dialog = new Window
+            {
+                Title = L.Get("Tweaks:RestartVerificationTitle"),
+                Width = 620,
+                Height = Math.Min(650, 210 + results.Count * 100),
+                Owner = Window.GetWindow(this),
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                Background = (System.Windows.Media.Brush)FindResource("WindowBackgroundBrush")
+            };
+            var root = new Grid { Margin = new Thickness(20) };
+            root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            root.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+            root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            var heading = new TextBlock
+            {
+                Text = L.Get("Tweaks:RestartVerificationDescription"),
+                TextWrapping = TextWrapping.Wrap,
+                Margin = new Thickness(0, 0, 0, 16)
+            };
+            root.Children.Add(heading);
+            var list = new StackPanel();
+            foreach (var result in results)
+            {
+                var card = new Grid { Margin = new Thickness(0, 0, 0, 10) };
+                card.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+                card.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+                var expected = result.Kind == RestartOperationKind.WindowsUpdate
+                    ? L.Get($"Tweaks:WindowsUpdatePreset{result.TargetPreset}")
+                    : L.Get(result.TargetEnabled ? "Scripts:PlaybookEnable" : "Scripts:PlaybookRestore");
+                var text = new TextBlock
+                {
+                    Text = $"{result.Name} — {expected}\n{L.Get($"Tweaks:RestartVerification{result.Status}")}",
+                    TextWrapping = TextWrapping.Wrap,
+                    VerticalAlignment = VerticalAlignment.Center
+                };
+                card.Children.Add(text);
+                if (result.Status is RestartVerificationStatus.Failed or RestartVerificationStatus.Partial)
+                {
+                    var actions = new StackPanel { Orientation = Orientation.Horizontal };
+                    var retry = new Button
+                    {
+                        Content = L.Get("Tweaks:RestartVerificationRetry"),
+                        Style = GetStyleOrDefault("ModernButtonStyle"),
+                        Margin = new Thickness(8, 0, 0, 0),
+                        Tag = result
+                    };
+                    retry.Click += async (_, _) =>
+                    {
+                        retry.IsEnabled = false;
+                        var success = await RestartVerificationService.Instance.RetryAsync(result);
+                        await AppDialog.ShowAsync(dialog, result.Name,
+                            L.Get(success ? "Tweaks:RestartVerificationRetryStarted" : "Tweaks:RestartVerificationActionFailed"));
+                        if (success) dialog.Close(); else retry.IsEnabled = true;
+                    };
+                    actions.Children.Add(retry);
+                    if (RestartVerificationService.Instance.CanRestore(result))
+                    {
+                        var restore = new Button
+                        {
+                            Content = L.Get("Tweaks:RestartVerificationRestore"),
+                            Style = GetStyleOrDefault("SecondaryButtonStyle"),
+                            Margin = new Thickness(8, 0, 0, 0)
+                        };
+                        restore.Click += async (_, _) =>
+                        {
+                            restore.IsEnabled = false;
+                            var success = await RestartVerificationService.Instance.RestoreOriginalAsync(result);
+                            await AppDialog.ShowAsync(dialog, result.Name,
+                                L.Get(success ? "Tweaks:RestartVerificationRestored" : "Tweaks:RestartVerificationActionFailed"));
+                            if (success) dialog.Close(); else restore.IsEnabled = true;
+                        };
+                        actions.Children.Add(restore);
+                    }
+                    Grid.SetColumn(actions, 1);
+                    card.Children.Add(actions);
+                }
+                list.Children.Add(card);
+            }
+            var scroll = new ScrollViewer { Content = list, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
+            Grid.SetRow(scroll, 1);
+            root.Children.Add(scroll);
+            var acknowledge = new Button
+            {
+                Content = L.Get("Tweaks:RestartVerificationAcknowledge"),
+                Style = GetStyleOrDefault("ModernButtonStyle"),
+                HorizontalAlignment = HorizontalAlignment.Right,
+                Margin = new Thickness(0, 16, 0, 0)
+            };
+            acknowledge.Click += (_, _) =>
+            {
+                RestartVerificationService.Instance.AcknowledgeResults();
+                dialog.Close();
+            };
+            Grid.SetRow(acknowledge, 2);
+            root.Children.Add(acknowledge);
+            dialog.Content = root;
+            dialog.ShowDialog();
         }
 
         private async Task LoadTweaksAsync()
@@ -124,6 +234,8 @@ namespace TweakHub.Views
 
                 await _tweakService.RefreshTweakStatesAsync();
                 await RefreshWindowsUpdatePresetAsync();
+                if (preset is WindowsUpdatePreset.Default or WindowsUpdatePreset.Disabled)
+                    RestartVerificationService.Instance.TrackWindowsUpdate(preset);
                 NotifyMainWindowBadgeUpdate();
                 await AppDialog.ShowAsync(Window.GetWindow(this), L.Get("Tweaks:WindowsUpdateApplied"),
                     L.Format("Tweaks:WindowsUpdateAppliedMessage", L.Get($"Tweaks:WindowsUpdatePreset{preset}")));
@@ -191,7 +303,7 @@ namespace TweakHub.Views
         {
             try
             {
-                var value = ParseRegistryData(tweak.ValueType, tweak.Data, out _);
+                var value = RegistryService.ParseData(tweak.ValueType, tweak.Data, out _);
                 tweak.IsApplied = _registryService.IsValueSet(tweak.RegistryPath, tweak.RegistryKey, value);
             }
             catch { tweak.IsApplied = false; }
@@ -268,7 +380,7 @@ namespace TweakHub.Views
             if (sender is not Button { DataContext: CustomRegistryTweak tweak }) return;
             try
             {
-                var value = ParseRegistryData(tweak.ValueType, tweak.Data, out var kind);
+                var value = RegistryService.ParseData(tweak.ValueType, tweak.Data, out var kind);
                 var success = _registryService.ApplyValueWithBackup(tweak.RegistryPath, tweak.RegistryKey, value, kind);
                 RefreshCustomTweakState(tweak);
                 if (success)
@@ -308,44 +420,6 @@ namespace TweakHub.Views
             _userData.SaveCustomTweaks(_customTweaks);
             _userData.SaveFavoriteTweaks(_favoriteTweakKeys);
             RefreshFavoriteLists();
-        }
-
-        private object? ParseRegistryData(string valueType, string data, out Microsoft.Win32.RegistryValueKind? explicitKind)
-        {
-            explicitKind = null;
-            switch (valueType.ToUpperInvariant())
-            {
-                case "REG_DWORD":
-                case "REG_DWORD (32-BIT)":
-                    explicitKind = Microsoft.Win32.RegistryValueKind.DWord;
-                    return int.TryParse(data, out var i) ? i : throw new FormatException(L.Get("Tweaks:DwordInvalid"));
-                case "REG_QWORD":
-                case "REG_QWORD (64-BIT)":
-                    explicitKind = Microsoft.Win32.RegistryValueKind.QWord;
-                    return long.TryParse(data, out var l) ? l : throw new FormatException(L.Get("Tweaks:QwordInvalid"));
-                case "REG_BINARY":
-                    explicitKind = Microsoft.Win32.RegistryValueKind.Binary;
-                    return ParseHexToBytes(data);
-                case "REG_MULTI_SZ":
-                    explicitKind = Microsoft.Win32.RegistryValueKind.MultiString;
-                    return data.Split(new[] { '\n', ';', '|' }, StringSplitOptions.RemoveEmptyEntries)
-                               .Select(s => s.Trim()).ToArray();
-                case "REG_EXPAND_SZ":
-                    explicitKind = Microsoft.Win32.RegistryValueKind.ExpandString;
-                    return data;
-                case "REG_SZ":
-                default:
-                    explicitKind = Microsoft.Win32.RegistryValueKind.String;
-                    return data;
-            }
-        }
-
-        private static byte[] ParseHexToBytes(string hex)
-        {
-            var cleaned = new string(hex.Where(c => !char.IsWhiteSpace(c) && c is not ',' and not '-').ToArray());
-            if (cleaned.Length == 0 || cleaned.Length % 2 != 0 || cleaned.Any(c => !Uri.IsHexDigit(c)))
-                throw new FormatException(L.Get("Tweaks:BinaryInvalid"));
-            return Convert.FromHexString(cleaned);
         }
 
         private void AddCustomTweak_Click(object sender, RoutedEventArgs e)
@@ -429,7 +503,7 @@ namespace TweakHub.Views
                 try
                 {
                     RegistryService.ValidateLocation(path, valueName);
-                    _ = ParseRegistryData(valueType, data, out var ignoredKind);
+                    _ = RegistryService.ParseData(valueType, data, out var parsedKind);
                 }
                 catch (Exception ex)
                 {

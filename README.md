@@ -38,8 +38,8 @@ It runs as the current user and requests administrator privileges only when an o
 | Area | What TweakHub provides |
 |---|---|
 | **Registry & power** | Curated Windows 11 tweaks, automatic backups, verification and rollback |
-| **Portable profiles** | Custom tools, scripts, tweaks, favorites and appearance stored beside the app |
-| **Automation** | Built-in maintenance commands plus portable PowerShell and CMD scripts with preview, elevation, timeout and cancellation |
+| **Portable profiles** | Custom tools, scripts, tweaks, playbooks, application references, favorites and appearance stored beside the app |
+| **Automation** | User-authored playbooks, built-in maintenance commands and portable PowerShell/CMD scripts with preview, elevation, timeout and cancellation |
 | **Repair** | DISM, SFC and online CHKDSK repair workflow plus policy, update, network and memory diagnostics with portable logs |
 | **Toolbox** | Categorized Winget packages, trusted HTTPS links and user-created tool cards |
 | **Quick access** | Common Windows administration consoles and control panels in one place |
@@ -106,15 +106,44 @@ Portable builds keep their state in `Data` beside the application files:
 | `custom-scripts.json` | User-created PowerShell and CMD scripts |
 | `custom-tweaks.json` | User-created Registry entries |
 | `custom-tools.json` | User-created external-tool cards |
+| `playbooks.json` | Ordered user-created tweak, exact-WinGet and custom-script workflows |
 | `favorites.json` | Favorite external tools |
 | `favorite-tweaks.json` | Favorite built-in and custom Registry tweaks |
 | `appearance.json` | Theme, accent and transparency preferences |
-| `pending-restarts.json` | Tweaks waiting for a Windows restart |
 
-Use **About & Settings → Portable configuration** to export or import the complete user profile as a `.tweakhub.json` file. Machine-specific rollback backups are intentionally excluded from profiles. Script and repair output is written to `Data/Logs` in portable builds. Successful built-in script runs are tracked per Windows user in `%LocalAppData%\TweakHub\machine-script-history.json`; this history never travels with the portable profile.
+Use **About & Settings → Portable configuration** to export or import the complete user profile as a `.tweakhub.json` file. Import validates the complete profile before replacing anything and creates a recovery copy of the current profile first. Script and playbook output is written to `Data/Logs` in portable builds.
+
+### Intended customization workflow
+
+1. Put optional portable programs under `Apps` beside `TweakHub.exe`.
+2. Create PowerShell or CMD entries under **Automated Scripts**. Use the paths provided by TweakHub instead of machine-specific absolute paths:
+
+   ```powershell
+   & "$env:TWEAKHUB_APPS\MyTool\MyTool.exe"
+   ```
+
+   ```bat
+   "%TWEAKHUB_APPS%\MyTool\MyTool.exe"
+   ```
+
+   `TWEAKHUB_ROOT` also points to the folder containing `TweakHub.exe`. Scripts start in that directory in normal and administrator mode.
+3. Create a playbook in **Automated Scripts** and order any built-in/custom tweaks, exact WinGet packages and saved custom scripts you want it to run.
+4. Export the complete profile from **About & Settings**. Copy `Apps` separately if another PC needs the same portable binaries.
+5. On the destination PC, import the profile, review unavailable references, populate `Apps` as needed, then preview and run the playbook. Execution stops at the first failed step and saves a log.
+
+An imported script is retained even if its referenced executable is absent. Running it then fails with the missing path; TweakHub never silently removes the script or reports false success.
+
+| Profile includes | Profile deliberately excludes |
+|---|---|
+| Custom scripts, Registry tweaks and external-tool cards | Executables and other files under `Apps` |
+| User playbooks and exact WinGet application IDs | Installed-application state |
+| Tool/tweak favorites and appearance/language | Registry, power and Windows Update rollback backups |
+| Unavailable user references, so they can be repaired later | Operation logs, script history and pending reboot checks |
+
+Successful built-in script runs and pending reboot verification are machine-specific and remain under `%LocalAppData%\TweakHub`; they never travel with the portable profile. After Windows restarts, TweakHub verifies tracked restart-required changes against their expected state and reports verified, failed, partial or unavailable results instead of merely clearing the indicator.
 
 > [!CAUTION]
-> Do not delete backup files before restoring outstanding changes. When moving TweakHub, copy the complete portable folder—not only `TweakHub.exe`.
+> Do not delete backup files before restoring outstanding changes. When moving TweakHub, copy the complete portable folder—not only `TweakHub.exe`. Profile JSON files do not contain the binaries under `Apps`.
 
 ## Memory and privacy tools
 
@@ -139,7 +168,7 @@ dotnet publish TweakHub.csproj -c Release -r win-x64 --self-contained true -o pu
 
 ## CI/CD
 
-Every push and pull request to `main` runs the Windows build and tests. A `vX.Y.Z` tag matching the project version publishes the self-contained portable archive, installer and SHA-256 checksums to GitHub Releases. After the initial WinGet package is accepted, later releases automatically submit an updated `PrimeBuild.TweakHub` manifest.
+Every push and pull request to `main` runs the Windows build and tests. A `vX.Y.Z` tag matching the project version publishes the self-contained portable archive, installer and SHA-256 checksums to GitHub Releases. `PrimeBuild.TweakHub` is published on WinGet, and tagged releases automatically submit package updates.
 
 Generated binaries belong in Releases, not in Git.
 

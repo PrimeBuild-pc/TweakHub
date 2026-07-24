@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using TweakHub.Models;
 
 namespace TweakHub.Services
 {
@@ -31,7 +32,7 @@ namespace TweakHub.Services
 
             try
             {
-                await File.WriteAllTextAsync(scriptPath, script, new UTF8Encoding(false), linkedSource.Token);
+                await File.WriteAllTextAsync(scriptPath, BuildScriptContext(script), new UTF8Encoding(false), linkedSource.Token);
                 var elevated = requireAdministrator && !Elevation.IsAdministrator;
                 var startInfo = elevated
                     ? await CreateElevatedStartInfo(scriptPath, wrapperPath, outputPath, errorPath, linkedSource.Token)
@@ -93,11 +94,47 @@ namespace TweakHub.Services
         }
 
 
+        public async Task<PowerShellResult> ExecuteCustomScriptAsync(CustomScript script, CancellationToken cancellationToken = default)
+        {
+            if (script.Language == ScriptLanguage.PowerShell)
+                return await ExecuteScriptAsync(script.Content, script.RequiresAdministrator,
+                    TimeSpan.FromMinutes(15), cancellationToken);
+
+            var path = Path.Combine(Path.GetTempPath(), $"TweakHub-{Guid.NewGuid():N}.cmd");
+            try
+            {
+                await File.WriteAllTextAsync(path, script.Content, new UTF8Encoding(false), cancellationToken);
+                var escapedPath = path.Replace("'", "''");
+                return await ExecuteScriptAsync(
+                    $"& cmd.exe /d /c '{escapedPath}'\nexit $LASTEXITCODE",
+                    script.RequiresAdministrator,
+                    TimeSpan.FromMinutes(15),
+                    cancellationToken);
+            }
+            finally
+            {
+                try { File.Delete(path); } catch { }
+            }
+        }
+
+        internal static string BuildScriptContext(string script)
+        {
+            static string Quote(string value) => value.Replace("'", "''");
+            return $$"""
+                $ErrorActionPreference = 'Stop'
+                $env:TWEAKHUB_ROOT = '{{Quote(AppDataPath.RootPath)}}'
+                $env:TWEAKHUB_APPS = '{{Quote(AppDataPath.AppsPath)}}'
+                Set-Location -LiteralPath $env:TWEAKHUB_ROOT
+                {{script}}
+                """;
+        }
+
         private static ProcessStartInfo CreateStartInfo(string scriptPath)
         {
             var startInfo = new ProcessStartInfo
             {
                 FileName = "powershell.exe",
+                WorkingDirectory = AppDataPath.RootPath,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
@@ -130,6 +167,7 @@ namespace TweakHub.Services
             var startInfo = new ProcessStartInfo
             {
                 FileName = "powershell.exe",
+                WorkingDirectory = AppDataPath.RootPath,
                 UseShellExecute = true,
                 Verb = "runas",
                 WindowStyle = ProcessWindowStyle.Hidden

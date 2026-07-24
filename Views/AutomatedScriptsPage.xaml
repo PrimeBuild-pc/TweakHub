@@ -103,6 +103,35 @@
             </Border>
         </DataTemplate>
 
+        <DataTemplate x:Key="PlaybookTemplate">
+            <Border Style="{StaticResource ScriptCardStyle}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                            <TextBlock Text="&#xE8FD;" FontFamily="Segoe Fluent Icons" FontSize="18" Margin="0,0,8,0"
+                                       Foreground="{DynamicResource IconBrush}"/>
+                            <TextBlock Text="{Binding Name}" FontSize="15" FontWeight="SemiBold"/>
+                        </StackPanel>
+                        <TextBlock Text="{Binding Description}" Style="{StaticResource DescriptionTextStyle}" Margin="26,0,0,4"/>
+                        <TextBlock Text="{Binding StepSummary}" FontSize="11" Margin="26,0,0,0"
+                                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Button Content="{loc:Loc Scripts:Run}" Style="{StaticResource ExecuteButtonStyle}" Margin="0,0,8,0"
+                                AutomationProperties.Name="{loc:Loc Scripts:Run}" Click="RunPlaybook_Click"/>
+                        <Button Content="{loc:Loc Scripts:AutomatedScriptsPageEdit}" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0"
+                                AutomationProperties.Name="{loc:Loc Scripts:AutomatedScriptsPageEdit}" Click="EditPlaybook_Click"/>
+                        <Button Content="{loc:Loc Scripts:AutomatedScriptsPageDelete}" Style="{StaticResource DangerButtonStyle}"
+                                AutomationProperties.Name="{loc:Loc Scripts:AutomatedScriptsPageDelete}" Click="DeletePlaybook_Click"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </DataTemplate>
+
         <DataTemplate x:Key="CustomScriptTemplate">
             <Border Style="{StaticResource ScriptCardStyle}">
                 <Grid>
@@ -214,6 +243,20 @@
                            FontSize="12" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" TextWrapping="Wrap"/>
             </StackPanel>
             <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top" Margin="0,2,0,0">
+                <Button x:Name="OpenAppsFolderButton" AutomationProperties.Name="{loc:Loc Scripts:AppsFolder}"
+                        Style="{StaticResource SecondaryButtonStyle}" Click="OpenAppsFolder_Click" Padding="12,6" Margin="0,0,8,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE8B7;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0"/>
+                        <TextBlock Text="{loc:Loc Scripts:AppsFolder}" FontSize="12"/>
+                    </StackPanel>
+                </Button>
+                <Button x:Name="NewPlaybookButton" AutomationProperties.Name="{loc:Loc Scripts:NewPlaybook}"
+                        Style="{StaticResource SecondaryButtonStyle}" Click="NewPlaybook_Click" Padding="12,6" Margin="0,0,8,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE710;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0"/>
+                        <TextBlock Text="{loc:Loc Scripts:NewPlaybook}" FontSize="12"/>
+                    </StackPanel>
+                </Button>
                 <Button Style="{StaticResource SecondaryButtonStyle}" Click="ImportScriptsButton_Click" Padding="12,6" Margin="0,0,8,0">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="&#xE896;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0"/>
@@ -232,7 +275,12 @@
 
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <StackPanel>
+                <TextBlock Text="{loc:Loc Scripts:Playbooks}" Style="{StaticResource CategoryHeaderStyle}" Margin="0,0,0,8"/>
+                <TextBlock Text="{loc:Loc Scripts:PlaybooksDescription}" Style="{StaticResource DescriptionTextStyle}" Margin="0,0,0,12"/>
+                <ItemsControl x:Name="PlaybooksControl" ItemTemplate="{StaticResource PlaybookTemplate}" Margin="0,0,0,16"/>
+                <TextBlock Text="{loc:Loc Scripts:BuiltInScripts}" Style="{StaticResource CategoryHeaderStyle}" Margin="0,0,0,8"/>
                 <ItemsControl x:Name="BuiltInScriptsControl" ItemTemplate="{StaticResource BuiltInScriptTemplate}"/>
+                <TextBlock Text="{loc:Loc Scripts:CustomScripts}" Style="{StaticResource CategoryHeaderStyle}" Margin="0,12,0,8"/>
                 <ItemsControl x:Name="CustomScriptsControl" ItemTemplate="{StaticResource CustomScriptTemplate}"/>
             </StackPanel>
         </ScrollViewer>

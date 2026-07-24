@@ -11,9 +11,9 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AssemblyTitle>TweakHub</AssemblyTitle>
     <AssemblyDescription>Windows 11 Performance Tweaking Application</AssemblyDescription>
-    <VersionPrefix>1.3.0</VersionPrefix>
-    <AssemblyVersion>1.3.0.0</AssemblyVersion>
-    <FileVersion>1.3.0.0</FileVersion>
+    <VersionPrefix>1.4.0</VersionPrefix>
+    <AssemblyVersion>1.4.0.0</AssemblyVersion>
+    <FileVersion>1.4.0.0</FileVersion>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     <Copyright>Copyright © 2025–2026</Copyright>
     <Company>TweakHub</Company>
@@ -45,6 +45,10 @@
   <ItemGroup>
     <None Update="Scripts\**\*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Apps\README.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
   </ItemGroup>
 

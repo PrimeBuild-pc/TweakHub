@@ -585,4 +585,40 @@ La creazione potrebbe richiedere un minuto e necessita dei privilegi di amminist
   <data name="WindowsUpdateRestartMessage" xml:space="preserve">
     <value>Riavvia Windows per completare l'applicazione della modalità Windows Update.</value>
   </data>
+  <data name="RestartVerificationTitle" xml:space="preserve">
+    <value>Verifica dopo il riavvio</value>
+  </data>
+  <data name="RestartVerificationDescription" xml:space="preserve">
+    <value>TweakHub ha controllato le modifiche in attesa del riavvio di Windows.</value>
+  </data>
+  <data name="RestartVerificationVerified" xml:space="preserve">
+    <value>Verificato: lo stato previsto è attivo.</value>
+  </data>
+  <data name="RestartVerificationFailed" xml:space="preserve">
+    <value>Non riuscito: lo stato previsto non è attivo.</value>
+  </data>
+  <data name="RestartVerificationPartial" xml:space="preserve">
+    <value>Parziale: è attiva solo una parte della modifica raggruppata.</value>
+  </data>
+  <data name="RestartVerificationUnavailable" xml:space="preserve">
+    <value>Non disponibile: l’elemento non esiste più nel catalogo corrente.</value>
+  </data>
+  <data name="RestartVerificationRetry" xml:space="preserve">
+    <value>Riprova</value>
+  </data>
+  <data name="RestartVerificationRestore" xml:space="preserve">
+    <value>Ripristina originale</value>
+  </data>
+  <data name="RestartVerificationAcknowledge" xml:space="preserve">
+    <value>Conferma</value>
+  </data>
+  <data name="RestartVerificationRetryStarted" xml:space="preserve">
+    <value>La modifica è stata applicata di nuovo. Riavvia Windows per verificarla.</value>
+  </data>
+  <data name="RestartVerificationRestored" xml:space="preserve">
+    <value>Lo stato originale è stato ripristinato.</value>
+  </data>
+  <data name="RestartVerificationActionFailed" xml:space="preserve">
+    <value>Operazione non riuscita.</value>
+  </data>
 </root>

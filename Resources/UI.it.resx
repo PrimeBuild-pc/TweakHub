@@ -97,7 +97,7 @@
     <value>Configurazione portatile</value>
   </data>
   <data name="AboutPageExportOrImportCustomScripts" xml:space="preserve">
-    <value>Esporta o importa script personalizzati, modifiche al Registro, strumenti esterni, preferiti e aspetto come un unico profilo JSON. I backup di ripristino specifici per la macchina non sono mai inclusi.</value>
+    <value>Esporta o importa script personalizzati, modifiche al Registro, strumenti esterni, playbook, riferimenti alle applicazioni, preferiti e aspetto in un profilo JSON. Lo stato specifico della macchina e i binari in Apps non sono mai inclusi.</value>
   </data>
   <data name="AboutPageExportProfile" xml:space="preserve">
     <value>Esporta profilo</value>
@@ -358,5 +358,17 @@ Scaricarlo, verificarlo e installarlo ora?</value>
   </data>
   <data name="DiscordServer" xml:space="preserve">
     <value>Server Discord</value>
+  </data>
+  <data name="ProfileImportedSummary" xml:space="preserve">
+    <value>Profilo importato: {0} script, {1} tweak, {2} strumenti e {3} playbook. Copia di recupero: {4}</value>
+  </data>
+  <data name="ProfileDuplicateIds" xml:space="preserve">
+    <value>Il profilo contiene ID duplicati.</value>
+  </data>
+  <data name="RegistryValueTypeUnsupported" xml:space="preserve">
+    <value>Tipo di valore del Registro non supportato.</value>
+  </data>
+  <data name="ImportProfileSummary" xml:space="preserve">
+    <value>Questo profilo valido contiene {0} script, {1} tweak, {2} strumenti e {3} playbook. L’importazione sostituisce la configurazione trasferibile corrente e crea una copia di recupero. Continuare?</value>
   </data>
 </root>

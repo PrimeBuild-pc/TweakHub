@@ -16,6 +16,7 @@ public partial class App : Application
     protected override void OnStartup(StartupEventArgs e)
     {
         L.Initialize(UserDataService.Instance.LoadAppearance().Language);
+        try { AppDataPath.EnsureAppsDirectory(); } catch { }
 
         if (Environment.OSVersion.Version.Build < 22000)
         {

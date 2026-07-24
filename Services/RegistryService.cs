@@ -444,6 +444,40 @@ namespace TweakHub.Services
                 throw new ArgumentException(L.Get("UI:RegistryValueNameRequired"), nameof(valueName));
         }
 
+        public static object ParseData(string valueType, string data, out RegistryValueKind kind)
+        {
+            switch (valueType.ToUpperInvariant())
+            {
+                case "REG_DWORD":
+                    kind = RegistryValueKind.DWord;
+                    return data.StartsWith("0x", StringComparison.OrdinalIgnoreCase)
+                        ? Convert.ToInt32(data[2..], 16)
+                        : int.Parse(data, CultureInfo.InvariantCulture);
+                case "REG_QWORD":
+                    kind = RegistryValueKind.QWord;
+                    return data.StartsWith("0x", StringComparison.OrdinalIgnoreCase)
+                        ? Convert.ToInt64(data[2..], 16)
+                        : long.Parse(data, CultureInfo.InvariantCulture);
+                case "REG_BINARY":
+                    kind = RegistryValueKind.Binary;
+                    var cleaned = new string(data.Where(character => !char.IsWhiteSpace(character) && character is not ',' and not '-').ToArray());
+                    if (cleaned.Length == 0 || cleaned.Length % 2 != 0 || cleaned.Any(character => !Uri.IsHexDigit(character)))
+                        throw new FormatException(L.Get("Tweaks:BinaryInvalid"));
+                    return Convert.FromHexString(cleaned);
+                case "REG_MULTI_SZ":
+                    kind = RegistryValueKind.MultiString;
+                    return data.Split(['\n', ';', '|'], StringSplitOptions.RemoveEmptyEntries).Select(value => value.Trim()).ToArray();
+                case "REG_EXPAND_SZ":
+                    kind = RegistryValueKind.ExpandString;
+                    return data;
+                case "REG_SZ":
+                    kind = RegistryValueKind.String;
+                    return data;
+                default:
+                    throw new FormatException(L.Get("UI:RegistryValueTypeUnsupported"));
+            }
+        }
+
         private static (RegistryKey Root, string SubKeyPath) ParsePath(string keyPath)
         {
             if (string.IsNullOrWhiteSpace(keyPath))

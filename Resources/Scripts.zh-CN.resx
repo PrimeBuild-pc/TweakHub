@@ -395,4 +395,109 @@
   <data name="Execute" xml:space="preserve">
     <value>执行</value>
   </data>
+  <data name="AppsFolder" xml:space="preserve">
+    <value>Apps 文件夹</value>
+  </data>
+  <data name="NewPlaybook" xml:space="preserve">
+    <value>新建操作手册</value>
+  </data>
+  <data name="Playbooks" xml:space="preserve">
+    <value>操作手册</value>
+  </data>
+  <data name="PlaybooksDescription" xml:space="preserve">
+    <value>使用调整项、精确 WinGet 包和已保存脚本创建自定义有序流程。</value>
+  </data>
+  <data name="BuiltInScripts" xml:space="preserve">
+    <value>内置脚本</value>
+  </data>
+  <data name="CustomScripts" xml:space="preserve">
+    <value>自定义脚本</value>
+  </data>
+  <data name="DeletePlaybook" xml:space="preserve">
+    <value>删除操作手册</value>
+  </data>
+  <data name="DeletePlaybookMessage" xml:space="preserve">
+    <value>删除操作手册“{0}”？</value>
+  </data>
+  <data name="PlaybookCannotRun" xml:space="preserve">
+    <value>无法运行操作手册</value>
+  </data>
+  <data name="PlaybookMissingReference" xml:space="preserve">
+    <value>缺少引用：{0}</value>
+  </data>
+  <data name="PlaybookInvalidWinget" xml:space="preserve">
+    <value>无效的 WinGet 包 ID：{0}</value>
+  </data>
+  <data name="PlaybookEmpty" xml:space="preserve">
+    <value>请至少添加一个步骤。</value>
+  </data>
+  <data name="PlaybookRunConfirmation" xml:space="preserve">
+    <value>运行前请检查步骤顺序。遇到第一个错误时将停止。
+
+{0}</value>
+  </data>
+  <data name="PlaybookRunResult" xml:space="preserve">
+    <value>已完成 {0}/{1} 个步骤。
+日志：{2}</value>
+  </data>
+  <data name="CreatePlaybook" xml:space="preserve">
+    <value>创建操作手册</value>
+  </data>
+  <data name="EditPlaybook" xml:space="preserve">
+    <value>编辑操作手册</value>
+  </data>
+  <data name="PlaybookName" xml:space="preserve">
+    <value>操作手册名称</value>
+  </data>
+  <data name="PlaybookDescription" xml:space="preserve">
+    <value>说明</value>
+  </data>
+  <data name="PlaybookInvalid" xml:space="preserve">
+    <value>操作手册无效</value>
+  </data>
+  <data name="AddTweakStep" xml:space="preserve">
+    <value>添加调整项</value>
+  </data>
+  <data name="AddApplicationStep" xml:space="preserve">
+    <value>添加应用</value>
+  </data>
+  <data name="AddScriptStep" xml:space="preserve">
+    <value>添加脚本</value>
+  </data>
+  <data name="MoveUp" xml:space="preserve">
+    <value>上移</value>
+  </data>
+  <data name="MoveDown" xml:space="preserve">
+    <value>下移</value>
+  </data>
+  <data name="RemoveStep" xml:space="preserve">
+    <value>移除</value>
+  </data>
+  <data name="TweakTargetEnabled" xml:space="preserve">
+    <value>启用此调整项（取消勾选可还原）</value>
+  </data>
+  <data name="ApplicationName" xml:space="preserve">
+    <value>应用名称</value>
+  </data>
+  <data name="WingetPackageId" xml:space="preserve">
+    <value>精确 WinGet 包 ID</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>添加</value>
+  </data>
+  <data name="PlaybookStepCount" xml:space="preserve">
+    <value>{0} 个步骤</value>
+  </data>
+  <data name="PlaybookTweakSummary" xml:space="preserve">
+    <value>{0}：{1}</value>
+  </data>
+  <data name="PlaybookEnable" xml:space="preserve">
+    <value>启用</value>
+  </data>
+  <data name="PlaybookRestore" xml:space="preserve">
+    <value>还原</value>
+  </data>
+  <data name="SelectCatalogueApplication" xml:space="preserve">
+    <value>选择现有 WinGet 应用，或在下方输入</value>
+  </data>
 </root>

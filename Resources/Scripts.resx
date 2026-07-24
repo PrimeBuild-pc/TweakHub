@@ -395,4 +395,109 @@ Log: {3}</value>
   <data name="Execute" xml:space="preserve">
     <value>Execute</value>
   </data>
+  <data name="AppsFolder" xml:space="preserve">
+    <value>Apps folder</value>
+  </data>
+  <data name="NewPlaybook" xml:space="preserve">
+    <value>New Playbook</value>
+  </data>
+  <data name="Playbooks" xml:space="preserve">
+    <value>Playbooks</value>
+  </data>
+  <data name="PlaybooksDescription" xml:space="preserve">
+    <value>Build your own ordered workflows from tweaks, exact WinGet packages, and saved scripts.</value>
+  </data>
+  <data name="BuiltInScripts" xml:space="preserve">
+    <value>Built-in scripts</value>
+  </data>
+  <data name="CustomScripts" xml:space="preserve">
+    <value>Custom scripts</value>
+  </data>
+  <data name="DeletePlaybook" xml:space="preserve">
+    <value>Delete Playbook</value>
+  </data>
+  <data name="DeletePlaybookMessage" xml:space="preserve">
+    <value>Delete playbook “{0}”?</value>
+  </data>
+  <data name="PlaybookCannotRun" xml:space="preserve">
+    <value>Playbook cannot run</value>
+  </data>
+  <data name="PlaybookMissingReference" xml:space="preserve">
+    <value>Missing reference: {0}</value>
+  </data>
+  <data name="PlaybookInvalidWinget" xml:space="preserve">
+    <value>Invalid WinGet package ID: {0}</value>
+  </data>
+  <data name="PlaybookEmpty" xml:space="preserve">
+    <value>Add at least one step.</value>
+  </data>
+  <data name="PlaybookRunConfirmation" xml:space="preserve">
+    <value>Review the ordered steps before running. Execution stops on the first failure.
+
+{0}</value>
+  </data>
+  <data name="PlaybookRunResult" xml:space="preserve">
+    <value>Completed {0} of {1} steps.
+Log: {2}</value>
+  </data>
+  <data name="CreatePlaybook" xml:space="preserve">
+    <value>Create Playbook</value>
+  </data>
+  <data name="EditPlaybook" xml:space="preserve">
+    <value>Edit Playbook</value>
+  </data>
+  <data name="PlaybookName" xml:space="preserve">
+    <value>Playbook name</value>
+  </data>
+  <data name="PlaybookDescription" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="PlaybookInvalid" xml:space="preserve">
+    <value>Invalid playbook</value>
+  </data>
+  <data name="AddTweakStep" xml:space="preserve">
+    <value>Add Tweak</value>
+  </data>
+  <data name="AddApplicationStep" xml:space="preserve">
+    <value>Add Application</value>
+  </data>
+  <data name="AddScriptStep" xml:space="preserve">
+    <value>Add Script</value>
+  </data>
+  <data name="MoveUp" xml:space="preserve">
+    <value>Move Up</value>
+  </data>
+  <data name="MoveDown" xml:space="preserve">
+    <value>Move Down</value>
+  </data>
+  <data name="RemoveStep" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="TweakTargetEnabled" xml:space="preserve">
+    <value>Enable this tweak (clear to restore it)</value>
+  </data>
+  <data name="ApplicationName" xml:space="preserve">
+    <value>Application name</value>
+  </data>
+  <data name="WingetPackageId" xml:space="preserve">
+    <value>Exact WinGet package ID</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="PlaybookStepCount" xml:space="preserve">
+    <value>{0} steps</value>
+  </data>
+  <data name="PlaybookTweakSummary" xml:space="preserve">
+    <value>{0}: {1}</value>
+  </data>
+  <data name="PlaybookEnable" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="PlaybookRestore" xml:space="preserve">
+    <value>Restore</value>
+  </data>
+  <data name="SelectCatalogueApplication" xml:space="preserve">
+    <value>Select an existing WinGet application or enter one below</value>
+  </data>
 </root>

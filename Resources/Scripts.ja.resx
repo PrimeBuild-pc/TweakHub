@@ -395,4 +395,109 @@
   <data name="Execute" xml:space="preserve">
     <value>実行</value>
   </data>
+  <data name="AppsFolder" xml:space="preserve">
+    <value>Apps フォルダー</value>
+  </data>
+  <data name="NewPlaybook" xml:space="preserve">
+    <value>新しいプレイブック</value>
+  </data>
+  <data name="Playbooks" xml:space="preserve">
+    <value>プレイブック</value>
+  </data>
+  <data name="PlaybooksDescription" xml:space="preserve">
+    <value>調整、正確な WinGet パッケージ、保存済みスクリプトから独自の手順を作成します。</value>
+  </data>
+  <data name="BuiltInScripts" xml:space="preserve">
+    <value>組み込みスクリプト</value>
+  </data>
+  <data name="CustomScripts" xml:space="preserve">
+    <value>カスタム スクリプト</value>
+  </data>
+  <data name="DeletePlaybook" xml:space="preserve">
+    <value>プレイブックを削除</value>
+  </data>
+  <data name="DeletePlaybookMessage" xml:space="preserve">
+    <value>プレイブック「{0}」を削除しますか？</value>
+  </data>
+  <data name="PlaybookCannotRun" xml:space="preserve">
+    <value>プレイブックを実行できません</value>
+  </data>
+  <data name="PlaybookMissingReference" xml:space="preserve">
+    <value>参照が見つかりません: {0}</value>
+  </data>
+  <data name="PlaybookInvalidWinget" xml:space="preserve">
+    <value>WinGet パッケージ ID が無効です: {0}</value>
+  </data>
+  <data name="PlaybookEmpty" xml:space="preserve">
+    <value>少なくとも 1 つの手順を追加してください。</value>
+  </data>
+  <data name="PlaybookRunConfirmation" xml:space="preserve">
+    <value>実行前に手順を確認してください。最初のエラーで停止します。
+
+{0}</value>
+  </data>
+  <data name="PlaybookRunResult" xml:space="preserve">
+    <value>{1} 手順中 {0} 手順を完了しました。
+ログ: {2}</value>
+  </data>
+  <data name="CreatePlaybook" xml:space="preserve">
+    <value>プレイブックを作成</value>
+  </data>
+  <data name="EditPlaybook" xml:space="preserve">
+    <value>プレイブックを編集</value>
+  </data>
+  <data name="PlaybookName" xml:space="preserve">
+    <value>プレイブック名</value>
+  </data>
+  <data name="PlaybookDescription" xml:space="preserve">
+    <value>説明</value>
+  </data>
+  <data name="PlaybookInvalid" xml:space="preserve">
+    <value>プレイブックが無効です</value>
+  </data>
+  <data name="AddTweakStep" xml:space="preserve">
+    <value>調整を追加</value>
+  </data>
+  <data name="AddApplicationStep" xml:space="preserve">
+    <value>アプリを追加</value>
+  </data>
+  <data name="AddScriptStep" xml:space="preserve">
+    <value>スクリプトを追加</value>
+  </data>
+  <data name="MoveUp" xml:space="preserve">
+    <value>上へ</value>
+  </data>
+  <data name="MoveDown" xml:space="preserve">
+    <value>下へ</value>
+  </data>
+  <data name="RemoveStep" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="TweakTargetEnabled" xml:space="preserve">
+    <value>この調整を有効化（オフで復元）</value>
+  </data>
+  <data name="ApplicationName" xml:space="preserve">
+    <value>アプリ名</value>
+  </data>
+  <data name="WingetPackageId" xml:space="preserve">
+    <value>正確な WinGet パッケージ ID</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>追加</value>
+  </data>
+  <data name="PlaybookStepCount" xml:space="preserve">
+    <value>{0} 手順</value>
+  </data>
+  <data name="PlaybookTweakSummary" xml:space="preserve">
+    <value>{0}: {1}</value>
+  </data>
+  <data name="PlaybookEnable" xml:space="preserve">
+    <value>有効化</value>
+  </data>
+  <data name="PlaybookRestore" xml:space="preserve">
+    <value>復元</value>
+  </data>
+  <data name="SelectCatalogueApplication" xml:space="preserve">
+    <value>既存の WinGet アプリを選択するか、下に入力してください</value>
+  </data>
 </root>

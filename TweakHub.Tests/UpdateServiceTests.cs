@@ -19,7 +19,7 @@ public class UpdateServiceTests
     }
 
     [Test]
-    public void PortableUpdaterWaitsAndPreservesDataDirectory()
+    public void PortableUpdaterWaitsAndPreservesDataAndExistingApps()
     {
         var script = UpdateService.CreatePortableUpdateScript(@"C:\source", @"E:\TweakHub", @"C:\temp", @"C:\update.zip", 123);
         Assert.Multiple(() =>
@@ -27,6 +27,7 @@ public class UpdateServiceTests
             Assert.That(script, Does.Contain("Wait-Process -Id 123"));
             Assert.That(script, Does.Contain("Name -ne 'Data'"));
             Assert.That(script, Does.Contain(@"E:\TweakHub\TweakHub.exe"));
+            Assert.That(script, Does.Not.Contain("Remove-Item -LiteralPath 'E:\\TweakHub\\Apps'"));
         });
     }
 }

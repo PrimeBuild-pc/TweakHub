@@ -541,4 +541,40 @@ TweakHub 会恢复捕获的原始值。</value>
   <data name="WindowsUpdateApplied" xml:space="preserve"><value>已应用 Windows 更新模式</value></data>
   <data name="WindowsUpdateAppliedMessage" xml:space="preserve"><value>已成功应用 {0} 模式。</value></data>
   <data name="WindowsUpdateRestartMessage" xml:space="preserve"><value>请重启 Windows 以完成更新模式的应用。</value></data>
+  <data name="RestartVerificationTitle" xml:space="preserve">
+    <value>重启后验证</value>
+  </data>
+  <data name="RestartVerificationDescription" xml:space="preserve">
+    <value>TweakHub 已检查等待 Windows 重启的更改。</value>
+  </data>
+  <data name="RestartVerificationVerified" xml:space="preserve">
+    <value>已验证：预期状态已生效。</value>
+  </data>
+  <data name="RestartVerificationFailed" xml:space="preserve">
+    <value>失败：预期状态未生效。</value>
+  </data>
+  <data name="RestartVerificationPartial" xml:space="preserve">
+    <value>部分生效：组合更改中只有一部分生效。</value>
+  </data>
+  <data name="RestartVerificationUnavailable" xml:space="preserve">
+    <value>不可用：当前目录中已不存在此项目。</value>
+  </data>
+  <data name="RestartVerificationRetry" xml:space="preserve">
+    <value>重试</value>
+  </data>
+  <data name="RestartVerificationRestore" xml:space="preserve">
+    <value>还原原始状态</value>
+  </data>
+  <data name="RestartVerificationAcknowledge" xml:space="preserve">
+    <value>确认</value>
+  </data>
+  <data name="RestartVerificationRetryStarted" xml:space="preserve">
+    <value>已重新应用更改。请重启 Windows 以验证。</value>
+  </data>
+  <data name="RestartVerificationRestored" xml:space="preserve">
+    <value>已还原原始状态。</value>
+  </data>
+  <data name="RestartVerificationActionFailed" xml:space="preserve">
+    <value>操作失败。</value>
+  </data>
 </root>

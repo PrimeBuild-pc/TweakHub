@@ -97,7 +97,7 @@
     <value>Портативная конфигурация</value>
   </data>
   <data name="AboutPageExportOrImportCustomScripts" xml:space="preserve">
-    <value>Экспорт или импорт пользовательских сценариев, настроек реестра, внешних инструментов, избранного и внешнего вида как один профиль JSON. Резервные копии отката для конкретного компьютера никогда не включаются.</value>
+    <value>Экспортируйте или импортируйте пользовательские скрипты, настройки реестра, внешние инструменты, плейбуки, ссылки на приложения, избранное и оформление в одном профиле JSON. Состояние конкретного компьютера и файлы из Apps не включаются.</value>
   </data>
   <data name="AboutPageExportProfile" xml:space="preserve">
     <value>Профиль экспорта</value>
@@ -358,5 +358,17 @@
   </data>
   <data name="DiscordServer" xml:space="preserve">
     <value>Сервер Discord</value>
+  </data>
+  <data name="ProfileImportedSummary" xml:space="preserve">
+    <value>Профиль импортирован: скриптов — {0}, настроек — {1}, инструментов — {2}, плейбуков — {3}. Резервная копия: {4}</value>
+  </data>
+  <data name="ProfileDuplicateIds" xml:space="preserve">
+    <value>Профиль содержит повторяющиеся ID.</value>
+  </data>
+  <data name="RegistryValueTypeUnsupported" xml:space="preserve">
+    <value>Неподдерживаемый тип значения реестра.</value>
+  </data>
+  <data name="ImportProfileSummary" xml:space="preserve">
+    <value>Допустимый профиль содержит скриптов: {0}, настроек: {1}, инструментов: {2}, плейбуков: {3}. Импорт заменит текущую переносимую конфигурацию и создаст резервную копию. Продолжить?</value>
   </data>
 </root>

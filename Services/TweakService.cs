@@ -52,7 +52,7 @@ namespace TweakHub.Services
             LoadAdvancedTweaks();
             LoadWindowsUpdateTweaks();
             LoadVisualEffectsPerformanceTweaks();
-            var pendingRestarts = UserDataService.Instance.LoadPendingRestartIds();
+            var pendingRestarts = RestartVerificationService.Instance.CurrentBootPendingTweakIds();
             foreach (var tweak in TweakCategories.SelectMany(category => category.Tweaks))
                 tweak.IsRestartPending = pendingRestarts.Contains(tweak.Id);
             RefreshBackupState();
@@ -528,7 +528,7 @@ namespace TweakHub.Services
                 if (tweak.RequiresRestart)
                 {
                     tweak.IsRestartPending = true;
-                    UserDataService.Instance.MarkRestartPending(tweak.Id);
+                    RestartVerificationService.Instance.TrackTweak(tweak.Id, targetEnabled);
                 }
                 RefreshBackupState();
                 OnPropertyChanged(nameof(TweakCategories));
@@ -629,17 +629,18 @@ namespace TweakHub.Services
                     if (tweak.RequiresRestart)
                     {
                         tweak.IsRestartPending = true;
-                        UserDataService.Instance.MarkRestartPending(tweak.Id);
+                        RestartVerificationService.Instance.TrackTweak(tweak.Id, false);
                     }
                 }
                 else failed++;
             }
 
             var windowsUpdate = WindowsUpdatePresetService.Instance;
+            var windowsUpdateRestored = false;
             if (windowsUpdate.HasCompleteBackup)
             {
                 var result = await windowsUpdate.RestoreAsync();
-                if (result.Success) restored++; else failed++;
+                if (result.Success) { restored++; windowsUpdateRestored = true; } else failed++;
             }
             else
             {
@@ -650,10 +651,19 @@ namespace TweakHub.Services
                 }
             }
 
+            if (windowsUpdateRestored)
+            {
+                var preset = await windowsUpdate.DetectAsync();
+                if (preset is WindowsUpdatePreset.Default or WindowsUpdatePreset.Disabled)
+                    RestartVerificationService.Instance.TrackWindowsUpdate(preset);
+            }
+
             await RefreshTweakStatesAsync();
             RefreshBackupState();
             return (restored, failed);
         }
+
+        public bool HasBackupFor(PerformanceTweak tweak) => HasBackup(tweak);
 
         private static bool HasBackup(PerformanceTweak tweak)
         {

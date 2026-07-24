@@ -40,6 +40,8 @@ installer/Output/
 # TweakHub runtime data
 Data/
 Logs/
+Apps/*
+!Apps/README.txt
 *.log
 *.tweakhub.json
 

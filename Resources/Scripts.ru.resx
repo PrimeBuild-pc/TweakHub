@@ -395,4 +395,109 @@
   <data name="Execute" xml:space="preserve">
     <value>Выполнить</value>
   </data>
+  <data name="AppsFolder" xml:space="preserve">
+    <value>Папка Apps</value>
+  </data>
+  <data name="NewPlaybook" xml:space="preserve">
+    <value>Новый плейбук</value>
+  </data>
+  <data name="Playbooks" xml:space="preserve">
+    <value>Плейбуки</value>
+  </data>
+  <data name="PlaybooksDescription" xml:space="preserve">
+    <value>Создавайте собственные последовательности из настроек, точных пакетов WinGet и сохранённых скриптов.</value>
+  </data>
+  <data name="BuiltInScripts" xml:space="preserve">
+    <value>Встроенные скрипты</value>
+  </data>
+  <data name="CustomScripts" xml:space="preserve">
+    <value>Пользовательские скрипты</value>
+  </data>
+  <data name="DeletePlaybook" xml:space="preserve">
+    <value>Удалить плейбук</value>
+  </data>
+  <data name="DeletePlaybookMessage" xml:space="preserve">
+    <value>Удалить плейбук «{0}»?</value>
+  </data>
+  <data name="PlaybookCannotRun" xml:space="preserve">
+    <value>Невозможно запустить плейбук</value>
+  </data>
+  <data name="PlaybookMissingReference" xml:space="preserve">
+    <value>Отсутствует ссылка: {0}</value>
+  </data>
+  <data name="PlaybookInvalidWinget" xml:space="preserve">
+    <value>Недопустимый ID пакета WinGet: {0}</value>
+  </data>
+  <data name="PlaybookEmpty" xml:space="preserve">
+    <value>Добавьте хотя бы один шаг.</value>
+  </data>
+  <data name="PlaybookRunConfirmation" xml:space="preserve">
+    <value>Проверьте порядок шагов. Выполнение остановится при первой ошибке.
+
+{0}</value>
+  </data>
+  <data name="PlaybookRunResult" xml:space="preserve">
+    <value>Выполнено шагов: {0} из {1}.
+Журнал: {2}</value>
+  </data>
+  <data name="CreatePlaybook" xml:space="preserve">
+    <value>Создать плейбук</value>
+  </data>
+  <data name="EditPlaybook" xml:space="preserve">
+    <value>Изменить плейбук</value>
+  </data>
+  <data name="PlaybookName" xml:space="preserve">
+    <value>Название плейбука</value>
+  </data>
+  <data name="PlaybookDescription" xml:space="preserve">
+    <value>Описание</value>
+  </data>
+  <data name="PlaybookInvalid" xml:space="preserve">
+    <value>Недопустимый плейбук</value>
+  </data>
+  <data name="AddTweakStep" xml:space="preserve">
+    <value>Добавить настройку</value>
+  </data>
+  <data name="AddApplicationStep" xml:space="preserve">
+    <value>Добавить приложение</value>
+  </data>
+  <data name="AddScriptStep" xml:space="preserve">
+    <value>Добавить скрипт</value>
+  </data>
+  <data name="MoveUp" xml:space="preserve">
+    <value>Выше</value>
+  </data>
+  <data name="MoveDown" xml:space="preserve">
+    <value>Ниже</value>
+  </data>
+  <data name="RemoveStep" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="TweakTargetEnabled" xml:space="preserve">
+    <value>Включить настройку (снимите флажок для восстановления)</value>
+  </data>
+  <data name="ApplicationName" xml:space="preserve">
+    <value>Название приложения</value>
+  </data>
+  <data name="WingetPackageId" xml:space="preserve">
+    <value>Точный ID пакета WinGet</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
+  <data name="PlaybookStepCount" xml:space="preserve">
+    <value>Шагов: {0}</value>
+  </data>
+  <data name="PlaybookTweakSummary" xml:space="preserve">
+    <value>{0}: {1}</value>
+  </data>
+  <data name="PlaybookEnable" xml:space="preserve">
+    <value>Включить</value>
+  </data>
+  <data name="PlaybookRestore" xml:space="preserve">
+    <value>Восстановить</value>
+  </data>
+  <data name="SelectCatalogueApplication" xml:space="preserve">
+    <value>Выберите приложение WinGet из каталога или укажите его ниже</value>
+  </data>
 </root>

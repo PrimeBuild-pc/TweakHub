@@ -541,4 +541,40 @@ TweakHub восстанавливает захваченное исходное 
   <data name="WindowsUpdateApplied" xml:space="preserve"><value>Режим Центра обновления Windows применён</value></data>
   <data name="WindowsUpdateAppliedMessage" xml:space="preserve"><value>Режим {0} успешно применён.</value></data>
   <data name="WindowsUpdateRestartMessage" xml:space="preserve"><value>Перезапустите Windows, чтобы завершить применение режима обновления.</value></data>
+  <data name="RestartVerificationTitle" xml:space="preserve">
+    <value>Проверка после перезапуска</value>
+  </data>
+  <data name="RestartVerificationDescription" xml:space="preserve">
+    <value>TweakHub проверил изменения, ожидавшие перезапуска Windows.</value>
+  </data>
+  <data name="RestartVerificationVerified" xml:space="preserve">
+    <value>Проверено: ожидаемое состояние активно.</value>
+  </data>
+  <data name="RestartVerificationFailed" xml:space="preserve">
+    <value>Ошибка: ожидаемое состояние не активно.</value>
+  </data>
+  <data name="RestartVerificationPartial" xml:space="preserve">
+    <value>Частично: активна только часть группы изменений.</value>
+  </data>
+  <data name="RestartVerificationUnavailable" xml:space="preserve">
+    <value>Недоступно: элемента больше нет в текущем каталоге.</value>
+  </data>
+  <data name="RestartVerificationRetry" xml:space="preserve">
+    <value>Повторить</value>
+  </data>
+  <data name="RestartVerificationRestore" xml:space="preserve">
+    <value>Восстановить исходное</value>
+  </data>
+  <data name="RestartVerificationAcknowledge" xml:space="preserve">
+    <value>Понятно</value>
+  </data>
+  <data name="RestartVerificationRetryStarted" xml:space="preserve">
+    <value>Изменение применено повторно. Перезапустите Windows для проверки.</value>
+  </data>
+  <data name="RestartVerificationRestored" xml:space="preserve">
+    <value>Исходное состояние восстановлено.</value>
+  </data>
+  <data name="RestartVerificationActionFailed" xml:space="preserve">
+    <value>Операция завершилась ошибкой.</value>
+  </data>
 </root>

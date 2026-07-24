@@ -97,7 +97,7 @@
     <value>Portable configuration</value>
   </data>
   <data name="AboutPageExportOrImportCustomScripts" xml:space="preserve">
-    <value>Export or import custom scripts, Registry tweaks, external tools, favorites and appearance as one JSON profile. Machine-specific rollback backups are never included.</value>
+    <value>Export or import custom scripts, Registry tweaks, external tools, playbooks, application references, favorites and appearance as one JSON profile. Machine-specific state and Apps binaries are never included.</value>
   </data>
   <data name="AboutPageExportProfile" xml:space="preserve">
     <value>Export profile</value>
@@ -358,5 +358,17 @@ Download, verify and install it now?</value>
   </data>
   <data name="DiscordServer" xml:space="preserve">
     <value>Discord server</value>
+  </data>
+  <data name="ProfileImportedSummary" xml:space="preserve">
+    <value>Profile imported: {0} scripts, {1} tweaks, {2} tools and {3} playbooks. Recovery copy: {4}</value>
+  </data>
+  <data name="ProfileDuplicateIds" xml:space="preserve">
+    <value>The profile contains duplicate IDs.</value>
+  </data>
+  <data name="RegistryValueTypeUnsupported" xml:space="preserve">
+    <value>Unsupported Registry value type.</value>
+  </data>
+  <data name="ImportProfileSummary" xml:space="preserve">
+    <value>This valid profile contains {0} scripts, {1} tweaks, {2} tools and {3} playbooks. Importing replaces the current transferable configuration and creates a recovery copy. Continue?</value>
   </data>
 </root>

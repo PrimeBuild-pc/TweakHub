@@ -1,6 +1,8 @@
 using NUnit.Framework;
 using System.Diagnostics;
 using System.IO;
+using TweakHub.Models;
+using TweakHub.Services;
 using TweakHub.Views;
 
 namespace TweakHub.Tests;
@@ -33,6 +35,59 @@ public class AutomatedScriptsPageTests
             Assert.That(AutomatedScriptsPage.GetBuiltInScript("adobe-hosts-unblock"),
                 Does.Contain("TweakHub Adobe block START"));
         });
+    }
+
+    [Test]
+    public async Task CustomScriptsReceivePortablePathsAndMissingExecutablesFail()
+    {
+        var context = PowerShellService.BuildScriptContext("Write-Output ok");
+        Assert.That(context, Does.Contain("TWEAKHUB_ROOT").And.Contain("TWEAKHUB_APPS").And.Contain("Set-Location"));
+
+        var missingName = $"missing-{Guid.NewGuid():N}.exe";
+        var result = await PowerShellService.Instance.ExecuteCustomScriptAsync(new CustomScript
+        {
+            Name = "Missing portable app",
+            Content = $"& (Join-Path $env:TWEAKHUB_APPS '{missingName}')"
+        });
+        Assert.Multiple(() =>
+        {
+            Assert.That(result.Success, Is.False);
+            Assert.That(result.Error, Does.Contain(missingName));
+        });
+    }
+
+    [Test]
+    public async Task PlaybookExecutionStopsOnFirstFailureAndPreservesOrder()
+    {
+        var steps = new[]
+        {
+            new PlaybookStep { Id = "one", Name = "One" },
+            new PlaybookStep { Id = "two", Name = "Two" },
+            new PlaybookStep { Id = "three", Name = "Three" }
+        };
+        var visited = new List<string>();
+        var completed = await PlaybookService.RunSequentiallyAsync(steps, step =>
+        {
+            visited.Add(step.Id);
+            return Task.FromResult(step.Id != "two");
+        });
+        Assert.Multiple(() =>
+        {
+            Assert.That(completed, Is.EqualTo(1));
+            Assert.That(visited, Is.EqualTo(new[] { "one", "two" }));
+        });
+    }
+
+    [Test]
+    public void StructurallyValidPlaybookPreservesUnavailableReferences()
+    {
+        var playbook = new Playbook
+        {
+            Id = "portable",
+            Name = "Portable setup",
+            Steps = [new() { Id = "missing", Type = PlaybookStepType.Script, Name = "Optional app", ReferenceId = "not-on-this-pc" }]
+        };
+        Assert.DoesNotThrow(() => UserDataService.ValidatePlaybook(playbook));
     }
 
     [Test]

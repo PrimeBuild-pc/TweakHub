@@ -547,4 +547,40 @@ Crearlo puede tardar un minuto y requiere privilegios de administrador.</value>
   <data name="WindowsUpdateApplied" xml:space="preserve"><value>Modo de Windows Update aplicado</value></data>
   <data name="WindowsUpdateAppliedMessage" xml:space="preserve"><value>El modo {0} se aplicó correctamente.</value></data>
   <data name="WindowsUpdateRestartMessage" xml:space="preserve"><value>Reinicia Windows para terminar de aplicar el modo de Windows Update.</value></data>
+  <data name="RestartVerificationTitle" xml:space="preserve">
+    <value>Verificación tras reiniciar</value>
+  </data>
+  <data name="RestartVerificationDescription" xml:space="preserve">
+    <value>TweakHub comprobó los cambios pendientes de reiniciar Windows.</value>
+  </data>
+  <data name="RestartVerificationVerified" xml:space="preserve">
+    <value>Verificado: el estado esperado está activo.</value>
+  </data>
+  <data name="RestartVerificationFailed" xml:space="preserve">
+    <value>Error: el estado esperado no está activo.</value>
+  </data>
+  <data name="RestartVerificationPartial" xml:space="preserve">
+    <value>Parcial: solo parte del cambio agrupado está activa.</value>
+  </data>
+  <data name="RestartVerificationUnavailable" xml:space="preserve">
+    <value>No disponible: el elemento ya no existe en el catálogo actual.</value>
+  </data>
+  <data name="RestartVerificationRetry" xml:space="preserve">
+    <value>Reintentar</value>
+  </data>
+  <data name="RestartVerificationRestore" xml:space="preserve">
+    <value>Restaurar original</value>
+  </data>
+  <data name="RestartVerificationAcknowledge" xml:space="preserve">
+    <value>Aceptar</value>
+  </data>
+  <data name="RestartVerificationRetryStarted" xml:space="preserve">
+    <value>El cambio se aplicó de nuevo. Reinicia Windows para verificarlo.</value>
+  </data>
+  <data name="RestartVerificationRestored" xml:space="preserve">
+    <value>Se restauró el estado original.</value>
+  </data>
+  <data name="RestartVerificationActionFailed" xml:space="preserve">
+    <value>La operación falló.</value>
+  </data>
 </root>

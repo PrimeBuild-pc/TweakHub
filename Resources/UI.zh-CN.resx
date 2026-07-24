@@ -97,7 +97,7 @@
     <value>便携式配置</value>
   </data>
   <data name="AboutPageExportOrImportCustomScripts" xml:space="preserve">
-    <value>将自定义脚本、注册表调整、外部工具、收藏夹和外观导出或导入为一个 JSON 配置文件。从不包括特定于计算机的回滚备份。</value>
+    <value>将自定义脚本、注册表调整、外部工具、操作手册、应用引用、收藏夹和外观导出或导入为一个 JSON 配置文件。不会包含特定于计算机的状态和 Apps 二进制文件。</value>
   </data>
   <data name="AboutPageExportProfile" xml:space="preserve">
     <value>导出配置文件</value>
@@ -358,5 +358,17 @@
   </data>
   <data name="DiscordServer" xml:space="preserve">
     <value>Discord 服务器</value>
+  </data>
+  <data name="ProfileImportedSummary" xml:space="preserve">
+    <value>配置文件已导入：{0} 个脚本、{1} 个调整项、{2} 个工具和 {3} 个操作手册。恢复副本：{4}</value>
+  </data>
+  <data name="ProfileDuplicateIds" xml:space="preserve">
+    <value>配置文件包含重复 ID。</value>
+  </data>
+  <data name="RegistryValueTypeUnsupported" xml:space="preserve">
+    <value>不支持的注册表值类型。</value>
+  </data>
+  <data name="ImportProfileSummary" xml:space="preserve">
+    <value>此有效配置文件包含 {0} 个脚本、{1} 个调整项、{2} 个工具和 {3} 个操作手册。导入将替换当前可传输配置并创建恢复副本。是否继续？</value>
   </data>
 </root>

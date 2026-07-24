@@ -97,7 +97,7 @@
     <value>ポータブル設定</value>
   </data>
   <data name="AboutPageExportOrImportCustomScripts" xml:space="preserve">
-    <value>カスタム スクリプト、レジストリ調整、外部ツール、お気に入り、外観を 1 つの JSON プロファイルとしてエクスポートまたはインポートします。コンピューター固有のロールバック バックアップは含まれません。</value>
+    <value>カスタム スクリプト、レジストリ調整、外部ツール、プレイブック、アプリ参照、お気に入り、外観を 1 つの JSON プロファイルとしてエクスポートまたはインポートします。コンピューター固有の状態と Apps のバイナリは含まれません。</value>
   </data>
   <data name="AboutPageExportProfile" xml:space="preserve">
     <value>プロファイルをエクスポート</value>
@@ -358,5 +358,17 @@
   </data>
   <data name="DiscordServer" xml:space="preserve">
     <value>Discord サーバー</value>
+  </data>
+  <data name="ProfileImportedSummary" xml:space="preserve">
+    <value>プロファイルをインポートしました: スクリプト {0}、調整 {1}、ツール {2}、プレイブック {3}。復元コピー: {4}</value>
+  </data>
+  <data name="ProfileDuplicateIds" xml:space="preserve">
+    <value>プロファイルに重複した ID があります。</value>
+  </data>
+  <data name="RegistryValueTypeUnsupported" xml:space="preserve">
+    <value>サポートされていないレジストリ値の種類です。</value>
+  </data>
+  <data name="ImportProfileSummary" xml:space="preserve">
+    <value>この有効なプロファイルには、スクリプト {0}、調整 {1}、ツール {2}、プレイブック {3} が含まれます。インポートすると現在の転送可能な設定が置き換えられ、復元コピーが作成されます。続行しますか？</value>
   </data>
 </root>
