@@ -63,6 +63,39 @@
   <data name="winget_Confirmation" xml:space="preserve">
     <value>Installare Microsoft WinGet se non è già disponibile?</value>
   </data>
+  <data name="gaming_runtimes_Name" xml:space="preserve">
+    <value>Installa runtime per il gaming</value>
+  </data>
+  <data name="gaming_runtimes_Description" xml:space="preserve">
+    <value>Installa tramite WinGet i pacchetti runtime ufficiali Visual C++, DirectX legacy, OpenAL, XNA e NVIDIA PhysX.</value>
+  </data>
+  <data name="gaming_runtimes_Category" xml:space="preserve">
+    <value>Gaming</value>
+  </data>
+  <data name="gaming_runtimes_Confirmation" xml:space="preserve">
+    <value>Richiede WinGet e installa o aggiorna i runtime Visual C++ x86/x64, componenti DirectX legacy, OpenAL, XNA e PhysX attuale/legacy. Continuare?</value>
+  </data>
+  <data name="dotnet_developer_setup_Name" xml:space="preserve">
+    <value>Installa ambiente di sviluppo .NET</value>
+  </data>
+  <data name="dotnet_developer_setup_Description" xml:space="preserve">
+    <value>Installa Git, .NET 10 SDK e Visual Studio Community 2022 con il workload desktop .NET.</value>
+  </data>
+  <data name="dotnet_developer_setup_Category" xml:space="preserve">
+    <value>Sviluppo</value>
+  </data>
+  <data name="dotnet_developer_setup_Confirmation" xml:space="preserve">
+    <value>Il download è molto grande e può richiedere parecchio tempo. Si applicano le limitazioni della licenza Visual Studio Community. Continuare?</value>
+  </data>
+  <data name="change_local_password_Name" xml:space="preserve">
+    <value>Cambia password dell'account locale</value>
+  </data>
+  <data name="change_local_password_Description" xml:space="preserve">
+    <value>Apri un terminale amministratore visibile e richiedi in modo sicuro una nuova password per l'account locale corrente.</value>
+  </data>
+  <data name="change_local_password_Confirmation" xml:space="preserve">
+    <value>Un terminale amministratore visibile richiederà due volte la nuova password. Le password digitate rimangono nascoste. Sono supportati solo gli account Windows locali.</value>
+  </data>
   <data name="ctt_winutil_Name" xml:space="preserve">
     <value>Strumento CTT - Winutil</value>
   </data>

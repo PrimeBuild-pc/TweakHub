@@ -525,6 +525,24 @@
   <data name="DescriptionOpenSourceLocalAIDesktopApplication" xml:space="preserve">
     <value>Локальное настольное приложение искусственного интеллекта с открытым исходным кодом</value>
   </data>
+  <data name="DescriptionMonitorAndTuneIntelCPUVoltageAndThrottling" xml:space="preserve">
+    <value>Мониторинг и настройка напряжения, частоты и троттлинга поддерживаемых процессоров Intel</value>
+  </data>
+  <data name="DescriptionInstallLegacyAndCurrentVisualCRuntimes" xml:space="preserve">
+    <value>Загрузить пакет TechPowerUp со старыми и текущими средами выполнения Visual C++</value>
+  </data>
+  <data name="DescriptionCompressGamesAndProgramsWithNativeWindowsAPIs" xml:space="preserve">
+    <value>Сжатие игр и программ с помощью встроенных API Windows</value>
+  </data>
+  <data name="DescriptionCaptureAnnotateAndShareScreenshots" xml:space="preserve">
+    <value>Создание, аннотирование и публикация снимков и записей экрана</value>
+  </data>
+  <data name="DescriptionOpenOfficialHardwareDriverDownloadPage" xml:space="preserve">
+    <value>Открыть официальную страницу загрузки драйверов оборудования</value>
+  </data>
+  <data name="DescriptionOfficialNVIDIAAppForDriversOptimizationAndOverlay" xml:space="preserve">
+    <value>Официальное приложение NVIDIA для драйверов, оптимизации игр и оверлея</value>
+  </data>
   <data name="DuplicateToolName" xml:space="preserve">
     <value>Инструмент с таким названием уже существует.</value>
   </data>

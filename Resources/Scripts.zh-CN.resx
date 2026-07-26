@@ -63,6 +63,39 @@
   <data name="winget_Confirmation" xml:space="preserve">
     <value>如果 Microsoft WinGet 尚不可用，是否安装？</value>
   </data>
+  <data name="gaming_runtimes_Name" xml:space="preserve">
+    <value>安装游戏运行库</value>
+  </data>
+  <data name="gaming_runtimes_Description" xml:space="preserve">
+    <value>通过 WinGet 安装官方 Visual C++、旧版 DirectX、OpenAL、XNA 和 NVIDIA PhysX 运行库。</value>
+  </data>
+  <data name="gaming_runtimes_Category" xml:space="preserve">
+    <value>游戏</value>
+  </data>
+  <data name="gaming_runtimes_Confirmation" xml:space="preserve">
+    <value>这需要 WinGet，并将安装或更新 x86/x64 Visual C++ 运行库、旧版 DirectX 组件、OpenAL、XNA 以及当前和旧版 PhysX。是否继续？</value>
+  </data>
+  <data name="dotnet_developer_setup_Name" xml:space="preserve">
+    <value>安装 .NET 开发环境</value>
+  </data>
+  <data name="dotnet_developer_setup_Description" xml:space="preserve">
+    <value>安装 Git、.NET 10 SDK 和带有 .NET 桌面工作负载的 Visual Studio Community 2022。</value>
+  </data>
+  <data name="dotnet_developer_setup_Category" xml:space="preserve">
+    <value>开发</value>
+  </data>
+  <data name="dotnet_developer_setup_Confirmation" xml:space="preserve">
+    <value>下载量很大，安装可能需要很长时间。Visual Studio Community 许可限制仍然适用。是否继续？</value>
+  </data>
+  <data name="change_local_password_Name" xml:space="preserve">
+    <value>更改本地帐户密码</value>
+  </data>
+  <data name="change_local_password_Description" xml:space="preserve">
+    <value>打开可见的管理员终端，并安全地提示为当前本地帐户设置新密码。</value>
+  </data>
+  <data name="change_local_password_Confirmation" xml:space="preserve">
+    <value>可见的管理员终端将要求输入两次新密码。输入的密码会被隐藏。仅支持 Windows 本地帐户。</value>
+  </data>
   <data name="ctt_winutil_Name" xml:space="preserve">
     <value>CTT 工具 - Winutil</value>
   </data>

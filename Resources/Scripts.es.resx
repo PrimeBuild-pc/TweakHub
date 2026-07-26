@@ -63,6 +63,39 @@
   <data name="winget_Confirmation" xml:space="preserve">
     <value>¿Instalar Microsoft WinGet si no está ya disponible?</value>
   </data>
+  <data name="gaming_runtimes_Name" xml:space="preserve">
+    <value>Instalar runtimes para juegos</value>
+  </data>
+  <data name="gaming_runtimes_Description" xml:space="preserve">
+    <value>Instala mediante WinGet los paquetes runtime oficiales de Visual C++, DirectX heredado, OpenAL, XNA y NVIDIA PhysX.</value>
+  </data>
+  <data name="gaming_runtimes_Category" xml:space="preserve">
+    <value>Juegos</value>
+  </data>
+  <data name="gaming_runtimes_Confirmation" xml:space="preserve">
+    <value>Requiere WinGet e instala o actualiza runtimes de Visual C++ x86/x64, componentes DirectX heredados, OpenAL, XNA y PhysX actual/heredado. ¿Continuar?</value>
+  </data>
+  <data name="dotnet_developer_setup_Name" xml:space="preserve">
+    <value>Instalar entorno de desarrollo .NET</value>
+  </data>
+  <data name="dotnet_developer_setup_Description" xml:space="preserve">
+    <value>Instala Git, el SDK de .NET 10 y Visual Studio Community 2022 con la carga de trabajo de escritorio .NET.</value>
+  </data>
+  <data name="dotnet_developer_setup_Category" xml:space="preserve">
+    <value>Desarrollo</value>
+  </data>
+  <data name="dotnet_developer_setup_Confirmation" xml:space="preserve">
+    <value>La descarga es muy grande y puede tardar bastante. Se aplican las restricciones de licencia de Visual Studio Community. ¿Continuar?</value>
+  </data>
+  <data name="change_local_password_Name" xml:space="preserve">
+    <value>Cambiar contraseña de la cuenta local</value>
+  </data>
+  <data name="change_local_password_Description" xml:space="preserve">
+    <value>Abre un terminal de administrador visible y solicita de forma segura una nueva contraseña para la cuenta local actual.</value>
+  </data>
+  <data name="change_local_password_Confirmation" xml:space="preserve">
+    <value>Un terminal de administrador visible solicitará dos veces la nueva contraseña. Las contraseñas escritas permanecen ocultas. Solo se admiten cuentas locales de Windows.</value>
+  </data>
   <data name="ctt_winutil_Name" xml:space="preserve">
     <value>Herramienta CTT - Winutil</value>
   </data>

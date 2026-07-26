@@ -16,6 +16,19 @@ public class AutomatedScriptsPageTests
         {
             Assert.That(AutomatedScriptsPage.GetBuiltInScript("ctt-winutil"),
                 Is.EqualTo("irm christitus.com/win | iex"));
+            Assert.That(AutomatedScriptsPage.GetBuiltInScript("gaming-runtimes"),
+                Does.Contain("Microsoft.VCRedist.2015+.x64").And.Contain("Microsoft.DirectX")
+                    .And.Contain("CreativeTechnology.OpenAL").And.Contain("Nvidia.PhysX").And.Contain("Microsoft.XNARedist"));
+            Assert.That(AutomatedScriptsPage.GetBuiltInScript("dotnet-developer-setup"),
+                Does.Contain("Microsoft.DotNet.SDK.10").And.Contain("Microsoft.VisualStudio.2022.Community")
+                    .And.Contain("Microsoft.VisualStudio.Workload.ManagedDesktop").And.Contain("Git.Git"));
+            Assert.That(AutomatedScriptsPage.GetBuiltInScript("change-local-password"),
+                Does.Contain("Get-LocalUser").And.Contain("net.exe user").And.Contain("Read-Host"));
+            var interactive = AutomatedScriptsPage.CreateInteractivePowerShellStartInfo("Write-Output ok", true);
+            Assert.That(interactive.UseShellExecute, Is.True);
+            Assert.That(interactive.Verb, Is.EqualTo("runas"));
+            Assert.That(interactive.WindowStyle, Is.EqualTo(ProcessWindowStyle.Normal));
+            Assert.That(interactive.Arguments, Does.Not.Contain("-WindowStyle Hidden").And.Not.Contain("-NonInteractive"));
             Assert.That(AutomatedScriptsPage.GetBuiltInScript("dism-sfc-chkdsk"),
                 Does.Contain("RestoreHealth").And.Contain("sfc.exe").And.Contain("chkdsk.exe"));
             Assert.That(AutomatedScriptsPage.GetBuiltInScript("component-cleanup"),
@@ -48,7 +61,7 @@ public class AutomatedScriptsPageTests
         Assert.Multiple(() =>
         {
             Assert.That(result.Success, Is.False);
-            Assert.That(result.Error, Does.Contain(missingName));
+            Assert.That(string.Concat(result.Error.Where(character => !char.IsWhiteSpace(character))), Does.Contain(missingName));
         });
     }
 
@@ -91,7 +104,8 @@ public class AutomatedScriptsPageTests
     {
         foreach (var id in new[]
         {
-            "ctt-winutil", "dism-sfc-chkdsk", "component-cleanup", "network-reset", "windows-update-reset",
+            "ctt-winutil", "gaming-runtimes", "dotnet-developer-setup", "change-local-password",
+            "dism-sfc-chkdsk", "component-cleanup", "network-reset", "windows-update-reset",
             "empty-standby-list", "remove-windows-ai",
             "adobe-hosts-block", "adobe-hosts-unblock"
         })

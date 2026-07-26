@@ -525,6 +525,24 @@
   <data name="DescriptionOpenSourceLocalAIDesktopApplication" xml:space="preserve">
     <value>开源本地 AI 桌面应用程序</value>
   </data>
+  <data name="DescriptionMonitorAndTuneIntelCPUVoltageAndThrottling" xml:space="preserve">
+    <value>监控和调整受支持 Intel CPU 的电压、频率和节流控制</value>
+  </data>
+  <data name="DescriptionInstallLegacyAndCurrentVisualCRuntimes" xml:space="preserve">
+    <value>下载包含旧版和当前 Visual C++ 运行库的 TechPowerUp 软件包</value>
+  </data>
+  <data name="DescriptionCompressGamesAndProgramsWithNativeWindowsAPIs" xml:space="preserve">
+    <value>使用 Windows 原生 API 压缩游戏和程序</value>
+  </data>
+  <data name="DescriptionCaptureAnnotateAndShareScreenshots" xml:space="preserve">
+    <value>捕获、注释和共享屏幕截图及屏幕录制</value>
+  </data>
+  <data name="DescriptionOpenOfficialHardwareDriverDownloadPage" xml:space="preserve">
+    <value>打开官方硬件驱动程序下载页面</value>
+  </data>
+  <data name="DescriptionOfficialNVIDIAAppForDriversOptimizationAndOverlay" xml:space="preserve">
+    <value>用于驱动程序、游戏优化和叠加功能的 NVIDIA 官方应用</value>
+  </data>
   <data name="DuplicateToolName" xml:space="preserve">
     <value>具有此名称的工具已存在。</value>
   </data>
