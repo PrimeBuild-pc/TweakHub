@@ -88,6 +88,49 @@ public class AutomatedScriptsPageTests
     }
 
     [Test]
+    public void PlaybookPreflightFlagsMissingReferencesInvalidWingetAndEmptySteps()
+    {
+        var broken = PlaybookService.Instance.Preflight(new Playbook
+        {
+            Name = "Broken",
+            Steps =
+            [
+                new() { Type = PlaybookStepType.Tweak, ReferenceId = "builtin:not-a-real-tweak", Name = "Missing tweak" },
+                new() { Type = PlaybookStepType.Script, ReferenceId = "not-on-this-pc", Name = "Missing script" },
+                new() { Type = PlaybookStepType.Winget, WingetId = "not a winget id", Name = "Bad winget" }
+            ]
+        });
+        Assert.Multiple(() =>
+        {
+            Assert.That(broken.CanRun, Is.False);
+            Assert.That(broken.Errors, Has.Count.EqualTo(3));
+        });
+
+        var empty = PlaybookService.Instance.Preflight(new Playbook { Name = "Empty" });
+        Assert.Multiple(() =>
+        {
+            Assert.That(empty.CanRun, Is.False);
+            Assert.That(empty.Errors, Has.Count.EqualTo(1));
+        });
+
+        var valid = PlaybookService.Instance.Preflight(new Playbook
+        {
+            Name = "Valid",
+            Steps =
+            [
+                new() { Type = PlaybookStepType.Tweak, ReferenceId = "builtin:cpu_priority_separation", Name = "CPU priority" },
+                new() { Type = PlaybookStepType.Winget, WingetId = "Microsoft.PowerToys", Name = "PowerToys" }
+            ]
+        });
+        Assert.Multiple(() =>
+        {
+            Assert.That(valid.CanRun, Is.True);
+            Assert.That(valid.Errors, Is.Empty);
+            Assert.That(valid.Lines, Has.Count.EqualTo(2));
+        });
+    }
+
+    [Test]
     public void StructurallyValidPlaybookPreservesUnavailableReferences()
     {
         var playbook = new Playbook
