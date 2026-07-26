@@ -63,6 +63,39 @@
   <data name="winget_Confirmation" xml:space="preserve">
     <value>Install Microsoft WinGet if it is not already available?</value>
   </data>
+  <data name="gaming_runtimes_Name" xml:space="preserve">
+    <value>Install Gaming Runtimes</value>
+  </data>
+  <data name="gaming_runtimes_Description" xml:space="preserve">
+    <value>Install official Visual C++, legacy DirectX, OpenAL, XNA and NVIDIA PhysX runtime packages through WinGet.</value>
+  </data>
+  <data name="gaming_runtimes_Category" xml:space="preserve">
+    <value>Gaming</value>
+  </data>
+  <data name="gaming_runtimes_Confirmation" xml:space="preserve">
+    <value>This requires WinGet and installs or updates x86/x64 Visual C++ runtimes, legacy DirectX components, OpenAL, XNA and current/legacy PhysX. Continue?</value>
+  </data>
+  <data name="dotnet_developer_setup_Name" xml:space="preserve">
+    <value>Install .NET Developer Environment</value>
+  </data>
+  <data name="dotnet_developer_setup_Description" xml:space="preserve">
+    <value>Install Git, the .NET 10 SDK and Visual Studio Community 2022 with the .NET desktop workload.</value>
+  </data>
+  <data name="dotnet_developer_setup_Category" xml:space="preserve">
+    <value>Development</value>
+  </data>
+  <data name="dotnet_developer_setup_Confirmation" xml:space="preserve">
+    <value>This is a large download and can take a long time. Visual Studio Community licensing restrictions apply. Continue?</value>
+  </data>
+  <data name="change_local_password_Name" xml:space="preserve">
+    <value>Change Local Account Password</value>
+  </data>
+  <data name="change_local_password_Description" xml:space="preserve">
+    <value>Open a visible administrator terminal and securely prompt for a new password for the current local account.</value>
+  </data>
+  <data name="change_local_password_Confirmation" xml:space="preserve">
+    <value>A visible administrator terminal will ask for the new password twice. Typed passwords are hidden. This supports local Windows accounts only.</value>
+  </data>
   <data name="ctt_winutil_Name" xml:space="preserve">
     <value>CTT Tool - Winutil</value>
   </data>

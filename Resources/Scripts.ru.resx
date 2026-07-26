@@ -63,6 +63,39 @@
   <data name="winget_Confirmation" xml:space="preserve">
     <value>Установить Microsoft WinGet, если он еще не доступен?</value>
   </data>
+  <data name="gaming_runtimes_Name" xml:space="preserve">
+    <value>Установить игровые среды выполнения</value>
+  </data>
+  <data name="gaming_runtimes_Description" xml:space="preserve">
+    <value>Установить через WinGet официальные пакеты Visual C++, устаревшие компоненты DirectX, OpenAL, XNA и NVIDIA PhysX.</value>
+  </data>
+  <data name="gaming_runtimes_Category" xml:space="preserve">
+    <value>Игры</value>
+  </data>
+  <data name="gaming_runtimes_Confirmation" xml:space="preserve">
+    <value>Требуется WinGet. Будут установлены или обновлены среды Visual C++ x86/x64, устаревшие компоненты DirectX, OpenAL, XNA и текущий/устаревший PhysX. Продолжить?</value>
+  </data>
+  <data name="dotnet_developer_setup_Name" xml:space="preserve">
+    <value>Установить среду разработки .NET</value>
+  </data>
+  <data name="dotnet_developer_setup_Description" xml:space="preserve">
+    <value>Установить Git, .NET 10 SDK и Visual Studio Community 2022 с рабочей нагрузкой .NET для настольных приложений.</value>
+  </data>
+  <data name="dotnet_developer_setup_Category" xml:space="preserve">
+    <value>Разработка</value>
+  </data>
+  <data name="dotnet_developer_setup_Confirmation" xml:space="preserve">
+    <value>Это большой объём загрузки, и установка может занять много времени. Действуют ограничения лицензии Visual Studio Community. Продолжить?</value>
+  </data>
+  <data name="change_local_password_Name" xml:space="preserve">
+    <value>Изменить пароль локальной учётной записи</value>
+  </data>
+  <data name="change_local_password_Description" xml:space="preserve">
+    <value>Открыть видимый терминал администратора и безопасно запросить новый пароль для текущей локальной учётной записи.</value>
+  </data>
+  <data name="change_local_password_Confirmation" xml:space="preserve">
+    <value>Видимый терминал администратора дважды запросит новый пароль. Вводимые пароли скрыты. Поддерживаются только локальные учётные записи Windows.</value>
+  </data>
   <data name="ctt_winutil_Name" xml:space="preserve">
     <value>CTT Tool - Winutil</value>
   </data>

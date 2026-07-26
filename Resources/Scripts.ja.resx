@@ -63,6 +63,39 @@
   <data name="winget_Confirmation" xml:space="preserve">
     <value>Microsoft WinGet がまだ利用できない場合、インストールしますか?</value>
   </data>
+  <data name="gaming_runtimes_Name" xml:space="preserve">
+    <value>ゲーム用ランタイムをインストール</value>
+  </data>
+  <data name="gaming_runtimes_Description" xml:space="preserve">
+    <value>WinGet で公式の Visual C++、旧 DirectX、OpenAL、XNA、NVIDIA PhysX ランタイムをインストールします。</value>
+  </data>
+  <data name="gaming_runtimes_Category" xml:space="preserve">
+    <value>ゲーム</value>
+  </data>
+  <data name="gaming_runtimes_Confirmation" xml:space="preserve">
+    <value>WinGet が必要です。x86/x64 Visual C++ ランタイム、旧 DirectX コンポーネント、OpenAL、XNA、現行および旧 PhysX をインストールまたは更新します。続行しますか？</value>
+  </data>
+  <data name="dotnet_developer_setup_Name" xml:space="preserve">
+    <value>.NET 開発環境をインストール</value>
+  </data>
+  <data name="dotnet_developer_setup_Description" xml:space="preserve">
+    <value>Git、.NET 10 SDK、.NET デスクトップワークロードを含む Visual Studio Community 2022 をインストールします。</value>
+  </data>
+  <data name="dotnet_developer_setup_Category" xml:space="preserve">
+    <value>開発</value>
+  </data>
+  <data name="dotnet_developer_setup_Confirmation" xml:space="preserve">
+    <value>大容量のダウンロードで、インストールに時間がかかる場合があります。Visual Studio Community のライセンス制限が適用されます。続行しますか？</value>
+  </data>
+  <data name="change_local_password_Name" xml:space="preserve">
+    <value>ローカルアカウントのパスワードを変更</value>
+  </data>
+  <data name="change_local_password_Description" xml:space="preserve">
+    <value>表示された管理者ターミナルで、現在のローカルアカウントの新しいパスワードを安全に入力します。</value>
+  </data>
+  <data name="change_local_password_Confirmation" xml:space="preserve">
+    <value>表示された管理者ターミナルで新しいパスワードを 2 回入力します。入力したパスワードは非表示です。Windows のローカルアカウントのみ対応します。</value>
+  </data>
   <data name="ctt_winutil_Name" xml:space="preserve">
     <value>CTT Tool - Winutil</value>
   </data>

@@ -525,6 +525,24 @@
   <data name="DescriptionOpenSourceLocalAIDesktopApplication" xml:space="preserve">
     <value>Aplicación de escritorio de IA local de código abierto</value>
   </data>
+  <data name="DescriptionMonitorAndTuneIntelCPUVoltageAndThrottling" xml:space="preserve">
+    <value>Supervisa y ajusta el voltaje, la frecuencia y la limitación de CPU Intel compatibles</value>
+  </data>
+  <data name="DescriptionInstallLegacyAndCurrentVisualCRuntimes" xml:space="preserve">
+    <value>Descarga el paquete TechPowerUp de runtimes de Visual C++ antiguos y actuales</value>
+  </data>
+  <data name="DescriptionCompressGamesAndProgramsWithNativeWindowsAPIs" xml:space="preserve">
+    <value>Comprime juegos y programas mediante las API nativas de Windows</value>
+  </data>
+  <data name="DescriptionCaptureAnnotateAndShareScreenshots" xml:space="preserve">
+    <value>Captura, anota y comparte capturas y grabaciones de pantalla</value>
+  </data>
+  <data name="DescriptionOpenOfficialHardwareDriverDownloadPage" xml:space="preserve">
+    <value>Abre la página oficial de descarga de controladores de hardware</value>
+  </data>
+  <data name="DescriptionOfficialNVIDIAAppForDriversOptimizationAndOverlay" xml:space="preserve">
+    <value>Aplicación oficial de NVIDIA para controladores, optimización de juegos y superposición</value>
+  </data>
   <data name="DuplicateToolName" xml:space="preserve">
     <value>Ya existe una herramienta con este nombre.</value>
   </data>

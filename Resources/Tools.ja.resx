@@ -525,6 +525,24 @@
   <data name="DescriptionOpenSourceLocalAIDesktopApplication" xml:space="preserve">
     <value>オープンソースのローカル AI デスクトップ アプリ</value>
   </data>
+  <data name="DescriptionMonitorAndTuneIntelCPUVoltageAndThrottling" xml:space="preserve">
+    <value>対応する Intel CPU の電圧、周波数、スロットリング制御を監視、調整します</value>
+  </data>
+  <data name="DescriptionInstallLegacyAndCurrentVisualCRuntimes" xml:space="preserve">
+    <value>従来および現行の Visual C++ ランタイムを含む TechPowerUp パッケージをダウンロードします</value>
+  </data>
+  <data name="DescriptionCompressGamesAndProgramsWithNativeWindowsAPIs" xml:space="preserve">
+    <value>Windows ネイティブ API を使用してゲームやプログラムを圧縮します</value>
+  </data>
+  <data name="DescriptionCaptureAnnotateAndShareScreenshots" xml:space="preserve">
+    <value>スクリーンショットや画面録画を撮影、注釈、共有します</value>
+  </data>
+  <data name="DescriptionOpenOfficialHardwareDriverDownloadPage" xml:space="preserve">
+    <value>公式ハードウェアドライバーのダウンロードページを開きます</value>
+  </data>
+  <data name="DescriptionOfficialNVIDIAAppForDriversOptimizationAndOverlay" xml:space="preserve">
+    <value>ドライバー、ゲーム最適化、オーバーレイ機能向けの NVIDIA 公式アプリです</value>
+  </data>
   <data name="DuplicateToolName" xml:space="preserve">
     <value>同じ名前のツールがすでにあります。</value>
   </data>

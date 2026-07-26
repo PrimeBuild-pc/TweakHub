@@ -525,6 +525,24 @@
   <data name="DescriptionOpenSourceLocalAIDesktopApplication" xml:space="preserve">
     <value>Applicazione desktop AI locale open-source</value>
   </data>
+  <data name="DescriptionMonitorAndTuneIntelCPUVoltageAndThrottling" xml:space="preserve">
+    <value>Monitora e regola tensione, frequenza e limitazione delle CPU Intel supportate</value>
+  </data>
+  <data name="DescriptionInstallLegacyAndCurrentVisualCRuntimes" xml:space="preserve">
+    <value>Scarica il pacchetto TechPowerUp dei runtime Visual C++ precedenti e attuali</value>
+  </data>
+  <data name="DescriptionCompressGamesAndProgramsWithNativeWindowsAPIs" xml:space="preserve">
+    <value>Comprimi giochi e programmi usando le API native di Windows</value>
+  </data>
+  <data name="DescriptionCaptureAnnotateAndShareScreenshots" xml:space="preserve">
+    <value>Acquisisci, annota e condividi screenshot e registrazioni dello schermo</value>
+  </data>
+  <data name="DescriptionOpenOfficialHardwareDriverDownloadPage" xml:space="preserve">
+    <value>Apri la pagina ufficiale per il download dei driver hardware</value>
+  </data>
+  <data name="DescriptionOfficialNVIDIAAppForDriversOptimizationAndOverlay" xml:space="preserve">
+    <value>App NVIDIA ufficiale per driver, ottimizzazione dei giochi e funzionalità overlay</value>
+  </data>
   <data name="DuplicateToolName" xml:space="preserve">
     <value>Uno strumento con questo nome esiste già.</value>
   </data>

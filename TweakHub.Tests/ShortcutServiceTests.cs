@@ -20,10 +20,19 @@ public class ShortcutServiceTests
             "Benchmarks & Stability", "AI Tools"
         };
 
-        Assert.That(tools, Has.Count.InRange(90, 125));
+        Assert.That(tools, Has.Count.InRange(90, 140));
         Assert.That(tools.Select(tool => tool.Name), Is.Unique);
         Assert.That(tools.Select(tool => tool.Category).Distinct(), Is.SubsetOf(categories));
-        Assert.That(tools.Select(tool => tool.Name), Does.Contain("Flow Launcher").And.Contain("FancyWM").And.Contain("Power Settings Explorer"));
+        Assert.That(tools.Select(tool => tool.Name), Does.Contain("Flow Launcher").And.Contain("FancyWM").And.Contain("Power Settings Explorer")
+            .And.Contain("DRAM Calculator for Ryzen").And.Contain("OptiScaler Client").And.Contain("ZapTweaks")
+            .And.Contain("Special K").And.Contain("CompactGUI").And.Contain("Upscale It").And.Contain("ShareX")
+            .And.Contain("AME Wizard").And.Contain("AMD Chipset Drivers").And.Contain("NVIDIA Drivers")
+            .And.Contain("NVIDIA App").And.Contain("AMD Graphics Drivers").And.Contain("AMD Cleanup Utility")
+            .And.Contain("ThrottleStop").And.Contain("Visual C++ Redistributable Runtimes All-in-One"));
+        Assert.That(tools.Single(tool => tool.Name == "ThrottleStop").DownloadUrl,
+            Is.EqualTo("https://www.techpowerup.com/download/techpowerup-throttlestop/"));
+        Assert.That(tools.Single(tool => tool.Name == "AMD Cleanup Utility").DownloadUrl,
+            Is.EqualTo("https://drivers.amd.com/drivers/amdcleanuputility.exe"));
         Assert.That(tools.Single(tool => tool.Name == "Power Settings Explorer").DownloadUrl,
             Is.EqualTo("https://www.mediafire.com/file/wt37sbsejk7iepm/PowerSettingsExplorer.zip/file"));
         Assert.That(tools.Where(tool => tool.WingetId.Length > 0).Select(tool => tool.WingetId), Is.Unique);

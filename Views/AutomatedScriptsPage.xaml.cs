@@ -1,5 +1,7 @@
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -62,10 +64,22 @@ namespace TweakHub.Views
                 L.Get("Scripts:winget_Description"),
                 L.Get("Scripts:winget_Category"), L.Get("Scripts:winget_Execute"), false, 15,
                 L.Get("Scripts:winget_Confirmation")),
+            new("gaming-runtimes", "\uE7FC", L.Get("Scripts:gaming_runtimes_Name"),
+                L.Get("Scripts:gaming_runtimes_Description"),
+                L.Get("Scripts:gaming_runtimes_Category"), L.Get("Scripts:Install"), false, 45,
+                L.Get("Scripts:gaming_runtimes_Confirmation")),
+            new("dotnet-developer-setup", "\uE943", L.Get("Scripts:dotnet_developer_setup_Name"),
+                L.Get("Scripts:dotnet_developer_setup_Description"),
+                L.Get("Scripts:dotnet_developer_setup_Category"), L.Get("Scripts:Install"), false, 120,
+                L.Get("Scripts:dotnet_developer_setup_Confirmation")),
             new("ctt-winutil", "\uE756", L.Get("Scripts:ctt_winutil_Name"),
                 L.Get("Scripts:ctt_winutil_Description"),
                 L.Get("Scripts:ctt_winutil_Category"), L.Get("Scripts:ctt_winutil_Execute"), true, 30,
                 L.Get("Scripts:ctt_winutil_Confirmation")),
+            new("change-local-password", "\uE72E", L.Get("Scripts:change_local_password_Name"),
+                L.Get("Scripts:change_local_password_Description"),
+                L.Get("Scripts:CurrentUser"), L.Get("Scripts:Run"), true, 10,
+                L.Get("Scripts:change_local_password_Confirmation")),
             new("dism-sfc-chkdsk", "\uE90F", L.Get("Scripts:dism_sfc_chkdsk_Name"),
                 L.Get("Scripts:dism_sfc_chkdsk_Description"),
                 L.Get("Scripts:dism_sfc_chkdsk_Category"), L.Get("Scripts:dism_sfc_chkdsk_Execute"), true, 90,
@@ -725,6 +739,49 @@ namespace TweakHub.Views
         {
             "winget" => LoadWinGetScript(),
             "ctt-winutil" => "irm christitus.com/win | iex",
+            "gaming-runtimes" => @"
+$packages = @(
+    'Microsoft.VCRedist.2005.x86', 'Microsoft.VCRedist.2005.x64',
+    'Microsoft.VCRedist.2008.x86', 'Microsoft.VCRedist.2008.x64',
+    'Microsoft.VCRedist.2010.x86', 'Microsoft.VCRedist.2010.x64',
+    'Microsoft.VCRedist.2012.x86', 'Microsoft.VCRedist.2012.x64',
+    'Microsoft.VCRedist.2013.x86', 'Microsoft.VCRedist.2013.x64',
+    'Microsoft.VCRedist.2015+.x86', 'Microsoft.VCRedist.2015+.x64',
+    'Microsoft.DirectX', 'CreativeTechnology.OpenAL', 'Microsoft.XNARedist',
+    'Nvidia.PhysX', 'Nvidia.PhysXLegacy'
+)
+foreach ($package in $packages) {
+    Write-Output ""Installing $package...""
+    & winget.exe install --id $package --exact --silent --accept-source-agreements --accept-package-agreements --disable-interactivity
+    if ($LASTEXITCODE -ne 0) { throw ""$package failed with exit code $LASTEXITCODE"" }
+}
+",
+            "dotnet-developer-setup" => @"
+$packages = 'Git.Git', 'Microsoft.DotNet.SDK.10'
+foreach ($package in $packages) {
+    Write-Output ""Installing $package...""
+    & winget.exe install --id $package --exact --silent --accept-source-agreements --accept-package-agreements --disable-interactivity
+    if ($LASTEXITCODE -ne 0) { throw ""$package failed with exit code $LASTEXITCODE"" }
+}
+Write-Output 'Installing Visual Studio Community with the .NET desktop workload...'
+& winget.exe install --id Microsoft.VisualStudio.2022.Community --exact --silent --accept-source-agreements --accept-package-agreements --disable-interactivity --override '--wait --quiet --add Microsoft.VisualStudio.Workload.ManagedDesktop --includeRecommended'
+if ($LASTEXITCODE -ne 0) { throw ""Visual Studio failed with exit code $LASTEXITCODE"" }
+",
+            "change-local-password" => @"
+try {
+    $targetUser = if ($env:TWEAKHUB_TARGET_USER) { $env:TWEAKHUB_TARGET_USER } else { $env:USERNAME }
+    $account = Get-LocalUser -Name $targetUser -ErrorAction Stop
+    if ($account.PrincipalSource -ne 'Local') { throw 'The current account is not a local Windows account.' }
+    & net.exe user $targetUser '*'
+    if ($LASTEXITCODE -ne 0) { throw ""net user failed with exit code $LASTEXITCODE"" }
+    Write-Host '`nPassword changed successfully.' -ForegroundColor Green
+} catch {
+    Write-Host ""`n$($_.Exception.Message)"" -ForegroundColor Red
+    Read-Host 'Press Enter to close'
+    exit 1
+}
+Read-Host 'Press Enter to close'
+",
             "dism-sfc-chkdsk" => @"
 $commands = @(
     @{ Executable = 'DISM.exe'; Arguments = @('/Online', '/Cleanup-Image', '/CheckHealth') },
@@ -838,8 +895,41 @@ Write-Output 'TweakHub Adobe block removed.'
         {
             if (sender is not Button { DataContext: BuiltInScriptCard script }) return;
             if (script.Id == "winget") WinGetInstallation_Click(sender, e);
+            else if (script.Id == "change-local-password") ExecuteInteractiveBuiltInScript(script);
             else ExecuteBuiltInScript(script);
         }
+
+        private async void ExecuteInteractiveBuiltInScript(BuiltInScriptCard script)
+        {
+            if (!await AppDialog.ConfirmAsync(
+                    Window.GetWindow(this), script.Name, script.Confirmation,
+                    script.ExecuteText, L.Get("Scripts:Cancel"))) return;
+
+            try
+            {
+                var targetUser = Environment.UserName.Replace("'", "''");
+                var command = $"$env:TWEAKHUB_TARGET_USER = '{targetUser}'{Environment.NewLine}{GetBuiltInScript(script.Id)}";
+                using var process = Process.Start(CreateInteractivePowerShellStartInfo(
+                    command, script.RequiresAdministrator))
+                    ?? throw new InvalidOperationException("Failed to start PowerShell.");
+                await process.WaitForExitAsync();
+                if (process.ExitCode == 0) MarkScriptCompleted(script);
+            }
+            catch (Exception ex)
+            {
+                await AppDialog.ShowErrorAsync(
+                    Window.GetWindow(this), L.Format("Scripts:NamedScriptFailed", script.Name), ex.Message);
+            }
+        }
+
+        internal static ProcessStartInfo CreateInteractivePowerShellStartInfo(string script, bool requireAdministrator) => new()
+        {
+            FileName = "powershell.exe",
+            Arguments = $"-NoProfile -ExecutionPolicy Bypass -EncodedCommand {Convert.ToBase64String(Encoding.Unicode.GetBytes(script))}",
+            UseShellExecute = true,
+            Verb = requireAdministrator ? "runas" : string.Empty,
+            WindowStyle = ProcessWindowStyle.Normal
+        };
 
         private void CopyBuiltInScript_Click(object sender, RoutedEventArgs e)
         {
