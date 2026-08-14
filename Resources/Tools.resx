@@ -752,4 +752,112 @@ This may be due to insufficient permissions or the target application not being 
   <data name="ActionUninstall" xml:space="preserve">
     <value>uninstall</value>
   </data>
+  <data name="CategoryDevelopmentDevOps" xml:space="preserve">
+    <value>Development &amp; DevOps</value>
+  </data>
+  <data name="CategoryRecoveryForensics" xml:space="preserve">
+    <value>Recovery &amp; Forensics</value>
+  </data>
+  <data name="CategoryOSINTSecurity" xml:space="preserve">
+    <value>OSINT &amp; Security</value>
+  </data>
+  <data name="ShortcutNameComputerManagement" xml:space="preserve">
+    <value>Computer Management</value>
+  </data>
+  <data name="DescriptionOpenComputerManagementConsole" xml:space="preserve">
+    <value>Open the central console for disks, services, events, users, and shared folders.</value>
+  </data>
+  <data name="ShortcutNamePerformanceMonitor" xml:space="preserve">
+    <value>Performance Monitor</value>
+  </data>
+  <data name="DescriptionRecordAndInspectPerformanceCounters" xml:space="preserve">
+    <value>Record and inspect Windows performance counters and data collector sets.</value>
+  </data>
+  <data name="ShortcutNameReliabilityMonitor" xml:space="preserve">
+    <value>Reliability Monitor</value>
+  </data>
+  <data name="DescriptionReviewApplicationAndSystemReliabilityHistory" xml:space="preserve">
+    <value>Review application crashes, update failures, and the system stability history.</value>
+  </data>
+  <data name="ShortcutNameAdvancedFirewall" xml:space="preserve">
+    <value>Windows Defender Firewall with Advanced Security</value>
+  </data>
+  <data name="DescriptionManageAdvancedWindowsFirewallRules" xml:space="preserve">
+    <value>Manage inbound, outbound, connection-security, and monitoring rules.</value>
+  </data>
+  <data name="ShortcutNameLocalSecurityPolicy" xml:space="preserve">
+    <value>Local Security Policy</value>
+  </data>
+  <data name="DescriptionManageLocalSecurityPolicies" xml:space="preserve">
+    <value>Manage local account, audit, user-rights, and security policies.</value>
+  </data>
+  <data name="ShortcutNameLocalUsersAndGroups" xml:space="preserve">
+    <value>Local Users and Groups</value>
+  </data>
+  <data name="DescriptionManageLocalUsersAndGroups" xml:space="preserve">
+    <value>Manage local Windows users and groups.</value>
+  </data>
+  <data name="ShortcutNameUserCertificates" xml:space="preserve">
+    <value>Current User Certificates</value>
+  </data>
+  <data name="DescriptionManageCurrentUserCertificates" xml:space="preserve">
+    <value>Inspect and manage certificates for the current user.</value>
+  </data>
+  <data name="ShortcutNameComputerCertificates" xml:space="preserve">
+    <value>Local Computer Certificates</value>
+  </data>
+  <data name="DescriptionManageLocalComputerCertificates" xml:space="preserve">
+    <value>Inspect and manage certificates trusted by the local computer.</value>
+  </data>
+  <data name="ShortcutNameIndexingOptions" xml:space="preserve">
+    <value>Indexing Options</value>
+  </data>
+  <data name="DescriptionConfigureWindowsSearchIndexing" xml:space="preserve">
+    <value>Configure indexed locations, file types, and the Windows Search index.</value>
+  </data>
+  <data name="DescriptionUEFIFirmwareImageViewerAndEditor" xml:space="preserve">
+    <value>Inspect and edit UEFI firmware images with the open-source UEFITool.</value>
+  </data>
+  <data name="DescriptionCreateBootableUSBDrives" xml:space="preserve">
+    <value>Create bootable USB drives from ISO images.</value>
+  </data>
+  <data name="DescriptionBootMultipleISOImagesFromOneUSBDrive" xml:space="preserve">
+    <value>Boot multiple ISO images from a single USB drive.</value>
+  </data>
+  <data name="DescriptionNetworkDiscoveryAndSecurityAuditing" xml:space="preserve">
+    <value>Discover hosts, services, and ports for authorized network administration and security audits.</value>
+  </data>
+  <data name="DescriptionSecureFileTransferAndRemoteFileManagement" xml:space="preserve">
+    <value>Transfer files securely and manage remote files over SFTP, SCP, FTP, and WebDAV.</value>
+  </data>
+  <data name="DescriptionOfficialOpenSourceArduinoDevelopmentEnvironment" xml:space="preserve">
+    <value>Official open-source environment for Arduino development and board management.</value>
+  </data>
+  <data name="DescriptionContainerDevelopmentWithDockerAndWSL2" xml:space="preserve">
+    <value>Build and run containers locally with Docker Desktop and its WSL 2 integration.</value>
+  </data>
+  <data name="DescriptionOpenSourceContainerAndKubernetesDesktop" xml:space="preserve">
+    <value>Open-source desktop for containers, pods, and local Kubernetes workflows.</value>
+  </data>
+  <data name="DescriptionOfficialMicrosoftCommandLineFileRecovery" xml:space="preserve">
+    <value>Official Microsoft command-line tool for recovering deleted files from local storage.</value>
+  </data>
+  <data name="DescriptionRecoverPartitionsAndFilesFromDamagedMedia" xml:space="preserve">
+    <value>Recover lost partitions and files from damaged or reformatted media.</value>
+  </data>
+  <data name="DescriptionOpenSourceDigitalForensicsPlatform" xml:space="preserve">
+    <value>Open-source platform for disk-image analysis and digital forensics.</value>
+  </data>
+  <data name="DescriptionInspectAndEditFileMetadata" xml:space="preserve">
+    <value>Inspect, extract, and edit metadata across a wide range of file formats.</value>
+  </data>
+  <data name="DescriptionAutomatedOSINTAndAttackSurfaceMapping" xml:space="preserve">
+    <value>Automate OSINT collection and map an organization's public attack surface.</value>
+  </data>
+  <data name="DescriptionFindUsernamesAcrossSocialNetworks" xml:space="preserve">
+    <value>Check a username across hundreds of social networks.</value>
+  </data>
+  <data name="DescriptionAttackSurfaceMappingAndAssetDiscovery" xml:space="preserve">
+    <value>Discover external assets and map attack surfaces using OWASP Amass.</value>
+  </data>
 </root>

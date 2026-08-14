@@ -98,6 +98,26 @@ namespace TweakHub.Views
                 L.Get("Scripts:windows_update_reset_Description"),
                 L.Get("Scripts:windows_update_reset_Category"), L.Get("Scripts:windows_update_reset_Execute"), true, 20,
                 L.Get("Scripts:windows_update_reset_Confirmation")),
+            new("microsoft-store-repair", "\uE719", L.Get("Scripts:microsoft_store_repair_Name"),
+                L.Get("Scripts:microsoft_store_repair_Description"),
+                L.Get("Scripts:dism_sfc_chkdsk_Category"), L.Get("Scripts:dism_sfc_chkdsk_Execute"), false, 20,
+                L.Get("Scripts:microsoft_store_repair_Confirmation")),
+            new("gaming-services-repair", "\uE7FC", L.Get("Scripts:gaming_services_repair_Name"),
+                L.Get("Scripts:gaming_services_repair_Description"),
+                L.Get("Scripts:gaming_runtimes_Category"), L.Get("Scripts:dism_sfc_chkdsk_Execute"), true, 30,
+                L.Get("Scripts:gaming_services_repair_Confirmation")),
+            new("print-spooler-repair", "\uE749", L.Get("Scripts:print_spooler_repair_Name"),
+                L.Get("Scripts:print_spooler_repair_Description"),
+                L.Get("Scripts:dism_sfc_chkdsk_Category"), L.Get("Scripts:dism_sfc_chkdsk_Execute"), true, 10,
+                L.Get("Scripts:print_spooler_repair_Confirmation")),
+            new("onedrive-repair", "\uE753", L.Get("Scripts:onedrive_repair_Name"),
+                L.Get("Scripts:onedrive_repair_Description"),
+                L.Get("Scripts:dism_sfc_chkdsk_Category"), L.Get("Scripts:dism_sfc_chkdsk_Execute"), false, 15,
+                L.Get("Scripts:onedrive_repair_Confirmation")),
+            new("wsl-setup", "\uE756", L.Get("Scripts:wsl_setup_Name"),
+                L.Get("Scripts:wsl_setup_Description"),
+                L.Get("Scripts:dotnet_developer_setup_Category"), L.Get("Scripts:Install"), true, 45,
+                L.Get("Scripts:wsl_setup_Confirmation"), L.Get("Scripts:wsl_setup_CompletionNote")),
             new("empty-standby-list", "\uE950", L.Get("Scripts:empty_standby_list_Name"),
                 L.Get("Scripts:empty_standby_list_Description"),
                 L.Get("Scripts:empty_standby_list_Category"), L.Get("Scripts:empty_standby_list_Execute"), true, 10,
@@ -827,6 +847,111 @@ try {
 }
 Write-Output 'Windows Update caches recreated.'
 ",
+            "microsoft-store-repair" => @"
+# Source: https://support.microsoft.com/account-billing/microsoft-store-doesn-t-open-126a875d-8b72-def1-0af6-d325276a058b
+function Test-Store {
+    $package = Get-AppxPackage Microsoft.WindowsStore -ErrorAction SilentlyContinue
+    if (-not $package -or $package.Status -ne 'Ok' -or -not (Test-Path (Join-Path $package.InstallLocation 'AppxManifest.xml'))) { return $false }
+    Start-Process 'ms-windows-store:'
+    Start-Sleep -Seconds 5
+    return [bool](Get-Process WinStore.App -ErrorAction SilentlyContinue)
+}
+if (Test-Store) { Write-Output 'VERIFIED:Microsoft Store is registered and opens.'; return }
+& wsreset.exe
+if (Test-Store) { Write-Output 'VERIFIED:Microsoft Store cache was reset and the app opens.'; return }
+$package = Get-AppxPackage Microsoft.WindowsStore -ErrorAction SilentlyContinue
+if ($package) { $package | Reset-AppxPackage }
+if (Test-Store) { Write-Output 'VERIFIED:Microsoft Store was reset and opens.'; return }
+if ($package) { Add-AppxPackage -DisableDevelopmentMode -Register (Join-Path $package.InstallLocation 'AppxManifest.xml') }
+if (-not (Test-Store)) { throw 'Microsoft Store was reset and re-registered, but it still does not open. Run the DISM + SFC repair next.' }
+Write-Output 'VERIFIED:Microsoft Store was re-registered and opens.'
+",
+            "gaming-services-repair" => @"
+# Source: https://support.xbox.com/help/games-apps/troubleshooting/gaming-services-repair-tool
+function Test-GamingServices {
+    $package = Get-AppxPackage Microsoft.GamingServices -ErrorAction SilentlyContinue
+    $services = @(Get-Service GamingServices,GamingServicesNet -ErrorAction SilentlyContinue)
+    return $package -and $package.Status -eq 'Ok' -and $services.Count -eq 2
+}
+if (Test-GamingServices) { Write-Output 'VERIFIED:Xbox Gaming Services package and services are registered.'; return }
+$tool = Join-Path $env:TEMP 'TweakHub-GamingRepairTool.exe'
+try {
+    Invoke-WebRequest 'https://aka.ms/GamingRepairTool' -OutFile $tool -UseBasicParsing
+    $signature = Get-AuthenticodeSignature $tool
+    if ($signature.Status -ne 'Valid' -or $signature.SignerCertificate.Subject -notmatch 'Microsoft') {
+        throw 'The Gaming Services Repair Tool does not have the expected valid Microsoft signature.'
+    }
+    $process = Start-Process $tool -Wait -PassThru
+    if ($process.ExitCode -notin 0, 3010) { throw ""Gaming Services Repair Tool failed with exit code $($process.ExitCode)."" }
+    if (Test-GamingServices) { Write-Output 'VERIFIED:Xbox Gaming Services package and services were repaired.'; return }
+    'Microsoft.GamingServices','Microsoft.GamingApp' | ForEach-Object {
+        Get-AppxPackage $_ -ErrorAction SilentlyContinue | Reset-AppxPackage
+    }
+    $process = Start-Process $tool -Wait -PassThru
+    if ($process.ExitCode -notin 0, 3010) { throw ""Gaming Services Repair Tool retry failed with exit code $($process.ExitCode)."" }
+    if (-not (Test-GamingServices)) { throw 'Gaming Services is still unavailable. Restart Windows, then run this fix again.' }
+    Write-Output 'VERIFIED:Xbox Gaming Services packages were reset and both services are registered.'
+} finally {
+    Remove-Item $tool -Force -ErrorAction SilentlyContinue
+}
+",
+            "print-spooler-repair" => @"
+# Source: https://support.microsoft.com/windows/hardware/printer/fix-printer-connection-and-printing-problems-in-windows
+Get-Service Spooler -ErrorAction Stop | Out-Null
+Stop-Service Spooler -Force
+$queue = Join-Path $env:WINDIR 'System32\spool\PRINTERS'
+Get-ChildItem $queue -Force -ErrorAction SilentlyContinue | Remove-Item -Force -ErrorAction Stop
+Set-Service Spooler -StartupType Automatic
+Start-Service Spooler
+if ((Get-Service Spooler).Status -ne 'Running' -or (Get-ChildItem $queue -Force -ErrorAction SilentlyContinue)) {
+    throw 'Print Spooler did not return to a running state with an empty queue.'
+}
+Write-Output 'VERIFIED:Print Spooler is running and the print queue is empty.'
+",
+            "onedrive-repair" => @"
+# Source: https://support.microsoft.com/onedrive/reset-onedrive
+$paths = @(
+    (Join-Path $env:LOCALAPPDATA 'Microsoft\OneDrive\OneDrive.exe'),
+    (Join-Path $env:ProgramFiles 'Microsoft OneDrive\OneDrive.exe'),
+    (Join-Path ${env:ProgramFiles(x86)} 'Microsoft OneDrive\OneDrive.exe')
+)
+$client = $paths | Where-Object { $_ -and (Test-Path $_) } | Select-Object -First 1
+if (-not $client) { throw 'OneDrive is not installed.' }
+Stop-Process -Name OneDrive -Force -ErrorAction SilentlyContinue
+$reset = Start-Process $client -ArgumentList '/reset' -Wait -PassThru
+if ($reset.ExitCode -ne 0) { throw ""OneDrive reset failed with exit code $($reset.ExitCode)."" }
+Start-Process $client
+Start-Sleep -Seconds 8
+if (-not (Get-Process OneDrive -ErrorAction SilentlyContinue)) { throw 'OneDrive was reset but did not restart.' }
+Write-Output 'VERIFIED:OneDrive was reset and restarted. Sync connections will be rebuilt.'
+",
+            "wsl-setup" => @"
+# Source: https://learn.microsoft.com/windows/wsl/install
+$features = 'Microsoft-Windows-Subsystem-Linux', 'VirtualMachinePlatform'
+$restartRequired = $false
+foreach ($feature in $features) {
+    $state = (Get-WindowsOptionalFeature -Online -FeatureName $feature).State
+    if ($state -ne 'Enabled') {
+        $result = Enable-WindowsOptionalFeature -Online -FeatureName $feature -All -NoRestart
+        $restartRequired = $restartRequired -or $result.RestartNeeded
+    }
+}
+& wsl.exe --update
+if ($LASTEXITCODE -ne 0 -and -not $restartRequired) { throw ""WSL update failed with exit code $LASTEXITCODE."" }
+& wsl.exe --set-default-version 2
+if ($LASTEXITCODE -ne 0 -and -not $restartRequired) { throw ""Setting WSL 2 as default failed with exit code $LASTEXITCODE."" }
+$distros = @(& wsl.exe --list --quiet) -replace ""`0"", ''
+if (-not ($distros -match '^Ubuntu')) {
+    & wsl.exe --install --distribution Ubuntu --no-launch
+    if ($LASTEXITCODE -ne 0 -and -not $restartRequired) { throw ""Ubuntu installation failed with exit code $LASTEXITCODE."" }
+}
+if ($restartRequired) { Write-Output 'VERIFIED:WSL features were enabled. Restart Windows to finish setup, then launch Ubuntu once.'; return }
+& wsl.exe --status | Out-Null
+if ($LASTEXITCODE -ne 0 -or -not ((@(& wsl.exe --list --quiet) -replace ""`0"", '') -match '^Ubuntu')) {
+    throw 'WSL commands completed, but WSL 2 or Ubuntu could not be verified.'
+}
+Write-Output 'VERIFIED:WSL 2 is available and Ubuntu is registered.'
+",
             "empty-standby-list" => @"
 $ErrorActionPreference = 'Stop'
 $command = Get-Command RAMMap64.exe, RAMMap.exe -ErrorAction SilentlyContinue | Select-Object -First 1
@@ -959,9 +1084,9 @@ Write-Output 'TweakHub Adobe block removed.'
             try
             {
                 progress.UpdateStatus(L.Get("Scripts:RunningWingetScript"));
-                var result = await _powerShellService.ExecuteScriptAsync(System.IO.File.ReadAllText(scriptPath));
+                var result = await _powerShellService.ExecuteScriptAsync(System.IO.File.ReadAllText(scriptPath), true, TimeSpan.FromMinutes(20));
                 var success = result.Success &&
-                              (result.Output.Contains("SUCCESS:") || result.Output.Contains("ALREADY_INSTALLED:"));
+                              result.Output.Contains("VERIFIED:");
                 if (success && _builtInScripts.FirstOrDefault(card => card.Id == "winget") is { } card)
                     MarkScriptCompleted(card);
 

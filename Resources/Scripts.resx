@@ -49,10 +49,10 @@
     <value>New Script</value>
   </data>
   <data name="winget_Name" xml:space="preserve">
-    <value>Install WinGet Package Manager</value>
+    <value>Install or repair WinGet</value>
   </data>
   <data name="winget_Description" xml:space="preserve">
-    <value>Install Microsoft WinGet package manager if not present. Includes multiple installation methods with automatic fallback.</value>
+    <value>Installs or repairs Microsoft WinGet, validates its sources, and verifies a real package search before reporting success.</value>
   </data>
   <data name="winget_Category" xml:space="preserve">
     <value>Package Manager</value>
@@ -61,7 +61,7 @@
     <value>Execute</value>
   </data>
   <data name="winget_Confirmation" xml:space="preserve">
-    <value>Install Microsoft WinGet if it is not already available?</value>
+    <value>Install or repair Microsoft WinGet and reset its sources only if the safer repair steps fail?</value>
   </data>
   <data name="gaming_runtimes_Name" xml:space="preserve">
     <value>Install Gaming Runtimes</value>
@@ -343,19 +343,19 @@ This action cannot be undone.</value>
     <value>WinGetInstall.ps1 was not found.</value>
   </data>
   <data name="InstallingWinget" xml:space="preserve">
-    <value>Installing WinGet Package Manager</value>
+    <value>Installing or repairing WinGet</value>
   </data>
   <data name="RunningWingetScript" xml:space="preserve">
-    <value>Running the WinGet installation script...</value>
+    <value>Running the verified WinGet repair script...</value>
   </data>
   <data name="InstallationComplete" xml:space="preserve">
-    <value>Installation Complete</value>
+    <value>WinGet verified</value>
   </data>
   <data name="InstallationFailed" xml:space="preserve">
     <value>Installation Failed</value>
   </data>
   <data name="WingetInstallationFailed" xml:space="preserve">
-    <value>WinGet installation failed.
+    <value>WinGet repair failed.
 
 {0}
 {1}</value>
@@ -523,5 +523,53 @@ Log: {2}</value>
   </data>
   <data name="ScriptFileTypeUnsupported" xml:space="preserve">
     <value>{0} is not a supported .ps1, .cmd, or .bat file.</value>
+  </data>
+  <data name="microsoft_store_repair_Name" xml:space="preserve">
+    <value>Repair Microsoft Store</value>
+  </data>
+  <data name="microsoft_store_repair_Description" xml:space="preserve">
+    <value>Repairs the Store cache and package registration, then verifies that Microsoft Store can launch.</value>
+  </data>
+  <data name="microsoft_store_repair_Confirmation" xml:space="preserve">
+    <value>This may reset Microsoft Store cache and package registration. Installed apps and purchases are preserved. Continue?</value>
+  </data>
+  <data name="gaming_services_repair_Name" xml:space="preserve">
+    <value>Repair Xbox Gaming Services</value>
+  </data>
+  <data name="gaming_services_repair_Description" xml:space="preserve">
+    <value>Runs Microsoft's signed Gaming Services Repair Tool, repairs related packages if needed, and verifies the services.</value>
+  </data>
+  <data name="gaming_services_repair_Confirmation" xml:space="preserve">
+    <value>This downloads and runs Microsoft's signed Gaming Services Repair Tool and may reset the Gaming Services and Xbox app packages. Continue?</value>
+  </data>
+  <data name="print_spooler_repair_Name" xml:space="preserve">
+    <value>Repair Print Spooler</value>
+  </data>
+  <data name="print_spooler_repair_Description" xml:space="preserve">
+    <value>Restarts the Print Spooler, clears stuck print jobs, and verifies the service and queue.</value>
+  </data>
+  <data name="print_spooler_repair_Confirmation" xml:space="preserve">
+    <value>This stops printing briefly and removes every pending print job from the local queue. Continue?</value>
+  </data>
+  <data name="onedrive_repair_Name" xml:space="preserve">
+    <value>Repair OneDrive</value>
+  </data>
+  <data name="onedrive_repair_Description" xml:space="preserve">
+    <value>Resets the installed OneDrive client, restarts it, and verifies that its process is running.</value>
+  </data>
+  <data name="onedrive_repair_Confirmation" xml:space="preserve">
+    <value>This resets the OneDrive client and restarts synchronization. Your cloud and local files are preserved. Continue?</value>
+  </data>
+  <data name="wsl_setup_Name" xml:space="preserve">
+    <value>Set up WSL 2 and Ubuntu</value>
+  </data>
+  <data name="wsl_setup_Description" xml:space="preserve">
+    <value>Enables the required Windows features, updates WSL, selects WSL 2, and installs Ubuntu when missing.</value>
+  </data>
+  <data name="wsl_setup_Confirmation" xml:space="preserve">
+    <value>This enables Windows Subsystem for Linux and Virtual Machine Platform, updates WSL, and installs Ubuntu if needed. Continue?</value>
+  </data>
+  <data name="wsl_setup_CompletionNote" xml:space="preserve">
+    <value>Restart Windows if the result reports that a reboot is required, then open Ubuntu once to finish its first-run setup.</value>
   </data>
 </root>

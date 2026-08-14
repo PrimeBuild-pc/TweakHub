@@ -49,10 +49,10 @@
     <value>新脚本</value>
   </data>
   <data name="winget_Name" xml:space="preserve">
-    <value>安装 WinGet 包管理器</value>
+    <value>安装或修复 WinGet</value>
   </data>
   <data name="winget_Description" xml:space="preserve">
-    <value>如果未安装 Microsoft WinGet 包管理器，请进行安装。包括多种安装方法，并带有自动回退。</value>
+    <value>安装或修复 Microsoft WinGet，验证软件源并执行真实程序包搜索后再报告成功。</value>
   </data>
   <data name="winget_Category" xml:space="preserve">
     <value>包管理器</value>
@@ -61,7 +61,7 @@
     <value>执行</value>
   </data>
   <data name="winget_Confirmation" xml:space="preserve">
-    <value>如果 Microsoft WinGet 尚不可用，是否安装？</value>
+    <value>是否安装或修复 Microsoft WinGet，并仅在安全修复步骤失败时重置软件源？</value>
   </data>
   <data name="gaming_runtimes_Name" xml:space="preserve">
     <value>安装游戏运行库</value>
@@ -343,19 +343,19 @@
     <value>未找到 WinGetInstall.ps1。</value>
   </data>
   <data name="InstallingWinget" xml:space="preserve">
-    <value>正在安装 WinGet 包管理器</value>
+    <value>正在安装或修复 WinGet</value>
   </data>
   <data name="RunningWingetScript" xml:space="preserve">
-    <value>正在运行 WinGet 安装脚本...</value>
+    <value>正在运行带验证的 WinGet 修复脚本...</value>
   </data>
   <data name="InstallationComplete" xml:space="preserve">
-    <value>安装完成</value>
+    <value>WinGet 已验证</value>
   </data>
   <data name="InstallationFailed" xml:space="preserve">
     <value>安装失败</value>
   </data>
   <data name="WingetInstallationFailed" xml:space="preserve">
-    <value>WinGet 安装失败。
+    <value>WinGet 修复失败。
 
 {0}
 {1}</value>
@@ -523,5 +523,53 @@
   </data>
   <data name="ScriptFileTypeUnsupported" xml:space="preserve">
     <value>{0} 不是受支持的 .ps1、.cmd 或 .bat 文件。</value>
+  </data>
+  <data name="microsoft_store_repair_Name" xml:space="preserve">
+    <value>修复 Microsoft Store</value>
+  </data>
+  <data name="microsoft_store_repair_Description" xml:space="preserve">
+    <value>修复 Store 缓存和程序包注册，然后验证 Microsoft Store 可以启动。</value>
+  </data>
+  <data name="microsoft_store_repair_Confirmation" xml:space="preserve">
+    <value>这可能会重置 Microsoft Store 缓存和程序包注册。已安装的应用和购买项目将保留。是否继续？</value>
+  </data>
+  <data name="gaming_services_repair_Name" xml:space="preserve">
+    <value>修复 Xbox 游戏服务</value>
+  </data>
+  <data name="gaming_services_repair_Description" xml:space="preserve">
+    <value>运行 Microsoft 签名的 Gaming Services 修复工具，在需要时修复相关程序包并验证服务。</value>
+  </data>
+  <data name="gaming_services_repair_Confirmation" xml:space="preserve">
+    <value>这将下载并运行 Microsoft 签名的 Gaming Services 修复工具，并可能重置 Gaming Services 和 Xbox 应用程序包。是否继续？</value>
+  </data>
+  <data name="print_spooler_repair_Name" xml:space="preserve">
+    <value>修复打印后台处理程序</value>
+  </data>
+  <data name="print_spooler_repair_Description" xml:space="preserve">
+    <value>重新启动打印后台处理程序、清除卡住的打印作业，并验证服务和队列。</value>
+  </data>
+  <data name="print_spooler_repair_Confirmation" xml:space="preserve">
+    <value>这会短暂停止打印，并删除本地队列中的所有待处理打印作业。是否继续？</value>
+  </data>
+  <data name="onedrive_repair_Name" xml:space="preserve">
+    <value>修复 OneDrive</value>
+  </data>
+  <data name="onedrive_repair_Description" xml:space="preserve">
+    <value>重置已安装的 OneDrive 客户端、重新启动，并验证其进程正在运行。</value>
+  </data>
+  <data name="onedrive_repair_Confirmation" xml:space="preserve">
+    <value>这会重置 OneDrive 客户端并重新启动同步。云端和本地文件将保留。是否继续？</value>
+  </data>
+  <data name="wsl_setup_Name" xml:space="preserve">
+    <value>设置 WSL 2 和 Ubuntu</value>
+  </data>
+  <data name="wsl_setup_Description" xml:space="preserve">
+    <value>启用所需的 Windows 功能、更新 WSL、选择 WSL 2，并在缺少时安装 Ubuntu。</value>
+  </data>
+  <data name="wsl_setup_Confirmation" xml:space="preserve">
+    <value>这将启用适用于 Linux 的 Windows 子系统和虚拟机平台、更新 WSL，并在需要时安装 Ubuntu。是否继续？</value>
+  </data>
+  <data name="wsl_setup_CompletionNote" xml:space="preserve">
+    <value>如果结果提示需要重启，请重启 Windows，然后打开一次 Ubuntu 以完成首次运行设置。</value>
   </data>
 </root>

@@ -17,10 +17,11 @@ public class ShortcutServiceTests
         {
             "System Utilities", "CPU & Memory", "Firmware & Power", "Monitoring & Diagnostics",
             "GPU & Display", "Gaming & Input", "Storage & USB", "Network", "Audio",
-            "Benchmarks & Stability", "AI Tools"
+            "Benchmarks & Stability", "AI Tools", "Development & DevOps", "Recovery & Forensics",
+            "OSINT & Security"
         };
 
-        Assert.That(tools, Has.Count.InRange(90, 140));
+        Assert.That(tools, Has.Count.InRange(100, 160));
         Assert.That(tools.Select(tool => tool.Name), Is.Unique);
         Assert.That(tools.Select(tool => tool.Category).Distinct(), Is.SubsetOf(categories));
         Assert.That(tools.Select(tool => tool.Name), Does.Contain("Flow Launcher").And.Contain("FancyWM").And.Contain("Power Settings Explorer")
@@ -28,7 +29,11 @@ public class ShortcutServiceTests
             .And.Contain("Special K").And.Contain("CompactGUI").And.Contain("Upscale It").And.Contain("ShareX")
             .And.Contain("AME Wizard").And.Contain("AMD Chipset Drivers").And.Contain("NVIDIA Drivers")
             .And.Contain("NVIDIA App").And.Contain("AMD Graphics Drivers").And.Contain("AMD Cleanup Utility")
-            .And.Contain("ThrottleStop").And.Contain("Visual C++ Redistributable Runtimes All-in-One"));
+            .And.Contain("ThrottleStop").And.Contain("Visual C++ Redistributable Runtimes All-in-One")
+            .And.Contain("Arduino IDE").And.Contain("Docker Desktop").And.Contain("Podman Desktop")
+            .And.Contain("Windows File Recovery").And.Contain("TestDisk & PhotoRec").And.Contain("Autopsy")
+            .And.Contain("ExifTool").And.Contain("SpiderFoot").And.Contain("Sherlock").And.Contain("OWASP Amass")
+            .And.Contain("UEFITool").And.Contain("Nmap").And.Contain("WinSCP").And.Contain("Rufus").And.Contain("Ventoy"));
         Assert.That(tools.Single(tool => tool.Name == "ThrottleStop").DownloadUrl,
             Is.EqualTo("https://www.techpowerup.com/download/techpowerup-throttlestop/"));
         Assert.That(tools.Single(tool => tool.Name == "AMD Cleanup Utility").DownloadUrl,
@@ -50,12 +55,13 @@ public class ShortcutServiceTests
     public void CategoryMetadataProvidesSharedOrderingIconsAndLocalization()
     {
         Assert.That(ShortcutService.CategoryOrder("System Utilities"), Is.LessThan(ShortcutService.CategoryOrder("AI Tools")));
+        Assert.That(ShortcutService.CategoryOrder("AI Tools"), Is.LessThan(ShortcutService.CategoryOrder("Development & DevOps")));
         Assert.That(ShortcutService.CategoryIcon("Network"), Is.EqualTo("\uE968"));
         Assert.That(ShortcutService.LocalizeCategory("Custom category"), Is.EqualTo("Custom category"));
     }
 
     [Test]
-    public void QuickAccessIncludesPolicyEditorAndTaskScheduler()
+    public void QuickAccessIncludesProfessionalWindowsConsolesWithArguments()
     {
         var service = ShortcutService.Instance;
         service.Initialize();
@@ -66,6 +72,15 @@ public class ShortcutServiceTests
                 Is.EqualTo("gpedit.msc"));
             Assert.That(service.SystemShortcuts.Single(shortcut => shortcut.Name == "Task Scheduler").Command,
                 Is.EqualTo("taskschd.msc"));
+            Assert.That(service.SystemShortcuts.Single(shortcut => shortcut.Name == "Reliability Monitor").Arguments,
+                Is.EqualTo("/rel"));
+            Assert.That(service.SystemShortcuts.Single(shortcut => shortcut.Name == "Indexing Options").Arguments,
+                Is.EqualTo("/name Microsoft.IndexingOptions"));
+            Assert.That(service.SystemShortcuts.Select(shortcut => shortcut.Name),
+                Does.Contain("Computer Management").And.Contain("Performance Monitor")
+                    .And.Contain("Windows Defender Firewall with Advanced Security")
+                    .And.Contain("Local Security Policy").And.Contain("Local Users and Groups")
+                    .And.Contain("Current User Certificates").And.Contain("Local Computer Certificates"));
         });
     }
 
