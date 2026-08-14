@@ -11,7 +11,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AssemblyTitle>TweakHub</AssemblyTitle>
     <AssemblyDescription>Windows 11 Performance Tweaking Application</AssemblyDescription>
-    <VersionPrefix>1.4.1</VersionPrefix>
+    <VersionPrefix>1.4.2</VersionPrefix>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     <Copyright>Copyright © 2025–2026</Copyright>
     <Company>TweakHub</Company>
