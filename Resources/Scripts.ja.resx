@@ -49,10 +49,10 @@
     <value>新しいスクリプト</value>
   </data>
   <data name="winget_Name" xml:space="preserve">
-    <value>WinGet パッケージ マネージャーをインストール</value>
+    <value>WinGet をインストールまたは修復</value>
   </data>
   <data name="winget_Description" xml:space="preserve">
-    <value>Microsoft WinGet パッケージ マネージャーがない場合にインストールします。自動フォールバックを備えた複数のインストール方法が含まれます。</value>
+    <value>Microsoft WinGet をインストールまたは修復し、ソースと実際のパッケージ検索を検証してから成功を報告します。</value>
   </data>
   <data name="winget_Category" xml:space="preserve">
     <value>パッケージ マネージャー</value>
@@ -61,7 +61,7 @@
     <value>実行</value>
   </data>
   <data name="winget_Confirmation" xml:space="preserve">
-    <value>Microsoft WinGet がまだ利用できない場合、インストールしますか?</value>
+    <value>Microsoft WinGet をインストールまたは修復し、安全な手順で直らない場合のみソースをリセットしますか？</value>
   </data>
   <data name="gaming_runtimes_Name" xml:space="preserve">
     <value>ゲーム用ランタイムをインストール</value>
@@ -343,19 +343,19 @@
     <value>WinGetInstall.ps1 が見つかりませんでした。</value>
   </data>
   <data name="InstallingWinget" xml:space="preserve">
-    <value>WinGet パッケージ マネージャーをインストール中</value>
+    <value>WinGet をインストールまたは修復中</value>
   </data>
   <data name="RunningWingetScript" xml:space="preserve">
-    <value>WinGet インストール スクリプトを実行中...</value>
+    <value>検証付き WinGet 修復スクリプトを実行中...</value>
   </data>
   <data name="InstallationComplete" xml:space="preserve">
-    <value>インストールが完了しました</value>
+    <value>WinGet を検証しました</value>
   </data>
   <data name="InstallationFailed" xml:space="preserve">
     <value>インストールに失敗しました</value>
   </data>
   <data name="WingetInstallationFailed" xml:space="preserve">
-    <value>WinGet のインストールに失敗しました。
+    <value>WinGet の修復に失敗しました。
 
 {0}
 {1}</value>
@@ -523,5 +523,53 @@
   </data>
   <data name="ScriptFileTypeUnsupported" xml:space="preserve">
     <value>{0} はサポートされている .ps1、.cmd、.bat ファイルではありません。</value>
+  </data>
+  <data name="microsoft_store_repair_Name" xml:space="preserve">
+    <value>Microsoft Store を修復</value>
+  </data>
+  <data name="microsoft_store_repair_Description" xml:space="preserve">
+    <value>Store のキャッシュとパッケージ登録を修復し、Microsoft Store が起動することを確認します。</value>
+  </data>
+  <data name="microsoft_store_repair_Confirmation" xml:space="preserve">
+    <value>Microsoft Store のキャッシュとパッケージ登録をリセットする場合があります。インストール済みアプリと購入情報は保持されます。続行しますか？</value>
+  </data>
+  <data name="gaming_services_repair_Name" xml:space="preserve">
+    <value>Xbox Gaming Services を修復</value>
+  </data>
+  <data name="gaming_services_repair_Description" xml:space="preserve">
+    <value>Microsoft 署名済み Gaming Services 修復ツールを実行し、必要に応じて関連パッケージを修復してサービスを確認します。</value>
+  </data>
+  <data name="gaming_services_repair_Confirmation" xml:space="preserve">
+    <value>Microsoft 署名済み Gaming Services 修復ツールをダウンロードして実行し、Gaming Services と Xbox アプリのパッケージをリセットする場合があります。続行しますか？</value>
+  </data>
+  <data name="print_spooler_repair_Name" xml:space="preserve">
+    <value>印刷スプーラーを修復</value>
+  </data>
+  <data name="print_spooler_repair_Description" xml:space="preserve">
+    <value>印刷スプーラーを再起動し、停止した印刷ジョブを削除してサービスとキューを確認します。</value>
+  </data>
+  <data name="print_spooler_repair_Confirmation" xml:space="preserve">
+    <value>印刷を一時停止し、ローカル キュー内の保留中の印刷ジョブをすべて削除します。続行しますか？</value>
+  </data>
+  <data name="onedrive_repair_Name" xml:space="preserve">
+    <value>OneDrive を修復</value>
+  </data>
+  <data name="onedrive_repair_Description" xml:space="preserve">
+    <value>インストール済み OneDrive クライアントをリセット、再起動し、プロセスの実行を確認します。</value>
+  </data>
+  <data name="onedrive_repair_Confirmation" xml:space="preserve">
+    <value>OneDrive クライアントをリセットして同期を再起動します。クラウドとローカルのファイルは保持されます。続行しますか？</value>
+  </data>
+  <data name="wsl_setup_Name" xml:space="preserve">
+    <value>WSL 2 と Ubuntu をセットアップ</value>
+  </data>
+  <data name="wsl_setup_Description" xml:space="preserve">
+    <value>必要な Windows 機能を有効化し、WSL を更新して WSL 2 を選択し、未導入の場合は Ubuntu をインストールします。</value>
+  </data>
+  <data name="wsl_setup_Confirmation" xml:space="preserve">
+    <value>Linux 用 Windows サブシステムと仮想マシン プラットフォームを有効化し、WSL を更新して必要に応じて Ubuntu をインストールします。続行しますか？</value>
+  </data>
+  <data name="wsl_setup_CompletionNote" xml:space="preserve">
+    <value>結果に再起動が必要と表示された場合は Windows を再起動し、Ubuntu を一度開いて初期設定を完了してください。</value>
   </data>
 </root>

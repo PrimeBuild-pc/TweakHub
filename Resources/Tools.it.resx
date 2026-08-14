@@ -752,4 +752,112 @@ Questo potrebbe essere dovuto a permessi insufficienti o al fatto che l'applicaz
   <data name="ActionUninstall" xml:space="preserve">
     <value>disinstalla</value>
   </data>
+  <data name="CategoryDevelopmentDevOps" xml:space="preserve">
+    <value>Sviluppo e DevOps</value>
+  </data>
+  <data name="CategoryRecoveryForensics" xml:space="preserve">
+    <value>Recupero e analisi forense</value>
+  </data>
+  <data name="CategoryOSINTSecurity" xml:space="preserve">
+    <value>OSINT e sicurezza</value>
+  </data>
+  <data name="ShortcutNameComputerManagement" xml:space="preserve">
+    <value>Gestione computer</value>
+  </data>
+  <data name="DescriptionOpenComputerManagementConsole" xml:space="preserve">
+    <value>Apre la console centrale per dischi, servizi, eventi, utenti e cartelle condivise.</value>
+  </data>
+  <data name="ShortcutNamePerformanceMonitor" xml:space="preserve">
+    <value>Monitoraggio prestazioni</value>
+  </data>
+  <data name="DescriptionRecordAndInspectPerformanceCounters" xml:space="preserve">
+    <value>Registra e analizza contatori prestazionali e set di raccolta dati di Windows.</value>
+  </data>
+  <data name="ShortcutNameReliabilityMonitor" xml:space="preserve">
+    <value>Monitoraggio affidabilità</value>
+  </data>
+  <data name="DescriptionReviewApplicationAndSystemReliabilityHistory" xml:space="preserve">
+    <value>Mostra arresti anomali, errori degli aggiornamenti e cronologia della stabilità del sistema.</value>
+  </data>
+  <data name="ShortcutNameAdvancedFirewall" xml:space="preserve">
+    <value>Windows Defender Firewall con sicurezza avanzata</value>
+  </data>
+  <data name="DescriptionManageAdvancedWindowsFirewallRules" xml:space="preserve">
+    <value>Gestisce regole in entrata, in uscita, di sicurezza connessione e monitoraggio.</value>
+  </data>
+  <data name="ShortcutNameLocalSecurityPolicy" xml:space="preserve">
+    <value>Criteri di sicurezza locali</value>
+  </data>
+  <data name="DescriptionManageLocalSecurityPolicies" xml:space="preserve">
+    <value>Gestisce criteri locali per account, controllo, diritti utente e sicurezza.</value>
+  </data>
+  <data name="ShortcutNameLocalUsersAndGroups" xml:space="preserve">
+    <value>Utenti e gruppi locali</value>
+  </data>
+  <data name="DescriptionManageLocalUsersAndGroups" xml:space="preserve">
+    <value>Gestisce utenti e gruppi locali di Windows.</value>
+  </data>
+  <data name="ShortcutNameUserCertificates" xml:space="preserve">
+    <value>Certificati utente corrente</value>
+  </data>
+  <data name="DescriptionManageCurrentUserCertificates" xml:space="preserve">
+    <value>Visualizza e gestisce i certificati dell'utente corrente.</value>
+  </data>
+  <data name="ShortcutNameComputerCertificates" xml:space="preserve">
+    <value>Certificati computer locale</value>
+  </data>
+  <data name="DescriptionManageLocalComputerCertificates" xml:space="preserve">
+    <value>Visualizza e gestisce i certificati considerati attendibili dal computer locale.</value>
+  </data>
+  <data name="ShortcutNameIndexingOptions" xml:space="preserve">
+    <value>Opzioni di indicizzazione</value>
+  </data>
+  <data name="DescriptionConfigureWindowsSearchIndexing" xml:space="preserve">
+    <value>Configura percorsi, tipi di file e indice di Windows Search.</value>
+  </data>
+  <data name="DescriptionUEFIFirmwareImageViewerAndEditor" xml:space="preserve">
+    <value>Analizza e modifica immagini firmware UEFI con UEFITool open source.</value>
+  </data>
+  <data name="DescriptionCreateBootableUSBDrives" xml:space="preserve">
+    <value>Crea unità USB avviabili da immagini ISO.</value>
+  </data>
+  <data name="DescriptionBootMultipleISOImagesFromOneUSBDrive" xml:space="preserve">
+    <value>Avvia più immagini ISO da una singola unità USB.</value>
+  </data>
+  <data name="DescriptionNetworkDiscoveryAndSecurityAuditing" xml:space="preserve">
+    <value>Rileva host, servizi e porte per amministrazione di rete e audit autorizzati.</value>
+  </data>
+  <data name="DescriptionSecureFileTransferAndRemoteFileManagement" xml:space="preserve">
+    <value>Trasferisce file in sicurezza e gestisce file remoti tramite SFTP, SCP, FTP e WebDAV.</value>
+  </data>
+  <data name="DescriptionOfficialOpenSourceArduinoDevelopmentEnvironment" xml:space="preserve">
+    <value>Ambiente open source ufficiale per lo sviluppo Arduino e la gestione delle schede.</value>
+  </data>
+  <data name="DescriptionContainerDevelopmentWithDockerAndWSL2" xml:space="preserve">
+    <value>Crea ed esegue container in locale con Docker Desktop e l'integrazione WSL 2.</value>
+  </data>
+  <data name="DescriptionOpenSourceContainerAndKubernetesDesktop" xml:space="preserve">
+    <value>Desktop open source per container, pod e flussi Kubernetes locali.</value>
+  </data>
+  <data name="DescriptionOfficialMicrosoftCommandLineFileRecovery" xml:space="preserve">
+    <value>Strumento Microsoft ufficiale da riga di comando per recuperare file eliminati dalle unità locali.</value>
+  </data>
+  <data name="DescriptionRecoverPartitionsAndFilesFromDamagedMedia" xml:space="preserve">
+    <value>Recupera partizioni e file persi da supporti danneggiati o riformattati.</value>
+  </data>
+  <data name="DescriptionOpenSourceDigitalForensicsPlatform" xml:space="preserve">
+    <value>Piattaforma open source per analisi di immagini disco e informatica forense.</value>
+  </data>
+  <data name="DescriptionInspectAndEditFileMetadata" xml:space="preserve">
+    <value>Analizza, estrae e modifica metadati in numerosi formati di file.</value>
+  </data>
+  <data name="DescriptionAutomatedOSINTAndAttackSurfaceMapping" xml:space="preserve">
+    <value>Automatizza la raccolta OSINT e mappa la superficie di attacco pubblica di un'organizzazione.</value>
+  </data>
+  <data name="DescriptionFindUsernamesAcrossSocialNetworks" xml:space="preserve">
+    <value>Cerca un nome utente in centinaia di social network.</value>
+  </data>
+  <data name="DescriptionAttackSurfaceMappingAndAssetDiscovery" xml:space="preserve">
+    <value>Rileva risorse esterne e mappa superfici di attacco con OWASP Amass.</value>
+  </data>
 </root>

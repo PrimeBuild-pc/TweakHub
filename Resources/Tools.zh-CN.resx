@@ -752,4 +752,112 @@
   <data name="ActionUninstall" xml:space="preserve">
     <value>卸载</value>
   </data>
+  <data name="CategoryDevelopmentDevOps" xml:space="preserve">
+    <value>开发与 DevOps</value>
+  </data>
+  <data name="CategoryRecoveryForensics" xml:space="preserve">
+    <value>恢复与取证</value>
+  </data>
+  <data name="CategoryOSINTSecurity" xml:space="preserve">
+    <value>OSINT 与安全</value>
+  </data>
+  <data name="ShortcutNameComputerManagement" xml:space="preserve">
+    <value>计算机管理</value>
+  </data>
+  <data name="DescriptionOpenComputerManagementConsole" xml:space="preserve">
+    <value>打开用于管理磁盘、服务、事件、用户和共享文件夹的中央控制台。</value>
+  </data>
+  <data name="ShortcutNamePerformanceMonitor" xml:space="preserve">
+    <value>性能监视器</value>
+  </data>
+  <data name="DescriptionRecordAndInspectPerformanceCounters" xml:space="preserve">
+    <value>记录并分析 Windows 性能计数器和数据收集器集。</value>
+  </data>
+  <data name="ShortcutNameReliabilityMonitor" xml:space="preserve">
+    <value>可靠性监视器</value>
+  </data>
+  <data name="DescriptionReviewApplicationAndSystemReliabilityHistory" xml:space="preserve">
+    <value>查看应用崩溃、更新失败和系统稳定性历史记录。</value>
+  </data>
+  <data name="ShortcutNameAdvancedFirewall" xml:space="preserve">
+    <value>高级安全 Windows Defender 防火墙</value>
+  </data>
+  <data name="DescriptionManageAdvancedWindowsFirewallRules" xml:space="preserve">
+    <value>管理入站、出站、连接安全和监视规则。</value>
+  </data>
+  <data name="ShortcutNameLocalSecurityPolicy" xml:space="preserve">
+    <value>本地安全策略</value>
+  </data>
+  <data name="DescriptionManageLocalSecurityPolicies" xml:space="preserve">
+    <value>管理本地帐户、审核、用户权限和安全策略。</value>
+  </data>
+  <data name="ShortcutNameLocalUsersAndGroups" xml:space="preserve">
+    <value>本地用户和组</value>
+  </data>
+  <data name="DescriptionManageLocalUsersAndGroups" xml:space="preserve">
+    <value>管理 Windows 本地用户和组。</value>
+  </data>
+  <data name="ShortcutNameUserCertificates" xml:space="preserve">
+    <value>当前用户证书</value>
+  </data>
+  <data name="DescriptionManageCurrentUserCertificates" xml:space="preserve">
+    <value>查看和管理当前用户的证书。</value>
+  </data>
+  <data name="ShortcutNameComputerCertificates" xml:space="preserve">
+    <value>本地计算机证书</value>
+  </data>
+  <data name="DescriptionManageLocalComputerCertificates" xml:space="preserve">
+    <value>查看和管理本地计算机信任的证书。</value>
+  </data>
+  <data name="ShortcutNameIndexingOptions" xml:space="preserve">
+    <value>索引选项</value>
+  </data>
+  <data name="DescriptionConfigureWindowsSearchIndexing" xml:space="preserve">
+    <value>配置索引位置、文件类型和 Windows Search 索引。</value>
+  </data>
+  <data name="DescriptionUEFIFirmwareImageViewerAndEditor" xml:space="preserve">
+    <value>使用开源 UEFITool 查看和编辑 UEFI 固件映像。</value>
+  </data>
+  <data name="DescriptionCreateBootableUSBDrives" xml:space="preserve">
+    <value>从 ISO 映像创建可启动 USB 驱动器。</value>
+  </data>
+  <data name="DescriptionBootMultipleISOImagesFromOneUSBDrive" xml:space="preserve">
+    <value>从单个 USB 驱动器启动多个 ISO 映像。</value>
+  </data>
+  <data name="DescriptionNetworkDiscoveryAndSecurityAuditing" xml:space="preserve">
+    <value>发现主机、服务和端口，用于获授权的网络管理和安全审核。</value>
+  </data>
+  <data name="DescriptionSecureFileTransferAndRemoteFileManagement" xml:space="preserve">
+    <value>通过 SFTP、SCP、FTP 和 WebDAV 安全传输和远程管理文件。</value>
+  </data>
+  <data name="DescriptionOfficialOpenSourceArduinoDevelopmentEnvironment" xml:space="preserve">
+    <value>用于 Arduino 开发和开发板管理的官方开源环境。</value>
+  </data>
+  <data name="DescriptionContainerDevelopmentWithDockerAndWSL2" xml:space="preserve">
+    <value>使用 Docker Desktop 及其 WSL 2 集成在本地构建和运行容器。</value>
+  </data>
+  <data name="DescriptionOpenSourceContainerAndKubernetesDesktop" xml:space="preserve">
+    <value>用于容器、Pod 和本地 Kubernetes 工作流的开源桌面。</value>
+  </data>
+  <data name="DescriptionOfficialMicrosoftCommandLineFileRecovery" xml:space="preserve">
+    <value>用于从本地存储恢复已删除文件的 Microsoft 官方命令行工具。</value>
+  </data>
+  <data name="DescriptionRecoverPartitionsAndFilesFromDamagedMedia" xml:space="preserve">
+    <value>从损坏或重新格式化的介质恢复丢失的分区和文件。</value>
+  </data>
+  <data name="DescriptionOpenSourceDigitalForensicsPlatform" xml:space="preserve">
+    <value>用于磁盘映像分析和数字取证的开源平台。</value>
+  </data>
+  <data name="DescriptionInspectAndEditFileMetadata" xml:space="preserve">
+    <value>查看、提取和编辑多种文件格式的元数据。</value>
+  </data>
+  <data name="DescriptionAutomatedOSINTAndAttackSurfaceMapping" xml:space="preserve">
+    <value>自动收集 OSINT 并绘制组织的公共攻击面。</value>
+  </data>
+  <data name="DescriptionFindUsernamesAcrossSocialNetworks" xml:space="preserve">
+    <value>在数百个社交网络中查找用户名。</value>
+  </data>
+  <data name="DescriptionAttackSurfaceMappingAndAssetDiscovery" xml:space="preserve">
+    <value>使用 OWASP Amass 发现外部资产并绘制攻击面。</value>
+  </data>
 </root>

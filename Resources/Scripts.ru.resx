@@ -49,10 +49,10 @@
     <value>Новый сценарий</value>
   </data>
   <data name="winget_Name" xml:space="preserve">
-    <value>Установить диспетчер пакетов WinGet</value>
+    <value>Установить или исправить WinGet</value>
   </data>
   <data name="winget_Description" xml:space="preserve">
-    <value>Установить менеджер пакетов Microsoft WinGet, если он отсутствует. Включает несколько методов установки с автоматическим возвратом к резервной версии.</value>
+    <value>Устанавливает или исправляет Microsoft WinGet, проверяет источники и реальный поиск пакета перед сообщением об успехе.</value>
   </data>
   <data name="winget_Category" xml:space="preserve">
     <value>Менеджер пакетов.</value>
@@ -61,7 +61,7 @@
     <value>Выполнить</value>
   </data>
   <data name="winget_Confirmation" xml:space="preserve">
-    <value>Установить Microsoft WinGet, если он еще не доступен?</value>
+    <value>Установить или исправить Microsoft WinGet и сбросить источники только при неудаче более безопасных шагов?</value>
   </data>
   <data name="gaming_runtimes_Name" xml:space="preserve">
     <value>Установить игровые среды выполнения</value>
@@ -343,19 +343,19 @@
     <value>WinGetInstall.ps1 не найден.</value>
   </data>
   <data name="InstallingWinget" xml:space="preserve">
-    <value>Установка диспетчера пакетов WinGet</value>
+    <value>Установка или исправление WinGet</value>
   </data>
   <data name="RunningWingetScript" xml:space="preserve">
-    <value>Запуск сценария установки WinGet...</value>
+    <value>Запуск проверяемого сценария исправления WinGet...</value>
   </data>
   <data name="InstallationComplete" xml:space="preserve">
-    <value>Установка завершена</value>
+    <value>WinGet проверен</value>
   </data>
   <data name="InstallationFailed" xml:space="preserve">
     <value>Ошибка установки</value>
   </data>
   <data name="WingetInstallationFailed" xml:space="preserve">
-    <value>Ошибка установки WinGet.
+    <value>Не удалось исправить WinGet.
 
 {0}
 {1}</value>
@@ -523,5 +523,53 @@
   </data>
   <data name="ScriptFileTypeUnsupported" xml:space="preserve">
     <value>{0} не является поддерживаемым файлом .ps1, .cmd или .bat.</value>
+  </data>
+  <data name="microsoft_store_repair_Name" xml:space="preserve">
+    <value>Исправить Microsoft Store</value>
+  </data>
+  <data name="microsoft_store_repair_Description" xml:space="preserve">
+    <value>Исправляет кэш и регистрацию пакета, затем проверяет запуск Microsoft Store.</value>
+  </data>
+  <data name="microsoft_store_repair_Confirmation" xml:space="preserve">
+    <value>Возможно восстановление кэша и регистрации пакета Microsoft Store. Установленные приложения и покупки сохранятся. Продолжить?</value>
+  </data>
+  <data name="gaming_services_repair_Name" xml:space="preserve">
+    <value>Исправить игровые службы Xbox</value>
+  </data>
+  <data name="gaming_services_repair_Description" xml:space="preserve">
+    <value>Запускает подписанное средство Microsoft для восстановления Gaming Services, при необходимости исправляет пакеты и проверяет службы.</value>
+  </data>
+  <data name="gaming_services_repair_Confirmation" xml:space="preserve">
+    <value>Будет загружено и запущено подписанное Microsoft средство восстановления Gaming Services. Возможен сброс пакетов Gaming Services и Xbox. Продолжить?</value>
+  </data>
+  <data name="print_spooler_repair_Name" xml:space="preserve">
+    <value>Исправить диспетчер печати</value>
+  </data>
+  <data name="print_spooler_repair_Description" xml:space="preserve">
+    <value>Перезапускает диспетчер печати, удаляет зависшие задания и проверяет службу и очередь.</value>
+  </data>
+  <data name="print_spooler_repair_Confirmation" xml:space="preserve">
+    <value>Печать будет ненадолго остановлена, а все ожидающие задания локальной очереди удалены. Продолжить?</value>
+  </data>
+  <data name="onedrive_repair_Name" xml:space="preserve">
+    <value>Исправить OneDrive</value>
+  </data>
+  <data name="onedrive_repair_Description" xml:space="preserve">
+    <value>Сбрасывает установленный клиент OneDrive, перезапускает его и проверяет работу процесса.</value>
+  </data>
+  <data name="onedrive_repair_Confirmation" xml:space="preserve">
+    <value>Клиент OneDrive будет сброшен, а синхронизация перезапущена. Локальные и облачные файлы сохранятся. Продолжить?</value>
+  </data>
+  <data name="wsl_setup_Name" xml:space="preserve">
+    <value>Настроить WSL 2 и Ubuntu</value>
+  </data>
+  <data name="wsl_setup_Description" xml:space="preserve">
+    <value>Включает необходимые компоненты Windows, обновляет WSL, выбирает WSL 2 и устанавливает Ubuntu при отсутствии.</value>
+  </data>
+  <data name="wsl_setup_Confirmation" xml:space="preserve">
+    <value>Будут включены Подсистема Windows для Linux и Платформа виртуальной машины, обновлён WSL и при необходимости установлена Ubuntu. Продолжить?</value>
+  </data>
+  <data name="wsl_setup_CompletionNote" xml:space="preserve">
+    <value>Если в результате указана необходимость перезагрузки, перезапустите Windows и один раз откройте Ubuntu для завершения первоначальной настройки.</value>
   </data>
 </root>

@@ -41,7 +41,16 @@ public sealed class ShortcutService
             new SystemShortcut { Name = L.Get("Tools:ShortcutNameWindowsFeatures"), Description = L.Get("Tools:DescriptionEnableOrDisableWindowsFeatures"), Command = "optionalfeatures", Category = "System Management" },
             new SystemShortcut { Name = L.Get("Tools:ShortcutNameDiskCleanup"), Description = L.Get("Tools:DescriptionFreeDiskSpaceWithTheWindowsUtility"), Command = "cleanmgr", Category = "Maintenance" },
             new SystemShortcut { Name = L.Get("Tools:ShortcutNameGroupPolicyEditor"), Description = L.Get("Tools:DescriptionEditLocalWindowsGroupPoliciesProAnd"), Command = "gpedit.msc", Category = "Advanced Tools" },
-            new SystemShortcut { Name = L.Get("Tools:ShortcutNameTaskScheduler"), Description = L.Get("Tools:DescriptionCreateAndManageScheduledTasks"), Command = "taskschd.msc", Category = "System Management" }
+            new SystemShortcut { Name = L.Get("Tools:ShortcutNameTaskScheduler"), Description = L.Get("Tools:DescriptionCreateAndManageScheduledTasks"), Command = "taskschd.msc", Category = "System Management" },
+            new SystemShortcut { Name = L.Get("Tools:ShortcutNameComputerManagement"), Description = L.Get("Tools:DescriptionOpenComputerManagementConsole"), Command = "compmgmt.msc", Category = "System Management" },
+            new SystemShortcut { Name = L.Get("Tools:ShortcutNamePerformanceMonitor"), Description = L.Get("Tools:DescriptionRecordAndInspectPerformanceCounters"), Command = "perfmon.msc", Category = "Performance" },
+            new SystemShortcut { Name = L.Get("Tools:ShortcutNameReliabilityMonitor"), Description = L.Get("Tools:DescriptionReviewApplicationAndSystemReliabilityHistory"), Command = "perfmon.exe", Arguments = "/rel", Category = "Performance" },
+            new SystemShortcut { Name = L.Get("Tools:ShortcutNameAdvancedFirewall"), Description = L.Get("Tools:DescriptionManageAdvancedWindowsFirewallRules"), Command = "wf.msc", Category = "Advanced Tools" },
+            new SystemShortcut { Name = L.Get("Tools:ShortcutNameLocalSecurityPolicy"), Description = L.Get("Tools:DescriptionManageLocalSecurityPolicies"), Command = "secpol.msc", Category = "Advanced Tools" },
+            new SystemShortcut { Name = L.Get("Tools:ShortcutNameLocalUsersAndGroups"), Description = L.Get("Tools:DescriptionManageLocalUsersAndGroups"), Command = "lusrmgr.msc", Category = "System Management" },
+            new SystemShortcut { Name = L.Get("Tools:ShortcutNameUserCertificates"), Description = L.Get("Tools:DescriptionManageCurrentUserCertificates"), Command = "certmgr.msc", Category = "Advanced Tools" },
+            new SystemShortcut { Name = L.Get("Tools:ShortcutNameComputerCertificates"), Description = L.Get("Tools:DescriptionManageLocalComputerCertificates"), Command = "certlm.msc", Category = "Advanced Tools" },
+            new SystemShortcut { Name = L.Get("Tools:ShortcutNameIndexingOptions"), Description = L.Get("Tools:DescriptionConfigureWindowsSearchIndexing"), Command = "control.exe", Arguments = "/name Microsoft.IndexingOptions", Category = "System Management" }
         }) SystemShortcuts.Add(shortcut);
     }
 
@@ -101,7 +110,7 @@ public sealed class ShortcutService
             new ExternalTool { Name = "PeStudio", Description = L.Get("Tools:DescriptionStaticInspectionOfWindowsExecutablesWithoutRunning"), Category = "Monitoring & Diagnostics", DownloadUrl = "https://www.winitor.com/download" },
             new ExternalTool { Name = "Process Explorer", Description = L.Get("Tools:DescriptionSysinternalsProcessHandleAndDLLDiagnostics"), Category = "Monitoring & Diagnostics", WingetId = "Microsoft.Sysinternals.ProcessExplorer" },
             new ExternalTool { Name = "Process Monitor", Description = L.Get("Tools:DescriptionRealTimeFilesystemRegistryAndProcessTracing"), Category = "Monitoring & Diagnostics", WingetId = "Microsoft.Sysinternals.ProcessMonitor" },
-            new ExternalTool { Name = "Windows Performance Toolkit", Description = L.Get("Tools:DescriptionAdvancedETWRecordingAndAnalysisWithWPR"), Category = "Monitoring & Diagnostics", DownloadUrl = "https://learn.microsoft.com/windows-hardware/test/wpt/" },
+            new ExternalTool { Name = "Windows Performance Toolkit (WPR, WPA & Xperf)", Description = L.Get("Tools:DescriptionAdvancedETWRecordingAndAnalysisWithWPR"), Category = "Monitoring & Diagnostics", DownloadUrl = "https://learn.microsoft.com/windows-hardware/get-started/adk-install" },
             new ExternalTool { Name = "NVIDIA FrameView", Description = L.Get("Tools:DescriptionFrameRateFrameTimePowerAndPerformance"), Category = "Monitoring & Diagnostics", WingetId = "Nvidia.FrameView" },
             new ExternalTool { Name = "GPU Shark 2", Description = L.Get("Tools:DescriptionLightweightDetailedGPUMonitoringFromGeeks3D"), Category = "Monitoring & Diagnostics", DownloadUrl = "https://www.geeks3d.com/gpushark/" },
             new ExternalTool { Name = "NVIDIA Nsight Systems", Description = L.Get("Tools:DescriptionAdvancedCPUAndGPUWorkloadProfilingAnd"), Category = "Monitoring & Diagnostics", DownloadUrl = "https://developer.nvidia.com/nsight-systems" },
@@ -134,6 +143,7 @@ public sealed class ShortcutService
             new ExternalTool { Name = "SCEWIN GUI Better", Description = L.Get("Tools:DescriptionUnofficialGUIForAdvancedAMIFirmwareVariable"), Category = "Firmware & Power", DownloadUrl = "https://github.com/loko8002/SCEWIN-GUI-BETTER1" },
             new ExternalTool { Name = "SCEHUB", Description = L.Get("Tools:DescriptionCommunitySCEWINBinariesAndTroubleshootingFirmwareChanges"), Category = "Firmware & Power", DownloadUrl = "https://github.com/ab3lkaizen/SCEHUB" },
             new ExternalTool { Name = "Power Settings Explorer", Description = L.Get("Tools:DescriptionInspectHiddenWindowsPowerPlanSettingsOpens"), Category = "Firmware & Power", DownloadUrl = "https://www.mediafire.com/file/wt37sbsejk7iepm/PowerSettingsExplorer.zip/file" },
+            new ExternalTool { Name = "UEFITool", Description = L.Get("Tools:DescriptionUEFIFirmwareImageViewerAndEditor"), Category = "Firmware & Power", DownloadUrl = "https://github.com/LongSoft/UEFITool" },
 
             // Gaming and input
             new ExternalTool { Name = "DLSS Swapper", Description = L.Get("Tools:DescriptionManageDLSSVersionsInSupportedGames"), Category = "Gaming & Input", DownloadUrl = "https://github.com/beeradmoore/dlss-swapper" },
@@ -156,6 +166,8 @@ public sealed class ShortcutService
             new ExternalTool { Name = "USB Latency Analyzer", Description = L.Get("Tools:DescriptionMariusHeierUSBLatencyToolsOpensThe"), Category = "Storage & USB", DownloadUrl = "https://tools.mariusheier.com/" },
             new ExternalTool { Name = "DiskSpd", Description = L.Get("Tools:DescriptionMicrosoftCommandLineStorageLoadGeneratorAnd"), Category = "Storage & USB", WingetId = "Microsoft.DiskSpd" },
             new ExternalTool { Name = "CompactGUI", Description = L.Get("Tools:DescriptionCompressGamesAndProgramsWithNativeWindowsAPIs"), Category = "Storage & USB", WingetId = "IridiumIO.CompactGUI" },
+            new ExternalTool { Name = "Rufus", Description = L.Get("Tools:DescriptionCreateBootableUSBDrives"), Category = "Storage & USB", WingetId = "Rufus.Rufus" },
+            new ExternalTool { Name = "Ventoy", Description = L.Get("Tools:DescriptionBootMultipleISOImagesFromOneUSBDrive"), Category = "Storage & USB", WingetId = "Ventoy.Ventoy" },
 
             // Network
             new ExternalTool { Name = "qBittorrent", Description = L.Get("Tools:DescriptionOpenSourceBitTorrentClient"), Category = "Network", WingetId = "qBittorrent.qBittorrent" },
@@ -164,6 +176,8 @@ public sealed class ShortcutService
             new ExternalTool { Name = "DNS Jumper", Description = L.Get("Tools:DescriptionTestAndSwitchDNSResolvers"), Category = "Network", WingetId = "sordum.DnsJumper" },
             new ExternalTool { Name = "iPerf3", Description = L.Get("Tools:DescriptionMeasureMaximumTCPAndUDPNetworkThroughput"), Category = "Network", WingetId = "ar51an.iPerf3" },
             new ExternalTool { Name = "Wireshark", Description = L.Get("Tools:DescriptionCaptureAndInspectNetworkTrafficAndProtocols"), Category = "Network", WingetId = "WiresharkFoundation.Wireshark" },
+            new ExternalTool { Name = "Nmap", Description = L.Get("Tools:DescriptionNetworkDiscoveryAndSecurityAuditing"), Category = "Network", DownloadUrl = "https://nmap.org/download.html" },
+            new ExternalTool { Name = "WinSCP", Description = L.Get("Tools:DescriptionSecureFileTransferAndRemoteFileManagement"), Category = "Network", WingetId = "WinSCP.WinSCP" },
 
             // Audio
             new ExternalTool { Name = "FxSound", Description = L.Get("Tools:DescriptionAudioEqualizerAndEnhancement"), Category = "Audio", WingetId = "FxSound.FxSound" },
@@ -200,7 +214,23 @@ public sealed class ShortcutService
             new ExternalTool { Name = "Warp", Description = L.Get("Tools:DescriptionAgenticTerminalAndDevelopmentEnvironment"), Category = "AI Tools", WingetId = "Warp.Warp" },
             new ExternalTool { Name = "Unsloth Studio", Description = L.Get("Tools:DescriptionLocalInterfaceForTrainingAndRunningOpen"), Category = "AI Tools", DownloadUrl = "https://unsloth.ai/docs/new/studio" },
             new ExternalTool { Name = "LM Studio", Description = L.Get("Tools:DescriptionDiscoverDownloadAndRunLocalLanguageModels"), Category = "AI Tools", WingetId = "ElementLabs.LMStudio" },
-            new ExternalTool { Name = "Jan", Description = L.Get("Tools:DescriptionOpenSourceLocalAIDesktopApplication"), Category = "AI Tools", WingetId = "Jan.Jan" }
+            new ExternalTool { Name = "Jan", Description = L.Get("Tools:DescriptionOpenSourceLocalAIDesktopApplication"), Category = "AI Tools", WingetId = "Jan.Jan" },
+
+            // Development and DevOps
+            new ExternalTool { Name = "Arduino IDE", Description = L.Get("Tools:DescriptionOfficialOpenSourceArduinoDevelopmentEnvironment"), Category = "Development & DevOps", WingetId = "ArduinoSA.IDE.stable" },
+            new ExternalTool { Name = "Docker Desktop", Description = L.Get("Tools:DescriptionContainerDevelopmentWithDockerAndWSL2"), Category = "Development & DevOps", WingetId = "Docker.DockerDesktop" },
+            new ExternalTool { Name = "Podman Desktop", Description = L.Get("Tools:DescriptionOpenSourceContainerAndKubernetesDesktop"), Category = "Development & DevOps", WingetId = "RedHat.Podman-Desktop" },
+
+            // Recovery and forensics
+            new ExternalTool { Name = "Windows File Recovery", Description = L.Get("Tools:DescriptionOfficialMicrosoftCommandLineFileRecovery"), Category = "Recovery & Forensics", WingetId = "9N26S50LN705" },
+            new ExternalTool { Name = "TestDisk & PhotoRec", Description = L.Get("Tools:DescriptionRecoverPartitionsAndFilesFromDamagedMedia"), Category = "Recovery & Forensics", WingetId = "CGSecurity.TestDisk" },
+            new ExternalTool { Name = "Autopsy", Description = L.Get("Tools:DescriptionOpenSourceDigitalForensicsPlatform"), Category = "Recovery & Forensics", DownloadUrl = "https://www.autopsy.com/download/" },
+
+            // OSINT and security
+            new ExternalTool { Name = "ExifTool", Description = L.Get("Tools:DescriptionInspectAndEditFileMetadata"), Category = "OSINT & Security", WingetId = "OliverBetz.ExifTool" },
+            new ExternalTool { Name = "SpiderFoot", Description = L.Get("Tools:DescriptionAutomatedOSINTAndAttackSurfaceMapping"), Category = "OSINT & Security", DownloadUrl = "https://github.com/smicallef/spiderfoot" },
+            new ExternalTool { Name = "Sherlock", Description = L.Get("Tools:DescriptionFindUsernamesAcrossSocialNetworks"), Category = "OSINT & Security", DownloadUrl = "https://github.com/sherlock-project/sherlock" },
+            new ExternalTool { Name = "OWASP Amass", Description = L.Get("Tools:DescriptionAttackSurfaceMappingAndAssetDiscovery"), Category = "OSINT & Security", DownloadUrl = "https://github.com/owasp-amass/amass" }
         }) ExternalTools.Add(tool);
 
         foreach (var tool in UserDataService.Instance.LoadCustomTools())
@@ -243,7 +273,10 @@ public sealed class ShortcutService
             ["Advanced Tools"] = ("Tools:CategoryAdvancedTools", "\uE90F", 16),
             ["Benchmarks & Stability"] = ("Tools:CategoryBenchmarksStability", "\uE9D2", 17),
             ["AI Tools"] = ("Tools:CategoryAITools", "\uE99A", 18),
-            ["Custom"] = ("Tools:CategoryCustom", "\uE90F", 19)
+            ["Development & DevOps"] = ("Tools:CategoryDevelopmentDevOps", "\uE943", 19),
+            ["Recovery & Forensics"] = ("Tools:CategoryRecoveryForensics", "\uE8C8", 20),
+            ["OSINT & Security"] = ("Tools:CategoryOSINTSecurity", "\uE72E", 21),
+            ["Custom"] = ("Tools:CategoryCustom", "\uE90F", 22)
         };
 
     public static string LocalizeCategory(string category) =>
@@ -287,6 +320,7 @@ public sealed class ShortcutService
             Process.Start(new ProcessStartInfo
             {
                 FileName = shortcut.Command,
+                Arguments = shortcut.Arguments,
                 UseShellExecute = true
             });
             return true;

@@ -37,6 +37,19 @@ public class AutomatedScriptsPageTests
                 Does.Contain("winsock reset").And.Contain("int ip reset"));
             Assert.That(AutomatedScriptsPage.GetBuiltInScript("windows-update-reset"),
                 Does.Contain("SoftwareDistribution").And.Contain("catroot2"));
+            Assert.That(AutomatedScriptsPage.GetBuiltInScript("winget"),
+                Does.Contain("Repair-WinGetPackageManager").And.Contain("VERIFIED:"));
+            Assert.That(AutomatedScriptsPage.GetBuiltInScript("microsoft-store-repair"),
+                Does.Contain("Reset-AppxPackage").And.Contain("VERIFIED:").And.Contain("Source:"));
+            Assert.That(AutomatedScriptsPage.GetBuiltInScript("gaming-services-repair"),
+                Does.Contain("https://aka.ms/GamingRepairTool").And.Contain("Get-AuthenticodeSignature")
+                    .And.Contain("VERIFIED:").And.Contain("Source:"));
+            Assert.That(AutomatedScriptsPage.GetBuiltInScript("print-spooler-repair"),
+                Does.Contain("Spooler").And.Contain("PRINTERS").And.Contain("VERIFIED:"));
+            Assert.That(AutomatedScriptsPage.GetBuiltInScript("onedrive-repair"),
+                Does.Contain("/reset").And.Contain("VERIFIED:"));
+            Assert.That(AutomatedScriptsPage.GetBuiltInScript("wsl-setup"),
+                Does.Contain("VirtualMachinePlatform").And.Contain("Ubuntu").And.Contain("VERIFIED:"));
             Assert.That(AutomatedScriptsPage.GetBuiltInScript("empty-standby-list"),
                 Does.Contain("RAMMap").And.Contain("-Et"));
             Assert.That(AutomatedScriptsPage.GetBuiltInScript("adobe-hosts-block"),
@@ -149,7 +162,8 @@ public class AutomatedScriptsPageTests
         {
             "ctt-winutil", "gaming-runtimes", "dotnet-developer-setup", "change-local-password",
             "dism-sfc-chkdsk", "component-cleanup", "network-reset", "windows-update-reset",
-            "empty-standby-list", "remove-windows-ai",
+            "winget", "microsoft-store-repair", "gaming-services-repair", "print-spooler-repair",
+            "onedrive-repair", "wsl-setup", "empty-standby-list", "remove-windows-ai",
             "adobe-hosts-block", "adobe-hosts-unblock"
         })
         {
