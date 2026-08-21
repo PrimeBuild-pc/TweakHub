@@ -1,5 +1,6 @@
 <div align="center">
-  <img src="readme-banner.svg" alt="TweakHub — portable Windows toolbox with backup and rollback" width="100%">
+  <img src="assets/logo.png" alt="TweakHub wrench logo" width="128">
+  <h1>TweakHub</h1>
   <p><strong>A portable Windows 11 toolkit for power users who configure, rebuild and maintain PCs frequently.</strong></p>
   <p>
     <a href="https://github.com/PrimeBuild-pc/TweakHub/commits/main"><img alt="Last commit" src="https://img.shields.io/github/last-commit/PrimeBuild-pc/TweakHub?style=plastic&amp;logo=git&amp;logoColor=white"></a>
