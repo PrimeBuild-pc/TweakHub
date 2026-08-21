@@ -1,24 +1,21 @@
 <div align="center">
-
-<img src="assets/logo.png" alt="TweakHub wrench logo" width="128"/>
-
-# TweakHub
-
-**A portable Windows 11 toolkit for power users who configure, rebuild and maintain PCs frequently.**
-
-Made with ❤️ for Windows power users.
-
-[![Release](https://img.shields.io/github/v/release/PrimeBuild-pc/TweakHub?style=flat-square&logo=github)](https://github.com/PrimeBuild-pc/TweakHub/releases/latest)
-[![CI](https://img.shields.io/github/actions/workflow/status/PrimeBuild-pc/TweakHub/ci.yml?branch=main&style=flat-square&label=CI)](https://github.com/PrimeBuild-pc/TweakHub/actions/workflows/ci.yml)
-[![Total downloads](https://img.shields.io/github/downloads/PrimeBuild-pc/TweakHub/total?style=flat-square&label=total%20downloads)](https://github.com/PrimeBuild-pc/TweakHub/releases)
-[![Latest release downloads](https://img.shields.io/github/downloads/PrimeBuild-pc/TweakHub/latest/total?style=flat-square&label=latest%20release)](https://github.com/PrimeBuild-pc/TweakHub/releases/latest)
-[![Windows 11](https://img.shields.io/badge/Windows-11-0078D4?style=flat-square&logo=windows11)](https://www.microsoft.com/windows/windows-11)
-[![.NET 10](https://img.shields.io/badge/.NET-10.0-512BD4?style=flat-square&logo=dotnet)](https://dotnet.microsoft.com/)
-[![Multilingual support](https://img.shields.io/badge/Languages-EN_%7C_RU_%7C_ZH--CN_%7C_ES_%7C_IT_%7C_JA-0A66C2?style=flat-square&logo=googletranslate&logoColor=white)](#highlights)
-[![License](https://img.shields.io/github/license/PrimeBuild-pc/TweakHub?style=flat-square)](LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/PrimeBuild-pc/TweakHub?style=flat-square&logo=github)](https://github.com/PrimeBuild-pc/TweakHub/stargazers)
-
-[![Download latest release](https://img.shields.io/badge/Download-Latest%20Release-2EA44F?style=for-the-badge&logo=github&logoColor=white)](https://github.com/PrimeBuild-pc/TweakHub/releases/latest)
+  <img src="readme-banner.svg" alt="TweakHub — portable Windows toolbox with backup and rollback" width="100%">
+  <p><strong>A portable Windows 11 toolkit for power users who configure, rebuild and maintain PCs frequently.</strong></p>
+  <p>
+    <a href="https://github.com/PrimeBuild-pc/TweakHub/commits/main"><img alt="Last commit" src="https://img.shields.io/github/last-commit/PrimeBuild-pc/TweakHub?style=plastic&amp;logo=git&amp;logoColor=white"></a>
+    <a href="https://github.com/PrimeBuild-pc/TweakHub/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/PrimeBuild-pc/TweakHub?style=plastic&amp;logo=github"></a>
+    <a href="https://github.com/PrimeBuild-pc/TweakHub/issues"><img alt="Open issues" src="https://img.shields.io/github/issues/PrimeBuild-pc/TweakHub?style=plastic&amp;logo=github"></a>
+  </p>
+  <p>
+    <a href="https://github.com/PrimeBuild-pc/TweakHub/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/PrimeBuild-pc/TweakHub/ci.yml?branch=main&amp;style=plastic&amp;logo=githubactions&amp;label=CI"></a>
+    <a href="https://github.com/PrimeBuild-pc/TweakHub/releases/latest"><img alt="Release" src="https://img.shields.io/github/v/release/PrimeBuild-pc/TweakHub?style=plastic&amp;logo=github"></a>
+    <a href="https://github.com/PrimeBuild-pc/TweakHub/releases"><img alt="Total downloads" src="https://img.shields.io/github/downloads/PrimeBuild-pc/TweakHub/total?style=plastic&amp;logo=github&amp;label=downloads&amp;color=2ea44f"></a>
+    <img alt="Windows 11" src="https://img.shields.io/badge/Windows-11-0078D4?style=plastic&amp;logo=windows&amp;logoColor=white">
+    <img alt=".NET 10" src="https://img.shields.io/badge/.NET-10-512BD4?style=plastic&amp;logo=dotnet&amp;logoColor=white">
+    <a href="#highlights"><img alt="Six interface languages" src="https://img.shields.io/badge/UI%20languages-6-5B5FC7?style=plastic&amp;logo=googletranslate&amp;logoColor=white"></a>
+    <a href="LICENSE"><img alt="License" src="https://img.shields.io/github/license/PrimeBuild-pc/TweakHub?style=plastic"></a>
+  </p>
+  <p><a href="https://github.com/PrimeBuild-pc/TweakHub/releases/latest"><img alt="Download latest release" src="https://img.shields.io/badge/download-latest%20release-2EA44F?style=plastic&amp;logo=github&amp;logoColor=white"></a></p>
 
 </div>
 
