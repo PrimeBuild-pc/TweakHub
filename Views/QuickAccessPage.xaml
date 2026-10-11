@@ -49,12 +49,6 @@
             </Setter>
         </Style>
 
-        <Style x:Key="CategoryHeaderStyle" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
-            <Setter Property="Margin" Value="0,12,0,8"/>
-        </Style>
     </Page.Resources>
 
     <Grid Margin="32">
@@ -79,7 +73,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
-                            <TextBlock Text="{Binding Name}" Style="{StaticResource CategoryHeaderStyle}"/>
+                            <TextBlock Text="{Binding Name}" Style="{StaticResource CategoryHeaderStyle}" Margin="0,12,0,8"/>
                             <ItemsControl ItemsSource="{Binding Shortcuts}" Margin="0,0,0,6">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
