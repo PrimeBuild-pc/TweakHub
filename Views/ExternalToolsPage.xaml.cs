@@ -33,13 +33,14 @@ namespace TweakHub.Views
         private readonly IProgress<ToolProgress> _progress;
         private string _searchQuery = string.Empty;
         private bool _favoritesOnly;
-        private readonly bool _securityOnly;
+        private readonly string? _onlyCategory;
 
-        public ExternalToolsPage(bool securityOnly = false)
+        /// <param name="onlyCategory">Shows one catalog category, hosted inside a section page that already has its own heading.</param>
+        public ExternalToolsPage(string? onlyCategory = null)
         {
-            _securityOnly = securityOnly;
+            _onlyCategory = onlyCategory;
             InitializeComponent();
-            if (_securityOnly)
+            if (_onlyCategory != null)
             {
                 // Hosted inside SecurityPage, which already shows the heading.
                 RootGrid.Margin = new Thickness(0);
@@ -75,7 +76,7 @@ namespace TweakHub.Views
         private IReadOnlyList<ToolGroup> CreateToolGroups()
         {
             var groups = new List<ToolGroup>();
-            var tools = FilterTools(_shortcutService.ExternalTools, _searchQuery, _favoritesOnly, _securityOnly).ToList();
+            var tools = FilterTools(_shortcutService.ExternalTools, _searchQuery, _favoritesOnly, _onlyCategory).ToList();
             var favorites = tools
                 .Where(tool => tool.IsFavorite)
                 .OrderBy(tool => tool.Name)
@@ -114,10 +115,10 @@ namespace TweakHub.Views
             IEnumerable<ExternalTool> tools,
             string searchQuery,
             bool favoritesOnly,
-            bool securityOnly = false)
+            string? onlyCategory = null)
         {
-            if (securityOnly)
-                tools = tools.Where(tool => tool.Category.Equals("OSINT & Security", StringComparison.OrdinalIgnoreCase));
+            if (onlyCategory != null)
+                tools = tools.Where(tool => tool.Category.Equals(onlyCategory, StringComparison.OrdinalIgnoreCase));
 
             if (favoritesOnly)
                 tools = tools.Where(tool => tool.IsFavorite);

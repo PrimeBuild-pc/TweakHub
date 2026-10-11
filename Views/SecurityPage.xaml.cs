@@ -464,7 +464,7 @@ public partial class SecurityPage : Page
     {
         if (!ReferenceEquals(e.OriginalSource, Tabs)) return;
         if (Tabs.SelectedItem == ToolsTab && ToolsFrame.Content is null)
-            ToolsFrame.Navigate(new ExternalToolsPage(securityOnly: true));
+            ToolsFrame.Navigate(new ExternalToolsPage("OSINT & Security"));
         else if (Tabs.SelectedItem == SystemTab && !SystemView.HasScanned)
             await SystemView.ScanAsync(elevated: false);
         else if (Tabs.SelectedItem == PrivacyTab)

@@ -1,0 +1,519 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Title" xml:space="preserve">
+    <value>Dispositivos y latencia</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Revisa los dispositivos que puedes desactivar con seguridad, los ajustes de interrupciones, la ruta USB de tus dispositivos de entrada y los ajustes que perjudican la estabilidad. Cada cambio pide confirmación y se puede deshacer.</value>
+  </data>
+  <data name="TabDevices" xml:space="preserve">
+    <value>Dispositivos</value>
+  </data>
+  <data name="TabInterrupts" xml:space="preserve">
+    <value>Interrupciones y MSI</value>
+  </data>
+  <data name="TabUsb" xml:space="preserve">
+    <value>USB y entrada</value>
+  </data>
+  <data name="TabChecks" xml:space="preserve">
+    <value>Comprobación de ajustes</value>
+  </data>
+  <data name="TabTools" xml:space="preserve">
+    <value>Herramientas y recursos</value>
+  </data>
+  <data name="Scan" xml:space="preserve">
+    <value>Analizar</value>
+  </data>
+  <data name="Scanning" xml:space="preserve">
+    <value>Leyendo dispositivos Plug and Play…</value>
+  </data>
+  <data name="Scanned" xml:space="preserve">
+    <value>Analizado a las {0}. No se cambia nada hasta que elijas una acción.</value>
+  </data>
+  <data name="ScanFailed" xml:space="preserve">
+    <value>No se pudo completar el análisis: {0}</value>
+  </data>
+  <data name="DevicesDescription" xml:space="preserve">
+    <value>Inventario Plug and Play con notas sobre los dispositivos que las guías de latencia suelen desactivar y lo que deja de funcionar si lo haces. "No presente" o "sin hijos" nunca demuestra que un dispositivo no se use.</value>
+  </data>
+  <data name="EnableAll" xml:space="preserve">
+    <value>Reactivar todos</value>
+  </data>
+  <data name="EnableAllHint" xml:space="preserve">
+    <value>Reactiva todos los dispositivos que desactivó TweakHub. Los desactivados en otro lugar se dejan como están.</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Exportar informe</value>
+  </data>
+  <data name="TileTotal" xml:space="preserve">
+    <value>Dispositivos</value>
+  </data>
+  <data name="TileSuggested" xml:space="preserve">
+    <value>Con notas</value>
+  </data>
+  <data name="TileDisabled" xml:space="preserve">
+    <value>Desactivados</value>
+  </data>
+  <data name="TileProblems" xml:space="preserve">
+    <value>Con problemas</value>
+  </data>
+  <data name="CategoriesTitle" xml:space="preserve">
+    <value>Estado de los dispositivos</value>
+  </data>
+  <data name="SuggestedOnly" xml:space="preserve">
+    <value>Solo dispositivos con notas</value>
+  </data>
+  <data name="ColumnClass" xml:space="preserve">
+    <value>Clase</value>
+  </data>
+  <data name="ColumnCategory" xml:space="preserve">
+    <value>Estado</value>
+  </data>
+  <data name="ColumnAdvice" xml:space="preserve">
+    <value>Nota</value>
+  </data>
+  <data name="Breaks" xml:space="preserve">
+    <value>Deja de funcionar:</value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Desactivar</value>
+  </data>
+  <data name="Enable" xml:space="preserve">
+    <value>Activar</value>
+  </data>
+  <data name="DisableConfirmTitle" xml:space="preserve">
+    <value>¿Desactivar el dispositivo?</value>
+  </data>
+  <data name="DisableConfirmMessage" xml:space="preserve">
+    <value>{0} se desactivará en el Administrador de dispositivos. Puedes reactivarlo desde esta lista o con Reactivar todos.</value>
+  </data>
+  <data name="HighRiskWarning" xml:space="preserve">
+    <value>Advertencia: es un dispositivo esencial del sistema, almacenamiento, red o entrada. Desactivarlo puede impedir que Windows arranque o dejarte sin teclado, ratón o red.</value>
+  </data>
+  <data name="AvoidWarning" xml:space="preserve">
+    <value>Este dispositivo aparece a menudo en guías de latencia, pero desactivarlo no aporta beneficios fiables y puede causar problemas. TweakHub recomienda dejarlo activado.</value>
+  </data>
+  <data name="ToggleFailedTitle" xml:space="preserve">
+    <value>Dispositivo sin cambios</value>
+  </data>
+  <data name="InterruptsDescription" xml:space="preserve">
+    <value>Dispositivos PCI y cómo avisan a la CPU. MSI (interrupciones señalizadas por mensaje) evita líneas de interrupción compartidas; la prioridad y la afinidad de CPU son ajustes avanzados útiles solo en casos concretos.</value>
+  </data>
+  <data name="RestartNote" xml:space="preserve">
+    <value>Los cambios se aplican tras reiniciar.</value>
+  </data>
+  <data name="TilePciDevices" xml:space="preserve">
+    <value>Dispositivos PCI</value>
+  </data>
+  <data name="TileMsi" xml:space="preserve">
+    <value>Con MSI</value>
+  </data>
+  <data name="TileAffinity" xml:space="preserve">
+    <value>Afinidad personalizada</value>
+  </data>
+  <data name="InterruptModeByClass" xml:space="preserve">
+    <value>Modo de interrupción por clase</value>
+  </data>
+  <data name="InterruptMsi" xml:space="preserve">
+    <value>MSI</value>
+  </data>
+  <data name="InterruptLineBased" xml:space="preserve">
+    <value>Por línea</value>
+  </data>
+  <data name="ColumnMode" xml:space="preserve">
+    <value>Modo</value>
+  </data>
+  <data name="ColumnLimit" xml:space="preserve">
+    <value>Mensajes</value>
+  </data>
+  <data name="ColumnPriority" xml:space="preserve">
+    <value>Prioridad</value>
+  </data>
+  <data name="ColumnAffinity" xml:space="preserve">
+    <value>Afinidad de CPU</value>
+  </data>
+  <data name="AffinityAuto" xml:space="preserve">
+    <value>Automática (Windows)</value>
+  </data>
+  <data name="PriorityUndefined" xml:space="preserve">
+    <value>Predeterminada</value>
+  </data>
+  <data name="PriorityLow" xml:space="preserve">
+    <value>Baja</value>
+  </data>
+  <data name="PriorityNormal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="PriorityHigh" xml:space="preserve">
+    <value>Alta</value>
+  </data>
+  <data name="EditorHint" xml:space="preserve">
+    <value>Cambia solo lo necesario, un dispositivo cada vez, y prueba tras reiniciar. Restaurar original vuelve a poner los valores que encontró TweakHub.</value>
+  </data>
+  <data name="UseMsi" xml:space="preserve">
+    <value>Usar interrupciones señalizadas por mensaje (MSI)</value>
+  </data>
+  <data name="MsiNotSupported" xml:space="preserve">
+    <value>El controlador de este dispositivo no declara compatibilidad con MSI.</value>
+  </data>
+  <data name="AffinityHint" xml:space="preserve">
+    <value>Selecciona las CPU que pueden atender las interrupciones de este dispositivo. Déjalas todas desmarcadas para mantener el ajuste actual; usa Restaurar original para volver a automático.</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Aplicar</value>
+  </data>
+  <data name="RestoreOriginal" xml:space="preserve">
+    <value>Restaurar original</value>
+  </data>
+  <data name="ApplyConfirmTitle" xml:space="preserve">
+    <value>¿Cambiar los ajustes de interrupción?</value>
+  </data>
+  <data name="ApplyConfirmMessage" xml:space="preserve">
+    <value>TweakHub guardará una copia y cambiará los ajustes de interrupción de {0}. Si el dispositivo deja de funcionar tras reiniciar, usa Restaurar original o el modo seguro.</value>
+  </data>
+  <data name="ApplyFailedTitle" xml:space="preserve">
+    <value>Cambio no aplicado</value>
+  </data>
+  <data name="ApplyFailedMessage" xml:space="preserve">
+    <value>No se pudo escribir ni verificar el cambio. Comprueba que aceptaste la solicitud de administrador.</value>
+  </data>
+  <data name="UsbDescription" xml:space="preserve">
+    <value>La ruta de cada ratón, teclado y mando hasta la CPU: cada concentrador externo añade un salto y el ahorro de energía USB puede añadir retrasos al despertar.</value>
+  </data>
+  <data name="PlanSuspendTitle" xml:space="preserve">
+    <value>Suspensión selectiva de USB</value>
+  </data>
+  <data name="PlanSuspendDescription" xml:space="preserve">
+    <value>Permite que Windows apague los dispositivos USB inactivos en el plan activo. Desactivarla evita picos al despertar en equipos de sobremesa; los portátiles pueden perder algo de batería.</value>
+  </data>
+  <data name="PlanSuspendOn" xml:space="preserve">
+    <value>Activada en el plan activo (con corriente)</value>
+  </data>
+  <data name="PlanSuspendOff" xml:space="preserve">
+    <value>Desactivada en el plan activo (con corriente)</value>
+  </data>
+  <data name="PlanSuspendUnknown" xml:space="preserve">
+    <value>No disponible en el plan activo</value>
+  </data>
+  <data name="PlanSuspendDisable" xml:space="preserve">
+    <value>Desactivar</value>
+  </data>
+  <data name="PollingTitle" xml:space="preserve">
+    <value>Prueba de sondeo del ratón</value>
+  </data>
+  <data name="PollingDescription" xml:space="preserve">
+    <value>Calcula con qué frecuencia el ratón informa a Windows a partir de los mensajes de entrada sin procesar. Local y sin navegador; para precisión de microsegundos usa DeepPoll.</value>
+  </data>
+  <data name="PollingStart" xml:space="preserve">
+    <value>Iniciar prueba</value>
+  </data>
+  <data name="PollingMove" xml:space="preserve">
+    <value>Mueve el ratón rápidamente en círculos durante 4 segundos…</value>
+  </data>
+  <data name="PollingTooFew" xml:space="preserve">
+    <value>No se capturó suficiente movimiento. Mantén TweakHub en primer plano y mueve el ratón sin parar.</value>
+  </data>
+  <data name="PollingResult" xml:space="preserve">
+    <value>{0} informes medidos. Las barras muestran la estabilidad de la frecuencia.</value>
+  </data>
+  <data name="InputDevicesTitle" xml:space="preserve">
+    <value>Dispositivos de entrada</value>
+  </data>
+  <data name="NoInputDevices" xml:space="preserve">
+    <value>No se encontró ningún ratón, teclado ni mando.</value>
+  </data>
+  <data name="InputMouse" xml:space="preserve">
+    <value>Ratón</value>
+  </data>
+  <data name="InputKeyboard" xml:space="preserve">
+    <value>Teclado</value>
+  </data>
+  <data name="InputController" xml:space="preserve">
+    <value>Mando</value>
+  </data>
+  <data name="NotUsb" xml:space="preserve">
+    <value>No conectado por USB</value>
+  </data>
+  <data name="HubsNone" xml:space="preserve">
+    <value>Directo al controlador (sin concentradores externos)</value>
+  </data>
+  <data name="Hubs" xml:space="preserve">
+    <value>{0} concentrador(es) externo(s) en la ruta</value>
+  </data>
+  <data name="HopController" xml:space="preserve">
+    <value>Controlador USB</value>
+  </data>
+  <data name="HopHub" xml:space="preserve">
+    <value>Concentrador</value>
+  </data>
+  <data name="HopCpu" xml:space="preserve">
+    <value>Procesador y chipset</value>
+  </data>
+  <data name="ControllerMode" xml:space="preserve">
+    <value>Controlador: {0}</value>
+  </data>
+  <data name="ControllerUnknown" xml:space="preserve">
+    <value>Modo del controlador desconocido</value>
+  </data>
+  <data name="DeviceSuspendOn" xml:space="preserve">
+    <value>ahorro de energía permitido</value>
+  </data>
+  <data name="DeviceSuspendOff" xml:space="preserve">
+    <value>ahorro de energía desactivado</value>
+  </data>
+  <data name="DeviceSuspendDisable" xml:space="preserve">
+    <value>Desactivar ahorro de energía</value>
+  </data>
+  <data name="ReconnectNote" xml:space="preserve">
+    <value>Hecho. Desconecta y vuelve a conectar el dispositivo, o reinicia, para aplicar el cambio.</value>
+  </data>
+  <data name="ChecksDescription" xml:space="preserve">
+    <value>Busca ajustes populares que perjudican la estabilidad, la seguridad o la entrada (la lista de RepairBadTweaks) y restablece el valor predeterminado de Windows. Las correcciones del registro guardan una copia y se pueden deshacer.</value>
+  </data>
+  <data name="ChecksScan" xml:space="preserve">
+    <value>Comprobar</value>
+  </data>
+  <data name="ChecksScanElevatedHint" xml:space="preserve">
+    <value>También lee los ajustes del temporizador de arranque, que requieren permisos de administrador.</value>
+  </data>
+  <data name="ChecksSummary" xml:space="preserve">
+    <value>{0} comprobaciones, {1} por corregir.</value>
+  </data>
+  <data name="ChecksManagedNote" xml:space="preserve">
+    <value>Win32PrioritySeparation, Prefetch y SysMain se gestionan en Registry Tweaks, donde TweakHub guarda sus copias.</value>
+  </data>
+  <data name="Repair" xml:space="preserve">
+    <value>Restablecer</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>Deshacer</value>
+  </data>
+  <data name="RepairConfirmTitle" xml:space="preserve">
+    <value>¿Restablecer el valor de Windows?</value>
+  </data>
+  <data name="RepairConfirmMessage" xml:space="preserve">
+    <value>{0} volverá al valor predeterminado de Windows.</value>
+  </data>
+  <data name="RepairNoUndo" xml:space="preserve">
+    <value>Esta corrección ejecuta un comando de Windows y no se puede deshacer desde TweakHub.</value>
+  </data>
+  <data name="RepairVerifyFailed" xml:space="preserve">
+    <value>No se pudo verificar el cambio del registro.</value>
+  </data>
+  <data name="CheckStatusOk" xml:space="preserve">
+    <value>Predeterminado</value>
+  </data>
+  <data name="CheckStatusFlagged" xml:space="preserve">
+    <value>Modificado por un ajuste</value>
+  </data>
+  <data name="CheckStatusNeedsAdministrator" xml:space="preserve">
+    <value>Comprueba como administrador para leerlo</value>
+  </data>
+  <data name="CategoryHealthy" xml:space="preserve">
+    <value>En funcionamiento</value>
+  </data>
+  <data name="CategoryHealthyHint" xml:space="preserve">
+    <value>Presente y sin problemas Plug and Play. No mide cuánto se usa.</value>
+  </data>
+  <data name="CategoryNotPresent" xml:space="preserve">
+    <value>No presentes</value>
+  </data>
+  <data name="CategoryNotPresentHint" xml:space="preserve">
+    <value>Windows lo recuerda pero no está conectado ahora. No es motivo para quitarlo.</value>
+  </data>
+  <data name="CategoryDisabled" xml:space="preserve">
+    <value>Desactivados</value>
+  </data>
+  <data name="CategoryDisabledHint" xml:space="preserve">
+    <value>Desactivado en el Administrador de dispositivos (código de problema 22).</value>
+  </data>
+  <data name="CategoryProblem" xml:space="preserve">
+    <value>Con problemas</value>
+  </data>
+  <data name="CategoryProblemHint" xml:space="preserve">
+    <value>Windows informa de un error en este dispositivo: diagnostica el controlador en lugar de desactivarlo.</value>
+  </data>
+  <data name="CategoryIdleBus" xml:space="preserve">
+    <value>Bus sin hijos</value>
+  </data>
+  <data name="CategoryIdleBusHint" xml:space="preserve">
+    <value>Un bus o enumerador sin dispositivos conectados ahora; puede necesitarse cuando aparezca un dispositivo más adelante.</value>
+  </data>
+  <data name="AdviceCommon" xml:space="preserve">
+    <value>Normalmente se puede desactivar</value>
+  </data>
+  <data name="AdviceSituational" xml:space="preserve">
+    <value>Depende de lo que uses</value>
+  </data>
+  <data name="AdviceAvoid" xml:space="preserve">
+    <value>Déjalo activado</value>
+  </data>
+  <data name="RuleHpet" xml:space="preserve">
+    <value>Temporizador de eventos de alta precisión: a menudo se desactiva en guías de latencia, pero Windows moderno elige sus temporizadores y apagarlo no aporta mejoras fiables.</value>
+  </data>
+  <data name="RuleHpetBreaks" xml:space="preserve">
+    <value>Algunos juegos, herramientas y controladores antiguos que lo esperan; la temporización puede volverse menos estable.</value>
+  </data>
+  <data name="RuleSmBus" xml:space="preserve">
+    <value>Controlador SMBus: lee los chips de memoria y sensores de la placa base.</value>
+  </data>
+  <data name="RuleSmBusBreaks" xml:space="preserve">
+    <value>Herramientas de monitorización, información de RAM, iluminación RGB y control de ventiladores.</value>
+  </data>
+  <data name="RuleKernelDebug" xml:space="preserve">
+    <value>Adaptador de red usado solo para la depuración del kernel por red.</value>
+  </data>
+  <data name="RuleKernelDebugBreaks" xml:space="preserve">
+    <value>Depuración del kernel por red (solo desarrolladores).</value>
+  </data>
+  <data name="RuleSystemSpeaker" xml:space="preserve">
+    <value>Altavoz de la placa base para los pitidos del sistema.</value>
+  </data>
+  <data name="RuleSystemSpeakerBreaks" xml:space="preserve">
+    <value>Solo el pitido de la placa base.</value>
+  </data>
+  <data name="RuleWanMiniport" xml:space="preserve">
+    <value>Protocolos integrados de VPN y acceso telefónico (IKEv2, L2TP, PPTP, SSTP, PPPoE).</value>
+  </data>
+  <data name="RuleWanMiniportBreaks" xml:space="preserve">
+    <value>Conexiones VPN de Windows, internet PPPoE y algunos clientes VPN de terceros.</value>
+  </data>
+  <data name="RuleRdpBus" xml:space="preserve">
+    <value>Redirige los dispositivos locales a las sesiones de Escritorio remoto.</value>
+  </data>
+  <data name="RuleRdpBusBreaks" xml:space="preserve">
+    <value>Impresoras, unidades y dispositivos USB dentro de las sesiones de Escritorio remoto.</value>
+  </data>
+  <data name="RuleVirtualDrive" xml:space="preserve">
+    <value>Crea los discos virtuales que Windows monta desde archivos VHD y VHDX.</value>
+  </data>
+  <data name="RuleVirtualDriveBreaks" xml:space="preserve">
+    <value>Montar discos virtuales (VHD/VHDX) y las herramientas que los usan.</value>
+  </data>
+  <data name="RuleNdisVirtual" xml:space="preserve">
+    <value>Crea adaptadores de red virtuales para VPN y herramientas de virtualización.</value>
+  </data>
+  <data name="RuleNdisVirtualBreaks" xml:space="preserve">
+    <value>Algunos clientes VPN y la red de las máquinas virtuales.</value>
+  </data>
+  <data name="RuleUmBus" xml:space="preserve">
+    <value>Bus para controladores en modo de usuario.</value>
+  </data>
+  <data name="RuleUmBusBreaks" xml:space="preserve">
+    <value>Algunos sensores, dispositivos portátiles, impresoras y visores de realidad mixta.</value>
+  </data>
+  <data name="RuleCompositeBus" xml:space="preserve">
+    <value>Bus que Windows usa para crear dispositivos compuestos.</value>
+  </data>
+  <data name="RuleCompositeBusBreaks" xml:space="preserve">
+    <value>Algunos adaptadores inalámbricos, dispositivos Bluetooth LE y bases de acoplamiento.</value>
+  </data>
+  <data name="RuleHyperV" xml:space="preserve">
+    <value>Infraestructura de virtualización de Hyper-V.</value>
+  </data>
+  <data name="RuleHyperVBreaks" xml:space="preserve">
+    <value>Hyper-V, WSL 2, Espacio aislado de Windows, Docker Desktop y la seguridad basada en virtualización.</value>
+  </data>
+  <data name="RuleWifiDirect" xml:space="preserve">
+    <value>Adaptador virtual para conexiones Wi-Fi Direct.</value>
+  </data>
+  <data name="RuleWifiDirectBreaks" xml:space="preserve">
+    <value>Zona con cobertura inalámbrica móvil, pantalla inalámbrica (Miracast) y uso compartido en proximidad por Wi-Fi.</value>
+  </data>
+  <data name="RuleTeredo" xml:space="preserve">
+    <value>Adaptadores de túnel IPv6 (Teredo, ISATAP).</value>
+  </data>
+  <data name="RuleTeredoBreaks" xml:space="preserve">
+    <value>Chat de grupo y multijugador de la red Xbox en algunas redes y configuraciones IPv6 antiguas.</value>
+  </data>
+  <data name="RuleVirtualPrinter" xml:space="preserve">
+    <value>Cola de impresora virtual (PDF, XPS, Fax u OneNote).</value>
+  </data>
+  <data name="RuleVirtualPrinterBreaks" xml:space="preserve">
+    <value>Imprimir en esa impresora virtual.</value>
+  </data>
+  <data name="CheckBcdTimers" xml:space="preserve">
+    <value>Temporizadores de arranque forzados (bcdedit)</value>
+  </data>
+  <data name="CheckBcdTimersExplain" xml:space="preserve">
+    <value>useplatformclock, disabledynamictick, useplatformtick y tscsyncpolicy son para depuración; forzarlos suele aumentar la carga de los temporizadores.</value>
+  </data>
+  <data name="CheckMitigations" xml:space="preserve">
+    <value>Mitigaciones de vulnerabilidades de la CPU</value>
+  </data>
+  <data name="CheckMitigationsExplain" xml:space="preserve">
+    <value>FeatureSettingsOverride desactiva las protecciones contra Spectre y Meltdown. La mejora en CPU actuales es pequeña y el equipo queda expuesto.</value>
+  </data>
+  <data name="CheckAutoTuning" xml:space="preserve">
+    <value>Ajuste automático de la ventana TCP</value>
+  </data>
+  <data name="CheckAutoTuningExplain" xml:space="preserve">
+    <value>Restringir el ajuste automático limita la velocidad de descarga en conexiones rápidas y no reduce el ping.</value>
+  </data>
+  <data name="CheckSvcHostSplit" xml:space="preserve">
+    <value>Agrupación de hosts de servicio</value>
+  </data>
+  <data name="CheckSvcHostSplitExplain" xml:space="preserve">
+    <value>Aumentar SvcHostSplitThresholdInKB solo oculta procesos en el Administrador de tareas; los hosts de servicio separados son más estables.</value>
+  </data>
+  <data name="CheckThreadDpc" xml:space="preserve">
+    <value>DPC en subprocesos</value>
+  </data>
+  <data name="CheckThreadDpcExplain" xml:space="preserve">
+    <value>ThreadDpcEnable=0 obliga a ejecutar todas las DPC con prioridad alta, lo que puede empeorar la latencia.</value>
+  </data>
+  <data name="CheckErrorReporting" xml:space="preserve">
+    <value>Informe de errores de Windows</value>
+  </data>
+  <data name="CheckErrorReportingExplain" xml:space="preserve">
+    <value>Desactivarlo elimina los informes de bloqueo que ayudan a diagnosticar problemas y no mejora el rendimiento.</value>
+  </data>
+  <data name="CheckInputQueues" xml:space="preserve">
+    <value>Tamaño de la cola de ratón y teclado</value>
+  </data>
+  <data name="CheckInputQueuesExplain" xml:space="preserve">
+    <value>Reducir MouseDataQueueSize o KeyboardDataQueueSize puede perder entradas en ráfagas; no reduce el retraso de entrada.</value>
+  </data>
+  <data name="CheckCsrssPriority" xml:space="preserve">
+    <value>Prioridad de csrss.exe</value>
+  </data>
+  <data name="CheckCsrssPriorityExplain" xml:space="preserve">
+    <value>csrss.exe es un proceso crítico de Windows; forzar su prioridad de CPU o E/S no aporta beneficios medibles y puede causar inestabilidad.</value>
+  </data>
+  <data name="CheckMpo" xml:space="preserve">
+    <value>Superposición multiplano desactivada</value>
+  </data>
+  <data name="CheckMpoExplain" xml:space="preserve">
+    <value>OverlayTestMode desactiva MPO. Mantenlo solo si corrige parpadeos en tu GPU; si no, MPO reduce la latencia en juegos en ventana.</value>
+  </data>
+  <data name="CheckMemoryManagement" xml:space="preserve">
+    <value>Ajustes del administrador de memoria</value>
+  </data>
+  <data name="CheckMemoryManagementExplain" xml:space="preserve">
+    <value>DisablePagingExecutive, LargeSystemCache, IoPageLockLimit y CacheUnmapBehindLengthInMB son valores de servidores antiguos que desperdician memoria en equipos de escritorio.</value>
+  </data>
+  <data name="CheckRawMouseThrottle" xml:space="preserve">
+    <value>Limitación de ratón sin procesar</value>
+  </data>
+  <data name="CheckRawMouseThrottleExplain" xml:space="preserve">
+    <value>Los valores RawMouseThrottle solo afectan a ventanas en segundo plano; forzarlos cambia el comportamiento de los ratones de alta frecuencia y no mejora los juegos.</value>
+  </data>
+  <data name="CheckGlobalTimer" xml:space="preserve">
+    <value>Solicitudes globales de resolución del temporizador</value>
+  </data>
+  <data name="CheckGlobalTimerExplain" xml:space="preserve">
+    <value>Hace que todos los procesos compartan el temporizador más fino que pida una aplicación, como en Windows 10. Aumenta el consumo; mantenlo solo si un juego antiguo concreto lo necesita.</value>
+  </data>
+</root>

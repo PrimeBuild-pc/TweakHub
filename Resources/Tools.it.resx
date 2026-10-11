@@ -390,9 +390,6 @@
   <data name="DescriptionOpenSourceMouseAccelerationDriver" xml:space="preserve">
     <value>Driver open-source per l'accelerazione del mouse</value>
   </data>
-  <data name="DescriptionAdvancedUSBHIDPollingRateFilterDriver" xml:space="preserve">
-    <value>Driver avanzato per filtri della frequenza di polling HID USB</value>
-  </data>
   <data name="DescriptionBrowserBasedCalibrationForSupportedPlayStationControllers" xml:space="preserve">
     <value>Calibrazione basata su browser per controller PlayStation supportati</value>
   </data>
@@ -943,5 +940,41 @@ Questo potrebbe essere dovuto a permessi insufficienti o al fatto che l'applicaz
   </data>
   <data name="DescriptionOpenBoardView" xml:space="preserve">
     <value>Visualizzatore open source di file .brd e altri formati boardview usati nella riparazione a livello di componente di schede madri e GPU. I file boardview provengono da terze parti: apri solo file da fonti affidabili. Apre solo la pagina ufficiale delle release.</value>
+  </data>
+  <data name="CategoryLatencyInput" xml:space="preserve">
+    <value>Latenza e input</value>
+  </data>
+  <data name="DescriptionGoInterruptPolicy" xml:space="preserve">
+    <value>Imposta modalità MSI, priorità degli interrupt e affinità CPU per dispositivo. La scheda Interrupt e MSI di TweakHub copre le stesse impostazioni con backup; valori sbagliati possono causare instabilità o un dispositivo che smette di funzionare finché non li ripristini. MIT. Apre solo il repository ufficiale.</value>
+  </data>
+  <data name="DescriptionCpuDirect" xml:space="preserve">
+    <value>Conta i chip tra ogni dispositivo USB e la CPU e controlla MSI e selective suspend del controller. La scheda USB e input di TweakHub mostra la stessa catena in modo nativo; l'originale esegue uno script remoto con irm | iex, quindi leggilo prima di eseguirlo. MIT. Apre solo la pagina ufficiale.</value>
+  </data>
+  <data name="DescriptionDeepPoll" xml:space="preserve">
+    <value>Misura il polling rate USB con precisione al microsecondo tramite tracciamento ETW del kernel e richiede privilegi di amministratore. TweakHub include un test del polling del mouse più semplice. Esegue uno script remoto con irm | iex. MIT. Apre solo la pagina ufficiale.</value>
+  </data>
+  <data name="DescriptionDeepLog" xml:space="preserve">
+    <value>Registra 30 secondi di input del controller e ti guida nell'invio della registrazione all'autore per la diagnosi. Condividila solo se accetti di inviare quei dati. Esegue uno script remoto con irm | iex. MIT. Apre solo la pagina ufficiale.</value>
+  </data>
+  <data name="DescriptionUsbRigProfiles" xml:space="preserve">
+    <value>Raccoglie il profilo hardware USB e lo pubblica su una bacheca pubblica per mappare i problemi di compatibilità. L'invio è pubblico: controlla prima cosa contiene. Esegue uno script remoto con irm | iex. MIT. Apre solo la pagina ufficiale.</value>
+  </data>
+  <data name="DescriptionHidAnalyzer" xml:space="preserve">
+    <value>Analizzatore del polling di gamepad e HID nel browser tramite WebHID; la temporizzazione del browser limita la precisione a circa 250 Hz. Non richiede installazioni. Apre solo la pagina ufficiale.</value>
+  </data>
+  <data name="DescriptionHidusbf" xml:space="preserve">
+    <value>Aumenta il polling rate di mouse e controller USB con un driver filtro. Driver non firmati o con firma di test possono essere bloccati da Avvio protetto, integrità della memoria o anti-cheat, e un'impostazione errata può far smettere di funzionare il dispositivo. Nessun file di licenza. Apre solo il repository ufficiale.</value>
+  </data>
+  <data name="DescriptionBattleBeaver" xml:space="preserve">
+    <value>Guida all'overclock dei controller PlayStation e Xbox su PC per un polling rate più alto. Seguila solo con il tuo hardware e verifica le regole degli anti-cheat. Apre solo la pagina ufficiale.</value>
+  </data>
+  <data name="DescriptionPowerPlanSettingsEditor" xml:space="preserve">
+    <value>Interfaccia PowerShell che modifica ogni impostazione di un piano energetico, comprese quelle nascoste. Valori errati possono alzare le temperature o rompere la sospensione; esporta prima il piano con powercfg. MIT. Apre solo il repository ufficiale.</value>
+  </data>
+  <data name="DescriptionAdvancedPowerOptions" xml:space="preserve">
+    <value>Spiega le opzioni avanzate di risparmio energia di Windows, come criterio di inattività dei dispositivi, connettività in standby e stati del processore. Solo documentazione. MIT. Apre solo il repository ufficiale.</value>
+  </data>
+  <data name="DescriptionRepairBadTweaks" xml:space="preserve">
+    <value>Rileva e annulla tweak diffusi che peggiorano stabilità o sicurezza, come timer forzati e mitigazioni disattivate. La scheda Verifica tweak di TweakHub esegue gli stessi controlli con spiegazioni. MIT. Apre solo il repository ufficiale.</value>
   </data>
 </root>

@@ -390,9 +390,6 @@
   <data name="DescriptionOpenSourceMouseAccelerationDriver" xml:space="preserve">
     <value>开源鼠标加速驱动</value>
   </data>
-  <data name="DescriptionAdvancedUSBHIDPollingRateFilterDriver" xml:space="preserve">
-    <value>高级 USB HID 轮询率过滤驱动</value>
-  </data>
   <data name="DescriptionBrowserBasedCalibrationForSupportedPlayStationControllers" xml:space="preserve">
     <value>支持的 PlayStation 控制器的基于浏览器的校准</value>
   </data>
@@ -943,5 +940,41 @@
   </data>
   <data name="DescriptionOpenBoardView" xml:space="preserve">
     <value>开源查看器，用于主板和 GPU 元件级维修中使用的 .brd 等 boardview 文件。boardview 文件来自第三方，请只打开可信来源的文件。仅打开官方发布页面。</value>
+  </data>
+  <data name="CategoryLatencyInput" xml:space="preserve">
+    <value>延迟与输入</value>
+  </data>
+  <data name="DescriptionGoInterruptPolicy" xml:space="preserve">
+    <value>按设备设置 MSI 模式、中断优先级和 CPU 亲和性。TweakHub 的“中断与 MSI”选项卡以带备份的方式提供相同设置；错误的值可能导致系统不稳定或设备在恢复前无法工作。MIT。仅打开官方仓库。</value>
+  </data>
+  <data name="DescriptionCpuDirect" xml:space="preserve">
+    <value>统计每个 USB 设备与 CPU 之间的芯片数量，并检查控制器的 MSI 与选择性挂起。TweakHub 的“USB 与输入”选项卡以原生方式显示相同链路；原工具通过 irm | iex 运行远程脚本，运行前请先阅读。MIT。仅打开官方页面。</value>
+  </data>
+  <data name="DescriptionDeepPoll" xml:space="preserve">
+    <value>通过内核 ETW 跟踪以微秒精度测量 USB 轮询率，需要管理员权限。TweakHub 内置了更简单的鼠标轮询测试。通过 irm | iex 运行远程脚本。MIT。仅打开官方页面。</value>
+  </data>
+  <data name="DescriptionDeepLog" xml:space="preserve">
+    <value>记录 30 秒的手柄输入，并引导你将记录发送给作者进行诊断。仅在同意发送这些数据时分享。通过 irm | iex 运行远程脚本。MIT。仅打开官方页面。</value>
+  </data>
+  <data name="DescriptionUsbRigProfiles" xml:space="preserve">
+    <value>收集你的 USB 硬件配置文件并发布到公开面板，用于整理兼容性问题。提交内容是公开的：请先检查其中包含的信息。通过 irm | iex 运行远程脚本。MIT。仅打开官方页面。</value>
+  </data>
+  <data name="DescriptionHidAnalyzer" xml:space="preserve">
+    <value>基于浏览器 WebHID 的手柄与 HID 轮询分析器；受浏览器计时限制，精度约为 250 Hz。无需安装。仅打开官方页面。</value>
+  </data>
+  <data name="DescriptionHidusbf" xml:space="preserve">
+    <value>通过筛选驱动超频 USB 鼠标和手柄的轮询率。未签名或测试签名的驱动可能被安全启动、内存完整性或反作弊软件拦截，错误设置可能导致设备无法工作。无许可证文件。仅打开官方仓库。</value>
+  </data>
+  <data name="DescriptionBattleBeaver" xml:space="preserve">
+    <value>在 PC 上超频 PlayStation 和 Xbox 手柄以提高轮询率的指南。仅在自己的硬件上操作，并查看反作弊规则。仅打开官方页面。</value>
+  </data>
+  <data name="DescriptionPowerPlanSettingsEditor" xml:space="preserve">
+    <value>可编辑电源计划所有设置（包括隐藏设置）的 PowerShell 图形界面。错误的值可能导致温度升高或睡眠异常；请先用 powercfg 导出计划。MIT。仅打开官方仓库。</value>
+  </data>
+  <data name="DescriptionAdvancedPowerOptions" xml:space="preserve">
+    <value>讲解 Windows 高级电源选项，例如设备空闲策略、待机联网和处理器状态。仅为说明文档。MIT。仅打开官方仓库。</value>
+  </data>
+  <data name="DescriptionRepairBadTweaks" xml:space="preserve">
+    <value>检测并还原会损害稳定性或安全性的常见调整，例如强制计时器和被禁用的缓解措施。TweakHub 的“调整检查”选项卡以带说明的方式执行相同检查。MIT。仅打开官方仓库。</value>
   </data>
 </root>

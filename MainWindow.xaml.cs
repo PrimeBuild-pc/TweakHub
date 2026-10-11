@@ -48,6 +48,7 @@ public partial class MainWindow : Window
             "registry" => new RegistryTweaksPage(),
             "tools" => new ExternalToolsPage(),
             "security" => new SecurityPage(),
+            "devices" => new DevicesPage(),
             "scripts" => new AutomatedScriptsPage(),
             "quick" => new QuickAccessPage(),
             "settings" => new AboutPage(),

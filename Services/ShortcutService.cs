@@ -159,7 +159,6 @@ public sealed class ShortcutService
             new ExternalTool { Name = "Visual C++ Redistributable Runtimes All-in-One", Description = L.Get("Tools:DescriptionInstallLegacyAndCurrentVisualCRuntimes"), Category = "Gaming & Input", DownloadUrl = "https://www.techpowerup.com/download/visual-c-redistributable-runtime-package-all-in-one/" },
             new ExternalTool { Name = "LightCrosshair", Description = L.Get("Tools:DescriptionLightweightOpenSourceConfigurableCrosshairOverlay"), Category = "Gaming & Input", WingetId = "PrimeBuild.LightCrosshair" },
             new ExternalTool { Name = "Raw Accel", Description = L.Get("Tools:DescriptionOpenSourceMouseAccelerationDriver"), Category = "Gaming & Input", DownloadUrl = "https://github.com/RawAccelOfficial/rawaccel" },
-            new ExternalTool { Name = "HIDUSBF", Description = L.Get("Tools:DescriptionAdvancedUSBHIDPollingRateFilterDriver"), Category = "Gaming & Input", DownloadUrl = "https://github.com/LordOfMice/hidusbf" },
             new ExternalTool { Name = "DualShock Calibration", Description = L.Get("Tools:DescriptionBrowserBasedCalibrationForSupportedPlayStationControllers"), Category = "Gaming & Input", DownloadUrl = "https://dualshock-tools.github.io/" },
             new ExternalTool { Name = "Razer Polling Rate Tester", Description = L.Get("Tools:DescriptionOfficialBrowserBasedMousePollingRateTester"), Category = "Gaming & Input", DownloadUrl = "https://rzr.to/pollingrate" },
 
@@ -232,6 +231,19 @@ public sealed class ShortcutService
             new ExternalTool { Name = "Hiren's BootCD PE", Description = L.Get("Tools:DescriptionHirensBootCD"), Category = "Recovery & Forensics", DownloadUrl = "https://www.hirensbootcd.org/" },
             new ExternalTool { Name = "Autopsy", Description = L.Get("Tools:DescriptionOpenSourceDigitalForensicsPlatform"), Category = "Recovery & Forensics", DownloadUrl = "https://www.autopsy.com/download/" },
 
+            // Latency and input
+            new ExternalTool { Name = "GoInterruptPolicy", Description = L.Get("Tools:DescriptionGoInterruptPolicy"), Category = "Latency & Input", DownloadUrl = "https://github.com/spddl/GoInterruptPolicy" },
+            new ExternalTool { Name = "USB Latency Analyzer (CPU Direct)", Description = L.Get("Tools:DescriptionCpuDirect"), Category = "Latency & Input", DownloadUrl = "https://tools.mariusheier.com/cpudirect.html" },
+            new ExternalTool { Name = "DeepPoll", Description = L.Get("Tools:DescriptionDeepPoll"), Category = "Latency & Input", DownloadUrl = "https://tools.mariusheier.com/deeppoll.html" },
+            new ExternalTool { Name = "DeepLog", Description = L.Get("Tools:DescriptionDeepLog"), Category = "Latency & Input", DownloadUrl = "https://tools.mariusheier.com/deeplog.html" },
+            new ExternalTool { Name = "USB Rig Profiles", Description = L.Get("Tools:DescriptionUsbRigProfiles"), Category = "Latency & Input", DownloadUrl = "https://tools.mariusheier.com/rig.html" },
+            new ExternalTool { Name = "USB HID Analyzer", Description = L.Get("Tools:DescriptionHidAnalyzer"), Category = "Latency & Input", DownloadUrl = "https://tools.mariusheier.com/poll_checker.html" },
+            new ExternalTool { Name = "hidusbf", Description = L.Get("Tools:DescriptionHidusbf"), Category = "Latency & Input", DownloadUrl = "https://github.com/LordOfMice/hidusbf" },
+            new ExternalTool { Name = "Battle Beaver controller overclocking", Description = L.Get("Tools:DescriptionBattleBeaver"), Category = "Latency & Input", DownloadUrl = "https://battlebeavercustoms.com/pages/overclocking" },
+            new ExternalTool { Name = "PowerPlanSettingsEditor", Description = L.Get("Tools:DescriptionPowerPlanSettingsEditor"), Category = "Latency & Input", DownloadUrl = "https://github.com/zoicware/PowerPlanSettingsEditor" },
+            new ExternalTool { Name = "Advanced Power Options guide", Description = L.Get("Tools:DescriptionAdvancedPowerOptions"), Category = "Latency & Input", DownloadUrl = "https://github.com/IRedDragonICY/Advanced-Power-Option-Windows" },
+            new ExternalTool { Name = "RepairBadTweaks", Description = L.Get("Tools:DescriptionRepairBadTweaks"), Category = "Latency & Input", DownloadUrl = "https://github.com/zoicware/RepairBadTweaks" },
+
             // OSINT and security
             new ExternalTool { Name = "WPD", Description = L.Get("Tools:DescriptionWPD"), Category = "OSINT & Security", DownloadUrl = "https://wpd.app/" },
             new ExternalTool { Name = "TapMap", Description = L.Get("Tools:DescriptionTapMap"), Category = "OSINT & Security", DownloadUrl = "https://github.com/olalie/tapmap" },
@@ -301,7 +313,8 @@ public sealed class ShortcutService
             ["Development & DevOps"] = ("Tools:CategoryDevelopmentDevOps", "\uE943", 19),
             ["Recovery & Forensics"] = ("Tools:CategoryRecoveryForensics", "\uE8C8", 20),
             ["OSINT & Security"] = ("Tools:CategoryOSINTSecurity", "\uE72E", 21),
-            ["Custom"] = ("Tools:CategoryCustom", "\uE90F", 22)
+            ["Latency & Input"] = ("Tools:CategoryLatencyInput", "\uE772", 22),
+            ["Custom"] = ("Tools:CategoryCustom", "\uE90F", 23)
         };
 
     public static string LocalizeCategory(string category) =>

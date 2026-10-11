@@ -20,7 +20,7 @@ public class ShortcutServiceTests
             "System Utilities", "CPU & Memory", "Firmware & Power", "Monitoring & Diagnostics",
             "GPU & Display", "Gaming & Input", "Storage & USB", "Network", "Audio",
             "Benchmarks & Stability", "AI Tools", "Development & DevOps", "Recovery & Forensics",
-            "OSINT & Security"
+            "OSINT & Security", "Latency & Input"
         };
 
         Assert.That(tools, Has.Count.InRange(100, 200));
@@ -65,6 +65,17 @@ public class ShortcutServiceTests
     [TestCase("Hiren's BootCD PE", "https://www.hirensbootcd.org/", "Recovery & Forensics")]
     [TestCase("SCSKiller", "https://github.com/BlueHeisenberg/SCSKiller/releases/latest", "Gaming & Input")]
     [TestCase("OpenBoardView", "https://github.com/OpenBoardView/OpenBoardView/releases/latest", "Monitoring & Diagnostics")]
+    [TestCase("GoInterruptPolicy", "https://github.com/spddl/GoInterruptPolicy", "Latency & Input")]
+    [TestCase("USB Latency Analyzer (CPU Direct)", "https://tools.mariusheier.com/cpudirect.html", "Latency & Input")]
+    [TestCase("DeepPoll", "https://tools.mariusheier.com/deeppoll.html", "Latency & Input")]
+    [TestCase("DeepLog", "https://tools.mariusheier.com/deeplog.html", "Latency & Input")]
+    [TestCase("USB Rig Profiles", "https://tools.mariusheier.com/rig.html", "Latency & Input")]
+    [TestCase("USB HID Analyzer", "https://tools.mariusheier.com/poll_checker.html", "Latency & Input")]
+    [TestCase("hidusbf", "https://github.com/LordOfMice/hidusbf", "Latency & Input")]
+    [TestCase("Battle Beaver controller overclocking", "https://battlebeavercustoms.com/pages/overclocking", "Latency & Input")]
+    [TestCase("PowerPlanSettingsEditor", "https://github.com/zoicware/PowerPlanSettingsEditor", "Latency & Input")]
+    [TestCase("Advanced Power Options guide", "https://github.com/IRedDragonICY/Advanced-Power-Option-Windows", "Latency & Input")]
+    [TestCase("RepairBadTweaks", "https://github.com/zoicware/RepairBadTweaks", "Latency & Input")]
     [TestCase("Follow the White Rabbit", "https://start.me/p/aNrBJX/follow-the-white-rabbit", "OSINT & Security")]
     [TestCase("Triage", "https://tria.ge/", "OSINT & Security")]
     [TestCase("User Scanner", "https://github.com/kaifcodec/user-scanner", "OSINT & Security")]
@@ -152,15 +163,15 @@ public class ShortcutServiceTests
         Assert.Multiple(() =>
         {
             Assert.That(ExternalToolsPage.FilterTools(tools, "", false), Is.EqualTo(tools));
-            Assert.That(ExternalToolsPage.FilterTools(tools, "", false, true).Select(tool => tool.Name),
+            Assert.That(ExternalToolsPage.FilterTools(tools, "", false, "OSINT & Security").Select(tool => tool.Name),
                 Is.EqualTo(new[] { "Security favorite", "Security other" }));
-            Assert.That(ExternalToolsPage.FilterTools(tools, "", true, true).Select(tool => tool.Name),
+            Assert.That(ExternalToolsPage.FilterTools(tools, "", true, "OSINT & Security").Select(tool => tool.Name),
                 Is.EqualTo(new[] { "Security favorite" }));
-            Assert.That(ExternalToolsPage.FilterTools(tools, "HASHES", false, true).Select(tool => tool.Name),
+            Assert.That(ExternalToolsPage.FilterTools(tools, "HASHES", false, "OSINT & Security").Select(tool => tool.Name),
                 Is.EqualTo(new[] { "Security favorite" }));
-            Assert.That(ExternalToolsPage.FilterTools(tools, "research", true, true), Is.Empty);
-            Assert.That(ExternalToolsPage.FilterTools(tools, "Network", false, true), Is.Empty);
-            Assert.That(ExternalToolsPage.FilterTools(tools, ShortcutService.LocalizeCategory("OSINT & Security"), false, true), Has.Exactly(2).Items);
+            Assert.That(ExternalToolsPage.FilterTools(tools, "research", true, "OSINT & Security"), Is.Empty);
+            Assert.That(ExternalToolsPage.FilterTools(tools, "Network", false, "OSINT & Security"), Is.Empty);
+            Assert.That(ExternalToolsPage.FilterTools(tools, ShortcutService.LocalizeCategory("OSINT & Security"), false, "OSINT & Security"), Has.Exactly(2).Items);
         });
     }
 

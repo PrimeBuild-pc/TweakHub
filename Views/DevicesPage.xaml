@@ -1,0 +1,44 @@
+<Page x:Class="TweakHub.Views.DevicesPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:loc="clr-namespace:TweakHub.Localization"
+      xmlns:local="clr-namespace:TweakHub.Views"
+      Title="{loc:Loc Devices:Title}"
+      Background="Transparent">
+
+    <Page.Resources>
+        <ResourceDictionary Source="SectionStyles.xaml"/>
+    </Page.Resources>
+
+    <Grid Margin="32">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Margin="0,0,0,12">
+            <TextBlock Text="{loc:Loc Devices:Title}" FontSize="28" FontWeight="Light" Margin="0,0,0,6"
+                       Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+            <TextBlock Text="{loc:Loc Devices:Description}" Style="{StaticResource DescriptionTextStyle}"/>
+        </StackPanel>
+
+        <TabControl x:Name="Tabs" Grid.Row="1" Style="{StaticResource PaddedTabControl}"
+                    ItemContainerStyle="{StaticResource ModernTabItem}" SelectionChanged="Tabs_SelectionChanged">
+            <TabItem x:Name="DevicesTab" Header="{loc:Loc Devices:TabDevices}">
+                <local:DeviceListView x:Name="DeviceList"/>
+            </TabItem>
+            <TabItem x:Name="InterruptsTab" Header="{loc:Loc Devices:TabInterrupts}">
+                <local:InterruptView x:Name="Interrupts"/>
+            </TabItem>
+            <TabItem x:Name="UsbTab" Header="{loc:Loc Devices:TabUsb}">
+                <local:UsbInputView x:Name="Usb"/>
+            </TabItem>
+            <TabItem x:Name="ChecksTab" Header="{loc:Loc Devices:TabChecks}">
+                <local:TweakCheckView x:Name="Checks"/>
+            </TabItem>
+            <TabItem x:Name="ToolsTab" Header="{loc:Loc Devices:TabTools}">
+                <Frame x:Name="ToolsFrame" NavigationUIVisibility="Hidden" Margin="0,8,0,0"/>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Page>

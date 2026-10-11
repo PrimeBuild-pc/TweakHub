@@ -30,38 +30,47 @@ public class PowerService
         Load();
     }
 
-    public async Task<bool> ApplyProcessorSettingAsync(string id, string settingAlias, int targetAcValue)
+    public Task<bool> ApplyProcessorSettingAsync(string id, string settingAlias, int targetAcValue) =>
+        ApplySettingAsync(id, "SUB_PROCESSOR", settingAlias, targetAcValue);
+
+    public Task<bool> RestoreProcessorSettingAsync(string id) => RestoreSettingAsync(id);
+
+    /// <summary>Sets the AC value of a power setting in the active plan, keeping the original for <see cref="RestoreSettingAsync"/>.</summary>
+    public async Task<bool> ApplySettingAsync(string id, string subgroup, string settingAlias, int targetAcValue)
     {
         var scheme = await GetActiveSchemeAsync();
         if (scheme is null) return false;
 
         if (!_backup.Settings.ContainsKey(id))
         {
-            var original = await GetAcValueAsync(scheme, settingAlias);
+            var original = await GetAcValueAsync(scheme, subgroup, settingAlias);
             if (original is null) return false;
-            _backup.Settings[id] = new PowerSettingBackup { Scheme = scheme, Alias = settingAlias, AcValue = original.Value };
+            _backup.Settings[id] = new PowerSettingBackup { Scheme = scheme, Subgroup = subgroup, Alias = settingAlias, AcValue = original.Value };
             Save();
         }
 
-        var result = await RunMutationAsync("/setacvalueindex", scheme, "SUB_PROCESSOR", settingAlias, targetAcValue.ToString(CultureInfo.InvariantCulture));
+        var result = await RunMutationAsync("/setacvalueindex", scheme, subgroup, settingAlias, targetAcValue.ToString(CultureInfo.InvariantCulture));
         if (result.Success) result = await RunMutationAsync("/setactive", scheme);
-        var verified = result.Success && await GetAcValueAsync(scheme, settingAlias) == targetAcValue;
+        var verified = result.Success && await GetAcValueAsync(scheme, subgroup, settingAlias) == targetAcValue;
         Log("power-apply", id, verified, verified ? null : result.Error);
         return verified;
     }
 
-    public async Task<bool> RestoreProcessorSettingAsync(string id)
+    public async Task<int?> GetActiveSettingAsync(string subgroup, string settingAlias) =>
+        await GetActiveSchemeAsync() is { } scheme ? await GetAcValueAsync(scheme, subgroup, settingAlias) : null;
+
+    public async Task<bool> RestoreSettingAsync(string id)
     {
         if (!_backup.Settings.TryGetValue(id, out var backup)) return false;
 
         var result = await RunMutationAsync(
             "/setacvalueindex",
             backup.Scheme,
-            "SUB_PROCESSOR",
+            backup.Subgroup,
             backup.Alias,
             backup.AcValue.ToString(CultureInfo.InvariantCulture));
         if (result.Success) result = await RunMutationAsync("/setactive", backup.Scheme);
-        var verified = result.Success && await GetAcValueAsync(backup.Scheme, backup.Alias) == backup.AcValue;
+        var verified = result.Success && await GetAcValueAsync(backup.Scheme, backup.Subgroup, backup.Alias) == backup.AcValue;
         if (verified)
         {
             _backup.Settings.Remove(id);
@@ -184,9 +193,9 @@ public class PowerService
             : null;
     }
 
-    private static async Task<int?> GetAcValueAsync(string scheme, string settingAlias)
+    private static async Task<int?> GetAcValueAsync(string scheme, string subgroup, string settingAlias)
     {
-        var result = await RunAsync("/query", scheme, "SUB_PROCESSOR");
+        var result = await RunAsync("/query", scheme, subgroup);
         return result.Success ? ParseAcSetting(result.Output, settingAlias) : null;
     }
 
@@ -283,6 +292,8 @@ public class PowerService
     private sealed class PowerSettingBackup
     {
         public string Scheme { get; set; } = string.Empty;
+        // Older backups only stored processor settings.
+        public string Subgroup { get; set; } = "SUB_PROCESSOR";
         public string Alias { get; set; } = string.Empty;
         public int AcValue { get; set; }
     }
