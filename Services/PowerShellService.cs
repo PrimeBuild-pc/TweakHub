@@ -105,9 +105,8 @@ namespace TweakHub.Services
             try
             {
                 await File.WriteAllTextAsync(path, script.Content, new UTF8Encoding(false), cancellationToken);
-                var escapedPath = path.Replace("'", "''");
                 return await ExecuteScriptAsync(
-                    $"& cmd.exe /d /c '{escapedPath}'\nexit $LASTEXITCODE",
+                    $"& cmd.exe /d /c {Literal(path)}\nexit $LASTEXITCODE",
                     script.RequiresAdministrator,
                     TimeSpan.FromMinutes(15),
                     cancellationToken);
@@ -127,11 +126,10 @@ namespace TweakHub.Services
 
         internal static string BuildScriptContext(string script)
         {
-            static string Quote(string value) => value.Replace("'", "''");
             return $$"""
                 $ErrorActionPreference = 'Stop'
-                $env:TWEAKHUB_ROOT = '{{Quote(AppDataPath.RootPath)}}'
-                $env:TWEAKHUB_APPS = '{{Quote(AppDataPath.AppsPath)}}'
+                $env:TWEAKHUB_ROOT = {{Literal(AppDataPath.RootPath)}}
+                $env:TWEAKHUB_APPS = {{Literal(AppDataPath.AppsPath)}}
                 Set-Location -LiteralPath $env:TWEAKHUB_ROOT
                 {{script}}
                 """;
@@ -161,15 +159,14 @@ namespace TweakHub.Services
             string errorPath,
             CancellationToken cancellationToken)
         {
-            static string Quote(string value) => value.Replace("'", "''");
             var wrapper = $$"""
                 $ErrorActionPreference = 'Stop'
                 try {
-                    & '{{Quote(scriptPath)}}' *> '{{Quote(outputPath)}}'
+                    & {{Literal(scriptPath)}} *> {{Literal(outputPath)}}
                     if (-not $?) { exit 1 }
                     exit 0
                 } catch {
-                    $_ | Out-String | Set-Content -LiteralPath '{{Quote(errorPath)}}'
+                    $_ | Out-String | Set-Content -LiteralPath {{Literal(errorPath)}}
                     exit 1
                 }
                 """;
