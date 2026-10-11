@@ -1,0 +1,777 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="TabOverview" xml:space="preserve">
+    <value>Resumen</value>
+  </data>
+  <data name="TabDefender" xml:space="preserve">
+    <value>Microsoft Defender</value>
+  </data>
+  <data name="TabFileAnalysis" xml:space="preserve">
+    <value>Análisis de archivos</value>
+  </data>
+  <data name="TabTools" xml:space="preserve">
+    <value>Herramientas y recursos</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Actualizar</value>
+  </data>
+  <data name="LoadFailed" xml:space="preserve">
+    <value>No se pudo leer el estado de seguridad: {0}</value>
+  </data>
+  <data name="ScoreTitle" xml:space="preserve">
+    <value>Puntuación de seguridad</value>
+  </data>
+  <data name="ScoreGood" xml:space="preserve">
+    <value>Bien protegido</value>
+  </data>
+  <data name="ScoreFair" xml:space="preserve">
+    <value>Requiere atención</value>
+  </data>
+  <data name="ScorePoor" xml:space="preserve">
+    <value>En riesgo</value>
+  </data>
+  <data name="ScoreSummary" xml:space="preserve">
+    <value>{0} de {1} comprobaciones superadas</value>
+  </data>
+  <data name="ScoreHint" xml:space="preserve">
+    <value>Selecciona un segmento del anillo para ir a su comprobación.</value>
+  </data>
+  <data name="Fix" xml:space="preserve">
+    <value>Corregir</value>
+  </data>
+  <data name="OpenSettings" xml:space="preserve">
+    <value>Abrir configuración</value>
+  </data>
+  <data name="OpenFailedTitle" xml:space="preserve">
+    <value>No se pudo abrir</value>
+  </data>
+  <data name="RequiresAdministrator" xml:space="preserve">
+    <value>Requiere permisos de administrador</value>
+  </data>
+  <data name="FixConfirmTitle" xml:space="preserve">
+    <value>¿Aplicar la corrección?</value>
+  </data>
+  <data name="FixConfirmMessage" xml:space="preserve">
+    <value>{0}
+
+TweakHub ejecutará este comando como administrador:
+
+{1}</value>
+  </data>
+  <data name="FixRestartNote" xml:space="preserve">
+    <value>Se requiere reiniciar para completar el cambio.</value>
+  </data>
+  <data name="FixFailedTitle" xml:space="preserve">
+    <value>Corrección no aplicada</value>
+  </data>
+  <data name="FixFailed" xml:space="preserve">
+    <value>No se pudo aplicar la corrección. Windows puede bloquear el cambio (por ejemplo, la protección contra alteraciones o una directiva de grupo).
+
+{0}</value>
+  </data>
+  <data name="CheckAntivirus" xml:space="preserve">
+    <value>Antivirus</value>
+  </data>
+  <data name="CheckAntivirusPassed" xml:space="preserve">
+    <value>La protección antivirus en tiempo real está activa.</value>
+  </data>
+  <data name="CheckAntivirusFailed" xml:space="preserve">
+    <value>La protección antivirus en tiempo real está desactivada. El equipo está expuesto a malware.</value>
+  </data>
+  <data name="CheckAntivirusUnknown" xml:space="preserve">
+    <value>El Centro de seguridad de Windows no informa del estado del antivirus.</value>
+  </data>
+  <data name="CheckSignatures" xml:space="preserve">
+    <value>Inteligencia de seguridad</value>
+  </data>
+  <data name="CheckSignaturesPassed" xml:space="preserve">
+    <value>Las definiciones del antivirus están actualizadas.</value>
+  </data>
+  <data name="CheckSignaturesFailed" xml:space="preserve">
+    <value>Las definiciones del antivirus tienen más de 3 días.</value>
+  </data>
+  <data name="CheckSignaturesUnknown" xml:space="preserve">
+    <value>La antigüedad de las definiciones no está disponible.</value>
+  </data>
+  <data name="CheckFirewall" xml:space="preserve">
+    <value>Firewall</value>
+  </data>
+  <data name="CheckFirewallPassed" xml:space="preserve">
+    <value>El Firewall de Windows está activado en redes de dominio, privadas y públicas.</value>
+  </data>
+  <data name="CheckFirewallFailed" xml:space="preserve">
+    <value>El Firewall de Windows está desactivado en al menos un perfil de red.</value>
+  </data>
+  <data name="CheckFirewallUnknown" xml:space="preserve">
+    <value>No se pudo leer el estado del firewall.</value>
+  </data>
+  <data name="CheckUac" xml:space="preserve">
+    <value>Control de cuentas de usuario</value>
+  </data>
+  <data name="CheckUacPassed" xml:space="preserve">
+    <value>Las aplicaciones deben pedir permiso antes de hacer cambios como administrador.</value>
+  </data>
+  <data name="CheckUacFailed" xml:space="preserve">
+    <value>UAC está desactivado o eleva sin preguntar: cualquier aplicación puede obtener control total sin avisar.</value>
+  </data>
+  <data name="CheckUacUnknown" xml:space="preserve">
+    <value>No se pudo leer la configuración de UAC.</value>
+  </data>
+  <data name="CheckUpdates" xml:space="preserve">
+    <value>Windows Update</value>
+  </data>
+  <data name="CheckUpdatesPassed" xml:space="preserve">
+    <value>Se instaló una actualización en los últimos 45 días.</value>
+  </data>
+  <data name="CheckUpdatesFailed" xml:space="preserve">
+    <value>Ninguna actualización en los últimos 45 días: pueden faltar correcciones de seguridad.</value>
+  </data>
+  <data name="CheckUpdatesUnknown" xml:space="preserve">
+    <value>No se pudo leer el historial de actualizaciones.</value>
+  </data>
+  <data name="CheckSmb1" xml:space="preserve">
+    <value>Protocolo SMBv1</value>
+  </data>
+  <data name="CheckSmb1Passed" xml:space="preserve">
+    <value>El protocolo obsoleto de uso compartido SMBv1 está deshabilitado.</value>
+  </data>
+  <data name="CheckSmb1Failed" xml:space="preserve">
+    <value>SMBv1 está habilitado. Fue explotado por ransomware como WannaCry.</value>
+  </data>
+  <data name="CheckSmb1Unknown" xml:space="preserve">
+    <value>No se pudo leer el estado de SMBv1.</value>
+  </data>
+  <data name="CheckRemoteDesktop" xml:space="preserve">
+    <value>Escritorio remoto</value>
+  </data>
+  <data name="CheckRemoteDesktopPassed" xml:space="preserve">
+    <value>Las conexiones entrantes de Escritorio remoto están deshabilitadas.</value>
+  </data>
+  <data name="CheckRemoteDesktopFailed" xml:space="preserve">
+    <value>Escritorio remoto acepta conexiones. Desactívalo si no lo usas.</value>
+  </data>
+  <data name="CheckRemoteDesktopUnknown" xml:space="preserve">
+    <value>No se pudo leer el estado de Escritorio remoto.</value>
+  </data>
+  <data name="CheckBitLocker" xml:space="preserve">
+    <value>Cifrado de unidad</value>
+  </data>
+  <data name="CheckBitLockerPassed" xml:space="preserve">
+    <value>La unidad del sistema está protegida con BitLocker.</value>
+  </data>
+  <data name="CheckBitLockerFailed" xml:space="preserve">
+    <value>La unidad del sistema no está cifrada: los datos se pueden leer si se pierde o roban el equipo. Guarda la clave de recuperación antes de activarlo.</value>
+  </data>
+  <data name="CheckBitLockerUnknown" xml:space="preserve">
+    <value>BitLocker no está disponible en esta edición o unidad.</value>
+  </data>
+  <data name="CheckSecureBoot" xml:space="preserve">
+    <value>Arranque seguro</value>
+  </data>
+  <data name="CheckSecureBootPassed" xml:space="preserve">
+    <value>El arranque seguro bloquea cargadores de arranque no fiables y rootkits.</value>
+  </data>
+  <data name="CheckSecureBootFailed" xml:space="preserve">
+    <value>El arranque seguro está desactivado. Actívalo en la configuración del firmware UEFI.</value>
+  </data>
+  <data name="CheckSecureBootUnknown" xml:space="preserve">
+    <value>El arranque seguro no es compatible (arranque BIOS heredado).</value>
+  </data>
+  <data name="CheckMemoryIntegrity" xml:space="preserve">
+    <value>Integridad de memoria</value>
+  </data>
+  <data name="CheckMemoryIntegrityPassed" xml:space="preserve">
+    <value>El aislamiento del núcleo protege el kernel de controladores malintencionados.</value>
+  </data>
+  <data name="CheckMemoryIntegrityFailed" xml:space="preserve">
+    <value>La integridad de memoria está desactivada. Actívala desde Seguridad de Windows tras comprobar la compatibilidad de los controladores; puede reducir algo el rendimiento en juegos.</value>
+  </data>
+  <data name="CheckMemoryIntegrityUnknown" xml:space="preserve">
+    <value>No se pudo leer el estado de la integridad de memoria.</value>
+  </data>
+  <data name="DefenderInactive" xml:space="preserve">
+    <value>Microsoft Defender no es el antivirus activo, por lo que su estado y análisis no están disponibles.</value>
+  </data>
+  <data name="RealTimeProtection" xml:space="preserve">
+    <value>Protección en tiempo real</value>
+  </data>
+  <data name="TamperProtection" xml:space="preserve">
+    <value>Protección contra alteraciones</value>
+  </data>
+  <data name="SignatureVersion" xml:space="preserve">
+    <value>Versión de definiciones</value>
+  </data>
+  <data name="EngineVersion" xml:space="preserve">
+    <value>Versión de la plataforma</value>
+  </data>
+  <data name="On" xml:space="preserve">
+    <value>Activada</value>
+  </data>
+  <data name="Off" xml:space="preserve">
+    <value>Desactivada</value>
+  </data>
+  <data name="ProtectionAge" xml:space="preserve">
+    <value>Actualidad de la protección</value>
+  </data>
+  <data name="AgeSignatures" xml:space="preserve">
+    <value>Definiciones</value>
+  </data>
+  <data name="AgeQuickScan" xml:space="preserve">
+    <value>Análisis rápido</value>
+  </data>
+  <data name="AgeFullScan" xml:space="preserve">
+    <value>Análisis completo</value>
+  </data>
+  <data name="AgeDays" xml:space="preserve">
+    <value>hace {0} días</value>
+  </data>
+  <data name="AgeToday" xml:space="preserve">
+    <value>Hoy</value>
+  </data>
+  <data name="AgeNever" xml:space="preserve">
+    <value>Nunca</value>
+  </data>
+  <data name="AgeRecommended" xml:space="preserve">
+    <value>Recomendado: al menos cada {0} días. La marca indica el límite.</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Análisis y actualizaciones</value>
+  </data>
+  <data name="QuickScan" xml:space="preserve">
+    <value>Análisis rápido</value>
+  </data>
+  <data name="FullScan" xml:space="preserve">
+    <value>Análisis completo</value>
+  </data>
+  <data name="OfflineScan" xml:space="preserve">
+    <value>Análisis sin conexión</value>
+  </data>
+  <data name="UpdateSignatures" xml:space="preserve">
+    <value>Actualizar definiciones</value>
+  </data>
+  <data name="ActionRunning" xml:space="preserve">
+    <value>{0} en curso… Puedes seguir usando TweakHub.</value>
+  </data>
+  <data name="ActionCompleted" xml:space="preserve">
+    <value>{0} completado.</value>
+  </data>
+  <data name="ActionFailed" xml:space="preserve">
+    <value>{0} falló: {1}</value>
+  </data>
+  <data name="OfflineConfirmTitle" xml:space="preserve">
+    <value>¿Reiniciar para un análisis sin conexión?</value>
+  </data>
+  <data name="OfflineConfirmMessage" xml:space="preserve">
+    <value>Microsoft Defender sin conexión reinicia el equipo inmediatamente y analiza durante unos 15 minutos antes de que se inicie Windows. Detecta rootkits que se ocultan mientras Windows está en ejecución. Guarda tu trabajo antes.</value>
+  </data>
+  <data name="SafetyScannerTitle" xml:space="preserve">
+    <value>Microsoft Safety Scanner</value>
+  </data>
+  <data name="SafetyScannerDescription" xml:space="preserve">
+    <value>Una segunda opinión de Microsoft. TweakHub lo descarga de Microsoft, verifica su firma digital y lo inicia en modo solo detección, por lo que no se elimina ningún archivo.</value>
+  </data>
+  <data name="SafetyScannerRun" xml:space="preserve">
+    <value>Descargar y ejecutar</value>
+  </data>
+  <data name="SafetyScannerDownloading" xml:space="preserve">
+    <value>Descargando Microsoft Safety Scanner… {0}%</value>
+  </data>
+  <data name="SafetyScannerStarted" xml:space="preserve">
+    <value>Microsoft Safety Scanner se inició en modo solo detección. Elige el tipo de análisis en su ventana.</value>
+  </data>
+  <data name="SafetyScannerFailed" xml:space="preserve">
+    <value>No se pudo iniciar Microsoft Safety Scanner: {0}</value>
+  </data>
+  <data name="SafetyScannerSignatureInvalid" xml:space="preserve">
+    <value>El archivo descargado no tiene una firma válida de Microsoft y se eliminó.</value>
+  </data>
+  <data name="Threats" xml:space="preserve">
+    <value>Historial de detecciones</value>
+  </data>
+  <data name="NoThreats" xml:space="preserve">
+    <value>No se detectaron amenazas.</value>
+  </data>
+  <data name="OpenWindowsSecurity" xml:space="preserve">
+    <value>Abrir en Seguridad de Windows</value>
+  </data>
+  <data name="SeverityLow" xml:space="preserve">
+    <value>Baja</value>
+  </data>
+  <data name="SeverityModerate" xml:space="preserve">
+    <value>Moderada</value>
+  </data>
+  <data name="SeverityHigh" xml:space="preserve">
+    <value>Alta</value>
+  </data>
+  <data name="SeveritySevere" xml:space="preserve">
+    <value>Grave</value>
+  </data>
+  <data name="FileDrop" xml:space="preserve">
+    <value>Arrastra un archivo aquí</value>
+  </data>
+  <data name="FileDropHint" xml:space="preserve">
+    <value>TweakHub calcula sus hashes y comprueba la firma digital localmente. No se sube nada.</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>Examinar…</value>
+  </data>
+  <data name="FileAnalyzing" xml:space="preserve">
+    <value>Analizando archivo…</value>
+  </data>
+  <data name="FileFailed" xml:space="preserve">
+    <value>No se pudo analizar el archivo: {0}</value>
+  </data>
+  <data name="FileNotAFile" xml:space="preserve">
+    <value>Selecciona un solo archivo, no una carpeta.</value>
+  </data>
+  <data name="HashPrivacyNote" xml:space="preserve">
+    <value>Las búsquedas abren el navegador solo con el hash SHA-256; el archivo nunca se sube.</value>
+  </data>
+  <data name="CopyHash" xml:space="preserve">
+    <value>Copiar</value>
+  </data>
+  <data name="SearchVirusTotal" xml:space="preserve">
+    <value>Buscar en VirusTotal</value>
+  </data>
+  <data name="SearchTriage" xml:space="preserve">
+    <value>Buscar en Triage</value>
+  </data>
+  <data name="CopyReport" xml:space="preserve">
+    <value>Copiar informe</value>
+  </data>
+  <data name="Signature" xml:space="preserve">
+    <value>Firma digital</value>
+  </data>
+  <data name="SignatureValid" xml:space="preserve">
+    <value>Válida y de confianza</value>
+  </data>
+  <data name="SignatureNotSigned" xml:space="preserve">
+    <value>Sin firmar</value>
+  </data>
+  <data name="SignatureNotApplicable" xml:space="preserve">
+    <value>No aplicable a este tipo de archivo</value>
+  </data>
+  <data name="SignatureUnknown" xml:space="preserve">
+    <value>No se pudo verificar</value>
+  </data>
+  <data name="SignatureInvalid" xml:space="preserve">
+    <value>No válida ({0})</value>
+  </data>
+  <data name="Signer" xml:space="preserve">
+    <value>Firmado por</value>
+  </data>
+  <data name="Issuer" xml:space="preserve">
+    <value>Emitido por</value>
+  </data>
+  <data name="ValidUntil" xml:space="preserve">
+    <value>Certificado válido hasta</value>
+  </data>
+  <data name="Timestamp" xml:space="preserve">
+    <value>Sello de tiempo de</value>
+  </data>
+  <data name="SignatureType" xml:space="preserve">
+    <value>Tipo de firma</value>
+  </data>
+  <data name="SignatureTypeEmbedded" xml:space="preserve">
+    <value>Incrustada en el archivo</value>
+  </data>
+  <data name="SignatureTypeCatalog" xml:space="preserve">
+    <value>Catálogo de Windows</value>
+  </data>
+  <data name="Company" xml:space="preserve">
+    <value>Empresa</value>
+  </data>
+  <data name="Product" xml:space="preserve">
+    <value>Producto</value>
+  </data>
+  <data name="FileDescription" xml:space="preserve">
+    <value>Descripción</value>
+  </data>
+  <data name="FileVersion" xml:space="preserve">
+    <value>Versión</value>
+  </data>
+  <data name="OriginalName" xml:space="preserve">
+    <value>Nombre de archivo original</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>Tamaño</value>
+  </data>
+  <data name="TabSystem" xml:space="preserve">
+    <value>Sistema</value>
+  </data>
+  <data name="TabPrivacy" xml:space="preserve">
+    <value>Privacidad y cuentas</value>
+  </data>
+  <data name="SystemDescription" xml:space="preserve">
+    <value>Conexiones de red por proceso y programas que se inician automáticamente, con la firma digital de cada archivo.</value>
+  </data>
+  <data name="SystemScan" xml:space="preserve">
+    <value>Analizar</value>
+  </data>
+  <data name="SystemScanElevated" xml:space="preserve">
+    <value>Analizar como administrador</value>
+  </data>
+  <data name="SystemScanElevatedHint" xml:space="preserve">
+    <value>Muestra también la ruta de los procesos del sistema y elevados.</value>
+  </data>
+  <data name="SystemScanning" xml:space="preserve">
+    <value>Recopilando conexiones, elementos de inicio y firmas…</value>
+  </data>
+  <data name="SystemScannedPartial" xml:space="preserve">
+    <value>Analizado a las {0}. Las rutas de procesos del sistema requieren analizar como administrador.</value>
+  </data>
+  <data name="SystemScannedElevated" xml:space="preserve">
+    <value>Analizado como administrador a las {0}.</value>
+  </data>
+  <data name="SystemScanFailed" xml:space="preserve">
+    <value>No se pudo completar el análisis: {0}</value>
+  </data>
+  <data name="ExportReport" xml:space="preserve">
+    <value>Exportar informe</value>
+  </data>
+  <data name="ExportFailedTitle" xml:space="preserve">
+    <value>Error al exportar</value>
+  </data>
+  <data name="TileEstablished" xml:space="preserve">
+    <value>Conexiones activas</value>
+  </data>
+  <data name="TileListening" xml:space="preserve">
+    <value>Puertos a la escucha</value>
+  </data>
+  <data name="TileStartup" xml:space="preserve">
+    <value>Elementos de inicio</value>
+  </data>
+  <data name="TileReview" xml:space="preserve">
+    <value>Para revisar</value>
+  </data>
+  <data name="ConnectionsTitle" xml:space="preserve">
+    <value>Conexiones de red</value>
+  </data>
+  <data name="TopProcesses" xml:space="preserve">
+    <value>Procesos con más conexiones</value>
+  </data>
+  <data name="ChartFilterHint" xml:space="preserve">
+    <value>Selecciona una barra para filtrar la lista; vuelve a seleccionarla para quitar el filtro.</value>
+  </data>
+  <data name="ChartEstablished" xml:space="preserve">
+    <value>{0} activas</value>
+  </data>
+  <data name="ChartListening" xml:space="preserve">
+    <value>{0} a la escucha</value>
+  </data>
+  <data name="FilterPlaceholder" xml:space="preserve">
+    <value>Filtrar</value>
+  </data>
+  <data name="EstablishedOnly" xml:space="preserve">
+    <value>Solo activas</value>
+  </data>
+  <data name="HideLoopback" xml:space="preserve">
+    <value>Ocultar locales (loopback)</value>
+  </data>
+  <data name="ReviewOnly" xml:space="preserve">
+    <value>Solo para revisar</value>
+  </data>
+  <data name="ColumnProcess" xml:space="preserve">
+    <value>Proceso</value>
+  </data>
+  <data name="ColumnProtocol" xml:space="preserve">
+    <value>Protocolo</value>
+  </data>
+  <data name="ColumnLocal" xml:space="preserve">
+    <value>Dirección local</value>
+  </data>
+  <data name="ColumnRemote" xml:space="preserve">
+    <value>Dirección remota</value>
+  </data>
+  <data name="ColumnState" xml:space="preserve">
+    <value>Estado</value>
+  </data>
+  <data name="ColumnSigner" xml:space="preserve">
+    <value>Editor</value>
+  </data>
+  <data name="ColumnName" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="ColumnType" xml:space="preserve">
+    <value>Tipo</value>
+  </data>
+  <data name="ColumnCommand" xml:space="preserve">
+    <value>Comando</value>
+  </data>
+  <data name="StateListening" xml:space="preserve">
+    <value>A la escucha</value>
+  </data>
+  <data name="StateEstablished" xml:space="preserve">
+    <value>Establecida</value>
+  </data>
+  <data name="LegendSigned" xml:space="preserve">
+    <value>Firmado</value>
+  </data>
+  <data name="TrustUnsigned" xml:space="preserve">
+    <value>Sin firmar</value>
+  </data>
+  <data name="TrustScriptHost" xml:space="preserve">
+    <value>Script o programa host</value>
+  </data>
+  <data name="TrustMissing" xml:space="preserve">
+    <value>Archivo no encontrado</value>
+  </data>
+  <data name="TrustUnknown" xml:space="preserve">
+    <value>No verificado</value>
+  </data>
+  <data name="OpenLocation" xml:space="preserve">
+    <value>Abrir ubicación del archivo</value>
+  </data>
+  <data name="AnalyzeFile" xml:space="preserve">
+    <value>Analizar archivo</value>
+  </data>
+  <data name="ManageInWindows" xml:space="preserve">
+    <value>Administrar en Windows</value>
+  </data>
+  <data name="PathUnavailable" xml:space="preserve">
+    <value>La ruta del archivo no está disponible. Prueba a analizar como administrador.</value>
+  </data>
+  <data name="StartupTitle" xml:space="preserve">
+    <value>Inicio automático y persistencia</value>
+  </data>
+  <data name="StartupDescription" xml:space="preserve">
+    <value>Claves Run, carpetas de Inicio, tareas programadas no Microsoft, servicios automáticos fuera de la carpeta de Windows y cambios en Winlogon. Los archivos sin firmar y los hosts de scripts aparecen primero.</value>
+  </data>
+  <data name="StartupRun" xml:space="preserve">
+    <value>Registro Run</value>
+  </data>
+  <data name="StartupFolder" xml:space="preserve">
+    <value>Carpeta Inicio</value>
+  </data>
+  <data name="StartupTask" xml:space="preserve">
+    <value>Tarea programada</value>
+  </data>
+  <data name="StartupService" xml:space="preserve">
+    <value>Servicio</value>
+  </data>
+  <data name="StartupWinlogon" xml:space="preserve">
+    <value>Winlogon</value>
+  </data>
+  <data name="PasswordTitle" xml:space="preserve">
+    <value>¿Contraseña filtrada?</value>
+  </data>
+  <data name="PasswordDescription" xml:space="preserve">
+    <value>Consulta la base de datos Have I Been Pwned con k-anonimato: solo se envían los 5 primeros caracteres del hash SHA-1, nunca la contraseña.</value>
+  </data>
+  <data name="PasswordPlaceholder" xml:space="preserve">
+    <value>Contraseña para comprobar</value>
+  </data>
+  <data name="PasswordCheck" xml:space="preserve">
+    <value>Comprobar</value>
+  </data>
+  <data name="PasswordSafe" xml:space="preserve">
+    <value>No aparece en filtraciones conocidas. Úsala solo en una cuenta y que sea larga.</value>
+  </data>
+  <data name="PasswordBreached" xml:space="preserve">
+    <value>Aparece {0} veces en filtraciones de datos. Cámbiala en todos los sitios donde la uses.</value>
+  </data>
+  <data name="NetworkFailed" xml:space="preserve">
+    <value>No se pudo contactar con el servicio: {0}</value>
+  </data>
+  <data name="DnsTitle" xml:space="preserve">
+    <value>DNS con filtrado y Pi-hole</value>
+  </data>
+  <data name="DnsDescription" xml:space="preserve">
+    <value>Usa un servicio DNS que bloquea malware o rastreadores, o tu Pi-hole, en todos los adaptadores conectados. La configuración original se guarda y se puede restaurar.</value>
+  </data>
+  <data name="DnsAutomatic" xml:space="preserve">
+    <value>Automático (DHCP)</value>
+  </data>
+  <data name="DnsQuad9" xml:space="preserve">
+    <value>Quad9 – bloquea malware</value>
+  </data>
+  <data name="DnsCloudflareMalware" xml:space="preserve">
+    <value>Cloudflare – bloquea malware</value>
+  </data>
+  <data name="DnsAdGuard" xml:space="preserve">
+    <value>AdGuard – bloquea anuncios y rastreadores</value>
+  </data>
+  <data name="DnsCustom" xml:space="preserve">
+    <value>Pi-hole o servidor personalizado</value>
+  </data>
+  <data name="DnsCustomPlaceholder" xml:space="preserve">
+    <value>p. ej. 192.168.1.2</value>
+  </data>
+  <data name="DnsTest" xml:space="preserve">
+    <value>Probar</value>
+  </data>
+  <data name="DnsApply" xml:space="preserve">
+    <value>Aplicar</value>
+  </data>
+  <data name="DnsRestore" xml:space="preserve">
+    <value>Restaurar original</value>
+  </data>
+  <data name="DnsTesting" xml:space="preserve">
+    <value>Enviando una consulta de prueba…</value>
+  </data>
+  <data name="DnsTestOk" xml:space="preserve">
+    <value>{0} responde correctamente.</value>
+  </data>
+  <data name="DnsTestFailed" xml:space="preserve">
+    <value>{0} no respondió. Comprueba la dirección y que el puerto 53 sea accesible.</value>
+  </data>
+  <data name="DnsTestAutomatic" xml:space="preserve">
+    <value>Automático usa los servidores de tu router.</value>
+  </data>
+  <data name="DnsInvalid" xml:space="preserve">
+    <value>Introduce de una a cuatro direcciones IPv4 o IPv6 válidas separadas por comas.</value>
+  </data>
+  <data name="DnsNoAdapters" xml:space="preserve">
+    <value>No se encontró ningún adaptador de red conectado con puerta de enlace.</value>
+  </data>
+  <data name="DnsConfirmTitle" xml:space="preserve">
+    <value>¿Cambiar los servidores DNS?</value>
+  </data>
+  <data name="DnsConfirmMessage" xml:space="preserve">
+    <value>Adaptadores: {0}
+Nuevo DNS: {1}
+
+La configuración actual se guarda la primera vez para poder restaurarla.</value>
+  </data>
+  <data name="DnsPiholeNote" xml:space="preserve">
+    <value>Tu router puede seguir entregando servidores DNS IPv6 que evitan Pi-hole. Prueba antes el servidor: si no responde, las webs dejarán de cargar hasta que restaures.</value>
+  </data>
+  <data name="DnsApplied" xml:space="preserve">
+    <value>Servidores DNS actualizados y caché DNS vaciada.</value>
+  </data>
+  <data name="DnsRestored" xml:space="preserve">
+    <value>Configuración DNS original restaurada.</value>
+  </data>
+  <data name="DnsFailed" xml:space="preserve">
+    <value>Error al cambiar el DNS: {0}</value>
+  </data>
+  <data name="AccountsTitle" xml:space="preserve">
+    <value>Elimina tus cuentas</value>
+  </data>
+  <data name="AccountsDescription" xml:space="preserve">
+    <value>Enlaces directos a las páginas de eliminación de cuentas de cientos de servicios, del directorio JustDeleteMe (MIT). La lista se descarga de GitHub solo cuando lo pides.</value>
+  </data>
+  <data name="AccountsLoad" xml:space="preserve">
+    <value>Descargar lista</value>
+  </data>
+  <data name="AccountsUpdate" xml:space="preserve">
+    <value>Actualizar lista</value>
+  </data>
+  <data name="AccountsDownloading" xml:space="preserve">
+    <value>Descargando la lista de JustDeleteMe…</value>
+  </data>
+  <data name="AccountsLoaded" xml:space="preserve">
+    <value>{0} servicios disponibles.</value>
+  </data>
+  <data name="AccountsInvalidData" xml:space="preserve">
+    <value>La lista descargada no es válida.</value>
+  </data>
+  <data name="AccountsDifficulty" xml:space="preserve">
+    <value>Dificultad de eliminación</value>
+  </data>
+  <data name="AccountsSearch" xml:space="preserve">
+    <value>Busca un servicio o dominio</value>
+  </data>
+  <data name="AccountsOpen" xml:space="preserve">
+    <value>Abrir página de eliminación</value>
+  </data>
+  <data name="AccountsMore" xml:space="preserve">
+    <value>{0} resultados más: afina la búsqueda.</value>
+  </data>
+  <data name="AccountsNone" xml:space="preserve">
+    <value>No se encontró ningún servicio.</value>
+  </data>
+  <data name="DifficultyEasy" xml:space="preserve">
+    <value>Fácil</value>
+  </data>
+  <data name="DifficultyMedium" xml:space="preserve">
+    <value>Media</value>
+  </data>
+  <data name="DifficultyHard" xml:space="preserve">
+    <value>Difícil</value>
+  </data>
+  <data name="DifficultyImpossible" xml:space="preserve">
+    <value>Imposible</value>
+  </data>
+  <data name="DifficultyUnknown" xml:space="preserve">
+    <value>Desconocida</value>
+  </data>
+  <data name="MetadataTitle" xml:space="preserve">
+    <value>Metadatos de archivos</value>
+  </data>
+  <data name="MetadataDescription" xml:space="preserve">
+    <value>Las fotos y documentos pueden revelar la posición GPS, el dispositivo, el autor y el software. ExifTool lee y elimina estos metadatos localmente.</value>
+  </data>
+  <data name="MetadataInstall" xml:space="preserve">
+    <value>Instalar ExifTool</value>
+  </data>
+  <data name="MetadataInstallFailed" xml:space="preserve">
+    <value>No se pudo instalar ExifTool con winget.</value>
+  </data>
+  <data name="MetadataMissing" xml:space="preserve">
+    <value>ExifTool no está instalado.</value>
+  </data>
+  <data name="MetadataPick" xml:space="preserve">
+    <value>Elegir archivo…</value>
+  </data>
+  <data name="MetadataRemove" xml:space="preserve">
+    <value>Eliminar metadatos</value>
+  </data>
+  <data name="MetadataRemoveTitle" xml:space="preserve">
+    <value>¿Eliminar todos los metadatos?</value>
+  </data>
+  <data name="MetadataRemoveMessage" xml:space="preserve">
+    <value>Se eliminarán todos los metadatos editables de {0}. ExifTool conserva una copia intacta con el sufijo _original junto al archivo.</value>
+  </data>
+  <data name="MetadataRemoved" xml:space="preserve">
+    <value>Original conservado como {0}.</value>
+  </data>
+  <data name="MetadataSummary" xml:space="preserve">
+    <value>{0}: {1} etiquetas, {2} potencialmente sensibles.</value>
+  </data>
+  <data name="MetadataFailed" xml:space="preserve">
+    <value>No se pudieron procesar los metadatos: {0}</value>
+  </data>
+  <data name="MetadataSensitive" xml:space="preserve">
+    <value>Puede revelar ubicación, identidad o dispositivo</value>
+  </data>
+  <data name="MetadataGroup" xml:space="preserve">
+    <value>Grupo</value>
+  </data>
+  <data name="MetadataTag" xml:space="preserve">
+    <value>Etiqueta</value>
+  </data>
+  <data name="MetadataValue" xml:space="preserve">
+    <value>Valor</value>
+  </data>
+  <data name="DnsIntercepted" xml:space="preserve">
+    <value>Tu red responde a consultas DNS enviadas a cualquier dirección: un router, el ISP o una VPN está interceptando el DNS. La prueba no puede verificar el servidor y los cambios de DNS pueden no surtir efecto mientras siga la interceptación.</value>
+  </data>
+  <data name="StartupEnabled" xml:space="preserve">
+    <value>Activado</value>
+  </data>
+  <data name="StartupDisabled" xml:space="preserve">
+    <value>Desactivado</value>
+  </data>
+  <data name="StartupDisable" xml:space="preserve">
+    <value>Desactivar</value>
+  </data>
+  <data name="StartupEnable" xml:space="preserve">
+    <value>Activar</value>
+  </data>
+  <data name="StartupToggleFailedTitle" xml:space="preserve">
+    <value>Elemento de inicio sin cambios</value>
+  </data>
+</root>

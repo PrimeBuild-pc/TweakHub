@@ -860,4 +860,76 @@
   <data name="DescriptionAttackSurfaceMappingAndAssetDiscovery" xml:space="preserve">
     <value>OWASP Amass で外部資産を検出し、攻撃対象領域を可視化します。</value>
   </data>
+  <data name="SecurityTitle" xml:space="preserve">
+    <value>セキュリティ</value>
+  </data>
+  <data name="SecurityDescription" xml:space="preserve">
+    <value>Windows の保護状態を確認・修正し、Microsoft Defender でスキャンし、ファイルを検証します。OSINT やセキュリティ ツールは、調査を許可されたシステムとデータにのみ使用してください。</value>
+  </data>
+  <data name="SearchTools" xml:space="preserve">
+    <value>ツールを検索</value>
+  </data>
+  <data name="DescriptionWPD" xml:space="preserve">
+    <value>Windows のプライバシーとテレメトリを管理するツール。ポリシーの変更や接続の遮断は、機能・更新・保護に影響する場合があります。変更を確認し、事前にバックアップしてください。公式サイトのみを開きます。</value>
+  </data>
+  <data name="DescriptionTapMap" xml:space="preserve">
+    <value>アプリのネットワーク接続を地図に表示し、活動履歴をローカルに保存します。ファイアウォールや総合セキュリティ製品ではありません。履歴には機密性の高い活動が含まれる場合があります。公式リポジトリのみを開きます。</value>
+  </data>
+  <data name="DescriptionSecurityToolkit" xml:space="preserve">
+    <value>Windows のプロセス、接続、永続化の仕組み、Defender を初期調査するツール。レポートには機密性の高いシステム情報が含まれる場合があるため、共有前に確認してください。検出結果だけで侵害が確定するわけではありません。公式リポジトリのみを開きます。</value>
+  </data>
+  <data name="DescriptionEmailOSINT" xml:space="preserve">
+    <value>許可を得た調査向けのメール OSINT 参照サイト。公式サイトのみを開き、TweakHub はメールアドレスを収集・送信しません。機密データを入力する前に、サイトのプライバシーポリシーを確認してください。</value>
+  </data>
+  <data name="DescriptionSigcheck" xml:space="preserve">
+    <value>Microsoft Sysinternals のファイル署名・ハッシュ確認ツール。任意の VirusTotal 照会やアップロードはハッシュやファイルを第三者へ送信する場合があります。事前にプライバシーと同意を確認してください。winget で公式パッケージをインストールします。</value>
+  </data>
+  <data name="DescriptionSafetyScanner" xml:space="preserve">
+    <value>Microsoft の単独で動作するオンデマンド型マルウェアスキャナー。検出したファイルを削除する場合があるため、重要なデータは事前にバックアップしてください。常駐型ウイルス対策の代わりにはなりません。Microsoft の公式ページのみを開きます。</value>
+  </data>
+  <data name="DescriptionMVolt" xml:space="preserve">
+    <value>NVIDIA GPU の調整・監視ツール（mVolt+）。電圧、クロック、電力、ファン設定の変更は、不安定化、データ損失、ハードウェアの損傷を招く場合があります。GPU の対応状況と公式ガイドを確認してください。公式リポジトリのみを開きます。</value>
+  </data>
+  <data name="DescriptionSparkle" xml:space="preserve">
+    <value>Windows の不要アプリ削除、クリーンアップ、調整ツール。アプリの削除や設定変更は機能やセキュリティに影響する場合があります。変更を確認し、事前にバックアップしてください。GPL-3.0 プロジェクトへの参照リンクのみで、コードは同梱しません。</value>
+  </data>
+  <data name="DescriptionFollowTheWhiteRabbit" xml:space="preserve">
+    <value>OSINT とサイバーセキュリティのリソースを集めた start.me のダッシュボード。第三者のリンクは TweakHub が検証していません。許可された調査にのみ使用してください。start.me のページのみを開きます。</value>
+  </data>
+  <data name="DescriptionTriage" xml:space="preserve">
+    <value>Recorded Future のオンライン マルウェア解析サンドボックス。送信したファイルや URL は第三者と共有されたり公開されたりする場合があります。個人情報や機密データは絶対にアップロードしないでください。公式サイトのみを開きます。</value>
+  </data>
+  <data name="DescriptionUserScanner" xml:space="preserve">
+    <value>メールアドレスとユーザー名が数千のサイトに存在するかを調べる OSINT スイート。自分のアカウントか許可を得た対象にのみ使用してください。TweakHub はアドレスを収集・送信しません。公式リポジトリのみを開きます。</value>
+  </data>
+  <data name="DescriptionAwesomePrivacy" xml:space="preserve">
+    <value>人気のサービスやアプリに代わる、プライバシーを尊重した選択肢の厳選リスト。移行やデータ共有の前に各プロジェクトを自分で評価してください。公式リポジトリのみを開きます。</value>
+  </data>
+  <data name="DescriptionPrivacySexy" xml:space="preserve">
+    <value>Windows のプライバシーとテレメトリーを強化するオープンソースのスクリプト生成ツール。生成されたスクリプトはシステム設定を変更し、機能や更新に影響する場合があります。すべて確認し、事前に復元ポイントを作成してください。winget で公式パッケージをインストールします。</value>
+  </data>
+  <data name="DescriptionPiHole" xml:space="preserve">
+    <value>ネットワーク全体で広告やトラッカーをブロックする DNS シンクホール。通常は Linux デバイスやコンテナーで動作します。強力なブロックリストは、利用するすべてのデバイスでサイトやアプリを壊す場合があります。公式リポジトリのみを開きます。</value>
+  </data>
+  <data name="DescriptionDataBrokerOptOut" xml:space="preserve">
+    <value>データブローカーや人物検索サイトからのオプトアウト方法をまとめたコミュニティ ガイド（主に米国向け）。手続きで個人情報を求められる場合があります。必要最小限だけを提供してください。公式リポジトリのみを開きます。</value>
+  </data>
+  <data name="DescriptionJustDeleteMe" xml:space="preserve">
+    <value>Web サービスのアカウント削除ページへの直接リンク集（難易度別）。削除は多くの場合元に戻せません。先にデータをエクスポートしてください。公式サイトのみを開きます。ソースコードは GitHub（justdeleteme/justdelete.me）にあります。</value>
+  </data>
+  <data name="DescriptionUngoogledChromium" xml:space="preserve">
+    <value>Google の Web サービス連携を取り除いた、プライバシーと透明性重視の Chromium。匿名化ツールではなく、自動更新もされないため、自分で最新の状態に保ってください。winget で公式パッケージをインストールします。</value>
+  </data>
+  <data name="DescriptionPersonalSecurityChecklist" xml:space="preserve">
+    <value>デジタル セキュリティとプライバシーを守るための 300 以上のヒントをまとめたチェックリスト。内容は一般的なものなので、自分の脅威モデルとデバイスに合わせてください。公式リポジトリのみを開きます。</value>
+  </data>
+  <data name="DescriptionFfuf" xml:space="preserve">
+    <value>コンテンツ探索やパラメーター検査のための高速な Web ファザー。自分が所有する、またはテストを許可されたシステムにのみ使用してください。スキャンはサーバーに負荷をかけ、セキュリティ アラートを発生させる場合があります。公式リポジトリのみを開きます。</value>
+  </data>
+  <data name="DescriptionXalgorix" xml:space="preserve">
+    <value>偵察、脆弱性検出、エクスプロイトを行う自律型 AI エージェント。許可されたペネトレーション テストの範囲内でのみ使用してください。自律的な操作は対象に損害を与えたり、範囲を超えたりする場合があります。公式リポジトリのみを開きます。</value>
+  </data>
+  <data name="DescriptionHackingTool" xml:space="preserve">
+    <value>多数のサードパーティ製セキュリティ／ペンテスト ツールをインストールする Linux 向けオールインワン ランチャー。ツールは検証されておらず root 権限が必要な場合があります。隔離されたラボで、許可された対象にのみ使用してください。公式リポジトリのみを開きます。</value>
+  </data>
 </root>

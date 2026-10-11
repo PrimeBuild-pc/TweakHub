@@ -1,0 +1,777 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="TabOverview" xml:space="preserve">
+    <value>概览</value>
+  </data>
+  <data name="TabDefender" xml:space="preserve">
+    <value>Microsoft Defender</value>
+  </data>
+  <data name="TabFileAnalysis" xml:space="preserve">
+    <value>文件分析</value>
+  </data>
+  <data name="TabTools" xml:space="preserve">
+    <value>工具与资源</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>刷新</value>
+  </data>
+  <data name="LoadFailed" xml:space="preserve">
+    <value>无法读取安全状态：{0}</value>
+  </data>
+  <data name="ScoreTitle" xml:space="preserve">
+    <value>安全评分</value>
+  </data>
+  <data name="ScoreGood" xml:space="preserve">
+    <value>防护良好</value>
+  </data>
+  <data name="ScoreFair" xml:space="preserve">
+    <value>需要注意</value>
+  </data>
+  <data name="ScorePoor" xml:space="preserve">
+    <value>存在风险</value>
+  </data>
+  <data name="ScoreSummary" xml:space="preserve">
+    <value>已通过 {0}/{1} 项检查</value>
+  </data>
+  <data name="ScoreHint" xml:space="preserve">
+    <value>选择圆环中的分段可跳转到对应检查项。</value>
+  </data>
+  <data name="Fix" xml:space="preserve">
+    <value>修复</value>
+  </data>
+  <data name="OpenSettings" xml:space="preserve">
+    <value>打开设置</value>
+  </data>
+  <data name="OpenFailedTitle" xml:space="preserve">
+    <value>无法打开</value>
+  </data>
+  <data name="RequiresAdministrator" xml:space="preserve">
+    <value>需要管理员权限</value>
+  </data>
+  <data name="FixConfirmTitle" xml:space="preserve">
+    <value>应用修复？</value>
+  </data>
+  <data name="FixConfirmMessage" xml:space="preserve">
+    <value>{0}
+
+TweakHub 将以管理员身份运行此命令：
+
+{1}</value>
+  </data>
+  <data name="FixRestartNote" xml:space="preserve">
+    <value>需要重新启动才能完成更改。</value>
+  </data>
+  <data name="FixFailedTitle" xml:space="preserve">
+    <value>修复未应用</value>
+  </data>
+  <data name="FixFailed" xml:space="preserve">
+    <value>无法应用修复。Windows 可能阻止了此更改（例如防篡改保护或组策略）。
+
+{0}</value>
+  </data>
+  <data name="CheckAntivirus" xml:space="preserve">
+    <value>防病毒</value>
+  </data>
+  <data name="CheckAntivirusPassed" xml:space="preserve">
+    <value>实时防病毒保护已启用。</value>
+  </data>
+  <data name="CheckAntivirusFailed" xml:space="preserve">
+    <value>实时防病毒保护已关闭。电脑易受恶意软件攻击。</value>
+  </data>
+  <data name="CheckAntivirusUnknown" xml:space="preserve">
+    <value>Windows 安全中心未报告防病毒状态。</value>
+  </data>
+  <data name="CheckSignatures" xml:space="preserve">
+    <value>安全智能更新</value>
+  </data>
+  <data name="CheckSignaturesPassed" xml:space="preserve">
+    <value>病毒定义已是最新。</value>
+  </data>
+  <data name="CheckSignaturesFailed" xml:space="preserve">
+    <value>病毒定义已超过 3 天未更新。</value>
+  </data>
+  <data name="CheckSignaturesUnknown" xml:space="preserve">
+    <value>无法获取病毒定义的更新时间。</value>
+  </data>
+  <data name="CheckFirewall" xml:space="preserve">
+    <value>防火墙</value>
+  </data>
+  <data name="CheckFirewallPassed" xml:space="preserve">
+    <value>Windows 防火墙已对域、专用和公用网络启用。</value>
+  </data>
+  <data name="CheckFirewallFailed" xml:space="preserve">
+    <value>至少一个网络配置文件的 Windows 防火墙已关闭。</value>
+  </data>
+  <data name="CheckFirewallUnknown" xml:space="preserve">
+    <value>无法读取防火墙状态。</value>
+  </data>
+  <data name="CheckUac" xml:space="preserve">
+    <value>用户帐户控制</value>
+  </data>
+  <data name="CheckUacPassed" xml:space="preserve">
+    <value>应用以管理员身份进行更改前必须先征求同意。</value>
+  </data>
+  <data name="CheckUacFailed" xml:space="preserve">
+    <value>UAC 已关闭或无需询问即可提升权限：任何应用都能悄悄获得完全控制。</value>
+  </data>
+  <data name="CheckUacUnknown" xml:space="preserve">
+    <value>无法读取 UAC 配置。</value>
+  </data>
+  <data name="CheckUpdates" xml:space="preserve">
+    <value>Windows 更新</value>
+  </data>
+  <data name="CheckUpdatesPassed" xml:space="preserve">
+    <value>过去 45 天内已安装更新。</value>
+  </data>
+  <data name="CheckUpdatesFailed" xml:space="preserve">
+    <value>过去 45 天未安装任何更新：可能缺少安全修复。</value>
+  </data>
+  <data name="CheckUpdatesUnknown" xml:space="preserve">
+    <value>无法读取更新历史记录。</value>
+  </data>
+  <data name="CheckSmb1" xml:space="preserve">
+    <value>SMBv1 协议</value>
+  </data>
+  <data name="CheckSmb1Passed" xml:space="preserve">
+    <value>过时的 SMBv1 文件共享协议已禁用。</value>
+  </data>
+  <data name="CheckSmb1Failed" xml:space="preserve">
+    <value>SMBv1 已启用。它曾被 WannaCry 等勒索软件利用。</value>
+  </data>
+  <data name="CheckSmb1Unknown" xml:space="preserve">
+    <value>无法读取 SMBv1 状态。</value>
+  </data>
+  <data name="CheckRemoteDesktop" xml:space="preserve">
+    <value>远程桌面</value>
+  </data>
+  <data name="CheckRemoteDesktopPassed" xml:space="preserve">
+    <value>已禁用传入的远程桌面连接。</value>
+  </data>
+  <data name="CheckRemoteDesktopFailed" xml:space="preserve">
+    <value>远程桌面正在接受连接。如果不使用，请将其禁用。</value>
+  </data>
+  <data name="CheckRemoteDesktopUnknown" xml:space="preserve">
+    <value>无法读取远程桌面状态。</value>
+  </data>
+  <data name="CheckBitLocker" xml:space="preserve">
+    <value>驱动器加密</value>
+  </data>
+  <data name="CheckBitLockerPassed" xml:space="preserve">
+    <value>系统驱动器受 BitLocker 保护。</value>
+  </data>
+  <data name="CheckBitLockerFailed" xml:space="preserve">
+    <value>系统驱动器未加密：电脑丢失或被盗时数据可被读取。启用前请备份恢复密钥。</value>
+  </data>
+  <data name="CheckBitLockerUnknown" xml:space="preserve">
+    <value>此版本或驱动器不支持 BitLocker。</value>
+  </data>
+  <data name="CheckSecureBoot" xml:space="preserve">
+    <value>安全启动</value>
+  </data>
+  <data name="CheckSecureBootPassed" xml:space="preserve">
+    <value>安全启动可阻止不受信任的引导加载程序和 rootkit。</value>
+  </data>
+  <data name="CheckSecureBootFailed" xml:space="preserve">
+    <value>安全启动已关闭。请在 UEFI 固件设置中启用。</value>
+  </data>
+  <data name="CheckSecureBootUnknown" xml:space="preserve">
+    <value>不支持安全启动（旧版 BIOS 启动）。</value>
+  </data>
+  <data name="CheckMemoryIntegrity" xml:space="preserve">
+    <value>内存完整性</value>
+  </data>
+  <data name="CheckMemoryIntegrityPassed" xml:space="preserve">
+    <value>内核隔离可保护内核免受恶意驱动程序侵害。</value>
+  </data>
+  <data name="CheckMemoryIntegrityFailed" xml:space="preserve">
+    <value>内存完整性已关闭。请在检查驱动程序兼容性后从 Windows 安全中心启用；可能会略微降低游戏性能。</value>
+  </data>
+  <data name="CheckMemoryIntegrityUnknown" xml:space="preserve">
+    <value>无法读取内存完整性状态。</value>
+  </data>
+  <data name="DefenderInactive" xml:space="preserve">
+    <value>Microsoft Defender 不是当前启用的防病毒软件，因此无法使用其状态和扫描。</value>
+  </data>
+  <data name="RealTimeProtection" xml:space="preserve">
+    <value>实时保护</value>
+  </data>
+  <data name="TamperProtection" xml:space="preserve">
+    <value>防篡改保护</value>
+  </data>
+  <data name="SignatureVersion" xml:space="preserve">
+    <value>定义版本</value>
+  </data>
+  <data name="EngineVersion" xml:space="preserve">
+    <value>平台版本</value>
+  </data>
+  <data name="On" xml:space="preserve">
+    <value>已开启</value>
+  </data>
+  <data name="Off" xml:space="preserve">
+    <value>已关闭</value>
+  </data>
+  <data name="ProtectionAge" xml:space="preserve">
+    <value>防护新鲜度</value>
+  </data>
+  <data name="AgeSignatures" xml:space="preserve">
+    <value>定义</value>
+  </data>
+  <data name="AgeQuickScan" xml:space="preserve">
+    <value>快速扫描</value>
+  </data>
+  <data name="AgeFullScan" xml:space="preserve">
+    <value>完全扫描</value>
+  </data>
+  <data name="AgeDays" xml:space="preserve">
+    <value>{0} 天前</value>
+  </data>
+  <data name="AgeToday" xml:space="preserve">
+    <value>今天</value>
+  </data>
+  <data name="AgeNever" xml:space="preserve">
+    <value>从未</value>
+  </data>
+  <data name="AgeRecommended" xml:space="preserve">
+    <value>建议：至少每 {0} 天一次。标记表示上限。</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>扫描与更新</value>
+  </data>
+  <data name="QuickScan" xml:space="preserve">
+    <value>快速扫描</value>
+  </data>
+  <data name="FullScan" xml:space="preserve">
+    <value>完全扫描</value>
+  </data>
+  <data name="OfflineScan" xml:space="preserve">
+    <value>脱机扫描</value>
+  </data>
+  <data name="UpdateSignatures" xml:space="preserve">
+    <value>更新定义</value>
+  </data>
+  <data name="ActionRunning" xml:space="preserve">
+    <value>正在进行{0}… 你可以继续使用 TweakHub。</value>
+  </data>
+  <data name="ActionCompleted" xml:space="preserve">
+    <value>{0}已完成。</value>
+  </data>
+  <data name="ActionFailed" xml:space="preserve">
+    <value>{0}失败：{1}</value>
+  </data>
+  <data name="OfflineConfirmTitle" xml:space="preserve">
+    <value>要重新启动以进行脱机扫描吗？</value>
+  </data>
+  <data name="OfflineConfirmMessage" xml:space="preserve">
+    <value>Microsoft Defender 脱机版会立即重新启动电脑，并在 Windows 启动前扫描约 15 分钟。它能发现在 Windows 运行时隐藏的 rootkit。请先保存工作。</value>
+  </data>
+  <data name="SafetyScannerTitle" xml:space="preserve">
+    <value>Microsoft Safety Scanner</value>
+  </data>
+  <data name="SafetyScannerDescription" xml:space="preserve">
+    <value>来自 Microsoft 的第二意见。TweakHub 从 Microsoft 下载它，验证数字签名后以仅检测模式启动，因此不会删除任何文件。</value>
+  </data>
+  <data name="SafetyScannerRun" xml:space="preserve">
+    <value>下载并运行</value>
+  </data>
+  <data name="SafetyScannerDownloading" xml:space="preserve">
+    <value>正在下载 Microsoft Safety Scanner… {0}%</value>
+  </data>
+  <data name="SafetyScannerStarted" xml:space="preserve">
+    <value>Microsoft Safety Scanner 已以仅检测模式启动。请在其窗口中选择扫描类型。</value>
+  </data>
+  <data name="SafetyScannerFailed" xml:space="preserve">
+    <value>无法启动 Microsoft Safety Scanner：{0}</value>
+  </data>
+  <data name="SafetyScannerSignatureInvalid" xml:space="preserve">
+    <value>下载的文件没有有效的 Microsoft 签名，已被删除。</value>
+  </data>
+  <data name="Threats" xml:space="preserve">
+    <value>检测历史记录</value>
+  </data>
+  <data name="NoThreats" xml:space="preserve">
+    <value>未检测到威胁。</value>
+  </data>
+  <data name="OpenWindowsSecurity" xml:space="preserve">
+    <value>在 Windows 安全中心中打开</value>
+  </data>
+  <data name="SeverityLow" xml:space="preserve">
+    <value>低</value>
+  </data>
+  <data name="SeverityModerate" xml:space="preserve">
+    <value>中等</value>
+  </data>
+  <data name="SeverityHigh" xml:space="preserve">
+    <value>高</value>
+  </data>
+  <data name="SeveritySevere" xml:space="preserve">
+    <value>严重</value>
+  </data>
+  <data name="FileDrop" xml:space="preserve">
+    <value>将文件拖到此处</value>
+  </data>
+  <data name="FileDropHint" xml:space="preserve">
+    <value>TweakHub 会在本地计算哈希并检查数字签名，不会上传任何内容。</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>浏览…</value>
+  </data>
+  <data name="FileAnalyzing" xml:space="preserve">
+    <value>正在分析文件…</value>
+  </data>
+  <data name="FileFailed" xml:space="preserve">
+    <value>无法分析文件：{0}</value>
+  </data>
+  <data name="FileNotAFile" xml:space="preserve">
+    <value>请选择单个文件，而不是文件夹。</value>
+  </data>
+  <data name="HashPrivacyNote" xml:space="preserve">
+    <value>搜索只会在浏览器中打开 SHA-256 哈希；文件本身不会被上传。</value>
+  </data>
+  <data name="CopyHash" xml:space="preserve">
+    <value>复制</value>
+  </data>
+  <data name="SearchVirusTotal" xml:space="preserve">
+    <value>在 VirusTotal 上搜索</value>
+  </data>
+  <data name="SearchTriage" xml:space="preserve">
+    <value>在 Triage 上搜索</value>
+  </data>
+  <data name="CopyReport" xml:space="preserve">
+    <value>复制报告</value>
+  </data>
+  <data name="Signature" xml:space="preserve">
+    <value>数字签名</value>
+  </data>
+  <data name="SignatureValid" xml:space="preserve">
+    <value>有效且受信任</value>
+  </data>
+  <data name="SignatureNotSigned" xml:space="preserve">
+    <value>未签名</value>
+  </data>
+  <data name="SignatureNotApplicable" xml:space="preserve">
+    <value>不适用于此文件类型</value>
+  </data>
+  <data name="SignatureUnknown" xml:space="preserve">
+    <value>无法验证</value>
+  </data>
+  <data name="SignatureInvalid" xml:space="preserve">
+    <value>无效（{0}）</value>
+  </data>
+  <data name="Signer" xml:space="preserve">
+    <value>签名者</value>
+  </data>
+  <data name="Issuer" xml:space="preserve">
+    <value>颁发者</value>
+  </data>
+  <data name="ValidUntil" xml:space="preserve">
+    <value>证书有效期至</value>
+  </data>
+  <data name="Timestamp" xml:space="preserve">
+    <value>时间戳颁发者</value>
+  </data>
+  <data name="SignatureType" xml:space="preserve">
+    <value>签名类型</value>
+  </data>
+  <data name="SignatureTypeEmbedded" xml:space="preserve">
+    <value>嵌入文件中</value>
+  </data>
+  <data name="SignatureTypeCatalog" xml:space="preserve">
+    <value>Windows 目录</value>
+  </data>
+  <data name="Company" xml:space="preserve">
+    <value>公司</value>
+  </data>
+  <data name="Product" xml:space="preserve">
+    <value>产品</value>
+  </data>
+  <data name="FileDescription" xml:space="preserve">
+    <value>描述</value>
+  </data>
+  <data name="FileVersion" xml:space="preserve">
+    <value>版本</value>
+  </data>
+  <data name="OriginalName" xml:space="preserve">
+    <value>原始文件名</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>大小</value>
+  </data>
+  <data name="TabSystem" xml:space="preserve">
+    <value>系统</value>
+  </data>
+  <data name="TabPrivacy" xml:space="preserve">
+    <value>隐私与帐户</value>
+  </data>
+  <data name="SystemDescription" xml:space="preserve">
+    <value>按进程显示网络连接和自动启动的程序，以及每个文件的数字签名。</value>
+  </data>
+  <data name="SystemScan" xml:space="preserve">
+    <value>扫描</value>
+  </data>
+  <data name="SystemScanElevated" xml:space="preserve">
+    <value>以管理员身份扫描</value>
+  </data>
+  <data name="SystemScanElevatedHint" xml:space="preserve">
+    <value>同时显示系统进程和提升权限进程的文件路径。</value>
+  </data>
+  <data name="SystemScanning" xml:space="preserve">
+    <value>正在收集连接、启动项和签名…</value>
+  </data>
+  <data name="SystemScannedPartial" xml:space="preserve">
+    <value>扫描于 {0}。系统进程的路径需要以管理员身份扫描。</value>
+  </data>
+  <data name="SystemScannedElevated" xml:space="preserve">
+    <value>已于 {0} 以管理员身份扫描。</value>
+  </data>
+  <data name="SystemScanFailed" xml:space="preserve">
+    <value>无法完成扫描：{0}</value>
+  </data>
+  <data name="ExportReport" xml:space="preserve">
+    <value>导出报告</value>
+  </data>
+  <data name="ExportFailedTitle" xml:space="preserve">
+    <value>导出失败</value>
+  </data>
+  <data name="TileEstablished" xml:space="preserve">
+    <value>活动连接</value>
+  </data>
+  <data name="TileListening" xml:space="preserve">
+    <value>监听端口</value>
+  </data>
+  <data name="TileStartup" xml:space="preserve">
+    <value>启动项</value>
+  </data>
+  <data name="TileReview" xml:space="preserve">
+    <value>待检查</value>
+  </data>
+  <data name="ConnectionsTitle" xml:space="preserve">
+    <value>网络连接</value>
+  </data>
+  <data name="TopProcesses" xml:space="preserve">
+    <value>连接最多的进程</value>
+  </data>
+  <data name="ChartFilterHint" xml:space="preserve">
+    <value>选择条形可筛选列表；再次选择可清除筛选。</value>
+  </data>
+  <data name="ChartEstablished" xml:space="preserve">
+    <value>{0} 个活动</value>
+  </data>
+  <data name="ChartListening" xml:space="preserve">
+    <value>{0} 个监听</value>
+  </data>
+  <data name="FilterPlaceholder" xml:space="preserve">
+    <value>筛选</value>
+  </data>
+  <data name="EstablishedOnly" xml:space="preserve">
+    <value>仅活动</value>
+  </data>
+  <data name="HideLoopback" xml:space="preserve">
+    <value>隐藏本地（环回）</value>
+  </data>
+  <data name="ReviewOnly" xml:space="preserve">
+    <value>仅待检查项</value>
+  </data>
+  <data name="ColumnProcess" xml:space="preserve">
+    <value>进程</value>
+  </data>
+  <data name="ColumnProtocol" xml:space="preserve">
+    <value>协议</value>
+  </data>
+  <data name="ColumnLocal" xml:space="preserve">
+    <value>本地地址</value>
+  </data>
+  <data name="ColumnRemote" xml:space="preserve">
+    <value>远程地址</value>
+  </data>
+  <data name="ColumnState" xml:space="preserve">
+    <value>状态</value>
+  </data>
+  <data name="ColumnSigner" xml:space="preserve">
+    <value>发布者</value>
+  </data>
+  <data name="ColumnName" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="ColumnType" xml:space="preserve">
+    <value>类型</value>
+  </data>
+  <data name="ColumnCommand" xml:space="preserve">
+    <value>命令</value>
+  </data>
+  <data name="StateListening" xml:space="preserve">
+    <value>监听</value>
+  </data>
+  <data name="StateEstablished" xml:space="preserve">
+    <value>已建立</value>
+  </data>
+  <data name="LegendSigned" xml:space="preserve">
+    <value>已签名</value>
+  </data>
+  <data name="TrustUnsigned" xml:space="preserve">
+    <value>未签名</value>
+  </data>
+  <data name="TrustScriptHost" xml:space="preserve">
+    <value>脚本或宿主程序</value>
+  </data>
+  <data name="TrustMissing" xml:space="preserve">
+    <value>找不到文件</value>
+  </data>
+  <data name="TrustUnknown" xml:space="preserve">
+    <value>未验证</value>
+  </data>
+  <data name="OpenLocation" xml:space="preserve">
+    <value>打开文件位置</value>
+  </data>
+  <data name="AnalyzeFile" xml:space="preserve">
+    <value>分析文件</value>
+  </data>
+  <data name="ManageInWindows" xml:space="preserve">
+    <value>在 Windows 中管理</value>
+  </data>
+  <data name="PathUnavailable" xml:space="preserve">
+    <value>无法获取文件路径。请尝试以管理员身份扫描。</value>
+  </data>
+  <data name="StartupTitle" xml:space="preserve">
+    <value>自动启动与持久化</value>
+  </data>
+  <data name="StartupDescription" xml:space="preserve">
+    <value>Run 注册表项、启动文件夹、非 Microsoft 计划任务、Windows 文件夹外的自动服务以及 Winlogon 更改。未签名文件和脚本宿主排在最前。</value>
+  </data>
+  <data name="StartupRun" xml:space="preserve">
+    <value>注册表 Run</value>
+  </data>
+  <data name="StartupFolder" xml:space="preserve">
+    <value>启动文件夹</value>
+  </data>
+  <data name="StartupTask" xml:space="preserve">
+    <value>计划任务</value>
+  </data>
+  <data name="StartupService" xml:space="preserve">
+    <value>服务</value>
+  </data>
+  <data name="StartupWinlogon" xml:space="preserve">
+    <value>Winlogon</value>
+  </data>
+  <data name="PasswordTitle" xml:space="preserve">
+    <value>密码泄露检查</value>
+  </data>
+  <data name="PasswordDescription" xml:space="preserve">
+    <value>使用 k-匿名方式查询 Have I Been Pwned 数据库：只发送密码 SHA-1 哈希的前 5 个字符，绝不发送密码本身。</value>
+  </data>
+  <data name="PasswordPlaceholder" xml:space="preserve">
+    <value>要检查的密码</value>
+  </data>
+  <data name="PasswordCheck" xml:space="preserve">
+    <value>检查</value>
+  </data>
+  <data name="PasswordSafe" xml:space="preserve">
+    <value>未在已知泄露中找到。请仅用于一个帐户并保持足够长度。</value>
+  </data>
+  <data name="PasswordBreached" xml:space="preserve">
+    <value>在数据泄露中出现 {0} 次。请在所有使用它的地方更改。</value>
+  </data>
+  <data name="NetworkFailed" xml:space="preserve">
+    <value>无法连接到服务：{0}</value>
+  </data>
+  <data name="DnsTitle" xml:space="preserve">
+    <value>过滤 DNS 与 Pi-hole</value>
+  </data>
+  <data name="DnsDescription" xml:space="preserve">
+    <value>在所有已连接的适配器上使用可拦截恶意软件或跟踪器的 DNS 服务，或你的 Pi-hole。原始配置会被保存并可恢复。</value>
+  </data>
+  <data name="DnsAutomatic" xml:space="preserve">
+    <value>自动 (DHCP)</value>
+  </data>
+  <data name="DnsQuad9" xml:space="preserve">
+    <value>Quad9 – 拦截恶意软件</value>
+  </data>
+  <data name="DnsCloudflareMalware" xml:space="preserve">
+    <value>Cloudflare – 拦截恶意软件</value>
+  </data>
+  <data name="DnsAdGuard" xml:space="preserve">
+    <value>AdGuard – 拦截广告和跟踪器</value>
+  </data>
+  <data name="DnsCustom" xml:space="preserve">
+    <value>Pi-hole 或自定义服务器</value>
+  </data>
+  <data name="DnsCustomPlaceholder" xml:space="preserve">
+    <value>例如 192.168.1.2</value>
+  </data>
+  <data name="DnsTest" xml:space="preserve">
+    <value>测试</value>
+  </data>
+  <data name="DnsApply" xml:space="preserve">
+    <value>应用</value>
+  </data>
+  <data name="DnsRestore" xml:space="preserve">
+    <value>恢复原始设置</value>
+  </data>
+  <data name="DnsTesting" xml:space="preserve">
+    <value>正在发送测试查询…</value>
+  </data>
+  <data name="DnsTestOk" xml:space="preserve">
+    <value>{0} 响应正常。</value>
+  </data>
+  <data name="DnsTestFailed" xml:space="preserve">
+    <value>{0} 未响应。请检查地址以及 53 端口是否可达。</value>
+  </data>
+  <data name="DnsTestAutomatic" xml:space="preserve">
+    <value>自动模式使用路由器提供的服务器。</value>
+  </data>
+  <data name="DnsInvalid" xml:space="preserve">
+    <value>请输入 1 到 4 个有效的 IPv4 或 IPv6 地址，用逗号分隔。</value>
+  </data>
+  <data name="DnsNoAdapters" xml:space="preserve">
+    <value>未找到带网关的已连接网络适配器。</value>
+  </data>
+  <data name="DnsConfirmTitle" xml:space="preserve">
+    <value>更改 DNS 服务器？</value>
+  </data>
+  <data name="DnsConfirmMessage" xml:space="preserve">
+    <value>适配器：{0}
+新 DNS：{1}
+
+首次更改时会保存当前配置，以便恢复。</value>
+  </data>
+  <data name="DnsPiholeNote" xml:space="preserve">
+    <value>路由器可能仍会分发绕过 Pi-hole 的 IPv6 DNS 服务器。请先测试服务器：如果无法访问，在恢复之前网站将无法加载。</value>
+  </data>
+  <data name="DnsApplied" xml:space="preserve">
+    <value>已更新 DNS 服务器并清除 DNS 缓存。</value>
+  </data>
+  <data name="DnsRestored" xml:space="preserve">
+    <value>已恢复原始 DNS 配置。</value>
+  </data>
+  <data name="DnsFailed" xml:space="preserve">
+    <value>DNS 更改失败：{0}</value>
+  </data>
+  <data name="AccountsTitle" xml:space="preserve">
+    <value>删除你的帐户</value>
+  </data>
+  <data name="AccountsDescription" xml:space="preserve">
+    <value>来自 JustDeleteMe 目录（MIT）的数百个服务帐户删除页面直达链接。仅在你请求时才从 GitHub 下载列表。</value>
+  </data>
+  <data name="AccountsLoad" xml:space="preserve">
+    <value>下载列表</value>
+  </data>
+  <data name="AccountsUpdate" xml:space="preserve">
+    <value>更新列表</value>
+  </data>
+  <data name="AccountsDownloading" xml:space="preserve">
+    <value>正在下载 JustDeleteMe 列表…</value>
+  </data>
+  <data name="AccountsLoaded" xml:space="preserve">
+    <value>共 {0} 个服务。</value>
+  </data>
+  <data name="AccountsInvalidData" xml:space="preserve">
+    <value>下载的列表无效。</value>
+  </data>
+  <data name="AccountsDifficulty" xml:space="preserve">
+    <value>删除难度</value>
+  </data>
+  <data name="AccountsSearch" xml:space="preserve">
+    <value>搜索服务或域名</value>
+  </data>
+  <data name="AccountsOpen" xml:space="preserve">
+    <value>打开删除页面</value>
+  </data>
+  <data name="AccountsMore" xml:space="preserve">
+    <value>还有 {0} 个结果：请细化搜索。</value>
+  </data>
+  <data name="AccountsNone" xml:space="preserve">
+    <value>未找到服务。</value>
+  </data>
+  <data name="DifficultyEasy" xml:space="preserve">
+    <value>简单</value>
+  </data>
+  <data name="DifficultyMedium" xml:space="preserve">
+    <value>中等</value>
+  </data>
+  <data name="DifficultyHard" xml:space="preserve">
+    <value>困难</value>
+  </data>
+  <data name="DifficultyImpossible" xml:space="preserve">
+    <value>无法删除</value>
+  </data>
+  <data name="DifficultyUnknown" xml:space="preserve">
+    <value>未知</value>
+  </data>
+  <data name="MetadataTitle" xml:space="preserve">
+    <value>文件元数据</value>
+  </data>
+  <data name="MetadataDescription" xml:space="preserve">
+    <value>照片和文档可能泄露 GPS 位置、设备、作者和软件信息。ExifTool 会在本地读取并删除这些元数据。</value>
+  </data>
+  <data name="MetadataInstall" xml:space="preserve">
+    <value>安装 ExifTool</value>
+  </data>
+  <data name="MetadataInstallFailed" xml:space="preserve">
+    <value>无法通过 winget 安装 ExifTool。</value>
+  </data>
+  <data name="MetadataMissing" xml:space="preserve">
+    <value>未安装 ExifTool。</value>
+  </data>
+  <data name="MetadataPick" xml:space="preserve">
+    <value>选择文件…</value>
+  </data>
+  <data name="MetadataRemove" xml:space="preserve">
+    <value>删除元数据</value>
+  </data>
+  <data name="MetadataRemoveTitle" xml:space="preserve">
+    <value>删除所有元数据？</value>
+  </data>
+  <data name="MetadataRemoveMessage" xml:space="preserve">
+    <value>将从 {0} 中删除所有可写元数据。ExifTool 会在文件旁保留一个带 _original 后缀的原始副本。</value>
+  </data>
+  <data name="MetadataRemoved" xml:space="preserve">
+    <value>原始文件已保存为 {0}。</value>
+  </data>
+  <data name="MetadataSummary" xml:space="preserve">
+    <value>{0}：{1} 个标签，其中 {2} 个可能敏感。</value>
+  </data>
+  <data name="MetadataFailed" xml:space="preserve">
+    <value>无法处理元数据：{0}</value>
+  </data>
+  <data name="MetadataSensitive" xml:space="preserve">
+    <value>可能泄露位置、身份或设备</value>
+  </data>
+  <data name="MetadataGroup" xml:space="preserve">
+    <value>组</value>
+  </data>
+  <data name="MetadataTag" xml:space="preserve">
+    <value>标签</value>
+  </data>
+  <data name="MetadataValue" xml:space="preserve">
+    <value>值</value>
+  </data>
+  <data name="DnsIntercepted" xml:space="preserve">
+    <value>你的网络会响应发往任意地址的 DNS 查询：路由器、ISP 或 VPN 正在拦截 DNS。测试无法验证服务器，在拦截解除之前，DNS 更改可能不会生效。</value>
+  </data>
+  <data name="StartupEnabled" xml:space="preserve">
+    <value>已启用</value>
+  </data>
+  <data name="StartupDisabled" xml:space="preserve">
+    <value>已禁用</value>
+  </data>
+  <data name="StartupDisable" xml:space="preserve">
+    <value>禁用</value>
+  </data>
+  <data name="StartupEnable" xml:space="preserve">
+    <value>启用</value>
+  </data>
+  <data name="StartupToggleFailedTitle" xml:space="preserve">
+    <value>启动项未更改</value>
+  </data>
+</root>

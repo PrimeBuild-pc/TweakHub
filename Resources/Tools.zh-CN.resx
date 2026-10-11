@@ -860,4 +860,76 @@
   <data name="DescriptionAttackSurfaceMappingAndAssetDiscovery" xml:space="preserve">
     <value>使用 OWASP Amass 发现外部资产并绘制攻击面。</value>
   </data>
+  <data name="SecurityTitle" xml:space="preserve">
+    <value>安全</value>
+  </data>
+  <data name="SecurityDescription" xml:space="preserve">
+    <value>检查并修复 Windows 防护，使用 Microsoft Defender 扫描并验证文件。仅对你有权调查的系统和数据使用 OSINT 与安全工具。</value>
+  </data>
+  <data name="SearchTools" xml:space="preserve">
+    <value>搜索工具</value>
+  </data>
+  <data name="DescriptionWPD" xml:space="preserve">
+    <value>Windows 隐私与遥测控制工具。更改策略或阻止连接可能影响功能、更新或安全防护。请先审查更改并备份。仅打开官方网站。</value>
+  </data>
+  <data name="DescriptionTapMap" xml:space="preserve">
+    <value>在地图上显示应用的网络连接，并保存本地活动历史。它不是防火墙或安全套件；连接历史可能泄露敏感活动。仅打开官方代码仓库。</value>
+  </data>
+  <data name="DescriptionSecurityToolkit" xml:space="preserve">
+    <value>对 Windows 进程、连接、持久化机制和 Defender 进行安全初步排查。报告可能包含敏感系统数据，分享前请审查。发现的问题并不能证明系统已遭入侵。仅打开官方代码仓库。</value>
+  </data>
+  <data name="DescriptionEmailOSINT" xml:space="preserve">
+    <value>用于授权调查的电子邮件 OSINT 参考资源。仅打开官方网站；TweakHub 不收集或发送电子邮件地址。输入敏感数据前，请阅读网站的隐私政策。</value>
+  </data>
+  <data name="DescriptionSigcheck" xml:space="preserve">
+    <value>Microsoft Sysinternals 文件签名与哈希检查工具。可选的 VirusTotal 查询或上传可能向第三方发送哈希或文件；请先考虑隐私和授权。通过 winget 安装官方软件包。</value>
+  </data>
+  <data name="DescriptionSafetyScanner" xml:space="preserve">
+    <value>Microsoft 独立、按需运行的恶意软件扫描工具。可能删除检测到的文件，请先备份重要数据。不能替代常驻防病毒保护。仅打开 Microsoft 官方页面。</value>
+  </data>
+  <data name="DescriptionMVolt" xml:space="preserve">
+    <value>NVIDIA GPU 调节与监控工具（mVolt+）。更改电压、频率、功耗或风扇设置可能导致不稳定、数据丢失或硬件损坏。请确认 GPU 兼容性并阅读官方说明。仅打开官方代码仓库。</value>
+  </data>
+  <data name="DescriptionSparkle" xml:space="preserve">
+    <value>Windows 精简、清理与调节工具。删除应用或更改设置可能影响功能或安全；请先审查更改并备份。GPL-3.0 项目仅作为参考链接，不包含其代码。</value>
+  </data>
+  <data name="DescriptionFollowTheWhiteRabbit" xml:space="preserve">
+    <value>start.me 上精选的 OSINT 与网络安全资源面板。TweakHub 未审核第三方链接，请仅用于授权的研究。仅打开 start.me 页面。</value>
+  </data>
+  <data name="DescriptionTriage" xml:space="preserve">
+    <value>Recorded Future 的在线恶意软件分析沙箱。提交的文件和 URL 可能会与第三方共享或被公开；切勿上传个人或机密数据。仅打开官方网站。</value>
+  </data>
+  <data name="DescriptionUserScanner" xml:space="preserve">
+    <value>在数千个网站上检查邮箱和用户名是否存在的 OSINT 套件。仅用于你自己的账户或已获授权的对象；TweakHub 不会收集或发送任何地址。仅打开官方仓库。</value>
+  </data>
+  <data name="DescriptionAwesomePrivacy" xml:space="preserve">
+    <value>精选的尊重隐私的热门服务和应用替代品列表。迁移或共享数据前请自行评估每个项目。仅打开官方仓库。</value>
+  </data>
+  <data name="DescriptionPrivacySexy" xml:space="preserve">
+    <value>用于加强 Windows 隐私与遥测设置的开源脚本生成器。生成的脚本会更改系统设置，可能影响功能或更新；请审查每个脚本并先创建还原点。通过 winget 安装官方软件包。</value>
+  </data>
+  <data name="DescriptionPiHole" xml:space="preserve">
+    <value>全网 DNS 黑洞，可拦截广告和跟踪器，通常运行在 Linux 设备或容器上。过于激进的拦截列表可能会导致所有使用它的设备上的网站和应用无法正常工作。仅打开官方仓库。</value>
+  </data>
+  <data name="DescriptionDataBrokerOptOut" xml:space="preserve">
+    <value>社区整理的数据经纪商和人员搜索网站退出指南，主要针对美国。退出表单可能要求提供个人数据；只提供必要的信息。仅打开官方仓库。</value>
+  </data>
+  <data name="DescriptionJustDeleteMe" xml:space="preserve">
+    <value>按难度分级的网络服务账户删除直达链接目录。删除账户通常无法恢复；请先导出你的数据。仅打开官方网站；源代码位于 GitHub（justdeleteme/justdelete.me）。</value>
+  </data>
+  <data name="DescriptionUngoogledChromium" xml:space="preserve">
+    <value>去除 Google 网络服务集成的 Chromium，注重隐私与透明。它不是匿名工具，也不会自动更新；请自行保持更新。通过 winget 安装官方软件包。</value>
+  </data>
+  <data name="DescriptionPersonalSecurityChecklist" xml:space="preserve">
+    <value>包含 300 多条保护数字安全与隐私建议的清单。建议较为通用；请根据你的威胁模型和设备进行调整。仅打开官方仓库。</value>
+  </data>
+  <data name="DescriptionFfuf" xml:space="preserve">
+    <value>用于内容发现和参数测试的快速 Web 模糊测试工具。仅用于你拥有或已获授权测试的系统；扫描可能使服务器过载并触发安全警报。仅打开官方仓库。</value>
+  </data>
+  <data name="DescriptionXalgorix" xml:space="preserve">
+    <value>用于侦察、漏洞检测和利用的自主 AI 代理。仅在授权的渗透测试范围内使用；自主操作可能损坏目标或超出授权范围。仅打开官方仓库。</value>
+  </data>
+  <data name="DescriptionHackingTool" xml:space="preserve">
+    <value>一体化 Linux 启动器，可安装大量第三方安全与渗透测试工具。这些工具未经审核且可能需要 root 权限；请仅在隔离的实验环境中针对授权目标使用。仅打开官方仓库。</value>
+  </data>
 </root>

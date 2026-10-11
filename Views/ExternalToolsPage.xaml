@@ -47,7 +47,7 @@
         </Style>
     </Page.Resources>
 
-    <Grid Margin="32">
+    <Grid x:Name="RootGrid" Margin="32">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -59,12 +59,12 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0">
-                <TextBlock Text="{loc:Loc Tools:ExternalToolsPageExternalTools2}"
+            <StackPanel x:Name="HeaderText" Grid.Column="0">
+                <TextBlock x:Name="HeadingText" Text="{loc:Loc Tools:ExternalToolsPageExternalTools2}"
                            FontSize="28" FontWeight="Light"
                            Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"
                            Margin="0,0,0,6"/>
-                <TextBlock Text="{loc:Loc Tools:ExternalToolsPageInstallCuratedToolsOrAdd}"
+                <TextBlock x:Name="DescriptionText" Text="{loc:Loc Tools:ExternalToolsPageInstallCuratedToolsOrAdd}"
                            FontSize="12"
                            Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
                            TextWrapping="Wrap"/>
@@ -94,13 +94,15 @@
                         <TextBox x:Name="SearchBox" Width="190" Margin="6,0,8,0" BorderThickness="0"
                                  Background="Transparent" FocusVisualStyle="{x:Null}"
                                  VerticalContentAlignment="Center" Padding="0,4" FontSize="12"
-                                 TextChanged="SearchBox_TextChanged"/>
+                                 AutomationProperties.Name="{loc:Loc Tools:SearchTools}"
+                                 ToolTip="{loc:Loc Tools:SearchTools}" TextChanged="SearchBox_TextChanged"/>
                     </DockPanel>
                 </Border>
                 <ToggleButton x:Name="FavoritesOnlyButton" Padding="12,6" MinHeight="32"
                               Background="{DynamicResource SubtleFillBrush}"
                               BorderBrush="{DynamicResource SystemControlBorderBaseMediumBrush}" BorderThickness="1"
                               Checked="FavoritesFilter_Changed" Unchecked="FavoritesFilter_Changed" Margin="0,0,8,0"
+                              AutomationProperties.Name="{loc:Loc Tools:ExternalToolsPageShowFavoritesOnly}"
                               ToolTip="{loc:Loc Tools:ExternalToolsPageShowFavoritesOnly}">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="&#xE734;" FontFamily="Segoe Fluent Icons" Margin="0,0,6,0"/>
@@ -199,9 +201,8 @@
                                                         </Button>
                                                     </Grid>
 
-                                                    <TextBlock Text="{Binding Tool.Description}" FontSize="11" TextWrapping="Wrap"
-                                                               LineHeight="14" Margin="0,0,0,12" MaxHeight="42"
-                                                               TextTrimming="WordEllipsis"
+                                                    <TextBlock Text="{Binding Tool.Description}" FontSize="12" TextWrapping="Wrap"
+                                                               LineHeight="16" Margin="0,0,0,12"
                                                                Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
 
                                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">

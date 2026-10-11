@@ -9,7 +9,7 @@ namespace TweakHub.Tests;
 
 public class LocalizationTests
 {
-    private static readonly string[] Domains = ["UI", "Tweaks", "Tools", "Scripts"];
+    private static readonly string[] Domains = ["UI", "Tweaks", "Tools", "Scripts", "Security"];
     private static readonly string[] Cultures = ["ru", "zh-CN", "es", "it", "ja"];
 
     [TestCase("ja-JP", "ja")]

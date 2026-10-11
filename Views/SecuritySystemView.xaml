@@ -1,0 +1,227 @@
+<UserControl x:Class="TweakHub.Views.SecuritySystemView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:loc="clr-namespace:TweakHub.Localization"
+             xmlns:ui="http://schemas.modernwpf.com/2019">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="SecurityStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="0,8,12,0">
+        <StackPanel>
+            <Grid Margin="4,0,4,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="{loc:Loc Security:SystemDescription}" Style="{StaticResource DescriptionTextStyle}"/>
+                    <TextBlock x:Name="StatusText" Style="{StaticResource DescriptionTextStyle}" FontSize="11" Margin="0,2,0,0"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="16,0,0,0">
+                    <ui:ProgressRing x:Name="BusyRing" Width="20" Height="20" Margin="0,0,10,0" IsActive="False"/>
+                    <Button x:Name="ScanButton" Click="Scan_Click" Style="{StaticResource ModernButtonStyle}" Margin="0,0,8,0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE72C;" Style="{StaticResource IconTextStyle}" Margin="0,0,6,0"/>
+                            <TextBlock Text="{loc:Loc Security:SystemScan}"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="ElevatedScanButton" Click="ElevatedScan_Click" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0"
+                            ToolTip="{loc:Loc Security:SystemScanElevatedHint}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xEA18;" Style="{StaticResource IconTextStyle}" Margin="0,0,6,0"/>
+                            <TextBlock Text="{loc:Loc Security:SystemScanElevated}"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="ExportButton" Click="Export_Click" Style="{StaticResource SecondaryButtonStyle}" IsEnabled="False">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xEDE1;" Style="{StaticResource IconTextStyle}" Margin="0,0,6,0"/>
+                            <TextBlock Text="{loc:Loc Security:ExportReport}"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+            <TextBlock x:Name="ErrorText" Foreground="{DynamicResource DangerBrush}" TextWrapping="Wrap" Margin="4,0,4,8" Visibility="Collapsed"/>
+
+            <UniformGrid Columns="4">
+                <Border Style="{StaticResource CardStyle}">
+                    <StackPanel>
+                        <TextBlock Text="&#xE839;" Style="{StaticResource IconTextStyle}" FontSize="20" HorizontalAlignment="Left"
+                                   Margin="0,0,0,8" Foreground="{DynamicResource IconBrush}"/>
+                        <TextBlock Text="{loc:Loc Security:TileEstablished}" Style="{StaticResource LabelTextStyle}"/>
+                        <TextBlock x:Name="EstablishedValue" Text="–" Style="{StaticResource TileValueStyle}"/>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource CardStyle}">
+                    <StackPanel>
+                        <TextBlock Text="&#xE968;" Style="{StaticResource IconTextStyle}" FontSize="20" HorizontalAlignment="Left"
+                                   Margin="0,0,0,8" Foreground="{DynamicResource IconBrush}"/>
+                        <TextBlock Text="{loc:Loc Security:TileListening}" Style="{StaticResource LabelTextStyle}"/>
+                        <TextBlock x:Name="ListeningValue" Text="–" Style="{StaticResource TileValueStyle}"/>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource CardStyle}">
+                    <StackPanel>
+                        <TextBlock Text="&#xE7B5;" Style="{StaticResource IconTextStyle}" FontSize="20" HorizontalAlignment="Left"
+                                   Margin="0,0,0,8" Foreground="{DynamicResource IconBrush}"/>
+                        <TextBlock Text="{loc:Loc Security:TileStartup}" Style="{StaticResource LabelTextStyle}"/>
+                        <TextBlock x:Name="StartupValue" Text="–" Style="{StaticResource TileValueStyle}"/>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource CardStyle}">
+                    <StackPanel>
+                        <TextBlock x:Name="ReviewIcon" Text="&#xE7BA;" Style="{StaticResource IconTextStyle}" FontSize="20" HorizontalAlignment="Left"
+                                   Margin="0,0,0,8" Foreground="{DynamicResource IconBrush}"/>
+                        <TextBlock Text="{loc:Loc Security:TileReview}" Style="{StaticResource LabelTextStyle}"/>
+                        <TextBlock x:Name="ReviewValue" Text="–" Style="{StaticResource TileValueStyle}"/>
+                    </StackPanel>
+                </Border>
+            </UniformGrid>
+
+            <!-- Connections -->
+            <Border Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <TextBlock Text="{loc:Loc Security:ConnectionsTitle}" Style="{StaticResource SectionTitleStyle}"/>
+                    <StackPanel>
+                        <StackPanel Margin="0,0,0,16">
+                            <TextBlock Text="{loc:Loc Security:TopProcesses}" Style="{StaticResource LabelTextStyle}" Margin="0,0,0,10"/>
+                            <UniformGrid x:Name="ProcessChart" Columns="2"/>
+                            <TextBlock Text="{loc:Loc Security:ChartFilterHint}" Style="{StaticResource DescriptionTextStyle}" FontSize="11"/>
+                        </StackPanel>
+                        <StackPanel>
+                            <WrapPanel Margin="0,0,0,8">
+                                <TextBox x:Name="ConnectionSearch" Width="220" Margin="0,0,12,4" TextChanged="ConnectionFilter_Changed"
+                                         ui:ControlHelper.PlaceholderText="{loc:Loc Security:FilterPlaceholder}"
+                                         AutomationProperties.Name="{loc:Loc Security:FilterPlaceholder}"/>
+                                <CheckBox x:Name="EstablishedOnly" Content="{loc:Loc Security:EstablishedOnly}" Margin="0,0,12,4"
+                                          Checked="ConnectionFilter_Changed" Unchecked="ConnectionFilter_Changed"/>
+                                <CheckBox x:Name="HideLoopback" Content="{loc:Loc Security:HideLoopback}" IsChecked="True" Margin="0,0,12,4"
+                                          Checked="ConnectionFilter_Changed" Unchecked="ConnectionFilter_Changed"/>
+                                <CheckBox x:Name="ConnectionsReviewOnly" Content="{loc:Loc Security:ReviewOnly}" Margin="0,0,12,4"
+                                          Checked="ConnectionFilter_Changed" Unchecked="ConnectionFilter_Changed"/>
+                            </WrapPanel>
+                            <DataGrid x:Name="ConnectionsGrid" Style="{StaticResource TriageGridStyle}">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Header="{loc:Loc Security:ColumnProcess}" Width="2*" SortMemberPath="Process">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" ToolTip="{Binding Path}">
+                                                    <TextBlock Style="{StaticResource TrustIconStyle}" Margin="0,0,8,0" ToolTip="{Binding TrustText}"/>
+                                                    <TextBlock Text="{Binding Process}" VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn Header="PID" Binding="{Binding Pid}" Width="Auto"/>
+                                    <DataGridTextColumn Header="{loc:Loc Security:ColumnProtocol}" Binding="{Binding Protocol}" Width="Auto"/>
+                                    <DataGridTextColumn Header="{loc:Loc Security:ColumnLocal}" Binding="{Binding LocalText}" Width="2*"/>
+                                    <DataGridTextColumn Header="{loc:Loc Security:ColumnRemote}" Binding="{Binding RemoteText}" Width="2*"/>
+                                    <DataGridTextColumn Header="{loc:Loc Security:ColumnState}" Binding="{Binding StateText}" Width="Auto"/>
+                                    <DataGridTextColumn Header="{loc:Loc Security:ColumnSigner}" Binding="{Binding TrustText}" Width="2*"/>
+                                    <DataGridTemplateColumn Width="Auto">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Button Click="OpenLocation_Click" Style="{StaticResource SmallIconButtonStyle}"
+                                                            ToolTip="{loc:Loc Security:OpenLocation}" AutomationProperties.Name="{loc:Loc Security:OpenLocation}">
+                                                        <TextBlock Text="&#xE838;" Style="{StaticResource IconTextStyle}" FontSize="12"/>
+                                                    </Button>
+                                                    <Button Click="AnalyzeFile_Click" Style="{StaticResource SmallIconButtonStyle}"
+                                                            ToolTip="{loc:Loc Security:AnalyzeFile}" AutomationProperties.Name="{loc:Loc Security:AnalyzeFile}">
+                                                        <TextBlock Text="&#xE721;" Style="{StaticResource IconTextStyle}" FontSize="12"/>
+                                                    </Button>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Startup and persistence -->
+            <Border Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <TextBlock Text="{loc:Loc Security:StartupTitle}" Style="{StaticResource SectionTitleStyle}" Margin="0,0,0,4"/>
+                    <TextBlock Text="{loc:Loc Security:StartupDescription}" Style="{StaticResource DescriptionTextStyle}" Margin="0,0,0,12"/>
+                    <StackPanel>
+                        <StackPanel Margin="0,0,0,16">
+                            <UniformGrid x:Name="StartupChart" Columns="2"/>
+                            <WrapPanel x:Name="StartupLegend" Margin="0,4,0,0"/>
+                            <TextBlock Text="{loc:Loc Security:ChartFilterHint}" Style="{StaticResource DescriptionTextStyle}" FontSize="11"/>
+                        </StackPanel>
+                        <StackPanel>
+                            <WrapPanel Margin="0,0,0,8">
+                                <TextBox x:Name="StartupSearch" Width="220" Margin="0,0,12,4" TextChanged="StartupFilter_Changed"
+                                         ui:ControlHelper.PlaceholderText="{loc:Loc Security:FilterPlaceholder}"
+                                         AutomationProperties.Name="{loc:Loc Security:FilterPlaceholder}"/>
+                                <CheckBox x:Name="StartupReviewOnly" Content="{loc:Loc Security:ReviewOnly}" Margin="0,0,12,4"
+                                          Checked="StartupFilter_Changed" Unchecked="StartupFilter_Changed"/>
+                            </WrapPanel>
+                            <DataGrid x:Name="StartupGrid" Style="{StaticResource TriageGridStyle}">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Header="{loc:Loc Security:ColumnName}" Width="2*" SortMemberPath="Name">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Style="{StaticResource TrustIconStyle}" Margin="0,0,8,0" ToolTip="{Binding TrustText}"/>
+                                                    <TextBlock Text="{Binding Name}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn Header="{loc:Loc Security:ColumnType}" Binding="{Binding KindText}" Width="Auto"/>
+                                    <DataGridTemplateColumn Header="{loc:Loc Security:ColumnCommand}" Width="4*" SortMemberPath="Command">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Command}" ToolTip="{Binding Command}" TextTrimming="CharacterEllipsis"
+                                                           VerticalAlignment="Center"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn Header="{loc:Loc Security:ColumnSigner}" Binding="{Binding TrustText}" Width="2*"/>
+                                    <DataGridTextColumn Header="{loc:Loc Security:ColumnState}" Binding="{Binding StatusText}" Width="Auto"/>
+                                    <DataGridTemplateColumn Width="Auto">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Button Click="Toggle_Click" Style="{StaticResource SecondaryButtonStyle}" MinHeight="28" Padding="10,2"
+                                                            Margin="0,0,4,0" Content="{Binding ToggleText}" AutomationProperties.Name="{Binding ToggleText}">
+                                                        <Button.Visibility>
+                                                            <Binding Path="CanToggle">
+                                                                <Binding.Converter><BooleanToVisibilityConverter/></Binding.Converter>
+                                                            </Binding>
+                                                        </Button.Visibility>
+                                                    </Button>
+                                                    <Button Click="OpenLocation_Click" Style="{StaticResource SmallIconButtonStyle}"
+                                                            ToolTip="{loc:Loc Security:OpenLocation}" AutomationProperties.Name="{loc:Loc Security:OpenLocation}">
+                                                        <TextBlock Text="&#xE838;" Style="{StaticResource IconTextStyle}" FontSize="12"/>
+                                                    </Button>
+                                                    <Button Click="AnalyzeFile_Click" Style="{StaticResource SmallIconButtonStyle}"
+                                                            ToolTip="{loc:Loc Security:AnalyzeFile}" AutomationProperties.Name="{loc:Loc Security:AnalyzeFile}">
+                                                        <TextBlock Text="&#xE721;" Style="{StaticResource IconTextStyle}" FontSize="12"/>
+                                                    </Button>
+                                                    <Button Click="Manage_Click" Style="{StaticResource SmallIconButtonStyle}"
+                                                            ToolTip="{loc:Loc Security:ManageInWindows}" AutomationProperties.Name="{loc:Loc Security:ManageInWindows}">
+                                                        <TextBlock Text="&#xE8A7;" Style="{StaticResource IconTextStyle}" FontSize="12"/>
+                                                    </Button>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

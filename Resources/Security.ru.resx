@@ -1,0 +1,777 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="TabOverview" xml:space="preserve">
+    <value>Обзор</value>
+  </data>
+  <data name="TabDefender" xml:space="preserve">
+    <value>Microsoft Defender</value>
+  </data>
+  <data name="TabFileAnalysis" xml:space="preserve">
+    <value>Анализ файлов</value>
+  </data>
+  <data name="TabTools" xml:space="preserve">
+    <value>Инструменты и ресурсы</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Обновить</value>
+  </data>
+  <data name="LoadFailed" xml:space="preserve">
+    <value>Не удалось прочитать состояние безопасности: {0}</value>
+  </data>
+  <data name="ScoreTitle" xml:space="preserve">
+    <value>Оценка безопасности</value>
+  </data>
+  <data name="ScoreGood" xml:space="preserve">
+    <value>Хорошая защита</value>
+  </data>
+  <data name="ScoreFair" xml:space="preserve">
+    <value>Требует внимания</value>
+  </data>
+  <data name="ScorePoor" xml:space="preserve">
+    <value>Под угрозой</value>
+  </data>
+  <data name="ScoreSummary" xml:space="preserve">
+    <value>Пройдено проверок: {0} из {1}</value>
+  </data>
+  <data name="ScoreHint" xml:space="preserve">
+    <value>Выберите сегмент кольца, чтобы перейти к проверке.</value>
+  </data>
+  <data name="Fix" xml:space="preserve">
+    <value>Исправить</value>
+  </data>
+  <data name="OpenSettings" xml:space="preserve">
+    <value>Открыть параметры</value>
+  </data>
+  <data name="OpenFailedTitle" xml:space="preserve">
+    <value>Не удалось открыть</value>
+  </data>
+  <data name="RequiresAdministrator" xml:space="preserve">
+    <value>Требуются права администратора</value>
+  </data>
+  <data name="FixConfirmTitle" xml:space="preserve">
+    <value>Применить исправление?</value>
+  </data>
+  <data name="FixConfirmMessage" xml:space="preserve">
+    <value>{0}
+
+TweakHub выполнит эту команду от имени администратора:
+
+{1}</value>
+  </data>
+  <data name="FixRestartNote" xml:space="preserve">
+    <value>Для завершения изменения требуется перезагрузка.</value>
+  </data>
+  <data name="FixFailedTitle" xml:space="preserve">
+    <value>Исправление не применено</value>
+  </data>
+  <data name="FixFailed" xml:space="preserve">
+    <value>Не удалось применить исправление. Windows может блокировать изменение (например, защита от подделки или групповая политика).
+
+{0}</value>
+  </data>
+  <data name="CheckAntivirus" xml:space="preserve">
+    <value>Антивирус</value>
+  </data>
+  <data name="CheckAntivirusPassed" xml:space="preserve">
+    <value>Антивирусная защита в реальном времени включена.</value>
+  </data>
+  <data name="CheckAntivirusFailed" xml:space="preserve">
+    <value>Антивирусная защита в реальном времени отключена. Компьютер уязвим для вредоносного ПО.</value>
+  </data>
+  <data name="CheckAntivirusUnknown" xml:space="preserve">
+    <value>Центр безопасности Windows не сообщает о состоянии антивируса.</value>
+  </data>
+  <data name="CheckSignatures" xml:space="preserve">
+    <value>Сигнатуры безопасности</value>
+  </data>
+  <data name="CheckSignaturesPassed" xml:space="preserve">
+    <value>Антивирусные базы актуальны.</value>
+  </data>
+  <data name="CheckSignaturesFailed" xml:space="preserve">
+    <value>Антивирусным базам больше 3 дней.</value>
+  </data>
+  <data name="CheckSignaturesUnknown" xml:space="preserve">
+    <value>Возраст антивирусных баз недоступен.</value>
+  </data>
+  <data name="CheckFirewall" xml:space="preserve">
+    <value>Брандмауэр</value>
+  </data>
+  <data name="CheckFirewallPassed" xml:space="preserve">
+    <value>Брандмауэр Windows включён для доменных, частных и общедоступных сетей.</value>
+  </data>
+  <data name="CheckFirewallFailed" xml:space="preserve">
+    <value>Брандмауэр Windows отключён хотя бы для одного сетевого профиля.</value>
+  </data>
+  <data name="CheckFirewallUnknown" xml:space="preserve">
+    <value>Не удалось прочитать состояние брандмауэра.</value>
+  </data>
+  <data name="CheckUac" xml:space="preserve">
+    <value>Контроль учётных записей</value>
+  </data>
+  <data name="CheckUacPassed" xml:space="preserve">
+    <value>Приложения запрашивают подтверждение перед изменениями от имени администратора.</value>
+  </data>
+  <data name="CheckUacFailed" xml:space="preserve">
+    <value>UAC отключён или повышает права без запроса: любое приложение может незаметно получить полный контроль.</value>
+  </data>
+  <data name="CheckUacUnknown" xml:space="preserve">
+    <value>Не удалось прочитать настройки UAC.</value>
+  </data>
+  <data name="CheckUpdates" xml:space="preserve">
+    <value>Центр обновления Windows</value>
+  </data>
+  <data name="CheckUpdatesPassed" xml:space="preserve">
+    <value>Обновление устанавливалось за последние 45 дней.</value>
+  </data>
+  <data name="CheckUpdatesFailed" xml:space="preserve">
+    <value>За последние 45 дней обновления не устанавливались: возможно, отсутствуют исправления безопасности.</value>
+  </data>
+  <data name="CheckUpdatesUnknown" xml:space="preserve">
+    <value>Не удалось прочитать журнал обновлений.</value>
+  </data>
+  <data name="CheckSmb1" xml:space="preserve">
+    <value>Протокол SMBv1</value>
+  </data>
+  <data name="CheckSmb1Passed" xml:space="preserve">
+    <value>Устаревший протокол общего доступа SMBv1 отключён.</value>
+  </data>
+  <data name="CheckSmb1Failed" xml:space="preserve">
+    <value>SMBv1 включён. Его использовали вымогатели, например WannaCry.</value>
+  </data>
+  <data name="CheckSmb1Unknown" xml:space="preserve">
+    <value>Не удалось прочитать состояние SMBv1.</value>
+  </data>
+  <data name="CheckRemoteDesktop" xml:space="preserve">
+    <value>Удалённый рабочий стол</value>
+  </data>
+  <data name="CheckRemoteDesktopPassed" xml:space="preserve">
+    <value>Входящие подключения к удалённому рабочему столу отключены.</value>
+  </data>
+  <data name="CheckRemoteDesktopFailed" xml:space="preserve">
+    <value>Удалённый рабочий стол принимает подключения. Отключите его, если не используете.</value>
+  </data>
+  <data name="CheckRemoteDesktopUnknown" xml:space="preserve">
+    <value>Не удалось прочитать состояние удалённого рабочего стола.</value>
+  </data>
+  <data name="CheckBitLocker" xml:space="preserve">
+    <value>Шифрование диска</value>
+  </data>
+  <data name="CheckBitLockerPassed" xml:space="preserve">
+    <value>Системный диск защищён BitLocker.</value>
+  </data>
+  <data name="CheckBitLockerFailed" xml:space="preserve">
+    <value>Системный диск не зашифрован: при потере или краже ПК данные можно прочитать. Перед включением сохраните ключ восстановления.</value>
+  </data>
+  <data name="CheckBitLockerUnknown" xml:space="preserve">
+    <value>BitLocker недоступен в этой редакции или на этом диске.</value>
+  </data>
+  <data name="CheckSecureBoot" xml:space="preserve">
+    <value>Безопасная загрузка</value>
+  </data>
+  <data name="CheckSecureBootPassed" xml:space="preserve">
+    <value>Безопасная загрузка блокирует недоверенные загрузчики и руткиты.</value>
+  </data>
+  <data name="CheckSecureBootFailed" xml:space="preserve">
+    <value>Безопасная загрузка отключена. Включите её в настройках прошивки UEFI.</value>
+  </data>
+  <data name="CheckSecureBootUnknown" xml:space="preserve">
+    <value>Безопасная загрузка не поддерживается (устаревшая загрузка BIOS).</value>
+  </data>
+  <data name="CheckMemoryIntegrity" xml:space="preserve">
+    <value>Целостность памяти</value>
+  </data>
+  <data name="CheckMemoryIntegrityPassed" xml:space="preserve">
+    <value>Изоляция ядра защищает ядро от вредоносных драйверов.</value>
+  </data>
+  <data name="CheckMemoryIntegrityFailed" xml:space="preserve">
+    <value>Целостность памяти отключена. Включите её в «Безопасности Windows» после проверки совместимости драйверов; это может немного снизить производительность в играх.</value>
+  </data>
+  <data name="CheckMemoryIntegrityUnknown" xml:space="preserve">
+    <value>Не удалось прочитать состояние целостности памяти.</value>
+  </data>
+  <data name="DefenderInactive" xml:space="preserve">
+    <value>Microsoft Defender не является активным антивирусом, поэтому его состояние и проверки недоступны.</value>
+  </data>
+  <data name="RealTimeProtection" xml:space="preserve">
+    <value>Защита в реальном времени</value>
+  </data>
+  <data name="TamperProtection" xml:space="preserve">
+    <value>Защита от подделки</value>
+  </data>
+  <data name="SignatureVersion" xml:space="preserve">
+    <value>Версия баз</value>
+  </data>
+  <data name="EngineVersion" xml:space="preserve">
+    <value>Версия платформы</value>
+  </data>
+  <data name="On" xml:space="preserve">
+    <value>Вкл.</value>
+  </data>
+  <data name="Off" xml:space="preserve">
+    <value>Выкл.</value>
+  </data>
+  <data name="ProtectionAge" xml:space="preserve">
+    <value>Актуальность защиты</value>
+  </data>
+  <data name="AgeSignatures" xml:space="preserve">
+    <value>Базы</value>
+  </data>
+  <data name="AgeQuickScan" xml:space="preserve">
+    <value>Быстрая проверка</value>
+  </data>
+  <data name="AgeFullScan" xml:space="preserve">
+    <value>Полная проверка</value>
+  </data>
+  <data name="AgeDays" xml:space="preserve">
+    <value>{0} дн. назад</value>
+  </data>
+  <data name="AgeToday" xml:space="preserve">
+    <value>Сегодня</value>
+  </data>
+  <data name="AgeNever" xml:space="preserve">
+    <value>Никогда</value>
+  </data>
+  <data name="AgeRecommended" xml:space="preserve">
+    <value>Рекомендуется: не реже чем раз в {0} дн. Метка показывает предел.</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Проверки и обновления</value>
+  </data>
+  <data name="QuickScan" xml:space="preserve">
+    <value>Быстрая проверка</value>
+  </data>
+  <data name="FullScan" xml:space="preserve">
+    <value>Полная проверка</value>
+  </data>
+  <data name="OfflineScan" xml:space="preserve">
+    <value>Автономная проверка</value>
+  </data>
+  <data name="UpdateSignatures" xml:space="preserve">
+    <value>Обновить базы</value>
+  </data>
+  <data name="ActionRunning" xml:space="preserve">
+    <value>{0}: выполняется… Можно продолжать работу с TweakHub.</value>
+  </data>
+  <data name="ActionCompleted" xml:space="preserve">
+    <value>{0}: выполнено.</value>
+  </data>
+  <data name="ActionFailed" xml:space="preserve">
+    <value>{0}: ошибка — {1}</value>
+  </data>
+  <data name="OfflineConfirmTitle" xml:space="preserve">
+    <value>Перезагрузить для автономной проверки?</value>
+  </data>
+  <data name="OfflineConfirmMessage" xml:space="preserve">
+    <value>Microsoft Defender Offline сразу перезагрузит компьютер и около 15 минут будет проверять его до запуска Windows. Так обнаруживаются руткиты, скрывающиеся во время работы Windows. Сначала сохраните работу.</value>
+  </data>
+  <data name="SafetyScannerTitle" xml:space="preserve">
+    <value>Microsoft Safety Scanner</value>
+  </data>
+  <data name="SafetyScannerDescription" xml:space="preserve">
+    <value>Второе мнение от Microsoft. TweakHub загружает его с сайта Microsoft, проверяет цифровую подпись и запускает в режиме только обнаружения — файлы не удаляются.</value>
+  </data>
+  <data name="SafetyScannerRun" xml:space="preserve">
+    <value>Скачать и запустить</value>
+  </data>
+  <data name="SafetyScannerDownloading" xml:space="preserve">
+    <value>Загрузка Microsoft Safety Scanner… {0}%</value>
+  </data>
+  <data name="SafetyScannerStarted" xml:space="preserve">
+    <value>Microsoft Safety Scanner запущен в режиме только обнаружения. Выберите тип проверки в его окне.</value>
+  </data>
+  <data name="SafetyScannerFailed" xml:space="preserve">
+    <value>Не удалось запустить Microsoft Safety Scanner: {0}</value>
+  </data>
+  <data name="SafetyScannerSignatureInvalid" xml:space="preserve">
+    <value>Загруженный файл не имеет действительной подписи Microsoft и был удалён.</value>
+  </data>
+  <data name="Threats" xml:space="preserve">
+    <value>Журнал обнаружений</value>
+  </data>
+  <data name="NoThreats" xml:space="preserve">
+    <value>Угрозы не обнаружены.</value>
+  </data>
+  <data name="OpenWindowsSecurity" xml:space="preserve">
+    <value>Открыть в «Безопасности Windows»</value>
+  </data>
+  <data name="SeverityLow" xml:space="preserve">
+    <value>Низкая</value>
+  </data>
+  <data name="SeverityModerate" xml:space="preserve">
+    <value>Средняя</value>
+  </data>
+  <data name="SeverityHigh" xml:space="preserve">
+    <value>Высокая</value>
+  </data>
+  <data name="SeveritySevere" xml:space="preserve">
+    <value>Серьёзная</value>
+  </data>
+  <data name="FileDrop" xml:space="preserve">
+    <value>Перетащите файл сюда</value>
+  </data>
+  <data name="FileDropHint" xml:space="preserve">
+    <value>TweakHub локально вычисляет хеши и проверяет цифровую подпись. Ничего не загружается.</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>Обзор…</value>
+  </data>
+  <data name="FileAnalyzing" xml:space="preserve">
+    <value>Анализ файла…</value>
+  </data>
+  <data name="FileFailed" xml:space="preserve">
+    <value>Не удалось проанализировать файл: {0}</value>
+  </data>
+  <data name="FileNotAFile" xml:space="preserve">
+    <value>Выберите один файл, а не папку.</value>
+  </data>
+  <data name="HashPrivacyNote" xml:space="preserve">
+    <value>Поиск открывает браузер только с хешем SHA-256; сам файл никогда не загружается.</value>
+  </data>
+  <data name="CopyHash" xml:space="preserve">
+    <value>Копировать</value>
+  </data>
+  <data name="SearchVirusTotal" xml:space="preserve">
+    <value>Искать на VirusTotal</value>
+  </data>
+  <data name="SearchTriage" xml:space="preserve">
+    <value>Искать на Triage</value>
+  </data>
+  <data name="CopyReport" xml:space="preserve">
+    <value>Копировать отчёт</value>
+  </data>
+  <data name="Signature" xml:space="preserve">
+    <value>Цифровая подпись</value>
+  </data>
+  <data name="SignatureValid" xml:space="preserve">
+    <value>Действительна и доверенная</value>
+  </data>
+  <data name="SignatureNotSigned" xml:space="preserve">
+    <value>Не подписан</value>
+  </data>
+  <data name="SignatureNotApplicable" xml:space="preserve">
+    <value>Неприменимо к этому типу файлов</value>
+  </data>
+  <data name="SignatureUnknown" xml:space="preserve">
+    <value>Не удалось проверить</value>
+  </data>
+  <data name="SignatureInvalid" xml:space="preserve">
+    <value>Недействительна ({0})</value>
+  </data>
+  <data name="Signer" xml:space="preserve">
+    <value>Подписано</value>
+  </data>
+  <data name="Issuer" xml:space="preserve">
+    <value>Издатель</value>
+  </data>
+  <data name="ValidUntil" xml:space="preserve">
+    <value>Сертификат действителен до</value>
+  </data>
+  <data name="Timestamp" xml:space="preserve">
+    <value>Метка времени от</value>
+  </data>
+  <data name="SignatureType" xml:space="preserve">
+    <value>Тип подписи</value>
+  </data>
+  <data name="SignatureTypeEmbedded" xml:space="preserve">
+    <value>Встроена в файл</value>
+  </data>
+  <data name="SignatureTypeCatalog" xml:space="preserve">
+    <value>Каталог Windows</value>
+  </data>
+  <data name="Company" xml:space="preserve">
+    <value>Компания</value>
+  </data>
+  <data name="Product" xml:space="preserve">
+    <value>Продукт</value>
+  </data>
+  <data name="FileDescription" xml:space="preserve">
+    <value>Описание</value>
+  </data>
+  <data name="FileVersion" xml:space="preserve">
+    <value>Версия</value>
+  </data>
+  <data name="OriginalName" xml:space="preserve">
+    <value>Исходное имя файла</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>Размер</value>
+  </data>
+  <data name="TabSystem" xml:space="preserve">
+    <value>Система</value>
+  </data>
+  <data name="TabPrivacy" xml:space="preserve">
+    <value>Конфиденциальность и аккаунты</value>
+  </data>
+  <data name="SystemDescription" xml:space="preserve">
+    <value>Сетевые подключения по процессам и программы автозапуска с цифровой подписью каждого файла.</value>
+  </data>
+  <data name="SystemScan" xml:space="preserve">
+    <value>Сканировать</value>
+  </data>
+  <data name="SystemScanElevated" xml:space="preserve">
+    <value>Сканировать от имени администратора</value>
+  </data>
+  <data name="SystemScanElevatedHint" xml:space="preserve">
+    <value>Показывает также пути к системным процессам и процессам с повышенными правами.</value>
+  </data>
+  <data name="SystemScanning" xml:space="preserve">
+    <value>Сбор подключений, элементов автозапуска и подписей…</value>
+  </data>
+  <data name="SystemScannedPartial" xml:space="preserve">
+    <value>Сканирование в {0}. Для путей системных процессов нужно сканирование от имени администратора.</value>
+  </data>
+  <data name="SystemScannedElevated" xml:space="preserve">
+    <value>Сканирование от имени администратора в {0}.</value>
+  </data>
+  <data name="SystemScanFailed" xml:space="preserve">
+    <value>Не удалось завершить сканирование: {0}</value>
+  </data>
+  <data name="ExportReport" xml:space="preserve">
+    <value>Экспорт отчёта</value>
+  </data>
+  <data name="ExportFailedTitle" xml:space="preserve">
+    <value>Ошибка экспорта</value>
+  </data>
+  <data name="TileEstablished" xml:space="preserve">
+    <value>Активные подключения</value>
+  </data>
+  <data name="TileListening" xml:space="preserve">
+    <value>Прослушиваемые порты</value>
+  </data>
+  <data name="TileStartup" xml:space="preserve">
+    <value>Элементы автозапуска</value>
+  </data>
+  <data name="TileReview" xml:space="preserve">
+    <value>Требуют проверки</value>
+  </data>
+  <data name="ConnectionsTitle" xml:space="preserve">
+    <value>Сетевые подключения</value>
+  </data>
+  <data name="TopProcesses" xml:space="preserve">
+    <value>Процессы с наибольшим числом подключений</value>
+  </data>
+  <data name="ChartFilterHint" xml:space="preserve">
+    <value>Выберите полосу, чтобы отфильтровать список; выберите снова, чтобы сбросить.</value>
+  </data>
+  <data name="ChartEstablished" xml:space="preserve">
+    <value>Активных: {0}</value>
+  </data>
+  <data name="ChartListening" xml:space="preserve">
+    <value>Прослушивается: {0}</value>
+  </data>
+  <data name="FilterPlaceholder" xml:space="preserve">
+    <value>Фильтр</value>
+  </data>
+  <data name="EstablishedOnly" xml:space="preserve">
+    <value>Только активные</value>
+  </data>
+  <data name="HideLoopback" xml:space="preserve">
+    <value>Скрыть локальные (loopback)</value>
+  </data>
+  <data name="ReviewOnly" xml:space="preserve">
+    <value>Только требующие проверки</value>
+  </data>
+  <data name="ColumnProcess" xml:space="preserve">
+    <value>Процесс</value>
+  </data>
+  <data name="ColumnProtocol" xml:space="preserve">
+    <value>Протокол</value>
+  </data>
+  <data name="ColumnLocal" xml:space="preserve">
+    <value>Локальный адрес</value>
+  </data>
+  <data name="ColumnRemote" xml:space="preserve">
+    <value>Удалённый адрес</value>
+  </data>
+  <data name="ColumnState" xml:space="preserve">
+    <value>Состояние</value>
+  </data>
+  <data name="ColumnSigner" xml:space="preserve">
+    <value>Издатель</value>
+  </data>
+  <data name="ColumnName" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="ColumnType" xml:space="preserve">
+    <value>Тип</value>
+  </data>
+  <data name="ColumnCommand" xml:space="preserve">
+    <value>Команда</value>
+  </data>
+  <data name="StateListening" xml:space="preserve">
+    <value>Прослушивание</value>
+  </data>
+  <data name="StateEstablished" xml:space="preserve">
+    <value>Установлено</value>
+  </data>
+  <data name="LegendSigned" xml:space="preserve">
+    <value>Подписан</value>
+  </data>
+  <data name="TrustUnsigned" xml:space="preserve">
+    <value>Не подписан</value>
+  </data>
+  <data name="TrustScriptHost" xml:space="preserve">
+    <value>Скрипт или программа-хост</value>
+  </data>
+  <data name="TrustMissing" xml:space="preserve">
+    <value>Файл не найден</value>
+  </data>
+  <data name="TrustUnknown" xml:space="preserve">
+    <value>Не проверено</value>
+  </data>
+  <data name="OpenLocation" xml:space="preserve">
+    <value>Открыть расположение файла</value>
+  </data>
+  <data name="AnalyzeFile" xml:space="preserve">
+    <value>Анализировать файл</value>
+  </data>
+  <data name="ManageInWindows" xml:space="preserve">
+    <value>Управлять в Windows</value>
+  </data>
+  <data name="PathUnavailable" xml:space="preserve">
+    <value>Путь к файлу недоступен. Попробуйте сканирование от имени администратора.</value>
+  </data>
+  <data name="StartupTitle" xml:space="preserve">
+    <value>Автозапуск и закрепление</value>
+  </data>
+  <data name="StartupDescription" xml:space="preserve">
+    <value>Ключи Run, папки автозагрузки, задачи планировщика не от Microsoft, автоматические службы вне папки Windows и изменения Winlogon. Неподписанные файлы и хосты скриптов показаны первыми.</value>
+  </data>
+  <data name="StartupRun" xml:space="preserve">
+    <value>Реестр Run</value>
+  </data>
+  <data name="StartupFolder" xml:space="preserve">
+    <value>Папка автозагрузки</value>
+  </data>
+  <data name="StartupTask" xml:space="preserve">
+    <value>Задача планировщика</value>
+  </data>
+  <data name="StartupService" xml:space="preserve">
+    <value>Служба</value>
+  </data>
+  <data name="StartupWinlogon" xml:space="preserve">
+    <value>Winlogon</value>
+  </data>
+  <data name="PasswordTitle" xml:space="preserve">
+    <value>Проверка утечки пароля</value>
+  </data>
+  <data name="PasswordDescription" xml:space="preserve">
+    <value>Проверка по базе Have I Been Pwned с k-анонимностью: отправляются только первые 5 символов хеша SHA-1, но не сам пароль.</value>
+  </data>
+  <data name="PasswordPlaceholder" xml:space="preserve">
+    <value>Пароль для проверки</value>
+  </data>
+  <data name="PasswordCheck" xml:space="preserve">
+    <value>Проверить</value>
+  </data>
+  <data name="PasswordSafe" xml:space="preserve">
+    <value>Не найден в известных утечках. Используйте его только для одного аккаунта и делайте длинным.</value>
+  </data>
+  <data name="PasswordBreached" xml:space="preserve">
+    <value>Найден в утечках {0} раз. Смените его везде, где используете.</value>
+  </data>
+  <data name="NetworkFailed" xml:space="preserve">
+    <value>Не удалось связаться со службой: {0}</value>
+  </data>
+  <data name="DnsTitle" xml:space="preserve">
+    <value>Фильтрующий DNS и Pi-hole</value>
+  </data>
+  <data name="DnsDescription" xml:space="preserve">
+    <value>Используйте DNS, блокирующий вредоносное ПО или трекеры, либо свой Pi-hole на всех подключённых адаптерах. Исходная конфигурация сохраняется и может быть восстановлена.</value>
+  </data>
+  <data name="DnsAutomatic" xml:space="preserve">
+    <value>Автоматически (DHCP)</value>
+  </data>
+  <data name="DnsQuad9" xml:space="preserve">
+    <value>Quad9 — блокирует вредоносное ПО</value>
+  </data>
+  <data name="DnsCloudflareMalware" xml:space="preserve">
+    <value>Cloudflare — блокирует вредоносное ПО</value>
+  </data>
+  <data name="DnsAdGuard" xml:space="preserve">
+    <value>AdGuard — блокирует рекламу и трекеры</value>
+  </data>
+  <data name="DnsCustom" xml:space="preserve">
+    <value>Pi-hole или свой сервер</value>
+  </data>
+  <data name="DnsCustomPlaceholder" xml:space="preserve">
+    <value>напр. 192.168.1.2</value>
+  </data>
+  <data name="DnsTest" xml:space="preserve">
+    <value>Проверить</value>
+  </data>
+  <data name="DnsApply" xml:space="preserve">
+    <value>Применить</value>
+  </data>
+  <data name="DnsRestore" xml:space="preserve">
+    <value>Восстановить исходные</value>
+  </data>
+  <data name="DnsTesting" xml:space="preserve">
+    <value>Отправка тестового запроса…</value>
+  </data>
+  <data name="DnsTestOk" xml:space="preserve">
+    <value>{0} отвечает корректно.</value>
+  </data>
+  <data name="DnsTestFailed" xml:space="preserve">
+    <value>{0} не ответил. Проверьте адрес и доступность порта 53.</value>
+  </data>
+  <data name="DnsTestAutomatic" xml:space="preserve">
+    <value>Автоматический режим использует серверы маршрутизатора.</value>
+  </data>
+  <data name="DnsInvalid" xml:space="preserve">
+    <value>Введите от одного до четырёх допустимых адресов IPv4 или IPv6 через запятую.</value>
+  </data>
+  <data name="DnsNoAdapters" xml:space="preserve">
+    <value>Не найден подключённый сетевой адаптер со шлюзом.</value>
+  </data>
+  <data name="DnsConfirmTitle" xml:space="preserve">
+    <value>Изменить DNS-серверы?</value>
+  </data>
+  <data name="DnsConfirmMessage" xml:space="preserve">
+    <value>Адаптеры: {0}
+Новый DNS: {1}
+
+Текущая конфигурация сохраняется при первом изменении, чтобы её можно было восстановить.</value>
+  </data>
+  <data name="DnsPiholeNote" xml:space="preserve">
+    <value>Маршрутизатор может выдавать DNS-серверы IPv6 в обход Pi-hole. Сначала проверьте сервер: если он недоступен, сайты не будут открываться до восстановления.</value>
+  </data>
+  <data name="DnsApplied" xml:space="preserve">
+    <value>DNS-серверы обновлены, кэш DNS очищен.</value>
+  </data>
+  <data name="DnsRestored" xml:space="preserve">
+    <value>Исходная конфигурация DNS восстановлена.</value>
+  </data>
+  <data name="DnsFailed" xml:space="preserve">
+    <value>Не удалось изменить DNS: {0}</value>
+  </data>
+  <data name="AccountsTitle" xml:space="preserve">
+    <value>Удаление аккаунтов</value>
+  </data>
+  <data name="AccountsDescription" xml:space="preserve">
+    <value>Прямые ссылки на страницы удаления аккаунтов сотен сервисов из каталога JustDeleteMe (MIT). Список загружается с GitHub только по вашему запросу.</value>
+  </data>
+  <data name="AccountsLoad" xml:space="preserve">
+    <value>Загрузить список</value>
+  </data>
+  <data name="AccountsUpdate" xml:space="preserve">
+    <value>Обновить список</value>
+  </data>
+  <data name="AccountsDownloading" xml:space="preserve">
+    <value>Загрузка списка JustDeleteMe…</value>
+  </data>
+  <data name="AccountsLoaded" xml:space="preserve">
+    <value>Доступно сервисов: {0}.</value>
+  </data>
+  <data name="AccountsInvalidData" xml:space="preserve">
+    <value>Загруженный список недействителен.</value>
+  </data>
+  <data name="AccountsDifficulty" xml:space="preserve">
+    <value>Сложность удаления</value>
+  </data>
+  <data name="AccountsSearch" xml:space="preserve">
+    <value>Поиск сервиса или домена</value>
+  </data>
+  <data name="AccountsOpen" xml:space="preserve">
+    <value>Открыть страницу удаления</value>
+  </data>
+  <data name="AccountsMore" xml:space="preserve">
+    <value>Ещё результатов: {0}. Уточните поиск.</value>
+  </data>
+  <data name="AccountsNone" xml:space="preserve">
+    <value>Сервисы не найдены.</value>
+  </data>
+  <data name="DifficultyEasy" xml:space="preserve">
+    <value>Легко</value>
+  </data>
+  <data name="DifficultyMedium" xml:space="preserve">
+    <value>Средне</value>
+  </data>
+  <data name="DifficultyHard" xml:space="preserve">
+    <value>Сложно</value>
+  </data>
+  <data name="DifficultyImpossible" xml:space="preserve">
+    <value>Невозможно</value>
+  </data>
+  <data name="DifficultyUnknown" xml:space="preserve">
+    <value>Неизвестно</value>
+  </data>
+  <data name="MetadataTitle" xml:space="preserve">
+    <value>Метаданные файлов</value>
+  </data>
+  <data name="MetadataDescription" xml:space="preserve">
+    <value>Фото и документы могут раскрывать GPS-координаты, устройство, автора и ПО. ExifTool локально читает и удаляет эти метаданные.</value>
+  </data>
+  <data name="MetadataInstall" xml:space="preserve">
+    <value>Установить ExifTool</value>
+  </data>
+  <data name="MetadataInstallFailed" xml:space="preserve">
+    <value>Не удалось установить ExifTool через winget.</value>
+  </data>
+  <data name="MetadataMissing" xml:space="preserve">
+    <value>ExifTool не установлен.</value>
+  </data>
+  <data name="MetadataPick" xml:space="preserve">
+    <value>Выбрать файл…</value>
+  </data>
+  <data name="MetadataRemove" xml:space="preserve">
+    <value>Удалить метаданные</value>
+  </data>
+  <data name="MetadataRemoveTitle" xml:space="preserve">
+    <value>Удалить все метаданные?</value>
+  </data>
+  <data name="MetadataRemoveMessage" xml:space="preserve">
+    <value>Из {0} будут удалены все изменяемые метаданные. ExifTool сохранит нетронутую копию с суффиксом _original рядом с файлом.</value>
+  </data>
+  <data name="MetadataRemoved" xml:space="preserve">
+    <value>Оригинал сохранён как {0}.</value>
+  </data>
+  <data name="MetadataSummary" xml:space="preserve">
+    <value>{0}: тегов {1}, потенциально конфиденциальных {2}.</value>
+  </data>
+  <data name="MetadataFailed" xml:space="preserve">
+    <value>Не удалось обработать метаданные: {0}</value>
+  </data>
+  <data name="MetadataSensitive" xml:space="preserve">
+    <value>Может раскрыть местоположение, личность или устройство</value>
+  </data>
+  <data name="MetadataGroup" xml:space="preserve">
+    <value>Группа</value>
+  </data>
+  <data name="MetadataTag" xml:space="preserve">
+    <value>Тег</value>
+  </data>
+  <data name="MetadataValue" xml:space="preserve">
+    <value>Значение</value>
+  </data>
+  <data name="DnsIntercepted" xml:space="preserve">
+    <value>Ваша сеть отвечает на DNS-запросы к любому адресу: маршрутизатор, провайдер или VPN перехватывает DNS. Проверка не может подтвердить сервер, а изменения DNS могут не действовать, пока перехват включён.</value>
+  </data>
+  <data name="StartupEnabled" xml:space="preserve">
+    <value>Включено</value>
+  </data>
+  <data name="StartupDisabled" xml:space="preserve">
+    <value>Отключено</value>
+  </data>
+  <data name="StartupDisable" xml:space="preserve">
+    <value>Отключить</value>
+  </data>
+  <data name="StartupEnable" xml:space="preserve">
+    <value>Включить</value>
+  </data>
+  <data name="StartupToggleFailedTitle" xml:space="preserve">
+    <value>Элемент автозапуска не изменён</value>
+  </data>
+</root>
