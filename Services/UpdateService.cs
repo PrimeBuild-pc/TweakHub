@@ -145,7 +145,8 @@ public sealed class UpdateService
         var source = Path.GetDirectoryName(executable)!;
         var target = AppContext.BaseDirectory.TrimEnd(Path.DirectorySeparatorChar);
         var scriptPath = Path.Combine(root, "update.ps1");
-        File.WriteAllText(scriptPath, CreatePortableUpdateScript(source, target, root, zipPath, Environment.ProcessId));
+        // BOM: Windows PowerShell reads BOM-less scripts as ANSI and would mangle non-ASCII install paths.
+        File.WriteAllText(scriptPath, CreatePortableUpdateScript(source, target, root, zipPath, Environment.ProcessId), new System.Text.UTF8Encoding(true));
         Process.Start(new ProcessStartInfo("powershell.exe")
         {
             UseShellExecute = false,
@@ -156,13 +157,16 @@ public sealed class UpdateService
 
     internal static string CreatePortableUpdateScript(string source, string target, string root, string zipPath, int processId)
     {
-        static string Quote(string value) => value.Replace("'", "''");
+        static string Quote(string value) => PowerShellService.Literal(value);
+        // Encoded so the paths need no second level of quoting inside the -ArgumentList string.
+        var cleanup = Convert.ToBase64String(System.Text.Encoding.Unicode.GetBytes(
+            $"Start-Sleep 2; Remove-Item -LiteralPath {Quote(root)} -Recurse -Force; Remove-Item -LiteralPath {Quote(zipPath)} -Force"));
         return $$"""
             $ErrorActionPreference = 'Stop'
             Wait-Process -Id {{processId}} -ErrorAction SilentlyContinue
-            Get-ChildItem -LiteralPath '{{Quote(source)}}' | Where-Object Name -ne 'Data' | Copy-Item -Destination '{{Quote(target)}}' -Recurse -Force
-            Start-Process -FilePath '{{Quote(Path.Combine(target, "TweakHub.exe"))}}'
-            Start-Process powershell.exe -WindowStyle Hidden -ArgumentList '-NoProfile','-Command',"Start-Sleep 2; Remove-Item -LiteralPath ''{{Quote(root)}}'' -Recurse -Force; Remove-Item -LiteralPath ''{{Quote(zipPath)}}'' -Force"
+            Get-ChildItem -LiteralPath {{Quote(source)}} | Where-Object Name -ne 'Data' | Copy-Item -Destination {{Quote(target)}} -Recurse -Force
+            Start-Process -FilePath {{Quote(Path.Combine(target, "TweakHub.exe"))}}
+            Start-Process powershell.exe -WindowStyle Hidden -ArgumentList '-NoProfile','-EncodedCommand','{{cleanup}}'
             """;
     }
 
