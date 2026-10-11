@@ -1032,8 +1032,7 @@ Write-Output 'TweakHub Adobe block removed.'
 
             try
             {
-                var targetUser = Environment.UserName.Replace("'", "''");
-                var command = $"$env:TWEAKHUB_TARGET_USER = '{targetUser}'{Environment.NewLine}{GetBuiltInScript(script.Id)}";
+                var command = $"$env:TWEAKHUB_TARGET_USER = {PowerShellService.Literal(Environment.UserName)}{Environment.NewLine}{GetBuiltInScript(script.Id)}";
                 using var process = Process.Start(CreateInteractivePowerShellStartInfo(
                     command, script.RequiresAdministrator))
                     ?? throw new InvalidOperationException("Failed to start PowerShell.");

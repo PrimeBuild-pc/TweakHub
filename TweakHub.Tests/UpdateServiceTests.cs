@@ -30,4 +30,14 @@ public class UpdateServiceTests
             Assert.That(script, Does.Not.Contain("Remove-Item -LiteralPath 'E:\\TweakHub\\Apps'"));
         });
     }
+
+    [Test]
+    public async Task PortableUpdaterParsesWithTypographicQuotesAndNonAsciiPaths()
+    {
+        var script = UpdateService.CreatePortableUpdateScript(
+            @"C:\Temp\src", "C:\\Users\\D\u2019Angelo\\Città", @"C:\Temp\it's", @"C:\Temp\u.zip", 1);
+        var result = await PowerShellService.Instance.ExecuteScriptAsync(
+            $"$errors = $null; [System.Management.Automation.Language.Parser]::ParseInput({PowerShellService.Literal(script)}, [ref]$null, [ref]$errors) | Out-Null; $errors.Count");
+        Assert.That(result.Output.Trim(), Is.EqualTo("0"), result.Output + result.Error);
+    }
 }

@@ -114,8 +114,7 @@ internal sealed class WindowsUpdatePresetService
 
     private string BuildInvocation(string preset)
     {
-        static string Quote(string value) => value.Replace("'", "''");
-        return $"& '{Quote(_scriptPath)}' -Preset '{preset}' -BackupPath '{Quote(_backupPath)}'";
+        return $"& {PowerShellService.Literal(_scriptPath)} -Preset '{preset}' -BackupPath {PowerShellService.Literal(_backupPath)}";
     }
 
     private void EnsureScriptExists()
