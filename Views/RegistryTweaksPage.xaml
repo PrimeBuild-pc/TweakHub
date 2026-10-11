@@ -288,6 +288,27 @@
                                     </Border>
                                 </StackPanel>
                             </Border>
+                            <Border Style="{StaticResource CardStyle}" Margin="0,0,0,20">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                        <TextBlock Text="&#xE945;" FontFamily="Segoe Fluent Icons" FontSize="18" Margin="0,0,8,0"
+                                                   Foreground="{DynamicResource IconBrush}"/>
+                                        <TextBlock Text="{loc:Loc Tweaks:PowerPlanTitle}" FontSize="16" FontWeight="SemiBold"/>
+                                    </StackPanel>
+                                    <TextBlock Text="{loc:Loc Tweaks:PowerPlanDescription}" Style="{StaticResource DescriptionTextStyle}"
+                                               Margin="26,0,0,12"/>
+                                    <StackPanel Orientation="Horizontal" Margin="26,0,0,8">
+                                        <ComboBox x:Name="PowerPlanComboBox" Width="320" DisplayMemberPath="Label"
+                                                  AutomationProperties.Name="{loc:Loc Tweaks:PowerPlanTitle}"/>
+                                        <Button x:Name="ApplyPowerPlanButton" Style="{StaticResource ModernButtonStyle}" Margin="8,0,0,0"
+                                                Content="{loc:Loc Tweaks:PowerPlanUse}" Click="ApplyPowerPlan_Click"/>
+                                        <Button Style="{StaticResource SecondaryButtonStyle}" Margin="8,0,0,0"
+                                                Content="{loc:Loc Tweaks:PowerPlanOpenOptions}" Click="OpenPowerOptions_Click"/>
+                                    </StackPanel>
+                                    <TextBlock x:Name="PowerPlanStatusText" Margin="26,0,0,0" FontWeight="SemiBold"
+                                               Foreground="{DynamicResource AccentBrush}"/>
+                                </StackPanel>
+                            </Border>
                             <ItemsControl x:Name="TweakCategoriesControl">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
@@ -335,7 +356,8 @@
                                                    Style="{StaticResource DescriptionTextStyle}"/>
                                     </StackPanel>
                                     <Button Grid.Column="1" Style="{StaticResource ModernButtonStyle}"
-                                            Click="AddCustomTweak_Click" MinWidth="140" Padding="16,8">
+                                            Click="AddCustomTweak_Click" MinWidth="140" Padding="16,8"
+                                            AutomationProperties.Name="{loc:Loc Tweaks:AddCustomRegistryTweak}">
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="&#xE710;" FontFamily="Segoe Fluent Icons" FontSize="13"
                                                        Margin="0,0,8,0" Foreground="{DynamicResource AccentForegroundBrush}"/>

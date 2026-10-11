@@ -523,9 +523,11 @@ namespace TweakHub.Views
                         throw new InvalidDataException(L.Format("Scripts:ScriptFileTypeUnsupported", System.IO.Path.GetFileName(path)));
                     if (new System.IO.FileInfo(path).Length > 1024 * 1024)
                         throw new InvalidDataException(L.Format("Scripts:ScriptFileTooLarge", System.IO.Path.GetFileName(path)));
+                    var name = System.IO.Path.GetFileNameWithoutExtension(path);
                     return new CustomScript
                     {
-                        Name = System.IO.Path.GetFileNameWithoutExtension(path),
+                        // Profile import accepts at most 100 characters; keep file-imported scripts exportable.
+                        Name = name.Length > 100 ? name[..100] : name,
                         Language = extension.Equals(".ps1", StringComparison.OrdinalIgnoreCase)
                             ? ScriptLanguage.PowerShell
                             : ScriptLanguage.Cmd,
@@ -623,84 +625,16 @@ namespace TweakHub.Views
                 await AppDialog.ShowErrorAsync(Window.GetWindow(this), script.Name, $"{summary}\n\n{details}".Trim());
         }
 
-        private void EditCustomScript(CustomScript script, bool isNew = false)
+        private async void EditCustomScript(CustomScript script, bool isNew = false)
         {
-            var dialog = new Window
-            {
-                Title = L.Get(isNew ? "Scripts:CreateCustomScript" : "Scripts:EditCustomScript"),
-                Width = 560,
-                Height = 480,
-                WindowStartupLocation = WindowStartupLocation.CenterOwner,
-                Owner = Application.Current.MainWindow,
-                Background = (Brush)FindResource("SystemControlBackgroundChromeMediumBrush")
-            };
-
-            var grid = new Grid { Margin = new Thickness(20) };
-            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-
-            var nameBox = new TextBox { Margin = new Thickness(0, 0, 0, 12), ToolTip = L.Get("Scripts:EnterScriptName"), Text = script.Name };
-            Grid.SetRow(nameBox, 0);
-            grid.Children.Add(nameBox);
-
-            var langPanel = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 0, 0, 12) };
-            var psRadio = new RadioButton { Content = "PowerShell", IsChecked = script.Language == ScriptLanguage.PowerShell, Margin = new Thickness(0, 0, 12, 0) };
-            var cmdRadio = new RadioButton { Content = L.Get("Scripts:CmdBatch"), IsChecked = script.Language == ScriptLanguage.Cmd, Margin = new Thickness(0,0,20,0) };
-            var adminCheck = new CheckBox { Content = L.Get("Scripts:RequiresAdministrator"), IsChecked = script.RequiresAdministrator, VerticalAlignment = VerticalAlignment.Center };
-            langPanel.Children.Add(psRadio);
-            langPanel.Children.Add(cmdRadio);
-            langPanel.Children.Add(adminCheck);
-            Grid.SetRow(langPanel, 1);
-            grid.Children.Add(langPanel);
-
-            var contentBox = new TextBox
-            {
-                AcceptsReturn = true,
-                VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
-                FontFamily = new System.Windows.Media.FontFamily("Consolas"),
-                TextWrapping = TextWrapping.Wrap,
-                Margin = new Thickness(0, 0, 0, 12),
-                Text = script.Content
-            };
-            Grid.SetRow(contentBox, 2);
-            grid.Children.Add(contentBox);
-
-            var buttonsPanel = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right };
-            var cancelBtn = new Button { Content = L.Get("Scripts:Cancel"), Style = GetStyleOrDefault("SecondaryButtonStyle"), Margin = new Thickness(0, 0, 8, 0) };
-            var saveBtn = new Button { Content = L.Get(isNew ? "Scripts:Create" : "Scripts:Save"), Style = GetStyleOrDefault("ExecuteButtonStyle") };
-            buttonsPanel.Children.Add(cancelBtn);
-            buttonsPanel.Children.Add(saveBtn);
-            Grid.SetRow(buttonsPanel, 3);
-            grid.Children.Add(buttonsPanel);
-
-            cancelBtn.Click += (_, __) => dialog.Close();
-            saveBtn.Click += async (_, __) =>
-            {
-                var name = nameBox.Text.Trim();
-                if (string.IsNullOrWhiteSpace(name))
-                {
-                    await AppDialog.ShowWarningAsync(dialog, L.Get("Scripts:InvalidScript"), L.Get("Scripts:NameRequired"));
-                    return;
-                }
-
-                script.Name = name;
-                script.Language = psRadio.IsChecked == true ? ScriptLanguage.PowerShell : ScriptLanguage.Cmd;
-                script.Content = contentBox.Text;
-                script.RequiresAdministrator = adminCheck.IsChecked == true;
-                if (isNew) _customScripts.Add(script);
-                _userDataService.SaveCustomScripts(_customScripts);
-                dialog.Close();
-                CustomScriptsControl.Items.Refresh();
-                await AppDialog.ShowAsync(
-                    Window.GetWindow(this),
-                    L.Get(isNew ? "Scripts:ScriptCreated" : "Scripts:ScriptUpdated"),
-                    L.Format(isNew ? "Scripts:ScriptCreatedMessage" : "Scripts:ScriptUpdatedMessage", name));
-            };
-
-            dialog.Content = grid;
-            dialog.ShowDialog();
+            if (new ScriptEditorDialog(script, isNew) { Owner = Window.GetWindow(this) }.ShowDialog() != true) return;
+            if (isNew) _customScripts.Add(script);
+            _userDataService.SaveCustomScripts(_customScripts);
+            CustomScriptsControl.Items.Refresh();
+            await AppDialog.ShowAsync(
+                Window.GetWindow(this),
+                L.Get(isNew ? "Scripts:ScriptCreated" : "Scripts:ScriptUpdated"),
+                L.Format(isNew ? "Scripts:ScriptCreatedMessage" : "Scripts:ScriptUpdatedMessage", script.Name));
         }
 
         private async Task DeleteCustomScript(CustomScript script)

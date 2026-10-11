@@ -139,7 +139,7 @@
     <value>强制高性能电源计划</value>
   </data>
   <data name="CategoryOrTweakDescriptionActivatesTheWindowsHighPerformancePlan" xml:space="preserve">
-    <value>激活 Windows 高性能计划，并在禁用时恢复先前的活动计划。</value>
+    <value>启用在“性能电源计划”卡片中选择的计划（默认 Windows 高性能，缺失时重新创建），并在禁用时恢复先前的计划。</value>
   </data>
   <data name="CategoryOrTweakNameNetworkLatencyReduction" xml:space="preserve">
     <value>网络延迟降低</value>
@@ -570,5 +570,32 @@ TweakHub 会恢复捕获的原始值。</value>
   </data>
   <data name="RestartVerificationActionFailed" xml:space="preserve">
     <value>操作失败。</value>
+  </data>
+  <data name="PowerPlanTitle" xml:space="preserve">
+    <value>性能电源计划</value>
+  </data>
+  <data name="PowerPlanDescription" xml:space="preserve">
+    <value>选择“强制高性能电源计划”调整要启用的计划。自定义计划（例如导入的调优计划）在选择后即可识别；如果 Windows 高性能计划已被删除，TweakHub 会从 Windows 模板重新创建。</value>
+  </data>
+  <data name="PowerPlanUse" xml:space="preserve">
+    <value>使用此计划</value>
+  </data>
+  <data name="PowerPlanOpenOptions" xml:space="preserve">
+    <value>电源选项</value>
+  </data>
+  <data name="PowerPlanActive" xml:space="preserve">
+    <value>{0}（当前）</value>
+  </data>
+  <data name="PowerPlanRecreateHighPerformance" xml:space="preserve">
+    <value>高性能（Windows，将重新创建）</value>
+  </data>
+  <data name="PowerPlanCurrent" xml:space="preserve">
+    <value>当前计划：{0}</value>
+  </data>
+  <data name="PowerPlanApplyFailed" xml:space="preserve">
+    <value>电源计划未更改</value>
+  </data>
+  <data name="PowerPlanApplyFailedMessage" xml:space="preserve">
+    <value>无法启用或重新创建该计划。请检查它是否仍存在于电源选项中，以及是否已接受管理员提示。</value>
   </data>
 </root>

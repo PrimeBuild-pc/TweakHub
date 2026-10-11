@@ -10,12 +10,14 @@ internal static class SecurityCharts
 {
     public sealed record Segment(double Value, string BrushKey, string ToolTip);
 
-    public static UIElement Row(string label, IReadOnlyList<Segment> segments, double scale, string valueText, bool selected, Action? onClick)
+    /// <param name="marker">Optional position (in the same unit as <paramref name="scale"/>) drawn as a thin limit line.</param>
+    public static UIElement Row(string label, IReadOnlyList<Segment> segments, double scale, string valueText, bool selected, Action? onClick,
+        double? marker = null, double labelWidth = 96, double valueWidth = 36)
     {
         var row = new Grid { Margin = new Thickness(0, 0, 24, 8), Background = System.Windows.Media.Brushes.Transparent };
-        row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(96) });
+        row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(labelWidth) });
         row.ColumnDefinitions.Add(new ColumnDefinition());
-        row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(36) });
+        row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(valueWidth) });
 
         var name = new TextBlock
         {
@@ -43,9 +45,19 @@ internal static class SecurityCharts
             used += segment.Value;
         }
         fill.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(Math.Max(scale - used, 0), GridUnitType.Star) });
-        Grid.SetColumnSpan(track, 1);
         bar.Children.Add(track);
         bar.Children.Add(fill);
+        if (marker is { } position)
+        {
+            var markerHost = new Grid { Height = 14, VerticalAlignment = VerticalAlignment.Center, IsHitTestVisible = false };
+            markerHost.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(position, GridUnitType.Star) });
+            markerHost.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(Math.Max(scale - position, 0), GridUnitType.Star) });
+            var line = new Rectangle { Width = 2, HorizontalAlignment = HorizontalAlignment.Left };
+            line.SetResourceReference(Shape.FillProperty, "SystemControlForegroundBaseMediumBrush");
+            Grid.SetColumn(line, 1);
+            markerHost.Children.Add(line);
+            bar.Children.Add(markerHost);
+        }
         Grid.SetColumn(bar, 1);
 
         var value = new TextBlock { Text = valueText, FontSize = 12, HorizontalAlignment = HorizontalAlignment.Right, VerticalAlignment = VerticalAlignment.Center };

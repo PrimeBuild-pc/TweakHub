@@ -105,16 +105,10 @@ public sealed class SecurityService
     {
         using var document = JsonDocument.Parse(json);
         var root = document.RootElement;
-        int? Int(JsonElement element, string name) =>
-            element.ValueKind == JsonValueKind.Object && element.TryGetProperty(name, out var value)
-            && value.ValueKind == JsonValueKind.Number && value.TryGetInt32(out var number) ? number : null;
-        bool Bool(JsonElement element, string name) =>
-            element.ValueKind == JsonValueKind.Object && element.TryGetProperty(name, out var value) && value.ValueKind == JsonValueKind.True;
-        string Text(JsonElement element, string name) =>
-            element.ValueKind == JsonValueKind.Object && element.TryGetProperty(name, out var value) && value.ValueKind == JsonValueKind.String
-                ? value.GetString() ?? string.Empty : string.Empty;
-        IEnumerable<JsonElement> Array(string name) =>
-            root.TryGetProperty(name, out var value) && value.ValueKind == JsonValueKind.Array ? value.EnumerateArray() : [];
+        static int? Int(JsonElement element, string name) => JsonRead.Int(element, name);
+        static bool Bool(JsonElement element, string name) => JsonRead.Bool(element, name);
+        static string Text(JsonElement element, string name) => JsonRead.Text(element, name);
+        IEnumerable<JsonElement> Array(string name) => JsonRead.Items(root, name);
 
         var defenderElement = root.TryGetProperty("Defender", out var d) ? d : default;
         DefenderStatus? defender = defenderElement.ValueKind != JsonValueKind.Object ? null : new(
@@ -242,7 +236,7 @@ public sealed class SecurityService
         {
             using var document = JsonDocument.Parse(json);
             var root = document.RootElement;
-            string Text(string name) => root.TryGetProperty(name, out var value) && value.ValueKind == JsonValueKind.String ? value.GetString() ?? "" : "";
+            string Text(string name) => JsonRead.Text(root, name);
             return new FileSignature(Text("Status"), Text("Signer"), Text("Issuer"),
                 DateTime.TryParse(Text("ValidUntil"), out var until) ? until : null, Text("Timestamp"), Text("Type"));
         }

@@ -139,7 +139,7 @@
     <value>高パフォーマンス電源プランを強制</value>
   </data>
   <data name="CategoryOrTweakDescriptionActivatesTheWindowsHighPerformancePlan" xml:space="preserve">
-    <value>Windows の高パフォーマンス電源プランを有効にし、無効化時には以前の電源プランを復元します。</value>
+    <value>「パフォーマンス電源プラン」で選んだプラン (既定は Windows の高パフォーマンス、無ければ再作成) を有効にし、無効化時には以前のプランを復元します。</value>
   </data>
   <data name="CategoryOrTweakNameNetworkLatencyReduction" xml:space="preserve">
     <value>ネットワーク遅延の低減</value>
@@ -626,5 +626,32 @@ TweakHub は記録した元の値を復元します。</value>
   </data>
   <data name="RestartVerificationActionFailed" xml:space="preserve">
     <value>操作に失敗しました。</value>
+  </data>
+  <data name="PowerPlanTitle" xml:space="preserve">
+    <value>パフォーマンス電源プラン</value>
+  </data>
+  <data name="PowerPlanDescription" xml:space="preserve">
+    <value>「高パフォーマンス電源プランを強制」の調整で有効にするプランを選びます。カスタム プラン (インポートしたチューニング用プランなど) も選択すれば認識されます。Windows の高パフォーマンスが削除されている場合は、Windows のテンプレートから再作成します。</value>
+  </data>
+  <data name="PowerPlanUse" xml:space="preserve">
+    <value>このプランを使用</value>
+  </data>
+  <data name="PowerPlanOpenOptions" xml:space="preserve">
+    <value>電源オプション</value>
+  </data>
+  <data name="PowerPlanActive" xml:space="preserve">
+    <value>{0} (有効)</value>
+  </data>
+  <data name="PowerPlanRecreateHighPerformance" xml:space="preserve">
+    <value>高パフォーマンス (Windows、再作成されます)</value>
+  </data>
+  <data name="PowerPlanCurrent" xml:space="preserve">
+    <value>有効なプラン: {0}</value>
+  </data>
+  <data name="PowerPlanApplyFailed" xml:space="preserve">
+    <value>電源プランを変更できませんでした</value>
+  </data>
+  <data name="PowerPlanApplyFailedMessage" xml:space="preserve">
+    <value>プランを有効化または再作成できませんでした。電源オプションにプランが存在すること、管理者の確認を承認したことを確認してください。</value>
   </data>
 </root>

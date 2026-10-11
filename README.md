@@ -98,7 +98,7 @@ Portable builds keep their state in `Data` beside the application files:
 | File | Purpose |
 |---|---|
 | `registry-backup.json` | Original Registry values waiting to be restored |
-| `power-backup.json` | Original power settings and active power plan |
+| `power-backup.json` | Original power settings, active power plan and the performance plan chosen in Registry Tweaks |
 | `windows-update-backup.json` | Original Windows Update service and scheduled-task states |
 | `operations.jsonl` | Registry and power operation audit log |
 | `custom-scripts.json` | User-created PowerShell and CMD scripts |

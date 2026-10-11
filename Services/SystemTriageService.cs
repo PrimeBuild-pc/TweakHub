@@ -121,31 +121,19 @@ public sealed class SystemTriageService
     {
         using var document = JsonDocument.Parse(json);
         var root = document.RootElement;
-        static IEnumerable<JsonElement> Items(JsonElement root, string name) => root.TryGetProperty(name, out var value) switch
-        {
-            true when value.ValueKind == JsonValueKind.Array => value.EnumerateArray(),
-            true when value.ValueKind == JsonValueKind.Object => [value],
-            _ => []
-        };
-        static string Text(JsonElement element, string name) =>
-            element.TryGetProperty(name, out var value) && value.ValueKind == JsonValueKind.String ? value.GetString() ?? "" : "";
-        static int Number(JsonElement element, string name) =>
-            element.TryGetProperty(name, out var value) && value.TryGetInt32(out var number) ? number : 0;
+        static string Text(JsonElement element, string name) => JsonRead.Text(element, name);
+        static int Number(JsonElement element, string name) => JsonRead.Int(element, name) ?? 0;
 
-        var connections = Items(root, "Connections").Select(item => new NetworkConnection(
+        var connections = JsonRead.Items(root, "Connections").Select(item => new NetworkConnection(
             Text(item, "Protocol"), Text(item, "Local"), Number(item, "LocalPort"), Text(item, "Remote"), Number(item, "RemotePort"),
             Text(item, "State"), Number(item, "Pid"), Text(item, "Process") is { Length: > 0 } name ? name : "System", Text(item, "Path")))
             .ToList();
-        static bool Flag(JsonElement element, string name, bool fallback) =>
-            element.TryGetProperty(name, out var value) && value.ValueKind is JsonValueKind.True or JsonValueKind.False
-                ? value.ValueKind == JsonValueKind.True
-                : fallback;
-        var startup = Items(root, "Startup").Select(item => new StartupEntry(
+        var startup = JsonRead.Items(root, "Startup").Select(item => new StartupEntry(
             Text(item, "Kind"), Text(item, "Name"), Text(item, "Command"), Text(item, "Location"), ExtractExecutable(Text(item, "Command")))
             {
-                Enabled = Flag(item, "Enabled", true),
+                Enabled = JsonRead.Bool(item, "Enabled", fallback: true),
                 ApprovedKey = Text(item, "Approved"),
-                Delayed = Flag(item, "Delayed", false)
+                Delayed = JsonRead.Bool(item, "Delayed")
             })
             .ToList();
         return (connections, startup);
@@ -227,12 +215,8 @@ public sealed class SystemTriageService
         if (!output.Success || string.IsNullOrWhiteSpace(output.Output)) return result;
 
         using var document = JsonDocument.Parse(output.Output);
-        var items = document.RootElement.ValueKind == JsonValueKind.Array ? document.RootElement.EnumerateArray().ToList() : [document.RootElement];
-        foreach (var item in items)
-        {
-            string Text(string name) => item.TryGetProperty(name, out var value) && value.ValueKind == JsonValueKind.String ? value.GetString() ?? "" : "";
-            result[Text("Path")] = (Text("Status"), Text("Signer"));
-        }
+        foreach (var item in JsonRead.Items(document.RootElement))
+            result[JsonRead.Text(item, "Path")] = (JsonRead.Text(item, "Status"), JsonRead.Text(item, "Signer"));
         return result;
     }
 

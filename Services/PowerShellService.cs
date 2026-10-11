@@ -104,7 +104,8 @@ namespace TweakHub.Services
             var path = Path.Combine(Path.GetTempPath(), $"TweakHub-{Guid.NewGuid():N}.cmd");
             try
             {
-                await File.WriteAllTextAsync(path, script.Content, new UTF8Encoding(false), cancellationToken);
+                // cmd.exe reads batch files in the console code page; switch it to UTF-8 so non-ASCII paths survive.
+                await File.WriteAllTextAsync(path, "@chcp 65001 >nul\r\n" + script.Content, new UTF8Encoding(false), cancellationToken);
                 return await ExecuteScriptAsync(
                     $"& cmd.exe /d /c {Literal(path)}\nexit $LASTEXITCODE",
                     script.RequiresAdministrator,
