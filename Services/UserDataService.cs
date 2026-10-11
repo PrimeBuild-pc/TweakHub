@@ -264,30 +264,9 @@ public sealed class UserDataService
             throw new InvalidDataException(L.Get("UI:ProfileDuplicateIds"));
     }
 
-    private static T Load<T>(string path) where T : new()
-    {
-        if (!File.Exists(path)) return new T();
-        try
-        {
-            return JsonSerializer.Deserialize<T>(File.ReadAllText(path)) ?? new T();
-        }
-        catch (Exception ex)
-        {
-            var corrupt = path + $".corrupt-{DateTime.Now:yyyyMMddHHmmss}";
-            File.Move(path, corrupt, true);
-            Debug.WriteLine($"Invalid user data moved to {corrupt}: {ex.Message}");
-            return new T();
-        }
-    }
+    private static T Load<T>(string path) where T : new() => JsonStore.Load<T>(path, message => Debug.WriteLine(message));
 
-    private static void Save<T>(string path, T data)
-    {
-        var directory = Path.GetDirectoryName(path);
-        if (!string.IsNullOrEmpty(directory)) Directory.CreateDirectory(directory);
-        var temp = path + ".tmp";
-        File.WriteAllText(temp, JsonSerializer.Serialize(data, JsonOptions));
-        File.Move(temp, path, true);
-    }
+    private static void Save<T>(string path, T data) => JsonStore.Save(path, data);
 
     private static void ReplaceAll(IReadOnlyDictionary<string, object> writes)
     {

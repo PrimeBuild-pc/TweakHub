@@ -234,29 +234,13 @@ public sealed class RestartVerificationService
 
     private RestartState LoadState()
     {
-        try
-        {
-            var state = File.Exists(_statePath)
-                ? JsonSerializer.Deserialize<RestartState>(File.ReadAllText(_statePath)) ?? new()
-                : new();
-            state.Pending ??= [];
-            state.Results ??= [];
-            return state;
-        }
-        catch
-        {
-            try { File.Move(_statePath, _statePath + $".corrupt-{DateTime.Now:yyyyMMddHHmmss}", true); } catch { }
-            return new();
-        }
+        var state = JsonStore.Load<RestartState>(_statePath);
+        state.Pending ??= [];
+        state.Results ??= [];
+        return state;
     }
 
-    private void SaveState()
-    {
-        Directory.CreateDirectory(Path.GetDirectoryName(_statePath)!);
-        var temp = _statePath + ".tmp";
-        File.WriteAllText(temp, JsonSerializer.Serialize(_state, JsonOptions));
-        File.Move(temp, _statePath, true);
-    }
+    private void SaveState() => JsonStore.Save(_statePath, _state);
 
     private static bool SameBoot(DateTimeOffset left, DateTimeOffset right) => Math.Abs((left - right).TotalMinutes) <= 2;
     private static DateTimeOffset CurrentBootTimeUtc() => DateTimeOffset.UtcNow - TimeSpan.FromMilliseconds(Environment.TickCount64);

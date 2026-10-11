@@ -381,28 +381,20 @@ namespace TweakHub.Services
         {
             _backups.Clear();
             if (!File.Exists(_backupFile)) return;
-
-            try
+            var corrupt = false;
+            var backups = JsonStore.Load<List<RegistryBackup>>(_backupFile, message =>
             {
-                var backups = JsonSerializer.Deserialize<List<RegistryBackup>>(File.ReadAllText(_backupFile)) ?? [];
-                foreach (var backup in backups)
-                    _backups[BackupKey(backup.KeyPath, backup.ValueName)] = backup;
-                LastBackupCreatedAt = File.GetLastWriteTime(_backupFile);
-            }
-            catch (Exception ex)
-            {
-                var corrupt = _backupFile + $".corrupt-{DateTime.Now:yyyyMMddHHmmss}";
-                File.Move(_backupFile, corrupt, true);
-                Log("load-backup", string.Empty, string.Empty, false, $"Corrupt backup moved to {corrupt}: {ex.Message}");
-            }
+                corrupt = true;
+                Log("load-backup", string.Empty, string.Empty, false, message);
+            });
+            foreach (var backup in backups)
+                _backups[BackupKey(backup.KeyPath, backup.ValueName)] = backup;
+            if (!corrupt) LastBackupCreatedAt = File.GetLastWriteTime(_backupFile);
         }
 
         private void SaveBackups()
         {
-            Directory.CreateDirectory(_dataPath);
-            var temp = _backupFile + ".tmp";
-            File.WriteAllText(temp, JsonSerializer.Serialize(_backups.Values, new JsonSerializerOptions { WriteIndented = true }));
-            File.Move(temp, _backupFile, true);
+            JsonStore.Save(_backupFile, _backups.Values.ToList());
             LastBackupCreatedAt = DateTime.Now;
         }
 

@@ -176,18 +176,14 @@ public sealed class PrivacyService
 
     public async Task<PowerShellResult> ApplyDnsAsync(IReadOnlyList<DnsAdapter> adapters, string[]? servers)
     {
-        if (!HasDnsBackup)
-        {
-            Directory.CreateDirectory(AppDataPath.BasePath);
-            await File.WriteAllTextAsync(DnsBackupPath, JsonSerializer.Serialize(adapters));
-        }
+        if (!HasDnsBackup) JsonStore.Save(DnsBackupPath, adapters.ToList());
         return await PowerShellService.Instance.ExecuteScriptAsync(BuildDnsScript(adapters.Select(a => (a.Index, servers)).ToList()),
             requireAdministrator: true, TimeSpan.FromMinutes(2));
     }
 
     public async Task<PowerShellResult> RestoreDnsAsync()
     {
-        var saved = JsonSerializer.Deserialize<List<DnsAdapter>>(await File.ReadAllTextAsync(DnsBackupPath)) ?? [];
+        var saved = JsonStore.Load<List<DnsAdapter>>(DnsBackupPath);
         var plan = saved.Select(adapter => (adapter.Index,
             TryParseServers($"{adapter.StaticServers},{adapter.StaticServers6}", out var servers, max: 8) ? servers : null)).ToList();
         var result = await PowerShellService.Instance.ExecuteScriptAsync(BuildDnsScript(plan), requireAdministrator: true, TimeSpan.FromMinutes(2));

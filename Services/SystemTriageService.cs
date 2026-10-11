@@ -239,25 +239,9 @@ public sealed class SystemTriageService
     private static string DisabledServicesPath => System.IO.Path.Combine(AppDataPath.BasePath, "disabled-services.json");
 
     /// <summary>Services TweakHub switched to Manual, with the start mode to restore ("auto" or "delayed-auto").</summary>
-    private static Dictionary<string, string> LoadDisabledServices()
-    {
-        try
-        {
-            return File.Exists(DisabledServicesPath)
-                ? JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(DisabledServicesPath)) ?? []
-                : [];
-        }
-        catch (Exception ex) when (ex is IOException or JsonException)
-        {
-            return [];
-        }
-    }
+    private static Dictionary<string, string> LoadDisabledServices() => JsonStore.Load<Dictionary<string, string>>(DisabledServicesPath);
 
-    private static void SaveDisabledServices(Dictionary<string, string> services)
-    {
-        Directory.CreateDirectory(AppDataPath.BasePath);
-        File.WriteAllText(DisabledServicesPath, JsonSerializer.Serialize(services));
-    }
+    private static void SaveDisabledServices(Dictionary<string, string> services) => JsonStore.Save(DisabledServicesPath, services);
 
     internal static string BuildToggleScript(StartupEntry entry, bool enable, string? serviceStartMode = null)
     {

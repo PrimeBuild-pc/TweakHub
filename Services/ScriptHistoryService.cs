@@ -41,32 +41,10 @@ internal sealed class ScriptHistoryService
 
     internal static string Hash(string script) => Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(script)));
 
-    private static Dictionary<string, Entry> Load(string path)
-    {
-        if (!File.Exists(path)) return new(StringComparer.OrdinalIgnoreCase);
-        try
-        {
-            var entries = JsonSerializer.Deserialize<Dictionary<string, Entry>>(File.ReadAllText(path));
-            return entries == null
-                ? new(StringComparer.OrdinalIgnoreCase)
-                : new(entries, StringComparer.OrdinalIgnoreCase);
-        }
-        catch (Exception ex)
-        {
-            var corrupt = path + $".corrupt-{DateTime.Now:yyyyMMddHHmmss}";
-            try { File.Move(path, corrupt, true); } catch { }
-            Debug.WriteLine($"Invalid script history moved to {corrupt}: {ex.Message}");
-            return new(StringComparer.OrdinalIgnoreCase);
-        }
-    }
+    private static Dictionary<string, Entry> Load(string path) =>
+        new(JsonStore.Load<Dictionary<string, Entry>>(path, message => Debug.WriteLine(message)), StringComparer.OrdinalIgnoreCase);
 
-    private void Save()
-    {
-        Directory.CreateDirectory(Path.GetDirectoryName(_path)!);
-        var temp = _path + ".tmp";
-        File.WriteAllText(temp, JsonSerializer.Serialize(_entries, new JsonSerializerOptions { WriteIndented = true }));
-        File.Move(temp, _path, true);
-    }
+    private void Save() => JsonStore.Save(_path, _entries);
 
     internal sealed class Entry
     {

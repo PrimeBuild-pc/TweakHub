@@ -6,9 +6,14 @@ using System.Text.RegularExpressions;
 
 namespace TweakHub.Services;
 
+public sealed record PowerScheme(string Guid, string Name, bool Active);
+
+public sealed record PowerTweakStates(bool MaximumProcessorState, bool NoCoreParking, bool PerformancePlan);
+
 public class PowerService
 {
-    private const string HighPerformanceScheme = "8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c";
+    internal const string HighPerformanceScheme = "8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c";
+    private const string UltimatePerformanceScheme = "e9a42b02-d5df-448d-aa00-03f14749eb61";
     private readonly string _dataFile;
     private readonly string _logFile;
     private PowerBackup _backup = new();
@@ -66,26 +71,86 @@ public class PowerService
         return verified;
     }
 
-    public async Task<bool> IsProcessorSettingActiveAsync(string settingAlias, int expectedAcValue)
+    /// <summary>One powercfg query for all three power tweaks instead of one process per tweak.</summary>
+    public async Task<PowerTweakStates> GetTweakStatesAsync()
     {
         var scheme = await GetActiveSchemeAsync();
-        return scheme is not null && await GetAcValueAsync(scheme, settingAlias) == expectedAcValue;
+        if (scheme is null) return new(false, false, false);
+        var query = await RunAsync("/query", scheme, "SUB_PROCESSOR");
+        return new(
+            query.Success && ParseAcSetting(query.Output, "PROCTHROTTLEMIN") == 100,
+            query.Success && ParseAcSetting(query.Output, "CPMINCORES") == 100,
+            IsPerformancePlan(scheme));
     }
 
-    public async Task<bool> ApplyHighPerformancePlanAsync()
+    /// <summary>The plan the user picked; otherwise any Windows high or ultimate performance plan counts.</summary>
+    private bool IsPerformancePlan(string scheme) => _backup.PreferredScheme is { } preferred
+        ? scheme.Equals(preferred, StringComparison.OrdinalIgnoreCase)
+        : scheme is HighPerformanceScheme or UltimatePerformanceScheme;
+
+    public string? PreferredScheme => _backup.PreferredScheme;
+
+    public async Task<IReadOnlyList<PowerScheme>> GetSchemesAsync()
     {
+        var result = await RunAsync("/list");
+        return result.Success ? ParseSchemes(result.Output) : [];
+    }
+
+    internal static List<PowerScheme> ParseSchemes(string output) =>
+        Regex.Matches(output, @"([0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12})\s+\((.*)\)[ \t]*(\*)?\s*$", RegexOptions.Multiline)
+            .Select(match => new PowerScheme(match.Groups[1].Value.ToLowerInvariant(), match.Groups[2].Value, match.Groups[3].Success))
+            .GroupBy(scheme => scheme.Guid)
+            .Select(group => group.First())
+            .ToList();
+
+    public Task<bool> ApplyHighPerformancePlanAsync() => ApplyPerformancePlanAsync(null);
+
+    /// <summary>
+    /// Activates <paramref name="schemeGuid"/> (or the saved choice, or Windows High performance) and remembers it.
+    /// Debloaters often delete the High performance plan, so it is recreated from the Windows template when missing.
+    /// </summary>
+    public async Task<bool> ApplyPerformancePlanAsync(string? schemeGuid)
+    {
+        var target = (schemeGuid ?? _backup.PreferredScheme ?? HighPerformanceScheme).ToLowerInvariant();
+        var installed = (await GetSchemesAsync()).Select(scheme => scheme.Guid).ToHashSet();
+        if (!installed.Contains(target))
+        {
+            if (target != HighPerformanceScheme) return false;
+            target = await RecreateHighPerformancePlanAsync() ?? string.Empty;
+            if (target.Length == 0) return false;
+        }
+
         if (string.IsNullOrWhiteSpace(_backup.ActiveScheme))
         {
             _backup.ActiveScheme = await GetActiveSchemeAsync();
             if (_backup.ActiveScheme is null) return false;
-            Save();
         }
+        _backup.PreferredScheme = target;
+        Save();
 
-        var result = await RunMutationAsync("/setactive", HighPerformanceScheme);
+        var result = await RunMutationAsync("/setactive", target);
         var verified = result.Success &&
-                       string.Equals(await GetActiveSchemeAsync(), HighPerformanceScheme, StringComparison.OrdinalIgnoreCase);
-        Log("power-plan-apply", HighPerformanceScheme, verified, verified ? null : result.Error);
+                       string.Equals(await GetActiveSchemeAsync(), target, StringComparison.OrdinalIgnoreCase);
+        Log("power-plan-apply", target, verified, verified ? null : result.Error);
         return verified;
+    }
+
+    private async Task<string?> RecreateHighPerformancePlanAsync()
+    {
+        // Windows keeps the default plans as templates; Ultimate is the fallback when the High performance template is gone too.
+        foreach (var template in new[] { HighPerformanceScheme, UltimatePerformanceScheme })
+        {
+            var copy = Guid.NewGuid().ToString();
+            var result = await RunAsync("/duplicatescheme", template, copy);
+            if (!result.Success) result = await RunMutationAsync("/duplicatescheme", template, copy);
+            if (result.Success && (await GetSchemesAsync()).Any(scheme => scheme.Guid == copy))
+            {
+                Log("power-plan-recreate", template, true, null);
+                return copy;
+            }
+        }
+        Log("power-plan-recreate", HighPerformanceScheme, false, "No power plan template available");
+        return null;
     }
 
     public async Task<bool> RestorePowerPlanAsync()
@@ -104,9 +169,6 @@ public class PowerService
         return verified;
     }
 
-    public async Task<bool> IsHighPerformancePlanActiveAsync() =>
-        string.Equals(await GetActiveSchemeAsync(), HighPerformanceScheme, StringComparison.OrdinalIgnoreCase);
-
     public bool HasAnyBackup => !string.IsNullOrWhiteSpace(_backup.ActiveScheme) || _backup.Settings.Count > 0;
 
     public bool HasBackup(string id) => id == "high_performance_power_plan"
@@ -122,7 +184,7 @@ public class PowerService
             : null;
     }
 
-    private async Task<int?> GetAcValueAsync(string scheme, string settingAlias)
+    private static async Task<int?> GetAcValueAsync(string scheme, string settingAlias)
     {
         var result = await RunAsync("/query", scheme, "SUB_PROCESSOR");
         return result.Success ? ParseAcSetting(result.Output, settingAlias) : null;
@@ -191,26 +253,9 @@ public class PowerService
         }
     }
 
-    private void Load()
-    {
-        if (!File.Exists(_dataFile)) return;
-        try
-        {
-            _backup = JsonSerializer.Deserialize<PowerBackup>(File.ReadAllText(_dataFile)) ?? new();
-        }
-        catch
-        {
-            File.Move(_dataFile, _dataFile + $".corrupt-{DateTime.Now:yyyyMMddHHmmss}", true);
-            _backup = new();
-        }
-    }
+    private void Load() => _backup = JsonStore.Load<PowerBackup>(_dataFile);
 
-    private void Save()
-    {
-        var temp = _dataFile + ".tmp";
-        File.WriteAllText(temp, JsonSerializer.Serialize(_backup, new JsonSerializerOptions { WriteIndented = true }));
-        File.Move(temp, _dataFile, true);
-    }
+    private void Save() => JsonStore.Save(_dataFile, _backup);
 
     private void Log(string action, string target, bool success, string? error)
     {
@@ -232,6 +277,7 @@ public class PowerService
     private sealed class PowerBackup
     {
         public string? ActiveScheme { get; set; }
+        public string? PreferredScheme { get; set; }
         public Dictionary<string, PowerSettingBackup> Settings { get; set; } = new();
     }
     private sealed class PowerSettingBackup
