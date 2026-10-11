@@ -932,4 +932,16 @@ This may be due to insufficient permissions or the target application not being 
   <data name="DescriptionHackingTool" xml:space="preserve">
     <value>All-in-one Linux launcher that installs many third-party security and pentest tools. Installed tools are unvetted and may require root; use it only in an isolated lab and on authorized targets. Opens only the official repository.</value>
   </data>
+  <data name="DescriptionSergeiStrelec" xml:space="preserve">
+    <value>Bootable Windows PE for repair, backup, partitioning and data recovery when Windows does not start. Bundles many third-party tools: check their licenses, verify the ISO checksum and use it only on your own PCs. Opens only the download page.</value>
+  </data>
+  <data name="DescriptionHirensBootCD" xml:space="preserve">
+    <value>Free Windows 11 based rescue environment with tools for diagnostics, password reset, partitioning, backup and data recovery. Write the ISO to USB with Rufus or Ventoy and verify its checksum first. Opens only the official site.</value>
+  </data>
+  <data name="DescriptionSCSKiller" xml:space="preserve">
+    <value>Precompiles game shaders into the NVIDIA or AMD driver cache before you play to reduce shader compilation stutter. Driver updates clear the cache, so warm it again afterwards. GPL-3.0; official downloads are only the GitHub releases, which this opens.</value>
+  </data>
+  <data name="DescriptionOpenBoardView" xml:space="preserve">
+    <value>Open-source viewer for .brd and other boardview files used in motherboard and GPU component-level repair. Boardview files come from third parties; open only files from sources you trust. Opens only the official releases page.</value>
+  </data>
 </root>

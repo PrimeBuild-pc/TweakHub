@@ -932,4 +932,16 @@
   <data name="DescriptionHackingTool" xml:space="preserve">
     <value>一体化 Linux 启动器，可安装大量第三方安全与渗透测试工具。这些工具未经审核且可能需要 root 权限；请仅在隔离的实验环境中针对授权目标使用。仅打开官方仓库。</value>
   </data>
+  <data name="DescriptionSergeiStrelec" xml:space="preserve">
+    <value>可启动的 Windows PE，用于在 Windows 无法启动时进行修复、备份、分区和数据恢复。包含大量第三方工具：请检查其许可证、校验 ISO 校验和，并仅在自己的电脑上使用。仅打开下载页面。</value>
+  </data>
+  <data name="DescriptionHirensBootCD" xml:space="preserve">
+    <value>基于 Windows 11 的免费救援环境，提供诊断、密码重置、分区、备份和数据恢复工具。请先校验 ISO 校验和，再用 Rufus 或 Ventoy 写入 U 盘。仅打开官方网站。</value>
+  </data>
+  <data name="DescriptionSCSKiller" xml:space="preserve">
+    <value>在游戏前将着色器预编译到 NVIDIA 或 AMD 驱动缓存中，以减少着色器编译造成的卡顿。驱动更新会清空缓存，之后请重新预热。GPL-3.0；官方下载仅为 GitHub 发布页，此处即打开该页面。</value>
+  </data>
+  <data name="DescriptionOpenBoardView" xml:space="preserve">
+    <value>开源查看器，用于主板和 GPU 元件级维修中使用的 .brd 等 boardview 文件。boardview 文件来自第三方，请只打开可信来源的文件。仅打开官方发布页面。</value>
+  </data>
 </root>

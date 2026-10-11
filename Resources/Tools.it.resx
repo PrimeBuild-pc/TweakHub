@@ -932,4 +932,16 @@ Questo potrebbe essere dovuto a permessi insufficienti o al fatto che l'applicaz
   <data name="DescriptionHackingTool" xml:space="preserve">
     <value>Launcher Linux tutto-in-uno che installa numerosi strumenti di sicurezza e pentest di terze parti. Gli strumenti non sono verificati e possono richiedere root: usalo solo in un laboratorio isolato e su obiettivi autorizzati. Apre solo il repository ufficiale.</value>
   </data>
+  <data name="DescriptionSergeiStrelec" xml:space="preserve">
+    <value>Windows PE avviabile per riparazione, backup, partizioni e recupero dati quando Windows non si avvia. Include molti strumenti di terze parti: verificane le licenze, controlla il checksum dell'ISO e usalo solo sui tuoi PC. Apre solo la pagina di download.</value>
+  </data>
+  <data name="DescriptionHirensBootCD" xml:space="preserve">
+    <value>Ambiente di soccorso gratuito basato su Windows 11 con strumenti per diagnostica, reset password, partizioni, backup e recupero dati. Scrivi l'ISO su USB con Rufus o Ventoy e verificane prima il checksum. Apre solo il sito ufficiale.</value>
+  </data>
+  <data name="DescriptionSCSKiller" xml:space="preserve">
+    <value>Precompila gli shader dei giochi nella cache del driver NVIDIA o AMD prima di giocare, per ridurre gli scatti da compilazione shader. Gli aggiornamenti dei driver svuotano la cache: ripeti la precompilazione dopo. GPL-3.0; i download ufficiali sono solo le release GitHub, che vengono aperte.</value>
+  </data>
+  <data name="DescriptionOpenBoardView" xml:space="preserve">
+    <value>Visualizzatore open source di file .brd e altri formati boardview usati nella riparazione a livello di componente di schede madri e GPU. I file boardview provengono da terze parti: apri solo file da fonti affidabili. Apre solo la pagina ufficiale delle release.</value>
+  </data>
 </root>

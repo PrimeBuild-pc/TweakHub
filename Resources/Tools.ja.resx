@@ -932,4 +932,16 @@
   <data name="DescriptionHackingTool" xml:space="preserve">
     <value>多数のサードパーティ製セキュリティ／ペンテスト ツールをインストールする Linux 向けオールインワン ランチャー。ツールは検証されておらず root 権限が必要な場合があります。隔離されたラボで、許可された対象にのみ使用してください。公式リポジトリのみを開きます。</value>
   </data>
+  <data name="DescriptionSergeiStrelec" xml:space="preserve">
+    <value>Windows が起動しないときの修復、バックアップ、パーティション操作、データ復旧に使える起動可能な Windows PE。多数のサードパーティ製ツールを含むため、ライセンスを確認し、ISO のチェックサムを検証して、自分の PC にのみ使用してください。ダウンロード ページのみを開きます。</value>
+  </data>
+  <data name="DescriptionHirensBootCD" xml:space="preserve">
+    <value>診断、パスワード リセット、パーティション操作、バックアップ、データ復旧のツールを備えた、Windows 11 ベースの無料レスキュー環境。Rufus または Ventoy で ISO を USB に書き込み、事前にチェックサムを確認してください。公式サイトのみを開きます。</value>
+  </data>
+  <data name="DescriptionSCSKiller" xml:space="preserve">
+    <value>プレイ前にゲームのシェーダーを NVIDIA または AMD ドライバーのキャッシュへ事前コンパイルし、シェーダー コンパイルによるカクつきを減らします。ドライバー更新でキャッシュが消えるため、その後に再度実行してください。GPL-3.0。公式ダウンロードは GitHub のリリースのみで、そのページを開きます。</value>
+  </data>
+  <data name="DescriptionOpenBoardView" xml:space="preserve">
+    <value>マザーボードや GPU の部品レベル修理で使う .brd などのボードビュー ファイルを表示するオープンソース ビューアー。ボードビュー ファイルは第三者が提供するものなので、信頼できる入手元のファイルのみを開いてください。公式リリース ページのみを開きます。</value>
+  </data>
 </root>

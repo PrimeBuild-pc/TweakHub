@@ -101,6 +101,7 @@ public sealed class ShortcutService
             new ExternalTool { Name = "MemTest86", Description = L.Get("Tools:DescriptionBootableMemoryDiagnostics"), Category = "CPU & Memory", DownloadUrl = "https://www.memtest86.com/" },
 
             // Monitoring and diagnostics
+            new ExternalTool { Name = "OpenBoardView", Description = L.Get("Tools:DescriptionOpenBoardView"), Category = "Monitoring & Diagnostics", DownloadUrl = "https://github.com/OpenBoardView/OpenBoardView/releases/latest" },
             new ExternalTool { Name = "HWiNFO", Description = L.Get("Tools:DescriptionDetailedHardwareInformationAndSensorMonitoring"), Category = "Monitoring & Diagnostics", DownloadUrl = "https://www.hwinfo.com/download/" },
             new ExternalTool { Name = "HWMonitor", Description = L.Get("Tools:DescriptionCPUIDHardwareTemperatureVoltageAndFanMonitoring"), Category = "Monitoring & Diagnostics", WingetId = "CPUID.HWMonitor" },
             new ExternalTool { Name = "RAMMap", Description = L.Get("Tools:DescriptionMicrosoftSysinternalsPhysicalMemoryAnalyzer"), Category = "Monitoring & Diagnostics", WingetId = "Microsoft.Sysinternals.RAMMap" },
@@ -152,6 +153,7 @@ public sealed class ShortcutService
             new ExternalTool { Name = "OptiScaler", Description = L.Get("Tools:DescriptionUpscalerInjectionAndCompatibilityLayerForSupported"), Category = "Gaming & Input", DownloadUrl = "https://github.com/optiscaler/OptiScaler" },
             new ExternalTool { Name = "OptiScaler Client", Description = L.Get("Tools:DescriptionUpscalerInjectionAndCompatibilityLayerForSupported"), Category = "Gaming & Input", DownloadUrl = "https://github.com/Agustinm28/Optiscaler-Client" },
             new ExternalTool { Name = "DLSS Enabler", Description = L.Get("Tools:DescriptionCommunityDirectX12UpscalerAndFrameGeneration"), Category = "Gaming & Input", DownloadUrl = "https://github.com/artur-graniszewski/DLSS-Enabler" },
+            new ExternalTool { Name = "SCSKiller", Description = L.Get("Tools:DescriptionSCSKiller"), Category = "Gaming & Input", DownloadUrl = "https://github.com/BlueHeisenberg/SCSKiller/releases/latest" },
             new ExternalTool { Name = "Special K", Description = L.Get("Tools:DescriptionFrameRateLimitingAndInGamePerformance"), Category = "Gaming & Input", WingetId = "SpecialK.SpecialK" },
             new ExternalTool { Name = "Upscale It", Description = L.Get("Tools:DescriptionUpscalerInjectionAndCompatibilityLayerForSupported"), Category = "Gaming & Input", DownloadUrl = "https://github.com/NODIX-TECH/UPSCALE-IT" },
             new ExternalTool { Name = "Visual C++ Redistributable Runtimes All-in-One", Description = L.Get("Tools:DescriptionInstallLegacyAndCurrentVisualCRuntimes"), Category = "Gaming & Input", DownloadUrl = "https://www.techpowerup.com/download/visual-c-redistributable-runtime-package-all-in-one/" },
@@ -226,6 +228,8 @@ public sealed class ShortcutService
             // Recovery and forensics
             new ExternalTool { Name = "Windows File Recovery", Description = L.Get("Tools:DescriptionOfficialMicrosoftCommandLineFileRecovery"), Category = "Recovery & Forensics", WingetId = "9N26S50LN705" },
             new ExternalTool { Name = "TestDisk & PhotoRec", Description = L.Get("Tools:DescriptionRecoverPartitionsAndFilesFromDamagedMedia"), Category = "Recovery & Forensics", WingetId = "CGSecurity.TestDisk" },
+            new ExternalTool { Name = "Sergei Strelec WinPE", Description = L.Get("Tools:DescriptionSergeiStrelec"), Category = "Recovery & Forensics", DownloadUrl = "https://sergeistrelec.name/winpe-10-8-sergei-strelec-english/" },
+            new ExternalTool { Name = "Hiren's BootCD PE", Description = L.Get("Tools:DescriptionHirensBootCD"), Category = "Recovery & Forensics", DownloadUrl = "https://www.hirensbootcd.org/" },
             new ExternalTool { Name = "Autopsy", Description = L.Get("Tools:DescriptionOpenSourceDigitalForensicsPlatform"), Category = "Recovery & Forensics", DownloadUrl = "https://www.autopsy.com/download/" },
 
             // OSINT and security
