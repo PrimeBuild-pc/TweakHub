@@ -516,4 +516,47 @@
   <data name="CheckGlobalTimerExplain" xml:space="preserve">
     <value>Fa condividere a tutti i processi il timer più fine richiesto da un'app, come in Windows 10. Aumenta i consumi; tienilo solo se serve a un vecchio gioco specifico.</value>
   </data>
+  <data name="ScriptsTitle" xml:space="preserve">
+    <value>Script di Marius Heier</value>
+  </data>
+  <data name="ScriptsDescription" xml:space="preserve">
+    <value>Gli strumenti interattivi dell'autore, eseguiti esattamente come li documenta: TweakHub apre una finestra PowerShell da amministratore che scarica lo script da tools.mariusheier.com e lo esegue. TweakHub non controlla né modifica quello che fa lo script.</value>
+  </data>
+  <data name="ScriptCpuDirect" xml:space="preserve">
+    <value>Mappa ogni dispositivo USB al suo controller e alla CPU, poi propone di attivare MSI e disattivare il risparmio energetico USB.</value>
+  </data>
+  <data name="ScriptDeepPoll" xml:space="preserve">
+    <value>Misura il polling rate reale e il jitter di mouse e controller con il tracciamento del kernel.</value>
+  </data>
+  <data name="ScriptDeepLog" xml:space="preserve">
+    <value>Registra 30 secondi di input del controller; prima di inviare qualcosa mostra cosa invierebbe.</value>
+  </data>
+  <data name="ScriptRig" xml:space="preserve">
+    <value>Confronta la tua configurazione USB con i profili condivisi da altri utenti e può inviare la tua.</value>
+  </data>
+  <data name="ScriptRun" xml:space="preserve">
+    <value>Esegui come admin</value>
+  </data>
+  <data name="ScriptPage" xml:space="preserve">
+    <value>Apri la pagina ufficiale</value>
+  </data>
+  <data name="ScriptWarningTitle" xml:space="preserve">
+    <value>Script di terze parti</value>
+  </data>
+  <data name="ScriptWarningMessage" xml:space="preserve">
+    <value>{0} è realizzato da Marius Heier, non da TweakHub. PowerShell lo scaricherà dal sito dell'autore e lo eseguirà con privilegi di amministratore:
+
+{1}
+
+TweakHub non può controllare cosa fa lo script e l'autore può modificarlo in qualsiasi momento. Se hai dubbi, leggilo prima sulla pagina ufficiale. Questo avviso compare solo la prima volta che esegui {0}.</value>
+  </data>
+  <data name="LoadingInterrupts" xml:space="preserve">
+    <value>Lettura delle impostazioni degli interrupt…</value>
+  </data>
+  <data name="LoadingUsb" xml:space="preserve">
+    <value>Ricostruzione del percorso USB fino alla CPU…</value>
+  </data>
+  <data name="LoadingChecks" xml:space="preserve">
+    <value>Controllo dei tweak dannosi…</value>
+  </data>
 </root>

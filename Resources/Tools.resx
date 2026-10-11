@@ -390,9 +390,6 @@
   <data name="DescriptionOpenSourceMouseAccelerationDriver" xml:space="preserve">
     <value>Open-source mouse acceleration driver</value>
   </data>
-  <data name="DescriptionBrowserBasedCalibrationForSupportedPlayStationControllers" xml:space="preserve">
-    <value>Browser-based calibration for supported PlayStation controllers</value>
-  </data>
   <data name="DescriptionOfficialBrowserBasedMousePollingRateTester" xml:space="preserve">
     <value>Official browser-based mouse polling-rate tester</value>
   </data>
@@ -976,5 +973,8 @@ This may be due to insufficient permissions or the target application not being 
   </data>
   <data name="DescriptionRepairBadTweaks" xml:space="preserve">
     <value>Detects and reverts popular tweaks that hurt stability or security, such as forced timers and disabled mitigations. TweakHub's Tweak check tab runs the same checks with explanations. MIT. Opens only the official repository.</value>
+  </data>
+  <data name="DescriptionDualShockTools" xml:space="preserve">
+    <value>Web app that calibrates the sticks and triggers of DualShock 4 and DualSense controllers over WebHID in Chrome or Edge, and fixes stick drift without opening the controller. Opens only the official site.</value>
   </data>
 </root>

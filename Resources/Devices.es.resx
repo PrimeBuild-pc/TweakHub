@@ -516,4 +516,47 @@
   <data name="CheckGlobalTimerExplain" xml:space="preserve">
     <value>Hace que todos los procesos compartan el temporizador más fino que pida una aplicación, como en Windows 10. Aumenta el consumo; mantenlo solo si un juego antiguo concreto lo necesita.</value>
   </data>
+  <data name="ScriptsTitle" xml:space="preserve">
+    <value>Scripts de Marius Heier</value>
+  </data>
+  <data name="ScriptsDescription" xml:space="preserve">
+    <value>Las herramientas interactivas del autor, ejecutadas tal como él las documenta: TweakHub abre una ventana de PowerShell como administrador que descarga el script de tools.mariusheier.com y lo ejecuta. TweakHub no revisa ni cambia lo que hace el script.</value>
+  </data>
+  <data name="ScriptCpuDirect" xml:space="preserve">
+    <value>Asigna cada dispositivo USB a su controlador y CPU, y ofrece activar MSI y desactivar el ahorro de energía USB.</value>
+  </data>
+  <data name="ScriptDeepPoll" xml:space="preserve">
+    <value>Mide la tasa de sondeo real y el jitter del ratón y el mando con el seguimiento del kernel.</value>
+  </data>
+  <data name="ScriptDeepLog" xml:space="preserve">
+    <value>Graba 30 segundos de entrada del mando; antes de subir nada muestra lo que enviaría.</value>
+  </data>
+  <data name="ScriptRig" xml:space="preserve">
+    <value>Compara tu configuración USB con perfiles compartidos por otros usuarios y puede enviar la tuya.</value>
+  </data>
+  <data name="ScriptRun" xml:space="preserve">
+    <value>Ejecutar como admin</value>
+  </data>
+  <data name="ScriptPage" xml:space="preserve">
+    <value>Abrir la página oficial</value>
+  </data>
+  <data name="ScriptWarningTitle" xml:space="preserve">
+    <value>Script de terceros</value>
+  </data>
+  <data name="ScriptWarningMessage" xml:space="preserve">
+    <value>{0} lo ha creado Marius Heier, no TweakHub. PowerShell lo descargará del sitio del autor y lo ejecutará con permisos de administrador:
+
+{1}
+
+TweakHub no puede comprobar lo que hace el script y el autor puede cambiarlo en cualquier momento. Si tienes dudas, léelo antes en la página oficial. Este aviso solo aparece la primera vez que ejecutas {0}.</value>
+  </data>
+  <data name="LoadingInterrupts" xml:space="preserve">
+    <value>Leyendo la configuración de interrupciones…</value>
+  </data>
+  <data name="LoadingUsb" xml:space="preserve">
+    <value>Trazando los dispositivos USB hasta la CPU…</value>
+  </data>
+  <data name="LoadingChecks" xml:space="preserve">
+    <value>Buscando ajustes dañinos…</value>
+  </data>
 </root>

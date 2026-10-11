@@ -20,16 +20,17 @@ public partial class DeviceListView : UserControl
 
     private async void Scan_Click(object sender, RoutedEventArgs e) => await ScanAsync();
 
-    public async Task ScanAsync()
+    /// <param name="initial">First load: reuse the startup read instead of starting another scan.</param>
+    public async Task ScanAsync(bool initial = false)
     {
         HasScanned = true;
         ScanButton.IsEnabled = ExportButton.IsEnabled = false;
-        BusyRing.IsActive = true;
+        Loading.Show(L.Get("Devices:Scanning"));
         ErrorText.Visibility = Visibility.Collapsed;
-        StatusText.Text = L.Get("Devices:Scanning");
         try
         {
-            _devices = await DeviceService.Instance.GetDevicesAsync();
+            if (!initial) Preload.Invalidate(Preload.Devices);
+            _devices = await Preload.Get(Preload.Devices, DeviceService.Instance.GetDevicesAsync);
             Render();
             StatusText.Text = L.Format("Devices:Scanned", DateTime.Now.ToString("t", L.Culture));
         }
@@ -41,7 +42,7 @@ public partial class DeviceListView : UserControl
         }
         finally
         {
-            BusyRing.IsActive = false;
+            Loading.Hide();
             ScanButton.IsEnabled = true;
             ExportButton.IsEnabled = _devices.Count > 0;
             EnableAllButton.IsEnabled = DeviceService.HasDisabledDevices;

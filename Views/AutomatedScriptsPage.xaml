@@ -145,6 +145,8 @@
                                 AutomationProperties.Name="{loc:Loc Scripts:Run}" Click="RunPlaybook_Click"/>
                         <Button Content="{loc:Loc Scripts:AutomatedScriptsPageEdit}" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0"
                                 AutomationProperties.Name="{loc:Loc Scripts:AutomatedScriptsPageEdit}" Click="EditPlaybook_Click"/>
+                        <Button Content="{loc:Loc Scripts:ExportPlaybook}" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0"
+                                AutomationProperties.Name="{loc:Loc Scripts:ExportPlaybook}" Click="ExportPlaybook_Click"/>
                         <Button Content="{loc:Loc Scripts:AutomatedScriptsPageDelete}" Style="{StaticResource DangerButtonStyle}"
                                 AutomationProperties.Name="{loc:Loc Scripts:AutomatedScriptsPageDelete}" Click="DeletePlaybook_Click"/>
                     </StackPanel>
@@ -274,13 +276,6 @@
                         <TextBlock Text="{loc:Loc Scripts:AppsFolder}" FontSize="12"/>
                     </StackPanel>
                 </Button>
-                <Button x:Name="NewPlaybookButton" AutomationProperties.Name="{loc:Loc Scripts:NewPlaybook}"
-                        Style="{StaticResource SecondaryButtonStyle}" Click="NewPlaybook_Click" Padding="12,6" Margin="0,0,8,0">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="&#xE710;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0"/>
-                        <TextBlock Text="{loc:Loc Scripts:NewPlaybook}" FontSize="12"/>
-                    </StackPanel>
-                </Button>
                 <Button AutomationProperties.Name="{loc:Loc Scripts:AutomatedScriptsPageImport}"
                         Style="{StaticResource SecondaryButtonStyle}" Click="ImportScriptsButton_Click" Padding="12,6" Margin="0,0,8,0">
                     <StackPanel Orientation="Horizontal">
@@ -300,8 +295,41 @@
 
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <StackPanel>
-                <TextBlock Text="{loc:Loc Scripts:Playbooks}" Style="{StaticResource CategoryHeaderStyle}" Margin="0,0,0,8"/>
-                <TextBlock Text="{loc:Loc Scripts:PlaybooksDescription}" Style="{StaticResource DescriptionTextStyle}" Margin="0,0,0,12"/>
+                <Grid Margin="0,0,0,12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <TextBlock Text="{loc:Loc Scripts:Playbooks}" Style="{StaticResource CategoryHeaderStyle}" Margin="0,0,0,8"/>
+                        <TextBlock Text="{loc:Loc Scripts:PlaybooksDescription}" Style="{StaticResource DescriptionTextStyle}"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Bottom" Margin="16,0,0,0">
+                        <Button Style="{StaticResource ModernButtonStyle}" Click="CapturePlaybook_Click" Padding="12,6" Margin="0,0,8,0"
+                                AutomationProperties.Name="{loc:Loc Scripts:PlaybookFromSystem}"
+                                ToolTip="{loc:Loc Scripts:PlaybookFromSystemHint}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE9F5;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0"
+                                           Foreground="{DynamicResource AccentForegroundBrush}"/>
+                                <TextBlock Text="{loc:Loc Scripts:PlaybookFromSystem}" FontSize="12"/>
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="NewPlaybookButton" AutomationProperties.Name="{loc:Loc Scripts:NewPlaybook}"
+                                Style="{StaticResource SecondaryButtonStyle}" Click="NewPlaybook_Click" Padding="12,6" Margin="0,0,8,0">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE710;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0"/>
+                                <TextBlock Text="{loc:Loc Scripts:NewPlaybook}" FontSize="12"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Style="{StaticResource SecondaryButtonStyle}" Click="ImportPlaybook_Click" Padding="12,6"
+                                AutomationProperties.Name="{loc:Loc Scripts:ImportPlaybook}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE8B5;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0"/>
+                                <TextBlock Text="{loc:Loc Scripts:ImportPlaybook}" FontSize="12"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Grid>
                 <ItemsControl x:Name="PlaybooksControl" ItemTemplate="{StaticResource PlaybookTemplate}" Margin="0,0,0,16"/>
                 <TextBlock Text="{loc:Loc Scripts:BuiltInScripts}" Style="{StaticResource CategoryHeaderStyle}" Margin="0,0,0,8"/>
                 <ItemsControl x:Name="BuiltInScriptsControl" ItemTemplate="{StaticResource BuiltInScriptTemplate}"/>

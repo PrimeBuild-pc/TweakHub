@@ -241,7 +241,7 @@ public sealed class UserDataService
         playbook.Name = (playbook.Name ?? string.Empty).Trim();
         playbook.Description = (playbook.Description ?? string.Empty).Trim();
         playbook.Steps ??= [];
-        if (!IsStableId(playbook.Id) || playbook.Name.Length is < 1 or > 100 || playbook.Description.Length > 500 || playbook.Steps.Count > 100)
+        if (!IsStableId(playbook.Id) || playbook.Name.Length is < 1 or > 100 || playbook.Description.Length > 500 || playbook.Steps.Count > 200)
             throw new InvalidDataException(L.Get("Scripts:PlaybookInvalid"));
         foreach (var step in playbook.Steps)
         {
@@ -249,10 +249,12 @@ public sealed class UserDataService
             step.ReferenceId = (step.ReferenceId ?? string.Empty).Trim();
             step.Name = (step.Name ?? string.Empty).Trim();
             step.WingetId = (step.WingetId ?? string.Empty).Trim();
+            step.Data ??= string.Empty;
             if (!IsStableId(step.Id) || step.Name.Length is < 1 or > 100 || !Enum.IsDefined(step.Type))
                 throw new InvalidDataException(L.Get("Scripts:PlaybookInvalid"));
             if (step.Type == PlaybookStepType.Winget) ValidateWingetId(step.WingetId);
             else if (step.ReferenceId.Length == 0) throw new InvalidDataException(L.Get("Scripts:PlaybookInvalid"));
+            PlaybookService.ValidateStepData(step);
         }
         EnsureUnique(playbook.Steps.Select(step => step.Id));
     }

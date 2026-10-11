@@ -663,6 +663,12 @@ namespace TweakHub.Services
             };
         }
 
+        public async Task LoadWithStatesAsync()
+        {
+            LoadTweaks();
+            await RefreshTweakStatesAsync();
+        }
+
         public async Task RefreshTweakStatesAsync()
         {
             var power = await PowerService.Instance.GetTweakStatesAsync();

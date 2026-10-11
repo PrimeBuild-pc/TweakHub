@@ -205,6 +205,10 @@ namespace TweakHub.Services
             }
         }
 
+        /// <summary>Every value TweakHub has changed and can restore.</summary>
+        public IReadOnlyList<(string KeyPath, string ValueName)> BackedUpValues =>
+            _backups.Values.Select(backup => (backup.KeyPath, backup.ValueName)).ToList();
+
         public bool HasBackup(string keyPath, string valueName) =>
             _backups.ContainsKey(BackupKey(keyPath, valueName));
 

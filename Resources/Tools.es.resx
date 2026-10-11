@@ -390,9 +390,6 @@
   <data name="DescriptionOpenSourceMouseAccelerationDriver" xml:space="preserve">
     <value>Controlador de aceleración de ratón de código abierto</value>
   </data>
-  <data name="DescriptionBrowserBasedCalibrationForSupportedPlayStationControllers" xml:space="preserve">
-    <value>Calibración basada en navegador para controladores PlayStation compatibles</value>
-  </data>
   <data name="DescriptionOfficialBrowserBasedMousePollingRateTester" xml:space="preserve">
     <value>Probador oficial basado en navegador de tasa de sondeo del ratón</value>
   </data>
@@ -976,5 +973,8 @@ Esto puede deberse a permisos insuficientes o a que la aplicación de destino no
   </data>
   <data name="DescriptionRepairBadTweaks" xml:space="preserve">
     <value>Detecta y revierte ajustes populares que perjudican la estabilidad o la seguridad, como temporizadores forzados y mitigaciones desactivadas. La pestaña Comprobación de ajustes de TweakHub hace las mismas comprobaciones con explicaciones. MIT. Abre solo el repositorio oficial.</value>
+  </data>
+  <data name="DescriptionDualShockTools" xml:space="preserve">
+    <value>Aplicación web que calibra los sticks y gatillos de los mandos DualShock 4 y DualSense mediante WebHID en Chrome o Edge y corrige el drift sin abrir el mando. Abre solo el sitio oficial.</value>
   </data>
 </root>

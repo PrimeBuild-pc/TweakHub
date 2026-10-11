@@ -159,7 +159,6 @@ public sealed class ShortcutService
             new ExternalTool { Name = "Visual C++ Redistributable Runtimes All-in-One", Description = L.Get("Tools:DescriptionInstallLegacyAndCurrentVisualCRuntimes"), Category = "Gaming & Input", DownloadUrl = "https://www.techpowerup.com/download/visual-c-redistributable-runtime-package-all-in-one/" },
             new ExternalTool { Name = "LightCrosshair", Description = L.Get("Tools:DescriptionLightweightOpenSourceConfigurableCrosshairOverlay"), Category = "Gaming & Input", WingetId = "PrimeBuild.LightCrosshair" },
             new ExternalTool { Name = "Raw Accel", Description = L.Get("Tools:DescriptionOpenSourceMouseAccelerationDriver"), Category = "Gaming & Input", DownloadUrl = "https://github.com/RawAccelOfficial/rawaccel" },
-            new ExternalTool { Name = "DualShock Calibration", Description = L.Get("Tools:DescriptionBrowserBasedCalibrationForSupportedPlayStationControllers"), Category = "Gaming & Input", DownloadUrl = "https://dualshock-tools.github.io/" },
             new ExternalTool { Name = "Razer Polling Rate Tester", Description = L.Get("Tools:DescriptionOfficialBrowserBasedMousePollingRateTester"), Category = "Gaming & Input", DownloadUrl = "https://rzr.to/pollingrate" },
 
             // Storage and USB
@@ -238,6 +237,7 @@ public sealed class ShortcutService
             new ExternalTool { Name = "DeepLog", Description = L.Get("Tools:DescriptionDeepLog"), Category = "Latency & Input", DownloadUrl = "https://tools.mariusheier.com/deeplog.html" },
             new ExternalTool { Name = "USB Rig Profiles", Description = L.Get("Tools:DescriptionUsbRigProfiles"), Category = "Latency & Input", DownloadUrl = "https://tools.mariusheier.com/rig.html" },
             new ExternalTool { Name = "USB HID Analyzer", Description = L.Get("Tools:DescriptionHidAnalyzer"), Category = "Latency & Input", DownloadUrl = "https://tools.mariusheier.com/poll_checker.html" },
+            new ExternalTool { Name = "DualShock Tools", Description = L.Get("Tools:DescriptionDualShockTools"), Category = "Latency & Input", DownloadUrl = "https://dualshock-tools.github.io/" },
             new ExternalTool { Name = "hidusbf", Description = L.Get("Tools:DescriptionHidusbf"), Category = "Latency & Input", DownloadUrl = "https://github.com/LordOfMice/hidusbf" },
             new ExternalTool { Name = "Battle Beaver controller overclocking", Description = L.Get("Tools:DescriptionBattleBeaver"), Category = "Latency & Input", DownloadUrl = "https://battlebeavercustoms.com/pages/overclocking" },
             new ExternalTool { Name = "PowerPlanSettingsEditor", Description = L.Get("Tools:DescriptionPowerPlanSettingsEditor"), Category = "Latency & Input", DownloadUrl = "https://github.com/zoicware/PowerPlanSettingsEditor" },

@@ -390,9 +390,6 @@
   <data name="DescriptionOpenSourceMouseAccelerationDriver" xml:space="preserve">
     <value>オープンソースのマウス アクセラレーション ドライバー</value>
   </data>
-  <data name="DescriptionBrowserBasedCalibrationForSupportedPlayStationControllers" xml:space="preserve">
-    <value>対応 PlayStation コントローラーをブラウザーで調整</value>
-  </data>
   <data name="DescriptionOfficialBrowserBasedMousePollingRateTester" xml:space="preserve">
     <value>公式のブラウザー ベース マウス ポーリング レート テスター</value>
   </data>
@@ -976,5 +973,8 @@
   </data>
   <data name="DescriptionRepairBadTweaks" xml:space="preserve">
     <value>強制タイマーや無効化された緩和策など、安定性やセキュリティを損なう一般的な調整を検出して元に戻します。TweakHub の「調整チェック」タブが説明付きで同じ確認を行います。MIT。公式リポジトリのみを開きます。</value>
+  </data>
+  <data name="DescriptionDualShockTools" xml:space="preserve">
+    <value>Chrome または Edge の WebHID で DualShock 4 と DualSense のスティックとトリガーをキャリブレーションし、コントローラーを開けずにスティックのドリフトを補正する Web アプリです。公式サイトのみを開きます。</value>
   </data>
 </root>

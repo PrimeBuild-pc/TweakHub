@@ -10,6 +10,8 @@ public partial class MainWindow : Window
 {
     private readonly ThemeService _themeService = ThemeService.Instance;
     private bool _updateCheckStarted;
+    // Sections keep their state between visits; their data was read once by the splash screen.
+    private readonly Dictionary<string, System.Windows.Controls.Page> _pages = new();
 
     public MainWindow()
     {
@@ -18,13 +20,15 @@ public partial class MainWindow : Window
         _themeService.PropertyChanged += ThemeService_PropertyChanged;
         Closed += (_, _) => _themeService.PropertyChanged -= ThemeService_PropertyChanged;
         Loaded += MainWindow_Loaded;
+        // Cached pages need no journal: drop it so visited pages are not held twice.
+        MainFrame.Navigated += (_, _) => { while (MainFrame.CanGoBack) MainFrame.RemoveBackEntry(); };
         ContentRendered += MainWindow_ContentRendered;
     }
 
     private void MainWindow_Loaded(object sender, RoutedEventArgs e)
     {
-        Navigation.SelectedItem = RegistryTweaksItem;
-        if (MainFrame.Content is null) Navigate("registry");
+        Navigation.SelectedItem = App.StartupPlaybookId is null ? RegistryTweaksItem : AutomatedScriptsItem;
+        if (MainFrame.Content is null) Navigate(App.StartupPlaybookId is null ? "registry" : "scripts");
     }
 
     private async void MainWindow_ContentRendered(object? sender, EventArgs e)
@@ -43,18 +47,29 @@ public partial class MainWindow : Window
 
     private void Navigate(string destination)
     {
-        MainFrame.Navigate(destination switch
+        if (!_pages.TryGetValue(destination, out var page))
         {
-            "registry" => new RegistryTweaksPage(),
-            "tools" => new ExternalToolsPage(),
-            "security" => new SecurityPage(),
-            "devices" => new DevicesPage(),
-            "scripts" => new AutomatedScriptsPage(),
-            "quick" => new QuickAccessPage(),
-            "settings" => new AboutPage(),
-            _ => new RegistryTweaksPage()
-        });
+            _pages[destination] = page = destination switch
+            {
+                "tools" => new ExternalToolsPage(),
+                "security" => new SecurityPage(),
+                "devices" => new DevicesPage(),
+                "power" => new PowerPlanPage(),
+                "scripts" => new AutomatedScriptsPage(),
+                "quick" => new QuickAccessPage(),
+                "settings" => new AboutPage(),
+                _ => new RegistryTweaksPage()
+            };
+        }
+        MainFrame.Navigate(page);
         if (destination == "registry") UpdateRegistryTweaksBadge();
+    }
+
+    /// <summary>After a profile import every other section must re-read its lists.</summary>
+    public void ResetPages()
+    {
+        foreach (var key in _pages.Where(pair => pair.Value != MainFrame.Content).Select(pair => pair.Key).ToList())
+            _pages.Remove(key);
     }
 
     private void AppearanceSettings_Click(object sender, MouseButtonEventArgs e) => NavigateToAppearance();

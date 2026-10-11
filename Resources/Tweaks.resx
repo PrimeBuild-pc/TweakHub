@@ -642,4 +642,138 @@ Creating it may take a minute and requires administrator privileges.</value>
   <data name="PowerPlanApplyFailedMessage" xml:space="preserve">
     <value>The plan could not be activated or recreated. Check that the plan still exists in Power Options and that you accepted the administrator prompt.</value>
   </data>
+  <data name="PowerSectionTitle" xml:space="preserve">
+    <value>Power plan</value>
+  </data>
+  <data name="PowerSectionDescription" xml:space="preserve">
+    <value>Edit every setting of a power plan, hidden ones included, compare it with another plan, and manage your plans. Values are written through the same Windows API as powercfg.</value>
+  </data>
+  <data name="PowerTabEditor" xml:space="preserve">
+    <value>Settings editor</value>
+  </data>
+  <data name="PowerTabPlans" xml:space="preserve">
+    <value>Plans</value>
+  </data>
+  <data name="PowerEditPlan" xml:space="preserve">
+    <value>Plan to edit</value>
+  </data>
+  <data name="PowerComparePlan" xml:space="preserve">
+    <value>Compare with</value>
+  </data>
+  <data name="PowerNoComparison" xml:space="preserve">
+    <value>No comparison</value>
+  </data>
+  <data name="PowerSearch" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="PowerSearchPlaceholder" xml:space="preserve">
+    <value>Name, description or GUID</value>
+  </data>
+  <data name="PowerDifferentOnly" xml:space="preserve">
+    <value>Only values that differ</value>
+  </data>
+  <data name="PowerShowHidden" xml:space="preserve">
+    <value>Show hidden settings</value>
+  </data>
+  <data name="PowerSubgroups" xml:space="preserve">
+    <value>Setting groups</value>
+  </data>
+  <data name="PowerAllSettings" xml:space="preserve">
+    <value>All settings</value>
+  </data>
+  <data name="PowerOtherSettings" xml:space="preserve">
+    <value>Other settings</value>
+  </data>
+  <data name="PowerHidden" xml:space="preserve">
+    <value>Hidden</value>
+  </data>
+  <data name="PowerModified" xml:space="preserve">
+    <value>Not applied</value>
+  </data>
+  <data name="PowerUseCompare" xml:space="preserve">
+    <value>Use this value</value>
+  </data>
+  <data name="PowerCompareValue" xml:space="preserve">
+    <value>{0}: {1}</value>
+  </data>
+  <data name="PowerPluggedIn" xml:space="preserve">
+    <value>Plugged in</value>
+  </data>
+  <data name="PowerOnBattery" xml:space="preserve">
+    <value>On battery</value>
+  </data>
+  <data name="PowerNoSettings" xml:space="preserve">
+    <value>No setting matches the filters.</value>
+  </data>
+  <data name="PowerNoPending" xml:space="preserve">
+    <value>Editing {0}. Changes are applied only when you press Apply.</value>
+  </data>
+  <data name="PowerPending" xml:space="preserve">
+    <value>{0} changes not applied yet</value>
+  </data>
+  <data name="PowerApplied" xml:space="preserve">
+    <value>{0} settings applied to {1}.</value>
+  </data>
+  <data name="PowerDiscard" xml:space="preserve">
+    <value>Discard changes</value>
+  </data>
+  <data name="PowerDiscardTitle" xml:space="preserve">
+    <value>Discard the changes?</value>
+  </data>
+  <data name="PowerDiscardMessage" xml:space="preserve">
+    <value>{0} changes have not been applied and will be lost if you open another plan.</value>
+  </data>
+  <data name="PowerApplyFailed" xml:space="preserve">
+    <value>Some settings were not applied</value>
+  </data>
+  <data name="PowerApplyFailedMessage" xml:space="preserve">
+    <value>Windows refused {0} values even as administrator.
+
+{1}</value>
+  </data>
+  <data name="PowerPlansTitle" xml:space="preserve">
+    <value>Installed plans</value>
+  </data>
+  <data name="PowerPlansDescription" xml:space="preserve">
+    <value>Activate, duplicate, rename, export or delete a plan. Duplicate a plan before experimenting so you can go back to it.</value>
+  </data>
+  <data name="PowerActive" xml:space="preserve">
+    <value>Active plan</value>
+  </data>
+  <data name="PowerActivate" xml:space="preserve">
+    <value>Activate</value>
+  </data>
+  <data name="PowerEditSettings" xml:space="preserve">
+    <value>Edit settings</value>
+  </data>
+  <data name="PowerDuplicate" xml:space="preserve">
+    <value>Duplicate</value>
+  </data>
+  <data name="PowerRename" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="PowerExport" xml:space="preserve">
+    <value>Export (.pow)</value>
+  </data>
+  <data name="PowerImport" xml:space="preserve">
+    <value>Import .pow</value>
+  </data>
+  <data name="PowerDelete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="PowerDeleteMessage" xml:space="preserve">
+    <value>Delete the plan "{0}"? Windows cannot restore a deleted custom plan; export it first if you may need it again.</value>
+  </data>
+  <data name="PowerNewName" xml:space="preserve">
+    <value>Plan name</value>
+  </data>
+  <data name="PowerCopyName" xml:space="preserve">
+    <value>{0} (copy)</value>
+  </data>
+  <data name="PowerActionFailed" xml:space="preserve">
+    <value>Windows did not complete the action</value>
+  </data>
+  <data name="PowerFileFilter" xml:space="preserve">
+    <value>Power plan (*.pow)|*.pow</value>
+  </data>
 </root>

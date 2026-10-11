@@ -211,7 +211,7 @@ public class PowerService
             : null;
     }
 
-    private static async Task<ProcessResult> RunMutationAsync(params string[] arguments)
+    internal static async Task<ProcessResult> RunMutationAsync(params string[] arguments)
     {
         if (Elevation.IsAdministrator) return await RunAsync(arguments);
         try
@@ -282,7 +282,7 @@ public class PowerService
         catch { }
     }
 
-    private sealed record ProcessResult(bool Success, string Output, string Error);
+    internal sealed record ProcessResult(bool Success, string Output, string Error);
     private sealed class PowerBackup
     {
         public string? ActiveScheme { get; set; }

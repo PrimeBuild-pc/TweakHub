@@ -13,9 +13,28 @@ namespace TweakHub;
 /// </summary>
 public partial class App : Application
 {
+    /// <summary>Playbook to run once the elevated restart has opened the main window.</summary>
+    public static string? StartupPlaybookId { get; set; }
+
+    /// <summary>Starts TweakHub again as administrator and closes this instance; false when UAC is declined.</summary>
+    public static bool RestartElevated(string arguments)
+    {
+        try
+        {
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(Environment.ProcessPath!, arguments) { UseShellExecute = true, Verb = "runas" });
+        }
+        catch (System.ComponentModel.Win32Exception)
+        {
+            return false;
+        }
+        Current.Shutdown();
+        return true;
+    }
+
     protected override void OnStartup(StartupEventArgs e)
     {
         L.Initialize(UserDataService.Instance.LoadAppearance().Language);
+        if (e.Args is ["--run-playbook", var playbookId]) StartupPlaybookId = playbookId;
         try { AppDataPath.EnsureAppsDirectory(); } catch { }
 
         if (Environment.OSVersion.Version.Build < 22000)
@@ -32,6 +51,7 @@ public partial class App : Application
         DispatcherUnhandledException += App_DispatcherUnhandledException;
         Exit += App_Exit;
         base.OnStartup(e);
+        new Views.SplashWindow().Show();
     }
 
     private void App_Exit(object sender, ExitEventArgs e)

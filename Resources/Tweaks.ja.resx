@@ -654,4 +654,138 @@ TweakHub は記録した元の値を復元します。</value>
   <data name="PowerPlanApplyFailedMessage" xml:space="preserve">
     <value>プランを有効化または再作成できませんでした。電源オプションにプランが存在すること、管理者の確認を承認したことを確認してください。</value>
   </data>
+  <data name="PowerSectionTitle" xml:space="preserve">
+    <value>電源プラン</value>
+  </data>
+  <data name="PowerSectionDescription" xml:space="preserve">
+    <value>非表示の設定も含めて電源プランのすべての設定を編集し、別のプランと比較し、プランを管理します。値は powercfg と同じ Windows API で書き込まれます。</value>
+  </data>
+  <data name="PowerTabEditor" xml:space="preserve">
+    <value>設定エディター</value>
+  </data>
+  <data name="PowerTabPlans" xml:space="preserve">
+    <value>プラン</value>
+  </data>
+  <data name="PowerEditPlan" xml:space="preserve">
+    <value>編集するプラン</value>
+  </data>
+  <data name="PowerComparePlan" xml:space="preserve">
+    <value>比較対象</value>
+  </data>
+  <data name="PowerNoComparison" xml:space="preserve">
+    <value>比較しない</value>
+  </data>
+  <data name="PowerSearch" xml:space="preserve">
+    <value>検索</value>
+  </data>
+  <data name="PowerSearchPlaceholder" xml:space="preserve">
+    <value>名前、説明または GUID</value>
+  </data>
+  <data name="PowerDifferentOnly" xml:space="preserve">
+    <value>異なる値のみ</value>
+  </data>
+  <data name="PowerShowHidden" xml:space="preserve">
+    <value>非表示の設定を表示</value>
+  </data>
+  <data name="PowerSubgroups" xml:space="preserve">
+    <value>設定グループ</value>
+  </data>
+  <data name="PowerAllSettings" xml:space="preserve">
+    <value>すべての設定</value>
+  </data>
+  <data name="PowerOtherSettings" xml:space="preserve">
+    <value>その他の設定</value>
+  </data>
+  <data name="PowerHidden" xml:space="preserve">
+    <value>非表示</value>
+  </data>
+  <data name="PowerModified" xml:space="preserve">
+    <value>未適用</value>
+  </data>
+  <data name="PowerUseCompare" xml:space="preserve">
+    <value>この値を使用</value>
+  </data>
+  <data name="PowerCompareValue" xml:space="preserve">
+    <value>{0}: {1}</value>
+  </data>
+  <data name="PowerPluggedIn" xml:space="preserve">
+    <value>電源接続時</value>
+  </data>
+  <data name="PowerOnBattery" xml:space="preserve">
+    <value>バッテリー駆動時</value>
+  </data>
+  <data name="PowerNoSettings" xml:space="preserve">
+    <value>フィルターに一致する設定はありません。</value>
+  </data>
+  <data name="PowerNoPending" xml:space="preserve">
+    <value>{0} を編集中です。変更は［適用］を押したときにのみ反映されます。</value>
+  </data>
+  <data name="PowerPending" xml:space="preserve">
+    <value>未適用の変更が {0} 件あります</value>
+  </data>
+  <data name="PowerApplied" xml:space="preserve">
+    <value>{1} に {0} 件の設定を適用しました。</value>
+  </data>
+  <data name="PowerDiscard" xml:space="preserve">
+    <value>変更を破棄</value>
+  </data>
+  <data name="PowerDiscardTitle" xml:space="preserve">
+    <value>変更を破棄しますか？</value>
+  </data>
+  <data name="PowerDiscardMessage" xml:space="preserve">
+    <value>{0} 件の変更は適用されておらず、別のプランを開くと失われます。</value>
+  </data>
+  <data name="PowerApplyFailed" xml:space="preserve">
+    <value>一部の設定を適用できませんでした</value>
+  </data>
+  <data name="PowerApplyFailedMessage" xml:space="preserve">
+    <value>管理者としても Windows が {0} 個の値を拒否しました。
+
+{1}</value>
+  </data>
+  <data name="PowerPlansTitle" xml:space="preserve">
+    <value>インストール済みのプラン</value>
+  </data>
+  <data name="PowerPlansDescription" xml:space="preserve">
+    <value>プランの有効化、複製、名前の変更、エクスポート、削除を行います。試す前にプランを複製しておくと元に戻せます。</value>
+  </data>
+  <data name="PowerActive" xml:space="preserve">
+    <value>アクティブなプラン</value>
+  </data>
+  <data name="PowerActivate" xml:space="preserve">
+    <value>有効にする</value>
+  </data>
+  <data name="PowerEditSettings" xml:space="preserve">
+    <value>設定を編集</value>
+  </data>
+  <data name="PowerDuplicate" xml:space="preserve">
+    <value>複製</value>
+  </data>
+  <data name="PowerRename" xml:space="preserve">
+    <value>名前の変更</value>
+  </data>
+  <data name="PowerExport" xml:space="preserve">
+    <value>エクスポート (.pow)</value>
+  </data>
+  <data name="PowerImport" xml:space="preserve">
+    <value>.pow をインポート</value>
+  </data>
+  <data name="PowerDelete" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="PowerDeleteMessage" xml:space="preserve">
+    <value>プラン「{0}」を削除しますか？削除したカスタムプランは Windows で復元できません。必要になる可能性がある場合は先にエクスポートしてください。</value>
+  </data>
+  <data name="PowerNewName" xml:space="preserve">
+    <value>プラン名</value>
+  </data>
+  <data name="PowerCopyName" xml:space="preserve">
+    <value>{0} (コピー)</value>
+  </data>
+  <data name="PowerActionFailed" xml:space="preserve">
+    <value>Windows で操作を完了できませんでした</value>
+  </data>
+  <data name="PowerFileFilter" xml:space="preserve">
+    <value>電源プラン (*.pow)|*.pow</value>
+  </data>
 </root>

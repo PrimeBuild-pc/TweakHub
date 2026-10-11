@@ -368,4 +368,37 @@ Instalado: {1}
   <data name="ImportProfileSummary" xml:space="preserve">
     <value>Este perfil válido contiene {0} scripts, {1} ajustes, {2} herramientas y {3} playbooks. La importación sustituye la configuración transferible actual y crea una copia de recuperación. ¿Continuar?</value>
   </data>
+  <data name="SplashSubtitle" xml:space="preserve">
+    <value>Leyendo el sistema antes de abrir</value>
+  </data>
+  <data name="SplashTweaks" xml:space="preserve">
+    <value>Ajustes del registro y su estado</value>
+  </data>
+  <data name="SplashWindowsUpdate" xml:space="preserve">
+    <value>Modo de Windows Update</value>
+  </data>
+  <data name="SplashPower" xml:space="preserve">
+    <value>Planes de energía y configuración</value>
+  </data>
+  <data name="SplashSecurity" xml:space="preserve">
+    <value>Estado de seguridad</value>
+  </data>
+  <data name="SplashDevices" xml:space="preserve">
+    <value>Dispositivos y controladores</value>
+  </data>
+  <data name="SplashInterrupts" xml:space="preserve">
+    <value>Interrupciones y MSI</value>
+  </data>
+  <data name="SplashChecks" xml:space="preserve">
+    <value>Comprobación de ajustes dañinos</value>
+  </data>
+  <data name="SplashReading" xml:space="preserve">
+    <value>Leyendo: {0}</value>
+  </data>
+  <data name="SplashSeconds" xml:space="preserve">
+    <value>{0} s</value>
+  </data>
+  <data name="SplashStepFailed" xml:space="preserve">
+    <value>Se reintentará en la sección</value>
+  </data>
 </root>

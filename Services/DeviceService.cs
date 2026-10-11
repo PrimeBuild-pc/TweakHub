@@ -147,6 +147,35 @@ public sealed class DeviceService
         return result;
     }
 
+    /// <summary>
+    /// Playbook toggle: the saved instance id first, then the only device of the same class and name (instance ids change
+    /// between PCs). Prints SKIPPED when the device is not on this PC, otherwise the instance id it changed.
+    /// </summary>
+    internal static string BuildMatchingToggleScript(string id, string name, string deviceClass, bool enable) => $$"""
+        $device = Get-PnpDevice -InstanceId {{PowerShellService.Literal(id)}} -ErrorAction SilentlyContinue
+        if (-not $device) {
+            $device = @(Get-PnpDevice -Class {{PowerShellService.Literal(deviceClass.Length > 0 ? deviceClass : "-")}} -ErrorAction SilentlyContinue |
+                Where-Object FriendlyName -eq {{PowerShellService.Literal(name)}})
+            if ($device.Count -ne 1) { 'SKIPPED'; exit 0 }
+            $device = $device[0]
+        }
+        {{(enable ? "Enable" : "Disable")}}-PnpDevice -InstanceId $device.InstanceId -Confirm:$false -ErrorAction Stop
+        $device.InstanceId
+        """;
+
+    public async Task<(bool Success, bool Skipped, string Error)> SetEnabledMatchingAsync(string id, string name, string deviceClass, bool enable)
+    {
+        var result = await PowerShellService.Instance.ExecuteScriptAsync(BuildMatchingToggleScript(id, name, deviceClass, enable),
+            requireAdministrator: true, TimeSpan.FromMinutes(2));
+        if (!result.Success) return (false, false, result.Error);
+        var changed = result.Output.Trim().Split('\n').LastOrDefault()?.Trim() ?? string.Empty;
+        if (changed is "SKIPPED" or "") return (true, true, string.Empty);
+        var disabled = LoadDisabled();
+        if (enable) disabled.Remove(changed); else disabled[changed] = name;
+        JsonStore.Save(DisabledPath, disabled);
+        return (true, false, string.Empty);
+    }
+
     public async Task<PowerShellResult> EnableAllTrackedAsync()
     {
         var disabled = LoadDisabled();

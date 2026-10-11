@@ -516,4 +516,47 @@
   <data name="CheckGlobalTimerExplain" xml:space="preserve">
     <value>Заставляет все процессы использовать самый точный таймер, запрошенный любым приложением, как в Windows 10. Повышает энергопотребление; оставляйте только если это нужно конкретной старой игре.</value>
   </data>
+  <data name="ScriptsTitle" xml:space="preserve">
+    <value>Скрипты Marius Heier</value>
+  </data>
+  <data name="ScriptsDescription" xml:space="preserve">
+    <value>Интерактивные инструменты автора, запускаемые так, как он описывает: TweakHub открывает окно PowerShell от имени администратора, которое загружает скрипт с tools.mariusheier.com и выполняет его. TweakHub не проверяет и не меняет действия скрипта.</value>
+  </data>
+  <data name="ScriptCpuDirect" xml:space="preserve">
+    <value>Сопоставляет каждое USB-устройство с контроллером и ЦП, затем предлагает включить MSI и отключить энергосбережение USB.</value>
+  </data>
+  <data name="ScriptDeepPoll" xml:space="preserve">
+    <value>Измеряет реальную частоту опроса и джиттер мыши и контроллера с помощью трассировки ядра.</value>
+  </data>
+  <data name="ScriptDeepLog" xml:space="preserve">
+    <value>Записывает 30 секунд ввода контроллера; перед отправкой показывает, что будет отправлено.</value>
+  </data>
+  <data name="ScriptRig" xml:space="preserve">
+    <value>Сравнивает вашу конфигурацию USB с профилями других пользователей и может отправить вашу.</value>
+  </data>
+  <data name="ScriptRun" xml:space="preserve">
+    <value>Запустить от админа</value>
+  </data>
+  <data name="ScriptPage" xml:space="preserve">
+    <value>Открыть официальную страницу</value>
+  </data>
+  <data name="ScriptWarningTitle" xml:space="preserve">
+    <value>Сторонний скрипт</value>
+  </data>
+  <data name="ScriptWarningMessage" xml:space="preserve">
+    <value>{0} создан Marius Heier, а не TweakHub. PowerShell загрузит его с сайта автора и выполнит с правами администратора:
+
+{1}
+
+TweakHub не может проверить, что делает скрипт, а автор может изменить его в любой момент. Если сомневаетесь, сначала прочитайте его на официальной странице. Это предупреждение появляется только при первом запуске {0}.</value>
+  </data>
+  <data name="LoadingInterrupts" xml:space="preserve">
+    <value>Чтение параметров прерываний…</value>
+  </data>
+  <data name="LoadingUsb" xml:space="preserve">
+    <value>Построение пути USB-устройств до ЦП…</value>
+  </data>
+  <data name="LoadingChecks" xml:space="preserve">
+    <value>Проверка вредных твиков…</value>
+  </data>
 </root>

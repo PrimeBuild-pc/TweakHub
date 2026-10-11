@@ -516,4 +516,47 @@
   <data name="CheckGlobalTimerExplain" xml:space="preserve">
     <value>Makes every process share the finest timer any app requests, as on Windows 10. It raises power use; keep it only if a specific old game needs it.</value>
   </data>
+  <data name="ScriptsTitle" xml:space="preserve">
+    <value>Marius Heier scripts</value>
+  </data>
+  <data name="ScriptsDescription" xml:space="preserve">
+    <value>The author's interactive tools, run exactly as he documents them: TweakHub opens an administrator PowerShell window that downloads the script from tools.mariusheier.com and runs it. TweakHub does not check or change what the script does.</value>
+  </data>
+  <data name="ScriptCpuDirect" xml:space="preserve">
+    <value>Maps every USB device to its controller and CPU, then offers to enable MSI and turn off USB power saving.</value>
+  </data>
+  <data name="ScriptDeepPoll" xml:space="preserve">
+    <value>Measures the real polling rate and jitter of mouse and controller with kernel tracing.</value>
+  </data>
+  <data name="ScriptDeepLog" xml:space="preserve">
+    <value>Records 30 seconds of controller input; it lists what it would send before any upload.</value>
+  </data>
+  <data name="ScriptRig" xml:space="preserve">
+    <value>Compares your USB setup with profiles shared by other users and can submit yours.</value>
+  </data>
+  <data name="ScriptRun" xml:space="preserve">
+    <value>Run as admin</value>
+  </data>
+  <data name="ScriptPage" xml:space="preserve">
+    <value>Open the official page</value>
+  </data>
+  <data name="ScriptWarningTitle" xml:space="preserve">
+    <value>Third-party script</value>
+  </data>
+  <data name="ScriptWarningMessage" xml:space="preserve">
+    <value>{0} is made by Marius Heier, not by TweakHub. PowerShell will download it from the author's site and run it with administrator rights:
+
+{1}
+
+TweakHub cannot check what the script does, and the author can change it at any time. Read it on the official page first if you are unsure. This warning appears only the first time you run {0}.</value>
+  </data>
+  <data name="LoadingInterrupts" xml:space="preserve">
+    <value>Reading interrupt settings…</value>
+  </data>
+  <data name="LoadingUsb" xml:space="preserve">
+    <value>Tracing USB devices to the CPU…</value>
+  </data>
+  <data name="LoadingChecks" xml:space="preserve">
+    <value>Checking for harmful tweaks…</value>
+  </data>
 </root>

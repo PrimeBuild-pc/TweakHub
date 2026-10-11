@@ -37,7 +37,54 @@
                 <local:TweakCheckView x:Name="Checks"/>
             </TabItem>
             <TabItem x:Name="ToolsTab" Header="{loc:Loc Devices:TabTools}">
-                <Frame x:Name="ToolsFrame" NavigationUIVisibility="Hidden" Margin="0,8,0,0"/>
+                <Grid Margin="0,8,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Border Style="{StaticResource CardStyle}" Margin="4,0,16,8">
+                        <StackPanel>
+                            <TextBlock Text="{loc:Loc Devices:ScriptsTitle}" Style="{StaticResource SectionTitleStyle}" Margin="0,0,0,4"/>
+                            <TextBlock Text="{loc:Loc Devices:ScriptsDescription}" Style="{StaticResource DescriptionTextStyle}" Margin="0,0,0,12"/>
+                            <ItemsControl x:Name="ScriptsList">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate><UniformGrid Columns="4"/></ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Margin="0,0,8,0" Padding="12" CornerRadius="6" Background="{DynamicResource SubtleFillBrush}">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="13"
+                                                           Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                                                <TextBlock Grid.Row="1" Text="{Binding Description}" Style="{StaticResource DescriptionTextStyle}" FontSize="11"
+                                                           LineHeight="16" Margin="0,4,0,10"/>
+                                                <StackPanel Grid.Row="2" Orientation="Horizontal">
+                                                    <Button Click="RunScript_Click" Style="{StaticResource ModernButtonStyle}" Margin="0,0,6,0"
+                                                            ToolTip="{Binding Command}" AutomationProperties.Name="{Binding Name}">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="&#xEA18;" Style="{StaticResource IconTextStyle}" Margin="0,0,6,0"/>
+                                                            <TextBlock Text="{loc:Loc Devices:ScriptRun}"/>
+                                                        </StackPanel>
+                                                    </Button>
+                                                    <Button Click="ScriptPage_Click" Style="{StaticResource SmallIconButtonStyle}" Height="32" Width="32"
+                                                            ToolTip="{loc:Loc Devices:ScriptPage}" AutomationProperties.Name="{loc:Loc Devices:ScriptPage}">
+                                                        <TextBlock Text="&#xE8A7;" Style="{StaticResource IconTextStyle}"/>
+                                                    </Button>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Border>
+                    <Frame x:Name="ToolsFrame" Grid.Row="1" NavigationUIVisibility="Hidden"/>
+                </Grid>
             </TabItem>
         </TabControl>
     </Grid>

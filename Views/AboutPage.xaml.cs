@@ -99,6 +99,7 @@ public partial class AboutPage : Page
             var result = UserDataService.Instance.ImportProfile(dialog.FileName);
             _themeService.ImportAppearance(result.Appearance);
             ShortcutService.Instance.Initialize();
+            (Application.Current.MainWindow as MainWindow)?.ResetPages();
             LoadAppearanceControls();
             var message = L.Format("UI:ProfileImportedSummary",
                 result.Scripts, result.Tweaks, result.Tools, result.Playbooks, result.RecoveryPath)

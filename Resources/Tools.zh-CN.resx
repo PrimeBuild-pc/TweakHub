@@ -390,9 +390,6 @@
   <data name="DescriptionOpenSourceMouseAccelerationDriver" xml:space="preserve">
     <value>开源鼠标加速驱动</value>
   </data>
-  <data name="DescriptionBrowserBasedCalibrationForSupportedPlayStationControllers" xml:space="preserve">
-    <value>支持的 PlayStation 控制器的基于浏览器的校准</value>
-  </data>
   <data name="DescriptionOfficialBrowserBasedMousePollingRateTester" xml:space="preserve">
     <value>官方基于浏览器的鼠标轮询率测试器</value>
   </data>
@@ -976,5 +973,8 @@
   </data>
   <data name="DescriptionRepairBadTweaks" xml:space="preserve">
     <value>检测并还原会损害稳定性或安全性的常见调整，例如强制计时器和被禁用的缓解措施。TweakHub 的“调整检查”选项卡以带说明的方式执行相同检查。MIT。仅打开官方仓库。</value>
+  </data>
+  <data name="DescriptionDualShockTools" xml:space="preserve">
+    <value>在 Chrome 或 Edge 中通过 WebHID 校准 DualShock 4 和 DualSense 手柄摇杆与扳机的网页应用，无需拆开手柄即可修正摇杆漂移。仅打开官方网站。</value>
   </data>
 </root>

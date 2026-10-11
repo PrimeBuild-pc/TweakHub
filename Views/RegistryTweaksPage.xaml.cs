@@ -20,6 +20,7 @@ namespace TweakHub.Views
         private readonly ObservableCollection<CustomRegistryTweak> _favoriteCustomTweaks = new();
         private HashSet<string> _favoriteTweakKeys = [];
         private bool _ignoreToggleEvent;
+        private bool _loaded;
         public RegistryTweaksPage()
         {
             InitializeComponent();
@@ -52,6 +53,17 @@ namespace TweakHub.Views
 
         private async void RegistryTweaksPage_Loaded(object sender, RoutedEventArgs e)
         {
+            // The page is kept between sections: coming back only re-reads the toggles, which other sections may have changed.
+            if (_loaded)
+            {
+                LoadCustomTweaks();
+                LoadFavoriteTweaks();
+                await _tweakService.RefreshTweakStatesAsync();
+                NotifyMainWindowBadgeUpdate();
+                return;
+            }
+            _loaded = true;
+
             // Show one-time per-session disclaimer on first visit to Registry Tweaks section
             if (!_tweakService.RegistryDisclaimerShown)
             {
@@ -62,8 +74,7 @@ namespace TweakHub.Views
             await LoadTweaksAsync();
             LoadCustomTweaks();
             LoadFavoriteTweaks();
-            await RefreshWindowsUpdatePresetAsync();
-            await RefreshPowerPlansAsync();
+            await RefreshWindowsUpdatePresetAsync(initial: true);
 
             var tweaks = _tweakService.TweakCategories.SelectMany(category => category.Tweaks).ToList();
             RestartVerificationService.Instance.MigrateLegacyCurrentBoot(tweaks);
@@ -82,63 +93,16 @@ namespace TweakHub.Views
 
         private async Task LoadTweaksAsync()
         {
-            // Load the tweak data first
-            _tweakService.LoadTweaks();
-
-            // Then bind to UI and refresh states
+            await Preload.Get(Preload.TweakStates, _tweakService.LoadWithStatesAsync);
             TweakCategoriesControl.ItemsSource = _tweakService.TweakCategories;
-            await _tweakService.RefreshTweakStatesAsync();
 
             // Update sidebar badge immediately after initial state refresh
             NotifyMainWindowBadgeUpdate();
         }
 
-        private sealed record PowerPlanOption(string Guid, string Label);
-
-        private async Task RefreshPowerPlansAsync()
+        private async Task RefreshWindowsUpdatePresetAsync(bool initial = false)
         {
-            var schemes = await PowerService.Instance.GetSchemesAsync();
-            var options = schemes.Select(scheme => new PowerPlanOption(scheme.Guid,
-                scheme.Active ? L.Format("Tweaks:PowerPlanActive", scheme.Name) : scheme.Name)).ToList();
-            // Debloaters often delete the Windows plan; offer it anyway, TweakHub recreates it from the template.
-            if (schemes.All(scheme => scheme.Guid != PowerService.HighPerformanceScheme))
-                options.Add(new PowerPlanOption(PowerService.HighPerformanceScheme, L.Get("Tweaks:PowerPlanRecreateHighPerformance")));
-
-            var selected = PowerService.Instance.PreferredScheme ?? schemes.FirstOrDefault(scheme => scheme.Active)?.Guid;
-            PowerPlanComboBox.ItemsSource = options;
-            PowerPlanComboBox.SelectedItem = options.FirstOrDefault(option => option.Guid == selected) ?? options.FirstOrDefault();
-            var active = schemes.FirstOrDefault(scheme => scheme.Active);
-            PowerPlanStatusText.Text = active is null ? string.Empty : L.Format("Tweaks:PowerPlanCurrent", active.Name);
-        }
-
-        private async void ApplyPowerPlan_Click(object sender, RoutedEventArgs e)
-        {
-            if (PowerPlanComboBox.SelectedItem is not PowerPlanOption option) return;
-            ApplyPowerPlanButton.IsEnabled = false;
-            try
-            {
-                if (!await PowerService.Instance.ApplyPerformancePlanAsync(option.Guid))
-                {
-                    await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Tweaks:PowerPlanApplyFailed"), L.Get("Tweaks:PowerPlanApplyFailedMessage"));
-                    return;
-                }
-                _tweakService.RefreshBackupState();
-                await _tweakService.RefreshTweakStatesAsync();
-                await RefreshPowerPlansAsync();
-                NotifyMainWindowBadgeUpdate();
-            }
-            finally
-            {
-                ApplyPowerPlanButton.IsEnabled = true;
-            }
-        }
-
-        private void OpenPowerOptions_Click(object sender, RoutedEventArgs e) =>
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo("powercfg.cpl") { UseShellExecute = true });
-
-        private async Task RefreshWindowsUpdatePresetAsync()
-        {
-            var preset = await _windowsUpdatePresets.DetectAsync();
+            var preset = await (initial ? Preload.Get(Preload.WindowsUpdate, _windowsUpdatePresets.DetectAsync) : _windowsUpdatePresets.DetectAsync());
             WindowsUpdatePresetComboBox.SelectedValue = preset == WindowsUpdatePreset.Custom ? null : preset.ToString();
             WindowsUpdatePresetStatusText.Text = L.Format("Tweaks:WindowsUpdateCurrentMode", L.Get($"Tweaks:WindowsUpdatePreset{preset}"));
             UpdateWindowsUpdatePresetDescription();

@@ -72,6 +72,7 @@ public class ShortcutServiceTests
     [TestCase("USB Rig Profiles", "https://tools.mariusheier.com/rig.html", "Latency & Input")]
     [TestCase("USB HID Analyzer", "https://tools.mariusheier.com/poll_checker.html", "Latency & Input")]
     [TestCase("hidusbf", "https://github.com/LordOfMice/hidusbf", "Latency & Input")]
+    [TestCase("DualShock Tools", "https://dualshock-tools.github.io/", "Latency & Input")]
     [TestCase("Battle Beaver controller overclocking", "https://battlebeavercustoms.com/pages/overclocking", "Latency & Input")]
     [TestCase("PowerPlanSettingsEditor", "https://github.com/zoicware/PowerPlanSettingsEditor", "Latency & Input")]
     [TestCase("Advanced Power Options guide", "https://github.com/IRedDragonICY/Advanced-Power-Option-Windows", "Latency & Input")]

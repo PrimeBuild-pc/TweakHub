@@ -390,9 +390,6 @@
   <data name="DescriptionOpenSourceMouseAccelerationDriver" xml:space="preserve">
     <value>Драйвер ускорения мыши с открытым исходным кодом</value>
   </data>
-  <data name="DescriptionBrowserBasedCalibrationForSupportedPlayStationControllers" xml:space="preserve">
-    <value>Калибровка на основе браузера для поддерживаемых контроллеров PlayStation</value>
-  </data>
   <data name="DescriptionOfficialBrowserBasedMousePollingRateTester" xml:space="preserve">
     <value>Официальный тестер скорости опроса мыши на основе браузера</value>
   </data>
@@ -976,5 +973,8 @@
   </data>
   <data name="DescriptionRepairBadTweaks" xml:space="preserve">
     <value>Находит и отменяет популярные твики, ухудшающие стабильность или безопасность, например принудительные таймеры и отключённые меры защиты. Вкладка «Проверка твиков» в TweakHub выполняет те же проверки с пояснениями. MIT. Открывает только официальный репозиторий.</value>
+  </data>
+  <data name="DescriptionDualShockTools" xml:space="preserve">
+    <value>Веб-приложение для калибровки стиков и триггеров DualShock 4 и DualSense через WebHID в Chrome или Edge; исправляет дрейф стиков без вскрытия контроллера. Открывает только официальный сайт.</value>
   </data>
 </root>

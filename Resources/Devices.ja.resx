@@ -516,4 +516,47 @@
   <data name="CheckGlobalTimerExplain" xml:space="preserve">
     <value>Windows 10 と同様に、いずれかのアプリが要求した最も細かいタイマーをすべてのプロセスで共有させます。消費電力が増えるため、特定の古いゲームで必要な場合のみ維持してください。</value>
   </data>
+  <data name="ScriptsTitle" xml:space="preserve">
+    <value>Marius Heier のスクリプト</value>
+  </data>
+  <data name="ScriptsDescription" xml:space="preserve">
+    <value>作者の対話型ツールを、作者の説明どおりに実行します。TweakHub は管理者の PowerShell ウィンドウを開き、tools.mariusheier.com からスクリプトをダウンロードして実行します。スクリプトの内容は TweakHub では確認も変更もしません。</value>
+  </data>
+  <data name="ScriptCpuDirect" xml:space="preserve">
+    <value>各 USB デバイスをコントローラーと CPU に対応付け、MSI の有効化と USB 省電力の無効化を提案します。</value>
+  </data>
+  <data name="ScriptDeepPoll" xml:space="preserve">
+    <value>カーネルトレースでマウスとコントローラーの実際のポーリングレートとジッターを測定します。</value>
+  </data>
+  <data name="ScriptDeepLog" xml:space="preserve">
+    <value>コントローラー入力を 30 秒間記録します。アップロード前に送信内容を表示します。</value>
+  </data>
+  <data name="ScriptRig" xml:space="preserve">
+    <value>USB 構成を他のユーザーが共有したプロファイルと比較し、自分の構成を送信できます。</value>
+  </data>
+  <data name="ScriptRun" xml:space="preserve">
+    <value>管理者として実行</value>
+  </data>
+  <data name="ScriptPage" xml:space="preserve">
+    <value>公式ページを開く</value>
+  </data>
+  <data name="ScriptWarningTitle" xml:space="preserve">
+    <value>サードパーティのスクリプト</value>
+  </data>
+  <data name="ScriptWarningMessage" xml:space="preserve">
+    <value>{0} は TweakHub ではなく Marius Heier が作成したものです。PowerShell が作者のサイトからダウンロードし、管理者権限で実行します:
+
+{1}
+
+TweakHub はスクリプトの動作を確認できず、作者はいつでも内容を変更できます。不安な場合は、先に公式ページで内容を確認してください。この警告は {0} を初めて実行するときにのみ表示されます。</value>
+  </data>
+  <data name="LoadingInterrupts" xml:space="preserve">
+    <value>割り込み設定を読み取っています…</value>
+  </data>
+  <data name="LoadingUsb" xml:space="preserve">
+    <value>USB デバイスから CPU までの経路をたどっています…</value>
+  </data>
+  <data name="LoadingChecks" xml:space="preserve">
+    <value>有害な調整を確認しています…</value>
+  </data>
 </root>

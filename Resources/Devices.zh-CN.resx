@@ -516,4 +516,47 @@
   <data name="CheckGlobalTimerExplain" xml:space="preserve">
     <value>使所有进程共享任一应用请求的最高计时器精度（与 Windows 10 相同）。会增加功耗；仅在特定旧游戏需要时保留。</value>
   </data>
+  <data name="ScriptsTitle" xml:space="preserve">
+    <value>Marius Heier 脚本</value>
+  </data>
+  <data name="ScriptsDescription" xml:space="preserve">
+    <value>作者的交互式工具，完全按其说明运行：TweakHub 打开管理员 PowerShell 窗口，从 tools.mariusheier.com 下载并运行脚本。TweakHub 不检查也不修改脚本的行为。</value>
+  </data>
+  <data name="ScriptCpuDirect" xml:space="preserve">
+    <value>将每个 USB 设备映射到其控制器和 CPU，然后提供启用 MSI 和关闭 USB 节能的选项。</value>
+  </data>
+  <data name="ScriptDeepPoll" xml:space="preserve">
+    <value>通过内核跟踪测量鼠标和手柄的实际轮询率和抖动。</value>
+  </data>
+  <data name="ScriptDeepLog" xml:space="preserve">
+    <value>录制 30 秒手柄输入；上传前会列出将发送的内容。</value>
+  </data>
+  <data name="ScriptRig" xml:space="preserve">
+    <value>将你的 USB 配置与其他用户共享的配置进行比较，并可提交你的配置。</value>
+  </data>
+  <data name="ScriptRun" xml:space="preserve">
+    <value>以管理员身份运行</value>
+  </data>
+  <data name="ScriptPage" xml:space="preserve">
+    <value>打开官方页面</value>
+  </data>
+  <data name="ScriptWarningTitle" xml:space="preserve">
+    <value>第三方脚本</value>
+  </data>
+  <data name="ScriptWarningMessage" xml:space="preserve">
+    <value>{0} 由 Marius Heier 制作，而非 TweakHub。PowerShell 将从作者网站下载并以管理员权限运行它：
+
+{1}
+
+TweakHub 无法检查脚本的行为，作者也可以随时修改它。如有疑问，请先在官方页面阅读。此警告仅在首次运行 {0} 时显示。</value>
+  </data>
+  <data name="LoadingInterrupts" xml:space="preserve">
+    <value>正在读取中断设置…</value>
+  </data>
+  <data name="LoadingUsb" xml:space="preserve">
+    <value>正在追踪 USB 设备到 CPU 的路径…</value>
+  </data>
+  <data name="LoadingChecks" xml:space="preserve">
+    <value>正在检查有害调整…</value>
+  </data>
 </root>

@@ -18,16 +18,18 @@ public partial class TweakCheckView : UserControl
 
     private async void ElevatedScan_Click(object sender, RoutedEventArgs e) => await ScanAsync(elevated: true);
 
-    public async Task ScanAsync(bool elevated)
+    public async Task ScanAsync(bool elevated, bool initial = false)
     {
         HasScanned = true;
         _elevated |= elevated;
         ScanButton.IsEnabled = ElevatedScanButton.IsEnabled = false;
-        BusyRing.IsActive = true;
+        Loading.Show(L.Get("Devices:LoadingChecks"));
         ErrorText.Visibility = Visibility.Collapsed;
         try
         {
-            var checks = await TweakCheckService.Instance.ScanAsync(elevated);
+            var checks = await (initial && !elevated
+                ? Preload.Get(Preload.TweakChecks, () => TweakCheckService.Instance.ScanAsync(elevated: false))
+                : TweakCheckService.Instance.ScanAsync(elevated));
             ChecksList.ItemsSource = checks;
             SummaryText.Text = L.Format("Devices:ChecksSummary", checks.Count, checks.Count(check => check.Status == TweakCheckStatus.Flagged));
         }
@@ -38,7 +40,7 @@ public partial class TweakCheckView : UserControl
         }
         finally
         {
-            BusyRing.IsActive = false;
+            Loading.Hide();
             ScanButton.IsEnabled = ElevatedScanButton.IsEnabled = true;
         }
     }

@@ -598,4 +598,138 @@ TweakHub 会恢复捕获的原始值。</value>
   <data name="PowerPlanApplyFailedMessage" xml:space="preserve">
     <value>无法启用或重新创建该计划。请检查它是否仍存在于电源选项中，以及是否已接受管理员提示。</value>
   </data>
+  <data name="PowerSectionTitle" xml:space="preserve">
+    <value>电源计划</value>
+  </data>
+  <data name="PowerSectionDescription" xml:space="preserve">
+    <value>编辑电源计划的每项设置（包括隐藏设置），与其他计划比较，并管理你的计划。值通过与 powercfg 相同的 Windows API 写入。</value>
+  </data>
+  <data name="PowerTabEditor" xml:space="preserve">
+    <value>设置编辑器</value>
+  </data>
+  <data name="PowerTabPlans" xml:space="preserve">
+    <value>计划</value>
+  </data>
+  <data name="PowerEditPlan" xml:space="preserve">
+    <value>要编辑的计划</value>
+  </data>
+  <data name="PowerComparePlan" xml:space="preserve">
+    <value>比较对象</value>
+  </data>
+  <data name="PowerNoComparison" xml:space="preserve">
+    <value>不比较</value>
+  </data>
+  <data name="PowerSearch" xml:space="preserve">
+    <value>搜索</value>
+  </data>
+  <data name="PowerSearchPlaceholder" xml:space="preserve">
+    <value>名称、描述或 GUID</value>
+  </data>
+  <data name="PowerDifferentOnly" xml:space="preserve">
+    <value>仅显示不同的值</value>
+  </data>
+  <data name="PowerShowHidden" xml:space="preserve">
+    <value>显示隐藏设置</value>
+  </data>
+  <data name="PowerSubgroups" xml:space="preserve">
+    <value>设置组</value>
+  </data>
+  <data name="PowerAllSettings" xml:space="preserve">
+    <value>所有设置</value>
+  </data>
+  <data name="PowerOtherSettings" xml:space="preserve">
+    <value>其他设置</value>
+  </data>
+  <data name="PowerHidden" xml:space="preserve">
+    <value>隐藏</value>
+  </data>
+  <data name="PowerModified" xml:space="preserve">
+    <value>未应用</value>
+  </data>
+  <data name="PowerUseCompare" xml:space="preserve">
+    <value>使用此值</value>
+  </data>
+  <data name="PowerCompareValue" xml:space="preserve">
+    <value>{0}：{1}</value>
+  </data>
+  <data name="PowerPluggedIn" xml:space="preserve">
+    <value>接通电源</value>
+  </data>
+  <data name="PowerOnBattery" xml:space="preserve">
+    <value>使用电池</value>
+  </data>
+  <data name="PowerNoSettings" xml:space="preserve">
+    <value>没有符合筛选条件的设置。</value>
+  </data>
+  <data name="PowerNoPending" xml:space="preserve">
+    <value>正在编辑 {0}。只有按“应用”后更改才会生效。</value>
+  </data>
+  <data name="PowerPending" xml:space="preserve">
+    <value>还有 {0} 项更改未应用</value>
+  </data>
+  <data name="PowerApplied" xml:space="preserve">
+    <value>已将 {0} 项设置应用到 {1}。</value>
+  </data>
+  <data name="PowerDiscard" xml:space="preserve">
+    <value>放弃更改</value>
+  </data>
+  <data name="PowerDiscardTitle" xml:space="preserve">
+    <value>放弃更改？</value>
+  </data>
+  <data name="PowerDiscardMessage" xml:space="preserve">
+    <value>{0} 项更改尚未应用，打开其他计划将会丢失。</value>
+  </data>
+  <data name="PowerApplyFailed" xml:space="preserve">
+    <value>部分设置未应用</value>
+  </data>
+  <data name="PowerApplyFailedMessage" xml:space="preserve">
+    <value>即使以管理员身份，Windows 也拒绝了 {0} 个值。
+
+{1}</value>
+  </data>
+  <data name="PowerPlansTitle" xml:space="preserve">
+    <value>已安装的计划</value>
+  </data>
+  <data name="PowerPlansDescription" xml:space="preserve">
+    <value>激活、复制、重命名、导出或删除计划。试验前先复制计划，以便还原。</value>
+  </data>
+  <data name="PowerActive" xml:space="preserve">
+    <value>当前计划</value>
+  </data>
+  <data name="PowerActivate" xml:space="preserve">
+    <value>激活</value>
+  </data>
+  <data name="PowerEditSettings" xml:space="preserve">
+    <value>编辑设置</value>
+  </data>
+  <data name="PowerDuplicate" xml:space="preserve">
+    <value>复制</value>
+  </data>
+  <data name="PowerRename" xml:space="preserve">
+    <value>重命名</value>
+  </data>
+  <data name="PowerExport" xml:space="preserve">
+    <value>导出 (.pow)</value>
+  </data>
+  <data name="PowerImport" xml:space="preserve">
+    <value>导入 .pow</value>
+  </data>
+  <data name="PowerDelete" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="PowerDeleteMessage" xml:space="preserve">
+    <value>删除计划“{0}”？Windows 无法恢复已删除的自定义计划；如果以后可能需要，请先导出。</value>
+  </data>
+  <data name="PowerNewName" xml:space="preserve">
+    <value>计划名称</value>
+  </data>
+  <data name="PowerCopyName" xml:space="preserve">
+    <value>{0}（副本）</value>
+  </data>
+  <data name="PowerActionFailed" xml:space="preserve">
+    <value>Windows 未完成该操作</value>
+  </data>
+  <data name="PowerFileFilter" xml:space="preserve">
+    <value>电源计划 (*.pow)|*.pow</value>
+  </data>
 </root>

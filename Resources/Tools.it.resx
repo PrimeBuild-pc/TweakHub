@@ -390,9 +390,6 @@
   <data name="DescriptionOpenSourceMouseAccelerationDriver" xml:space="preserve">
     <value>Driver open-source per l'accelerazione del mouse</value>
   </data>
-  <data name="DescriptionBrowserBasedCalibrationForSupportedPlayStationControllers" xml:space="preserve">
-    <value>Calibrazione basata su browser per controller PlayStation supportati</value>
-  </data>
   <data name="DescriptionOfficialBrowserBasedMousePollingRateTester" xml:space="preserve">
     <value>Tester ufficiale della frequenza di polling del mouse basato su browser</value>
   </data>
@@ -976,5 +973,8 @@ Questo potrebbe essere dovuto a permessi insufficienti o al fatto che l'applicaz
   </data>
   <data name="DescriptionRepairBadTweaks" xml:space="preserve">
     <value>Rileva e annulla tweak diffusi che peggiorano stabilità o sicurezza, come timer forzati e mitigazioni disattivate. La scheda Verifica tweak di TweakHub esegue gli stessi controlli con spiegazioni. MIT. Apre solo il repository ufficiale.</value>
+  </data>
+  <data name="DescriptionDualShockTools" xml:space="preserve">
+    <value>App web che calibra stick e grilletti dei controller DualShock 4 e DualSense tramite WebHID in Chrome o Edge e corregge il drift degli stick senza aprire il controller. Apre solo il sito ufficiale.</value>
   </data>
 </root>

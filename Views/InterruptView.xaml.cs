@@ -41,16 +41,17 @@ public partial class InterruptView : UserControl
 
     private async void Scan_Click(object sender, RoutedEventArgs e) => await ScanAsync();
 
-    public async Task ScanAsync()
+    public async Task ScanAsync(bool initial = false)
     {
         HasScanned = true;
         ScanButton.IsEnabled = false;
-        BusyRing.IsActive = true;
+        Loading.Show(L.Get("Devices:LoadingInterrupts"));
         ErrorText.Visibility = Visibility.Collapsed;
         try
         {
             var selectedId = (DevicesGrid.SelectedItem as InterruptDevice)?.Id;
-            _devices = await InterruptService.Instance.GetDevicesAsync();
+            if (!initial) Preload.Invalidate(Preload.Interrupts);
+            _devices = await Preload.Get(Preload.Interrupts, InterruptService.Instance.GetDevicesAsync);
             DeviceCountValue.Text = _devices.Count.ToString(L.Culture);
             MsiValue.Text = _devices.Count(device => device.MsiEnabled).ToString(L.Culture);
             AffinityValue.Text = _devices.Count(device => device.HasAffinity).ToString(L.Culture);
@@ -66,7 +67,7 @@ public partial class InterruptView : UserControl
         }
         finally
         {
-            BusyRing.IsActive = false;
+            Loading.Hide();
             ScanButton.IsEnabled = true;
         }
     }

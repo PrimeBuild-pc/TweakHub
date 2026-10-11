@@ -368,4 +368,37 @@
   <data name="ImportProfileSummary" xml:space="preserve">
     <value>Допустимый профиль содержит скриптов: {0}, настроек: {1}, инструментов: {2}, плейбуков: {3}. Импорт заменит текущую переносимую конфигурацию и создаст резервную копию. Продолжить?</value>
   </data>
+  <data name="SplashSubtitle" xml:space="preserve">
+    <value>Чтение системы перед запуском</value>
+  </data>
+  <data name="SplashTweaks" xml:space="preserve">
+    <value>Твики реестра и их состояние</value>
+  </data>
+  <data name="SplashWindowsUpdate" xml:space="preserve">
+    <value>Режим Windows Update</value>
+  </data>
+  <data name="SplashPower" xml:space="preserve">
+    <value>Схемы электропитания и параметры</value>
+  </data>
+  <data name="SplashSecurity" xml:space="preserve">
+    <value>Состояние безопасности</value>
+  </data>
+  <data name="SplashDevices" xml:space="preserve">
+    <value>Устройства и драйверы</value>
+  </data>
+  <data name="SplashInterrupts" xml:space="preserve">
+    <value>Прерывания и MSI</value>
+  </data>
+  <data name="SplashChecks" xml:space="preserve">
+    <value>Проверка вредных твиков</value>
+  </data>
+  <data name="SplashReading" xml:space="preserve">
+    <value>Чтение: {0}</value>
+  </data>
+  <data name="SplashSeconds" xml:space="preserve">
+    <value>{0} с</value>
+  </data>
+  <data name="SplashStepFailed" xml:space="preserve">
+    <value>Повтор в разделе</value>
+  </data>
 </root>
