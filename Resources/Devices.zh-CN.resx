@@ -565,4 +565,103 @@ TweakHub 无法检查脚本的行为，作者也可以随时修改它。如有�
   <data name="LoadingChecks" xml:space="preserve">
     <value>正在检查有害调整…</value>
   </data>
+  <data name="TabLinks" xml:space="preserve">
+    <value>连接</value>
+  </data>
+  <data name="LinksDescription" xml:space="preserve">
+    <value>检查显卡、NVMe 固态硬盘和 PCIe 扩展卡是否以全部通道和最高速度运行，以及哪些设备经过芯片组。只读：把设备换到其他插槽或接口后，再次点击“扫描”。</value>
+  </data>
+  <data name="LoadingLinks" xml:space="preserve">
+    <value>正在读取 PCIe 链路…</value>
+  </data>
+  <data name="PlatformTitle" xml:space="preserve">
+    <value>平台</value>
+  </data>
+  <data name="BoardLabel" xml:space="preserve">
+    <value>主板</value>
+  </data>
+  <data name="CpuLabel" xml:space="preserve">
+    <value>处理器</value>
+  </data>
+  <data name="ChipsetLabel" xml:space="preserve">
+    <value>芯片组</value>
+  </data>
+  <data name="UplinkLabel" xml:space="preserve">
+    <value>CPU–芯片组链路</value>
+  </data>
+  <data name="LinksTitle" xml:space="preserve">
+    <value>PCIe 设备</value>
+  </data>
+  <data name="NoLinkDevices" xml:space="preserve">
+    <value>未找到带有链路信息的 PCIe 设备。</value>
+  </data>
+  <data name="LinkKindGpu" xml:space="preserve">
+    <value>显卡</value>
+  </data>
+  <data name="LinkKindNvme" xml:space="preserve">
+    <value>NVMe 固态硬盘</value>
+  </data>
+  <data name="LinkKindNetwork" xml:space="preserve">
+    <value>网络</value>
+  </data>
+  <data name="LinkKindOther" xml:space="preserve">
+    <value>PCIe 扩展卡</value>
+  </data>
+  <data name="LinkStatusOk" xml:space="preserve">
+    <value>正常</value>
+  </data>
+  <data name="LinkStatusCheck" xml:space="preserve">
+    <value>需检查</value>
+  </data>
+  <data name="LinkStatusBad" xml:space="preserve">
+    <value>性能受损</value>
+  </data>
+  <data name="LinkStatusUnknown" xml:space="preserve">
+    <value>无法读取</value>
+  </data>
+  <data name="AttachCpu" xml:space="preserve">
+    <value>连接到 CPU</value>
+  </data>
+  <data name="AttachChipset" xml:space="preserve">
+    <value>连接到芯片组</value>
+  </data>
+  <data name="AttachUnknown" xml:space="preserve">
+    <value>无法确定连接位置</value>
+  </data>
+  <data name="RootPort" xml:space="preserve">
+    <value>根端口 {0}</value>
+  </data>
+  <data name="LinkOk" xml:space="preserve">
+    <value>以全部通道和支持的最高速度运行。</value>
+  </data>
+  <data name="LinkOkChipset" xml:space="preserve">
+    <value>以全部通道和最高速度运行。它经过芯片组，芯片组与 USB、SATA 及其他设备共享一条到 CPU 的链路。</value>
+  </data>
+  <data name="LinkLanesMissing" xml:space="preserve">
+    <value>以 x{0} 而不是 x{1} 运行。通常是插槽较窄，或附近的 M.2 或插槽共享了通道：请查看主板说明书中的通道共享表，或把设备移到全速插槽。</value>
+  </data>
+  <data name="LinkGpuOnChipset" xml:space="preserve">
+    <value>显卡经过芯片组，与 USB、SATA 和其他硬盘共享到 CPU 的链路。请把它移到主 x16 插槽，也就是最靠近 CPU 的那个。</value>
+  </data>
+  <data name="LinkGpuGenLower" xml:space="preserve">
+    <value>链路为 PCIe {0} 而不是 {1}。显卡空闲时会降低链路速度：打开游戏或 3D 应用后点击“扫描”。如果没有变化，说明插槽或 CPU 限制为 PCIe {0}。</value>
+  </data>
+  <data name="LinkGenLower" xml:space="preserve">
+    <value>链路为 PCIe {0} 而不是 {1}：插槽比设备慢。如果主板有空闲的 PCIe {1} 插槽，请移到那里。</value>
+  </data>
+  <data name="LinkHidden" xml:space="preserve">
+    <value>此卡板载 PCIe 交换芯片：Windows 只能看到内部链路，没有显卡驱动提供的数据就无法读取真实链路。</value>
+  </data>
+  <data name="LinkChipsetUnknown" xml:space="preserve">
+    <value>无法识别芯片组，因此无法计算共享带宽。</value>
+  </data>
+  <data name="LinkChipsetIdle" xml:space="preserve">
+    <value>没有高速设备经过芯片组。</value>
+  </data>
+  <data name="LinkChipsetOk" xml:space="preserve">
+    <value>芯片组上的高速设备：{0} 个，最高 {1:0.#} GB/s。{3} 链路（{2:0.#} GB/s）足够。</value>
+  </data>
+  <data name="LinkChipsetShared" xml:space="preserve">
+    <value>芯片组上的高速设备：{0} 个，合计最高 {1:0.#} GB/s，超过到 CPU 的 {3} 链路（{2:0.#} GB/s）。同时使用时（例如在两块 SSD 之间复制）会分享带宽。这是理论带宽，不是实测流量。</value>
+  </data>
 </root>

@@ -565,4 +565,103 @@ TweakHub はスクリプトの動作を確認できず、作者はいつでも�
   <data name="LoadingChecks" xml:space="preserve">
     <value>有害な調整を確認しています…</value>
   </data>
+  <data name="TabLinks" xml:space="preserve">
+    <value>接続</value>
+  </data>
+  <data name="LinksDescription" xml:space="preserve">
+    <value>GPU、NVMe SSD、PCIe カードがすべてのレーンと最高速度で動作しているか、どのデバイスがチップセットを経由しているかを確認します。読み取り専用です。デバイスを別のスロットやポートに移したら、もう一度「スキャン」を押してください。</value>
+  </data>
+  <data name="LoadingLinks" xml:space="preserve">
+    <value>PCIe リンクを読み取り中…</value>
+  </data>
+  <data name="PlatformTitle" xml:space="preserve">
+    <value>プラットフォーム</value>
+  </data>
+  <data name="BoardLabel" xml:space="preserve">
+    <value>マザーボード</value>
+  </data>
+  <data name="CpuLabel" xml:space="preserve">
+    <value>プロセッサー</value>
+  </data>
+  <data name="ChipsetLabel" xml:space="preserve">
+    <value>チップセット</value>
+  </data>
+  <data name="UplinkLabel" xml:space="preserve">
+    <value>CPU–チップセット間リンク</value>
+  </data>
+  <data name="LinksTitle" xml:space="preserve">
+    <value>PCIe デバイス</value>
+  </data>
+  <data name="NoLinkDevices" xml:space="preserve">
+    <value>リンク情報のある PCIe デバイスが見つかりませんでした。</value>
+  </data>
+  <data name="LinkKindGpu" xml:space="preserve">
+    <value>GPU</value>
+  </data>
+  <data name="LinkKindNvme" xml:space="preserve">
+    <value>NVMe SSD</value>
+  </data>
+  <data name="LinkKindNetwork" xml:space="preserve">
+    <value>ネットワーク</value>
+  </data>
+  <data name="LinkKindOther" xml:space="preserve">
+    <value>PCIe カード</value>
+  </data>
+  <data name="LinkStatusOk" xml:space="preserve">
+    <value>正常</value>
+  </data>
+  <data name="LinkStatusCheck" xml:space="preserve">
+    <value>要確認</value>
+  </data>
+  <data name="LinkStatusBad" xml:space="preserve">
+    <value>性能低下</value>
+  </data>
+  <data name="LinkStatusUnknown" xml:space="preserve">
+    <value>読み取り不可</value>
+  </data>
+  <data name="AttachCpu" xml:space="preserve">
+    <value>CPU に接続</value>
+  </data>
+  <data name="AttachChipset" xml:space="preserve">
+    <value>チップセットに接続</value>
+  </data>
+  <data name="AttachUnknown" xml:space="preserve">
+    <value>接続先を特定できません</value>
+  </data>
+  <data name="RootPort" xml:space="preserve">
+    <value>ルートポート {0}</value>
+  </data>
+  <data name="LinkOk" xml:space="preserve">
+    <value>すべてのレーンと対応する最高速度で動作しています。</value>
+  </data>
+  <data name="LinkOkChipset" xml:space="preserve">
+    <value>すべてのレーンと最高速度で動作しています。チップセット経由のため、CPU へのリンク 1 本を USB、SATA、他のデバイスと共有しています。</value>
+  </data>
+  <data name="LinkLanesMissing" xml:space="preserve">
+    <value>x{1} ではなく x{0} で動作しています。スロットが狭いか、近くの M.2 やスロットとレーンを共有していることが多いです。マザーボードのマニュアルにあるレーン共有表を確認するか、フル幅のスロットに移してください。</value>
+  </data>
+  <data name="LinkGpuOnChipset" xml:space="preserve">
+    <value>GPU がチップセット経由で接続され、CPU へのリンクを USB、SATA、他のドライブと共有しています。CPU に最も近いメインの x16 スロットに移してください。</value>
+  </data>
+  <data name="LinkGpuGenLower" xml:space="preserve">
+    <value>リンクが {1} ではなく PCIe {0} です。GPU はアイドル時に速度を下げます。ゲームや 3D アプリを開いてから「スキャン」を押してください。変わらなければ、スロットまたは CPU が PCIe {0} までに制限されています。</value>
+  </data>
+  <data name="LinkGenLower" xml:space="preserve">
+    <value>リンクが {1} ではなく PCIe {0} です。スロットがデバイスより遅いためです。マザーボードに空いている PCIe {1} スロットがあれば、そちらに移してください。</value>
+  </data>
+  <data name="LinkHidden" xml:space="preserve">
+    <value>このカードには PCIe スイッチが搭載されています。Windows には内部リンクしか見えず、GPU ドライバーのデータがないと実際のリンクは読み取れません。</value>
+  </data>
+  <data name="LinkChipsetUnknown" xml:space="preserve">
+    <value>チップセットを認識できないため、共有帯域を計算できません。</value>
+  </data>
+  <data name="LinkChipsetIdle" xml:space="preserve">
+    <value>チップセットを経由する高速デバイスはありません。</value>
+  </data>
+  <data name="LinkChipsetOk" xml:space="preserve">
+    <value>チップセット上の高速デバイス：{0} 台、最大 {1:0.#} GB/s。{3} リンク（{2:0.#} GB/s）で足ります。</value>
+  </data>
+  <data name="LinkChipsetShared" xml:space="preserve">
+    <value>チップセット上の高速デバイス：{0} 台、合計で最大 {1:0.#} GB/s となり、CPU への {3} リンク（{2:0.#} GB/s）を超えています。2 台の SSD 間でコピーするなど同時に使うと帯域を分け合います。これは理論上の帯域で、実測のトラフィックではありません。</value>
+  </data>
 </root>

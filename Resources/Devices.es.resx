@@ -565,4 +565,103 @@ TweakHub no puede comprobar lo que hace el script y el autor puede cambiarlo en 
   <data name="LoadingChecks" xml:space="preserve">
     <value>Buscando ajustes dañinos…</value>
   </data>
+  <data name="TabLinks" xml:space="preserve">
+    <value>Conexiones</value>
+  </data>
+  <data name="LinksDescription" xml:space="preserve">
+    <value>Comprueba si la GPU, los SSD NVMe y las tarjetas PCIe funcionan con todas sus líneas y a máxima velocidad, y qué pasa por el chipset. Solo lectura: mueve un dispositivo a otra ranura o puerto y vuelve a pulsar Analizar.</value>
+  </data>
+  <data name="LoadingLinks" xml:space="preserve">
+    <value>Leyendo los enlaces PCIe…</value>
+  </data>
+  <data name="PlatformTitle" xml:space="preserve">
+    <value>Plataforma</value>
+  </data>
+  <data name="BoardLabel" xml:space="preserve">
+    <value>Placa base</value>
+  </data>
+  <data name="CpuLabel" xml:space="preserve">
+    <value>Procesador</value>
+  </data>
+  <data name="ChipsetLabel" xml:space="preserve">
+    <value>Chipset</value>
+  </data>
+  <data name="UplinkLabel" xml:space="preserve">
+    <value>Enlace CPU–chipset</value>
+  </data>
+  <data name="LinksTitle" xml:space="preserve">
+    <value>Dispositivos PCIe</value>
+  </data>
+  <data name="NoLinkDevices" xml:space="preserve">
+    <value>No se encontró ningún dispositivo PCIe con información de enlace.</value>
+  </data>
+  <data name="LinkKindGpu" xml:space="preserve">
+    <value>GPU</value>
+  </data>
+  <data name="LinkKindNvme" xml:space="preserve">
+    <value>SSD NVMe</value>
+  </data>
+  <data name="LinkKindNetwork" xml:space="preserve">
+    <value>Red</value>
+  </data>
+  <data name="LinkKindOther" xml:space="preserve">
+    <value>Tarjeta PCIe</value>
+  </data>
+  <data name="LinkStatusOk" xml:space="preserve">
+    <value>Correcto</value>
+  </data>
+  <data name="LinkStatusCheck" xml:space="preserve">
+    <value>Revisar</value>
+  </data>
+  <data name="LinkStatusBad" xml:space="preserve">
+    <value>Pierde rendimiento</value>
+  </data>
+  <data name="LinkStatusUnknown" xml:space="preserve">
+    <value>No legible</value>
+  </data>
+  <data name="AttachCpu" xml:space="preserve">
+    <value>Conectado a la CPU</value>
+  </data>
+  <data name="AttachChipset" xml:space="preserve">
+    <value>Conectado al chipset</value>
+  </data>
+  <data name="AttachUnknown" xml:space="preserve">
+    <value>Conexión no determinada</value>
+  </data>
+  <data name="RootPort" xml:space="preserve">
+    <value>puerto raíz {0}</value>
+  </data>
+  <data name="LinkOk" xml:space="preserve">
+    <value>Usa todas las líneas y la velocidad máxima que admite.</value>
+  </data>
+  <data name="LinkOkChipset" xml:space="preserve">
+    <value>Usa todas las líneas y la velocidad máxima. Pasa por el chipset, que reparte un único enlace con la CPU entre USB, SATA y los demás dispositivos conectados.</value>
+  </data>
+  <data name="LinkLanesMissing" xml:space="preserve">
+    <value>Funciona a x{0} en lugar de x{1}. Normalmente la ranura es más estrecha o un M.2 o una ranura cercana comparte sus líneas: consulta la tabla de líneas compartidas en el manual de la placa base o mueve el dispositivo a una ranura completa.</value>
+  </data>
+  <data name="LinkGpuOnChipset" xml:space="preserve">
+    <value>La GPU pasa por el chipset y comparte su enlace con la CPU con USB, SATA y otras unidades. Muévela a la ranura x16 principal, la más cercana a la CPU.</value>
+  </data>
+  <data name="LinkGpuGenLower" xml:space="preserve">
+    <value>Enlace a PCIe {0} en lugar de {1}. Las GPU lo bajan en reposo: abre un juego o una aplicación 3D y pulsa Analizar. Si no cambia, la ranura o la CPU están limitadas a PCIe {0}.</value>
+  </data>
+  <data name="LinkGenLower" xml:space="preserve">
+    <value>Enlace a PCIe {0} en lugar de {1}: la ranura es más lenta que el dispositivo. Si la placa base tiene una ranura PCIe {1} libre, muévelo allí.</value>
+  </data>
+  <data name="LinkHidden" xml:space="preserve">
+    <value>Esta tarjeta tiene un conmutador PCIe integrado: Windows solo ve el enlace interno y el real no se puede leer sin los datos del controlador de la GPU.</value>
+  </data>
+  <data name="LinkChipsetUnknown" xml:space="preserve">
+    <value>Chipset no reconocido: no se puede calcular el ancho de banda compartido.</value>
+  </data>
+  <data name="LinkChipsetIdle" xml:space="preserve">
+    <value>Ningún dispositivo rápido pasa por el chipset.</value>
+  </data>
+  <data name="LinkChipsetOk" xml:space="preserve">
+    <value>Dispositivos rápidos en el chipset: {0}, hasta {1:0.#} GB/s. El enlace {3} ({2:0.#} GB/s) es suficiente.</value>
+  </data>
+  <data name="LinkChipsetShared" xml:space="preserve">
+    <value>Dispositivos rápidos en el chipset: {0}, juntos hasta {1:0.#} GB/s, más que el enlace {3} con la CPU ({2:0.#} GB/s). Si se usan a la vez, por ejemplo al copiar entre dos SSD, se reparten el ancho de banda. Es ancho de banda teórico, no tráfico medido.</value>
+  </data>
 </root>

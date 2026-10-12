@@ -565,4 +565,103 @@ TweakHub cannot check what the script does, and the author can change it at any 
   <data name="LoadingChecks" xml:space="preserve">
     <value>Checking for harmful tweaks…</value>
   </data>
+  <data name="TabLinks" xml:space="preserve">
+    <value>Connections</value>
+  </data>
+  <data name="LinksDescription" xml:space="preserve">
+    <value>Checks whether the GPU, NVMe drives and PCIe cards run with every lane and at full speed, and what goes through the chipset. Read only: move a device to another slot or port, then press Scan again.</value>
+  </data>
+  <data name="LoadingLinks" xml:space="preserve">
+    <value>Reading PCIe links…</value>
+  </data>
+  <data name="PlatformTitle" xml:space="preserve">
+    <value>Platform</value>
+  </data>
+  <data name="BoardLabel" xml:space="preserve">
+    <value>Motherboard</value>
+  </data>
+  <data name="CpuLabel" xml:space="preserve">
+    <value>Processor</value>
+  </data>
+  <data name="ChipsetLabel" xml:space="preserve">
+    <value>Chipset</value>
+  </data>
+  <data name="UplinkLabel" xml:space="preserve">
+    <value>CPU–chipset link</value>
+  </data>
+  <data name="LinksTitle" xml:space="preserve">
+    <value>PCIe devices</value>
+  </data>
+  <data name="NoLinkDevices" xml:space="preserve">
+    <value>No PCIe device with link information was found.</value>
+  </data>
+  <data name="LinkKindGpu" xml:space="preserve">
+    <value>GPU</value>
+  </data>
+  <data name="LinkKindNvme" xml:space="preserve">
+    <value>NVMe SSD</value>
+  </data>
+  <data name="LinkKindNetwork" xml:space="preserve">
+    <value>Network</value>
+  </data>
+  <data name="LinkKindOther" xml:space="preserve">
+    <value>PCIe card</value>
+  </data>
+  <data name="LinkStatusOk" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="LinkStatusCheck" xml:space="preserve">
+    <value>Check</value>
+  </data>
+  <data name="LinkStatusBad" xml:space="preserve">
+    <value>Losing performance</value>
+  </data>
+  <data name="LinkStatusUnknown" xml:space="preserve">
+    <value>Not readable</value>
+  </data>
+  <data name="AttachCpu" xml:space="preserve">
+    <value>Connected to the CPU</value>
+  </data>
+  <data name="AttachChipset" xml:space="preserve">
+    <value>Connected to the chipset</value>
+  </data>
+  <data name="AttachUnknown" xml:space="preserve">
+    <value>Connection not determined</value>
+  </data>
+  <data name="RootPort" xml:space="preserve">
+    <value>root port {0}</value>
+  </data>
+  <data name="LinkOk" xml:space="preserve">
+    <value>Running with every lane and at the full speed it supports.</value>
+  </data>
+  <data name="LinkOkChipset" xml:space="preserve">
+    <value>Running with every lane and at full speed. It goes through the chipset, which shares one link to the CPU with USB, SATA and the other devices on it.</value>
+  </data>
+  <data name="LinkLanesMissing" xml:space="preserve">
+    <value>Running at x{0} instead of x{1}. Usually the slot is narrower or a nearby M.2 or slot shares its lanes: check the lane-sharing table in the motherboard manual, or move the device to a full-width slot.</value>
+  </data>
+  <data name="LinkGpuOnChipset" xml:space="preserve">
+    <value>The GPU goes through the chipset and shares its link to the CPU with USB, SATA and other drives. Move it to the main x16 slot, the one closest to the CPU.</value>
+  </data>
+  <data name="LinkGpuGenLower" xml:space="preserve">
+    <value>Link at PCIe {0} instead of {1}. GPUs lower it when idle: open a game or a 3D app and press Scan. If it stays the same, the slot or the CPU is limited to PCIe {0}.</value>
+  </data>
+  <data name="LinkGenLower" xml:space="preserve">
+    <value>Link at PCIe {0} instead of {1}: the slot is slower than the device. If the motherboard has a free PCIe {1} slot, move it there.</value>
+  </data>
+  <data name="LinkHidden" xml:space="preserve">
+    <value>This card has a PCIe switch on board: Windows only sees the internal link, and the real one cannot be read without data from the GPU driver.</value>
+  </data>
+  <data name="LinkChipsetUnknown" xml:space="preserve">
+    <value>Chipset not recognized: the shared bandwidth cannot be calculated.</value>
+  </data>
+  <data name="LinkChipsetIdle" xml:space="preserve">
+    <value>No fast device goes through the chipset.</value>
+  </data>
+  <data name="LinkChipsetOk" xml:space="preserve">
+    <value>Fast devices on the chipset: {0}, up to {1:0.#} GB/s. The {3} link ({2:0.#} GB/s) is enough.</value>
+  </data>
+  <data name="LinkChipsetShared" xml:space="preserve">
+    <value>Fast devices on the chipset: {0}, together up to {1:0.#} GB/s, more than the {3} link to the CPU ({2:0.#} GB/s). Used at the same time, for example copying between two SSDs, they split the bandwidth. This is theoretical bandwidth, not measured traffic.</value>
+  </data>
 </root>
