@@ -169,7 +169,7 @@
     <value>禁用全屏优化</value>
   </data>
   <data name="CategoryOrTweakDescriptionDisablesWindowsFullscreenOptimizationsForBetter" xml:space="preserve">
-    <value>禁用 Windows 全屏优化以获得更好的游戏性能</value>
+    <value>不建议在 Windows 11 上使用：它会阻断独立翻转，并可能增加窗口和无边框游戏的延迟。请改用“为独立翻转 (Independent Flip) 优化呈现”；保留此项是为了能撤销之前的更改。</value>
   </data>
   <data name="CategoryOrTweakNameDisableXboxGameBar" xml:space="preserve">
     <value>禁用 Xbox 游戏栏</value>
@@ -223,7 +223,7 @@
     <value>禁用 Windows AI 策略</value>
   </data>
   <data name="CategoryOrTweakDescriptionHidesTheWindowsAIComponentsSettings" xml:space="preserve">
-    <value>隐藏 Windows AI 组件设置页面并禁用记事本 AI 功能。软件包移除可在自动化脚本中单独使用。</value>
+    <value>通过策略隐藏 Windows AI 组件设置页面，并关闭 Copilot、Recall 快照、Click to Do 和记事本 AI 功能。软件包移除可在自动化脚本中单独使用。</value>
   </data>
   <data name="CategoryOrTweakNameDisableWindowsPlatformBinaryTableWPBT" xml:space="preserve">
     <value>禁用 Windows 平台二进制表 (WPBT)</value>
@@ -427,14 +427,9 @@ TweakHub 会恢复捕获的原始值。</value>
     <value>应用所有推荐的优化</value>
   </data>
   <data name="ApplyAllRecommendedMessage" xml:space="preserve">
-    <value>将应用性能与最高隐私设置以及 Windows 更新安全模式。其中包含可能禁用 Windows 功能或设备集成的高影响隐私策略。SysMain 和预读取保持不变，因为禁用它们可能降低性能。
+    <value>将应用性能与最高隐私设置以及 Windows 更新安全模式。其中包含可能禁用 Windows 功能或设备集成的高影响隐私策略。SysMain、预读取和全屏优化保持不变，因为禁用它们可能降低性能；低延迟网络预设由你自行决定是否应用。
 
 应用更改前会自动创建备份。</value>
-  </data>
-  <data name="BackupFailedMessage" xml:space="preserve">
-    <value>创建备份失败。操作已取消。
-
-{0}</value>
   </data>
   <data name="NoChangesNeeded" xml:space="preserve">
     <value>无需更改</value>
@@ -482,6 +477,9 @@ TweakHub 会恢复捕获的原始值。</value>
   </data>
   <data name="RestoreAllChanges" xml:space="preserve">
     <value>恢复所有更改</value>
+  </data>
+  <data name="BulkElevateMessage" xml:space="preserve">
+    <value>{0} 项更改可能需要管理员权限，每项都会弹出 UAC 确认。TweakHub 可以以管理员身份重新启动，只需一次 UAC 确认：之后请再次点击该按钮。也可以继续并逐个确认。</value>
   </data>
   <data name="RestoreAllMessage" xml:space="preserve">
     <value>这将尝试将所有注册表调整恢复到原始值。</value>
@@ -731,5 +729,74 @@ TweakHub 会恢复捕获的原始值。</value>
   </data>
   <data name="PowerFileFilter" xml:space="preserve">
     <value>电源计划 (*.pow)|*.pow</value>
+  </data>
+  <data name="CategoryOrTweakNameEnableTaskbarEndTask" xml:space="preserve">
+    <value>在任务栏菜单中添加“结束任务”</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionEnableTaskbarEndTask" xml:space="preserve">
+    <value>右键单击任务栏上的应用会显示“结束任务”，无需打开任务管理器即可关闭无响应的应用。需要 Windows 11 23H2 或更高版本。</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableTelemetry" xml:space="preserve">
+    <value>减少 Windows 遥测</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisableTelemetry" xml:space="preserve">
+    <value>将诊断数据设为该版本允许的最低级别（家庭版和专业版为“必需”），禁用“已连接的用户体验和遥测”服务 (DiagTrack)，并停止反馈请求。使用 Windows 预览体验版本时需要撤销此项。</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableConsumerContent" xml:space="preserve">
+    <value>禁用推荐内容和自动安装应用</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisableConsumerContent" xml:space="preserve">
+    <value>阻止 Windows 静默安装推广应用，并关闭提示、“开始”和“设置”中的建议、“开始”推荐以及“完成设备设置”屏幕。</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableBingSearch" xml:space="preserve">
+    <value>从 Windows 搜索中移除 Bing 网页结果</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisableBingSearch" xml:space="preserve">
+    <value>“开始”和任务栏搜索仅显示本地结果：没有 Bing 网页建议和搜索要点。注销或重启后生效。</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableFastStartup" xml:space="preserve">
+    <value>禁用快速启动</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisableFastStartup" xml:space="preserve">
+    <value>关机时完全关闭，而不是让内核休眠。每次开机都会重新加载驱动程序和更新，双系统启动或修改 BIOS 也更安全；启动会多花几秒钟。</value>
+  </data>
+  <data name="CategoryOrTweakNameDetailedBsod" xml:space="preserve">
+    <value>在蓝屏上显示详细信息</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDetailedBsod" xml:space="preserve">
+    <value>系统崩溃后，停止屏幕还会显示错误参数，有助于找出出错的驱动程序。不更改其他任何设置。</value>
+  </data>
+  <data name="CategoryOrTweakNameOptimizeNetworkForGaming" xml:space="preserve">
+    <value>游戏低延迟网络预设</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionOptimizeNetworkForGaming" xml:space="preserve">
+    <value>在所选适配器上，为 Intel 和 Realtek 以太网关闭中断节流和以太网节能 (EEE、Green Ethernet、超低功耗)，为 Intel Wi-Fi 关闭节能和数据包合并。只更改驱动程序自身声明的设置，不支持其他适配器。ping 更低、波动更少，CPU 占用略有增加。下载方向的缓冲膨胀需在路由器上解决 (SQM：fq_codel 或 CAKE)。重启后生效；还原会恢复所有值。</value>
+  </data>
+  <data name="CategoryOrTweakNameOptimizeFlipModel" xml:space="preserve">
+    <value>为独立翻转 (Independent Flip) 优化呈现</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionOptimizeFlipModel" xml:space="preserve">
+    <value>应用 Windows 11 设置，使游戏（包括无边框窗口）以最低延迟进入独立翻转：硬件加速 GPU 计划、窗口化游戏优化（翻转模型）、保持全屏优化开启，以及游戏模式。如果多平面叠加 (MPO) 被关闭，调整检查会发现并修复。取代会阻断此路径的“禁用全屏优化”。其他 DirectX 设置保持不变；HAGS 需要支持它的 GPU 和驱动程序。</value>
+  </data>
+  <data name="CategoryOrTweakNameLimitBackgroundUpdates" xml:space="preserve">
+    <value>限制 Windows 更新的后台下载</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionLimitBackgroundUpdates" xml:space="preserve">
+    <value>将更新和应用商店应用的后台下载限制为可用带宽的 30%，避免在游戏或通话时占满线路、抬高 ping。你自己启动的下载不受限制。</value>
+  </data>
+  <data name="NetworkPresetUnavailable" xml:space="preserve">
+    <value>此电脑不可用：仅适用于驱动程序声明了这些设置的 Intel 或 Realtek 以太网以及 Intel Wi-Fi 适配器。检测到：{0}。</value>
+  </data>
+  <data name="NetworkPresetNoAdapters" xml:space="preserve">
+    <value>没有以太网或 Wi-Fi 适配器</value>
+  </data>
+  <data name="NetworkPresetChooseTitle" xml:space="preserve">
+    <value>选择网络适配器</value>
+  </data>
+  <data name="NetworkPresetChooseMessage" xml:space="preserve">
+    <value>将低延迟预设应用到这些适配器。仅列出受支持的适配器；用于游戏的通常是已连接的有线适配器。</value>
+  </data>
+  <data name="NetworkAdapterConnected" xml:space="preserve">
+    <value>已连接</value>
   </data>
 </root>

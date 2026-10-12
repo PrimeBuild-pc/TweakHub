@@ -118,6 +118,29 @@ namespace TweakHub.Services
                 RiskLevel = 3
             });
 
+            category.Tweaks.Add(new PerformanceTweak
+            {
+                Id = "optimize_network_for_gaming",
+                Name = L.Get("Tweaks:CategoryOrTweakNameOptimizeNetworkForGaming"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionOptimizeNetworkForGaming"),
+                Type = TweakType.NetworkAdapter,
+                RiskLevel = 3,
+                RequiresRestart = true
+            });
+
+            category.Tweaks.Add(new PerformanceTweak
+            {
+                Id = "limit_background_updates",
+                Name = L.Get("Tweaks:CategoryOrTweakNameLimitBackgroundUpdates"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionLimitBackgroundUpdates"),
+                Type = TweakType.Registry,
+                RegistryPath = @"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization",
+                RegistryKey = "DOPercentageMaxBackgroundBandwidth",
+                // Background Windows Update downloads that fill the line are the usual cause of in-game bufferbloat on a PC.
+                EnabledValue = 30,
+                RiskLevel = 2
+            });
+
             TweakCategories.Add(category);
         }
 
@@ -152,6 +175,19 @@ namespace TweakHub.Services
                 RegistryKey = "GameDVR_FSEBehaviorMode",
                 EnabledValue = 2, // Disabled
                 RiskLevel = 1
+            });
+
+            category.Tweaks.Add(new PerformanceTweak
+            {
+                Id = "optimize_flip_model",
+                Name = L.Get("Tweaks:CategoryOrTweakNameOptimizeFlipModel"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionOptimizeFlipModel"),
+                Type = TweakType.Registry,
+                RegistryPath = @"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\GraphicsDrivers",
+                RegistryKey = "HwSchMode",
+                EnabledValue = 2,
+                RiskLevel = 2,
+                RequiresRestart = true
             });
 
             category.Tweaks.Add(new PerformanceTweak
@@ -199,6 +235,18 @@ namespace TweakHub.Services
                 RegistryPath = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Serialize",
                 RegistryKey = "StartupDelayInMSec",
                 EnabledValue = 0, // No delay
+                RiskLevel = 1
+            });
+
+            category.Tweaks.Add(new PerformanceTweak
+            {
+                Id = "enable_taskbar_end_task",
+                Name = L.Get("Tweaks:CategoryOrTweakNameEnableTaskbarEndTask"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionEnableTaskbarEndTask"),
+                Type = TweakType.Registry,
+                RegistryPath = @"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\TaskbarDeveloperSettings",
+                RegistryKey = "TaskbarEndTask",
+                EnabledValue = 1,
                 RiskLevel = 1
             });
 
@@ -353,6 +401,44 @@ namespace TweakHub.Services
                 RequiresRestart = true
             });
 
+            category.Tweaks.Add(new PerformanceTweak
+            {
+                Id = "disable_telemetry",
+                Name = L.Get("Tweaks:CategoryOrTweakNameDisableTelemetry"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionDisableTelemetry"),
+                Type = TweakType.Registry,
+                RegistryPath = @"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection",
+                RegistryKey = "AllowTelemetry",
+                EnabledValue = 0,
+                RiskLevel = 3,
+                RequiresRestart = true
+            });
+
+            category.Tweaks.Add(new PerformanceTweak
+            {
+                Id = "disable_consumer_content",
+                Name = L.Get("Tweaks:CategoryOrTweakNameDisableConsumerContent"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionDisableConsumerContent"),
+                Type = TweakType.Registry,
+                RegistryPath = @"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\CloudContent",
+                RegistryKey = "DisableWindowsConsumerFeatures",
+                EnabledValue = 1,
+                RiskLevel = 2
+            });
+
+            category.Tweaks.Add(new PerformanceTweak
+            {
+                Id = "disable_bing_search",
+                Name = L.Get("Tweaks:CategoryOrTweakNameDisableBingSearch"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionDisableBingSearch"),
+                Type = TweakType.Registry,
+                RegistryPath = @"HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Explorer",
+                RegistryKey = "DisableSearchBoxSuggestions",
+                EnabledValue = 1,
+                RiskLevel = 1,
+                RequiresRestart = true
+            });
+
             TweakCategories.Add(category);
         }
 
@@ -375,6 +461,31 @@ namespace TweakHub.Services
                 RegistryKey = "Start",
                 EnabledValue = 4, // Disabled
                 RiskLevel = 3,
+                RequiresRestart = true
+            });
+
+            category.Tweaks.Add(new PerformanceTweak
+            {
+                Id = "disable_fast_startup",
+                Name = L.Get("Tweaks:CategoryOrTweakNameDisableFastStartup"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionDisableFastStartup"),
+                Type = TweakType.Registry,
+                RegistryPath = @"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Power",
+                RegistryKey = "HiberbootEnabled",
+                EnabledValue = 0,
+                RiskLevel = 2
+            });
+
+            category.Tweaks.Add(new PerformanceTweak
+            {
+                Id = "detailed_bsod",
+                Name = L.Get("Tweaks:CategoryOrTweakNameDetailedBsod"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionDetailedBsod"),
+                Type = TweakType.Registry,
+                RegistryPath = @"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\CrashControl",
+                RegistryKey = "DisplayParameters",
+                EnabledValue = 1,
+                RiskLevel = 1,
                 RequiresRestart = true
             });
 
@@ -417,8 +528,71 @@ namespace TweakHub.Services
         private static readonly RegistryValueChange[] WindowsAiPolicies =
         [
             new(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer", "SettingsPageVisibility", "hide:aicomponents", Microsoft.Win32.RegistryValueKind.String),
-            new(@"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\WindowsNotepad", "DisableAIFeatures", 1)
+            new(@"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\WindowsNotepad", "DisableAIFeatures", 1),
+            new(@"HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\WindowsCopilot", "TurnOffWindowsCopilot", 1),
+            new(@"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsAI", "DisableAIDataAnalysis", 1),
+            new(@"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsAI", "AllowRecallEnablement", 0),
+            new(@"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsAI", "DisableClickToDo", 1)
         ];
+
+        private static readonly RegistryValueChange[] TelemetryPolicies =
+        [
+            new(@"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection", "AllowTelemetry", 0),
+            new(@"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection", "DoNotShowFeedbackNotifications", 1),
+            new(@"HKEY_CURRENT_USER\Software\Microsoft\Siuf\Rules", "NumberOfSIUFInPeriod", 0),
+            new(@"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\DiagTrack", "Start", 4)
+        ];
+
+        private const string ContentDelivery = @"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager";
+
+        private static readonly RegistryValueChange[] ConsumerContentPolicies =
+        [
+            // Honoured only by Enterprise and Education; the per-user values below cover Home and Pro.
+            new(@"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\CloudContent", "DisableWindowsConsumerFeatures", 1),
+            new(ContentDelivery, "SilentInstalledAppsEnabled", 0),
+            new(ContentDelivery, "SystemPaneSuggestionsEnabled", 0),
+            new(ContentDelivery, "SoftLandingEnabled", 0),
+            new(ContentDelivery, "SubscribedContent-338388Enabled", 0),
+            new(ContentDelivery, "SubscribedContent-338389Enabled", 0),
+            new(ContentDelivery, "SubscribedContent-353694Enabled", 0),
+            new(ContentDelivery, "SubscribedContent-353696Enabled", 0),
+            new(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\UserProfileEngagement", "ScoobeSystemSettingEnabled", 0),
+            new(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "Start_IrisRecommendations", 0)
+        ];
+
+        private static readonly RegistryValueChange[] BingSearchPolicies =
+        [
+            new(@"HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Explorer", "DisableSearchBoxSuggestions", 1),
+            new(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Search", "BingSearchEnabled", 0),
+            new(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\SearchSettings", "IsDynamicSearchBoxEnabled", 0)
+        ];
+
+        private const string UserGpuPreferences = @"HKEY_CURRENT_USER\Software\Microsoft\DirectX\UserGpuPreferences";
+        private const string GameConfigStore = @"HKEY_CURRENT_USER\System\GameConfigStore";
+
+        /// <summary>The settings windowed and borderless games need to reach independent flip.</summary>
+        private static RegistryValueChange[] FlipModelChanges() =>
+        [
+            new(@"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\GraphicsDrivers", "HwSchMode", 2),
+            new(UserGpuPreferences, "DirectXUserGlobalSettings", WithDirectXSetting(
+                RegistryService.Instance.GetRegistryValue(UserGpuPreferences, "DirectXUserGlobalSettings") as string,
+                "SwapEffectUpgradeEnable", "1"), Microsoft.Win32.RegistryValueKind.String),
+            new(GameConfigStore, "GameDVR_FSEBehaviorMode", 0),
+            new(GameConfigStore, "GameDVR_HonorUserFSEBehaviorMode", 0),
+            new(GameConfigStore, "GameDVR_DXGIHonorFSEWindowsCompatible", 0),
+            // Multiplane overlay (OverlayTestMode) is left to Tweak check "Mpo": a shared backup let undoing one feature undo the other.
+            new(@"HKEY_CURRENT_USER\Software\Microsoft\GameBar", "AutoGameModeEnabled", 1)
+        ];
+
+        /// <summary>Sets one "Name=Value;" entry and keeps the other settings Windows stores in the same string, in place.</summary>
+        internal static string WithDirectXSetting(string? settings, string name, string value)
+        {
+            var entries = (settings ?? string.Empty).Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList();
+            var index = entries.FindIndex(entry => entry.StartsWith(name + "=", StringComparison.OrdinalIgnoreCase));
+            if (index >= 0) entries[index] = $"{name}={value}";
+            else entries.Add($"{name}={value}");
+            return string.Concat(entries.Select(entry => entry + ";"));
+        }
 
         private static readonly RegistryValueChange[] DeviceCoInstallerPolicies =
         [
@@ -439,13 +613,25 @@ namespace TweakHub.Services
             new(@"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System", "UploadUserActivities", 0)
         ];
 
+        private static readonly RegistryValueChange[] MouseAccelerationOff =
+        [
+            new(@"HKEY_CURRENT_USER\Control Panel\Mouse", "MouseSpeed", "0", Microsoft.Win32.RegistryValueKind.String),
+            new(@"HKEY_CURRENT_USER\Control Panel\Mouse", "MouseThreshold1", "0", Microsoft.Win32.RegistryValueKind.String),
+            new(@"HKEY_CURRENT_USER\Control Panel\Mouse", "MouseThreshold2", "0", Microsoft.Win32.RegistryValueKind.String)
+        ];
+
         internal static IReadOnlyList<RegistryValueChange> GetCompositeRegistryChanges(string id) => id switch
         {
+            "disable_mouse_acceleration" => MouseAccelerationOff,
             "windows_update_security_preset" => SecurityUpdatePreset,
             "disable_windows_ai_policies" => WindowsAiPolicies,
             "disable_device_coinstallers" => DeviceCoInstallerPolicies,
             "disable_notifications_calendar" => NotificationPolicies,
             "disable_activity_history" => ActivityHistoryPolicies,
+            "disable_telemetry" => TelemetryPolicies,
+            "disable_consumer_content" => ConsumerContentPolicies,
+            "disable_bing_search" => BingSearchPolicies,
+            "optimize_flip_model" => FlipModelChanges(),
             _ => []
         };
 
@@ -520,7 +706,9 @@ namespace TweakHub.Services
             if (changes.Count > 0)
                 return enable
                     ? RegistryService.Instance.ApplyValuesWithBackupAsync(changes)
-                    : RegistryService.Instance.RestoreValuesAsync(changes);
+                    // Values added to a tweak after it was applied, or adapters added later, were never changed: leave them.
+                    : RegistryService.Instance.RestoreValuesAsync(changes
+                        .Where(change => RegistryService.Instance.HasBackup(change.KeyPath, change.ValueName)).ToList());
 
             return tweak.Id switch
             {
@@ -531,13 +719,21 @@ namespace TweakHub.Services
                     ? PowerService.Instance.ApplyProcessorSettingAsync(tweak.Id, "CPMINCORES", 100)
                     : PowerService.Instance.RestoreProcessorSettingAsync(tweak.Id),
                 "high_performance_power_plan" => enable
-                    ? PowerService.Instance.ApplyHighPerformancePlanAsync()
+                    ? PowerService.Instance.ApplyPerformancePlanAsync(null)
                     : PowerService.Instance.RestorePowerPlanAsync(),
-                "disable_mouse_acceleration" => Task.Run(() => ApplyMouseAcceleration(enable)),
                 "disable_sysmain" => ApplyServiceTweakAsync(tweak, "SysMain", enable),
                 "disable_windows_search" => ApplyServiceTweakAsync(tweak, "WSearch", enable),
+                "optimize_network_for_gaming" => enable
+                    ? ApplyNetworkPresetAsync()
+                    : RegistryService.Instance.RestoreValuesAsync(NetworkAdapterService.BackedUpChanges()),
                 _ => Task.Run(() => RegistryService.Instance.ApplyTweak(tweak, enable))
             };
+        }
+
+        private static Task<bool> ApplyNetworkPresetAsync()
+        {
+            var changes = NetworkAdapterService.PresetChanges();
+            return changes.Count == 0 ? Task.FromResult(false) : RegistryService.Instance.ApplyValuesWithBackupAsync(changes);
         }
 
         private static async Task<bool> ApplyServiceTweakAsync(PerformanceTweak tweak, string serviceName, bool disable)
@@ -578,24 +774,6 @@ namespace TweakHub.Services
                 timeout: TimeSpan.FromSeconds(10));
             return result.Output.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
                 .ToHashSet(StringComparer.OrdinalIgnoreCase);
-        }
-
-        private static bool ApplyMouseAcceleration(bool disable)
-        {
-            const string path = @"HKEY_CURRENT_USER\Control Panel\Mouse";
-            var registry = RegistryService.Instance;
-            var values = new[] { "MouseSpeed", "MouseThreshold1", "MouseThreshold2" };
-
-            if (!disable)
-                return values.All(name => !registry.HasBackup(path, name) || registry.RestoreRegistryValue(path, name));
-
-            foreach (var name in values)
-            {
-                if (registry.ApplyValueWithBackup(path, name, "0", Microsoft.Win32.RegistryValueKind.String)) continue;
-                foreach (var applied in values) registry.RestoreRegistryValue(path, applied);
-                return false;
-            }
-            return true;
         }
 
         public async Task<(int restored, int failed)> RestoreAllTweaksAsync()
@@ -645,9 +823,7 @@ namespace TweakHub.Services
             return (restored, failed);
         }
 
-        public bool HasBackupFor(PerformanceTweak tweak) => HasBackup(tweak);
-
-        private static bool HasBackup(PerformanceTweak tweak)
+        public static bool HasBackup(PerformanceTweak tweak)
         {
             var changes = GetCompositeRegistryChanges(tweak.Id);
             if (changes.Count > 0)
@@ -657,8 +833,7 @@ namespace TweakHub.Services
             {
                 "disable_cpu_throttling" or "disable_core_parking" or "high_performance_power_plan" =>
                     PowerService.Instance.HasBackup(tweak.Id),
-                "disable_mouse_acceleration" => new[] { "MouseSpeed", "MouseThreshold1", "MouseThreshold2" }
-                    .Any(name => RegistryService.Instance.HasBackup(@"HKEY_CURRENT_USER\Control Panel\Mouse", name)),
+                "optimize_network_for_gaming" => NetworkAdapterService.BackedUpChanges().Count > 0,
                 _ => RegistryService.Instance.HasBackup(tweak.RegistryPath, tweak.RegistryKey)
             };
         }
@@ -675,6 +850,12 @@ namespace TweakHub.Services
             var stopped = await GetStoppedServicesAsync("SysMain", "WSearch");
             foreach (var tweak in TweakCategories.SelectMany(category => category.Tweaks))
             {
+                if (tweak.Type == TweakType.NetworkAdapter)
+                {
+                    RefreshNetworkPreset(tweak);
+                    continue;
+                }
+
                 var changes = GetCompositeRegistryChanges(tweak.Id);
                 if (changes.Count > 0)
                 {
@@ -682,15 +863,6 @@ namespace TweakHub.Services
                         Equals(RegistryService.Instance.GetRegistryValue(change.KeyPath, change.ValueName), change.Value));
                     tweak.IsEnabled = matches == changes.Count;
                     tweak.IsPartiallyApplied = matches > 0 && matches < changes.Count;
-                    continue;
-                }
-
-                if (tweak.Id == "disable_mouse_acceleration")
-                {
-                    var matches = new[] { "MouseSpeed", "MouseThreshold1", "MouseThreshold2" }
-                        .Count(name => Equals(RegistryService.Instance.GetRegistryValue(@"HKEY_CURRENT_USER\Control Panel\Mouse", name), "0"));
-                    tweak.IsEnabled = matches == 3;
-                    tweak.IsPartiallyApplied = matches is > 0 and < 3;
                     continue;
                 }
 
@@ -707,10 +879,27 @@ namespace TweakHub.Services
             }
         }
 
+        private static void RefreshNetworkPreset(PerformanceTweak tweak)
+        {
+            var adapters = NetworkAdapterService.GetAdapters();
+            var changes = NetworkAdapterService.Selected(adapters).SelectMany(adapter => adapter.Changes).ToList();
+            var matches = changes.Count(change =>
+                Equals(RegistryService.Instance.GetRegistryValue(change.KeyPath, change.ValueName), change.Value));
+            tweak.IsEnabled = changes.Count > 0 && matches == changes.Count;
+            tweak.IsPartiallyApplied = matches > 0 && matches < changes.Count;
+            // Values changed on an adapter that is gone or no longer supported must stay restorable.
+            tweak.UnavailableReason = changes.Count > 0 || NetworkAdapterService.BackedUpChanges().Count > 0
+                ? string.Empty
+                : L.Format("Tweaks:NetworkPresetUnavailable", adapters.Count == 0
+                    ? L.Get("Tweaks:NetworkPresetNoAdapters")
+                    : string.Join(", ", adapters.Select(adapter => adapter.Model)));
+        }
+
         internal static WindowsUpdatePreset RecommendedWindowsUpdatePreset => WindowsUpdatePreset.Security;
 
+        // Disabling fullscreen optimizations blocks independent flip on Windows 11; the network preset trades CPU and power for latency.
         public static bool IsRecommended(PerformanceTweak tweak) =>
-            tweak.Id is not ("disable_sysmain" or "disable_prefetch");
+            tweak.Id is not ("disable_sysmain" or "disable_prefetch" or "disable_fullscreen_optimizations" or "optimize_network_for_gaming");
 
         public void RefreshBackupState() => HasAppliedTweaksThisSession =
             RegistryService.Instance.BackupCount > 0 || PowerService.Instance.HasAnyBackup || WindowsUpdatePresetService.Instance.HasBackup;

@@ -5,7 +5,8 @@ namespace TweakHub.Models
     public enum TweakType
     {
         Registry,
-        Power
+        Power,
+        NetworkAdapter
     }
 
     public class TweakCategory
@@ -28,6 +29,7 @@ namespace TweakHub.Models
         private bool _isRestartPending;
         private bool _isPartiallyApplied;
         private string _previewContent = string.Empty;
+        private string _unavailableReason = string.Empty;
 
         public string Id { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
@@ -58,6 +60,15 @@ namespace TweakHub.Models
         public string RegistryKey { get; set; } = string.Empty;
         public object? EnabledValue { get; set; }
         public int RiskLevel { get; set; } = 1; // 1-5 scale
+
+        /// <summary>Why this PC cannot use the tweak; empty when it can.</summary>
+        public string UnavailableReason
+        {
+            get => _unavailableReason;
+            set { _unavailableReason = value; OnPropertyChanged(nameof(UnavailableReason)); OnPropertyChanged(nameof(IsAvailable)); OnPropertyChanged(nameof(IsUnavailable)); }
+        }
+        public bool IsAvailable => _unavailableReason.Length == 0;
+        public bool IsUnavailable => !IsAvailable;
 
         public bool IsPreviewVisible
         {

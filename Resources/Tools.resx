@@ -977,4 +977,19 @@ This may be due to insufficient permissions or the target application not being 
   <data name="DescriptionDualShockTools" xml:space="preserve">
     <value>Web app that calibrates the sticks and triggers of DualShock 4 and DualSense controllers over WebHID in Chrome or Edge, and fixes stick drift without opening the controller. Opens only the official site.</value>
   </data>
+  <data name="DescriptionHaveIBeenPwned" xml:space="preserve">
+    <value>Check whether an email address or phone number appears in known data breaches and subscribe to alerts. TweakHub only opens the official site; it never sends your address.</value>
+  </data>
+  <data name="DescriptionCoverYourTracks" xml:space="preserve">
+    <value>EFF test that shows how well your browser blocks trackers and how unique its fingerprint is. Opens only the official site.</value>
+  </data>
+  <data name="DescriptionPrivacyGuides" xml:space="preserve">
+    <value>Independent, nonprofit guides and tool recommendations for privacy and security, with threat-model explanations. Opens only the official site.</value>
+  </data>
+  <data name="DescriptionUrlscan" xml:space="preserve">
+    <value>Scans a suspicious link in a remote browser and shows where it redirects, what it loads and whether it is known phishing. Scans can be public; never submit private links. Opens only the official site.</value>
+  </data>
+  <data name="DescriptionNuclei" xml:space="preserve">
+    <value>Template-based vulnerability scanner from ProjectDiscovery for your own servers and web apps. Command-line tool; use it only on systems you are authorized to test. Opens only the official repository.</value>
+  </data>
 </root>

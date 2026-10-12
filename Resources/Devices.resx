@@ -554,7 +554,7 @@
 
 {1}
 
-TweakHub cannot check what the script does, and the author can change it at any time. Read it on the official page first if you are unsure. This warning appears only the first time you run {0}.</value>
+TweakHub cannot check what the script does, and the author can change it at any time. Read it on the official page first if you are unsure. This warning appears again whenever the author changes {0}.</value>
   </data>
   <data name="LoadingInterrupts" xml:space="preserve">
     <value>Reading interrupt settings…</value>

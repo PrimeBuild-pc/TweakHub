@@ -26,6 +26,7 @@ Stile: fedele a WinUI/Windows 11 (ModernWpf, `CardStyle`, Segoe Fluent Icons, br
 - [x] Fase 1: Panoramica, Defender, Analisi file, Strumenti e risorse (2026-10-11)
 - [x] Fase 2: Sistema (2026-10-11)
 - [x] Fase 3: Privacy e account (2026-10-11)
+- [x] Revisione "Follow the White Rabbit" (394 link, 2026-10-12): integrati la ricerca hash su MalwareBazaar (Analisi file) e il controllo dell'IP remoto su AbuseIPDB (Sistema, solo per gli indirizzi pubblici); aggiunte le schede Have I Been Pwned, Cover Your Tracks, Privacy Guides, urlscan.io e Nuclei. Esclusi di proposito: strumenti di sorveglianza e intrusione (webcam esposte, IP logger, phishing per la posizione), database di credenziali rubate, data broker di persone, materiale formativo e link locali polacchi.
 
 ## Note emerse durante l'implementazione
 - `PowerShellService`: gli script ora sono scritti in UTF-8 con BOM (PowerShell 5.1 leggeva i file senza BOM come ANSI e rovinava i percorsi non ASCII) e il processo non eredita più `PSModulePath` (se TweakHub è avviato da PowerShell 7, i moduli di sistema non si caricavano).

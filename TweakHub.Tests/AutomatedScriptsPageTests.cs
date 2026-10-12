@@ -33,6 +33,8 @@ public class AutomatedScriptsPageTests
                 Does.Contain("RestoreHealth").And.Contain("sfc.exe").And.Contain("chkdsk.exe"));
             Assert.That(AutomatedScriptsPage.GetBuiltInScript("component-cleanup"),
                 Does.Contain("StartComponentCleanup"));
+            Assert.That(AutomatedScriptsPage.GetBuiltInScript("temp-cleanup"),
+                Does.Contain("ReparsePoint").And.Contain("AddDays(-1)").And.Contain("Delete-DeliveryOptimizationCache"));
             Assert.That(AutomatedScriptsPage.GetBuiltInScript("network-reset"),
                 Does.Contain("winsock reset").And.Contain("int ip reset"));
             Assert.That(AutomatedScriptsPage.GetBuiltInScript("windows-update-reset"),

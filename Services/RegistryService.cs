@@ -12,6 +12,8 @@ namespace TweakHub.Services
 {
     public class RegistryService : INotifyPropertyChanged
     {
+        // Single values change backups on a worker thread while groups change them on the UI thread.
+        private readonly Lock _lock = new();
         private readonly Dictionary<string, RegistryBackup> _backups = new(StringComparer.OrdinalIgnoreCase);
         private readonly string _dataPath;
         private readonly string _backupFile;
@@ -20,7 +22,7 @@ namespace TweakHub.Services
 
         public static RegistryService Instance { get; } = new();
         public event PropertyChangedEventHandler? PropertyChanged;
-        public int BackupCount => _backups.Count;
+        public int BackupCount { get { lock (_lock) return _backups.Count; } }
 
         private RegistryService() : this(AppDataPath.BasePath) { }
 
@@ -50,7 +52,7 @@ namespace TweakHub.Services
         public void Initialize()
         {
             Directory.CreateDirectory(_dataPath);
-            LoadBackups();
+            lock (_lock) LoadBackups();
         }
 
         public bool ApplyTweak(PerformanceTweak tweak, bool enable)
@@ -73,11 +75,14 @@ namespace TweakHub.Services
             try
             {
                 ValidateLocation(keyPath, valueName);
-                if (!_backups.ContainsKey(backupKey))
+                lock (_lock)
                 {
-                    _backups[backupKey] = ReadBackup(keyPath, valueName);
-                    added = true;
-                    SaveBackups(); // Persist before changing Windows.
+                    if (!_backups.ContainsKey(backupKey))
+                    {
+                        _backups[backupKey] = ReadBackup(keyPath, valueName);
+                        added = true;
+                        SaveBackups(); // Persist before changing Windows.
+                    }
                 }
 
                 var success = SetRegistryValue(keyPath, valueName, value, explicitKind) &&
@@ -91,8 +96,11 @@ namespace TweakHub.Services
             {
                 if (added)
                 {
-                    _backups.Remove(backupKey);
-                    TrySaveBackups();
+                    lock (_lock)
+                    {
+                        _backups.Remove(backupKey);
+                        TrySaveBackups();
+                    }
                 }
                 Log("apply", keyPath, valueName, false, ex.Message);
                 return false;
@@ -103,13 +111,16 @@ namespace TweakHub.Services
         {
             try
             {
-                foreach (var change in changes)
+                lock (_lock)
                 {
-                    ValidateLocation(change.KeyPath, change.ValueName);
-                    var key = BackupKey(change.KeyPath, change.ValueName);
-                    if (!_backups.ContainsKey(key)) _backups[key] = ReadBackup(change.KeyPath, change.ValueName);
+                    foreach (var change in changes)
+                    {
+                        ValidateLocation(change.KeyPath, change.ValueName);
+                        var key = BackupKey(change.KeyPath, change.ValueName);
+                        if (!_backups.ContainsKey(key)) _backups[key] = ReadBackup(change.KeyPath, change.ValueName);
+                    }
+                    SaveBackups();
                 }
-                SaveBackups();
 
                 var result = await PowerShellService.Instance.ExecuteScriptAsync(
                     BuildRegScript(changes), requireAdministrator: changes.Any(change => RequiresElevation(change.KeyPath)));
@@ -130,24 +141,33 @@ namespace TweakHub.Services
 
         public async Task<bool> RestoreValuesAsync(IReadOnlyCollection<RegistryValueChange> changes)
         {
-            var backups = changes.Select(change => _backups.GetValueOrDefault(BackupKey(change.KeyPath, change.ValueName))).ToList();
+            List<RegistryBackup?> backups;
+            lock (_lock) backups = changes.Select(change => _backups.GetValueOrDefault(BackupKey(change.KeyPath, change.ValueName))).ToList();
             if (backups.Any(backup => backup is null)) return false;
-            var restoreChanges = backups.Select(backup => new RegistryValueChange(
+            // Values already at their original (for example when UAC was declined on apply) need no elevated script.
+            var restoreChanges = backups.Where(backup => !IsOriginal(backup!)).Select(backup => new RegistryValueChange(
                 backup!.KeyPath, backup.ValueName, backup.Existed ? Decode(backup) : null, backup.Kind)).ToList();
-            var result = await PowerShellService.Instance.ExecuteScriptAsync(
-                BuildRegScript(restoreChanges), requireAdministrator: restoreChanges.Any(change => RequiresElevation(change.KeyPath)));
-            var success = result.Success && backups.All(backup => backup!.Existed
-                ? ValuesEqual(GetRegistryValue(backup.KeyPath, backup.ValueName), Decode(backup))
-                : !RegistryValueExists(backup.KeyPath, backup.ValueName));
+            var result = restoreChanges.Count == 0
+                ? new PowerShellResult { Success = true }
+                : await PowerShellService.Instance.ExecuteScriptAsync(
+                    BuildRegScript(restoreChanges), requireAdministrator: restoreChanges.Any(change => RequiresElevation(change.KeyPath)));
+            var success = result.Success && backups.All(backup => IsOriginal(backup!));
             foreach (var backup in backups)
                 Log("restore", backup!.KeyPath, backup.ValueName, success, success ? null : result.Error);
             if (success)
             {
-                foreach (var backup in backups) _backups.Remove(BackupKey(backup!.KeyPath, backup.ValueName));
-                SaveBackups();
+                lock (_lock)
+                {
+                    foreach (var backup in backups) _backups.Remove(BackupKey(backup!.KeyPath, backup.ValueName));
+                    SaveBackups();
+                }
             }
             return success;
         }
+
+        private bool IsOriginal(RegistryBackup backup) => backup.Existed
+            ? ValuesEqual(GetRegistryValue(backup.KeyPath, backup.ValueName), Decode(backup))
+            : !RegistryValueExists(backup.KeyPath, backup.ValueName);
 
         private static string BuildRegScript(IEnumerable<RegistryValueChange> changes)
         {
@@ -183,6 +203,7 @@ namespace TweakHub.Services
         public int CreateBackupValues(IEnumerable<RegistryValueChange> changes)
         {
             var addedKeys = new List<string>();
+            lock (_lock)
             try
             {
                 foreach (var change in changes)
@@ -206,17 +227,22 @@ namespace TweakHub.Services
         }
 
         /// <summary>Every value TweakHub has changed and can restore.</summary>
-        public IReadOnlyList<(string KeyPath, string ValueName)> BackedUpValues =>
-            _backups.Values.Select(backup => (backup.KeyPath, backup.ValueName)).ToList();
+        public IReadOnlyList<(string KeyPath, string ValueName)> BackedUpValues
+        {
+            get { lock (_lock) return _backups.Values.Select(backup => (backup.KeyPath, backup.ValueName)).ToList(); }
+        }
 
-        public bool HasBackup(string keyPath, string valueName) =>
-            _backups.ContainsKey(BackupKey(keyPath, valueName));
-
+        public bool HasBackup(string keyPath, string valueName)
+        {
+            lock (_lock) return _backups.ContainsKey(BackupKey(keyPath, valueName));
+        }
 
         public bool RestoreRegistryValue(string keyPath, string valueName)
         {
             var key = BackupKey(keyPath, valueName);
-            if (!_backups.TryGetValue(key, out var backup)) return false;
+            RegistryBackup? backup;
+            lock (_lock)
+                if (!_backups.TryGetValue(key, out backup)) return false;
 
             try
             {
@@ -228,8 +254,11 @@ namespace TweakHub.Services
 
                 if (success)
                 {
-                    _backups.Remove(key);
-                    SaveBackups();
+                    lock (_lock)
+                    {
+                        _backups.Remove(key);
+                        SaveBackups();
+                    }
                 }
 
                 Log("restore", keyPath, valueName, success, success ? null : "Registry restore failed");
@@ -490,8 +519,23 @@ namespace TweakHub.Services
             return (root, parts[1]);
         }
 
-        private static string BackupKey(string keyPath, string valueName) =>
-            $"{keyPath.Trim()}\\{valueName.Trim()}";
+        // HKLM\ and HKEY_LOCAL_MACHINE\ name the same value, so they must share one backup.
+        private static string BackupKey(string keyPath, string valueName)
+        {
+            var path = keyPath.Trim();
+            var separator = path.IndexOf('\\');
+            var root = separator < 0 ? path : path[..separator];
+            var full = root.ToUpperInvariant() switch
+            {
+                "HKLM" => "HKEY_LOCAL_MACHINE",
+                "HKCU" => "HKEY_CURRENT_USER",
+                "HKCR" => "HKEY_CLASSES_ROOT",
+                "HKU" => "HKEY_USERS",
+                "HKCC" => "HKEY_CURRENT_CONFIG",
+                _ => root
+            };
+            return $"{full}{path[root.Length..]}\\{valueName.Trim()}";
+        }
 
         private static object Normalize(object value) => value switch
         {

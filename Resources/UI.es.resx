@@ -401,4 +401,40 @@ Instalado: {1}
   <data name="SplashStepFailed" xml:space="preserve">
     <value>Se reintentará en la sección</value>
   </data>
+  <data name="AboutPageImportPreviousCopy" xml:space="preserve">
+    <value>Importar desde otra copia</value>
+  </data>
+  <data name="AboutPageImportPreviousCopyTip" xml:space="preserve">
+    <value>Elige la carpeta de un TweakHub anterior (carpeta portable, su carpeta Data o %AppData%\TweakHub) para traer el perfil, los datos para deshacer cambios y las aplicaciones portables.</value>
+  </data>
+  <data name="PreviousDataPickTitle" xml:space="preserve">
+    <value>Elige la carpeta del TweakHub anterior</value>
+  </data>
+  <data name="PreviousDataTitle" xml:space="preserve">
+    <value>Importar desde otra copia</value>
+  </data>
+  <data name="PreviousDataNotFound" xml:space="preserve">
+    <value>No se encontraron datos de TweakHub en esta carpeta. Elige la carpeta que contiene TweakHub.exe, su carpeta Data o %AppData%\TweakHub.</value>
+  </data>
+  <data name="PreviousDataSameFolder" xml:space="preserve">
+    <value>Esta es la carpeta de datos del TweakHub que estás usando.</value>
+  </data>
+  <data name="PreviousDataConfirm" xml:space="preserve">
+    <value>Importar desde {0}:
+• perfil: scripts, ajustes y herramientas personalizados, playbooks, favoritos y apariencia (sustituye al actual, que antes se guarda como copia de recuperación);
+• datos para deshacer los cambios hechos por esa copia, para que puedas restaurarlos también aquí;
+• programas portables de Apps que faltan aquí.
+
+TweakHub se reinicia al terminar.</value>
+  </data>
+  <data name="PreviousDataImported" xml:space="preserve">
+    <value>Se importaron {0} scripts, {1} ajustes personalizados, {2} herramientas y {3} playbooks, {4} archivos de datos para deshacer y {5} archivos en Apps.
+
+Copia de recuperación del perfil anterior: {6}
+
+Ahora TweakHub se reiniciará.</value>
+  </data>
+  <data name="PreviousDataKept" xml:space="preserve">
+    <value>No se importaron porque esta copia ya tiene cambios propios que deshacer: {0}. Restáuralos primero aquí y vuelve a importar para traer los antiguos.</value>
+  </data>
 </root>

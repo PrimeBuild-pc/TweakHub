@@ -401,4 +401,40 @@ Scaricarlo, verificarlo e installarlo ora?</value>
   <data name="SplashStepFailed" xml:space="preserve">
     <value>Riprova nella sezione</value>
   </data>
+  <data name="AboutPageImportPreviousCopy" xml:space="preserve">
+    <value>Importa da un'altra copia</value>
+  </data>
+  <data name="AboutPageImportPreviousCopyTip" xml:space="preserve">
+    <value>Scegli la cartella di un TweakHub precedente (cartella portabile, la sua cartella Data o %AppData%\TweakHub) per portare qui profilo, dati per annullare le modifiche e app portabili.</value>
+  </data>
+  <data name="PreviousDataPickTitle" xml:space="preserve">
+    <value>Scegli la cartella del TweakHub precedente</value>
+  </data>
+  <data name="PreviousDataTitle" xml:space="preserve">
+    <value>Importa da un'altra copia</value>
+  </data>
+  <data name="PreviousDataNotFound" xml:space="preserve">
+    <value>In questa cartella non ci sono dati di TweakHub. Scegli la cartella che contiene TweakHub.exe, la sua cartella Data o %AppData%\TweakHub.</value>
+  </data>
+  <data name="PreviousDataSameFolder" xml:space="preserve">
+    <value>Questa è la cartella dati del TweakHub in uso.</value>
+  </data>
+  <data name="PreviousDataConfirm" xml:space="preserve">
+    <value>Importa da {0}:
+• profilo: script, tweak e strumenti personalizzati, playbook, preferiti e aspetto (sostituisce quello attuale, che viene prima salvato in una copia di recupero);
+• dati per annullare le modifiche fatte da quella copia, così puoi ripristinarle anche da qui;
+• programmi portabili in Apps che qui mancano.
+
+Al termine TweakHub si riavvia.</value>
+  </data>
+  <data name="PreviousDataImported" xml:space="preserve">
+    <value>Importati {0} script, {1} tweak personalizzati, {2} strumenti e {3} playbook, {4} file di dati per annullare e {5} file in Apps.
+
+Copia di recupero del profilo precedente: {6}
+
+Ora TweakHub si riavvia.</value>
+  </data>
+  <data name="PreviousDataKept" xml:space="preserve">
+    <value>Non importati perché questa copia ha già modifiche proprie da annullare: {0}. Ripristinale prima qui, poi ripeti l'import per portare quelle vecchie.</value>
+  </data>
 </root>

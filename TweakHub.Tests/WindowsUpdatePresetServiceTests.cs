@@ -22,6 +22,16 @@ public class WindowsUpdatePresetServiceTests
         });
     }
 
+    // A value the script sets without a backup stays changed after Restore (PreventDeviceMetadataFromNetwork did).
+    [Test]
+    public void EveryValueThePresetsSetIsBackedUpForRestore()
+    {
+        var script = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "Scripts", "WindowsUpdatePreset.ps1"));
+        var set = System.Text.RegularExpressions.Regex.Matches(script, @"Set-Policy \$\w+ '(\w+)'").Select(match => match.Groups[1].Value).Distinct().ToList();
+        Assert.That(set, Is.Not.Empty);
+        Assert.That(WindowsUpdatePresetService.PresetRegistryValues.Select(value => value.ValueName), Is.SupersetOf(set));
+    }
+
     [Test]
     public void BundledPresetScriptParses()
     {

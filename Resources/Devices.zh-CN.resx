@@ -554,7 +554,7 @@
 
 {1}
 
-TweakHub 无法检查脚本的行为，作者也可以随时修改它。如有疑问，请先在官方页面阅读。此警告仅在首次运行 {0} 时显示。</value>
+TweakHub 无法检查脚本的行为，作者也可以随时修改它。如有疑问，请先在官方页面阅读。每当作者修改 {0} 时，此警告都会再次显示。</value>
   </data>
   <data name="LoadingInterrupts" xml:space="preserve">
     <value>正在读取中断设置…</value>

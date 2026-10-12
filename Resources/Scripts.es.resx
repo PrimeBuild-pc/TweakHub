@@ -647,4 +647,19 @@ Registro: {2}</value>
   <data name="PlaybookElevateContinue" xml:space="preserve">
     <value>Preguntar en cada paso</value>
   </data>
+  <data name="temp_cleanup_Name" xml:space="preserve">
+    <value>Limpieza de archivos temporales</value>
+  </data>
+  <data name="temp_cleanup_Description" xml:space="preserve">
+    <value>Elimine los archivos temporales con más de un día de las carpetas Temp del usuario y de Windows y vacíe la caché de Optimización de distribución. Los archivos en uso se omiten.</value>
+  </data>
+  <data name="temp_cleanup_Category" xml:space="preserve">
+    <value>Mantenimiento</value>
+  </data>
+  <data name="temp_cleanup_Execute" xml:space="preserve">
+    <value>Ejecutar limpieza</value>
+  </data>
+  <data name="temp_cleanup_Confirmation" xml:space="preserve">
+    <value>Esto elimina los archivos temporales con más de un día y la caché de Optimización de distribución. ¿Continuar?</value>
+  </data>
 </root>

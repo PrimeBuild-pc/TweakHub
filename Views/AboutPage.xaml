@@ -118,7 +118,9 @@
                             <Button Content="{loc:Loc UI:AboutPageExportProfile}" Style="{StaticResource SecondaryButtonStyle}"
                                     Click="ExportProfile_Click" Margin="0,0,8,0"/>
                             <Button Content="{loc:Loc UI:AboutPageImportProfile}" Style="{StaticResource ModernButtonStyle}"
-                                    Click="ImportProfile_Click"/>
+                                    Click="ImportProfile_Click" Margin="0,0,8,0"/>
+                            <Button Content="{loc:Loc UI:AboutPageImportPreviousCopy}" Style="{StaticResource SecondaryButtonStyle}"
+                                    Click="ImportPreviousCopy_Click" ToolTip="{loc:Loc UI:AboutPageImportPreviousCopyTip}"/>
                             <TextBlock x:Name="ProfileResultText" Margin="12,0,0,0" VerticalAlignment="Center"
                                        Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
                         </StackPanel>

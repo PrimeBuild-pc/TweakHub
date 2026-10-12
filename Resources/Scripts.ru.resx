@@ -647,4 +647,19 @@
   <data name="PlaybookElevateContinue" xml:space="preserve">
     <value>Спрашивать на каждом шаге</value>
   </data>
+  <data name="temp_cleanup_Name" xml:space="preserve">
+    <value>Очистка временных файлов</value>
+  </data>
+  <data name="temp_cleanup_Description" xml:space="preserve">
+    <value>Удалите временные файлы старше одного дня из папок Temp пользователя и Windows и очистите кэш оптимизации доставки. Используемые файлы пропускаются.</value>
+  </data>
+  <data name="temp_cleanup_Category" xml:space="preserve">
+    <value>Обслуживание</value>
+  </data>
+  <data name="temp_cleanup_Execute" xml:space="preserve">
+    <value>Выполнить очистку</value>
+  </data>
+  <data name="temp_cleanup_Confirmation" xml:space="preserve">
+    <value>Будут удалены временные файлы старше одного дня и кэш оптимизации доставки. Продолжить?</value>
+  </data>
 </root>

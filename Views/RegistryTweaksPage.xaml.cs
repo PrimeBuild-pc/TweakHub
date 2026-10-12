@@ -380,6 +380,12 @@ namespace TweakHub.Views
                 return;
             }
 
+            if (targetState && tweak.Type == TweakType.NetworkAdapter && !await ChooseNetworkAdaptersAsync())
+            {
+                RevertToggle(toggle, tweak, !targetState);
+                return;
+            }
+
             toggle.IsEnabled = false;
             try
             {
@@ -417,6 +423,27 @@ namespace TweakHub.Views
             }
         }
 
+        /// <summary>With more than one supported adapter the user picks where the preset goes; the choice is saved.</summary>
+        private async Task<bool> ChooseNetworkAdaptersAsync()
+        {
+            var adapters = NetworkAdapterService.GetAdapters();
+            var supported = adapters.Where(adapter => adapter.IsSupported).ToList();
+            if (supported.Count == 0) return false;
+            if (supported.Count > 1)
+            {
+                var selected = NetworkAdapterService.Selected(adapters);
+                var chosen = await AppDialog.ChooseAsync(Window.GetWindow(this), L.Get("Tweaks:NetworkPresetChooseTitle"),
+                    L.Get("Tweaks:NetworkPresetChooseMessage"),
+                    supported.Select(adapter => (
+                        $"{adapter.Name} — {adapter.Model}" + (adapter.Connected ? $" ({L.Get("Tweaks:NetworkAdapterConnected")})" : string.Empty),
+                        selected.Contains(adapter))));
+                if (chosen is null) return false;
+                supported = [.. chosen.Select(index => supported[index])];
+            }
+            NetworkAdapterService.SaveSelection(supported);
+            return true;
+        }
+
         private void RevertToggle(ToggleSwitch toggle, PerformanceTweak tweak, bool state)
         {
             _ignoreToggleEvent = true;
@@ -450,11 +477,15 @@ namespace TweakHub.Views
 
         private static string BuildPreview(PerformanceTweak tweak)
         {
-            var changes = TweakService.GetCompositeRegistryChanges(tweak.Id);
+            if (tweak.IsUnavailable) return tweak.UnavailableReason;
+            var changes = tweak.Type == TweakType.NetworkAdapter
+                ? NetworkAdapterService.PresetChanges()
+                : TweakService.GetCompositeRegistryChanges(tweak.Id);
             if (changes.Count > 0)
             {
-                var commands = changes.Select(change =>
-                    $"reg add \"{change.KeyPath}\" /v \"{change.ValueName}\" /t {change.Kind switch { Microsoft.Win32.RegistryValueKind.String => "REG_SZ", _ => "REG_DWORD" }} /d {change.Value} /f");
+                var commands = changes.Select(change => change.Value is null
+                    ? $"reg delete \"{change.KeyPath}\" /v \"{change.ValueName}\" /f"
+                    : $"reg add \"{change.KeyPath}\" /v \"{change.ValueName}\" /t {change.Kind switch { Microsoft.Win32.RegistryValueKind.String => "REG_SZ", _ => "REG_DWORD" }} /d {change.Value} /f");
                 return L.Format("Tweaks:CompositePreview", tweak.Name, tweak.RiskLevel, string.Join("\n", commands));
             }
 
@@ -464,8 +495,7 @@ namespace TweakHub.Views
                 "disable_core_parking" => "powercfg /setacvalueindex SCHEME_CURRENT SUB_PROCESSOR CPMINCORES 100",
                 "high_performance_power_plan" => "powercfg /setactive SCHEME_MIN",
                 "disable_sysmain" => "Set-Service -Name SysMain -StartupType Disabled\nStop-Service -Name SysMain -Force",
-                "disable_mouse_acceleration" => "reg add \"HKCU\\Control Panel\\Mouse\" /v MouseSpeed /t REG_SZ /d 0 /f\nreg add \"HKCU\\Control Panel\\Mouse\" /v MouseThreshold1 /t REG_SZ /d 0 /f\nreg add \"HKCU\\Control Panel\\Mouse\" /v MouseThreshold2 /t REG_SZ /d 0 /f",
-                _ => $"reg add \"{tweak.RegistryPath}\" /v \"{tweak.RegistryKey}\" /t {(tweak.EnabledValue is int ? "REG_DWORD" : tweak.EnabledValue is long ? "REG_QWORD" : "REG_SZ")} /d {(Equals(tweak.EnabledValue, -1) ? "ffffffff" : tweak.EnabledValue)} /f"
+                _ => $"reg add \"{tweak.RegistryPath}\" /v \"{tweak.RegistryKey}\" /t {(tweak.EnabledValue is int ? "REG_DWORD" : tweak.EnabledValue is long ? "REG_QWORD" : "REG_SZ")} /d {(Equals(tweak.EnabledValue, -1) ? "0xffffffff" : tweak.EnabledValue)} /f"
             };
             return L.Format("Tweaks:Preview", tweak.Name, tweak.RiskLevel, command);
         }
@@ -497,17 +527,6 @@ namespace TweakHub.Views
                     L.Get("Tweaks:Apply"),
                     L.Get("Tweaks:Cancel"))) return;
 
-            // Create backup first
-            try
-            {
-                _registryService.CreateBackup(_tweakService.TweakCategories.SelectMany(c => c.Tweaks));
-            }
-            catch (Exception ex)
-            {
-                await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Tweaks:BackupFailed"),
-                    L.Format("Tweaks:BackupFailedMessage", ex.Message));
-                return;
-            }
 
             var recommendedTweaks = _tweakService.TweakCategories
                 .SelectMany(c => c.Tweaks)
@@ -523,6 +542,7 @@ namespace TweakHub.Views
             }
 
             var total = recommendedTweaks.Count + (updateNeedsChange ? 1 : 0);
+            if (await RestartElevatedForBulkAsync(total)) return;
             var progressWindow = new ProgressWindow(L.Format("Tweaks:ApplyingRecommended", total));
             progressWindow.Show();
 
@@ -628,6 +648,14 @@ namespace TweakHub.Views
 
 
 
+        /// <summary>Each administrator change asks UAC once; one elevated restart asks only once. True when TweakHub is restarting.</summary>
+        private async Task<bool> RestartElevatedForBulkAsync(int changes) =>
+            changes > 1 && !Elevation.IsAdministrator
+            && await AppDialog.ConfirmAsync(Window.GetWindow(this), L.Get("Scripts:PlaybookElevateTitle"),
+                L.Format("Tweaks:BulkElevateMessage", changes), L.Get("Scripts:PlaybookElevateRestart"),
+                L.Get("Scripts:PlaybookElevateContinue"), DialogKind.Shield)
+            && App.RestartElevated(string.Empty);
+
         private async void RestoreAllButton_Click(object sender, RoutedEventArgs e)
         {
             if (!await AppDialog.ConfirmAsync(
@@ -636,6 +664,9 @@ namespace TweakHub.Views
                     L.Get("Tweaks:RestoreAllMessage"),
                     L.Get("Tweaks:Restore"),
                     L.Get("Tweaks:Cancel"))) return;
+            var steps = _tweakService.TweakCategories.SelectMany(category => category.Tweaks).Count(TweakService.HasBackup)
+                        + (_windowsUpdatePresets.HasBackup ? 1 : 0);
+            if (await RestartElevatedForBulkAsync(steps)) return;
 
             var progress = new ProgressWindow(L.Get("Tweaks:RestoringAll"));
             progress.Show();

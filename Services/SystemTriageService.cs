@@ -17,6 +17,7 @@ public sealed record NetworkConnection(
     public bool IsLoopback => Remote is "127.0.0.1" or "::1" || Local is "127.0.0.1" or "::1" && IsListening;
     public string LocalText => $"{Local}:{LocalPort}";
     public string RemoteText => IsListening ? string.Empty : $"{Remote}:{RemotePort}";
+    public bool HasPublicRemote => !IsListening && SystemTriageService.IsPublicAddress(Remote);
     public string StateText => L.Get(IsListening ? "Security:StateListening" : "Security:StateEstablished");
     public string TrustText => SystemTriageService.TrustText(Trust, Signer);
 }
@@ -198,6 +199,20 @@ public sealed class SystemTriageService
         TrustState.Missing => L.Get("Security:TrustMissing"),
         _ => L.Get("Security:TrustUnknown")
     };
+
+    /// <summary>Internet addresses worth a reputation lookup; private, loopback, link-local, CGNAT and multicast ones are not.</summary>
+    internal static bool IsPublicAddress(string address)
+    {
+        if (!System.Net.IPAddress.TryParse(address, out var ip)) return false;
+        if (ip.IsIPv4MappedToIPv6) ip = ip.MapToIPv4();
+        if (System.Net.IPAddress.IsLoopback(ip)) return false;
+        if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6)
+            return !(ip.Equals(System.Net.IPAddress.IPv6Any) || ip.IsIPv6LinkLocal || ip.IsIPv6SiteLocal
+                || ip.IsIPv6UniqueLocal || ip.IsIPv6Multicast);
+        var b = ip.GetAddressBytes();
+        return !(b[0] is 0 or 10 or >= 224 || b[0] == 172 && b[1] is >= 16 and <= 31 || b[0] == 192 && b[1] == 168
+            || b[0] == 169 && b[1] == 254 || b[0] == 100 && b[1] is >= 64 and <= 127);
+    }
 
     public static async Task<IReadOnlyDictionary<string, (string Status, string Signer)>> GetSignaturesAsync(
         IReadOnlyCollection<string> paths, CancellationToken cancellationToken = default)

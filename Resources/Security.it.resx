@@ -774,4 +774,10 @@ La configurazione attuale viene salvata la prima volta per poterla ripristinare.
   <data name="StartupToggleFailedTitle" xml:space="preserve">
     <value>Elemento di avvio non modificato</value>
   </data>
+  <data name="SearchMalwareBazaar" xml:space="preserve">
+    <value>Cerca su MalwareBazaar</value>
+  </data>
+  <data name="CheckRemoteAddress" xml:space="preserve">
+    <value>Controlla la reputazione dell'IP remoto su AbuseIPDB (apre il browser con il solo IP)</value>
+  </data>
 </root>

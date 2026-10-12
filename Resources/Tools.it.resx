@@ -977,4 +977,19 @@ Questo potrebbe essere dovuto a permessi insufficienti o al fatto che l'applicaz
   <data name="DescriptionDualShockTools" xml:space="preserve">
     <value>App web che calibra stick e grilletti dei controller DualShock 4 e DualSense tramite WebHID in Chrome o Edge e corregge il drift degli stick senza aprire il controller. Apre solo il sito ufficiale.</value>
   </data>
+  <data name="DescriptionHaveIBeenPwned" xml:space="preserve">
+    <value>Verifica se un indirizzo email o un numero di telefono compare in violazioni di dati note e attiva gli avvisi. TweakHub apre solo il sito ufficiale e non invia mai il tuo indirizzo.</value>
+  </data>
+  <data name="DescriptionCoverYourTracks" xml:space="preserve">
+    <value>Test della EFF che mostra quanto il browser blocca i tracker e quanto è unica la sua impronta digitale. Apre solo il sito ufficiale.</value>
+  </data>
+  <data name="DescriptionPrivacyGuides" xml:space="preserve">
+    <value>Guide indipendenti e senza scopo di lucro con strumenti consigliati per privacy e sicurezza, spiegati in base al modello di minaccia. Apre solo il sito ufficiale.</value>
+  </data>
+  <data name="DescriptionUrlscan" xml:space="preserve">
+    <value>Analizza un link sospetto in un browser remoto e mostra dove reindirizza, cosa carica e se è phishing noto. Le scansioni possono essere pubbliche: non inviare mai link privati. Apre solo il sito ufficiale.</value>
+  </data>
+  <data name="DescriptionNuclei" xml:space="preserve">
+    <value>Scanner di vulnerabilità basato su template di ProjectDiscovery per i propri server e applicazioni web. Strumento da riga di comando: usalo solo su sistemi che sei autorizzato a testare. Apre solo il repository ufficiale.</value>
+  </data>
 </root>

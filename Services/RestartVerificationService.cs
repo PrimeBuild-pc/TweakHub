@@ -198,7 +198,7 @@ public sealed class RestartVerificationService
 
         var tweak = TweakService.Instance.TweakCategories.SelectMany(category => category.Tweaks)
             .FirstOrDefault(item => item.Id.Equals(result.TargetId, StringComparison.OrdinalIgnoreCase));
-        var success = tweak != null && TweakService.Instance.HasBackupFor(tweak)
+        var success = tweak != null && TweakService.HasBackup(tweak)
             && await TweakService.Instance.ApplyTweakAsync(tweak, false);
         if (success) RemoveResult(result.OperationId);
         return success;
@@ -209,7 +209,7 @@ public sealed class RestartVerificationService
         if (result.Kind == RestartOperationKind.WindowsUpdate) return WindowsUpdatePresetService.Instance.HasCompleteBackup;
         var tweak = TweakService.Instance.TweakCategories.SelectMany(category => category.Tweaks)
             .FirstOrDefault(item => item.Id.Equals(result.TargetId, StringComparison.OrdinalIgnoreCase));
-        return tweak != null && TweakService.Instance.HasBackupFor(tweak);
+        return tweak != null && TweakService.HasBackup(tweak);
     }
 
     public void AcknowledgeResults()

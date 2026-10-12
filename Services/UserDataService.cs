@@ -18,8 +18,18 @@ public sealed record ProfileImportResult(
     int Playbooks,
     string RecoveryPath);
 
+public sealed record PreviousDataImportResult(ProfileImportResult Profile, int UndoFiles, IReadOnlyList<string> KeptCurrent, int AppFiles);
+
 public sealed class UserDataService
 {
+    private static readonly string[] ProfileFiles =
+        ["favorites.json", "favorite-tweaks.json", "favorite-scripts.json", "custom-scripts.json",
+         "custom-tweaks.json", "custom-tools.json", "appearance.json", "playbooks.json"];
+    // Undo data and choices that only the copy holding them can restore.
+    private static readonly string[] UndoDataFiles =
+        ["registry-backup.json", "power-backup.json", "windows-update-backup.json", "dns-backup.json",
+         "disabled-devices.json", "disabled-services.json", "third-party-consent.json", "network-adapters.json"];
+
     private const int ProfileVersion = 2;
     private static readonly JsonSerializerOptions JsonOptions = new() { WriteIndented = true };
     private readonly string _favoritesFile;
@@ -127,6 +137,64 @@ public sealed class UserDataService
         return new(profile.Appearance, profile.CustomScripts.Count, profile.CustomTweaks.Count,
             profile.CustomTools.Count, profile.Playbooks.Count, recoveryPath);
     }
+
+    /// <summary>The data folder of another TweakHub copy: a portable folder, its Data folder or an installed %AppData%\TweakHub.</summary>
+    public static string? FindDataDirectory(string folder) =>
+        new[] { Path.Combine(folder, "Data"), folder }.FirstOrDefault(candidate =>
+            ProfileFiles.Concat(UndoDataFiles).Any(name => File.Exists(Path.Combine(candidate, name))));
+
+    /// <summary>
+    /// Moves everything from an older copy into this one. The profile goes through the validated import;
+    /// undo data is copied only where this copy has none of its own, so changes made by either copy stay restorable.
+    /// TweakHub must restart afterwards: the running services still hold the data they loaded at startup.
+    /// </summary>
+    public PreviousDataImportResult ImportPreviousData(string sourceDirectory, string appsPath)
+    {
+        if (SamePath(sourceDirectory, DataDirectory)) throw new InvalidOperationException(L.Get("UI:PreviousDataSameFolder"));
+
+        var temp = Path.Combine(Path.GetTempPath(), $"tweakhub-previous-{Guid.NewGuid():N}.tweakhub.json");
+        ProfileImportResult profile;
+        try
+        {
+            new UserDataService(sourceDirectory).ExportProfile(temp);
+            profile = ImportProfile(temp);
+        }
+        finally
+        {
+            File.Delete(temp);
+        }
+
+        var undoFiles = 0;
+        var kept = new List<string>();
+        foreach (var name in UndoDataFiles.Where(name => File.Exists(Path.Combine(sourceDirectory, name))))
+        {
+            var target = Path.Combine(DataDirectory, name);
+            if (File.Exists(target) && File.ReadAllText(target).Trim() is not ("" or "[]" or "{}")) { kept.Add(name); continue; }
+            File.Copy(Path.Combine(sourceDirectory, name), target, true);
+            undoFiles++;
+        }
+
+        // Portable programs live beside the old executable; never overwrite ones this copy already has.
+        var root = Path.GetDirectoryName(Path.GetFullPath(sourceDirectory).TrimEnd(Path.DirectorySeparatorChar))!;
+        var appsSource = Path.Combine(root, "Apps");
+        var appFiles = 0;
+        if (File.Exists(Path.Combine(root, "portable.flag")) && Directory.Exists(appsSource) && !SamePath(appsSource, appsPath))
+        {
+            foreach (var file in Directory.EnumerateFiles(appsSource, "*", SearchOption.AllDirectories))
+            {
+                var target = Path.Combine(appsPath, Path.GetRelativePath(appsSource, file));
+                if (File.Exists(target)) continue;
+                Directory.CreateDirectory(Path.GetDirectoryName(target)!);
+                File.Copy(file, target);
+                appFiles++;
+            }
+        }
+        return new(profile, undoFiles, kept, appFiles);
+    }
+
+    private static bool SamePath(string first, string second) =>
+        string.Equals(Path.GetFullPath(first).TrimEnd(Path.DirectorySeparatorChar),
+            Path.GetFullPath(second).TrimEnd(Path.DirectorySeparatorChar), StringComparison.OrdinalIgnoreCase);
 
     private static UserProfile ReadProfile(string path)
     {

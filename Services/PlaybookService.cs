@@ -268,8 +268,7 @@ public sealed class PlaybookService
 
     public async Task<PlaybookRunResult> ExecuteAsync(
         Playbook playbook,
-        IProgress<string>? progress = null,
-        CancellationToken cancellationToken = default)
+        IProgress<string>? progress = null)
     {
         var preflight = Preflight(playbook);
         if (!preflight.CanRun) return new(false, 0, string.Join(Environment.NewLine, preflight.Errors), string.Empty);
@@ -278,7 +277,6 @@ public sealed class PlaybookService
         var lines = new List<string> { $"{DateTimeOffset.Now:O} — {playbook.Name}" };
         var completed = await RunSequentiallyAsync(playbook.Steps, async step =>
         {
-            cancellationToken.ThrowIfCancellationRequested();
             progress?.Report(step.Summary);
             bool success;
             string details = string.Empty;
@@ -292,7 +290,7 @@ public sealed class PlaybookService
                         Name = step.Name,
                         WingetId = step.WingetId
                     }),
-                    PlaybookStepType.Script => await ExecuteScript(step, scripts, value => details = value, cancellationToken),
+                    PlaybookStepType.Script => await ExecuteScript(step, scripts, value => details = value),
                     PlaybookStepType.Device => await ExecuteDevice(step, value => details = value),
                     PlaybookStepType.Registry => await ExecuteRegistry(step, value => details = value),
                     PlaybookStepType.PowerPlan => await ExecutePowerPlan(step, value => details = value),
@@ -313,7 +311,7 @@ public sealed class PlaybookService
         var logDirectory = Path.Combine(UserDataService.Instance.DataDirectory, "Logs");
         Directory.CreateDirectory(logDirectory);
         var logPath = Path.Combine(logDirectory, $"playbook-{SafeFileName(playbook.Name)}-last.log");
-        await File.WriteAllLinesAsync(logPath, lines, cancellationToken);
+        await File.WriteAllLinesAsync(logPath, lines);
         return new(completed == playbook.Steps.Count, completed, string.Join(Environment.NewLine, lines), logPath);
     }
 
@@ -366,10 +364,9 @@ public sealed class PlaybookService
     private static async Task<bool> ExecuteScript(
         PlaybookStep step,
         IReadOnlyDictionary<string, CustomScript> scripts,
-        Action<string> setDetails,
-        CancellationToken cancellationToken)
+        Action<string> setDetails)
     {
-        var result = await PowerShellService.Instance.ExecuteCustomScriptAsync(scripts[step.ReferenceId], cancellationToken);
+        var result = await PowerShellService.Instance.ExecuteCustomScriptAsync(scripts[step.ReferenceId]);
         setDetails(string.Join(Environment.NewLine, new[] { result.Output.Trim(), result.Error.Trim() }.Where(value => value.Length > 0)));
         return result.Success;
     }

@@ -554,7 +554,7 @@
 
 {1}
 
-TweakHub no puede comprobar lo que hace el script y el autor puede cambiarlo en cualquier momento. Si tienes dudas, léelo antes en la página oficial. Este aviso solo aparece la primera vez que ejecutas {0}.</value>
+TweakHub no puede comprobar lo que hace el script y el autor puede cambiarlo en cualquier momento. Si tienes dudas, léelo antes en la página oficial. Este aviso vuelve a aparecer cada vez que el autor cambia {0}.</value>
   </data>
   <data name="LoadingInterrupts" xml:space="preserve">
     <value>Leyendo la configuración de interrupciones…</value>

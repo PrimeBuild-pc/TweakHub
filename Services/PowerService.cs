@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Text.Json;
 
@@ -40,6 +39,12 @@ public class PowerService
         var scheme = ActiveScheme();
         if (scheme is null) return false;
 
+        // The backup belongs to one plan: when the user switched plans since, put that plan back before backing up this one.
+        if (_backup.Settings.TryGetValue(id, out var previous) &&
+            !previous.Scheme.Equals(scheme, StringComparison.OrdinalIgnoreCase) &&
+            !await RestoreSettingAsync(id))
+            return false;
+
         if (!_backup.Settings.ContainsKey(id))
         {
             var original = GetAcValue(scheme, subgroup, settingAlias);
@@ -48,10 +53,9 @@ public class PowerService
             Save();
         }
 
-        var result = await RunMutationAsync("/setacvalueindex", scheme, subgroup, settingAlias, targetAcValue.ToString(CultureInfo.InvariantCulture));
-        if (result.Success) result = await RunMutationAsync("/setactive", scheme);
-        var verified = result.Success && GetAcValue(scheme, subgroup, settingAlias) == targetAcValue;
-        Log("power-apply", id, verified, verified ? null : result.Error);
+        var error = await WriteAcValueAsync(scheme, subgroup, settingAlias, targetAcValue);
+        var verified = error is null && GetAcValue(scheme, subgroup, settingAlias) == targetAcValue;
+        Log("power-apply", id, verified, verified ? null : error ?? "Power setting verification failed");
         return verified;
     }
 
@@ -62,20 +66,14 @@ public class PowerService
     {
         if (!_backup.Settings.TryGetValue(id, out var backup)) return false;
 
-        var result = await RunMutationAsync(
-            "/setacvalueindex",
-            backup.Scheme,
-            backup.Subgroup,
-            backup.Alias,
-            backup.AcValue.ToString(CultureInfo.InvariantCulture));
-        if (result.Success) result = await RunMutationAsync("/setactive", backup.Scheme);
-        var verified = result.Success && GetAcValue(backup.Scheme, backup.Subgroup, backup.Alias) == backup.AcValue;
+        var error = await WriteAcValueAsync(backup.Scheme, backup.Subgroup, backup.Alias, backup.AcValue);
+        var verified = error is null && GetAcValue(backup.Scheme, backup.Subgroup, backup.Alias) == backup.AcValue;
         if (verified)
         {
             _backup.Settings.Remove(id);
             Save();
         }
-        Log("power-restore", id, verified, verified ? null : result.Error);
+        Log("power-restore", id, verified, verified ? null : error ?? "Power setting verification failed");
         return verified;
     }
 
@@ -98,8 +96,6 @@ public class PowerService
 
     public static IReadOnlyList<PowerScheme> GetSchemes() =>
         PowerPlanService.GetPlans().Select(plan => new PowerScheme(plan.Id.ToString(), plan.Name, plan.Active)).ToList();
-
-    public Task<bool> ApplyHighPerformancePlanAsync() => ApplyPerformancePlanAsync(null);
 
     /// <summary>
     /// Activates <paramref name="schemeGuid"/> (or the saved choice, or Windows High performance) and remembers it.
@@ -124,10 +120,9 @@ public class PowerService
         _backup.PreferredScheme = target;
         Save();
 
-        var result = await RunMutationAsync("/setactive", target);
-        var verified = result.Success &&
+        var verified = await ActivateAsync(target) &&
                        string.Equals(ActiveScheme(), target, StringComparison.OrdinalIgnoreCase);
-        Log("power-plan-apply", target, verified, verified ? null : result.Error);
+        Log("power-plan-apply", target, verified, verified ? null : "Power plan activation failed");
         return verified;
     }
 
@@ -153,15 +148,14 @@ public class PowerService
     {
         if (string.IsNullOrWhiteSpace(_backup.ActiveScheme)) return false;
         var original = _backup.ActiveScheme;
-        var result = await RunMutationAsync("/setactive", original);
-        var verified = result.Success &&
+        var verified = await ActivateAsync(original) &&
                        string.Equals(ActiveScheme(), original, StringComparison.OrdinalIgnoreCase);
         if (verified)
         {
             _backup.ActiveScheme = null;
             Save();
         }
-        Log("power-plan-restore", original, verified, verified ? null : result.Error);
+        Log("power-plan-restore", original, verified, verified ? null : "Power plan activation failed");
         return verified;
     }
 
@@ -190,6 +184,26 @@ public class PowerService
 
     private static Guid? ToGuid(string value) =>
         Aliases.TryGetValue(value, out var id) ? id : Guid.TryParse(value, out id) ? id : null;
+
+    /// <summary>
+    /// Writes the AC value through powrprof, which needs no UAC prompt, and falls back to one elevated powercfg script.
+    /// Windows re-applies the plan only when it is active, so restoring an inactive plan does not switch plans. Returns the error.
+    /// </summary>
+    private static async Task<string?> WriteAcValueAsync(string scheme, string subgroup, string setting, int acValue)
+    {
+        if (!Guid.TryParse(scheme, out var schemeId) || ToGuid(subgroup) is not { } subgroupId || ToGuid(setting) is not { } settingId
+            || PowerPlanService.ReadValue(schemeId, subgroupId, settingId) is not { } current)
+            return "Power setting not found";
+        var value = new PowerSettingValue(subgroupId, settingId, unchecked((uint)acValue), current.Dc);
+        var failed = await Task.Run(() => PowerPlanService.WriteValues(schemeId, [value]));
+        if (failed.Count == 0) return null;
+        var result = await PowerShellService.Instance.ExecuteScriptAsync(
+            PowerPlanService.BuildElevatedWriteScript(schemeId, failed), requireAdministrator: true);
+        return result.Success ? null : result.Error;
+    }
+
+    private static async Task<bool> ActivateAsync(string scheme) =>
+        (Guid.TryParse(scheme, out var id) && PowerPlanService.Activate(id)) || (await RunMutationAsync("/setactive", scheme)).Success;
 
     internal static async Task<ProcessResult> RunMutationAsync(params string[] arguments)
     {

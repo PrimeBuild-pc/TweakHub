@@ -774,4 +774,10 @@ TweakHub は次のコマンドを管理者として実行します:
   <data name="StartupToggleFailedTitle" xml:space="preserve">
     <value>スタートアップ項目を変更できませんでした</value>
   </data>
+  <data name="SearchMalwareBazaar" xml:space="preserve">
+    <value>MalwareBazaar で検索</value>
+  </data>
+  <data name="CheckRemoteAddress" xml:space="preserve">
+    <value>AbuseIPDB でリモート IP の評価を確認 (IP だけを付けてブラウザーを開きます)</value>
+  </data>
 </root>

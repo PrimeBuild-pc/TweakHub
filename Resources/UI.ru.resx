@@ -401,4 +401,40 @@
   <data name="SplashStepFailed" xml:space="preserve">
     <value>Повтор в разделе</value>
   </data>
+  <data name="AboutPageImportPreviousCopy" xml:space="preserve">
+    <value>Импорт из другой копии</value>
+  </data>
+  <data name="AboutPageImportPreviousCopyTip" xml:space="preserve">
+    <value>Выберите папку прежней версии TweakHub (портативную папку, её папку Data или %AppData%\TweakHub), чтобы перенести профиль, данные для отмены изменений и портативные приложения.</value>
+  </data>
+  <data name="PreviousDataPickTitle" xml:space="preserve">
+    <value>Выберите папку прежней версии TweakHub</value>
+  </data>
+  <data name="PreviousDataTitle" xml:space="preserve">
+    <value>Импорт из другой копии</value>
+  </data>
+  <data name="PreviousDataNotFound" xml:space="preserve">
+    <value>В этой папке нет данных TweakHub. Выберите папку с TweakHub.exe, её папку Data или %AppData%\TweakHub.</value>
+  </data>
+  <data name="PreviousDataSameFolder" xml:space="preserve">
+    <value>Это папка данных запущенной копии TweakHub.</value>
+  </data>
+  <data name="PreviousDataConfirm" xml:space="preserve">
+    <value>Импорт из {0}:
+• профиль: пользовательские сценарии, твики и инструменты, плейбуки, избранное и оформление (заменяет текущий, который сначала сохраняется в резервную копию);
+• данные для отмены изменений, сделанных той копией, чтобы их можно было восстановить и здесь;
+• портативные программы из Apps, которых здесь нет.
+
+После импорта TweakHub перезапустится.</value>
+  </data>
+  <data name="PreviousDataImported" xml:space="preserve">
+    <value>Импортировано: сценариев — {0}, пользовательских твиков — {1}, инструментов — {2}, плейбуков — {3}, файлов данных для отмены — {4}, файлов в Apps — {5}.
+
+Резервная копия прежнего профиля: {6}
+
+Сейчас TweakHub перезапустится.</value>
+  </data>
+  <data name="PreviousDataKept" xml:space="preserve">
+    <value>Не импортировано, так как у этой копии уже есть собственные изменения для отмены: {0}. Сначала восстановите их здесь, затем повторите импорт, чтобы перенести старые.</value>
+  </data>
 </root>
