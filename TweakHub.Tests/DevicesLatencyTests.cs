@@ -153,7 +153,7 @@ public class DevicesLatencyTests
             [(@"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management", "LargeSystemCache")] = 1,
             [(@"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control", "SvcHostSplitThresholdInKB")] = 0x380000,
             [(@"HKEY_CURRENT_USER\Control Panel\Mouse", "RawMouseThrottleEnabled")] = 1,
-            [(@"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\PowerSettingsť33251-82be-4824-96c1-47b60b740d00\893dee8e-2bef-41e0-89c6-b55d0929964c", "ValueMax")] = 0
+            [(@"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\54533251-82be-4824-96c1-47b60b740d00\893dee8e-2bef-41e0-89c6-b55d0929964c", "ValueMax")] = 0
         };
         var checks = TweakCheckService.Evaluate(name => values.GetValueOrDefault((name.Key, name.Value)), ["useplatformclock"], "Restricted")
             .ToDictionary(check => check.Id);
@@ -176,6 +176,8 @@ public class DevicesLatencyTests
         Assert.That(withoutAdmin.Status, Is.EqualTo(TweakCheckStatus.NeedsAdministrator));
         Assert.That(TweakCheckService.Evaluate(_ => 100, [], "Normal").Single(check => check.Id == "ProcessorStateRange").Status,
             Is.EqualTo(TweakCheckStatus.Ok), "The Windows default is not flagged");
+        // Read-only, against the real registry: every Windows defines this setting, so a typo in the key path fails here.
+        Assert.That(RegistryService.Instance.GetRegistryValue(checks["ProcessorStateRange"].Repair.Single().KeyPath, "ValueMax"), Is.Not.Null);
     }
 
     [Test]
