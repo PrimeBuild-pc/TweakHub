@@ -34,7 +34,7 @@ public sealed class TweakCheckService
     private const string Dwm = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\Dwm";
     private const string Mouse = @"HKEY_CURRENT_USER\Control Panel\Mouse";
     // Definition of "Minimum processor state": ValueMax is the highest value any plan may use (Windows default 100).
-    private const string MinProcessorState = Control + @"\Power\PowerSettingsť33251-82be-4824-96c1-47b60b740d00\893dee8e-2bef-41e0-89c6-b55d0929964c";
+    private const string MinProcessorState = Control + @"\Power\PowerSettings\54533251-82be-4824-96c1-47b60b740d00\893dee8e-2bef-41e0-89c6-b55d0929964c";
     internal const int DefaultProcessorStateMax = 100;
     internal const int DefaultSvcHostSplitThreshold = 0x380000;
     internal static readonly string[] BcdTimerValues = ["useplatformclock", "disabledynamictick", "useplatformtick", "tscsyncpolicy"];
