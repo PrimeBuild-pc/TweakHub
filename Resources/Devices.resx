@@ -569,7 +569,7 @@ TweakHub cannot check what the script does, and the author can change it at any 
     <value>Connections</value>
   </data>
   <data name="LinksDescription" xml:space="preserve">
-    <value>Checks whether the GPU, NVMe drives and PCIe cards run with every lane and at full speed, and what goes through the chipset. Read only: move a device to another slot or port, then press Scan again.</value>
+    <value>Checks whether the GPU, NVMe drives, PCIe cards and USB devices run at full width and speed, and what goes through the chipset. Read only: move a device to another slot or port, then press Scan again.</value>
   </data>
   <data name="LoadingLinks" xml:space="preserve">
     <value>Reading PCIe links…</value>
@@ -605,7 +605,7 @@ TweakHub cannot check what the script does, and the author can change it at any 
     <value>Network</value>
   </data>
   <data name="LinkKindOther" xml:space="preserve">
-    <value>PCIe card</value>
+    <value>PCIe device</value>
   </data>
   <data name="LinkStatusOk" xml:space="preserve">
     <value>OK</value>
@@ -663,5 +663,41 @@ TweakHub cannot check what the script does, and the author can change it at any 
   </data>
   <data name="LinkChipsetShared" xml:space="preserve">
     <value>Fast devices on the chipset: {0}, together up to {1:0.#} GB/s, more than the {3} link to the CPU ({2:0.#} GB/s). Used at the same time, for example copying between two SSDs, they split the bandwidth. This is theoretical bandwidth, not measured traffic.</value>
+  </data>
+  <data name="UsbTitle" xml:space="preserve">
+    <value>USB devices</value>
+  </data>
+  <data name="UsbKindHub" xml:space="preserve">
+    <value>Hub</value>
+  </data>
+  <data name="UsbKindStorage" xml:space="preserve">
+    <value>Storage</value>
+  </data>
+  <data name="UsbKindVideo" xml:space="preserve">
+    <value>Camera</value>
+  </data>
+  <data name="UsbKindInput" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="UsbKindAudio" xml:space="preserve">
+    <value>Audio</value>
+  </data>
+  <data name="UsbKindOther" xml:space="preserve">
+    <value>USB device</value>
+  </data>
+  <data name="LinkUsbSlowPort" xml:space="preserve">
+    <value>It supports USB 3 but is running at USB 2 (480 Mb/s). Plug it into a USB 3 port (usually blue or marked SS) with a USB 3 cable and no USB 2 hub in between, then press Scan.</value>
+  </data>
+  <data name="LinkUsbInputHub" xml:space="preserve">
+    <value>It goes through {0} hub(s). For a mouse or keyboard a port on the PC is better: it does not share the hub with other devices.</value>
+  </data>
+  <data name="LinkUsbSharedHub" xml:space="preserve">
+    <value>Shares a hub with {0}: everything behind a hub goes through one link to the PC, so used together they split the bandwidth. Plug one of them straight into the PC.</value>
+  </data>
+  <data name="LinkUsbOk" xml:space="preserve">
+    <value>Running at the speed it supports.</value>
+  </data>
+  <data name="LinkUsbUnknown" xml:space="preserve">
+    <value>The hub did not report the speed of this port.</value>
   </data>
 </root>

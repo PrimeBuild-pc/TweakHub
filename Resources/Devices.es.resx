@@ -569,7 +569,7 @@ TweakHub no puede comprobar lo que hace el script y el autor puede cambiarlo en 
     <value>Conexiones</value>
   </data>
   <data name="LinksDescription" xml:space="preserve">
-    <value>Comprueba si la GPU, los SSD NVMe y las tarjetas PCIe funcionan con todas sus líneas y a máxima velocidad, y qué pasa por el chipset. Solo lectura: mueve un dispositivo a otra ranura o puerto y vuelve a pulsar Analizar.</value>
+    <value>Comprueba si la GPU, los SSD NVMe, las tarjetas PCIe y los dispositivos USB funcionan con todas sus líneas y a máxima velocidad, y qué pasa por el chipset. Solo lectura: mueve un dispositivo a otra ranura o puerto y vuelve a pulsar Analizar.</value>
   </data>
   <data name="LoadingLinks" xml:space="preserve">
     <value>Leyendo los enlaces PCIe…</value>
@@ -605,7 +605,7 @@ TweakHub no puede comprobar lo que hace el script y el autor puede cambiarlo en 
     <value>Red</value>
   </data>
   <data name="LinkKindOther" xml:space="preserve">
-    <value>Tarjeta PCIe</value>
+    <value>Dispositivo PCIe</value>
   </data>
   <data name="LinkStatusOk" xml:space="preserve">
     <value>Correcto</value>
@@ -663,5 +663,41 @@ TweakHub no puede comprobar lo que hace el script y el autor puede cambiarlo en 
   </data>
   <data name="LinkChipsetShared" xml:space="preserve">
     <value>Dispositivos rápidos en el chipset: {0}, juntos hasta {1:0.#} GB/s, más que el enlace {3} con la CPU ({2:0.#} GB/s). Si se usan a la vez, por ejemplo al copiar entre dos SSD, se reparten el ancho de banda. Es ancho de banda teórico, no tráfico medido.</value>
+  </data>
+  <data name="UsbTitle" xml:space="preserve">
+    <value>Dispositivos USB</value>
+  </data>
+  <data name="UsbKindHub" xml:space="preserve">
+    <value>Concentrador</value>
+  </data>
+  <data name="UsbKindStorage" xml:space="preserve">
+    <value>Almacenamiento</value>
+  </data>
+  <data name="UsbKindVideo" xml:space="preserve">
+    <value>Cámara</value>
+  </data>
+  <data name="UsbKindInput" xml:space="preserve">
+    <value>Entrada</value>
+  </data>
+  <data name="UsbKindAudio" xml:space="preserve">
+    <value>Audio</value>
+  </data>
+  <data name="UsbKindOther" xml:space="preserve">
+    <value>Dispositivo USB</value>
+  </data>
+  <data name="LinkUsbSlowPort" xml:space="preserve">
+    <value>Admite USB 3 pero funciona a USB 2 (480 Mb/s). Conéctalo a un puerto USB 3 (normalmente azul o marcado SS) con un cable USB 3 y sin un concentrador USB 2 en medio, y pulsa Analizar.</value>
+  </data>
+  <data name="LinkUsbInputHub" xml:space="preserve">
+    <value>Pasa por {0} concentrador(es). Para un ratón o un teclado es mejor un puerto del PC: así no comparte el concentrador con otros dispositivos.</value>
+  </data>
+  <data name="LinkUsbSharedHub" xml:space="preserve">
+    <value>Comparte un concentrador con {0}: todo lo que hay detrás de un concentrador pasa por un único enlace con el PC, así que si se usan a la vez se reparten el ancho de banda. Conecta uno de ellos directamente al PC.</value>
+  </data>
+  <data name="LinkUsbOk" xml:space="preserve">
+    <value>Funciona a la velocidad que admite.</value>
+  </data>
+  <data name="LinkUsbUnknown" xml:space="preserve">
+    <value>El concentrador no informó de la velocidad de este puerto.</value>
   </data>
 </root>

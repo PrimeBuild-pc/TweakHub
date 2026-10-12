@@ -569,7 +569,7 @@ TweakHub 无法检查脚本的行为，作者也可以随时修改它。如有�
     <value>连接</value>
   </data>
   <data name="LinksDescription" xml:space="preserve">
-    <value>检查显卡、NVMe 固态硬盘和 PCIe 扩展卡是否以全部通道和最高速度运行，以及哪些设备经过芯片组。只读：把设备换到其他插槽或接口后，再次点击“扫描”。</value>
+    <value>检查显卡、NVMe 固态硬盘、PCIe 扩展卡和 USB 设备是否以全部通道和最高速度运行，以及哪些设备经过芯片组。只读：把设备换到其他插槽或接口后，再次点击“扫描”。</value>
   </data>
   <data name="LoadingLinks" xml:space="preserve">
     <value>正在读取 PCIe 链路…</value>
@@ -605,7 +605,7 @@ TweakHub 无法检查脚本的行为，作者也可以随时修改它。如有�
     <value>网络</value>
   </data>
   <data name="LinkKindOther" xml:space="preserve">
-    <value>PCIe 扩展卡</value>
+    <value>PCIe 设备</value>
   </data>
   <data name="LinkStatusOk" xml:space="preserve">
     <value>正常</value>
@@ -663,5 +663,41 @@ TweakHub 无法检查脚本的行为，作者也可以随时修改它。如有�
   </data>
   <data name="LinkChipsetShared" xml:space="preserve">
     <value>芯片组上的高速设备：{0} 个，合计最高 {1:0.#} GB/s，超过到 CPU 的 {3} 链路（{2:0.#} GB/s）。同时使用时（例如在两块 SSD 之间复制）会分享带宽。这是理论带宽，不是实测流量。</value>
+  </data>
+  <data name="UsbTitle" xml:space="preserve">
+    <value>USB 设备</value>
+  </data>
+  <data name="UsbKindHub" xml:space="preserve">
+    <value>集线器</value>
+  </data>
+  <data name="UsbKindStorage" xml:space="preserve">
+    <value>存储设备</value>
+  </data>
+  <data name="UsbKindVideo" xml:space="preserve">
+    <value>摄像头</value>
+  </data>
+  <data name="UsbKindInput" xml:space="preserve">
+    <value>输入设备</value>
+  </data>
+  <data name="UsbKindAudio" xml:space="preserve">
+    <value>音频</value>
+  </data>
+  <data name="UsbKindOther" xml:space="preserve">
+    <value>USB 设备</value>
+  </data>
+  <data name="LinkUsbSlowPort" xml:space="preserve">
+    <value>支持 USB 3，但正以 USB 2（480 Mb/s）运行。请用 USB 3 线缆把它接到 USB 3 接口（通常为蓝色或标有 SS），中间不要经过 USB 2 集线器，然后点击“扫描”。</value>
+  </data>
+  <data name="LinkUsbInputHub" xml:space="preserve">
+    <value>经过 {0} 个集线器。鼠标和键盘最好直接接到电脑的接口上，这样不会与其他设备共享集线器。</value>
+  </data>
+  <data name="LinkUsbSharedHub" xml:space="preserve">
+    <value>与 {0} 共用一个集线器：集线器后面的所有设备都通过同一条链路连接电脑，同时使用时会分享带宽。请把其中一个直接接到电脑上。</value>
+  </data>
+  <data name="LinkUsbOk" xml:space="preserve">
+    <value>以其支持的速度运行。</value>
+  </data>
+  <data name="LinkUsbUnknown" xml:space="preserve">
+    <value>集线器没有报告此接口的速度。</value>
   </data>
 </root>

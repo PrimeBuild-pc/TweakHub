@@ -52,6 +52,32 @@
                     <TextBlock Text="{Binding StatusText}" FontSize="11" Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
                 </Border>
             </DataTemplate>
+            <DataTemplate x:Key="LinkItemTemplate">
+                <Border Style="{StaticResource CardStyle}" Padding="16,12">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Style="{StaticResource LinkStatusIconStyle}" Margin="0,0,14,0" VerticalAlignment="Top"/>
+                        <StackPanel Grid.Column="1">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                                <TextBlock Text="{Binding KindText}" Style="{StaticResource LabelTextStyle}" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                <ContentPresenter Content="{Binding}" ContentTemplate="{StaticResource BadgeTemplate}"/>
+                            </StackPanel>
+                            <TextBlock FontSize="12" FontFamily="Cascadia Mono, Consolas" Margin="0,4,0,0"
+                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}">
+                                <Run Text="{Binding LinkText, Mode=OneWay}"/>
+                                <Run Text="  ·  "/>
+                                <Run Text="{Binding AttachText, Mode=OneWay}"/>
+                            </TextBlock>
+                            <TextBlock Text="{Binding AdviceText}" Style="{StaticResource DescriptionTextStyle}" Margin="0,4,0,0"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </DataTemplate>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -115,36 +141,10 @@
             <TextBlock Text="{loc:Loc Devices:LinksTitle}" Style="{StaticResource CategoryHeaderStyle}" Margin="4,12,4,8"/>
             <TextBlock x:Name="NoDevicesText" Text="{loc:Loc Devices:NoLinkDevices}" Style="{StaticResource DescriptionTextStyle}" Margin="4,0,4,8"
                        Visibility="Collapsed"/>
-            <ItemsControl x:Name="LinkList">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Border Style="{StaticResource CardStyle}" Padding="16,12">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Style="{StaticResource LinkStatusIconStyle}" Margin="0,0,14,0" VerticalAlignment="Top"/>
-                                <StackPanel Grid.Column="1">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="SemiBold"
-                                                   Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
-                                        <TextBlock Text="{Binding KindText}" Style="{StaticResource LabelTextStyle}" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                        <ContentPresenter Content="{Binding}" ContentTemplate="{StaticResource BadgeTemplate}"/>
-                                    </StackPanel>
-                                    <TextBlock FontSize="12" FontFamily="Cascadia Mono, Consolas" Margin="0,4,0,0"
-                                               Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}">
-                                        <Run Text="{Binding LinkText, Mode=OneWay}"/>
-                                        <Run Text="  ·  "/>
-                                        <Run Text="{Binding AttachText, Mode=OneWay}"/>
-                                    </TextBlock>
-                                    <TextBlock Text="{Binding AdviceText}" Style="{StaticResource DescriptionTextStyle}" Margin="0,4,0,0"/>
-                                </StackPanel>
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+            <ItemsControl x:Name="LinkList" ItemTemplate="{StaticResource LinkItemTemplate}"/>
+
+            <TextBlock Text="{loc:Loc Devices:UsbTitle}" Style="{StaticResource CategoryHeaderStyle}" Margin="4,12,4,8"/>
+            <ItemsControl x:Name="UsbList" ItemTemplate="{StaticResource LinkItemTemplate}"/>
         </StackPanel>
     </ScrollViewer>
     <controls:LoadingOverlay x:Name="Loading"/>

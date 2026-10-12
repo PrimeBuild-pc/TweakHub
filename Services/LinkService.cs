@@ -41,7 +41,27 @@ public sealed record ChipsetCheck(ChipsetInfo? Chipset, int FastDevices, double 
         : L.Format($"Devices:Link{Advice}", FastDevices, DevicesGBps, Chipset.GBps, Chipset.UplinkText);
 }
 
-public sealed record LinkReport(string Board, string Cpu, ChipsetCheck Chipset, IReadOnlyList<LinkCheck> Devices);
+public enum UsbKind { Hub, Storage, Video, Input, Audio, Other }
+
+public sealed record UsbCheck(PnpDeviceInfo Device, string Name, UsbKind Kind, PnpDeviceInfo? Controller, LinkAttach Attach,
+    UsbPortSpeed? Speed, int Hubs, LinkStatus Status, string Advice, object[] Args)
+{
+    public string LinkText => Speed?.Speed switch
+    {
+        0 => "USB 1.0 · 1.5 Mb/s",
+        1 => "USB 1.1 · 12 Mb/s",
+        2 => "USB 2.0 · 480 Mb/s",
+        3 => Speed.SuperSpeedPlus ? "USB 3 · 10 Gb/s" : "USB 3 · 5 Gb/s",
+        _ => "USB"
+    };
+    public string KindText => L.Get($"Devices:UsbKind{Kind}");
+    public string StatusText => L.Get($"Devices:LinkStatus{Status}");
+    public string AttachText => Controller is null ? L.Get($"Devices:Attach{Attach}")
+        : $"{Controller.DisplayName} ({LinkService.PciAddress(Controller)}) · {L.Get($"Devices:Attach{Attach}")}";
+    public string AdviceText => L.Format($"Devices:Link{Advice}", Args);
+}
+
+public sealed record LinkReport(string Board, string Cpu, ChipsetCheck Chipset, IReadOnlyList<LinkCheck> Devices, IReadOnlyList<UsbCheck> Usb);
 
 public static class LinkService
 {
@@ -148,7 +168,7 @@ public static class LinkService
     }
 
     public static LinkReport Evaluate(IReadOnlyList<PnpDeviceInfo> devices, IReadOnlyDictionary<string, (int Gen, int Width)> vendorLinks,
-        string board, string cpu)
+        IReadOnlyDictionary<(string Hub, int Port), UsbPortSpeed> usbSpeeds, string board, string cpu)
     {
         var byId = devices.GroupBy(device => device.Id, StringComparer.OrdinalIgnoreCase)
             .ToDictionary(group => group.Key, group => group.First(), StringComparer.OrdinalIgnoreCase);
@@ -172,7 +192,61 @@ public static class LinkService
             : new ChipsetCheck(chipset, fast.Count, used, LinkStatus.Ok, fast.Count == 0 ? "ChipsetIdle" : "ChipsetOk");
 
         return new LinkReport(board, cpu, chipsetCheck, checks.OrderBy(check => check.Status).ThenBy(check => check.Kind)
-            .ThenBy(check => check.Name, StringComparer.CurrentCultureIgnoreCase).ToList());
+            .ThenBy(check => check.Name, StringComparer.CurrentCultureIgnoreCase).ToList(), EvaluateUsb(devices, byId, usbSpeeds));
+    }
+
+    private static bool IsRootHub(PnpDeviceInfo device) => device.Id.StartsWith(@"USB\ROOT_HUB", StringComparison.OrdinalIgnoreCase);
+
+    /// <summary>Physical USB devices: the nodes plugged into a hub port, not their interfaces or a receiver's virtual children.</summary>
+    internal static IEnumerable<PnpDeviceInfo> UsbPortDevices(IReadOnlyList<PnpDeviceInfo> devices, IReadOnlyDictionary<string, PnpDeviceInfo> byId) =>
+        devices.Where(device => device.Present && !device.IsDisabled && device.Address > 0
+            && device.Id.StartsWith(@"USB\VID_", StringComparison.OrdinalIgnoreCase)
+            && byId.TryGetValue(device.Parent, out var parent) && (IsRootHub(parent) || UsbService.IsHub(parent)));
+
+    private static UsbKind UsbKindOf(PnpDeviceInfo device, ILookup<string, PnpDeviceInfo> children)
+    {
+        if (UsbService.IsHub(device)) return UsbKind.Hub;
+        // Interfaces and their functions sit up to three levels below the device (composite → MI_xx → HID/disk).
+        var nodes = new List<PnpDeviceInfo> { device };
+        for (var level = 0; level < 3; level++) nodes.AddRange(nodes.SelectMany(node => children[node.Id]).Except(nodes).ToList());
+        bool Has(Func<PnpDeviceInfo, bool> test) => nodes.Any(test);
+        if (Has(node => node.Class == "DiskDrive" || node.Service is "USBSTOR" or "UASPStor")) return UsbKind.Storage;
+        if (Has(node => node.Class is "Camera" or "Image" || node.Service.Equals("usbvideo", StringComparison.OrdinalIgnoreCase))) return UsbKind.Video;
+        if (Has(node => node.Class is "Mouse" or "Keyboard")) return UsbKind.Input;
+        return Has(node => node.Class is "MEDIA" or "AudioEndpoint") ? UsbKind.Audio : UsbKind.Other;
+    }
+
+    private static List<UsbCheck> EvaluateUsb(IReadOnlyList<PnpDeviceInfo> devices, IReadOnlyDictionary<string, PnpDeviceInfo> byId,
+        IReadOnlyDictionary<(string Hub, int Port), UsbPortSpeed> usbSpeeds)
+    {
+        var children = devices.Where(device => device.Present).ToLookup(device => device.Parent, StringComparer.OrdinalIgnoreCase);
+        var items = UsbPortDevices(devices, byId).Select(device =>
+        {
+            var hubs = 0;
+            var current = device;
+            for (var hops = 0; hops < 16 && byId.TryGetValue(current.Parent, out var parent) && !IsPci(parent); hops++, current = parent)
+                if (UsbService.IsHub(parent)) hubs++;
+            var controller = byId.GetValueOrDefault(current.Parent) is { } pci && IsPci(pci) ? pci : null;
+            return (Device: device, Name: device.BusName.Length > 0 ? device.BusName : device.DisplayName, Kind: UsbKindOf(device, children),
+                Controller: controller, Hubs: hubs, Speed: usbSpeeds.GetValueOrDefault((device.Parent, device.Address)));
+        }).ToList();
+
+        // xHCI gives every root port its own bandwidth; an external hub has one uplink for everything behind it.
+        var heavy = items.Where(item => item.Kind is UsbKind.Storage or UsbKind.Video && byId.TryGetValue(item.Device.Parent, out var hub) && UsbService.IsHub(hub)).ToList();
+        return items.Select(item =>
+        {
+            var attach = item.Controller is null ? LinkAttach.Unknown : Classify(item.Controller, byId).Attach;
+            UsbCheck Result(LinkStatus status, string advice, params object[] args) =>
+                new(item.Device, item.Name, item.Kind, item.Controller, attach, item.Speed, item.Hubs, status, advice, args);
+
+            if (item.Speed is { SuperSpeedCapable: true, Speed: < 3 })
+                return Result(item.Kind is UsbKind.Storage or UsbKind.Video ? LinkStatus.Bad : LinkStatus.Check, "UsbSlowPort");
+            if (item.Kind == UsbKind.Input && item.Hubs > 0) return Result(LinkStatus.Check, "UsbInputHub", item.Hubs);
+            var sharing = heavy.Where(other => other.Device != item.Device && other.Device.Parent == item.Device.Parent).ToList();
+            if (heavy.Contains(item) && sharing.Count > 0)
+                return Result(LinkStatus.Check, "UsbSharedHub", string.Join(", ", sharing.Select(other => other.Name)));
+            return Result(item.Speed is null ? LinkStatus.Unknown : LinkStatus.Ok, item.Speed is null ? "UsbUnknown" : "UsbOk");
+        }).OrderBy(check => check.Status).ThenBy(check => check.Kind).ThenBy(check => check.Name, StringComparer.CurrentCultureIgnoreCase).ToList();
     }
 
     private static LinkCheck Check(PnpDeviceInfo device, LinkKind kind, LinkAttach attach, PnpDeviceInfo? root,
@@ -201,8 +275,11 @@ public static class LinkService
     public static async Task<LinkReport> ScanAsync(IReadOnlyList<PnpDeviceInfo> devices)
     {
         var vendorLinks = await Task.Run(AdlxService.ReadLinks);
+        var byId = devices.GroupBy(device => device.Id, StringComparer.OrdinalIgnoreCase)
+            .ToDictionary(group => group.Key, group => group.First(), StringComparer.OrdinalIgnoreCase);
+        var usbSpeeds = await Task.Run(() => UsbSpeedService.Read(UsbPortDevices(devices, byId).Select(device => (device.Parent, device.Address)).ToList()));
         var board = RegistryService.Instance.GetRegistryValue(@"HKEY_LOCAL_MACHINE\HARDWARE\DESCRIPTION\System\BIOS", "BaseBoardProduct") as string ?? string.Empty;
         var cpu = RegistryService.Instance.GetRegistryValue(@"HKEY_LOCAL_MACHINE\HARDWARE\DESCRIPTION\System\CentralProcessor\0", "ProcessorNameString") as string ?? string.Empty;
-        return Evaluate(devices, vendorLinks, board.Trim(), cpu.Trim());
+        return Evaluate(devices, vendorLinks, usbSpeeds, board.Trim(), cpu.Trim());
     }
 }

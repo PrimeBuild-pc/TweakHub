@@ -569,7 +569,7 @@ TweakHub はスクリプトの動作を確認できず、作者はいつでも�
     <value>接続</value>
   </data>
   <data name="LinksDescription" xml:space="preserve">
-    <value>GPU、NVMe SSD、PCIe カードがすべてのレーンと最高速度で動作しているか、どのデバイスがチップセットを経由しているかを確認します。読み取り専用です。デバイスを別のスロットやポートに移したら、もう一度「スキャン」を押してください。</value>
+    <value>GPU、NVMe SSD、PCIe カード、USB デバイスがすべてのレーンと最高速度で動作しているか、どのデバイスがチップセットを経由しているかを確認します。読み取り専用です。デバイスを別のスロットやポートに移したら、もう一度「スキャン」を押してください。</value>
   </data>
   <data name="LoadingLinks" xml:space="preserve">
     <value>PCIe リンクを読み取り中…</value>
@@ -605,7 +605,7 @@ TweakHub はスクリプトの動作を確認できず、作者はいつでも�
     <value>ネットワーク</value>
   </data>
   <data name="LinkKindOther" xml:space="preserve">
-    <value>PCIe カード</value>
+    <value>PCIe デバイス</value>
   </data>
   <data name="LinkStatusOk" xml:space="preserve">
     <value>正常</value>
@@ -663,5 +663,41 @@ TweakHub はスクリプトの動作を確認できず、作者はいつでも�
   </data>
   <data name="LinkChipsetShared" xml:space="preserve">
     <value>チップセット上の高速デバイス：{0} 台、合計で最大 {1:0.#} GB/s となり、CPU への {3} リンク（{2:0.#} GB/s）を超えています。2 台の SSD 間でコピーするなど同時に使うと帯域を分け合います。これは理論上の帯域で、実測のトラフィックではありません。</value>
+  </data>
+  <data name="UsbTitle" xml:space="preserve">
+    <value>USB デバイス</value>
+  </data>
+  <data name="UsbKindHub" xml:space="preserve">
+    <value>ハブ</value>
+  </data>
+  <data name="UsbKindStorage" xml:space="preserve">
+    <value>ストレージ</value>
+  </data>
+  <data name="UsbKindVideo" xml:space="preserve">
+    <value>カメラ</value>
+  </data>
+  <data name="UsbKindInput" xml:space="preserve">
+    <value>入力デバイス</value>
+  </data>
+  <data name="UsbKindAudio" xml:space="preserve">
+    <value>オーディオ</value>
+  </data>
+  <data name="UsbKindOther" xml:space="preserve">
+    <value>USB デバイス</value>
+  </data>
+  <data name="LinkUsbSlowPort" xml:space="preserve">
+    <value>USB 3 に対応していますが、USB 2（480 Mb/s）で動作しています。USB 3 ケーブルで USB 3 ポート（通常は青色または SS 表記）に、USB 2 ハブを挟まずに接続してから「スキャン」を押してください。</value>
+  </data>
+  <data name="LinkUsbInputHub" xml:space="preserve">
+    <value>{0} 個のハブを経由しています。マウスやキーボードは PC のポートに直接つなぐほうが、ほかのデバイスとハブを共有せずに済みます。</value>
+  </data>
+  <data name="LinkUsbSharedHub" xml:space="preserve">
+    <value>{0} とハブを共有しています。ハブの先にあるものはすべて PC への 1 本のリンクを通るため、同時に使うと帯域を分け合います。どちらかを PC に直接つないでください。</value>
+  </data>
+  <data name="LinkUsbOk" xml:space="preserve">
+    <value>対応する速度で動作しています。</value>
+  </data>
+  <data name="LinkUsbUnknown" xml:space="preserve">
+    <value>ハブがこのポートの速度を報告しませんでした。</value>
   </data>
 </root>

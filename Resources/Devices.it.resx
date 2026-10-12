@@ -569,7 +569,7 @@ TweakHub non può controllare cosa fa lo script e l'autore può modificarlo in q
     <value>Collegamenti</value>
   </data>
   <data name="LinksDescription" xml:space="preserve">
-    <value>Controlla se GPU, SSD NVMe e schede PCIe lavorano con tutte le linee e alla velocità massima, e cosa passa dal chipset. Solo lettura: sposta un dispositivo in un altro slot o porta e premi di nuovo Analizza.</value>
+    <value>Controlla se GPU, SSD NVMe, schede PCIe e dispositivi USB lavorano con tutte le linee e alla velocità massima, e cosa passa dal chipset. Solo lettura: sposta un dispositivo in un altro slot o porta e premi di nuovo Analizza.</value>
   </data>
   <data name="LoadingLinks" xml:space="preserve">
     <value>Lettura dei collegamenti PCIe…</value>
@@ -605,7 +605,7 @@ TweakHub non può controllare cosa fa lo script e l'autore può modificarlo in q
     <value>Rete</value>
   </data>
   <data name="LinkKindOther" xml:space="preserve">
-    <value>Scheda PCIe</value>
+    <value>Dispositivo PCIe</value>
   </data>
   <data name="LinkStatusOk" xml:space="preserve">
     <value>OK</value>
@@ -663,5 +663,41 @@ TweakHub non può controllare cosa fa lo script e l'autore può modificarlo in q
   </data>
   <data name="LinkChipsetShared" xml:space="preserve">
     <value>Dispositivi veloci sul chipset: {0}, insieme fino a {1:0.#} GB/s, più del collegamento {3} con la CPU ({2:0.#} GB/s). Se li usi insieme, ad esempio copiando tra due SSD, si dividono la banda. È banda teorica, non traffico misurato.</value>
+  </data>
+  <data name="UsbTitle" xml:space="preserve">
+    <value>Dispositivi USB</value>
+  </data>
+  <data name="UsbKindHub" xml:space="preserve">
+    <value>Hub</value>
+  </data>
+  <data name="UsbKindStorage" xml:space="preserve">
+    <value>Archiviazione</value>
+  </data>
+  <data name="UsbKindVideo" xml:space="preserve">
+    <value>Videocamera</value>
+  </data>
+  <data name="UsbKindInput" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="UsbKindAudio" xml:space="preserve">
+    <value>Audio</value>
+  </data>
+  <data name="UsbKindOther" xml:space="preserve">
+    <value>Dispositivo USB</value>
+  </data>
+  <data name="LinkUsbSlowPort" xml:space="preserve">
+    <value>Supporta USB 3 ma sta andando a USB 2 (480 Mb/s). Collegalo a una porta USB 3 (di solito blu o marcata SS), con un cavo USB 3 e senza hub USB 2 in mezzo, poi premi Analizza.</value>
+  </data>
+  <data name="LinkUsbInputHub" xml:space="preserve">
+    <value>Passa da {0} hub. Per mouse e tastiera è meglio una porta del PC: così non divide l'hub con altri dispositivi.</value>
+  </data>
+  <data name="LinkUsbSharedHub" xml:space="preserve">
+    <value>Divide un hub con {0}: tutto quello che c'è dietro un hub passa da un solo collegamento con il PC, quindi se li usi insieme si dividono la banda. Collegane uno direttamente al PC.</value>
+  </data>
+  <data name="LinkUsbOk" xml:space="preserve">
+    <value>Va alla velocità che supporta.</value>
+  </data>
+  <data name="LinkUsbUnknown" xml:space="preserve">
+    <value>L'hub non ha riportato la velocità di questa porta.</value>
   </data>
 </root>

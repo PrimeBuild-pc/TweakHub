@@ -31,6 +31,7 @@ public partial class LinkCheckView : UserControl
             PlatformCard.DataContext = report.Chipset;
             PlatformCard.Visibility = Visibility.Visible;
             LinkList.ItemsSource = report.Devices;
+            UsbList.ItemsSource = report.Usb;
             NoDevicesText.Visibility = report.Devices.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
         }
         catch (Exception ex) when (ex is InvalidOperationException or System.Text.Json.JsonException)

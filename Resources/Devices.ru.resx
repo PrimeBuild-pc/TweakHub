@@ -569,7 +569,7 @@ TweakHub не может проверить, что делает скрипт, �
     <value>Подключения</value>
   </data>
   <data name="LinksDescription" xml:space="preserve">
-    <value>Проверяет, работают ли видеокарта, NVMe-накопители и PCIe-платы на всех линиях и на максимальной скорости, и что подключено через чипсет. Только чтение: переставьте устройство в другой слот или порт и снова нажмите «Сканировать».</value>
+    <value>Проверяет, работают ли видеокарта, NVMe-накопители, PCIe-платы и USB-устройства на всех линиях и на максимальной скорости, и что подключено через чипсет. Только чтение: переставьте устройство в другой слот или порт и снова нажмите «Сканировать».</value>
   </data>
   <data name="LoadingLinks" xml:space="preserve">
     <value>Чтение PCIe-подключений…</value>
@@ -605,7 +605,7 @@ TweakHub не может проверить, что делает скрипт, �
     <value>Сеть</value>
   </data>
   <data name="LinkKindOther" xml:space="preserve">
-    <value>PCIe-плата</value>
+    <value>PCIe-устройство</value>
   </data>
   <data name="LinkStatusOk" xml:space="preserve">
     <value>В порядке</value>
@@ -663,5 +663,41 @@ TweakHub не может проверить, что делает скрипт, �
   </data>
   <data name="LinkChipsetShared" xml:space="preserve">
     <value>Быстрых устройств на чипсете: {0}, вместе до {1:0.#} ГБ/с — больше, чем канал {3} к процессору ({2:0.#} ГБ/с). При одновременной работе, например при копировании между двумя SSD, они делят пропускную способность. Это теоретическая пропускная способность, а не измеренный трафик.</value>
+  </data>
+  <data name="UsbTitle" xml:space="preserve">
+    <value>USB-устройства</value>
+  </data>
+  <data name="UsbKindHub" xml:space="preserve">
+    <value>Хаб</value>
+  </data>
+  <data name="UsbKindStorage" xml:space="preserve">
+    <value>Накопитель</value>
+  </data>
+  <data name="UsbKindVideo" xml:space="preserve">
+    <value>Камера</value>
+  </data>
+  <data name="UsbKindInput" xml:space="preserve">
+    <value>Ввод</value>
+  </data>
+  <data name="UsbKindAudio" xml:space="preserve">
+    <value>Аудио</value>
+  </data>
+  <data name="UsbKindOther" xml:space="preserve">
+    <value>USB-устройство</value>
+  </data>
+  <data name="LinkUsbSlowPort" xml:space="preserve">
+    <value>Поддерживает USB 3, но работает как USB 2 (480 Мбит/с). Подключите его к порту USB 3 (обычно синему или с пометкой SS) кабелем USB 3 без хаба USB 2 посередине, затем нажмите «Сканировать».</value>
+  </data>
+  <data name="LinkUsbInputHub" xml:space="preserve">
+    <value>Подключено через хабы: {0}. Мышь и клавиатуру лучше подключать прямо к порту ПК, чтобы они не делили хаб с другими устройствами.</value>
+  </data>
+  <data name="LinkUsbSharedHub" xml:space="preserve">
+    <value>Делит хаб с: {0}. Всё, что подключено через хаб, идёт к ПК по одному каналу, поэтому при одновременной работе устройства делят пропускную способность. Подключите одно из них прямо к ПК.</value>
+  </data>
+  <data name="LinkUsbOk" xml:space="preserve">
+    <value>Работает на поддерживаемой скорости.</value>
+  </data>
+  <data name="LinkUsbUnknown" xml:space="preserve">
+    <value>Хаб не сообщил скорость этого порта.</value>
   </data>
 </root>

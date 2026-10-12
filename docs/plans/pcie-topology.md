@@ -46,7 +46,7 @@ Verde = ok, giallo = da controllare o migliorabile, rosso = il dispositivo sta p
 | GPU, generazione | attuale = massima, o uguale al limite dello slot noto | inferiore: "normale a riposo, apri un gioco e rifai lo scan; se resta, lo slot o la CPU limitano a GenX" | — |
 | NVMe e schede PCIe | generazione e linee al massimo | generazione inferiore (es. SSD Gen4 in slot Gen3); sul chipset con un M.2 della CPU libero secondo la tabella | meno linee del massimo (x2 invece di x4) |
 | Chipset | banda teorica dei dispositivi veloci ≤ collegamento | 2 o più dispositivi veloci (NVMe, rete ≥ 10 Gb, schede di acquisizione) che insieme superano il collegamento: "si dividono la banda se usati insieme" | — |
-| USB | velocità giusta | mouse/tastiera dietro un hub; 2 o più dispositivi ad alta banda (archiviazione, acquisizione video) sullo stesso controller | dispositivo USB 3 collegato a USB 2 (giallo se non è un dispositivo di archiviazione o video) |
+| USB | velocità giusta | mouse/tastiera dietro un hub; 2 o più dispositivi ad alta banda (archiviazione, videocamere) dietro lo stesso hub esterno. Non lo stesso controller: con xHCI ogni porta ha la sua banda | dispositivo USB 3 collegato a USB 2 (giallo se non è un dispositivo di archiviazione o video) |
 | GPU dietro switch interno senza API del produttore (Intel Arc senza IGCL) | — | — | grigio "link reale non leggibile" |
 
 Testo della scheda: per ogni dispositivo "attuale @ massimo" come GPU-Z (es. `PCIe 4.0 x16 @ 4.0 x8`), dove è collegato (CPU, chipset, controller USB), il badge e una frase su cosa fare. Il "chipset sovraccarico" è banda teorica, non traffico misurato: l'interfaccia lo dice.
@@ -82,11 +82,10 @@ File `Resources/Boards.json` (risorsa incorporata). Per ogni scheda:
 - Una NVIDIA in idle e sotto carico: `CurrentLinkSpeed` di Windows si aggiorna a ogni lettura o resta quello dell'avvio?
 - Una AMD RDNA in slot x8 (o con M.2 che condivide): ADLX restituisce x8?
 - Un PC Intel 600/700/800: classificazione CPU/chipset degli NVMe.
-- Hub USB aperti senza privilegi di amministratore.
 
 ## Stato
 - [x] Fase 1 — Motore PCIe e tab (provata sul PC di Lorenzo: GPU e Crucial sulla CPU, Samsung 980 e Wi-Fi sul chipset X570)
 - [x] Fase 2 — GPU: ADLX per le Radeon. NVML e IGCL rimandati ai test su NVIDIA e Intel Arc
-- [ ] Fase 3 — USB
+- [x] Fase 3 — USB (provata: la Logitech StreamCam di Lorenzo supporta USB 3 ma va a USB 2; lettura degli hub verificata anche da utente non amministratore)
 - [ ] Fase 4 — Schede madri
 - [ ] Fase 5 — Lingue, documentazione, PR

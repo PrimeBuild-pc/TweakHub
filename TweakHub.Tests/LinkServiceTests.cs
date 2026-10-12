@@ -36,6 +36,8 @@ public class LinkServiceTests
         Pci(@"PCI\VEN_1002&DEV_AB28\audio", @"PCI\VEN_1002&DEV_1479\gpudown", "MEDIA", "AMD High Definition Audio", 48, 1, 4, 16, 4, 16)
     ];
 
+    private static readonly Dictionary<(string Hub, int Port), UsbPortSpeed> NoUsb = [];
+
     private static Dictionary<string, (int Gen, int Width)> Adlx(int gen, int width) => new() { [@"PCI\VEN_1002&DEV_73A5\gpu"] = (gen, width) };
 
     private static LinkCheck Find(LinkReport report, string id) => report.Devices.Single(check => check.Device.Id.EndsWith(id));
@@ -43,7 +45,7 @@ public class LinkServiceTests
     [Test]
     public void LorenzosX570ReadsCpuChipsetAndRealGpuLink()
     {
-        var report = LinkService.Evaluate(X570Pc(), Adlx(4, 16), "MPG X570 GAMING EDGE WIFI (MS-7C37)", "AMD Ryzen 7 5800X3D 8-Core Processor");
+        var report = LinkService.Evaluate(X570Pc(), Adlx(4, 16), NoUsb, "MPG X570 GAMING EDGE WIFI (MS-7C37)", "AMD Ryzen 7 5800X3D 8-Core Processor");
 
         Assert.Multiple(() =>
         {
@@ -66,8 +68,8 @@ public class LinkServiceTests
     [Test]
     public void RadeonLinkComesFromTheDriverNotFromTheInternalSwitch()
     {
-        var hidden = Find(LinkService.Evaluate(X570Pc(), new Dictionary<string, (int, int)>(), "", ""), "gpu");
-        var x8 = Find(LinkService.Evaluate(X570Pc(), Adlx(4, 8), "", ""), "gpu");
+        var hidden = Find(LinkService.Evaluate(X570Pc(), new Dictionary<string, (int, int)>(), NoUsb, "", ""), "gpu");
+        var x8 = Find(LinkService.Evaluate(X570Pc(), Adlx(4, 8), NoUsb, "", ""), "gpu");
 
         Assert.Multiple(() =>
         {
@@ -84,7 +86,7 @@ public class LinkServiceTests
     {
         var devices = X570Pc().Select(device => device.Id.EndsWith("gpu")
             ? device with { Id = @"PCI\VEN_1002&DEV_73FF\gpu" } : device).ToList();
-        var check = Find(LinkService.Evaluate(devices, new Dictionary<string, (int, int)> { [@"PCI\VEN_1002&DEV_73FF\gpu"] = (4, 8) }, "", ""), "gpu");
+        var check = Find(LinkService.Evaluate(devices, new Dictionary<string, (int, int)> { [@"PCI\VEN_1002&DEV_73FF\gpu"] = (4, 8) }, NoUsb, "", ""), "gpu");
 
         Assert.That(check.Status, Is.EqualTo(LinkStatus.Ok), "RX 6600 is an x8 card");
     }
@@ -95,7 +97,7 @@ public class LinkServiceTests
         var devices = X570Pc();
         devices.Add(Nvme(@"PCI\VEN_144D&DEV_A80C\second", @"PCI\VEN_1022&DEV_57A3\down", 4, 4));
         devices.Add(Nvme(@"PCI\VEN_144D&DEV_A80C\narrow", @"PCI\VEN_1022&DEV_1483\rp11", 4, 2));
-        var report = LinkService.Evaluate(devices, Adlx(4, 16), "", "");
+        var report = LinkService.Evaluate(devices, Adlx(4, 16), NoUsb, "", "");
 
         Assert.Multiple(() =>
         {
@@ -121,7 +123,7 @@ public class LinkServiceTests
             Pci(@"PCI\VEN_8086&DEV_7A39\pch2", RootComplex, address: 28 << 16 | 1),
             Pci(@"PCI\VEN_10DE&DEV_2786\gpu2", @"PCI\VEN_8086&DEV_7A39\pch2", "Display", "NVIDIA GeForce RTX 4070", 2, 0, 4, 4, 4, 16)
         ];
-        var report = LinkService.Evaluate(devices, new Dictionary<string, (int, int)>(), "ROG STRIX Z790-E GAMING WIFI", "13th Gen Intel(R) Core(TM) i9-13900K");
+        var report = LinkService.Evaluate(devices, new Dictionary<string, (int, int)>(), NoUsb, "ROG STRIX Z790-E GAMING WIFI", "13th Gen Intel(R) Core(TM) i9-13900K");
 
         Assert.Multiple(() =>
         {
@@ -145,4 +147,57 @@ public class LinkServiceTests
     [TestCase("ProArt Something", "AMD 600 / 800")]
     public void PromontoryChipsetNameComesFromTheBoard(string board, string expected) =>
         Assert.That(LinkService.DetectChipset([Pci(@"PCI\VEN_1022&DEV_43F4\up", RootComplex)], board, "")?.Name, Is.EqualTo(expected));
+
+    private static PnpDeviceInfo Usb(string id, string parent, int port, string cls = "USB", string busName = "", string service = "") =>
+        new(id, "", cls, "OK", true, 0, parent, service, "") { Address = port, BusName = busName };
+
+    [Test]
+    public void UsbFlagsSlowPortsInputBehindHubsAndSharedControllers()
+    {
+        var devices = X570Pc();
+        const string root = @"USB\ROOT_HUB30\chipset";
+        devices.AddRange(
+        [
+            Pci(@"PCI\VEN_1022&DEV_149C\xhci", @"PCI\VEN_1022&DEV_57A3\down", "USB", "AMD USB 3.10 eXtensible Host Controller", 43, 1),
+            Usb(root, @"PCI\VEN_1022&DEV_149C\xhci", 0),
+            // The StreamCam on Lorenzo's PC: SuperSpeed capable, running at high speed.
+            Usb(@"USB\VID_046D&PID_0893\cam", root, 7, busName: "Logitech StreamCam", service: "usbccgp"),
+            Usb(@"USB\VID_046D&PID_0893&MI_00\cam0", @"USB\VID_046D&PID_0893\cam", 0, "Camera", service: "usbvideo"),
+            Usb(@"USB\VID_05E3&PID_0610\hub", root, 4, busName: "USB2.0 Hub", service: "USBHUB3"),
+            Usb(@"USB\VID_046D&PID_C54D\rx", @"USB\VID_05E3&PID_0610\hub", 1, busName: "USB Receiver", service: "usbccgp"),
+            Usb(@"USB\VID_046D&PID_C54D&MI_00\rx0", @"USB\VID_046D&PID_C54D\rx", 0, "HIDClass"),
+            Usb(@"HID\VID_046D&PID_C54D&MI_00\mouse", @"USB\VID_046D&PID_C54D&MI_00\rx0", 0, "Mouse"),
+            // A receiver's virtual children are not on a hub port.
+            Usb(@"USB\VID_046D&PID_C54D&MI_02\virtual", @"USB\VID_046D&PID_C54D\rx", 3),
+            Usb(@"USB\VID_0BC2&PID_2344\disk", root, 2, busName: "Expansion HDD", service: "UASPStor"),
+            // Two drives behind the same external hub share its uplink; the HDD on its own root port does not.
+            Usb(@"USB\VID_0781&PID_5583\stick1", @"USB\VID_05E3&PID_0610\hub", 2, busName: "Ultra Fit", service: "USBSTOR"),
+            Usb(@"USB\VID_0781&PID_5583\stick2", @"USB\VID_05E3&PID_0610\hub", 3, busName: "Cruzer", service: "USBSTOR")
+        ]);
+        Dictionary<(string Hub, int Port), UsbPortSpeed> speeds = new()
+        {
+            [(root, 7)] = new(2, true, false),
+            [(root, 4)] = new(2, false, false),
+            [(@"USB\VID_05E3&PID_0610\hub", 1)] = new(1, false, false),
+            [(root, 2)] = new(3, true, false)
+        };
+        var usb = LinkService.Evaluate(devices, Adlx(4, 16), speeds, "", "").Usb.ToDictionary(check => check.Name);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(usb.Keys, Is.EquivalentTo(new[] { "Logitech StreamCam", "USB2.0 Hub", "USB Receiver", "Expansion HDD", "Ultra Fit", "Cruzer" }));
+            Assert.That(usb["Ultra Fit"].Advice, Is.EqualTo("UsbSharedHub"));
+            Assert.That(usb["Ultra Fit"].Args, Is.EqualTo(new object[] { "Cruzer" }));
+            Assert.That(usb["Logitech StreamCam"].Kind, Is.EqualTo(UsbKind.Video));
+            Assert.That(usb["Logitech StreamCam"].Status, Is.EqualTo(LinkStatus.Bad), "Camera on USB 2 although it supports USB 3");
+            Assert.That(usb["Logitech StreamCam"].Advice, Is.EqualTo("UsbSlowPort"));
+            Assert.That(usb["USB Receiver"].Kind, Is.EqualTo(UsbKind.Input));
+            Assert.That(usb["USB Receiver"].Advice, Is.EqualTo("UsbInputHub"));
+            Assert.That(usb["USB Receiver"].Hubs, Is.EqualTo(1));
+            Assert.That(usb["USB2.0 Hub"].Status, Is.EqualTo(LinkStatus.Ok));
+            Assert.That(usb["Expansion HDD"].Advice, Is.EqualTo("UsbOk"), "Same controller as the camera, but its own root port");
+            Assert.That(usb["Expansion HDD"].Attach, Is.EqualTo(LinkAttach.Chipset));
+            Assert.That(usb["Expansion HDD"].LinkText, Is.EqualTo("USB 3 · 5 Gb/s"));
+        });
+    }
 }
