@@ -516,6 +516,12 @@
   <data name="CheckGlobalTimerExplain" xml:space="preserve">
     <value>Заставляет все процессы использовать самый точный таймер, запрошенный любым приложением, как в Windows 10. Повышает энергопотребление; оставляйте только если это нужно конкретной старой игре.</value>
   </data>
+  <data name="CheckProcessorStateRange" xml:space="preserve">
+    <value>Минимальное состояние процессора заблокировано</value>
+  </data>
+  <data name="CheckProcessorStateRangeExplain" xml:space="preserve">
+    <value>Утилита твиков снизила максимальное значение, которое Windows допускает для минимального состояния процессора (обычно 100%). Параметр застревает на этом значении, редактор схемы не может его повысить, а твик троттлинга ЦП может не сработать. Исправление возвращает предел Windows в 100%.</value>
+  </data>
   <data name="ScriptsTitle" xml:space="preserve">
     <value>Скрипты Marius Heier</value>
   </data>

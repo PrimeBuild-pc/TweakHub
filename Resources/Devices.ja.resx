@@ -516,6 +516,12 @@
   <data name="CheckGlobalTimerExplain" xml:space="preserve">
     <value>Windows 10 と同様に、いずれかのアプリが要求した最も細かいタイマーをすべてのプロセスで共有させます。消費電力が増えるため、特定の古いゲームで必要な場合のみ維持してください。</value>
   </data>
+  <data name="CheckProcessorStateRange" xml:space="preserve">
+    <value>最小のプロセッサの状態がロックされています</value>
+  </data>
+  <data name="CheckProcessorStateRangeExplain" xml:space="preserve">
+    <value>チューニングツールが、最小のプロセッサの状態に Windows が許可する上限値（通常は 100%）を下げています。設定はその値に固定され、電源プランエディターでは上げられず、CPU スロットリングの調整が失敗する場合があります。修復すると Windows の上限 100% に戻ります。</value>
+  </data>
   <data name="ScriptsTitle" xml:space="preserve">
     <value>Marius Heier のスクリプト</value>
   </data>

@@ -516,6 +516,12 @@
   <data name="CheckGlobalTimerExplain" xml:space="preserve">
     <value>Hace que todos los procesos compartan el temporizador más fino que pida una aplicación, como en Windows 10. Aumenta el consumo; mantenlo solo si un juego antiguo concreto lo necesita.</value>
   </data>
+  <data name="CheckProcessorStateRange" xml:space="preserve">
+    <value>Estado mínimo del procesador bloqueado</value>
+  </data>
+  <data name="CheckProcessorStateRangeExplain" xml:space="preserve">
+    <value>Una herramienta de ajustes redujo el valor más alto que Windows permite para el estado mínimo del procesador (normalmente 100 %). La configuración queda fija en ese valor, el editor del plan no puede subirla y el ajuste de limitación de la CPU puede fallar. La reparación restablece el límite de Windows del 100 %.</value>
+  </data>
   <data name="ScriptsTitle" xml:space="preserve">
     <value>Scripts de Marius Heier</value>
   </data>
