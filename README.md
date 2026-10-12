@@ -10,15 +10,27 @@
   <p>
     <a href="https://github.com/PrimeBuild-pc/TweakHub/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/PrimeBuild-pc/TweakHub/ci.yml?branch=main&amp;style=plastic&amp;logo=githubactions&amp;label=CI"></a>
     <a href="https://github.com/PrimeBuild-pc/TweakHub/releases/latest"><img alt="Release" src="https://img.shields.io/github/v/release/PrimeBuild-pc/TweakHub?style=plastic&amp;logo=github"></a>
+    <a href="https://github.com/PrimeBuild-pc/TweakHub/releases"><img alt="Pre-release" src="https://img.shields.io/github/v/release/PrimeBuild-pc/TweakHub?include_prereleases&amp;style=plastic&amp;logo=github&amp;label=pre-release&amp;color=orange"></a>
     <a href="https://github.com/PrimeBuild-pc/TweakHub/releases"><img alt="Total downloads" src="https://img.shields.io/github/downloads/PrimeBuild-pc/TweakHub/total?style=plastic&amp;logo=github&amp;label=downloads&amp;color=2ea44f"></a>
     <img alt="Windows 11" src="https://img.shields.io/badge/Windows-11-0078D4?style=plastic&amp;logo=windows&amp;logoColor=white">
     <img alt=".NET 10" src="https://img.shields.io/badge/.NET-10-512BD4?style=plastic&amp;logo=dotnet&amp;logoColor=white">
-    <a href="#highlights"><img alt="Six interface languages" src="https://img.shields.io/badge/UI%20languages-6-5B5FC7?style=plastic&amp;logo=googletranslate&amp;logoColor=white"></a>
+    <a href="#languages"><img alt="Six interface languages" src="https://img.shields.io/badge/UI%20languages-6-5B5FC7?style=plastic&amp;logo=googletranslate&amp;logoColor=white"></a>
     <a href="LICENSE"><img alt="License" src="https://img.shields.io/github/license/PrimeBuild-pc/TweakHub?style=plastic"></a>
   </p>
-  <p><a href="https://github.com/PrimeBuild-pc/TweakHub/releases/latest"><img alt="Download latest release" src="https://img.shields.io/badge/download-latest%20release-2EA44F?style=plastic&amp;logo=github&amp;logoColor=white"></a></p>
-
+  <p><a href="https://github.com/PrimeBuild-pc/TweakHub/releases/latest"><img alt="Download latest release" src="https://img.shields.io/badge/download-latest%20release-2EA44F?style=for-the-badge&amp;logo=github&amp;logoColor=white"></a></p>
+  <p>
+    <a href="#features"><b>Features</b></a> ·
+    <a href="#screenshots"><b>Screenshots</b></a> ·
+    <a href="#download--quick-start"><b>Download</b></a> ·
+    <a href="#portable-by-design"><b>Portable data</b></a> ·
+    <a href="#in-depth"><b>In depth</b></a> ·
+    <a href="#build-from-source"><b>Build</b></a>
+  </p>
+  <br>
+  <a href="assets/screenshots/security-overview.png"><img src="assets/screenshots/security-overview.png" alt="TweakHub Security overview with the security score ring" width="900"></a>
 </div>
+
+<br>
 
 > [!WARNING]
 > **Use at your own risk.** TweakHub is intended for experienced technicians and power users as a fast way to review and apply selected system changes. It is not a one-click optimizer, and its tweaks should never be applied blindly.
@@ -29,71 +41,119 @@
 
 TweakHub is built to live on a USB drive. Extract it once, add your preferred tools, scripts, Registry tweaks, favorites and appearance settings, then carry the complete folder between PCs. Your portable configuration stays with the app instead of being scattered across every machine you maintain.
 
-It runs as the current user and requests administrator privileges only when an operation requires them.
+It runs as the current user and requests administrator privileges only when an operation requires them. Every change is previewed first, backed up, and can be undone.
 
-## Highlights
-
-| Area | What TweakHub provides |
-|---|---|
-| **Registry & power** | Curated Windows 11 tweaks, automatic backups, verification and rollback |
-| **Portable profiles** | Custom tools, scripts, tweaks, playbooks, application references, favorites and appearance stored beside the app |
-| **Automation** | User-authored playbooks, built-in maintenance commands and portable PowerShell/CMD scripts with preview, elevation, timeout and cancellation |
-| **Repair** | DISM, SFC and online CHKDSK repair workflow plus policy, update, network and memory diagnostics with portable logs |
-| **Toolbox** | Categorized Winget packages, trusted HTTPS links and user-created tool cards |
-| **Quick access** | Common Windows administration consoles and control panels in one place |
-| **Appearance** | System, light or dark theme with accent and transparency controls |
-| **Updates** | Confirmed in-app updates with SHA-256 verification |
-
-TweakHub supports **Windows 11 build 22000 or newer**.
-
-The interface and installer support English, Russian, Simplified Chinese, Spanish, Italian and Japanese. TweakHub follows the Windows display language by default; an explicit language can be selected under **Settings**.
-
-## Screenshots
-
-<p align="center">
-  <a href="https://github.com/user-attachments/assets/ab7d6276-abec-42b4-9c1e-94778bbf2bcd">
-    <img src="https://github.com/user-attachments/assets/ab7d6276-abec-42b4-9c1e-94778bbf2bcd" alt="TweakHub main view" width="900"/>
-  </a>
-</p>
+## Features
 
 <table>
   <tr>
-    <td><a href="https://github.com/user-attachments/assets/55e50d9d-8717-4016-a049-19f5f82638f2"><img src="https://github.com/user-attachments/assets/55e50d9d-8717-4016-a049-19f5f82638f2" alt="TweakHub screenshot 2" width="260"/></a></td>
-    <td><a href="https://github.com/user-attachments/assets/968caa7e-f20d-423e-8a41-5f987cff24fb"><img src="https://github.com/user-attachments/assets/968caa7e-f20d-423e-8a41-5f987cff24fb" alt="TweakHub screenshot 3" width="260"/></a></td>
-    <td><a href="https://github.com/user-attachments/assets/4afa7472-638d-4a8a-9079-ec086c2b661d"><img src="https://github.com/user-attachments/assets/4afa7472-638d-4a8a-9079-ec086c2b661d" alt="TweakHub screenshot 4" width="260"/></a></td>
-    <td><a href="https://github.com/user-attachments/assets/48defa49-24b9-405f-a193-0f088b140111"><img src="https://github.com/user-attachments/assets/48defa49-24b9-405f-a193-0f088b140111" alt="TweakHub screenshot 5" width="260"/></a></td>
+    <td width="50%" valign="top">
+      <h3>⚡ Registry tweaks</h3>
+      Curated Windows 11 tweaks for CPU scheduling, network latency, privacy, telemetry and Windows AI, each with a preview, automatic backup, verification and rollback. Includes a Windows Update mode selector and an optional low-latency network preset per adapter.
+    </td>
+    <td width="50%" valign="top">
+      <h3>🛡️ Security</h3>
+      A security score with ten checks and one-click fixes, Microsoft Defender scans, network connections and startup entries with their digital signature, local file hashing, breached password check, filtering DNS and a curated OSINT catalog.
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <h3>🖱️ Devices &amp; latency</h3>
+      Device inventory with notes on what is safe to disable, MSI mode and interrupt priority per PCI device, the USB path of every mouse and keyboard, a mouse polling test and a check that undoes popular tweaks that hurt stability.
+    </td>
+    <td valign="top">
+      <h3>🔌 Connections <sup>new</sup></h3>
+      Shows whether the GPU, NVMe drives and PCIe cards run at full width and speed, whether they hang off the CPU or the chipset, the negotiated USB speed of each device and the M.2 and slot wiring of 180+ motherboards.
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <h3>🔋 Power plan</h3>
+      Edit every setting of a power plan, hidden ones included, compare two plans side by side, and create, duplicate, rename, import or export plans through the same Windows API as <code>powercfg</code>.
+    </td>
+    <td valign="top">
+      <h3>🤖 Automation &amp; repair</h3>
+      Playbooks that capture this PC's configuration and apply it again elsewhere, built-in maintenance scripts, a DISM + SFC + CHKDSK repair workflow and portable PowerShell/CMD scripts with preview, elevation, timeout and cancellation.
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <h3>🧰 Toolbox &amp; quick access</h3>
+      Categorized WinGet packages, trusted HTTPS links, your own tool cards, and the Windows administration consoles and control panels in one place.
+    </td>
+    <td valign="top">
+      <h3>🎒 Portable &amp; updatable</h3>
+      Everything lives beside the executable and moves as one JSON profile. In-app updates are confirmed by you and verified with SHA-256; a new copy can import everything from an old one.
+    </td>
   </tr>
 </table>
 
-<p align="center"><sub>Click any screenshot to open it at full size. On narrow screens, swipe the thumbnail row sideways.</sub></p>
+TweakHub supports **Windows 11 build 22000 or newer**.
+
+<a id="languages"></a>The interface and installer support English, Russian, Simplified Chinese, Spanish, Italian and Japanese. TweakHub follows the Windows display language by default; an explicit language can be selected under **Settings**.
+
+## Screenshots
+
+<p align="center"><sub>Scroll the gallery sideways (swipe on touch screens) and click any screenshot to open it at full size.</sub></p>
+
+<table>
+  <tr>
+    <td align="center"><a href="assets/screenshots/registry-tweaks.png"><img src="assets/screenshots/registry-tweaks.png" alt="Registry Tweaks" width="440"></a><br><sub><b>Registry Tweaks</b></sub></td>
+    <td align="center"><a href="assets/screenshots/security-overview.png"><img src="assets/screenshots/security-overview.png" alt="Security overview" width="440"></a><br><sub><b>Security · Overview</b></sub></td>
+    <td align="center"><a href="assets/screenshots/security-privacy.png"><img src="assets/screenshots/security-privacy.png" alt="Security privacy and accounts" width="440"></a><br><sub><b>Security · Privacy and accounts</b></sub></td>
+    <td align="center"><a href="assets/screenshots/security-tools.png"><img src="assets/screenshots/security-tools.png" alt="Security tools and resources" width="440"></a><br><sub><b>Security · Tools and resources</b></sub></td>
+    <td align="center"><a href="assets/screenshots/connections.png"><img src="assets/screenshots/connections.png" alt="Connections tab with PCIe link width and speed" width="440"></a><br><sub><b>Devices · Connections</b></sub></td>
+    <td align="center"><a href="assets/screenshots/devices.png"><img src="assets/screenshots/devices.png" alt="Device inventory" width="440"></a><br><sub><b>Devices · Inventory</b></sub></td>
+    <td align="center"><a href="assets/screenshots/interrupts-msi.png"><img src="assets/screenshots/interrupts-msi.png" alt="Interrupts and MSI" width="440"></a><br><sub><b>Devices · Interrupts &amp; MSI</b></sub></td>
+    <td align="center"><a href="assets/screenshots/usb-input.png"><img src="assets/screenshots/usb-input.png" alt="USB and input" width="440"></a><br><sub><b>Devices · USB &amp; input</b></sub></td>
+    <td align="center"><a href="assets/screenshots/tweak-check.png"><img src="assets/screenshots/tweak-check.png" alt="Tweak check" width="440"></a><br><sub><b>Devices · Tweak check</b></sub></td>
+    <td align="center"><a href="assets/screenshots/power-plan.png"><img src="assets/screenshots/power-plan.png" alt="Power plan editor" width="440"></a><br><sub><b>Power plan</b></sub></td>
+    <td align="center"><a href="assets/screenshots/automated-scripts.png"><img src="assets/screenshots/automated-scripts.png" alt="Automated scripts and playbooks" width="440"></a><br><sub><b>Automated Scripts</b></sub></td>
+    <td align="center"><a href="assets/screenshots/external-tools.png"><img src="assets/screenshots/external-tools.png" alt="External tools" width="440"></a><br><sub><b>External Tools</b></sub></td>
+    <td align="center"><a href="assets/screenshots/quick-access.png"><img src="assets/screenshots/quick-access.png" alt="Quick access" width="440"></a><br><sub><b>Quick Access</b></sub></td>
+    <td align="center"><a href="assets/screenshots/settings.png"><img src="assets/screenshots/settings.png" alt="Settings" width="440"></a><br><sub><b>Settings</b></sub></td>
+  </tr>
+</table>
 
 ## Download & quick start
 
-### Portable — recommended
-
-1. Download the portable archive from [the latest release](https://github.com/PrimeBuild-pc/TweakHub/releases/latest).
-2. Extract the complete archive to a USB drive or local folder.
-3. Run `TweakHub.exe`.
-4. Keep `TweakHub.exe`, `portable.flag` and the generated `Data` directory together when moving the app.
-
-That folder carries custom tools, scripts, Registry tweaks, favorites, appearance settings, operation logs and rollback data between PCs.
-
-### Installer
-
-The installer provides a conventional per-PC setup. Installed builds store user data under `%AppData%\TweakHub` instead of beside the executable.
-
-You can also install or upgrade TweakHub with WinGet:
-
-```powershell
-winget install --id PrimeBuild.TweakHub --exact
-```
+<table>
+  <tr>
+    <td width="33%" valign="top">
+      <h3>🎒 Portable <sup>recommended</sup></h3>
+      <ol>
+        <li>Download the portable archive from <a href="https://github.com/PrimeBuild-pc/TweakHub/releases/latest">the latest release</a>.</li>
+        <li>Extract the complete archive to a USB drive or local folder.</li>
+        <li>Run <code>TweakHub.exe</code>.</li>
+      </ol>
+      Keep <code>TweakHub.exe</code>, <code>portable.flag</code> and the generated <code>Data</code> directory together when moving the app.
+    </td>
+    <td width="33%" valign="top">
+      <h3>💿 Installer</h3>
+      A conventional per-PC setup. Installed builds store user data under <code>%AppData%\TweakHub</code> instead of beside the executable.
+    </td>
+    <td width="33%" valign="top">
+      <h3>📦 WinGet</h3>
+      Install or upgrade from the terminal:
+      <pre>winget install --id PrimeBuild.TweakHub --exact</pre>
+    </td>
+  </tr>
+</table>
 
 > [!NOTE]
-> Releases may be unsigned and can trigger a Microsoft Defender SmartScreen warning.
+> Releases may be unsigned and can trigger a Microsoft Defender SmartScreen warning. Pre-releases (for example `v1.5.0-beta.1`) are published on the [Releases](https://github.com/PrimeBuild-pc/TweakHub/releases) page only, never on WinGet, and are meant for testing.
 
-## Portable data
+## Portable by design
 
-Portable builds keep their state in `Data` beside the application files:
+The portable folder carries custom tools, scripts, Registry tweaks, favorites, appearance settings, operation logs and rollback data between PCs.
+
+Use **Settings → Portable configuration** to export or import the complete user profile as a `.tweakhub.json` file. Import validates the complete profile before replacing anything and creates a recovery copy of the current profile first. Script and playbook output is written to `Data/Logs` in portable builds.
+
+**Updating keeps everything.** The in-app updater and the installer leave your data in place. If you extracted a new portable copy into a different folder, use **Settings → Portable configuration → Import from another copy** and pick the old folder (or `%AppData%\TweakHub` of an installed build): the profile, the undo backups of the changes the old copy made and the missing programs under `Apps` come over, then TweakHub restarts. Undo files are never overwritten when the new copy already has changes of its own to restore.
+
+<details>
+<summary><b>Files in the <code>Data</code> folder</b></summary>
+<br>
 
 | File | Purpose |
 |---|---|
@@ -110,11 +170,15 @@ Portable builds keep their state in `Data` beside the application files:
 | `favorite-scripts.json` | Favorite built-in and custom automated scripts |
 | `appearance.json` | Theme, accent and transparency preferences |
 
-Use **Settings → Portable configuration** to export or import the complete user profile as a `.tweakhub.json` file. Import validates the complete profile before replacing anything and creates a recovery copy of the current profile first. Script and playbook output is written to `Data/Logs` in portable builds.
+</details>
 
-**Updating keeps everything.** The in-app updater and the installer leave your data in place. If you extracted a new portable copy into a different folder, use **Settings → Portable configuration → Import from another copy** and pick the old folder (or `%AppData%\TweakHub` of an installed build): the profile, the undo backups of the changes the old copy made and the missing programs under `Apps` come over, then TweakHub restarts. Undo files are never overwritten when the new copy already has changes of its own to restore.
-
+<<<<<<< Updated upstream
 ### Intended customization workflow
+=======
+<details>
+<summary><b>Intended customization workflow</b></summary>
+<br>
+>>>>>>> Stashed changes
 
 1. Put optional portable programs under `Apps` beside `TweakHub.exe`.
 2. Create PowerShell or CMD entries under **Automated Scripts**. **Import Script Files** only reads selected `.ps1`, `.cmd` or `.bat` files into new custom scripts; it does not execute them, copy the original files or import a TweakHub profile. Use the paths provided by TweakHub instead of machine-specific absolute paths:
@@ -134,6 +198,12 @@ Use **Settings → Portable configuration** to export or import the complete use
 
 An imported script is retained even if its referenced executable is absent. Running it then fails with the missing path; TweakHub never silently removes the script or reports false success.
 
+</details>
+
+<details>
+<summary><b>What a profile includes and excludes</b></summary>
+<br>
+
 | Profile includes | Profile deliberately excludes |
 |---|---|
 | Custom scripts, Registry tweaks and external-tool cards | Executables and other files under `Apps` |
@@ -143,10 +213,48 @@ An imported script is retained even if its referenced executable is absent. Runn
 
 Successful built-in script runs and pending reboot verification are machine-specific and remain under `%LocalAppData%\TweakHub`; they never travel with the portable profile. After Windows restarts, TweakHub verifies tracked restart-required changes against their expected state and reports verified, failed, partial or unavailable results instead of merely clearing the indicator.
 
+</details>
+
 > [!CAUTION]
 > Do not delete backup files before restoring outstanding changes. When moving TweakHub, copy the complete portable folder—not only `TweakHub.exe`. Profile JSON files do not contain the binaries under `Apps`.
 
-## Memory and privacy tools
+## In depth
+
+<details>
+<summary><b>🛡️ Security</b></summary>
+<br>
+
+The sidebar **Security** section uses built-in Windows features instead of bundling third-party tools:
+
+- **Overview**: a security score with an interactive ring and ten checks (antivirus, definitions, firewall, UAC, Windows Update, SMBv1, Remote Desktop, BitLocker, Secure Boot, memory integrity). **Fix** runs the shown PowerShell command as administrator after confirmation; BitLocker, Secure Boot and memory integrity only open the relevant Windows settings.
+- **Microsoft Defender**: protection status, definition and scan freshness, quick/full/offline scans, definition updates and detection history. Microsoft Safety Scanner is downloaded from Microsoft, rejected unless it carries a valid Microsoft signature, and started in detection-only mode (`/N`).
+- **System**: active connections and listening ports per process, plus startup and persistence entries (Run keys, Startup folders, non-Microsoft scheduled tasks, automatic services outside the Windows folder, Winlogon changes), each with the file's Authenticode signature. Interactive charts filter the lists; unsigned files and script hosts are listed first; entries can be disabled and re-enabled (Run and Startup folder items through the same StartupApproved switch as Task Manager, scheduled tasks, and services set to Manual with their original start mode restored); a CSV report can be exported. **Scan as administrator** also resolves system process paths.
+- **File analysis**: SHA-256/SHA-1/MD5, Authenticode signature and version information are computed locally. VirusTotal and Triage searches open the browser with the hash only; files are never uploaded.
+- **Privacy and accounts**: breached password check through Have I Been Pwned with k-anonymity (only the first five SHA-1 characters are sent); account deletion links from the JustDeleteMe directory (MIT), downloaded from GitHub only on request; filtering DNS presets (Quad9, Cloudflare, AdGuard) or a Pi-hole on every connected adapter, with the original configuration (including static IPv6 servers) saved for restore and detection of networks that intercept DNS; photo and document metadata viewing and removal with ExifTool (installed with winget, original kept as `_original`).
+- **Tools and resources**: the **OSINT & Security** catalog with section-scoped search and favorites. Sigcheck, privacy.sexy and ungoogled-chromium install with winget; the other references (WPD, TapMap, SecurityToolkit, EmailOSINT, Microsoft Safety Scanner, Follow the White Rabbit, Triage, User Scanner, Awesome Privacy, Pi-hole, Big-Ass Data Broker Opt-Out List, JustDeleteMe, Personal Security Checklist, ffuf, Xalgorix and hackingtool) only open the official HTTPS page. No email address is collected or transmitted by TweakHub. mVolt and Sparkle are in the main **External Tools** catalog.
+
+Review each card's warnings and upstream documentation before using a tool. In particular, mVolt tuning can damage GPU hardware; optional Sigcheck VirusTotal queries/uploads may disclose hashes or files; Safety Scanner is not resident protection; Triage submissions may become public; ffuf, Xalgorix and hackingtool must only be used against systems you are authorized to test. No third-party code or binaries are bundled or reused: SecurityToolkit and mVolt have unverified reuse licensing, and Sparkle and SCSKiller are GPL-3.0 references only. Sergei Strelec WinPE bundles many third-party tools under their own licenses; verify boot ISO checksums before writing them to USB.
+
+</details>
+
+<details>
+<summary><b>🖱️ Devices & latency</b></summary>
+<br>
+
+The sidebar **Devices & latency** section brings the useful parts of popular latency tools into TweakHub, with backups instead of one-way scripts:
+
+- **Devices**: Plug and Play inventory (working, not present, disabled, problems, buses without children) with notes on devices latency guides often disable, what stops working if you do, and which ones to leave alone (for example HPET and SMBus). Devices can be disabled and re-enabled; everything TweakHub disabled can be re-enabled at once. Inspired by Device-Analyzer v1.
+- **Interrupts & MSI**: MSI mode, interrupt priority and CPU affinity per PCI device, as in GoInterruptPolicy, written through the registry backup used by Registry Tweaks and restorable per device. Changes apply after a restart.
+- **USB & input**: the path from each mouse, keyboard and controller through external hubs to its USB controller (with the controller's MSI state), USB selective suspend in the active plan and per device, and a local raw-input mouse polling test with a distribution chart. Inspired by Marius Heier's USB Latency Analyzer and DeepPoll.
+- **Connections**: read-only link diagnostics. The maximum and current PCIe link of the GPU, NVMe drives and PCIe cards (`PCIe x16 4.0 @ x16 4.0`, as in GPU-Z; Radeon cards are read through AMD ADLX from the installed driver), whether each device is wired to the CPU or the chipset, the CPU–chipset uplink with a warning when fast devices behind the chipset add up to more than it carries, and the negotiated speed of every USB port (USB 3 devices running at USB 2, input devices behind hubs, drives sharing one hub). A table of more than 180 AM4, AM5 and Intel 400–800 series motherboards, taken from the manufacturers' manuals and spec pages, explains M.2 and slot wiring and lane sharing. Move a device to another slot or port, then press **Scan** again.
+- **Tweak check**: the RepairBadTweaks list (forced boot timers, disabled CPU mitigations, TCP auto-tuning, input queue sizes, csrss priority, MPO, memory manager values, raw mouse throttle, global timer requests, a locked minimum processor state) with explanations; registry repairs keep a backup and can be undone. Win32PrioritySeparation, Prefetch and SysMain stay managed by Registry Tweaks.
+- **Tools and resources**: the **Latency & Input** catalog (GoInterruptPolicy, Marius Heier's tools, hidusbf, Battle Beaver controller overclocking, PowerPlanSettingsEditor, the Advanced Power Options guide, RepairBadTweaks). TweakHub never runs their `irm | iex` scripts; cards only open the official pages.
+
+</details>
+
+<details>
+<summary><b>🧠 Memory and privacy tools</b></summary>
+<br>
 
 SysMain and Prefetch should normally remain enabled. Disable them only after measurements identify them as the source of a real problem; doing so can make applications and games load more slowly.
 
@@ -154,28 +262,7 @@ SysMain and Prefetch should normally remain enabled. Disable them only after mea
 
 The device-metadata and Windows Update driver policies affect different content: preventing device companion apps does not block every driver, while the driver exclusion policy omits packages Windows Update classifies as drivers. The Windows Update selector offers Default, Disabled and Security modes from a script bundled with TweakHub; Security keeps quality/security updates on their normal schedule while deferring feature updates for 365 days. High-risk AI removal and third-party hosts-list scripts always require explicit confirmation.
 
-## Security
-
-The sidebar **Security** section uses built-in Windows features instead of bundling third-party tools:
-
-- **Overview**: a security score with an interactive ring and ten checks (antivirus, definitions, firewall, UAC, Windows Update, SMBv1, Remote Desktop, BitLocker, Secure Boot, memory integrity). **Fix** runs the shown PowerShell command as administrator after confirmation; BitLocker, Secure Boot and memory integrity only open the relevant Windows settings.
-- **Microsoft Defender**: protection status, definition and scan freshness, quick/full/offline scans, definition updates and detection history. Microsoft Safety Scanner is downloaded from Microsoft, rejected unless it carries a valid Microsoft signature, and started in detection-only mode (`/N`).
-- **System**: active connections and listening ports per process, plus startup and persistence entries (Run keys, Startup folders, non-Microsoft scheduled tasks, automatic services outside the Windows folder, Winlogon changes), each with the file's Authenticode signature. Connections to internet addresses can be checked on AbuseIPDB, which opens the browser with the remote IP only. Interactive charts filter the lists; unsigned files and script hosts are listed first; entries can be disabled and re-enabled (Run and Startup folder items through the same StartupApproved switch as Task Manager, scheduled tasks, and services set to Manual with their original start mode restored); a CSV report can be exported. **Scan as administrator** also resolves system process paths.
-- **File analysis**: SHA-256/SHA-1/MD5, Authenticode signature and version information are computed locally. VirusTotal, Triage and MalwareBazaar searches open the browser with the hash only; files are never uploaded.
-- **Privacy and accounts**: breached password check through Have I Been Pwned with k-anonymity (only the first five SHA-1 characters are sent); account deletion links from the JustDeleteMe directory (MIT), downloaded from GitHub only on request; filtering DNS presets (Quad9, Cloudflare, AdGuard) or a Pi-hole on every connected adapter, with the original configuration (including static IPv6 servers) saved for restore and detection of networks that intercept DNS; photo and document metadata viewing and removal with ExifTool (installed with winget, original kept as `_original`).
-- **Tools and resources**: the **OSINT & Security** catalog with section-scoped search and favorites. Sigcheck, privacy.sexy and ungoogled-chromium install with winget; the other references (WPD, TapMap, SecurityToolkit, EmailOSINT, Microsoft Safety Scanner, Follow the White Rabbit, Triage, User Scanner, Awesome Privacy, Pi-hole, Big-Ass Data Broker Opt-Out List, JustDeleteMe, Personal Security Checklist, ffuf, Xalgorix, hackingtool, Have I Been Pwned, Cover Your Tracks, Privacy Guides, urlscan.io and Nuclei) only open the official HTTPS page. No email address is collected or transmitted by TweakHub. mVolt and Sparkle are in the main **External Tools** catalog.
-
-Review each card's warnings and upstream documentation before using a tool. In particular, mVolt tuning can damage GPU hardware; optional Sigcheck VirusTotal queries/uploads may disclose hashes or files; Safety Scanner is not resident protection; Triage submissions may become public; ffuf, Xalgorix and hackingtool must only be used against systems you are authorized to test. No third-party code or binaries are bundled or reused: SecurityToolkit and mVolt have unverified reuse licensing, and Sparkle and SCSKiller are GPL-3.0 references only. Sergei Strelec WinPE bundles many third-party tools under their own licenses; verify boot ISO checksums before writing them to USB.
-
-## Devices & latency
-
-The sidebar **Devices & latency** section brings the useful parts of popular latency tools into TweakHub, with backups instead of one-way scripts:
-
-- **Devices**: Plug and Play inventory (working, not present, disabled, problems, buses without children) with notes on devices latency guides often disable, what stops working if you do, and which ones to leave alone (for example HPET and SMBus). Devices can be disabled and re-enabled; everything TweakHub disabled can be re-enabled at once. Inspired by Device-Analyzer v1.
-- **Interrupts & MSI**: MSI mode, interrupt priority and CPU affinity per PCI device, as in GoInterruptPolicy, written through the registry backup used by Registry Tweaks and restorable per device. Changes apply after a restart.
-- **USB & input**: the path from each mouse, keyboard and controller through external hubs to its USB controller (with the controller's MSI state), USB selective suspend in the active plan and per device, and a local raw-input mouse polling test with a distribution chart. Inspired by Marius Heier's USB Latency Analyzer and DeepPoll.
-- **Tweak check**: the RepairBadTweaks list (forced boot timers, disabled CPU mitigations, TCP auto-tuning, input queue sizes, csrss priority, MPO, memory manager values, raw mouse throttle, global timer requests) with explanations; registry repairs keep a backup and can be undone. Win32PrioritySeparation, Prefetch and SysMain stay managed by Registry Tweaks.
-- **Tools and resources**: the **Latency & Input** catalog (GoInterruptPolicy, Marius Heier's tools, hidusbf, Battle Beaver controller overclocking, PowerPlanSettingsEditor, the Advanced Power Options guide, RepairBadTweaks). TweakHub never runs their `irm | iex` scripts; cards only open the official pages.
+</details>
 
 ## Build from source
 
@@ -192,7 +279,7 @@ dotnet publish TweakHub.csproj -c Release -r win-x64 --self-contained true -o pu
 
 ## CI/CD
 
-Every push and pull request to `main` runs the Windows build and tests. A `vX.Y.Z` tag matching the project version publishes the self-contained portable archive, installer and SHA-256 checksums to GitHub Releases. `PrimeBuild.TweakHub` is published on WinGet, and tagged releases automatically submit package updates.
+Every push and pull request to `main` runs the Windows build and tests. A `vX.Y.Z` tag matching the project version publishes the self-contained portable archive, installer and SHA-256 checksums to GitHub Releases. `PrimeBuild.TweakHub` is published on WinGet, and tagged releases automatically submit package updates; pre-release tags such as `vX.Y.Z-beta.N` are marked as pre-releases on GitHub and skip WinGet.
 
 Generated binaries belong in Releases, not in Git.
 
