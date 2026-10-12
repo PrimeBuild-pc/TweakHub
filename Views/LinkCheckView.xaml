@@ -74,6 +74,18 @@
                                 <Run Text="{Binding AttachText, Mode=OneWay}"/>
                             </TextBlock>
                             <TextBlock Text="{Binding AdviceText}" Style="{StaticResource DescriptionTextStyle}" Margin="0,4,0,0"/>
+                            <TextBlock Text="{Binding BoardHint}" Margin="0,4,0,0">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock" BasedOn="{StaticResource DescriptionTextStyle}">
+                                        <Setter Property="Foreground" Value="{DynamicResource AccentBrush}"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding BoardHint}" Value="">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
                         </StackPanel>
                     </Grid>
                 </Border>
@@ -123,6 +135,9 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <TextBlock Text="{loc:Loc Devices:BoardLabel}" Style="{StaticResource LabelTextStyle}" Margin="0,0,16,4"/>
                             <TextBlock x:Name="BoardText" Grid.Column="1" Style="{StaticResource ValueTextStyle}" TextWrapping="Wrap"/>
@@ -132,7 +147,14 @@
                             <TextBlock x:Name="ChipsetText" Grid.Row="2" Grid.Column="1" Style="{StaticResource ValueTextStyle}"/>
                             <TextBlock Grid.Row="3" Text="{loc:Loc Devices:UplinkLabel}" Style="{StaticResource LabelTextStyle}" Margin="0,0,16,4"/>
                             <TextBlock x:Name="UplinkText" Grid.Row="3" Grid.Column="1" Style="{StaticResource ValueTextStyle}"/>
+                            <TextBlock x:Name="M2Label" Grid.Row="4" Text="{loc:Loc Devices:M2Label}" Style="{StaticResource LabelTextStyle}" VerticalAlignment="Top" Margin="0,0,16,4"/>
+                            <TextBlock x:Name="M2Text" Grid.Row="4" Grid.Column="1" Style="{StaticResource ValueTextStyle}" TextWrapping="Wrap"/>
+                            <TextBlock x:Name="SlotsLabel" Grid.Row="5" Text="{loc:Loc Devices:SlotsLabel}" Style="{StaticResource LabelTextStyle}" VerticalAlignment="Top" Margin="0,0,16,4"/>
+                            <TextBlock x:Name="SlotsText" Grid.Row="5" Grid.Column="1" Style="{StaticResource ValueTextStyle}" TextWrapping="Wrap"/>
+                            <TextBlock x:Name="SharingLabel" Grid.Row="6" Text="{loc:Loc Devices:SharingLabel}" Style="{StaticResource LabelTextStyle}" VerticalAlignment="Top" Margin="0,0,16,4"/>
+                            <TextBlock x:Name="SharingText" Grid.Row="6" Grid.Column="1" Style="{StaticResource ValueTextStyle}" TextWrapping="Wrap"/>
                         </Grid>
+                        <TextBlock x:Name="BoardNotListedText" Text="{loc:Loc Devices:BoardNotListed}" Style="{StaticResource DescriptionTextStyle}" Margin="0,6,0,0"/>
                         <TextBlock Text="{Binding AdviceText}" Style="{StaticResource DescriptionTextStyle}" Margin="0,6,0,0"/>
                     </StackPanel>
                 </Grid>

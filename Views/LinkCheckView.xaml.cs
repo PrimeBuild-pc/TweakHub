@@ -28,6 +28,13 @@ public partial class LinkCheckView : UserControl
             CpuText.Text = report.Cpu.Length > 0 ? report.Cpu : "–";
             ChipsetText.Text = report.Chipset.Chipset?.Name ?? "–";
             UplinkText.Text = report.Chipset.Chipset is { } chipset ? $"{chipset.UplinkText} · {chipset.GBps.ToString("0.#", L.Culture)} GB/s" : "–";
+            var board = report.BoardInfo;
+            M2Text.Text = board is null ? "" : string.Join(Environment.NewLine, board.M2.Select(slot => slot.Text));
+            SlotsText.Text = board is null ? "" : string.Join(Environment.NewLine, board.Slots.Select(slot => slot.Text));
+            SharingText.Text = board is null ? "" : board.Sharing.Length == 0 ? L.Get("Devices:SharingNone") : string.Join(Environment.NewLine, board.Sharing.Select(rule => rule.Text));
+            foreach (var element in new FrameworkElement[] { M2Label, M2Text, SlotsLabel, SlotsText, SharingLabel, SharingText })
+                element.Visibility = board is null ? Visibility.Collapsed : Visibility.Visible;
+            BoardNotListedText.Visibility = board is null ? Visibility.Visible : Visibility.Collapsed;
             PlatformCard.DataContext = report.Chipset;
             PlatformCard.Visibility = Visibility.Visible;
             LinkList.ItemsSource = report.Devices;

@@ -25,6 +25,8 @@ public sealed record LinkCheck(PnpDeviceInfo Device, LinkKind Kind, LinkAttach A
     public string AttachText => RootPort is null || Attach != LinkAttach.Cpu ? L.Get($"Devices:Attach{Attach}")
         : $"{L.Get($"Devices:Attach{Attach}")} · {L.Format("Devices:RootPort", LinkService.PciAddress(RootPort))}";
     public string AdviceText => L.Format($"Devices:Link{Advice}", Args);
+    /// <summary>What the motherboard's manual adds: lane sharing, faster or CPU-wired slots. Empty for unknown boards.</summary>
+    public string BoardHint { get; init; } = string.Empty;
 }
 
 /// <summary>Uplink between CPU and chipset: Intel calls it DMI, it is a PCIe link with the same per-lane speed.</summary>
@@ -59,9 +61,13 @@ public sealed record UsbCheck(PnpDeviceInfo Device, string Name, UsbKind Kind, P
     public string AttachText => Controller is null ? L.Get($"Devices:Attach{Attach}")
         : $"{Controller.DisplayName} ({LinkService.PciAddress(Controller)}) · {L.Get($"Devices:Attach{Attach}")}";
     public string AdviceText => L.Format($"Devices:Link{Advice}", Args);
+    public string BoardHint => string.Empty;
 }
 
-public sealed record LinkReport(string Board, string Cpu, ChipsetCheck Chipset, IReadOnlyList<LinkCheck> Devices, IReadOnlyList<UsbCheck> Usb);
+public sealed record LinkReport(string Board, string Cpu, ChipsetCheck Chipset, IReadOnlyList<LinkCheck> Devices, IReadOnlyList<UsbCheck> Usb)
+{
+    public BoardInfo? BoardInfo { get; init; }
+}
 
 public static class LinkService
 {
@@ -138,9 +144,9 @@ public static class LinkService
         };
     }
 
-    public static ChipsetInfo? DetectChipset(IReadOnlyList<PnpDeviceInfo> devices, string board, string cpu)
+    public static ChipsetInfo? DetectChipset(IReadOnlyList<PnpDeviceInfo> devices, string board, string cpu, string? boardChipset = null)
     {
-        var name = ChipsetName.Match(board) is { Success: true } match ? match.Groups[1].Value.ToUpperInvariant() : null;
+        var name = boardChipset ?? (ChipsetName.Match(board) is { Success: true } match ? match.Groups[1].Value.ToUpperInvariant() : null);
         foreach (var device in devices.Where(IsPci))
         {
             var (vendor, id) = Ids(device.Id);
@@ -183,7 +189,13 @@ public static class LinkService
             checks.Add(Check(device, kind, attach, root, byId, vendorLinks) with { Name = disk?.DisplayName ?? device.DisplayName });
         }
 
-        var chipset = DetectChipset(devices, board, cpu);
+        var boardInfo = BoardCatalog.Find(board);
+        if (boardInfo is not null)
+        {
+            var cpuDrives = checks.Count(check => check.Kind == LinkKind.Nvme && check.Attach == LinkAttach.Cpu);
+            checks = checks.Select(check => ApplyBoard(check, boardInfo, cpuDrives)).ToList();
+        }
+        var chipset = DetectChipset(devices, board, cpu, boardInfo?.Chipset);
         var fast = checks.Where(check => check.Attach == LinkAttach.Chipset && check.Gen > 0
             && (check.Kind is LinkKind.Gpu or LinkKind.Nvme || GBps(check.Gen, check.Width) >= 1.9)).ToList();
         var used = fast.Sum(check => GBps(check.Gen, check.Width));
@@ -192,7 +204,36 @@ public static class LinkService
             : new ChipsetCheck(chipset, fast.Count, used, LinkStatus.Ok, fast.Count == 0 ? "ChipsetIdle" : "ChipsetOk");
 
         return new LinkReport(board, cpu, chipsetCheck, checks.OrderBy(check => check.Status).ThenBy(check => check.Kind)
-            .ThenBy(check => check.Name, StringComparer.CurrentCultureIgnoreCase).ToList(), EvaluateUsb(devices, byId, usbSpeeds));
+            .ThenBy(check => check.Name, StringComparer.CurrentCultureIgnoreCase).ToList(), EvaluateUsb(devices, byId, usbSpeeds)) { BoardInfo = boardInfo };
+    }
+
+    /// <summary>Refines a check with the manual: a lower generation that matches the slot is the board's limit, not a fault.</summary>
+    internal static LinkCheck ApplyBoard(LinkCheck check, BoardInfo board, int cpuDrives)
+    {
+        var drive = check.Kind == LinkKind.Nvme;
+        var slots = drive ? board.M2 : board.Slots;
+        string Sharing() => string.Join("; ", board.Sharing.Where(rule => slots.Any(slot => rule.Affects.Contains(slot.Label, StringComparison.OrdinalIgnoreCase))).Select(rule => rule.Text));
+        string Labels(IEnumerable<BoardSlot> list) => string.Join(", ", list.Select(slot =>
+            board.Sharing.Where(rule => rule.When == slot.Label).Select(rule => rule.Text).ToList() is { Count: > 0 } costs
+                ? $"{slot.Label} ({string.Join("; ", costs)})" : slot.Label));
+
+        switch (check.Advice)
+        {
+            case "LanesMissing" or "GpuOnChipset" when Sharing() is { Length: > 0 } sharing:
+                return check with { BoardHint = L.Format("Devices:HintSharing", sharing) };
+            case "GenLower" when drive:
+                // A faster M.2 elsewhere on the board is advice; none at all means the board is the limit.
+                if (board.M2.Where(slot => slot.Gen > check.Gen).ToList() is { Count: > 0 } faster)
+                    return check with { BoardHint = L.Format("Devices:HintFasterM2", GenText(faster.Max(slot => slot.Gen)), Labels(faster)) };
+                return board.M2.Length > 0 ? check with { Status = LinkStatus.Ok, Advice = "SlotLimit", Args = [GenText(check.Gen)] } : check;
+            case "GpuGenLower" when board.MainSlot is { } main:
+                if (check.Gen >= main.Gen) return check with { Status = LinkStatus.Ok, Advice = "SlotLimit", Args = [GenText(check.Gen)] };
+                return main.Gen < check.MaxGen ? check with { BoardHint = L.Format("Devices:HintSlotGen", main.Label, GenText(main.Gen)) } : check;
+            case "OkChipset" when drive && board.M2.Where(slot => slot.IsCpu).ToList() is { } cpuSlots && cpuSlots.Count > cpuDrives:
+                return check with { BoardHint = L.Format("Devices:HintCpuM2", Labels(cpuSlots)) };
+            default:
+                return check;
+        }
     }
 
     private static bool IsRootHub(PnpDeviceInfo device) => device.Id.StartsWith(@"USB\ROOT_HUB", StringComparison.OrdinalIgnoreCase);

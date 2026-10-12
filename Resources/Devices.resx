@@ -700,4 +700,46 @@ TweakHub cannot check what the script does, and the author can change it at any 
   <data name="LinkUsbUnknown" xml:space="preserve">
     <value>The hub did not report the speed of this port.</value>
   </data>
+  <data name="SourceCpu" xml:space="preserve">
+    <value>CPU</value>
+  </data>
+  <data name="SourceChipset" xml:space="preserve">
+    <value>chipset</value>
+  </data>
+  <data name="M2Label" xml:space="preserve">
+    <value>M.2 slots</value>
+  </data>
+  <data name="SlotsLabel" xml:space="preserve">
+    <value>PCIe slots</value>
+  </data>
+  <data name="SharingLabel" xml:space="preserve">
+    <value>Lane sharing</value>
+  </data>
+  <data name="SharingNone" xml:space="preserve">
+    <value>None for these slots</value>
+  </data>
+  <data name="SharingDisables" xml:space="preserve">
+    <value>{0} in use: {1} disabled</value>
+  </data>
+  <data name="SharingLanes" xml:space="preserve">
+    <value>{0} in use: {1} runs at x{2}</value>
+  </data>
+  <data name="BoardNotListed" xml:space="preserve">
+    <value>This motherboard is not in TweakHub's list yet: the advice stays generic.</value>
+  </data>
+  <data name="HintSharing" xml:space="preserve">
+    <value>On this motherboard: {0}.</value>
+  </data>
+  <data name="HintFasterM2" xml:space="preserve">
+    <value>M.2 slots up to PCIe {0} on this motherboard: {1}.</value>
+  </data>
+  <data name="HintCpuM2" xml:space="preserve">
+    <value>M.2 slots wired to the CPU on this motherboard: {0}. At least one looks free: it is the best place for the system or games drive.</value>
+  </data>
+  <data name="HintSlotGen" xml:space="preserve">
+    <value>The main slot on this motherboard ({0}) runs up to PCIe {1}.</value>
+  </data>
+  <data name="LinkSlotLimit" xml:space="preserve">
+    <value>The slot runs up to PCIe {0}: the device is at the most this motherboard allows.</value>
+  </data>
 </root>

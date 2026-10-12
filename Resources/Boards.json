@@ -1,0 +1,11 @@
+{
+  "boards": [
+    {
+      "match": ["MPG X570 GAMING EDGE WIFI"], "name": "MSI MPG X570 Gaming Edge WiFi", "chipset": "X570",
+      "source": "https://download.msi.com/archive/mnu_exe/mb/E7C37v1.1.pdf",
+      "m2": [{"label": "M2_1", "source": "cpu", "gen": 4, "lanes": 4}, {"label": "M2_2", "source": "chipset", "gen": 3, "lanes": 4}],
+      "slots": [{"label": "PCI_E1", "source": "cpu", "gen": 4, "lanes": 16}, {"label": "PCI_E3", "source": "chipset", "gen": 4, "lanes": 4}],
+      "sharing": []
+    }
+  ]
+}

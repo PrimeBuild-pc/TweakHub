@@ -700,4 +700,46 @@ TweakHub はスクリプトの動作を確認できず、作者はいつでも�
   <data name="LinkUsbUnknown" xml:space="preserve">
     <value>ハブがこのポートの速度を報告しませんでした。</value>
   </data>
+  <data name="SourceCpu" xml:space="preserve">
+    <value>CPU</value>
+  </data>
+  <data name="SourceChipset" xml:space="preserve">
+    <value>チップセット</value>
+  </data>
+  <data name="M2Label" xml:space="preserve">
+    <value>M.2 スロット</value>
+  </data>
+  <data name="SlotsLabel" xml:space="preserve">
+    <value>PCIe スロット</value>
+  </data>
+  <data name="SharingLabel" xml:space="preserve">
+    <value>レーン共有</value>
+  </data>
+  <data name="SharingNone" xml:space="preserve">
+    <value>これらのスロットにはありません</value>
+  </data>
+  <data name="SharingDisables" xml:space="preserve">
+    <value>{0} 使用時：{1} は無効</value>
+  </data>
+  <data name="SharingLanes" xml:space="preserve">
+    <value>{0} 使用時：{1} は x{2} で動作</value>
+  </data>
+  <data name="BoardNotListed" xml:space="preserve">
+    <value>このマザーボードはまだ TweakHub の一覧にないため、アドバイスは一般的な内容になります。</value>
+  </data>
+  <data name="HintSharing" xml:space="preserve">
+    <value>このマザーボードでは：{0}。</value>
+  </data>
+  <data name="HintFasterM2" xml:space="preserve">
+    <value>このマザーボードの PCIe {0} までの M.2 スロット：{1}。</value>
+  </data>
+  <data name="HintCpuM2" xml:space="preserve">
+    <value>このマザーボードで CPU に直結された M.2 スロット：{0}。少なくとも 1 つが空いているようです。システムやゲーム用ドライブに最適な場所です。</value>
+  </data>
+  <data name="HintSlotGen" xml:space="preserve">
+    <value>このマザーボードのメインスロット（{0}）は PCIe {1} までです。</value>
+  </data>
+  <data name="LinkSlotLimit" xml:space="preserve">
+    <value>スロットは PCIe {0} までなので、このマザーボードで可能な最高速度で動作しています。</value>
+  </data>
 </root>

@@ -700,4 +700,46 @@ TweakHub no puede comprobar lo que hace el script y el autor puede cambiarlo en 
   <data name="LinkUsbUnknown" xml:space="preserve">
     <value>El concentrador no informó de la velocidad de este puerto.</value>
   </data>
+  <data name="SourceCpu" xml:space="preserve">
+    <value>CPU</value>
+  </data>
+  <data name="SourceChipset" xml:space="preserve">
+    <value>chipset</value>
+  </data>
+  <data name="M2Label" xml:space="preserve">
+    <value>Ranuras M.2</value>
+  </data>
+  <data name="SlotsLabel" xml:space="preserve">
+    <value>Ranuras PCIe</value>
+  </data>
+  <data name="SharingLabel" xml:space="preserve">
+    <value>Líneas compartidas</value>
+  </data>
+  <data name="SharingNone" xml:space="preserve">
+    <value>Ninguna en estas ranuras</value>
+  </data>
+  <data name="SharingDisables" xml:space="preserve">
+    <value>con {0} en uso: {1} desactivado</value>
+  </data>
+  <data name="SharingLanes" xml:space="preserve">
+    <value>con {0} en uso: {1} funciona a x{2}</value>
+  </data>
+  <data name="BoardNotListed" xml:space="preserve">
+    <value>Esta placa base aún no está en la lista de TweakHub: los consejos son genéricos.</value>
+  </data>
+  <data name="HintSharing" xml:space="preserve">
+    <value>En esta placa base: {0}.</value>
+  </data>
+  <data name="HintFasterM2" xml:space="preserve">
+    <value>Ranuras M.2 hasta PCIe {0} en esta placa base: {1}.</value>
+  </data>
+  <data name="HintCpuM2" xml:space="preserve">
+    <value>Ranuras M.2 conectadas a la CPU en esta placa base: {0}. Al menos una parece libre: es el mejor sitio para la unidad del sistema o de los juegos.</value>
+  </data>
+  <data name="HintSlotGen" xml:space="preserve">
+    <value>La ranura principal de esta placa base ({0}) llega hasta PCIe {1}.</value>
+  </data>
+  <data name="LinkSlotLimit" xml:space="preserve">
+    <value>La ranura llega hasta PCIe {0}: el dispositivo funciona al máximo que permite esta placa base.</value>
+  </data>
 </root>

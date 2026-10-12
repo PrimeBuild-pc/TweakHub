@@ -700,4 +700,46 @@ TweakHub non può controllare cosa fa lo script e l'autore può modificarlo in q
   <data name="LinkUsbUnknown" xml:space="preserve">
     <value>L'hub non ha riportato la velocità di questa porta.</value>
   </data>
+  <data name="SourceCpu" xml:space="preserve">
+    <value>CPU</value>
+  </data>
+  <data name="SourceChipset" xml:space="preserve">
+    <value>chipset</value>
+  </data>
+  <data name="M2Label" xml:space="preserve">
+    <value>Slot M.2</value>
+  </data>
+  <data name="SlotsLabel" xml:space="preserve">
+    <value>Slot PCIe</value>
+  </data>
+  <data name="SharingLabel" xml:space="preserve">
+    <value>Linee condivise</value>
+  </data>
+  <data name="SharingNone" xml:space="preserve">
+    <value>Nessuna per questi slot</value>
+  </data>
+  <data name="SharingDisables" xml:space="preserve">
+    <value>con {0} in uso: {1} disattivato</value>
+  </data>
+  <data name="SharingLanes" xml:space="preserve">
+    <value>con {0} in uso: {1} va a x{2}</value>
+  </data>
+  <data name="BoardNotListed" xml:space="preserve">
+    <value>Questa scheda madre non è ancora nell'elenco di TweakHub: i suggerimenti restano generici.</value>
+  </data>
+  <data name="HintSharing" xml:space="preserve">
+    <value>Su questa scheda madre: {0}.</value>
+  </data>
+  <data name="HintFasterM2" xml:space="preserve">
+    <value>Slot M.2 fino a PCIe {0} su questa scheda madre: {1}.</value>
+  </data>
+  <data name="HintCpuM2" xml:space="preserve">
+    <value>Slot M.2 collegati alla CPU su questa scheda madre: {0}. Almeno uno sembra libero: è il posto migliore per il disco di sistema o dei giochi.</value>
+  </data>
+  <data name="HintSlotGen" xml:space="preserve">
+    <value>Lo slot principale di questa scheda madre ({0}) arriva a PCIe {1}.</value>
+  </data>
+  <data name="LinkSlotLimit" xml:space="preserve">
+    <value>Lo slot arriva a PCIe {0}: il dispositivo va al massimo che questa scheda madre consente.</value>
+  </data>
 </root>

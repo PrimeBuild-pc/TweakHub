@@ -700,4 +700,46 @@ TweakHub 无法检查脚本的行为，作者也可以随时修改它。如有�
   <data name="LinkUsbUnknown" xml:space="preserve">
     <value>集线器没有报告此接口的速度。</value>
   </data>
+  <data name="SourceCpu" xml:space="preserve">
+    <value>CPU</value>
+  </data>
+  <data name="SourceChipset" xml:space="preserve">
+    <value>芯片组</value>
+  </data>
+  <data name="M2Label" xml:space="preserve">
+    <value>M.2 插槽</value>
+  </data>
+  <data name="SlotsLabel" xml:space="preserve">
+    <value>PCIe 插槽</value>
+  </data>
+  <data name="SharingLabel" xml:space="preserve">
+    <value>通道共享</value>
+  </data>
+  <data name="SharingNone" xml:space="preserve">
+    <value>这些插槽没有共享</value>
+  </data>
+  <data name="SharingDisables" xml:space="preserve">
+    <value>使用 {0} 时：{1} 不可用</value>
+  </data>
+  <data name="SharingLanes" xml:space="preserve">
+    <value>使用 {0} 时：{1} 降为 x{2}</value>
+  </data>
+  <data name="BoardNotListed" xml:space="preserve">
+    <value>这块主板尚未收录在 TweakHub 的列表中，因此建议是通用的。</value>
+  </data>
+  <data name="HintSharing" xml:space="preserve">
+    <value>这块主板上：{0}。</value>
+  </data>
+  <data name="HintFasterM2" xml:space="preserve">
+    <value>这块主板上最高支持 PCIe {0} 的 M.2 插槽：{1}。</value>
+  </data>
+  <data name="HintCpuM2" xml:space="preserve">
+    <value>这块主板上直连 CPU 的 M.2 插槽：{0}。至少有一个似乎空闲，最适合放系统盘或游戏盘。</value>
+  </data>
+  <data name="HintSlotGen" xml:space="preserve">
+    <value>这块主板的主插槽（{0}）最高支持 PCIe {1}。</value>
+  </data>
+  <data name="LinkSlotLimit" xml:space="preserve">
+    <value>插槽最高支持 PCIe {0}：设备已达到这块主板允许的最高速度。</value>
+  </data>
 </root>

@@ -700,4 +700,46 @@ TweakHub не может проверить, что делает скрипт, �
   <data name="LinkUsbUnknown" xml:space="preserve">
     <value>Хаб не сообщил скорость этого порта.</value>
   </data>
+  <data name="SourceCpu" xml:space="preserve">
+    <value>CPU</value>
+  </data>
+  <data name="SourceChipset" xml:space="preserve">
+    <value>чипсет</value>
+  </data>
+  <data name="M2Label" xml:space="preserve">
+    <value>Слоты M.2</value>
+  </data>
+  <data name="SlotsLabel" xml:space="preserve">
+    <value>Слоты PCIe</value>
+  </data>
+  <data name="SharingLabel" xml:space="preserve">
+    <value>Общие линии</value>
+  </data>
+  <data name="SharingNone" xml:space="preserve">
+    <value>Нет для этих слотов</value>
+  </data>
+  <data name="SharingDisables" xml:space="preserve">
+    <value>при занятом {0}: {1} отключается</value>
+  </data>
+  <data name="SharingLanes" xml:space="preserve">
+    <value>при занятом {0}: {1} работает в режиме x{2}</value>
+  </data>
+  <data name="BoardNotListed" xml:space="preserve">
+    <value>Этой материнской платы ещё нет в списке TweakHub: советы будут общими.</value>
+  </data>
+  <data name="HintSharing" xml:space="preserve">
+    <value>На этой материнской плате: {0}.</value>
+  </data>
+  <data name="HintFasterM2" xml:space="preserve">
+    <value>Слоты M.2 до PCIe {0} на этой материнской плате: {1}.</value>
+  </data>
+  <data name="HintCpuM2" xml:space="preserve">
+    <value>Слоты M.2, подключённые к процессору на этой плате: {0}. Как минимум один, похоже, свободен: это лучшее место для системного или игрового диска.</value>
+  </data>
+  <data name="HintSlotGen" xml:space="preserve">
+    <value>Основной слот этой платы ({0}) работает максимум в режиме PCIe {1}.</value>
+  </data>
+  <data name="LinkSlotLimit" xml:space="preserve">
+    <value>Слот работает максимум в режиме PCIe {0}: устройство работает на пределе возможностей этой платы.</value>
+  </data>
 </root>
