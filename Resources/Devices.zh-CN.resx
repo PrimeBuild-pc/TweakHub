@@ -516,6 +516,12 @@
   <data name="CheckGlobalTimerExplain" xml:space="preserve">
     <value>使所有进程共享任一应用请求的最高计时器精度（与 Windows 10 相同）。会增加功耗；仅在特定旧游戏需要时保留。</value>
   </data>
+  <data name="CheckProcessorStateRange" xml:space="preserve">
+    <value>最小处理器状态被锁定</value>
+  </data>
+  <data name="CheckProcessorStateRangeExplain" xml:space="preserve">
+    <value>某个优化工具降低了 Windows 允许的最小处理器状态上限（通常为 100%）。该设置会卡在这个值，电源计划编辑器无法调高它，CPU 节流优化也可能失败。修复会恢复 Windows 的 100% 上限。</value>
+  </data>
   <data name="ScriptsTitle" xml:space="preserve">
     <value>Marius Heier 脚本</value>
   </data>

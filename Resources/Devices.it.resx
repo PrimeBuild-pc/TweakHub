@@ -516,6 +516,12 @@
   <data name="CheckGlobalTimerExplain" xml:space="preserve">
     <value>Fa condividere a tutti i processi il timer più fine richiesto da un'app, come in Windows 10. Aumenta i consumi; tienilo solo se serve a un vecchio gioco specifico.</value>
   </data>
+  <data name="CheckProcessorStateRange" xml:space="preserve">
+    <value>Stato minimo del processore bloccato</value>
+  </data>
+  <data name="CheckProcessorStateRangeExplain" xml:space="preserve">
+    <value>Un tool di tweak ha abbassato il valore massimo che Windows consente per lo stato minimo del processore (normalmente 100%). L'impostazione resta bloccata su quel valore, l'editor del piano non può alzarla e il tweak sul throttling della CPU può fallire. La correzione ripristina il limite di Windows al 100%.</value>
+  </data>
   <data name="ScriptsTitle" xml:space="preserve">
     <value>Script di Marius Heier</value>
   </data>

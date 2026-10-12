@@ -516,6 +516,12 @@
   <data name="CheckGlobalTimerExplain" xml:space="preserve">
     <value>Makes every process share the finest timer any app requests, as on Windows 10. It raises power use; keep it only if a specific old game needs it.</value>
   </data>
+  <data name="CheckProcessorStateRange" xml:space="preserve">
+    <value>Minimum processor state locked</value>
+  </data>
+  <data name="CheckProcessorStateRangeExplain" xml:space="preserve">
+    <value>A tweaking tool lowered the highest value Windows allows for minimum processor state (normally 100%). The setting stays stuck at that value, the power plan editor cannot raise it and the CPU throttling tweak may fail. The repair puts the Windows limit of 100% back.</value>
+  </data>
   <data name="ScriptsTitle" xml:space="preserve">
     <value>Marius Heier scripts</value>
   </data>

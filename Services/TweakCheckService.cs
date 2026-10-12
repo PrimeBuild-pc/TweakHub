@@ -33,6 +33,9 @@ public sealed class TweakCheckService
     private const string Csrss = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\csrss.exe\PerfOptions";
     private const string Dwm = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\Dwm";
     private const string Mouse = @"HKEY_CURRENT_USER\Control Panel\Mouse";
+    // Definition of "Minimum processor state": ValueMax is the highest value any plan may use (Windows default 100).
+    private const string MinProcessorState = Control + @"\Power\PowerSettingsť33251-82be-4824-96c1-47b60b740d00\893dee8e-2bef-41e0-89c6-b55d0929964c";
+    internal const int DefaultProcessorStateMax = 100;
     internal const int DefaultSvcHostSplitThreshold = 0x380000;
     internal static readonly string[] BcdTimerValues = ["useplatformclock", "disabledynamictick", "useplatformtick", "tscsyncpolicy"];
     private static readonly string[] RawMouseThrottleValues = ["RawMouseThrottleEnabled", "RawMouseThrottleForced", "RawMouseThrottleDuration", "RawMouseThrottleLeeway"];
@@ -100,7 +103,11 @@ public sealed class TweakCheckService
                 ],
                 Show(MemoryManagement, "DisablePagingExecutive", "LargeSystemCache", "IoPageLockLimit", "CacheUnmapBehindLengthInMB"), restart: true),
             Check("RawMouseThrottle", DeleteExisting(Mouse, RawMouseThrottleValues), Show(Mouse, RawMouseThrottleValues)),
-            Check("GlobalTimer", DeleteExisting(Kernel, "GlobalTimerResolutionRequests"), Show(Kernel, "GlobalTimerResolutionRequests"), restart: true)
+            Check("GlobalTimer", DeleteExisting(Kernel, "GlobalTimerResolutionRequests"), Show(Kernel, "GlobalTimerResolutionRequests"), restart: true),
+            Check("ProcessorStateRange",
+                Value(MinProcessorState, "ValueMax") is int max && max < DefaultProcessorStateMax
+                    ? [new(MinProcessorState, "ValueMax", DefaultProcessorStateMax)] : [],
+                Show(MinProcessorState, "ValueMax"), restart: true)
         };
         return checks.Select(check => check with { Managed = ManagedValues(check.Id) }).ToList();
     }
@@ -120,6 +127,7 @@ public sealed class TweakCheckService
             "MemoryManagement" => Values(MemoryManagement, "DisablePagingExecutive", "LargeSystemCache", "IoPageLockLimit", "CacheUnmapBehindLengthInMB"),
             "RawMouseThrottle" => Values(Mouse, RawMouseThrottleValues),
             "GlobalTimer" => Values(Kernel, "GlobalTimerResolutionRequests"),
+            "ProcessorStateRange" => Values(MinProcessorState, "ValueMax"),
             _ => []
         };
     }
