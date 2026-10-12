@@ -33,6 +33,9 @@
             <TabItem x:Name="UsbTab" Header="{loc:Loc Devices:TabUsb}">
                 <local:UsbInputView x:Name="Usb"/>
             </TabItem>
+            <TabItem x:Name="LinksTab" Header="{loc:Loc Devices:TabLinks}">
+                <local:LinkCheckView x:Name="Links"/>
+            </TabItem>
             <TabItem x:Name="ChecksTab" Header="{loc:Loc Devices:TabChecks}">
                 <local:TweakCheckView x:Name="Checks"/>
             </TabItem>

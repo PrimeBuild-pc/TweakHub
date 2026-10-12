@@ -565,4 +565,187 @@ TweakHub 无法检查脚本的行为，作者也可以随时修改它。如有�
   <data name="LoadingChecks" xml:space="preserve">
     <value>正在检查有害调整…</value>
   </data>
+  <data name="TabLinks" xml:space="preserve">
+    <value>连接</value>
+  </data>
+  <data name="LinksDescription" xml:space="preserve">
+    <value>检查显卡、NVMe 固态硬盘、PCIe 扩展卡和 USB 设备是否以全部通道和最高速度运行，以及哪些设备经过芯片组。只读：把设备换到其他插槽或接口后，再次点击“扫描”。</value>
+  </data>
+  <data name="LoadingLinks" xml:space="preserve">
+    <value>正在读取 PCIe 链路…</value>
+  </data>
+  <data name="PlatformTitle" xml:space="preserve">
+    <value>平台</value>
+  </data>
+  <data name="BoardLabel" xml:space="preserve">
+    <value>主板</value>
+  </data>
+  <data name="CpuLabel" xml:space="preserve">
+    <value>处理器</value>
+  </data>
+  <data name="ChipsetLabel" xml:space="preserve">
+    <value>芯片组</value>
+  </data>
+  <data name="UplinkLabel" xml:space="preserve">
+    <value>CPU–芯片组链路</value>
+  </data>
+  <data name="LinksTitle" xml:space="preserve">
+    <value>PCIe 设备</value>
+  </data>
+  <data name="NoLinkDevices" xml:space="preserve">
+    <value>未找到带有链路信息的 PCIe 设备。</value>
+  </data>
+  <data name="LinkKindGpu" xml:space="preserve">
+    <value>显卡</value>
+  </data>
+  <data name="LinkKindNvme" xml:space="preserve">
+    <value>NVMe 固态硬盘</value>
+  </data>
+  <data name="LinkKindNetwork" xml:space="preserve">
+    <value>网络</value>
+  </data>
+  <data name="LinkKindOther" xml:space="preserve">
+    <value>PCIe 设备</value>
+  </data>
+  <data name="LinkStatusOk" xml:space="preserve">
+    <value>正常</value>
+  </data>
+  <data name="LinkStatusCheck" xml:space="preserve">
+    <value>需检查</value>
+  </data>
+  <data name="LinkStatusBad" xml:space="preserve">
+    <value>性能受损</value>
+  </data>
+  <data name="LinkStatusUnknown" xml:space="preserve">
+    <value>无法读取</value>
+  </data>
+  <data name="AttachCpu" xml:space="preserve">
+    <value>连接到 CPU</value>
+  </data>
+  <data name="AttachChipset" xml:space="preserve">
+    <value>连接到芯片组</value>
+  </data>
+  <data name="AttachUnknown" xml:space="preserve">
+    <value>无法确定连接位置</value>
+  </data>
+  <data name="RootPort" xml:space="preserve">
+    <value>根端口 {0}</value>
+  </data>
+  <data name="LinkOk" xml:space="preserve">
+    <value>以全部通道和支持的最高速度运行。</value>
+  </data>
+  <data name="LinkOkChipset" xml:space="preserve">
+    <value>以全部通道和最高速度运行。它经过芯片组，芯片组与 USB、SATA 及其他设备共享一条到 CPU 的链路。</value>
+  </data>
+  <data name="LinkLanesMissing" xml:space="preserve">
+    <value>以 x{0} 而不是 x{1} 运行。通常是插槽较窄，或附近的 M.2 或插槽共享了通道：请查看主板说明书中的通道共享表，或把设备移到全速插槽。</value>
+  </data>
+  <data name="LinkGpuOnChipset" xml:space="preserve">
+    <value>显卡经过芯片组，与 USB、SATA 和其他硬盘共享到 CPU 的链路。请把它移到主 x16 插槽，也就是最靠近 CPU 的那个。</value>
+  </data>
+  <data name="LinkGpuGenLower" xml:space="preserve">
+    <value>链路为 PCIe {0} 而不是 {1}。显卡空闲时会降低链路速度：打开游戏或 3D 应用后点击“扫描”。如果没有变化，说明插槽或 CPU 限制为 PCIe {0}。</value>
+  </data>
+  <data name="LinkGenLower" xml:space="preserve">
+    <value>链路为 PCIe {0} 而不是 {1}：插槽比设备慢。如果主板有空闲的 PCIe {1} 插槽，请移到那里。</value>
+  </data>
+  <data name="LinkHidden" xml:space="preserve">
+    <value>此卡板载 PCIe 交换芯片：Windows 只能看到内部链路，没有显卡驱动提供的数据就无法读取真实链路。</value>
+  </data>
+  <data name="LinkChipsetUnknown" xml:space="preserve">
+    <value>无法识别芯片组，因此无法计算共享带宽。</value>
+  </data>
+  <data name="LinkChipsetIdle" xml:space="preserve">
+    <value>没有高速设备经过芯片组。</value>
+  </data>
+  <data name="LinkChipsetOk" xml:space="preserve">
+    <value>芯片组上的高速设备：{0} 个，最高 {1:0.#} GB/s。{3} 链路（{2:0.#} GB/s）足够。</value>
+  </data>
+  <data name="LinkChipsetShared" xml:space="preserve">
+    <value>芯片组上的高速设备：{0} 个，合计最高 {1:0.#} GB/s，超过到 CPU 的 {3} 链路（{2:0.#} GB/s）。同时使用时（例如在两块 SSD 之间复制）会分享带宽。这是理论带宽，不是实测流量。</value>
+  </data>
+  <data name="UsbTitle" xml:space="preserve">
+    <value>USB 设备</value>
+  </data>
+  <data name="UsbKindHub" xml:space="preserve">
+    <value>集线器</value>
+  </data>
+  <data name="UsbKindStorage" xml:space="preserve">
+    <value>存储设备</value>
+  </data>
+  <data name="UsbKindVideo" xml:space="preserve">
+    <value>摄像头</value>
+  </data>
+  <data name="UsbKindInput" xml:space="preserve">
+    <value>输入设备</value>
+  </data>
+  <data name="UsbKindAudio" xml:space="preserve">
+    <value>音频</value>
+  </data>
+  <data name="UsbKindOther" xml:space="preserve">
+    <value>USB 设备</value>
+  </data>
+  <data name="LinkUsbSlowPort" xml:space="preserve">
+    <value>支持 USB 3，但正以 USB 2（480 Mb/s）运行。请用 USB 3 线缆把它接到 USB 3 接口（通常为蓝色或标有 SS），中间不要经过 USB 2 集线器，然后点击“扫描”。</value>
+  </data>
+  <data name="LinkUsbInputHub" xml:space="preserve">
+    <value>经过 {0} 个集线器。鼠标和键盘最好直接接到电脑的接口上，这样不会与其他设备共享集线器。</value>
+  </data>
+  <data name="LinkUsbSharedHub" xml:space="preserve">
+    <value>与 {0} 共用一个集线器：集线器后面的所有设备都通过同一条链路连接电脑，同时使用时会分享带宽。请把其中一个直接接到电脑上。</value>
+  </data>
+  <data name="LinkUsbOk" xml:space="preserve">
+    <value>以其支持的速度运行。</value>
+  </data>
+  <data name="LinkUsbUnknown" xml:space="preserve">
+    <value>集线器没有报告此接口的速度。</value>
+  </data>
+  <data name="SourceCpu" xml:space="preserve">
+    <value>CPU</value>
+  </data>
+  <data name="SourceChipset" xml:space="preserve">
+    <value>芯片组</value>
+  </data>
+  <data name="M2Label" xml:space="preserve">
+    <value>M.2 插槽</value>
+  </data>
+  <data name="SlotsLabel" xml:space="preserve">
+    <value>PCIe 插槽</value>
+  </data>
+  <data name="SharingLabel" xml:space="preserve">
+    <value>通道共享</value>
+  </data>
+  <data name="SharingNone" xml:space="preserve">
+    <value>这些插槽没有共享</value>
+  </data>
+  <data name="SharingDisables" xml:space="preserve">
+    <value>使用 {0} 时：{1} 不可用</value>
+  </data>
+  <data name="SharingLanes" xml:space="preserve">
+    <value>使用 {0} 时：{1} 降为 x{2}</value>
+  </data>
+  <data name="BoardNotListed" xml:space="preserve">
+    <value>这块主板尚未收录在 TweakHub 的列表中，因此建议是通用的。</value>
+  </data>
+  <data name="HintSharing" xml:space="preserve">
+    <value>这块主板上：{0}。</value>
+  </data>
+  <data name="HintFasterM2" xml:space="preserve">
+    <value>这块主板上最高支持 PCIe {0} 的 M.2 插槽：{1}。</value>
+  </data>
+  <data name="HintCpuM2" xml:space="preserve">
+    <value>这块主板上直连 CPU 的 M.2 插槽：{0}。至少有一个似乎空闲，最适合放系统盘或游戏盘。</value>
+  </data>
+  <data name="HintSlotGen" xml:space="preserve">
+    <value>这块主板的主插槽（{0}）最高支持 PCIe {1}。</value>
+  </data>
+  <data name="LinkSlotLimit" xml:space="preserve">
+    <value>插槽最高支持 PCIe {0}：设备已达到这块主板允许的最高速度。</value>
+  </data>
+  <data name="LinkSlotLanes" xml:space="preserve">
+    <value>这块主板的 M.2 插槽只接了 x{0} 通道：硬盘以插槽提供的速度运行，而不是它的最高速度。</value>
+  </data>
+  <data name="HintWiderM2" xml:space="preserve">
+    <value>这块主板上有 x{0} 通道的 M.2 插槽：{1}。</value>
+  </data>
 </root>

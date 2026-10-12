@@ -31,6 +31,7 @@
 
   <ItemGroup>
     <Resource Include="ico.ico" />
+    <EmbeddedResource Include="Resources\Boards.json" />
     <None Update="portable.flag" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <None Update="THIRD_PARTY_NOTICES.md" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
