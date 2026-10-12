@@ -28,7 +28,7 @@ public sealed class UserDataService
     // Undo data and choices that only the copy holding them can restore.
     private static readonly string[] UndoDataFiles =
         ["registry-backup.json", "power-backup.json", "windows-update-backup.json", "dns-backup.json",
-         "disabled-devices.json", "disabled-services.json", "third-party-consent.json"];
+         "disabled-devices.json", "disabled-services.json", "third-party-consent.json", "network-adapters.json"];
 
     private const int ProfileVersion = 2;
     private static readonly JsonSerializerOptions JsonOptions = new() { WriteIndented = true };

@@ -772,12 +772,33 @@ TweakHub 会恢复捕获的原始值。</value>
     <value>游戏低延迟网络预设</value>
   </data>
   <data name="CategoryOrTweakDescriptionOptimizeNetworkForGaming" xml:space="preserve">
-    <value>在物理网络适配器上（若驱动程序支持）关闭中断节流和以太网节能 (EEE、Green Ethernet)，并将 Windows 更新的后台下载限制为带宽的 30%，避免在对局中占满线路。ping 更低、波动更少，CPU 占用略有增加。下载方向的缓冲膨胀需在路由器上解决 (SQM：fq_codel 或 CAKE)。重启后生效；还原会恢复所有值。</value>
+    <value>在所选适配器上，为 Intel 和 Realtek 以太网关闭中断节流和以太网节能 (EEE、Green Ethernet、超低功耗)，为 Intel Wi-Fi 关闭节能和数据包合并。只更改驱动程序自身声明的设置，不支持其他适配器。ping 更低、波动更少，CPU 占用略有增加。下载方向的缓冲膨胀需在路由器上解决 (SQM：fq_codel 或 CAKE)。重启后生效；还原会恢复所有值。</value>
   </data>
   <data name="CategoryOrTweakNameOptimizeFlipModel" xml:space="preserve">
     <value>为独立翻转 (Independent Flip) 优化呈现</value>
   </data>
   <data name="CategoryOrTweakDescriptionOptimizeFlipModel" xml:space="preserve">
     <value>应用 Windows 11 设置，使游戏（包括无边框窗口）以最低延迟进入独立翻转：硬件加速 GPU 计划、窗口化游戏优化（翻转模型）、保持全屏优化和多平面叠加 (MPO) 开启，以及游戏模式。取代会阻断此路径的“禁用全屏优化”。其他 DirectX 设置保持不变；HAGS 需要支持它的 GPU 和驱动程序。</value>
+  </data>
+  <data name="CategoryOrTweakNameLimitBackgroundUpdates" xml:space="preserve">
+    <value>限制 Windows 更新的后台下载</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionLimitBackgroundUpdates" xml:space="preserve">
+    <value>将更新和应用商店应用的后台下载限制为可用带宽的 30%，避免在游戏或通话时占满线路、抬高 ping。你自己启动的下载不受限制。</value>
+  </data>
+  <data name="NetworkPresetUnavailable" xml:space="preserve">
+    <value>此电脑不可用：仅适用于驱动程序声明了这些设置的 Intel 或 Realtek 以太网以及 Intel Wi-Fi 适配器。检测到：{0}。</value>
+  </data>
+  <data name="NetworkPresetNoAdapters" xml:space="preserve">
+    <value>没有以太网或 Wi-Fi 适配器</value>
+  </data>
+  <data name="NetworkPresetChooseTitle" xml:space="preserve">
+    <value>选择网络适配器</value>
+  </data>
+  <data name="NetworkPresetChooseMessage" xml:space="preserve">
+    <value>将低延迟预设应用到这些适配器。仅列出受支持的适配器；用于游戏的通常是已连接的有线适配器。</value>
+  </data>
+  <data name="NetworkAdapterConnected" xml:space="preserve">
+    <value>已连接</value>
   </data>
 </root>

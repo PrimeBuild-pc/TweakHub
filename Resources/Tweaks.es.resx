@@ -778,12 +778,33 @@ Crearlo puede tardar un minuto y requiere privilegios de administrador.</value>
     <value>Ajuste de red de baja latencia para juegos</value>
   </data>
   <data name="CategoryOrTweakDescriptionOptimizeNetworkForGaming" xml:space="preserve">
-    <value>En los adaptadores de red físicos desactiva la moderación de interrupciones y el ahorro de energía Ethernet (EEE, Green Ethernet) cuando el controlador los ofrece, y limita las descargas en segundo plano de Windows Update al 30 % del ancho de banda para que no saturen la línea durante una partida. Menos ping y menos picos, con algo más de uso de CPU. El bufferbloat de descarga se resuelve en el router (SQM: fq_codel o CAKE). Surte efecto tras reiniciar; restaurar devuelve cada valor a su estado.</value>
+    <value>En los adaptadores elegidos desactiva la moderación de interrupciones y el ahorro de energía Ethernet (EEE, Green Ethernet, ultra low power) en Ethernet Intel y Realtek, y el ahorro de energía y la agrupación de paquetes en Wi-Fi Intel. Solo se cambian los ajustes que declara el propio controlador; los demás adaptadores no son compatibles. Menos ping y menos picos, con algo más de uso de CPU. El bufferbloat de descarga se resuelve en el router (SQM: fq_codel o CAKE). Surte efecto tras reiniciar; restaurar devuelve cada valor a su estado.</value>
   </data>
   <data name="CategoryOrTweakNameOptimizeFlipModel" xml:space="preserve">
     <value>Optimizar la presentación para independent flip</value>
   </data>
   <data name="CategoryOrTweakDescriptionOptimizeFlipModel" xml:space="preserve">
     <value>Aplica los ajustes de Windows 11 que permiten a los juegos llegar a independent flip con la menor latencia, también en ventana sin bordes: programación de GPU acelerada por hardware, optimizaciones para juegos en ventana (flip model), optimizaciones de pantalla completa y multiplane overlay activas, y Modo de juego. Sustituye a "Desactivar optimizaciones de pantalla completa", que bloquea esta vía. Los demás ajustes de DirectX se conservan; HAGS requiere una GPU y un controlador compatibles.</value>
+  </data>
+  <data name="CategoryOrTweakNameLimitBackgroundUpdates" xml:space="preserve">
+    <value>Limitar las descargas en segundo plano de Windows Update</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionLimitBackgroundUpdates" xml:space="preserve">
+    <value>Limita al 30 % del ancho de banda disponible las descargas en segundo plano de actualizaciones y aplicaciones de la Store, para que no saturen la línea ni suban el ping mientras juegas o llamas. Las descargas que inicias tú no se limitan.</value>
+  </data>
+  <data name="NetworkPresetUnavailable" xml:space="preserve">
+    <value>No disponible en este PC: solo funciona con adaptadores Ethernet Intel o Realtek y Wi-Fi Intel cuyo controlador declara estos ajustes. Detectados: {0}.</value>
+  </data>
+  <data name="NetworkPresetNoAdapters" xml:space="preserve">
+    <value>ningún adaptador Ethernet ni Wi-Fi</value>
+  </data>
+  <data name="NetworkPresetChooseTitle" xml:space="preserve">
+    <value>Elige los adaptadores de red</value>
+  </data>
+  <data name="NetworkPresetChooseMessage" xml:space="preserve">
+    <value>Aplica el ajuste de baja latencia a estos adaptadores. Solo se muestran los compatibles; el que usas para jugar suele ser el cableado conectado.</value>
+  </data>
+  <data name="NetworkAdapterConnected" xml:space="preserve">
+    <value>conectado</value>
   </data>
 </root>

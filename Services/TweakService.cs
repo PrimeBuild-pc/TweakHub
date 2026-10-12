@@ -123,12 +123,22 @@ namespace TweakHub.Services
                 Id = "optimize_network_for_gaming",
                 Name = L.Get("Tweaks:CategoryOrTweakNameOptimizeNetworkForGaming"),
                 Description = L.Get("Tweaks:CategoryOrTweakDescriptionOptimizeNetworkForGaming"),
-                Type = TweakType.Registry,
-                RegistryPath = DeliveryOptimizationPolicy,
-                RegistryKey = "DOPercentageMaxBackgroundBandwidth",
-                EnabledValue = BackgroundDownloadPercent,
+                Type = TweakType.NetworkAdapter,
                 RiskLevel = 3,
                 RequiresRestart = true
+            });
+
+            category.Tweaks.Add(new PerformanceTweak
+            {
+                Id = "limit_background_updates",
+                Name = L.Get("Tweaks:CategoryOrTweakNameLimitBackgroundUpdates"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionLimitBackgroundUpdates"),
+                Type = TweakType.Registry,
+                RegistryPath = @"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization",
+                RegistryKey = "DOPercentageMaxBackgroundBandwidth",
+                // Background Windows Update downloads that fill the line are the usual cause of in-game bufferbloat on a PC.
+                EnabledValue = 30,
+                RiskLevel = 2
             });
 
             TweakCategories.Add(category);
@@ -584,43 +594,6 @@ namespace TweakHub.Services
             return string.Concat(entries.Select(entry => entry + ";"));
         }
 
-        private const string DeliveryOptimizationPolicy = @"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization";
-        // Background Windows Update downloads that fill the line are the usual cause of in-game bufferbloat on a PC.
-        private const int BackgroundDownloadPercent = 30;
-        private const string NetworkAdapterClass = @"SYSTEM\CurrentControlSet\Control\Class\{4d36e972-e325-11ce-bfc1-08002be10318}";
-        // Interrupt moderation and Ethernet power saving (standard and Intel/Realtek keywords); "0" turns each off.
-        internal static readonly string[] AdapterLatencyKeywords =
-            ["*InterruptModeration", "*EEE", "EEELinkAdvertisement", "AdvancedEEE", "EnableGreenEthernet", "GigaLite", "PowerSavingMode", "ULPMode"];
-
-        /// <summary>Only keywords the adapter driver already exposes are changed, so nothing unknown is added.</summary>
-        private static RegistryValueChange[] NetworkGamingChanges() =>
-        [
-            .. PhysicalAdapterKeys().SelectMany(key => AdapterLatencyKeywords
-                .Where(name => RegistryService.Instance.GetRegistryValue(key, name) is string)
-                .Select(name => new RegistryValueChange(key, name, "0", Microsoft.Win32.RegistryValueKind.String))),
-            new(DeliveryOptimizationPolicy, "DOPercentageMaxBackgroundBandwidth", BackgroundDownloadPercent)
-        ];
-
-        private static List<string> PhysicalAdapterKeys()
-        {
-            var keys = new List<string>();
-            try
-            {
-                using var adapters = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(NetworkAdapterClass);
-                foreach (var name in adapters?.GetSubKeyNames().Where(name => name.All(char.IsAsciiDigit)) ?? [])
-                {
-                    using var adapter = adapters!.OpenSubKey(name);
-                    // NCF_PHYSICAL (0x4): skips virtual, VPN and Hyper-V adapters.
-                    if (adapter?.GetValue("Characteristics") is int characteristics && (characteristics & 4) != 0)
-                        keys.Add($@"HKEY_LOCAL_MACHINE\{NetworkAdapterClass}\{name}");
-                }
-            }
-            catch (Exception ex) when (ex is System.Security.SecurityException or UnauthorizedAccessException)
-            {
-            }
-            return keys;
-        }
-
         private static readonly RegistryValueChange[] DeviceCoInstallerPolicies =
         [
             new(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\DriverSearching", "SearchOrderConfig", 0),
@@ -651,7 +624,6 @@ namespace TweakHub.Services
             "disable_consumer_content" => ConsumerContentPolicies,
             "disable_bing_search" => BingSearchPolicies,
             "optimize_flip_model" => FlipModelChanges(),
-            "optimize_network_for_gaming" => NetworkGamingChanges(),
             _ => []
         };
 
@@ -744,8 +716,17 @@ namespace TweakHub.Services
                 "disable_mouse_acceleration" => Task.Run(() => ApplyMouseAcceleration(enable)),
                 "disable_sysmain" => ApplyServiceTweakAsync(tweak, "SysMain", enable),
                 "disable_windows_search" => ApplyServiceTweakAsync(tweak, "WSearch", enable),
+                "optimize_network_for_gaming" => enable
+                    ? ApplyNetworkPresetAsync()
+                    : RegistryService.Instance.RestoreValuesAsync(NetworkAdapterService.BackedUpChanges()),
                 _ => Task.Run(() => RegistryService.Instance.ApplyTweak(tweak, enable))
             };
+        }
+
+        private static Task<bool> ApplyNetworkPresetAsync()
+        {
+            var changes = NetworkAdapterService.PresetChanges();
+            return changes.Count == 0 ? Task.FromResult(false) : RegistryService.Instance.ApplyValuesWithBackupAsync(changes);
         }
 
         private static async Task<bool> ApplyServiceTweakAsync(PerformanceTweak tweak, string serviceName, bool disable)
@@ -865,6 +846,7 @@ namespace TweakHub.Services
             {
                 "disable_cpu_throttling" or "disable_core_parking" or "high_performance_power_plan" =>
                     PowerService.Instance.HasBackup(tweak.Id),
+                "optimize_network_for_gaming" => NetworkAdapterService.BackedUpChanges().Count > 0,
                 "disable_mouse_acceleration" => new[] { "MouseSpeed", "MouseThreshold1", "MouseThreshold2" }
                     .Any(name => RegistryService.Instance.HasBackup(@"HKEY_CURRENT_USER\Control Panel\Mouse", name)),
                 _ => RegistryService.Instance.HasBackup(tweak.RegistryPath, tweak.RegistryKey)
@@ -883,6 +865,12 @@ namespace TweakHub.Services
             var stopped = await GetStoppedServicesAsync("SysMain", "WSearch");
             foreach (var tweak in TweakCategories.SelectMany(category => category.Tweaks))
             {
+                if (tweak.Type == TweakType.NetworkAdapter)
+                {
+                    RefreshNetworkPreset(tweak);
+                    continue;
+                }
+
                 var changes = GetCompositeRegistryChanges(tweak.Id);
                 if (changes.Count > 0)
                 {
@@ -913,6 +901,22 @@ namespace TweakHub.Services
                     _ => RegistryService.Instance.CheckTweakStatus(tweak)
                 };
             }
+        }
+
+        private static void RefreshNetworkPreset(PerformanceTweak tweak)
+        {
+            var adapters = NetworkAdapterService.GetAdapters();
+            var changes = NetworkAdapterService.Selected(adapters).SelectMany(adapter => adapter.Changes).ToList();
+            var matches = changes.Count(change =>
+                Equals(RegistryService.Instance.GetRegistryValue(change.KeyPath, change.ValueName), change.Value));
+            tweak.IsEnabled = changes.Count > 0 && matches == changes.Count;
+            tweak.IsPartiallyApplied = matches > 0 && matches < changes.Count;
+            // Values changed on an adapter that is gone or no longer supported must stay restorable.
+            tweak.UnavailableReason = changes.Count > 0 || NetworkAdapterService.BackedUpChanges().Count > 0
+                ? string.Empty
+                : L.Format("Tweaks:NetworkPresetUnavailable", adapters.Count == 0
+                    ? L.Get("Tweaks:NetworkPresetNoAdapters")
+                    : string.Join(", ", adapters.Select(adapter => adapter.Model)));
         }
 
         internal static WindowsUpdatePreset RecommendedWindowsUpdatePreset => WindowsUpdatePreset.Security;

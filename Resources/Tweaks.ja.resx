@@ -828,12 +828,33 @@ TweakHub は記録した元の値を復元します。</value>
     <value>ゲーム向け低遅延ネットワーク プリセット</value>
   </data>
   <data name="CategoryOrTweakDescriptionOptimizeNetworkForGaming" xml:space="preserve">
-    <value>物理ネットワーク アダプターで、ドライバーが対応している場合に割り込みモデレーションと Ethernet の省電力 (EEE、Green Ethernet) を無効にし、Windows Update のバックグラウンド ダウンロードを帯域幅の 30% に制限して、試合中に回線を占有しないようにします。ping とスパイクが減り、CPU 使用率はわずかに上がります。ダウンロード側のバッファーブロートはルーター (SQM: fq_codel または CAKE) で解決します。再起動後に有効になり、復元するとすべての値が元に戻ります。</value>
+    <value>選択したアダプターで、Intel と Realtek の Ethernet では割り込みモデレーションと Ethernet の省電力 (EEE、Green Ethernet、Ultra Low Power) を、Intel の Wi-Fi では省電力とパケットのまとめ送りを無効にします。ドライバー自体が宣言している設定だけを変更し、それ以外のアダプターには対応しません。ping とスパイクが減り、CPU 使用率はわずかに上がります。ダウンロード側のバッファーブロートはルーター (SQM: fq_codel または CAKE) で解決します。再起動後に有効になり、復元するとすべての値が元に戻ります。</value>
   </data>
   <data name="CategoryOrTweakNameOptimizeFlipModel" xml:space="preserve">
     <value>Independent Flip 向けに表示を最適化</value>
   </data>
   <data name="CategoryOrTweakDescriptionOptimizeFlipModel" xml:space="preserve">
     <value>ボーダーレス ウィンドウでも、ゲームが最小の遅延で Independent Flip に到達できる Windows 11 の設定を適用します: ハードウェア アクセラレータによる GPU スケジューリング、ウィンドウ ゲームの最適化 (フリップ モデル)、全画面表示の最適化とマルチプレーン オーバーレイの有効化、ゲーム モード。この経路を妨げる「全画面表示の最適化を無効化」に代わるものです。ほかの DirectX 設定は保持されます。HAGS には対応する GPU とドライバーが必要です。</value>
+  </data>
+  <data name="CategoryOrTweakNameLimitBackgroundUpdates" xml:space="preserve">
+    <value>Windows Update のバックグラウンド ダウンロードを制限</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionLimitBackgroundUpdates" xml:space="preserve">
+    <value>更新プログラムと Store アプリのバックグラウンド ダウンロードを利用可能な帯域幅の 30% に制限し、ゲームや通話中に回線を占有して ping が上がらないようにします。自分で開始したダウンロードは制限されません。</value>
+  </data>
+  <data name="NetworkPresetUnavailable" xml:space="preserve">
+    <value>この PC では使用できません: ドライバーがこれらの設定を宣言している Intel または Realtek の Ethernet と Intel の Wi-Fi アダプターでのみ動作します。検出: {0}。</value>
+  </data>
+  <data name="NetworkPresetNoAdapters" xml:space="preserve">
+    <value>Ethernet または Wi-Fi アダプターなし</value>
+  </data>
+  <data name="NetworkPresetChooseTitle" xml:space="preserve">
+    <value>ネットワーク アダプターを選択</value>
+  </data>
+  <data name="NetworkPresetChooseMessage" xml:space="preserve">
+    <value>低遅延プリセットを適用するアダプターを選んでください。対応しているアダプターだけが表示されます。ゲームに使うのは通常、接続中の有線アダプターです。</value>
+  </data>
+  <data name="NetworkAdapterConnected" xml:space="preserve">
+    <value>接続中</value>
   </data>
 </root>

@@ -20,6 +20,7 @@ public class TweakCatalogueTests
             "high_performance_power_plan",
             "optimize_network_throttling",
             "optimize_network_for_gaming",
+            "limit_background_updates",
             "disable_mouse_acceleration",
             "disable_fullscreen_optimizations",
             "optimize_flip_model",
@@ -132,19 +133,59 @@ public class TweakCatalogueTests
         });
     }
 
-    [Test]
-    public void NetworkPresetOnlyTouchesKeywordsThePhysicalAdaptersAlreadyExpose()
+    [TestCase("8086", false, "*InterruptModeration")]
+    [TestCase("8086", true, "MIMOPowerSaveMode")]
+    [TestCase("10EC", false, "EnableGreenEthernet")]
+    [TestCase("0BDA", false, "EnableGreenEthernet")]
+    public void NetworkPresetHasDocumentedSettingsForIntelAndRealtek(string vendor, bool wireless, string keyword)
     {
-        var changes = TweakService.GetCompositeRegistryChanges("optimize_network_for_gaming");
-        var adapters = changes.Where(change => change.ValueName != "DOPercentageMaxBackgroundBandwidth").ToList();
+        Assert.That(NetworkAdapterService.SettingsFor(vendor, wireless).Select(setting => setting.Keyword), Does.Contain(keyword));
+    }
+
+    [TestCase("10EC", true)]
+    [TestCase("0BDA", true)]
+    [TestCase("1969", false)]
+    [TestCase("1D6A", false)]
+    [TestCase("14E4", false)]
+    [TestCase("", false)]
+    public void NetworkPresetLeavesUndocumentedAdaptersAlone(string vendor, bool wireless)
+    {
+        Assert.That(NetworkAdapterService.SettingsFor(vendor, wireless), Is.Empty);
+    }
+
+    [TestCase(@"PCI\VEN_8086&DEV_125C", "8086")]
+    [TestCase(@"PCI\VEN_10ec&DEV_8125&SUBSYS_E0001458", "10EC")]
+    [TestCase(@"USB\VID_0BDA&PID_8156", "0BDA")]
+    [TestCase(@"ROOT\NET\0000", "")]
+    [TestCase(null, "")]
+    public void NetworkAdapterVendorComesFromTheHardwareId(string? hardwareId, string expected)
+    {
+        Assert.That(NetworkAdapterService.VendorId(hardwareId), Is.EqualTo(expected));
+    }
+
+    [Test]
+    public void NetworkPresetDefaultsToTheConnectedSupportedAdapters()
+    {
+        RegistryValueChange[] change = [new(@"HKEY_LOCAL_MACHINE\x", "*EEE", "0")];
+        var wired = new NetworkAdapter("{1}", "Ethernet", "I226-V", "Intel", false, true, change);
+        var wifi = new NetworkAdapter("{2}", "Wi-Fi", "AC 3168", "Intel", true, false, change);
+        var unknown = new NetworkAdapter("{3}", "Ethernet 2", "Other", "14E4", false, true, []);
         Assert.Multiple(() =>
         {
-            Assert.That(changes.Single(change => change.ValueName == "DOPercentageMaxBackgroundBandwidth").Value, Is.EqualTo(30));
-            Assert.That(adapters, Has.All.Matches<RegistryValueChange>(change =>
-                change.KeyPath.Contains(@"Class\{4d36e972-e325-11ce-bfc1-08002be10318}\") && Equals(change.Value, "0")
-                && TweakService.AdapterLatencyKeywords.Contains(change.ValueName)
-                && RegistryService.Instance.GetRegistryValue(change.KeyPath, change.ValueName) is string));
+            Assert.That(NetworkAdapterService.DefaultSelection([wired, wifi, unknown]), Is.EqualTo(new[] { wired }));
+            Assert.That(NetworkAdapterService.DefaultSelection([wifi, unknown]), Is.EqualTo(new[] { wifi }));
+            Assert.That(NetworkAdapterService.DefaultSelection([unknown]), Is.Empty);
         });
+    }
+
+    [Test]
+    public void NetworkPresetOnlyChangesManagedKeywordsOfInstalledAdapters()
+    {
+        var adapters = NetworkAdapterService.GetAdapters();
+        Assert.That(adapters.SelectMany(adapter => adapter.Changes), Has.All.Matches<RegistryValueChange>(change =>
+            change.KeyPath.StartsWith(NetworkAdapterService.ClassKey + @"\") && NetworkAdapterService.ManagedKeywords.Contains(change.ValueName)
+            && RegistryService.Instance.GetRegistryValue(change.KeyPath, change.ValueName) is string));
+        Assert.That(TweakService.GetCompositeRegistryChanges("optimize_network_for_gaming"), Is.Empty);
     }
 
     [Test]

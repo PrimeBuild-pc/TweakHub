@@ -54,6 +54,17 @@ public partial class AppDialogWindow : Window
 
     public string InputText => InputBox.Text.Trim();
 
+    /// <summary>Shows one check box per choice below the message.</summary>
+    public void SetChoices(IEnumerable<(string Label, bool IsChecked)> choices)
+    {
+        foreach (var (label, isChecked) in choices)
+            ChoicePanel.Children.Add(new CheckBox { Content = label, IsChecked = isChecked, Margin = new Thickness(0, 0, 0, 8) });
+        ChoicePanel.Visibility = Visibility.Visible;
+    }
+
+    public IReadOnlyList<int> CheckedChoices =>
+        [.. ChoicePanel.Children.OfType<CheckBox>().Select((box, index) => (box, index)).Where(item => item.box.IsChecked == true).Select(item => item.index)];
+
     private void Primary_Click(object sender, RoutedEventArgs e) => DialogResult = true;
 
     private void Body_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

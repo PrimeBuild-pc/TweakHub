@@ -380,6 +380,12 @@ namespace TweakHub.Views
                 return;
             }
 
+            if (targetState && tweak.Type == TweakType.NetworkAdapter && !await ChooseNetworkAdaptersAsync())
+            {
+                RevertToggle(toggle, tweak, !targetState);
+                return;
+            }
+
             toggle.IsEnabled = false;
             try
             {
@@ -417,6 +423,27 @@ namespace TweakHub.Views
             }
         }
 
+        /// <summary>With more than one supported adapter the user picks where the preset goes; the choice is saved.</summary>
+        private async Task<bool> ChooseNetworkAdaptersAsync()
+        {
+            var adapters = NetworkAdapterService.GetAdapters();
+            var supported = adapters.Where(adapter => adapter.IsSupported).ToList();
+            if (supported.Count == 0) return false;
+            if (supported.Count > 1)
+            {
+                var selected = NetworkAdapterService.Selected(adapters);
+                var chosen = await AppDialog.ChooseAsync(Window.GetWindow(this), L.Get("Tweaks:NetworkPresetChooseTitle"),
+                    L.Get("Tweaks:NetworkPresetChooseMessage"),
+                    supported.Select(adapter => (
+                        $"{adapter.Name} — {adapter.Model}" + (adapter.Connected ? $" ({L.Get("Tweaks:NetworkAdapterConnected")})" : string.Empty),
+                        selected.Contains(adapter))));
+                if (chosen is null) return false;
+                supported = [.. chosen.Select(index => supported[index])];
+            }
+            NetworkAdapterService.SaveSelection(supported);
+            return true;
+        }
+
         private void RevertToggle(ToggleSwitch toggle, PerformanceTweak tweak, bool state)
         {
             _ignoreToggleEvent = true;
@@ -450,7 +477,10 @@ namespace TweakHub.Views
 
         private static string BuildPreview(PerformanceTweak tweak)
         {
-            var changes = TweakService.GetCompositeRegistryChanges(tweak.Id);
+            if (tweak.IsUnavailable) return tweak.UnavailableReason;
+            var changes = tweak.Type == TweakType.NetworkAdapter
+                ? NetworkAdapterService.PresetChanges()
+                : TweakService.GetCompositeRegistryChanges(tweak.Id);
             if (changes.Count > 0)
             {
                 var commands = changes.Select(change => change.Value is null

@@ -816,12 +816,33 @@ La creazione potrebbe richiedere un minuto e necessita dei privilegi di amminist
     <value>Preset di rete a bassa latenza per il gaming</value>
   </data>
   <data name="CategoryOrTweakDescriptionOptimizeNetworkForGaming" xml:space="preserve">
-    <value>Sulle schede di rete fisiche disattiva l'interrupt moderation e il risparmio energetico Ethernet (EEE, Green Ethernet), dove il driver li prevede, e limita i download in background di Windows Update al 30% della banda, così non saturano la linea durante una partita. Ping più basso e meno picchi, con un uso della CPU leggermente maggiore. Il bufferbloat in download si risolve sul router (SQM: fq_codel o CAKE). Effettivo dopo il riavvio; il ripristino rimette ogni valore com'era.</value>
+    <value>Sulle schede scelte disattiva l'interrupt moderation e il risparmio energetico Ethernet (EEE, Green Ethernet, ultra low power) per Ethernet Intel e Realtek, e il risparmio energetico e il raggruppamento dei pacchetti per il Wi-Fi Intel. Vengono cambiate solo le impostazioni dichiarate dal driver stesso; le altre schede non sono supportate. Ping più basso e meno picchi, con un uso della CPU leggermente maggiore. Il bufferbloat in download si risolve sul router (SQM: fq_codel o CAKE). Effettivo dopo il riavvio; il ripristino rimette ogni valore com'era.</value>
   </data>
   <data name="CategoryOrTweakNameOptimizeFlipModel" xml:space="preserve">
     <value>Ottimizza la presentazione per l'independent flip</value>
   </data>
   <data name="CategoryOrTweakDescriptionOptimizeFlipModel" xml:space="preserve">
     <value>Applica le impostazioni di Windows 11 che permettono ai giochi di arrivare all'independent flip con la latenza più bassa, anche in finestra senza bordi: pianificazione GPU con accelerazione hardware, ottimizzazioni per i giochi in finestra (flip model), ottimizzazioni a schermo intero e multiplane overlay attivi, Modalità gioco. Sostituisce "Disabilita ottimizzazioni a schermo intero", che blocca questo percorso. Le altre impostazioni DirectX restano invariate; HAGS richiede GPU e driver compatibili.</value>
+  </data>
+  <data name="CategoryOrTweakNameLimitBackgroundUpdates" xml:space="preserve">
+    <value>Limita i download in background di Windows Update</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionLimitBackgroundUpdates" xml:space="preserve">
+    <value>Limita al 30% della banda disponibile i download in background di aggiornamenti e app dello Store, così non saturano più la linea alzando il ping mentre giochi o sei in chiamata. I download avviati da te non sono limitati.</value>
+  </data>
+  <data name="NetworkPresetUnavailable" xml:space="preserve">
+    <value>Non disponibile su questo PC: funziona solo con schede Ethernet Intel o Realtek e Wi-Fi Intel il cui driver dichiara queste impostazioni. Rilevate: {0}.</value>
+  </data>
+  <data name="NetworkPresetNoAdapters" xml:space="preserve">
+    <value>nessuna scheda Ethernet o Wi-Fi</value>
+  </data>
+  <data name="NetworkPresetChooseTitle" xml:space="preserve">
+    <value>Scegli le schede di rete</value>
+  </data>
+  <data name="NetworkPresetChooseMessage" xml:space="preserve">
+    <value>Applica il preset a bassa latenza a queste schede. Sono elencate solo quelle supportate; quella su cui giochi di solito è la cablata connessa.</value>
+  </data>
+  <data name="NetworkAdapterConnected" xml:space="preserve">
+    <value>connessa</value>
   </data>
 </root>

@@ -816,12 +816,33 @@ Creating it may take a minute and requires administrator privileges.</value>
     <value>Low-latency network preset for gaming</value>
   </data>
   <data name="CategoryOrTweakDescriptionOptimizeNetworkForGaming" xml:space="preserve">
-    <value>On physical network adapters turns off interrupt moderation and Ethernet power saving (EEE, Green Ethernet) where the driver offers them, and limits background Windows Update downloads to 30% of the bandwidth so they do not fill the line during a match. Lower ping and fewer spikes, slightly higher CPU use. Download bufferbloat is solved on the router (SQM: fq_codel or CAKE). Takes effect after a restart; restore puts every value back.</value>
+    <value>On the chosen adapters turns off interrupt moderation and Ethernet power saving (EEE, Green Ethernet, ultra low power) for Intel and Realtek Ethernet, and power saving and packet batching for Intel Wi-Fi. Only settings the driver itself declares are changed; other adapters are not supported. Lower ping and fewer spikes, slightly higher CPU use. Download bufferbloat is solved on the router (SQM: fq_codel or CAKE). Takes effect after a restart; restore puts every value back.</value>
   </data>
   <data name="CategoryOrTweakNameOptimizeFlipModel" xml:space="preserve">
     <value>Optimize presentation for independent flip</value>
   </data>
   <data name="CategoryOrTweakDescriptionOptimizeFlipModel" xml:space="preserve">
     <value>Applies the Windows 11 settings that let games reach independent flip with the lowest latency, also in borderless windows: hardware-accelerated GPU scheduling, optimizations for windowed games (flip model), fullscreen optimizations and multiplane overlay left on, and Game Mode. Replaces "Disable fullscreen optimizations", which blocks this path. Other DirectX settings are kept; HAGS needs a GPU and driver that support it.</value>
+  </data>
+  <data name="CategoryOrTweakNameLimitBackgroundUpdates" xml:space="preserve">
+    <value>Limit background Windows Update downloads</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionLimitBackgroundUpdates" xml:space="preserve">
+    <value>Caps background downloads of updates and Store apps at 30% of the available bandwidth, so they no longer fill the line and raise ping while you play or call. Downloads you start yourself are not limited.</value>
+  </data>
+  <data name="NetworkPresetUnavailable" xml:space="preserve">
+    <value>Not available on this PC: it works only with Intel or Realtek Ethernet and Intel Wi-Fi adapters whose driver declares these settings. Detected: {0}.</value>
+  </data>
+  <data name="NetworkPresetNoAdapters" xml:space="preserve">
+    <value>no Ethernet or Wi-Fi adapter</value>
+  </data>
+  <data name="NetworkPresetChooseTitle" xml:space="preserve">
+    <value>Choose network adapters</value>
+  </data>
+  <data name="NetworkPresetChooseMessage" xml:space="preserve">
+    <value>Apply the low-latency preset to these adapters. Only supported adapters are listed; the one you play on is usually the connected wired one.</value>
+  </data>
+  <data name="NetworkAdapterConnected" xml:space="preserve">
+    <value>connected</value>
   </data>
 </root>
