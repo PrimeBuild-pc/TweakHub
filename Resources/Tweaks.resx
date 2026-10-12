@@ -431,11 +431,6 @@ Backup location: {1}</value>
 
 A backup will be created automatically before applying changes.</value>
   </data>
-  <data name="BackupFailedMessage" xml:space="preserve">
-    <value>Failed to create backup. Operation cancelled.
-
-{0}</value>
-  </data>
   <data name="NoChangesNeeded" xml:space="preserve">
     <value>No Changes Needed</value>
   </data>
@@ -482,6 +477,9 @@ Creating it may take a minute and requires administrator privileges.</value>
   </data>
   <data name="RestoreAllChanges" xml:space="preserve">
     <value>Restore All Changes</value>
+  </data>
+  <data name="BulkElevateMessage" xml:space="preserve">
+    <value>{0} changes may need administrator rights, and each one asks for UAC. TweakHub can restart as administrator with a single UAC prompt: then click the button again. Or continue and confirm each prompt.</value>
   </data>
   <data name="RestoreAllMessage" xml:space="preserve">
     <value>This will attempt to restore all Registry tweaks to their original values.</value>
@@ -822,7 +820,7 @@ Creating it may take a minute and requires administrator privileges.</value>
     <value>Optimize presentation for independent flip</value>
   </data>
   <data name="CategoryOrTweakDescriptionOptimizeFlipModel" xml:space="preserve">
-    <value>Applies the Windows 11 settings that let games reach independent flip with the lowest latency, also in borderless windows: hardware-accelerated GPU scheduling, optimizations for windowed games (flip model), fullscreen optimizations and multiplane overlay left on, and Game Mode. Replaces "Disable fullscreen optimizations", which blocks this path. Other DirectX settings are kept; HAGS needs a GPU and driver that support it.</value>
+    <value>Applies the Windows 11 settings that let games reach independent flip with the lowest latency, also in borderless windows: hardware-accelerated GPU scheduling, optimizations for windowed games (flip model), fullscreen optimizations left on, and Game Mode. If multiplane overlay is turned off, Tweak check finds and repairs it. Replaces "Disable fullscreen optimizations", which blocks this path. Other DirectX settings are kept; HAGS needs a GPU and driver that support it.</value>
   </data>
   <data name="CategoryOrTweakNameLimitBackgroundUpdates" xml:space="preserve">
     <value>Limit background Windows Update downloads</value>

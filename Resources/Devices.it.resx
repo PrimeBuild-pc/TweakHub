@@ -554,7 +554,7 @@
 
 {1}
 
-TweakHub non può controllare cosa fa lo script e l'autore può modificarlo in qualsiasi momento. Se hai dubbi, leggilo prima sulla pagina ufficiale. Questo avviso compare solo la prima volta che esegui {0}.</value>
+TweakHub non può controllare cosa fa lo script e l'autore può modificarlo in qualsiasi momento. Se hai dubbi, leggilo prima sulla pagina ufficiale. Questo avviso ricompare ogni volta che l'autore modifica {0}.</value>
   </data>
   <data name="LoadingInterrupts" xml:space="preserve">
     <value>Lettura delle impostazioni degli interrupt…</value>

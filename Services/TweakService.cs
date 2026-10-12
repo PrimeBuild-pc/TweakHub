@@ -580,8 +580,8 @@ namespace TweakHub.Services
             new(GameConfigStore, "GameDVR_FSEBehaviorMode", 0),
             new(GameConfigStore, "GameDVR_HonorUserFSEBehaviorMode", 0),
             new(GameConfigStore, "GameDVR_DXGIHonorFSEWindowsCompatible", 0),
-            new(@"HKEY_CURRENT_USER\Software\Microsoft\GameBar", "AutoGameModeEnabled", 1),
-            new(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\Dwm", "OverlayTestMode", null)
+            // Multiplane overlay (OverlayTestMode) is left to Tweak check "Mpo": a shared backup let undoing one feature undo the other.
+            new(@"HKEY_CURRENT_USER\Software\Microsoft\GameBar", "AutoGameModeEnabled", 1)
         ];
 
         /// <summary>Sets one "Name=Value;" entry and keeps the other settings Windows stores in the same string, in place.</summary>
@@ -613,8 +613,16 @@ namespace TweakHub.Services
             new(@"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System", "UploadUserActivities", 0)
         ];
 
+        private static readonly RegistryValueChange[] MouseAccelerationOff =
+        [
+            new(@"HKEY_CURRENT_USER\Control Panel\Mouse", "MouseSpeed", "0", Microsoft.Win32.RegistryValueKind.String),
+            new(@"HKEY_CURRENT_USER\Control Panel\Mouse", "MouseThreshold1", "0", Microsoft.Win32.RegistryValueKind.String),
+            new(@"HKEY_CURRENT_USER\Control Panel\Mouse", "MouseThreshold2", "0", Microsoft.Win32.RegistryValueKind.String)
+        ];
+
         internal static IReadOnlyList<RegistryValueChange> GetCompositeRegistryChanges(string id) => id switch
         {
+            "disable_mouse_acceleration" => MouseAccelerationOff,
             "windows_update_security_preset" => SecurityUpdatePreset,
             "disable_windows_ai_policies" => WindowsAiPolicies,
             "disable_device_coinstallers" => DeviceCoInstallerPolicies,
@@ -711,9 +719,8 @@ namespace TweakHub.Services
                     ? PowerService.Instance.ApplyProcessorSettingAsync(tweak.Id, "CPMINCORES", 100)
                     : PowerService.Instance.RestoreProcessorSettingAsync(tweak.Id),
                 "high_performance_power_plan" => enable
-                    ? PowerService.Instance.ApplyHighPerformancePlanAsync()
+                    ? PowerService.Instance.ApplyPerformancePlanAsync(null)
                     : PowerService.Instance.RestorePowerPlanAsync(),
-                "disable_mouse_acceleration" => Task.Run(() => ApplyMouseAcceleration(enable)),
                 "disable_sysmain" => ApplyServiceTweakAsync(tweak, "SysMain", enable),
                 "disable_windows_search" => ApplyServiceTweakAsync(tweak, "WSearch", enable),
                 "optimize_network_for_gaming" => enable
@@ -769,24 +776,6 @@ namespace TweakHub.Services
                 .ToHashSet(StringComparer.OrdinalIgnoreCase);
         }
 
-        private static bool ApplyMouseAcceleration(bool disable)
-        {
-            const string path = @"HKEY_CURRENT_USER\Control Panel\Mouse";
-            var registry = RegistryService.Instance;
-            var values = new[] { "MouseSpeed", "MouseThreshold1", "MouseThreshold2" };
-
-            if (!disable)
-                return values.All(name => !registry.HasBackup(path, name) || registry.RestoreRegistryValue(path, name));
-
-            foreach (var name in values)
-            {
-                if (registry.ApplyValueWithBackup(path, name, "0", Microsoft.Win32.RegistryValueKind.String)) continue;
-                foreach (var applied in values) registry.RestoreRegistryValue(path, applied);
-                return false;
-            }
-            return true;
-        }
-
         public async Task<(int restored, int failed)> RestoreAllTweaksAsync()
         {
             var tweaks = TweakCategories.SelectMany(category => category.Tweaks).Where(HasBackup).ToList();
@@ -834,9 +823,7 @@ namespace TweakHub.Services
             return (restored, failed);
         }
 
-        public bool HasBackupFor(PerformanceTweak tweak) => HasBackup(tweak);
-
-        private static bool HasBackup(PerformanceTweak tweak)
+        public static bool HasBackup(PerformanceTweak tweak)
         {
             var changes = GetCompositeRegistryChanges(tweak.Id);
             if (changes.Count > 0)
@@ -847,8 +834,6 @@ namespace TweakHub.Services
                 "disable_cpu_throttling" or "disable_core_parking" or "high_performance_power_plan" =>
                     PowerService.Instance.HasBackup(tweak.Id),
                 "optimize_network_for_gaming" => NetworkAdapterService.BackedUpChanges().Count > 0,
-                "disable_mouse_acceleration" => new[] { "MouseSpeed", "MouseThreshold1", "MouseThreshold2" }
-                    .Any(name => RegistryService.Instance.HasBackup(@"HKEY_CURRENT_USER\Control Panel\Mouse", name)),
                 _ => RegistryService.Instance.HasBackup(tweak.RegistryPath, tweak.RegistryKey)
             };
         }
@@ -878,15 +863,6 @@ namespace TweakHub.Services
                         Equals(RegistryService.Instance.GetRegistryValue(change.KeyPath, change.ValueName), change.Value));
                     tweak.IsEnabled = matches == changes.Count;
                     tweak.IsPartiallyApplied = matches > 0 && matches < changes.Count;
-                    continue;
-                }
-
-                if (tweak.Id == "disable_mouse_acceleration")
-                {
-                    var matches = new[] { "MouseSpeed", "MouseThreshold1", "MouseThreshold2" }
-                        .Count(name => Equals(RegistryService.Instance.GetRegistryValue(@"HKEY_CURRENT_USER\Control Panel\Mouse", name), "0"));
-                    tweak.IsEnabled = matches == 3;
-                    tweak.IsPartiallyApplied = matches is > 0 and < 3;
                     continue;
                 }
 

@@ -121,12 +121,12 @@ public class TweakCatalogueTests
     }
 
     [Test]
-    public void FlipModelTurnsMultiplaneOverlayBackOnAndKeepsTheCurrentDirectXString()
+    public void FlipModelLeavesMultiplaneOverlayToTweakCheckAndKeepsTheCurrentDirectXString()
     {
         var changes = TweakService.GetCompositeRegistryChanges("optimize_flip_model");
         Assert.Multiple(() =>
         {
-            Assert.That(changes.Single(change => change.ValueName == "OverlayTestMode").Value, Is.Null);
+            Assert.That(changes.Select(change => change.ValueName), Does.Not.Contain("OverlayTestMode"));
             Assert.That(changes.Single(change => change.ValueName == "HwSchMode").Value, Is.EqualTo(2));
             Assert.That((string)changes.Single(change => change.ValueName == "DirectXUserGlobalSettings").Value!,
                 Does.Contain("SwapEffectUpgradeEnable=1;"));

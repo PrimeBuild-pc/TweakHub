@@ -431,11 +431,6 @@ TweakHub 会恢复捕获的原始值。</value>
 
 应用更改前会自动创建备份。</value>
   </data>
-  <data name="BackupFailedMessage" xml:space="preserve">
-    <value>创建备份失败。操作已取消。
-
-{0}</value>
-  </data>
   <data name="NoChangesNeeded" xml:space="preserve">
     <value>无需更改</value>
   </data>
@@ -482,6 +477,9 @@ TweakHub 会恢复捕获的原始值。</value>
   </data>
   <data name="RestoreAllChanges" xml:space="preserve">
     <value>恢复所有更改</value>
+  </data>
+  <data name="BulkElevateMessage" xml:space="preserve">
+    <value>{0} 项更改可能需要管理员权限，每项都会弹出 UAC 确认。TweakHub 可以以管理员身份重新启动，只需一次 UAC 确认：之后请再次点击该按钮。也可以继续并逐个确认。</value>
   </data>
   <data name="RestoreAllMessage" xml:space="preserve">
     <value>这将尝试将所有注册表调整恢复到原始值。</value>
@@ -778,7 +776,7 @@ TweakHub 会恢复捕获的原始值。</value>
     <value>为独立翻转 (Independent Flip) 优化呈现</value>
   </data>
   <data name="CategoryOrTweakDescriptionOptimizeFlipModel" xml:space="preserve">
-    <value>应用 Windows 11 设置，使游戏（包括无边框窗口）以最低延迟进入独立翻转：硬件加速 GPU 计划、窗口化游戏优化（翻转模型）、保持全屏优化和多平面叠加 (MPO) 开启，以及游戏模式。取代会阻断此路径的“禁用全屏优化”。其他 DirectX 设置保持不变；HAGS 需要支持它的 GPU 和驱动程序。</value>
+    <value>应用 Windows 11 设置，使游戏（包括无边框窗口）以最低延迟进入独立翻转：硬件加速 GPU 计划、窗口化游戏优化（翻转模型）、保持全屏优化开启，以及游戏模式。如果多平面叠加 (MPO) 被关闭，调整检查会发现并修复。取代会阻断此路径的“禁用全屏优化”。其他 DirectX 设置保持不变；HAGS 需要支持它的 GPU 和驱动程序。</value>
   </data>
   <data name="CategoryOrTweakNameLimitBackgroundUpdates" xml:space="preserve">
     <value>限制 Windows 更新的后台下载</value>

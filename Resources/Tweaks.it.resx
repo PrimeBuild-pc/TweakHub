@@ -431,11 +431,6 @@ Posizione del backup: {1}</value>
 
 Un backup sarà creato automaticamente prima di applicare le modifiche.</value>
   </data>
-  <data name="BackupFailedMessage" xml:space="preserve">
-    <value>Creazione del backup non riuscita. Operazione annullata.
-
-{0}</value>
-  </data>
   <data name="NoChangesNeeded" xml:space="preserve">
     <value>Nessuna Modifica Necessaria</value>
   </data>
@@ -482,6 +477,9 @@ La creazione potrebbe richiedere un minuto e necessita dei privilegi di amminist
   </data>
   <data name="RestoreAllChanges" xml:space="preserve">
     <value>Ripristina tutte le modifiche</value>
+  </data>
+  <data name="BulkElevateMessage" xml:space="preserve">
+    <value>{0} modifiche potrebbero richiedere privilegi di amministratore e ognuna chiede conferma UAC. TweakHub può riavviarsi come amministratore con una sola richiesta UAC: poi premi di nuovo il pulsante. Oppure continua e conferma ogni richiesta.</value>
   </data>
   <data name="RestoreAllMessage" xml:space="preserve">
     <value>Questo tenterà di ripristinare tutte le modifiche del Registro ai valori originali.</value>
@@ -822,7 +820,7 @@ La creazione potrebbe richiedere un minuto e necessita dei privilegi di amminist
     <value>Ottimizza la presentazione per l'independent flip</value>
   </data>
   <data name="CategoryOrTweakDescriptionOptimizeFlipModel" xml:space="preserve">
-    <value>Applica le impostazioni di Windows 11 che permettono ai giochi di arrivare all'independent flip con la latenza più bassa, anche in finestra senza bordi: pianificazione GPU con accelerazione hardware, ottimizzazioni per i giochi in finestra (flip model), ottimizzazioni a schermo intero e multiplane overlay attivi, Modalità gioco. Sostituisce "Disabilita ottimizzazioni a schermo intero", che blocca questo percorso. Le altre impostazioni DirectX restano invariate; HAGS richiede GPU e driver compatibili.</value>
+    <value>Applica le impostazioni di Windows 11 che permettono ai giochi di arrivare all'independent flip con la latenza più bassa, anche in finestra senza bordi: pianificazione GPU con accelerazione hardware, ottimizzazioni per i giochi in finestra (flip model), ottimizzazioni a schermo intero attive, Modalità gioco. Se il multiplane overlay è disattivato, Verifica tweak lo rileva e lo ripara. Sostituisce "Disabilita ottimizzazioni a schermo intero", che blocca questo percorso. Le altre impostazioni DirectX restano invariate; HAGS richiede GPU e driver compatibili.</value>
   </data>
   <data name="CategoryOrTweakNameLimitBackgroundUpdates" xml:space="preserve">
     <value>Limita i download in background di Windows Update</value>

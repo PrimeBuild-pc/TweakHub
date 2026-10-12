@@ -86,7 +86,7 @@ public sealed class UpdateService
         var json = await HttpClient.GetStringAsync(ReleasesApi, cancellationToken);
         var releases = JsonSerializer.Deserialize<List<GitHubRelease>>(json) ?? [];
         var betaChannel = CurrentVersion.Contains('-');
-        var release = releases.FirstOrDefault(item => !item.Draft && item.Prerelease == betaChannel
+        var release = releases.FirstOrDefault(item => !item.Draft && (betaChannel || !item.Prerelease)
             && IsNewerVersion(CurrentVersion, item.TagName.TrimStart('v')));
         return release == null ? null : new AvailableUpdate(release.TagName.TrimStart('v'), release.Assets);
     }

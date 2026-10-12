@@ -495,8 +495,7 @@ namespace TweakHub.Views
                 "disable_core_parking" => "powercfg /setacvalueindex SCHEME_CURRENT SUB_PROCESSOR CPMINCORES 100",
                 "high_performance_power_plan" => "powercfg /setactive SCHEME_MIN",
                 "disable_sysmain" => "Set-Service -Name SysMain -StartupType Disabled\nStop-Service -Name SysMain -Force",
-                "disable_mouse_acceleration" => "reg add \"HKCU\\Control Panel\\Mouse\" /v MouseSpeed /t REG_SZ /d 0 /f\nreg add \"HKCU\\Control Panel\\Mouse\" /v MouseThreshold1 /t REG_SZ /d 0 /f\nreg add \"HKCU\\Control Panel\\Mouse\" /v MouseThreshold2 /t REG_SZ /d 0 /f",
-                _ => $"reg add \"{tweak.RegistryPath}\" /v \"{tweak.RegistryKey}\" /t {(tweak.EnabledValue is int ? "REG_DWORD" : tweak.EnabledValue is long ? "REG_QWORD" : "REG_SZ")} /d {(Equals(tweak.EnabledValue, -1) ? "ffffffff" : tweak.EnabledValue)} /f"
+                _ => $"reg add \"{tweak.RegistryPath}\" /v \"{tweak.RegistryKey}\" /t {(tweak.EnabledValue is int ? "REG_DWORD" : tweak.EnabledValue is long ? "REG_QWORD" : "REG_SZ")} /d {(Equals(tweak.EnabledValue, -1) ? "0xffffffff" : tweak.EnabledValue)} /f"
             };
             return L.Format("Tweaks:Preview", tweak.Name, tweak.RiskLevel, command);
         }
@@ -528,17 +527,6 @@ namespace TweakHub.Views
                     L.Get("Tweaks:Apply"),
                     L.Get("Tweaks:Cancel"))) return;
 
-            // Create backup first
-            try
-            {
-                _registryService.CreateBackup(_tweakService.TweakCategories.SelectMany(c => c.Tweaks));
-            }
-            catch (Exception ex)
-            {
-                await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Tweaks:BackupFailed"),
-                    L.Format("Tweaks:BackupFailedMessage", ex.Message));
-                return;
-            }
 
             var recommendedTweaks = _tweakService.TweakCategories
                 .SelectMany(c => c.Tweaks)
@@ -554,6 +542,7 @@ namespace TweakHub.Views
             }
 
             var total = recommendedTweaks.Count + (updateNeedsChange ? 1 : 0);
+            if (await RestartElevatedForBulkAsync(total)) return;
             var progressWindow = new ProgressWindow(L.Format("Tweaks:ApplyingRecommended", total));
             progressWindow.Show();
 
@@ -659,6 +648,14 @@ namespace TweakHub.Views
 
 
 
+        /// <summary>Each administrator change asks UAC once; one elevated restart asks only once. True when TweakHub is restarting.</summary>
+        private async Task<bool> RestartElevatedForBulkAsync(int changes) =>
+            changes > 1 && !Elevation.IsAdministrator
+            && await AppDialog.ConfirmAsync(Window.GetWindow(this), L.Get("Scripts:PlaybookElevateTitle"),
+                L.Format("Tweaks:BulkElevateMessage", changes), L.Get("Scripts:PlaybookElevateRestart"),
+                L.Get("Scripts:PlaybookElevateContinue"), DialogKind.Shield)
+            && App.RestartElevated(string.Empty);
+
         private async void RestoreAllButton_Click(object sender, RoutedEventArgs e)
         {
             if (!await AppDialog.ConfirmAsync(
@@ -667,6 +664,9 @@ namespace TweakHub.Views
                     L.Get("Tweaks:RestoreAllMessage"),
                     L.Get("Tweaks:Restore"),
                     L.Get("Tweaks:Cancel"))) return;
+            var steps = _tweakService.TweakCategories.SelectMany(category => category.Tweaks).Count(TweakService.HasBackup)
+                        + (_windowsUpdatePresets.HasBackup ? 1 : 0);
+            if (await RestartElevatedForBulkAsync(steps)) return;
 
             var progress = new ProgressWindow(L.Get("Tweaks:RestoringAll"));
             progress.Show();

@@ -431,11 +431,6 @@ TweakHub は記録した元の値を復元します。</value>
 
 変更を適用する前にバックアップを自動作成します。</value>
   </data>
-  <data name="BackupFailedMessage" xml:space="preserve">
-    <value>バックアップを作成できませんでした。操作をキャンセルしました。
-
-{0}</value>
-  </data>
   <data name="NoChangesNeeded" xml:space="preserve">
     <value>変更は不要です</value>
   </data>
@@ -482,6 +477,9 @@ TweakHub は記録した元の値を復元します。</value>
   </data>
   <data name="RestoreAllChanges" xml:space="preserve">
     <value>すべての変更を復元</value>
+  </data>
+  <data name="BulkElevateMessage" xml:space="preserve">
+    <value>{0} 件の変更には管理者権限が必要な場合があり、それぞれ UAC の確認が表示されます。TweakHub を管理者として再起動すると UAC の確認は 1 回だけです。再起動後にもう一度ボタンを押してください。続行して毎回確認することもできます。</value>
   </data>
   <data name="RestoreAllMessage" xml:space="preserve">
     <value>すべてのレジストリ調整を元の値に戻そうとします。</value>
@@ -834,7 +832,7 @@ TweakHub は記録した元の値を復元します。</value>
     <value>Independent Flip 向けに表示を最適化</value>
   </data>
   <data name="CategoryOrTweakDescriptionOptimizeFlipModel" xml:space="preserve">
-    <value>ボーダーレス ウィンドウでも、ゲームが最小の遅延で Independent Flip に到達できる Windows 11 の設定を適用します: ハードウェア アクセラレータによる GPU スケジューリング、ウィンドウ ゲームの最適化 (フリップ モデル)、全画面表示の最適化とマルチプレーン オーバーレイの有効化、ゲーム モード。この経路を妨げる「全画面表示の最適化を無効化」に代わるものです。ほかの DirectX 設定は保持されます。HAGS には対応する GPU とドライバーが必要です。</value>
+    <value>ボーダーレス ウィンドウでも、ゲームが最小の遅延で Independent Flip に到達できる Windows 11 の設定を適用します: ハードウェア アクセラレータによる GPU スケジューリング、ウィンドウ ゲームの最適化 (フリップ モデル)、全画面表示の最適化の有効化、ゲーム モード。マルチプレーン オーバーレイが無効な場合は、調整チェックが検出して修復します。この経路を妨げる「全画面表示の最適化を無効化」に代わるものです。ほかの DirectX 設定は保持されます。HAGS には対応する GPU とドライバーが必要です。</value>
   </data>
   <data name="CategoryOrTweakNameLimitBackgroundUpdates" xml:space="preserve">
     <value>Windows Update のバックグラウンド ダウンロードを制限</value>

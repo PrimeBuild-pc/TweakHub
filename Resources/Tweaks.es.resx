@@ -431,11 +431,6 @@ Ubicación de la copia de seguridad: {1}</value>
 
 Se creará una copia de seguridad automáticamente antes de aplicar los cambios.</value>
   </data>
-  <data name="BackupFailedMessage" xml:space="preserve">
-    <value>No se pudo crear la copia de seguridad. Operación cancelada.
-
-{0}</value>
-  </data>
   <data name="NoChangesNeeded" xml:space="preserve">
     <value>No se necesitan cambios</value>
   </data>
@@ -482,6 +477,9 @@ Crearlo puede tardar un minuto y requiere privilegios de administrador.</value>
   </data>
   <data name="RestoreAllChanges" xml:space="preserve">
     <value>Restaurar todos los cambios</value>
+  </data>
+  <data name="BulkElevateMessage" xml:space="preserve">
+    <value>{0} cambios pueden necesitar permisos de administrador y cada uno pide confirmación UAC. TweakHub puede reiniciarse como administrador con una sola solicitud UAC: luego pulsa el botón de nuevo. O continúa y confirma cada solicitud.</value>
   </data>
   <data name="RestoreAllMessage" xml:space="preserve">
     <value>Esto intentará restaurar todos los ajustes del Registro a sus valores originales.</value>
@@ -784,7 +782,7 @@ Crearlo puede tardar un minuto y requiere privilegios de administrador.</value>
     <value>Optimizar la presentación para independent flip</value>
   </data>
   <data name="CategoryOrTweakDescriptionOptimizeFlipModel" xml:space="preserve">
-    <value>Aplica los ajustes de Windows 11 que permiten a los juegos llegar a independent flip con la menor latencia, también en ventana sin bordes: programación de GPU acelerada por hardware, optimizaciones para juegos en ventana (flip model), optimizaciones de pantalla completa y multiplane overlay activas, y Modo de juego. Sustituye a "Desactivar optimizaciones de pantalla completa", que bloquea esta vía. Los demás ajustes de DirectX se conservan; HAGS requiere una GPU y un controlador compatibles.</value>
+    <value>Aplica los ajustes de Windows 11 que permiten a los juegos llegar a independent flip con la menor latencia, también en ventana sin bordes: programación de GPU acelerada por hardware, optimizaciones para juegos en ventana (flip model), optimizaciones de pantalla completa activas y Modo de juego. Si multiplane overlay está desactivado, Comprobación de ajustes lo detecta y lo repara. Sustituye a "Desactivar optimizaciones de pantalla completa", que bloquea esta vía. Los demás ajustes de DirectX se conservan; HAGS requiere una GPU y un controlador compatibles.</value>
   </data>
   <data name="CategoryOrTweakNameLimitBackgroundUpdates" xml:space="preserve">
     <value>Limitar las descargas en segundo plano de Windows Update</value>

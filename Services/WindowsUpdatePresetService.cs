@@ -20,7 +20,7 @@ internal sealed class WindowsUpdatePresetService
         Path.Combine(AppContext.BaseDirectory, "Scripts", "WindowsUpdatePreset.ps1"),
         Path.Combine(AppDataPath.BasePath, "windows-update-backup.json"));
 
-    private static readonly RegistryValueChange[] PresetRegistryValues =
+    internal static readonly RegistryValueChange[] PresetRegistryValues =
     [
         new(@"HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU", "NoAutoUpdate", null),
         new(@"HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU", "AUOptions", null),
@@ -37,18 +37,11 @@ internal sealed class WindowsUpdatePresetService
         new(@"HKLM\SOFTWARE\Policies\Microsoft\Windows\DriverSearching", "DontPromptForWindowsUpdate", null),
         new(@"HKLM\SOFTWARE\Policies\Microsoft\Windows\DriverSearching", "DontSearchWindowsUpdate", null),
         new(@"HKLM\SOFTWARE\Policies\Microsoft\Windows\DriverSearching", "DriverUpdateWizardWuSearchEnabled", null),
-        new(@"HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config", "DODownloadMode", null)
+        new(@"HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config", "DODownloadMode", null),
+        // Security sets this and every preset clears it. SettingsPageVisibility is left out on purpose: the script only
+        // removes 'hide:windowsupdate', and backing it up here would let a preset restore undo the Windows AI tweak.
+        new(@"HKLM\SOFTWARE\Policies\Microsoft\Windows\Device Metadata", "PreventDeviceMetadataFromNetwork", null)
     ];
-
-    private static readonly RegistryValueChange[] RelatedTweakRegistryValues =
-    [
-        new(@"HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer", "SettingsPageVisibility", null, Microsoft.Win32.RegistryValueKind.String),
-        new(@"HKLM\SOFTWARE\Policies\WindowsNotepad", "DisableAIFeatures", null),
-        new(@"HKLM\SOFTWARE\Policies\Microsoft\Windows\Device Metadata", "PreventDeviceMetadataFromNetwork", null),
-        new(@"HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate", "ExcludeWUDriversInQualityUpdate", null)
-    ];
-
-    private static readonly RegistryValueChange[] AllRegistryValues = [.. PresetRegistryValues, .. RelatedTweakRegistryValues];
 
     internal WindowsUpdatePresetService(string scriptPath, string backupPath)
     {
@@ -56,7 +49,7 @@ internal sealed class WindowsUpdatePresetService
         _backupPath = backupPath;
     }
 
-    public bool HasBackup => File.Exists(_backupPath) || AllRegistryValues.Any(change =>
+    public bool HasBackup => File.Exists(_backupPath) || PresetRegistryValues.Any(change =>
         RegistryService.Instance.HasBackup(change.KeyPath, change.ValueName));
 
     internal bool HasCompleteBackup => File.Exists(_backupPath) || PresetRegistryValues.All(change =>
@@ -65,7 +58,7 @@ internal sealed class WindowsUpdatePresetService
     public async Task<PowerShellResult> ApplyAsync(WindowsUpdatePreset preset)
     {
         if (preset == WindowsUpdatePreset.Custom) throw new ArgumentOutOfRangeException(nameof(preset));
-        RegistryService.Instance.CreateBackupValues(AllRegistryValues);
+        RegistryService.Instance.CreateBackupValues(PresetRegistryValues);
         return await RunAsync(preset.ToString(), requireAdministrator: true, TimeSpan.FromMinutes(10));
     }
 

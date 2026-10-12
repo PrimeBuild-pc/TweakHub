@@ -431,11 +431,6 @@ TweakHub восстанавливает захваченное исходное 
 
 Перед изменениями будет автоматически создана резервная копия.</value>
   </data>
-  <data name="BackupFailedMessage" xml:space="preserve">
-    <value>Не удалось создать резервную копию. Операция отменена.
-
-{0}</value>
-  </data>
   <data name="NoChangesNeeded" xml:space="preserve">
     <value>Изменений не требуется</value>
   </data>
@@ -482,6 +477,9 @@ TweakHub восстанавливает захваченное исходное 
   </data>
   <data name="RestoreAllChanges" xml:space="preserve">
     <value>Восстановить все изменения</value>
+  </data>
+  <data name="BulkElevateMessage" xml:space="preserve">
+    <value>{0} изменений могут требовать прав администратора, и каждое запрашивает подтверждение UAC. TweakHub может перезапуститься от имени администратора с одним запросом UAC: затем нажмите кнопку ещё раз. Или продолжите и подтверждайте каждый запрос.</value>
   </data>
   <data name="RestoreAllMessage" xml:space="preserve">
     <value>При этом будет предпринята попытка восстановить все настройки реестра до их исходных значений.</value>
@@ -778,7 +776,7 @@ TweakHub восстанавливает захваченное исходное 
     <value>Оптимизировать вывод кадров для independent flip</value>
   </data>
   <data name="CategoryOrTweakDescriptionOptimizeFlipModel" xml:space="preserve">
-    <value>Применяет параметры Windows 11, которые позволяют играм выйти на independent flip с минимальной задержкой, в том числе в окне без рамки: аппаратное планирование GPU, оптимизации для игр в оконном режиме (flip model), включённые полноэкранная оптимизация и multiplane overlay, игровой режим. Заменяет «Отключить полноэкранную оптимизацию», которая блокирует этот путь. Остальные параметры DirectX сохраняются; для HAGS нужны совместимые GPU и драйвер.</value>
+    <value>Применяет параметры Windows 11, которые позволяют играм выйти на independent flip с минимальной задержкой, в том числе в окне без рамки: аппаратное планирование GPU, оптимизации для игр в оконном режиме (flip model), включённая полноэкранная оптимизация, игровой режим. Если multiplane overlay отключён, Проверка твиков находит и исправляет это. Заменяет «Отключить полноэкранную оптимизацию», которая блокирует этот путь. Остальные параметры DirectX сохраняются; для HAGS нужны совместимые GPU и драйвер.</value>
   </data>
   <data name="CategoryOrTweakNameLimitBackgroundUpdates" xml:space="preserve">
     <value>Ограничить фоновые загрузки Центра обновления Windows</value>
