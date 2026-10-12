@@ -63,6 +63,10 @@
             <ui:NavigationViewItem x:Name="ExternalToolsItem" Content="{loc:Loc UI:MainWindowExternalTools}" Tag="tools">
                 <ui:NavigationViewItem.Icon><ui:FontIcon Glyph="&#xE90F;"/></ui:NavigationViewItem.Icon>
             </ui:NavigationViewItem>
+            <ui:NavigationViewItem x:Name="SecurityItem" Content="{loc:Loc Tools:SecurityTitle}" Tag="security"
+                                   AutomationProperties.Name="{loc:Loc Tools:SecurityTitle}">
+                <ui:NavigationViewItem.Icon><ui:FontIcon Glyph="&#xE72E;"/></ui:NavigationViewItem.Icon>
+            </ui:NavigationViewItem>
             <ui:NavigationViewItem x:Name="AutomatedScriptsItem" Content="{loc:Loc UI:MainWindowAutomatedScripts}" Tag="scripts">
                 <ui:NavigationViewItem.Icon><ui:FontIcon Glyph="&#xE756;"/></ui:NavigationViewItem.Icon>
             </ui:NavigationViewItem>

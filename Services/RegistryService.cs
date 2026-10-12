@@ -150,7 +150,7 @@ namespace TweakHub.Services
 
         private static string BuildRegScript(IEnumerable<RegistryValueChange> changes)
         {
-            static string Quote(string value) => $"'{value.Replace("'", "''")}'";
+            static string Quote(string value) => PowerShellService.Literal(value);
             var script = new System.Text.StringBuilder("$ErrorActionPreference = 'Stop'\n");
             foreach (var change in changes)
             {

@@ -1,3 +1,5 @@
+using System.Windows.Controls;
+using System.Windows.Input;
 using NUnit.Framework;
 using TweakHub.Models;
 using TweakHub.Services;
@@ -21,7 +23,7 @@ public class ShortcutServiceTests
             "OSINT & Security"
         };
 
-        Assert.That(tools, Has.Count.InRange(100, 160));
+        Assert.That(tools, Has.Count.InRange(100, 200));
         Assert.That(tools.Select(tool => tool.Name), Is.Unique);
         Assert.That(tools.Select(tool => tool.Category).Distinct(), Is.SubsetOf(categories));
         Assert.That(tools.Select(tool => tool.Name), Does.Contain("Flow Launcher").And.Contain("FancyWM").And.Contain("Power Settings Explorer")
@@ -49,6 +51,54 @@ public class ShortcutServiceTests
                            && !tool.DownloadUrl.Contains("get.activated.win", StringComparison.OrdinalIgnoreCase);
             return hasWingetId ^ hasHttpsUrl && safePage;
         }));
+    }
+
+    [TestCase("WPD", "https://wpd.app/", "OSINT & Security")]
+    [TestCase("TapMap", "https://github.com/olalie/tapmap", "OSINT & Security")]
+    [TestCase("SecurityToolkit", "https://github.com/kobasky17/SecurityToolkit", "OSINT & Security")]
+    [TestCase("EmailOSINT", "https://emailosint.org/", "OSINT & Security")]
+    [TestCase("Sigcheck", "", "OSINT & Security", "Microsoft.Sysinternals.Sigcheck")]
+    [TestCase("Microsoft Safety Scanner", "https://learn.microsoft.com/defender-endpoint/safety-scanner-download", "OSINT & Security")]
+    [TestCase("mVolt", "https://github.com/b00nz/mVolt", "GPU & Display")]
+    [TestCase("Sparkle", "https://github.com/thedogecraft/sparkle", "System Utilities")]
+    [TestCase("Follow the White Rabbit", "https://start.me/p/aNrBJX/follow-the-white-rabbit", "OSINT & Security")]
+    [TestCase("Triage", "https://tria.ge/", "OSINT & Security")]
+    [TestCase("User Scanner", "https://github.com/kaifcodec/user-scanner", "OSINT & Security")]
+    [TestCase("Awesome Privacy", "https://github.com/pluja/awesome-privacy", "OSINT & Security")]
+    [TestCase("privacy.sexy", "", "OSINT & Security", "undergroundwires.privacy.sexy")]
+    [TestCase("Pi-hole", "https://github.com/pi-hole/pi-hole", "OSINT & Security")]
+    [TestCase("Big-Ass Data Broker Opt-Out List", "https://github.com/yaelwrites/big-ass-data-broker-opt-out-list", "OSINT & Security")]
+    [TestCase("JustDeleteMe", "https://backgroundchecks.org/justdeleteme/", "OSINT & Security")]
+    [TestCase("ungoogled-chromium", "", "OSINT & Security", "eloston.ungoogled-chromium")]
+    [TestCase("Personal Security Checklist", "https://github.com/lissy93/personal-security-checklist", "OSINT & Security")]
+    [TestCase("ffuf", "https://github.com/ffuf/ffuf", "OSINT & Security")]
+    [TestCase("Xalgorix", "https://github.com/xalgorix/xalgorix", "OSINT & Security")]
+    [TestCase("hackingtool", "https://github.com/Z4nzu/hackingtool", "OSINT & Security")]
+    public void NewReferencesAreUniqueAndNeverRunScripts(string name, string url, string category, string wingetId = "")
+    {
+        var service = ShortcutService.Instance;
+        service.Initialize();
+        var tool = service.ExternalTools.Single(tool => tool.Name == name);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(tool.DownloadUrl, Is.EqualTo(url));
+            Assert.That(service.ExternalTools.Count(tool => url.Length > 0 ? tool.DownloadUrl == url : tool.WingetId == wingetId), Is.EqualTo(1));
+            Assert.That(tool.Category, Is.EqualTo(category));
+            Assert.That(tool.WingetId, Is.EqualTo(wingetId));
+            Assert.That(tool.PowerShellCommand, Is.Empty);
+            Assert.That(tool.RequiresAdministrator, Is.False);
+            Assert.That(tool.IsCustom, Is.False);
+            Assert.That(tool.Description, Is.Not.Empty.And.Not.StartWith("Description"));
+        });
+    }
+
+    [Test]
+    public void ExistingSecurityAndNetworkToolsAreNotDuplicated()
+    {
+        ShortcutService.Instance.Initialize();
+        foreach (var name in new[] { "Autoruns", "Process Explorer", "Process Monitor", "TCPView", "Wireshark", "Nmap" })
+            Assert.That(ShortcutService.Instance.ExternalTools.Count(tool => tool.Name == name), Is.EqualTo(1), name);
     }
 
     [Test]
@@ -82,6 +132,43 @@ public class ShortcutServiceTests
                     .And.Contain("Local Security Policy").And.Contain("Local Users and Groups")
                     .And.Contain("Current User Certificates").And.Contain("Local Computer Certificates"));
         });
+    }
+
+    [Test]
+    public void SecurityFilterScopesSearchAndFavoritesWithoutChangingDefaultCatalogue()
+    {
+        ExternalTool[] tools =
+        [
+            new() { Name = "Security favorite", Description = "Signature hashes", Category = "OSINT & Security", IsFavorite = true },
+            new() { Name = "Security other", Description = "Email research", Category = "osint & security" },
+            new() { Name = "Network favorite", Description = "Signature hashes", Category = "Network", IsFavorite = true },
+            new() { Name = "Noncanonical", Category = "Security" }
+        ];
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(ExternalToolsPage.FilterTools(tools, "", false), Is.EqualTo(tools));
+            Assert.That(ExternalToolsPage.FilterTools(tools, "", false, true).Select(tool => tool.Name),
+                Is.EqualTo(new[] { "Security favorite", "Security other" }));
+            Assert.That(ExternalToolsPage.FilterTools(tools, "", true, true).Select(tool => tool.Name),
+                Is.EqualTo(new[] { "Security favorite" }));
+            Assert.That(ExternalToolsPage.FilterTools(tools, "HASHES", false, true).Select(tool => tool.Name),
+                Is.EqualTo(new[] { "Security favorite" }));
+            Assert.That(ExternalToolsPage.FilterTools(tools, "research", true, true), Is.Empty);
+            Assert.That(ExternalToolsPage.FilterTools(tools, "Network", false, true), Is.Empty);
+            Assert.That(ExternalToolsPage.FilterTools(tools, ShortcutService.LocalizeCategory("OSINT & Security"), false, true), Has.Exactly(2).Items);
+        });
+    }
+
+    [TestCase(Key.Enter)]
+    [TestCase(Key.Space)]
+    public void CardActivationDoesNotHandleKeysFromFavoriteOrOtherNestedButtons(Key key)
+    {
+        var favorite = new Button();
+        var card = new Border { Child = favorite };
+        Assert.That(ExternalToolsPage.IsToolCardActivation(card, favorite, key), Is.False);
+        Assert.That(ExternalToolsPage.IsToolCardActivation(card, card, key), Is.True);
+        Assert.That(ExternalToolsPage.IsToolCardActivation(card, card, Key.Tab), Is.False);
     }
 
     [Test]

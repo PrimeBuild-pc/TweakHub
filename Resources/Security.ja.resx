@@ -1,0 +1,777 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="TabOverview" xml:space="preserve">
+    <value>概要</value>
+  </data>
+  <data name="TabDefender" xml:space="preserve">
+    <value>Microsoft Defender</value>
+  </data>
+  <data name="TabFileAnalysis" xml:space="preserve">
+    <value>ファイル分析</value>
+  </data>
+  <data name="TabTools" xml:space="preserve">
+    <value>ツールとリソース</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="LoadFailed" xml:space="preserve">
+    <value>セキュリティの状態を読み取れませんでした: {0}</value>
+  </data>
+  <data name="ScoreTitle" xml:space="preserve">
+    <value>セキュリティ スコア</value>
+  </data>
+  <data name="ScoreGood" xml:space="preserve">
+    <value>十分に保護されています</value>
+  </data>
+  <data name="ScoreFair" xml:space="preserve">
+    <value>注意が必要です</value>
+  </data>
+  <data name="ScorePoor" xml:space="preserve">
+    <value>危険な状態です</value>
+  </data>
+  <data name="ScoreSummary" xml:space="preserve">
+    <value>{1} 件中 {0} 件のチェックに合格</value>
+  </data>
+  <data name="ScoreHint" xml:space="preserve">
+    <value>リングの区分を選択すると、該当するチェックに移動します。</value>
+  </data>
+  <data name="Fix" xml:space="preserve">
+    <value>修正</value>
+  </data>
+  <data name="OpenSettings" xml:space="preserve">
+    <value>設定を開く</value>
+  </data>
+  <data name="OpenFailedTitle" xml:space="preserve">
+    <value>開けませんでした</value>
+  </data>
+  <data name="RequiresAdministrator" xml:space="preserve">
+    <value>管理者権限が必要です</value>
+  </data>
+  <data name="FixConfirmTitle" xml:space="preserve">
+    <value>修正を適用しますか？</value>
+  </data>
+  <data name="FixConfirmMessage" xml:space="preserve">
+    <value>{0}
+
+TweakHub は次のコマンドを管理者として実行します:
+
+{1}</value>
+  </data>
+  <data name="FixRestartNote" xml:space="preserve">
+    <value>変更を完了するには再起動が必要です。</value>
+  </data>
+  <data name="FixFailedTitle" xml:space="preserve">
+    <value>修正を適用できませんでした</value>
+  </data>
+  <data name="FixFailed" xml:space="preserve">
+    <value>修正を適用できませんでした。改ざん防止機能やグループ ポリシーなどにより、Windows が変更をブロックしている可能性があります。
+
+{0}</value>
+  </data>
+  <data name="CheckAntivirus" xml:space="preserve">
+    <value>ウイルス対策</value>
+  </data>
+  <data name="CheckAntivirusPassed" xml:space="preserve">
+    <value>リアルタイムのウイルス対策保護が有効です。</value>
+  </data>
+  <data name="CheckAntivirusFailed" xml:space="preserve">
+    <value>リアルタイムのウイルス対策保護が無効です。PC がマルウェアにさらされています。</value>
+  </data>
+  <data name="CheckAntivirusUnknown" xml:space="preserve">
+    <value>Windows セキュリティ センターからウイルス対策の状態が報告されていません。</value>
+  </data>
+  <data name="CheckSignatures" xml:space="preserve">
+    <value>セキュリティ インテリジェンス</value>
+  </data>
+  <data name="CheckSignaturesPassed" xml:space="preserve">
+    <value>ウイルス定義は最新です。</value>
+  </data>
+  <data name="CheckSignaturesFailed" xml:space="preserve">
+    <value>ウイルス定義が 3 日以上更新されていません。</value>
+  </data>
+  <data name="CheckSignaturesUnknown" xml:space="preserve">
+    <value>ウイルス定義の更新日時を取得できません。</value>
+  </data>
+  <data name="CheckFirewall" xml:space="preserve">
+    <value>ファイアウォール</value>
+  </data>
+  <data name="CheckFirewallPassed" xml:space="preserve">
+    <value>ドメイン、プライベート、パブリックのすべてのネットワークで Windows ファイアウォールが有効です。</value>
+  </data>
+  <data name="CheckFirewallFailed" xml:space="preserve">
+    <value>少なくとも 1 つのネットワーク プロファイルで Windows ファイアウォールが無効です。</value>
+  </data>
+  <data name="CheckFirewallUnknown" xml:space="preserve">
+    <value>ファイアウォールの状態を読み取れませんでした。</value>
+  </data>
+  <data name="CheckUac" xml:space="preserve">
+    <value>ユーザー アカウント制御</value>
+  </data>
+  <data name="CheckUacPassed" xml:space="preserve">
+    <value>アプリが管理者として変更を加える前に確認が求められます。</value>
+  </data>
+  <data name="CheckUacFailed" xml:space="preserve">
+    <value>UAC が無効か、確認なしで昇格します。どのアプリでも気付かれずに完全な制御を得られます。</value>
+  </data>
+  <data name="CheckUacUnknown" xml:space="preserve">
+    <value>UAC の構成を読み取れませんでした。</value>
+  </data>
+  <data name="CheckUpdates" xml:space="preserve">
+    <value>Windows Update</value>
+  </data>
+  <data name="CheckUpdatesPassed" xml:space="preserve">
+    <value>過去 45 日以内に更新プログラムがインストールされています。</value>
+  </data>
+  <data name="CheckUpdatesFailed" xml:space="preserve">
+    <value>過去 45 日間に更新プログラムがインストールされていません。セキュリティ修正が不足している可能性があります。</value>
+  </data>
+  <data name="CheckUpdatesUnknown" xml:space="preserve">
+    <value>更新履歴を読み取れませんでした。</value>
+  </data>
+  <data name="CheckSmb1" xml:space="preserve">
+    <value>SMBv1 プロトコル</value>
+  </data>
+  <data name="CheckSmb1Passed" xml:space="preserve">
+    <value>古いファイル共有プロトコル SMBv1 は無効です。</value>
+  </data>
+  <data name="CheckSmb1Failed" xml:space="preserve">
+    <value>SMBv1 が有効です。WannaCry などのランサムウェアに悪用されました。</value>
+  </data>
+  <data name="CheckSmb1Unknown" xml:space="preserve">
+    <value>SMBv1 の状態を読み取れませんでした。</value>
+  </data>
+  <data name="CheckRemoteDesktop" xml:space="preserve">
+    <value>リモート デスクトップ</value>
+  </data>
+  <data name="CheckRemoteDesktopPassed" xml:space="preserve">
+    <value>リモート デスクトップの受信接続は無効です。</value>
+  </data>
+  <data name="CheckRemoteDesktopFailed" xml:space="preserve">
+    <value>リモート デスクトップが接続を受け付けています。使用しない場合は無効にしてください。</value>
+  </data>
+  <data name="CheckRemoteDesktopUnknown" xml:space="preserve">
+    <value>リモート デスクトップの状態を読み取れませんでした。</value>
+  </data>
+  <data name="CheckBitLocker" xml:space="preserve">
+    <value>ドライブの暗号化</value>
+  </data>
+  <data name="CheckBitLockerPassed" xml:space="preserve">
+    <value>システム ドライブは BitLocker で保護されています。</value>
+  </data>
+  <data name="CheckBitLockerFailed" xml:space="preserve">
+    <value>システム ドライブは暗号化されていません。PC を紛失・盗難した場合にデータを読み取られます。有効にする前に回復キーを保存してください。</value>
+  </data>
+  <data name="CheckBitLockerUnknown" xml:space="preserve">
+    <value>このエディションまたはドライブでは BitLocker を利用できません。</value>
+  </data>
+  <data name="CheckSecureBoot" xml:space="preserve">
+    <value>セキュア ブート</value>
+  </data>
+  <data name="CheckSecureBootPassed" xml:space="preserve">
+    <value>セキュア ブートが信頼されていないブートローダーやルートキットをブロックします。</value>
+  </data>
+  <data name="CheckSecureBootFailed" xml:space="preserve">
+    <value>セキュア ブートが無効です。UEFI ファームウェア設定で有効にしてください。</value>
+  </data>
+  <data name="CheckSecureBootUnknown" xml:space="preserve">
+    <value>セキュア ブートはサポートされていません (レガシー BIOS ブート)。</value>
+  </data>
+  <data name="CheckMemoryIntegrity" xml:space="preserve">
+    <value>メモリ整合性</value>
+  </data>
+  <data name="CheckMemoryIntegrityPassed" xml:space="preserve">
+    <value>コア分離により、悪意のあるドライバーからカーネルが保護されています。</value>
+  </data>
+  <data name="CheckMemoryIntegrityFailed" xml:space="preserve">
+    <value>メモリ整合性が無効です。ドライバーの互換性を確認してから Windows セキュリティで有効にしてください。ゲーム性能がわずかに低下する場合があります。</value>
+  </data>
+  <data name="CheckMemoryIntegrityUnknown" xml:space="preserve">
+    <value>メモリ整合性の状態を読み取れませんでした。</value>
+  </data>
+  <data name="DefenderInactive" xml:space="preserve">
+    <value>Microsoft Defender が有効なウイルス対策ではないため、状態とスキャンは利用できません。</value>
+  </data>
+  <data name="RealTimeProtection" xml:space="preserve">
+    <value>リアルタイム保護</value>
+  </data>
+  <data name="TamperProtection" xml:space="preserve">
+    <value>改ざん防止</value>
+  </data>
+  <data name="SignatureVersion" xml:space="preserve">
+    <value>定義のバージョン</value>
+  </data>
+  <data name="EngineVersion" xml:space="preserve">
+    <value>プラットフォームのバージョン</value>
+  </data>
+  <data name="On" xml:space="preserve">
+    <value>オン</value>
+  </data>
+  <data name="Off" xml:space="preserve">
+    <value>オフ</value>
+  </data>
+  <data name="ProtectionAge" xml:space="preserve">
+    <value>保護の鮮度</value>
+  </data>
+  <data name="AgeSignatures" xml:space="preserve">
+    <value>定義</value>
+  </data>
+  <data name="AgeQuickScan" xml:space="preserve">
+    <value>クイック スキャン</value>
+  </data>
+  <data name="AgeFullScan" xml:space="preserve">
+    <value>フル スキャン</value>
+  </data>
+  <data name="AgeDays" xml:space="preserve">
+    <value>{0} 日前</value>
+  </data>
+  <data name="AgeToday" xml:space="preserve">
+    <value>今日</value>
+  </data>
+  <data name="AgeNever" xml:space="preserve">
+    <value>なし</value>
+  </data>
+  <data name="AgeRecommended" xml:space="preserve">
+    <value>推奨: {0} 日ごと以上。マーカーは上限を示します。</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>スキャンと更新</value>
+  </data>
+  <data name="QuickScan" xml:space="preserve">
+    <value>クイック スキャン</value>
+  </data>
+  <data name="FullScan" xml:space="preserve">
+    <value>フル スキャン</value>
+  </data>
+  <data name="OfflineScan" xml:space="preserve">
+    <value>オフライン スキャン</value>
+  </data>
+  <data name="UpdateSignatures" xml:space="preserve">
+    <value>定義を更新</value>
+  </data>
+  <data name="ActionRunning" xml:space="preserve">
+    <value>{0} を実行中… TweakHub は引き続き使用できます。</value>
+  </data>
+  <data name="ActionCompleted" xml:space="preserve">
+    <value>{0} が完了しました。</value>
+  </data>
+  <data name="ActionFailed" xml:space="preserve">
+    <value>{0} に失敗しました: {1}</value>
+  </data>
+  <data name="OfflineConfirmTitle" xml:space="preserve">
+    <value>オフライン スキャンのために再起動しますか？</value>
+  </data>
+  <data name="OfflineConfirmMessage" xml:space="preserve">
+    <value>Microsoft Defender オフラインは PC をすぐに再起動し、Windows の起動前に約 15 分間スキャンします。Windows 実行中に隠れるルートキットを検出できます。先に作業内容を保存してください。</value>
+  </data>
+  <data name="SafetyScannerTitle" xml:space="preserve">
+    <value>Microsoft Safety Scanner</value>
+  </data>
+  <data name="SafetyScannerDescription" xml:space="preserve">
+    <value>Microsoft によるセカンド オピニオン。TweakHub が Microsoft からダウンロードし、デジタル署名を検証してから検出のみモードで起動するため、ファイルは削除されません。</value>
+  </data>
+  <data name="SafetyScannerRun" xml:space="preserve">
+    <value>ダウンロードして実行</value>
+  </data>
+  <data name="SafetyScannerDownloading" xml:space="preserve">
+    <value>Microsoft Safety Scanner をダウンロード中… {0}%</value>
+  </data>
+  <data name="SafetyScannerStarted" xml:space="preserve">
+    <value>Microsoft Safety Scanner を検出のみモードで起動しました。ウィンドウでスキャンの種類を選択してください。</value>
+  </data>
+  <data name="SafetyScannerFailed" xml:space="preserve">
+    <value>Microsoft Safety Scanner を起動できませんでした: {0}</value>
+  </data>
+  <data name="SafetyScannerSignatureInvalid" xml:space="preserve">
+    <value>ダウンロードしたファイルに有効な Microsoft の署名がないため、削除しました。</value>
+  </data>
+  <data name="Threats" xml:space="preserve">
+    <value>検出履歴</value>
+  </data>
+  <data name="NoThreats" xml:space="preserve">
+    <value>脅威は検出されていません。</value>
+  </data>
+  <data name="OpenWindowsSecurity" xml:space="preserve">
+    <value>Windows セキュリティで開く</value>
+  </data>
+  <data name="SeverityLow" xml:space="preserve">
+    <value>低</value>
+  </data>
+  <data name="SeverityModerate" xml:space="preserve">
+    <value>中</value>
+  </data>
+  <data name="SeverityHigh" xml:space="preserve">
+    <value>高</value>
+  </data>
+  <data name="SeveritySevere" xml:space="preserve">
+    <value>重大</value>
+  </data>
+  <data name="FileDrop" xml:space="preserve">
+    <value>ここにファイルをドラッグ</value>
+  </data>
+  <data name="FileDropHint" xml:space="preserve">
+    <value>TweakHub がローカルでハッシュを計算し、デジタル署名を確認します。何もアップロードされません。</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>参照…</value>
+  </data>
+  <data name="FileAnalyzing" xml:space="preserve">
+    <value>ファイルを分析中…</value>
+  </data>
+  <data name="FileFailed" xml:space="preserve">
+    <value>ファイルを分析できませんでした: {0}</value>
+  </data>
+  <data name="FileNotAFile" xml:space="preserve">
+    <value>フォルダーではなく、ファイルを 1 つ選択してください。</value>
+  </data>
+  <data name="HashPrivacyNote" xml:space="preserve">
+    <value>検索ではブラウザーに SHA-256 ハッシュのみを渡します。ファイル自体はアップロードされません。</value>
+  </data>
+  <data name="CopyHash" xml:space="preserve">
+    <value>コピー</value>
+  </data>
+  <data name="SearchVirusTotal" xml:space="preserve">
+    <value>VirusTotal で検索</value>
+  </data>
+  <data name="SearchTriage" xml:space="preserve">
+    <value>Triage で検索</value>
+  </data>
+  <data name="CopyReport" xml:space="preserve">
+    <value>レポートをコピー</value>
+  </data>
+  <data name="Signature" xml:space="preserve">
+    <value>デジタル署名</value>
+  </data>
+  <data name="SignatureValid" xml:space="preserve">
+    <value>有効で信頼済み</value>
+  </data>
+  <data name="SignatureNotSigned" xml:space="preserve">
+    <value>署名なし</value>
+  </data>
+  <data name="SignatureNotApplicable" xml:space="preserve">
+    <value>このファイルの種類には該当しません</value>
+  </data>
+  <data name="SignatureUnknown" xml:space="preserve">
+    <value>検証できませんでした</value>
+  </data>
+  <data name="SignatureInvalid" xml:space="preserve">
+    <value>無効 ({0})</value>
+  </data>
+  <data name="Signer" xml:space="preserve">
+    <value>署名者</value>
+  </data>
+  <data name="Issuer" xml:space="preserve">
+    <value>発行者</value>
+  </data>
+  <data name="ValidUntil" xml:space="preserve">
+    <value>証明書の有効期限</value>
+  </data>
+  <data name="Timestamp" xml:space="preserve">
+    <value>タイムスタンプ発行者</value>
+  </data>
+  <data name="SignatureType" xml:space="preserve">
+    <value>署名の種類</value>
+  </data>
+  <data name="SignatureTypeEmbedded" xml:space="preserve">
+    <value>ファイルに埋め込み</value>
+  </data>
+  <data name="SignatureTypeCatalog" xml:space="preserve">
+    <value>Windows カタログ</value>
+  </data>
+  <data name="Company" xml:space="preserve">
+    <value>会社</value>
+  </data>
+  <data name="Product" xml:space="preserve">
+    <value>製品</value>
+  </data>
+  <data name="FileDescription" xml:space="preserve">
+    <value>説明</value>
+  </data>
+  <data name="FileVersion" xml:space="preserve">
+    <value>バージョン</value>
+  </data>
+  <data name="OriginalName" xml:space="preserve">
+    <value>元のファイル名</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>サイズ</value>
+  </data>
+  <data name="TabSystem" xml:space="preserve">
+    <value>システム</value>
+  </data>
+  <data name="TabPrivacy" xml:space="preserve">
+    <value>プライバシーとアカウント</value>
+  </data>
+  <data name="SystemDescription" xml:space="preserve">
+    <value>プロセスごとのネットワーク接続と自動起動するプログラムを、各ファイルのデジタル署名とともに表示します。</value>
+  </data>
+  <data name="SystemScan" xml:space="preserve">
+    <value>スキャン</value>
+  </data>
+  <data name="SystemScanElevated" xml:space="preserve">
+    <value>管理者としてスキャン</value>
+  </data>
+  <data name="SystemScanElevatedHint" xml:space="preserve">
+    <value>システム プロセスや昇格したプロセスのファイル パスも表示します。</value>
+  </data>
+  <data name="SystemScanning" xml:space="preserve">
+    <value>接続、スタートアップ項目、署名を収集しています…</value>
+  </data>
+  <data name="SystemScannedPartial" xml:space="preserve">
+    <value>{0} にスキャンしました。システム プロセスのパスを表示するには管理者としてスキャンしてください。</value>
+  </data>
+  <data name="SystemScannedElevated" xml:space="preserve">
+    <value>{0} に管理者としてスキャンしました。</value>
+  </data>
+  <data name="SystemScanFailed" xml:space="preserve">
+    <value>スキャンを完了できませんでした: {0}</value>
+  </data>
+  <data name="ExportReport" xml:space="preserve">
+    <value>レポートをエクスポート</value>
+  </data>
+  <data name="ExportFailedTitle" xml:space="preserve">
+    <value>エクスポートに失敗しました</value>
+  </data>
+  <data name="TileEstablished" xml:space="preserve">
+    <value>アクティブな接続</value>
+  </data>
+  <data name="TileListening" xml:space="preserve">
+    <value>待ち受けポート</value>
+  </data>
+  <data name="TileStartup" xml:space="preserve">
+    <value>スタートアップ項目</value>
+  </data>
+  <data name="TileReview" xml:space="preserve">
+    <value>要確認</value>
+  </data>
+  <data name="ConnectionsTitle" xml:space="preserve">
+    <value>ネットワーク接続</value>
+  </data>
+  <data name="TopProcesses" xml:space="preserve">
+    <value>接続数の多いプロセス</value>
+  </data>
+  <data name="ChartFilterHint" xml:space="preserve">
+    <value>バーを選択すると一覧を絞り込みます。もう一度選択すると解除されます。</value>
+  </data>
+  <data name="ChartEstablished" xml:space="preserve">
+    <value>アクティブ {0}</value>
+  </data>
+  <data name="ChartListening" xml:space="preserve">
+    <value>待ち受け {0}</value>
+  </data>
+  <data name="FilterPlaceholder" xml:space="preserve">
+    <value>フィルター</value>
+  </data>
+  <data name="EstablishedOnly" xml:space="preserve">
+    <value>アクティブのみ</value>
+  </data>
+  <data name="HideLoopback" xml:space="preserve">
+    <value>ローカル (ループバック) を非表示</value>
+  </data>
+  <data name="ReviewOnly" xml:space="preserve">
+    <value>要確認のみ</value>
+  </data>
+  <data name="ColumnProcess" xml:space="preserve">
+    <value>プロセス</value>
+  </data>
+  <data name="ColumnProtocol" xml:space="preserve">
+    <value>プロトコル</value>
+  </data>
+  <data name="ColumnLocal" xml:space="preserve">
+    <value>ローカル アドレス</value>
+  </data>
+  <data name="ColumnRemote" xml:space="preserve">
+    <value>リモート アドレス</value>
+  </data>
+  <data name="ColumnState" xml:space="preserve">
+    <value>状態</value>
+  </data>
+  <data name="ColumnSigner" xml:space="preserve">
+    <value>発行元</value>
+  </data>
+  <data name="ColumnName" xml:space="preserve">
+    <value>名前</value>
+  </data>
+  <data name="ColumnType" xml:space="preserve">
+    <value>種類</value>
+  </data>
+  <data name="ColumnCommand" xml:space="preserve">
+    <value>コマンド</value>
+  </data>
+  <data name="StateListening" xml:space="preserve">
+    <value>待ち受け</value>
+  </data>
+  <data name="StateEstablished" xml:space="preserve">
+    <value>確立</value>
+  </data>
+  <data name="LegendSigned" xml:space="preserve">
+    <value>署名済み</value>
+  </data>
+  <data name="TrustUnsigned" xml:space="preserve">
+    <value>署名なし</value>
+  </data>
+  <data name="TrustScriptHost" xml:space="preserve">
+    <value>スクリプトまたはホスト プログラム</value>
+  </data>
+  <data name="TrustMissing" xml:space="preserve">
+    <value>ファイルが見つかりません</value>
+  </data>
+  <data name="TrustUnknown" xml:space="preserve">
+    <value>未確認</value>
+  </data>
+  <data name="OpenLocation" xml:space="preserve">
+    <value>ファイルの場所を開く</value>
+  </data>
+  <data name="AnalyzeFile" xml:space="preserve">
+    <value>ファイルを分析</value>
+  </data>
+  <data name="ManageInWindows" xml:space="preserve">
+    <value>Windows で管理</value>
+  </data>
+  <data name="PathUnavailable" xml:space="preserve">
+    <value>ファイル パスを取得できません。管理者としてスキャンしてください。</value>
+  </data>
+  <data name="StartupTitle" xml:space="preserve">
+    <value>自動起動と永続化</value>
+  </data>
+  <data name="StartupDescription" xml:space="preserve">
+    <value>Run キー、スタートアップ フォルダー、Microsoft 以外のスケジュール タスク、Windows フォルダー外の自動サービス、Winlogon の変更。署名のないファイルとスクリプト ホストが先頭に表示されます。</value>
+  </data>
+  <data name="StartupRun" xml:space="preserve">
+    <value>レジストリ Run</value>
+  </data>
+  <data name="StartupFolder" xml:space="preserve">
+    <value>スタートアップ</value>
+  </data>
+  <data name="StartupTask" xml:space="preserve">
+    <value>スケジュール タスク</value>
+  </data>
+  <data name="StartupService" xml:space="preserve">
+    <value>サービス</value>
+  </data>
+  <data name="StartupWinlogon" xml:space="preserve">
+    <value>Winlogon</value>
+  </data>
+  <data name="PasswordTitle" xml:space="preserve">
+    <value>パスワード漏えいチェック</value>
+  </data>
+  <data name="PasswordDescription" xml:space="preserve">
+    <value>k-匿名性を使って Have I Been Pwned のデータベースを照会します。送信されるのはパスワードの SHA-1 ハッシュの先頭 5 文字だけで、パスワードは送信されません。</value>
+  </data>
+  <data name="PasswordPlaceholder" xml:space="preserve">
+    <value>確認するパスワード</value>
+  </data>
+  <data name="PasswordCheck" xml:space="preserve">
+    <value>確認</value>
+  </data>
+  <data name="PasswordSafe" xml:space="preserve">
+    <value>既知の漏えいには見つかりませんでした。1 つのアカウントだけで使い、十分な長さを保ってください。</value>
+  </data>
+  <data name="PasswordBreached" xml:space="preserve">
+    <value>データ漏えいで {0} 回見つかりました。使用しているすべての場所で変更してください。</value>
+  </data>
+  <data name="NetworkFailed" xml:space="preserve">
+    <value>サービスに接続できませんでした: {0}</value>
+  </data>
+  <data name="DnsTitle" xml:space="preserve">
+    <value>フィルタリング DNS と Pi-hole</value>
+  </data>
+  <data name="DnsDescription" xml:space="preserve">
+    <value>マルウェアやトラッカーをブロックする DNS サービス、または Pi-hole を、接続中のすべてのアダプターで使用します。元の構成は保存され、復元できます。</value>
+  </data>
+  <data name="DnsAutomatic" xml:space="preserve">
+    <value>自動 (DHCP)</value>
+  </data>
+  <data name="DnsQuad9" xml:space="preserve">
+    <value>Quad9 – マルウェアをブロック</value>
+  </data>
+  <data name="DnsCloudflareMalware" xml:space="preserve">
+    <value>Cloudflare – マルウェアをブロック</value>
+  </data>
+  <data name="DnsAdGuard" xml:space="preserve">
+    <value>AdGuard – 広告とトラッカーをブロック</value>
+  </data>
+  <data name="DnsCustom" xml:space="preserve">
+    <value>Pi-hole またはカスタム サーバー</value>
+  </data>
+  <data name="DnsCustomPlaceholder" xml:space="preserve">
+    <value>例: 192.168.1.2</value>
+  </data>
+  <data name="DnsTest" xml:space="preserve">
+    <value>テスト</value>
+  </data>
+  <data name="DnsApply" xml:space="preserve">
+    <value>適用</value>
+  </data>
+  <data name="DnsRestore" xml:space="preserve">
+    <value>元に戻す</value>
+  </data>
+  <data name="DnsTesting" xml:space="preserve">
+    <value>テスト クエリを送信しています…</value>
+  </data>
+  <data name="DnsTestOk" xml:space="preserve">
+    <value>{0} は正しく応答しました。</value>
+  </data>
+  <data name="DnsTestFailed" xml:space="preserve">
+    <value>{0} から応答がありません。アドレスとポート 53 に到達できるかを確認してください。</value>
+  </data>
+  <data name="DnsTestAutomatic" xml:space="preserve">
+    <value>自動ではルーターが提供するサーバーを使用します。</value>
+  </data>
+  <data name="DnsInvalid" xml:space="preserve">
+    <value>有効な IPv4 または IPv6 アドレスを 1 ～ 4 個、コンマ区切りで入力してください。</value>
+  </data>
+  <data name="DnsNoAdapters" xml:space="preserve">
+    <value>ゲートウェイのある接続済みネットワーク アダプターが見つかりません。</value>
+  </data>
+  <data name="DnsConfirmTitle" xml:space="preserve">
+    <value>DNS サーバーを変更しますか？</value>
+  </data>
+  <data name="DnsConfirmMessage" xml:space="preserve">
+    <value>アダプター: {0}
+新しい DNS: {1}
+
+元に戻せるよう、初回に現在の構成を保存します。</value>
+  </data>
+  <data name="DnsPiholeNote" xml:space="preserve">
+    <value>ルーターが Pi-hole を迂回する IPv6 DNS サーバーを配布し続ける場合があります。先にサーバーをテストしてください。到達できない場合、元に戻すまで Web サイトが読み込めなくなります。</value>
+  </data>
+  <data name="DnsApplied" xml:space="preserve">
+    <value>DNS サーバーを更新し、DNS キャッシュをクリアしました。</value>
+  </data>
+  <data name="DnsRestored" xml:space="preserve">
+    <value>元の DNS 構成を復元しました。</value>
+  </data>
+  <data name="DnsFailed" xml:space="preserve">
+    <value>DNS の変更に失敗しました: {0}</value>
+  </data>
+  <data name="AccountsTitle" xml:space="preserve">
+    <value>アカウントを削除</value>
+  </data>
+  <data name="AccountsDescription" xml:space="preserve">
+    <value>JustDeleteMe ディレクトリ (MIT) に基づく、数百のサービスのアカウント削除ページへの直接リンク。一覧は要求したときだけ GitHub からダウンロードされます。</value>
+  </data>
+  <data name="AccountsLoad" xml:space="preserve">
+    <value>一覧をダウンロード</value>
+  </data>
+  <data name="AccountsUpdate" xml:space="preserve">
+    <value>一覧を更新</value>
+  </data>
+  <data name="AccountsDownloading" xml:space="preserve">
+    <value>JustDeleteMe の一覧をダウンロードしています…</value>
+  </data>
+  <data name="AccountsLoaded" xml:space="preserve">
+    <value>{0} 件のサービスを利用できます。</value>
+  </data>
+  <data name="AccountsInvalidData" xml:space="preserve">
+    <value>ダウンロードした一覧が無効です。</value>
+  </data>
+  <data name="AccountsDifficulty" xml:space="preserve">
+    <value>削除の難易度</value>
+  </data>
+  <data name="AccountsSearch" xml:space="preserve">
+    <value>サービスまたはドメインを検索</value>
+  </data>
+  <data name="AccountsOpen" xml:space="preserve">
+    <value>削除ページを開く</value>
+  </data>
+  <data name="AccountsMore" xml:space="preserve">
+    <value>ほかに {0} 件あります。検索を絞り込んでください。</value>
+  </data>
+  <data name="AccountsNone" xml:space="preserve">
+    <value>サービスが見つかりません。</value>
+  </data>
+  <data name="DifficultyEasy" xml:space="preserve">
+    <value>簡単</value>
+  </data>
+  <data name="DifficultyMedium" xml:space="preserve">
+    <value>普通</value>
+  </data>
+  <data name="DifficultyHard" xml:space="preserve">
+    <value>難しい</value>
+  </data>
+  <data name="DifficultyImpossible" xml:space="preserve">
+    <value>不可能</value>
+  </data>
+  <data name="DifficultyUnknown" xml:space="preserve">
+    <value>不明</value>
+  </data>
+  <data name="MetadataTitle" xml:space="preserve">
+    <value>ファイルのメタデータ</value>
+  </data>
+  <data name="MetadataDescription" xml:space="preserve">
+    <value>写真や文書から GPS 位置、デバイス、作成者、ソフトウェアがわかる場合があります。ExifTool がこのメタデータをローカルで読み取り、削除します。</value>
+  </data>
+  <data name="MetadataInstall" xml:space="preserve">
+    <value>ExifTool をインストール</value>
+  </data>
+  <data name="MetadataInstallFailed" xml:space="preserve">
+    <value>winget で ExifTool をインストールできませんでした。</value>
+  </data>
+  <data name="MetadataMissing" xml:space="preserve">
+    <value>ExifTool がインストールされていません。</value>
+  </data>
+  <data name="MetadataPick" xml:space="preserve">
+    <value>ファイルを選択…</value>
+  </data>
+  <data name="MetadataRemove" xml:space="preserve">
+    <value>メタデータを削除</value>
+  </data>
+  <data name="MetadataRemoveTitle" xml:space="preserve">
+    <value>すべてのメタデータを削除しますか？</value>
+  </data>
+  <data name="MetadataRemoveMessage" xml:space="preserve">
+    <value>{0} から書き込み可能なメタデータをすべて削除します。ExifTool は元のファイルを _original 付きのコピーとして同じ場所に残します。</value>
+  </data>
+  <data name="MetadataRemoved" xml:space="preserve">
+    <value>元のファイルは {0} として保存されています。</value>
+  </data>
+  <data name="MetadataSummary" xml:space="preserve">
+    <value>{0}: タグ {1} 個、うち機密の可能性があるもの {2} 個。</value>
+  </data>
+  <data name="MetadataFailed" xml:space="preserve">
+    <value>メタデータを処理できませんでした: {0}</value>
+  </data>
+  <data name="MetadataSensitive" xml:space="preserve">
+    <value>位置、身元、デバイスがわかる可能性があります</value>
+  </data>
+  <data name="MetadataGroup" xml:space="preserve">
+    <value>グループ</value>
+  </data>
+  <data name="MetadataTag" xml:space="preserve">
+    <value>タグ</value>
+  </data>
+  <data name="MetadataValue" xml:space="preserve">
+    <value>値</value>
+  </data>
+  <data name="DnsIntercepted" xml:space="preserve">
+    <value>ネットワークが任意のアドレス宛ての DNS クエリに応答しています。ルーター、ISP、または VPN が DNS を傍受しています。テストではサーバーを検証できず、傍受が続く限り DNS の変更が反映されない可能性があります。</value>
+  </data>
+  <data name="StartupEnabled" xml:space="preserve">
+    <value>有効</value>
+  </data>
+  <data name="StartupDisabled" xml:space="preserve">
+    <value>無効</value>
+  </data>
+  <data name="StartupDisable" xml:space="preserve">
+    <value>無効にする</value>
+  </data>
+  <data name="StartupEnable" xml:space="preserve">
+    <value>有効にする</value>
+  </data>
+  <data name="StartupToggleFailedTitle" xml:space="preserve">
+    <value>スタートアップ項目を変更できませんでした</value>
+  </data>
+</root>

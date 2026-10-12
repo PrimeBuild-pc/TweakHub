@@ -860,4 +860,76 @@ This may be due to insufficient permissions or the target application not being 
   <data name="DescriptionAttackSurfaceMappingAndAssetDiscovery" xml:space="preserve">
     <value>Discover external assets and map attack surfaces using OWASP Amass.</value>
   </data>
+  <data name="SecurityTitle" xml:space="preserve">
+    <value>Security</value>
+  </data>
+  <data name="SecurityDescription" xml:space="preserve">
+    <value>Check and fix Windows protection, scan with Microsoft Defender and verify files. Use OSINT and security tools only on systems and data you are authorized to investigate.</value>
+  </data>
+  <data name="SearchTools" xml:space="preserve">
+    <value>Search tools</value>
+  </data>
+  <data name="DescriptionWPD" xml:space="preserve">
+    <value>Windows privacy and telemetry controls. Changing policies or blocking connections can break features, updates or protection. Review changes and back up first. Opens the official website only.</value>
+  </data>
+  <data name="DescriptionTapMap" xml:space="preserve">
+    <value>Maps application network connections and keeps local activity history. Not a firewall or a security suite; connection history can reveal sensitive activity. Opens the official repository only.</value>
+  </data>
+  <data name="DescriptionSecurityToolkit" xml:space="preserve">
+    <value>Windows security triage for processes, connections, persistence and Defender. Reports may contain sensitive system data; review before sharing. Findings are not proof of compromise. Opens the official repository only.</value>
+  </data>
+  <data name="DescriptionEmailOSINT" xml:space="preserve">
+    <value>Email OSINT reference for authorized research. Opens the official website only; TweakHub does not collect or send email addresses. Review the site's privacy policy before entering sensitive data.</value>
+  </data>
+  <data name="DescriptionSigcheck" xml:space="preserve">
+    <value>Microsoft Sysinternals file signature and hash inspection. Optional VirusTotal queries/uploads may send hashes or files to a third party; review privacy and consent first. Installs the official package with winget.</value>
+  </data>
+  <data name="DescriptionSafetyScanner" xml:space="preserve">
+    <value>Microsoft's standalone, on-demand malware scanner. May remove detected files; back up important data first. Not a replacement for resident antivirus protection. Opens Microsoft's official page only.</value>
+  </data>
+  <data name="DescriptionMVolt" xml:space="preserve">
+    <value>NVIDIA GPU tuning and monitoring (mVolt+). Voltage, clock, power or fan changes can cause instability, data loss or hardware damage. Check GPU support and upstream guidance. Opens the official repository only.</value>
+  </data>
+  <data name="DescriptionSparkle" xml:space="preserve">
+    <value>Windows debloating, cleanup and tuning. Removing apps or changing settings can break functionality or security; review changes and back up first. GPL-3.0 project linked for reference only, with no code bundled.</value>
+  </data>
+  <data name="DescriptionFollowTheWhiteRabbit" xml:space="preserve">
+    <value>Curated start.me dashboard of OSINT and cybersecurity resources. Third-party links are not vetted by TweakHub; use them only for authorized research. Opens only the start.me page.</value>
+  </data>
+  <data name="DescriptionTriage" xml:space="preserve">
+    <value>Recorded Future Triage online malware analysis sandbox. Submitted files and URLs may be shared with third parties or become public; never upload personal or confidential data. Opens only the official site.</value>
+  </data>
+  <data name="DescriptionUserScanner" xml:space="preserve">
+    <value>Email and username OSINT suite that checks presence across thousands of sites. Use it only on your own accounts or with authorization; TweakHub does not collect or send any address. Opens only the official repository.</value>
+  </data>
+  <data name="DescriptionAwesomePrivacy" xml:space="preserve">
+    <value>Curated list of privacy-respecting alternatives to popular services and apps. Evaluate each project yourself before switching or sharing data. Opens only the official repository.</value>
+  </data>
+  <data name="DescriptionPrivacySexy" xml:space="preserve">
+    <value>Open-source script generator for Windows privacy and telemetry hardening. Generated scripts change system settings and can break features or updates; review every script and create a restore point first. Installs the official package with winget.</value>
+  </data>
+  <data name="DescriptionPiHole" xml:space="preserve">
+    <value>Network-wide DNS sinkhole that blocks ads and trackers, typically on a Linux device or container. Aggressive blocklists can break websites and apps on every device that uses it. Opens only the official repository.</value>
+  </data>
+  <data name="DescriptionDataBrokerOptOut" xml:space="preserve">
+    <value>Community guide to opting out of data brokers and people-search sites, mostly US-focused. Opt-out forms may ask for personal data; share only what is needed. Opens only the official repository.</value>
+  </data>
+  <data name="DescriptionJustDeleteMe" xml:space="preserve">
+    <value>Directory of direct links for deleting accounts from web services, rated by difficulty. Account deletion is often permanent; export your data first. Opens only the official site; source code is on GitHub (justdeleteme/justdelete.me).</value>
+  </data>
+  <data name="DescriptionUngoogledChromium" xml:space="preserve">
+    <value>Chromium build without Google web-service integration, for privacy and transparency. Not an anonymity tool, and updates are not automatic; keep it patched yourself. Installs the official package with winget.</value>
+  </data>
+  <data name="DescriptionPersonalSecurityChecklist" xml:space="preserve">
+    <value>Checklist of over 300 tips for protecting your digital security and privacy. Advice is general; adapt it to your threat model and devices. Opens only the official repository.</value>
+  </data>
+  <data name="DescriptionFfuf" xml:space="preserve">
+    <value>Fast web fuzzer for content discovery and parameter testing. Use it only on systems you own or are authorized to test; scans can overload servers and trigger security alerts. Opens only the official repository.</value>
+  </data>
+  <data name="DescriptionXalgorix" xml:space="preserve">
+    <value>Autonomous AI agents for reconnaissance, vulnerability detection and exploitation. Use only within an authorized penetration test scope; autonomous actions can damage targets or exceed that scope. Opens only the official repository.</value>
+  </data>
+  <data name="DescriptionHackingTool" xml:space="preserve">
+    <value>All-in-one Linux launcher that installs many third-party security and pentest tools. Installed tools are unvetted and may require root; use it only in an isolated lab and on authorized targets. Opens only the official repository.</value>
+  </data>
 </root>

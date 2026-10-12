@@ -860,4 +860,76 @@ Questo potrebbe essere dovuto a permessi insufficienti o al fatto che l'applicaz
   <data name="DescriptionAttackSurfaceMappingAndAssetDiscovery" xml:space="preserve">
     <value>Rileva risorse esterne e mappa superfici di attacco con OWASP Amass.</value>
   </data>
+  <data name="SecurityTitle" xml:space="preserve">
+    <value>Sicurezza</value>
+  </data>
+  <data name="SecurityDescription" xml:space="preserve">
+    <value>Verifica e correggi la protezione di Windows, esegui scansioni con Microsoft Defender e controlla i file. Usa gli strumenti OSINT e di sicurezza solo su sistemi e dati per cui hai autorizzazione.</value>
+  </data>
+  <data name="SearchTools" xml:space="preserve">
+    <value>Cerca strumenti</value>
+  </data>
+  <data name="DescriptionWPD" xml:space="preserve">
+    <value>Controlli di privacy e telemetria di Windows. Modificare criteri o bloccare connessioni può compromettere funzioni, aggiornamenti o protezione. Valuta le modifiche e crea un backup. Apre solo il sito ufficiale.</value>
+  </data>
+  <data name="DescriptionTapMap" xml:space="preserve">
+    <value>Mappa le connessioni di rete delle applicazioni e conserva una cronologia locale. Non è un firewall né una suite di sicurezza; la cronologia può rivelare attività sensibili. Apre solo il repository ufficiale.</value>
+  </data>
+  <data name="DescriptionSecurityToolkit" xml:space="preserve">
+    <value>Triage di sicurezza Windows per processi, connessioni, persistenza e Defender. I report possono contenere dati di sistema sensibili: controllali prima di condividerli. I risultati non provano una compromissione. Apre solo il repository ufficiale.</value>
+  </data>
+  <data name="DescriptionEmailOSINT" xml:space="preserve">
+    <value>Riferimento OSINT sulle email per ricerche autorizzate. Apre solo il sito ufficiale; TweakHub non raccoglie né invia indirizzi email. Leggi l'informativa privacy del sito prima di inserire dati sensibili.</value>
+  </data>
+  <data name="DescriptionSigcheck" xml:space="preserve">
+    <value>Analisi di firme e hash dei file con Microsoft Sysinternals. Le interrogazioni o gli upload facoltativi su VirusTotal possono inviare hash o file a terzi: valuta prima privacy e consenso. Installa il pacchetto ufficiale con winget.</value>
+  </data>
+  <data name="DescriptionSafetyScanner" xml:space="preserve">
+    <value>Scanner antimalware Microsoft autonomo e su richiesta. Può rimuovere i file rilevati: crea prima un backup dei dati importanti. Non sostituisce la protezione antivirus residente. Apre solo la pagina ufficiale Microsoft.</value>
+  </data>
+  <data name="DescriptionMVolt" xml:space="preserve">
+    <value>Regolazione e monitoraggio delle GPU NVIDIA (mVolt+). Modifiche a tensioni, frequenze, potenza o ventole possono causare instabilità, perdita di dati o danni hardware. Verifica compatibilità e istruzioni ufficiali. Apre solo il repository ufficiale.</value>
+  </data>
+  <data name="DescriptionSparkle" xml:space="preserve">
+    <value>Rimozione di app superflue, pulizia e regolazione di Windows. Rimuovere app o modificare impostazioni può compromettere funzioni o sicurezza: valuta le modifiche e crea un backup. Progetto GPL-3.0 collegato solo come riferimento, senza codice incluso.</value>
+  </data>
+  <data name="DescriptionFollowTheWhiteRabbit" xml:space="preserve">
+    <value>Raccolta curata su start.me di risorse OSINT e cybersecurity. I link di terze parti non sono verificati da TweakHub: usali solo per ricerche autorizzate. Apre solo la pagina start.me.</value>
+  </data>
+  <data name="DescriptionTriage" xml:space="preserve">
+    <value>Sandbox online di Recorded Future per l'analisi malware. File e URL inviati possono essere condivisi con terzi o diventare pubblici: non caricare mai dati personali o riservati. Apre solo il sito ufficiale.</value>
+  </data>
+  <data name="DescriptionUserScanner" xml:space="preserve">
+    <value>Suite OSINT per email e username che ne verifica la presenza su migliaia di siti. Usala solo sui tuoi account o con autorizzazione; TweakHub non raccoglie né invia indirizzi. Apre solo il repository ufficiale.</value>
+  </data>
+  <data name="DescriptionAwesomePrivacy" xml:space="preserve">
+    <value>Elenco curato di alternative rispettose della privacy a servizi e app popolari. Valuta ogni progetto prima di migrare o condividere dati. Apre solo il repository ufficiale.</value>
+  </data>
+  <data name="DescriptionPrivacySexy" xml:space="preserve">
+    <value>Generatore open source di script per privacy e telemetria di Windows. Gli script modificano il sistema e possono compromettere funzioni o aggiornamenti: rivedili e crea prima un punto di ripristino. Installa il pacchetto ufficiale con winget.</value>
+  </data>
+  <data name="DescriptionPiHole" xml:space="preserve">
+    <value>Sinkhole DNS di rete che blocca pubblicità e tracker, di solito su un dispositivo Linux o in un container. Liste di blocco aggressive possono compromettere siti e app su tutti i dispositivi che lo usano. Apre solo il repository ufficiale.</value>
+  </data>
+  <data name="DescriptionDataBrokerOptOut" xml:space="preserve">
+    <value>Guida della community per richiedere la rimozione da data broker e siti di ricerca persone, soprattutto negli Stati Uniti. I moduli possono chiedere dati personali: fornisci solo lo stretto necessario. Apre solo il repository ufficiale.</value>
+  </data>
+  <data name="DescriptionJustDeleteMe" xml:space="preserve">
+    <value>Elenco di link diretti per eliminare account dai servizi web, classificati per difficoltà. L'eliminazione è spesso definitiva: esporta prima i tuoi dati. Apre solo il sito ufficiale; il codice sorgente è su GitHub (justdeleteme/justdelete.me).</value>
+  </data>
+  <data name="DescriptionUngoogledChromium" xml:space="preserve">
+    <value>Chromium senza integrazione con i servizi web Google, per privacy e trasparenza. Non è uno strumento di anonimato e non si aggiorna da solo: installa tu le patch. Installa il pacchetto ufficiale con winget.</value>
+  </data>
+  <data name="DescriptionPersonalSecurityChecklist" xml:space="preserve">
+    <value>Checklist di oltre 300 consigli per proteggere sicurezza digitale e privacy. I consigli sono generici: adattali al tuo modello di minaccia e ai tuoi dispositivi. Apre solo il repository ufficiale.</value>
+  </data>
+  <data name="DescriptionFfuf" xml:space="preserve">
+    <value>Web fuzzer veloce per scoprire contenuti e testare parametri. Usalo solo su sistemi tuoi o che sei autorizzato a testare: le scansioni possono sovraccaricare i server e generare allarmi. Apre solo il repository ufficiale.</value>
+  </data>
+  <data name="DescriptionXalgorix" xml:space="preserve">
+    <value>Agenti IA autonomi per ricognizione, rilevamento ed exploit di vulnerabilità. Usali solo nel perimetro di un penetration test autorizzato: le azioni autonome possono danneggiare i sistemi o uscire dal perimetro. Apre solo il repository ufficiale.</value>
+  </data>
+  <data name="DescriptionHackingTool" xml:space="preserve">
+    <value>Launcher Linux tutto-in-uno che installa numerosi strumenti di sicurezza e pentest di terze parti. Gli strumenti non sono verificati e possono richiedere root: usalo solo in un laboratorio isolato e su obiettivi autorizzati. Apre solo il repository ufficiale.</value>
+  </data>
 </root>

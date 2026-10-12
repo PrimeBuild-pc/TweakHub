@@ -32,7 +32,8 @@ namespace TweakHub.Services
 
             try
             {
-                await File.WriteAllTextAsync(scriptPath, BuildScriptContext(script), new UTF8Encoding(false), linkedSource.Token);
+                // Windows PowerShell 5.1 reads BOM-less scripts as ANSI, which mangles non-ASCII paths and text.
+                await File.WriteAllTextAsync(scriptPath, BuildScriptContext(script), new UTF8Encoding(true), linkedSource.Token);
                 var elevated = requireAdministrator && !Elevation.IsAdministrator;
                 var startInfo = elevated
                     ? await CreateElevatedStartInfo(scriptPath, wrapperPath, outputPath, errorPath, linkedSource.Token)
@@ -104,9 +105,8 @@ namespace TweakHub.Services
             try
             {
                 await File.WriteAllTextAsync(path, script.Content, new UTF8Encoding(false), cancellationToken);
-                var escapedPath = path.Replace("'", "''");
                 return await ExecuteScriptAsync(
-                    $"& cmd.exe /d /c '{escapedPath}'\nexit $LASTEXITCODE",
+                    $"& cmd.exe /d /c {Literal(path)}\nexit $LASTEXITCODE",
                     script.RequiresAdministrator,
                     TimeSpan.FromMinutes(15),
                     cancellationToken);
@@ -117,13 +117,19 @@ namespace TweakHub.Services
             }
         }
 
+        // Appended to ConvertTo-Json: escapes non-ASCII so console code pages cannot corrupt the JSON on stdout.
+        public const string AsciiJson = @" | ForEach-Object { [regex]::Replace($_, '[^\x00-\x7F]', { param($m) '\u{0:x4}' -f [int][char]$m.Value }) }";
+
+        // PowerShell also closes single-quoted strings on typographic quotes, so double every variant.
+        public static string Literal(string value) =>
+            "'" + System.Text.RegularExpressions.Regex.Replace(value, "['‘’‚‛]", "$0$0") + "'";
+
         internal static string BuildScriptContext(string script)
         {
-            static string Quote(string value) => value.Replace("'", "''");
             return $$"""
                 $ErrorActionPreference = 'Stop'
-                $env:TWEAKHUB_ROOT = '{{Quote(AppDataPath.RootPath)}}'
-                $env:TWEAKHUB_APPS = '{{Quote(AppDataPath.AppsPath)}}'
+                $env:TWEAKHUB_ROOT = {{Literal(AppDataPath.RootPath)}}
+                $env:TWEAKHUB_APPS = {{Literal(AppDataPath.AppsPath)}}
                 Set-Location -LiteralPath $env:TWEAKHUB_ROOT
                 {{script}}
                 """;
@@ -140,6 +146,8 @@ namespace TweakHub.Services
                 RedirectStandardError = true,
                 CreateNoWindow = true
             };
+            // A PSModulePath inherited from PowerShell 7 makes Windows PowerShell autoload incompatible modules.
+            startInfo.Environment.Remove("PSModulePath");
             AddPowerShellArguments(startInfo, scriptPath);
             return startInfo;
         }
@@ -151,19 +159,18 @@ namespace TweakHub.Services
             string errorPath,
             CancellationToken cancellationToken)
         {
-            static string Quote(string value) => value.Replace("'", "''");
             var wrapper = $$"""
                 $ErrorActionPreference = 'Stop'
                 try {
-                    & '{{Quote(scriptPath)}}' *> '{{Quote(outputPath)}}'
+                    & {{Literal(scriptPath)}} *> {{Literal(outputPath)}}
                     if (-not $?) { exit 1 }
                     exit 0
                 } catch {
-                    $_ | Out-String | Set-Content -LiteralPath '{{Quote(errorPath)}}'
+                    $_ | Out-String | Set-Content -LiteralPath {{Literal(errorPath)}}
                     exit 1
                 }
                 """;
-            await File.WriteAllTextAsync(wrapperPath, wrapper, new UTF8Encoding(false), cancellationToken);
+            await File.WriteAllTextAsync(wrapperPath, wrapper, new UTF8Encoding(true), cancellationToken);
             var startInfo = new ProcessStartInfo
             {
                 FileName = "powershell.exe",

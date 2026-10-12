@@ -33,10 +33,19 @@ namespace TweakHub.Views
         private readonly IProgress<ToolProgress> _progress;
         private string _searchQuery = string.Empty;
         private bool _favoritesOnly;
+        private readonly bool _securityOnly;
 
-        public ExternalToolsPage()
+        public ExternalToolsPage(bool securityOnly = false)
         {
+            _securityOnly = securityOnly;
             InitializeComponent();
+            if (_securityOnly)
+            {
+                // Hosted inside SecurityPage, which already shows the heading.
+                RootGrid.Margin = new Thickness(0);
+                HeaderText.Visibility = Visibility.Collapsed;
+                AddToolButton.Visibility = Visibility.Collapsed;
+            }
             _shortcutService = ShortcutService.Instance;
             _downloadService = ToolDownloadService.Instance;
             _progress = new Progress<ToolProgress>(OnDownloadProgress);
@@ -66,7 +75,8 @@ namespace TweakHub.Views
         private IReadOnlyList<ToolGroup> CreateToolGroups()
         {
             var groups = new List<ToolGroup>();
-            var favorites = _shortcutService.ExternalTools
+            var tools = FilterTools(_shortcutService.ExternalTools, _searchQuery, _favoritesOnly, _securityOnly).ToList();
+            var favorites = tools
                 .Where(tool => tool.IsFavorite)
                 .OrderBy(tool => tool.Name)
                 .ToList();
@@ -80,7 +90,7 @@ namespace TweakHub.Views
                     favorites.Select(CreateToolItem).ToList()));
             }
 
-            groups.AddRange(FilterTools(_shortcutService.ExternalTools, _searchQuery, _favoritesOnly)
+            groups.AddRange(tools
                 .OrderByDescending(tool => tool.IsFavorite)
                 .ThenBy(tool => tool.Name)
                 .GroupBy(tool => tool.Category)
@@ -103,8 +113,12 @@ namespace TweakHub.Views
         internal static IEnumerable<ExternalTool> FilterTools(
             IEnumerable<ExternalTool> tools,
             string searchQuery,
-            bool favoritesOnly)
+            bool favoritesOnly,
+            bool securityOnly = false)
         {
+            if (securityOnly)
+                tools = tools.Where(tool => tool.Category.Equals("OSINT & Security", StringComparison.OrdinalIgnoreCase));
+
             if (favoritesOnly)
                 tools = tools.Where(tool => tool.IsFavorite);
 
@@ -129,13 +143,16 @@ namespace TweakHub.Views
 
         private async void ToolCard_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key is not (Key.Enter or Key.Space)
+            if (!IsToolCardActivation(sender, e.OriginalSource, e.Key)
                 || sender is not Border { DataContext: ToolItem item } card)
                 return;
 
             e.Handled = true;
             await RunToolAsync(card, item.Tool);
         }
+
+        internal static bool IsToolCardActivation(object sender, object originalSource, Key key) =>
+            ReferenceEquals(sender, originalSource) && key is Key.Enter or Key.Space;
 
         private async Task RunToolAsync(Border card, ExternalTool tool)
         {

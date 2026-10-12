@@ -60,6 +60,7 @@ public sealed class ShortcutService
         foreach (var tool in new[]
         {
             // System utilities
+            new ExternalTool { Name = "Sparkle", Description = L.Get("Tools:DescriptionSparkle"), Category = "System Utilities", DownloadUrl = "https://github.com/thedogecraft/sparkle" },
             new ExternalTool { Name = "PowerToys", Description = L.Get("Tools:DescriptionOfficialMicrosoftUtilitiesForWindowsPowerUsers"), Category = "System Utilities", WingetId = "Microsoft.PowerToys" },
             new ExternalTool { Name = "Flow Launcher", Description = L.Get("Tools:DescriptionOpenSourceQuickLauncherForAppsFiles"), Category = "System Utilities", DownloadUrl = "https://github.com/Flow-Launcher/Flow.Launcher" },
             new ExternalTool { Name = "FancyWM", Description = L.Get("Tools:DescriptionDynamicTilingWindowManagerForWindows"), Category = "System Utilities", DownloadUrl = "https://github.com/FancyWM/fancywm" },
@@ -117,6 +118,7 @@ public sealed class ShortcutService
             new ExternalTool { Name = "AMD Radeon GPU Profiler", Description = L.Get("Tools:DescriptionLowLevelRadeonGPUPerformanceAndWorkload"), Category = "Monitoring & Diagnostics", DownloadUrl = "https://gpuopen.com/rgp/" },
 
             // GPU and display
+            new ExternalTool { Name = "mVolt", Description = L.Get("Tools:DescriptionMVolt"), Category = "GPU & Display", DownloadUrl = "https://github.com/b00nz/mVolt" },
             new ExternalTool { Name = "GPU-Z", Description = L.Get("Tools:DescriptionGPUInformationSensorsAndValidation"), Category = "GPU & Display", WingetId = "TechPowerUp.GPU-Z" },
             new ExternalTool { Name = "MSI Afterburner", Description = L.Get("Tools:DescriptionGPUMonitoringFanCurvesAndOverclockingControls"), Category = "GPU & Display", WingetId = "Guru3D.Afterburner" },
             new ExternalTool { Name = "RivaTuner Statistics Server", Description = L.Get("Tools:DescriptionFrameRateLimitingAndInGamePerformance"), Category = "GPU & Display", WingetId = "Guru3D.RTSS" },
@@ -227,6 +229,25 @@ public sealed class ShortcutService
             new ExternalTool { Name = "Autopsy", Description = L.Get("Tools:DescriptionOpenSourceDigitalForensicsPlatform"), Category = "Recovery & Forensics", DownloadUrl = "https://www.autopsy.com/download/" },
 
             // OSINT and security
+            new ExternalTool { Name = "WPD", Description = L.Get("Tools:DescriptionWPD"), Category = "OSINT & Security", DownloadUrl = "https://wpd.app/" },
+            new ExternalTool { Name = "TapMap", Description = L.Get("Tools:DescriptionTapMap"), Category = "OSINT & Security", DownloadUrl = "https://github.com/olalie/tapmap" },
+            new ExternalTool { Name = "SecurityToolkit", Description = L.Get("Tools:DescriptionSecurityToolkit"), Category = "OSINT & Security", DownloadUrl = "https://github.com/kobasky17/SecurityToolkit" },
+            new ExternalTool { Name = "EmailOSINT", Description = L.Get("Tools:DescriptionEmailOSINT"), Category = "OSINT & Security", DownloadUrl = "https://emailosint.org/" },
+            new ExternalTool { Name = "Sigcheck", Description = L.Get("Tools:DescriptionSigcheck"), Category = "OSINT & Security", WingetId = "Microsoft.Sysinternals.Sigcheck" },
+            new ExternalTool { Name = "Microsoft Safety Scanner", Description = L.Get("Tools:DescriptionSafetyScanner"), Category = "OSINT & Security", DownloadUrl = "https://learn.microsoft.com/defender-endpoint/safety-scanner-download" },
+            new ExternalTool { Name = "Follow the White Rabbit", Description = L.Get("Tools:DescriptionFollowTheWhiteRabbit"), Category = "OSINT & Security", DownloadUrl = "https://start.me/p/aNrBJX/follow-the-white-rabbit" },
+            new ExternalTool { Name = "Triage", Description = L.Get("Tools:DescriptionTriage"), Category = "OSINT & Security", DownloadUrl = "https://tria.ge/" },
+            new ExternalTool { Name = "User Scanner", Description = L.Get("Tools:DescriptionUserScanner"), Category = "OSINT & Security", DownloadUrl = "https://github.com/kaifcodec/user-scanner" },
+            new ExternalTool { Name = "Awesome Privacy", Description = L.Get("Tools:DescriptionAwesomePrivacy"), Category = "OSINT & Security", DownloadUrl = "https://github.com/pluja/awesome-privacy" },
+            new ExternalTool { Name = "privacy.sexy", Description = L.Get("Tools:DescriptionPrivacySexy"), Category = "OSINT & Security", WingetId = "undergroundwires.privacy.sexy" },
+            new ExternalTool { Name = "Pi-hole", Description = L.Get("Tools:DescriptionPiHole"), Category = "OSINT & Security", DownloadUrl = "https://github.com/pi-hole/pi-hole" },
+            new ExternalTool { Name = "Big-Ass Data Broker Opt-Out List", Description = L.Get("Tools:DescriptionDataBrokerOptOut"), Category = "OSINT & Security", DownloadUrl = "https://github.com/yaelwrites/big-ass-data-broker-opt-out-list" },
+            new ExternalTool { Name = "JustDeleteMe", Description = L.Get("Tools:DescriptionJustDeleteMe"), Category = "OSINT & Security", DownloadUrl = "https://backgroundchecks.org/justdeleteme/" },
+            new ExternalTool { Name = "ungoogled-chromium", Description = L.Get("Tools:DescriptionUngoogledChromium"), Category = "OSINT & Security", WingetId = "eloston.ungoogled-chromium" },
+            new ExternalTool { Name = "Personal Security Checklist", Description = L.Get("Tools:DescriptionPersonalSecurityChecklist"), Category = "OSINT & Security", DownloadUrl = "https://github.com/lissy93/personal-security-checklist" },
+            new ExternalTool { Name = "ffuf", Description = L.Get("Tools:DescriptionFfuf"), Category = "OSINT & Security", DownloadUrl = "https://github.com/ffuf/ffuf" },
+            new ExternalTool { Name = "Xalgorix", Description = L.Get("Tools:DescriptionXalgorix"), Category = "OSINT & Security", DownloadUrl = "https://github.com/xalgorix/xalgorix" },
+            new ExternalTool { Name = "hackingtool", Description = L.Get("Tools:DescriptionHackingTool"), Category = "OSINT & Security", DownloadUrl = "https://github.com/Z4nzu/hackingtool" },
             new ExternalTool { Name = "ExifTool", Description = L.Get("Tools:DescriptionInspectAndEditFileMetadata"), Category = "OSINT & Security", WingetId = "OliverBetz.ExifTool" },
             new ExternalTool { Name = "SpiderFoot", Description = L.Get("Tools:DescriptionAutomatedOSINTAndAttackSurfaceMapping"), Category = "OSINT & Security", DownloadUrl = "https://github.com/smicallef/spiderfoot" },
             new ExternalTool { Name = "Sherlock", Description = L.Get("Tools:DescriptionFindUsernamesAcrossSocialNetworks"), Category = "OSINT & Security", DownloadUrl = "https://github.com/sherlock-project/sherlock" },
