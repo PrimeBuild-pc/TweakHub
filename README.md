@@ -18,11 +18,6 @@
     <a href="LICENSE"><img alt="License" src="https://img.shields.io/github/license/PrimeBuild-pc/TweakHub?style=plastic"></a>
   </p>
   <p>
-    <a href="https://github.com/PrimeBuild-pc/TweakHub/releases/latest"><img alt="Download latest release" src="https://img.shields.io/badge/download-latest%20release-2EA44F?style=for-the-badge&amp;logo=github&amp;logoColor=white"></a>
-    <a href="https://github.com/PrimeBuild-pc/TweakHub/releases/tag/v1.5.0-beta.1"><img alt="Try the v1.5.0 beta" src="https://img.shields.io/badge/try%20the%20beta-v1.5.0--beta.1-F28C28?style=for-the-badge&amp;logo=github&amp;logoColor=white"></a>
-  </p>
-  <p><sub>The beta button opens the release page: read the notes first, it is a pre-release for testing.</sub></p>
-  <p>
     <a href="#features"><b>Features</b></a> ·
     <a href="#screenshots"><b>Screenshots</b></a> ·
     <a href="#download--quick-start"><b>Download</b></a> ·
@@ -31,10 +26,33 @@
     <a href="#build-from-source"><b>Build</b></a>
   </p>
   <br>
+  <a id="screenshots"></a>
   <a href="assets/screenshots/security-overview.png"><img src="assets/screenshots/security-overview.png" alt="TweakHub Security overview with the security score ring" width="900"></a>
 </div>
 
-<br>
+<table>
+  <tr>
+    <td align="center"><a href="assets/screenshots/registry-tweaks.png"><img src="assets/screenshots/registry-tweaks.png" alt="Registry Tweaks" width="440"></a><br><sub><b>Registry Tweaks</b></sub></td>
+    <td align="center"><a href="assets/screenshots/security-overview.png"><img src="assets/screenshots/security-overview.png" alt="Security overview" width="440"></a><br><sub><b>Security · Overview</b></sub></td>
+    <td align="center"><a href="assets/screenshots/security-privacy.png"><img src="assets/screenshots/security-privacy.png" alt="Security privacy and accounts" width="440"></a><br><sub><b>Security · Privacy and accounts</b></sub></td>
+    <td align="center"><a href="assets/screenshots/security-tools.png"><img src="assets/screenshots/security-tools.png" alt="Security tools and resources" width="440"></a><br><sub><b>Security · Tools and resources</b></sub></td>
+    <td align="center"><a href="assets/screenshots/connections.png"><img src="assets/screenshots/connections.png" alt="Connections tab with PCIe link width and speed" width="440"></a><br><sub><b>Devices · Connections</b></sub></td>
+    <td align="center"><a href="assets/screenshots/devices.png"><img src="assets/screenshots/devices.png" alt="Device inventory" width="440"></a><br><sub><b>Devices · Inventory</b></sub></td>
+    <td align="center"><a href="assets/screenshots/interrupts-msi.png"><img src="assets/screenshots/interrupts-msi.png" alt="Interrupts and MSI" width="440"></a><br><sub><b>Devices · Interrupts &amp; MSI</b></sub></td>
+    <td align="center"><a href="assets/screenshots/usb-input.png"><img src="assets/screenshots/usb-input.png" alt="USB and input" width="440"></a><br><sub><b>Devices · USB &amp; input</b></sub></td>
+    <td align="center"><a href="assets/screenshots/tweak-check.png"><img src="assets/screenshots/tweak-check.png" alt="Tweak check" width="440"></a><br><sub><b>Devices · Tweak check</b></sub></td>
+    <td align="center"><a href="assets/screenshots/power-plan.png"><img src="assets/screenshots/power-plan.png" alt="Power plan editor" width="440"></a><br><sub><b>Power plan</b></sub></td>
+    <td align="center"><a href="assets/screenshots/automated-scripts.png"><img src="assets/screenshots/automated-scripts.png" alt="Automated scripts and playbooks" width="440"></a><br><sub><b>Automated Scripts</b></sub></td>
+    <td align="center"><a href="assets/screenshots/external-tools.png"><img src="assets/screenshots/external-tools.png" alt="External tools" width="440"></a><br><sub><b>External Tools</b></sub></td>
+    <td align="center"><a href="assets/screenshots/quick-access.png"><img src="assets/screenshots/quick-access.png" alt="Quick access" width="440"></a><br><sub><b>Quick Access</b></sub></td>
+    <td align="center"><a href="assets/screenshots/settings.png"><img src="assets/screenshots/settings.png" alt="Settings" width="440"></a><br><sub><b>Settings</b></sub></td>
+  </tr>
+</table>
+
+<p align="center"><sub>Scroll the gallery sideways (swipe on touch screens) and click any screenshot to open it at full size.</sub></p>
+
+> [!IMPORTANT]
+> These screenshots show the **v1.5.0-beta.1 pre-release**. Some sections (Security, Devices & latency, Power plan and the new tweaks) are not in the latest stable release yet. To try them, read the [beta release notes](https://github.com/PrimeBuild-pc/TweakHub/releases/tag/v1.5.0-beta.1) and download it from there.
 
 > [!WARNING]
 > **Use at your own risk.** TweakHub is intended for experienced technicians and power users as a fast way to review and apply selected system changes. It is not a one-click optimizer, and its tweaks should never be applied blindly.
@@ -96,33 +114,15 @@ TweakHub supports **Windows 11 build 22000 or newer**.
 
 <a id="languages"></a>The interface and installer support English, Russian, Simplified Chinese, Spanish, Italian and Japanese. TweakHub follows the Windows display language by default; an explicit language can be selected under **Settings**.
 
-## Screenshots
-
-> [!IMPORTANT]
-> These screenshots show the **v1.5.0-beta.1 pre-release**. Some sections (Security, Devices & latency, Power plan and the new tweaks) are not in the latest stable release yet. To try them, read the [beta release notes](https://github.com/PrimeBuild-pc/TweakHub/releases/tag/v1.5.0-beta.1) and download it from there.
-
-<p align="center"><sub>Scroll the gallery sideways (swipe on touch screens) and click any screenshot to open it at full size.</sub></p>
-
-<table>
-  <tr>
-    <td align="center"><a href="assets/screenshots/registry-tweaks.png"><img src="assets/screenshots/registry-tweaks.png" alt="Registry Tweaks" width="440"></a><br><sub><b>Registry Tweaks</b></sub></td>
-    <td align="center"><a href="assets/screenshots/security-overview.png"><img src="assets/screenshots/security-overview.png" alt="Security overview" width="440"></a><br><sub><b>Security · Overview</b></sub></td>
-    <td align="center"><a href="assets/screenshots/security-privacy.png"><img src="assets/screenshots/security-privacy.png" alt="Security privacy and accounts" width="440"></a><br><sub><b>Security · Privacy and accounts</b></sub></td>
-    <td align="center"><a href="assets/screenshots/security-tools.png"><img src="assets/screenshots/security-tools.png" alt="Security tools and resources" width="440"></a><br><sub><b>Security · Tools and resources</b></sub></td>
-    <td align="center"><a href="assets/screenshots/connections.png"><img src="assets/screenshots/connections.png" alt="Connections tab with PCIe link width and speed" width="440"></a><br><sub><b>Devices · Connections</b></sub></td>
-    <td align="center"><a href="assets/screenshots/devices.png"><img src="assets/screenshots/devices.png" alt="Device inventory" width="440"></a><br><sub><b>Devices · Inventory</b></sub></td>
-    <td align="center"><a href="assets/screenshots/interrupts-msi.png"><img src="assets/screenshots/interrupts-msi.png" alt="Interrupts and MSI" width="440"></a><br><sub><b>Devices · Interrupts &amp; MSI</b></sub></td>
-    <td align="center"><a href="assets/screenshots/usb-input.png"><img src="assets/screenshots/usb-input.png" alt="USB and input" width="440"></a><br><sub><b>Devices · USB &amp; input</b></sub></td>
-    <td align="center"><a href="assets/screenshots/tweak-check.png"><img src="assets/screenshots/tweak-check.png" alt="Tweak check" width="440"></a><br><sub><b>Devices · Tweak check</b></sub></td>
-    <td align="center"><a href="assets/screenshots/power-plan.png"><img src="assets/screenshots/power-plan.png" alt="Power plan editor" width="440"></a><br><sub><b>Power plan</b></sub></td>
-    <td align="center"><a href="assets/screenshots/automated-scripts.png"><img src="assets/screenshots/automated-scripts.png" alt="Automated scripts and playbooks" width="440"></a><br><sub><b>Automated Scripts</b></sub></td>
-    <td align="center"><a href="assets/screenshots/external-tools.png"><img src="assets/screenshots/external-tools.png" alt="External tools" width="440"></a><br><sub><b>External Tools</b></sub></td>
-    <td align="center"><a href="assets/screenshots/quick-access.png"><img src="assets/screenshots/quick-access.png" alt="Quick access" width="440"></a><br><sub><b>Quick Access</b></sub></td>
-    <td align="center"><a href="assets/screenshots/settings.png"><img src="assets/screenshots/settings.png" alt="Settings" width="440"></a><br><sub><b>Settings</b></sub></td>
-  </tr>
-</table>
-
 ## Download & quick start
+
+<div align="center">
+  <p>
+    <a href="https://github.com/PrimeBuild-pc/TweakHub/releases/latest"><img alt="Download latest release" src="https://img.shields.io/badge/download-latest%20release-2EA44F?style=for-the-badge&amp;logo=github&amp;logoColor=white"></a>
+    <a href="https://github.com/PrimeBuild-pc/TweakHub/releases/tag/v1.5.0-beta.1"><img alt="Try the v1.5.0 beta" src="https://img.shields.io/badge/try%20the%20beta-v1.5.0--beta.1-F28C28?style=for-the-badge&amp;logo=github&amp;logoColor=white"></a>
+  </p>
+  <p><sub>The beta button opens the release page: read the notes first, it is a pre-release for testing.</sub></p>
+</div>
 
 <table>
   <tr>
@@ -179,13 +179,9 @@ Use **Settings → Portable configuration** to export or import the complete use
 
 </details>
 
-<<<<<<< Updated upstream
-### Intended customization workflow
-=======
 <details>
 <summary><b>Intended customization workflow</b></summary>
 <br>
->>>>>>> Stashed changes
 
 1. Put optional portable programs under `Apps` beside `TweakHub.exe`.
 2. Create PowerShell or CMD entries under **Automated Scripts**. **Import Script Files** only reads selected `.ps1`, `.cmd` or `.bat` files into new custom scripts; it does not execute them, copy the original files or import a TweakHub profile. Use the paths provided by TweakHub instead of machine-specific absolute paths:
