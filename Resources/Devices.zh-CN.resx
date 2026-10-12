@@ -742,4 +742,10 @@ TweakHub 无法检查脚本的行为，作者也可以随时修改它。如有�
   <data name="LinkSlotLimit" xml:space="preserve">
     <value>插槽最高支持 PCIe {0}：设备已达到这块主板允许的最高速度。</value>
   </data>
+  <data name="LinkSlotLanes" xml:space="preserve">
+    <value>这块主板的 M.2 插槽只接了 x{0} 通道：硬盘以插槽提供的速度运行，而不是它的最高速度。</value>
+  </data>
+  <data name="HintWiderM2" xml:space="preserve">
+    <value>这块主板上有 x{0} 通道的 M.2 插槽：{1}。</value>
+  </data>
 </root>

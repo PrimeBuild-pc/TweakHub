@@ -68,6 +68,8 @@ File `Resources/Boards.json` (risorsa incorporata). Per ogni scheda:
 - `sharing.lanes`: 0 = disattivato, altrimenti le linee che restano. Il testo è costruito con modelli tradotti, quindi la tabella non contiene frasi.
 - Usi: suggerimenti precisi ("M2_1 è collegato alla CPU: sposta lì il disco più usato", "PCI_E1 passa a x8 quando usi M2_3"), M.2 della CPU libero (slot della CPU nella tabella > NVMe trovati sulla CPU), slot della GPU più stretto della scheda.
 - Senza scheda in tabella tutto funziona lo stesso, con frasi generiche ("controlla nel manuale quali slot condividono le linee").
+- Il chipset "B850E" non esiste (AMD l'ha cancellato): le schede "-E" (ROG Strix B850-E, TUF B850-E) sono B850.
+- Slot M.2 cablati x2 di fabbrica: un SSD che va a x2 lì è giallo ("limite dello slot") con i suggerimenti degli slot x4, non rosso.
 - Copertura richiesta da Lorenzo: B450, B550, X570, B650, B650E, X670, X670E, B850, B850E, X870, X870E, Z890, B860, Z790, B760, Z690, B660, B560, Z590, Z490, B460. Per ogni chipset le schede gaming più diffuse di ASUS, MSI, Gigabyte e ASRock (6–10 per chipset), dalle pagine delle specifiche ufficiali; ogni voce porta l'URL della fonte.
 
 ## Fasi
@@ -87,5 +89,5 @@ File `Resources/Boards.json` (risorsa incorporata). Per ogni scheda:
 - [x] Fase 1 — Motore PCIe e tab (provata sul PC di Lorenzo: GPU e Crucial sulla CPU, Samsung 980 e Wi-Fi sul chipset X570)
 - [x] Fase 2 — GPU: ADLX per le Radeon. NVML e IGCL rimandati ai test su NVIDIA e Intel Arc
 - [x] Fase 3 — USB (provata: la Logitech StreamCam di Lorenzo supporta USB 3 ma va a USB 2; lettura degli hub verificata anche da utente non amministratore)
-- [ ] Fase 4 — Schede madri
-- [ ] Fase 5 — Lingue, documentazione, PR
+- [x] Fase 4 — Schede madri: 183 schede, 4–13 per chipset (ASUS, MSI, Gigabyte, ASRock). Manuali PDF ASUS (API `rog.asus.com/support/webapi/product/GetPDManual`), ASRock (`download.asrock.com/Manual/<nome>.pdf`), MSI AM4/Z490/B460 (`download-2.msi.com/archive/mnu_exe/mb/E<ID>v<ver>.pdf`); pagine specifiche MSI recenti e Gigabyte lette con Chrome headless (i siti bloccano i download diretti). Mancano MSI Z590/B560/Z690/B660/B650E: le loro pagine vecchie non espongono i dati in testo
+- [x] Fase 5 — Lingue (6), documentazione

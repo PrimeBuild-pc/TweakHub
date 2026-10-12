@@ -742,4 +742,10 @@ TweakHub non può controllare cosa fa lo script e l'autore può modificarlo in q
   <data name="LinkSlotLimit" xml:space="preserve">
     <value>Lo slot arriva a PCIe {0}: il dispositivo va al massimo che questa scheda madre consente.</value>
   </data>
+  <data name="LinkSlotLanes" xml:space="preserve">
+    <value>Questa scheda madre collega lo slot M.2 con x{0} linee: il disco va a quanto offre lo slot, non alla sua velocità massima.</value>
+  </data>
+  <data name="HintWiderM2" xml:space="preserve">
+    <value>Slot M.2 con x{0} linee su questa scheda madre: {1}.</value>
+  </data>
 </root>

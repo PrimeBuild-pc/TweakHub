@@ -221,6 +221,14 @@ public static class LinkService
         {
             case "LanesMissing" or "GpuOnChipset" when Sharing() is { Length: > 0 } sharing:
                 return check with { BoardHint = L.Format("Devices:HintSharing", sharing) };
+            // Some M.2 slots are wired x2: the drive is fine, the slot is narrow.
+            case "LanesMissing" when drive && board.M2.Any(slot => slot.Lanes == check.Width && slot.IsCpu == (check.Attach == LinkAttach.Cpu)):
+                var wide = board.M2.Where(slot => slot.Lanes >= check.MaxWidth).ToList();
+                return check with
+                {
+                    Status = LinkStatus.Check, Advice = "SlotLanes", Args = [check.Width],
+                    BoardHint = wide.Count > 0 ? L.Format("Devices:HintWiderM2", check.MaxWidth, Labels(wide)) : string.Empty
+                };
             case "GenLower" when drive:
                 // A faster M.2 elsewhere on the board is advice; none at all means the board is the limit.
                 if (board.M2.Where(slot => slot.Gen > check.Gen).ToList() is { Count: > 0 } faster)

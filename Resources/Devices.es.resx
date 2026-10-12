@@ -742,4 +742,10 @@ TweakHub no puede comprobar lo que hace el script y el autor puede cambiarlo en 
   <data name="LinkSlotLimit" xml:space="preserve">
     <value>La ranura llega hasta PCIe {0}: el dispositivo funciona al máximo que permite esta placa base.</value>
   </data>
+  <data name="LinkSlotLanes" xml:space="preserve">
+    <value>Esta placa base conecta la ranura M.2 con x{0} líneas: la unidad funciona a lo que ofrece la ranura, no a su velocidad máxima.</value>
+  </data>
+  <data name="HintWiderM2" xml:space="preserve">
+    <value>Ranuras M.2 con x{0} líneas en esta placa base: {1}.</value>
+  </data>
 </root>

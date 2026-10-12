@@ -742,4 +742,10 @@ TweakHub cannot check what the script does, and the author can change it at any 
   <data name="LinkSlotLimit" xml:space="preserve">
     <value>The slot runs up to PCIe {0}: the device is at the most this motherboard allows.</value>
   </data>
+  <data name="LinkSlotLanes" xml:space="preserve">
+    <value>This motherboard wires the M.2 slot with x{0} lanes: the drive runs at what the slot offers, not at its full speed.</value>
+  </data>
+  <data name="HintWiderM2" xml:space="preserve">
+    <value>M.2 slots with x{0} lanes on this motherboard: {1}.</value>
+  </data>
 </root>

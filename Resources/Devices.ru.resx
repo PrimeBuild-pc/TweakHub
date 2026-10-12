@@ -742,4 +742,10 @@ TweakHub не может проверить, что делает скрипт, �
   <data name="LinkSlotLimit" xml:space="preserve">
     <value>Слот работает максимум в режиме PCIe {0}: устройство работает на пределе возможностей этой платы.</value>
   </data>
+  <data name="LinkSlotLanes" xml:space="preserve">
+    <value>Эта материнская плата подключает слот M.2 по x{0} линиям: накопитель работает на скорости слота, а не на своей максимальной.</value>
+  </data>
+  <data name="HintWiderM2" xml:space="preserve">
+    <value>Слоты M.2 с x{0} линиями на этой материнской плате: {1}.</value>
+  </data>
 </root>

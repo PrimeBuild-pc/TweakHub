@@ -80,4 +80,19 @@ public class BoardCatalogTests
             Assert.That(cpuFull.BoardHint, Is.Empty, "Both CPU slots already hold a drive");
         });
     }
+
+    [Test]
+    public void DriveInAnX2SlotIsTheSlotsLimit()
+    {
+        BoardInfo board = new(["TEST"], "Test board", "B550", "https://example.com",
+            [new("M2_1", "cpu", 4, 4), new("M2_2", "chipset", 3, 2)], [new("PCIE1", "cpu", 4, 16)], []);
+        var x2 = LinkService.ApplyBoard(Check(LinkKind.Nvme, LinkAttach.Chipset, 3, 2, 3, 4, LinkStatus.Bad, "LanesMissing"), board, 0);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(x2.Status, Is.EqualTo(LinkStatus.Check));
+            Assert.That(x2.Advice, Is.EqualTo("SlotLanes"));
+            Assert.That(x2.BoardHint, Does.Contain("M2_1"));
+        });
+    }
 }

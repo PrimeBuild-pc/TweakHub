@@ -742,4 +742,10 @@ TweakHub はスクリプトの動作を確認できず、作者はいつでも�
   <data name="LinkSlotLimit" xml:space="preserve">
     <value>スロットは PCIe {0} までなので、このマザーボードで可能な最高速度で動作しています。</value>
   </data>
+  <data name="LinkSlotLanes" xml:space="preserve">
+    <value>このマザーボードの M.2 スロットは x{0} レーンで配線されています。ドライブは最高速度ではなく、スロットの速度で動作します。</value>
+  </data>
+  <data name="HintWiderM2" xml:space="preserve">
+    <value>このマザーボードの x{0} レーンの M.2 スロット：{1}。</value>
+  </data>
 </root>
