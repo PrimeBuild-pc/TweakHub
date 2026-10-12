@@ -29,12 +29,8 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Margin="0,0,0,20">
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
-                <TextBlock Text="&#xE713;" FontFamily="Segoe Fluent Icons" FontSize="28" Margin="0,0,12,0"
-                           Foreground="{DynamicResource IconBrush}"/>
-                <TextBlock Text="{loc:Loc UI:AboutPageAboutAmpSettings}" FontSize="28" FontWeight="Light"
-                           Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
-            </StackPanel>
+            <TextBlock Text="{loc:Loc UI:AboutPageAboutAmpSettings}" FontSize="28" FontWeight="Light" Margin="0,0,0,6"
+                       Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
             <TextBlock Text="{loc:Loc UI:AboutPageApplicationInformationAppearanceAndUpdates}"
                        FontSize="12" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
         </StackPanel>
@@ -43,7 +39,11 @@
             <StackPanel>
                 <Border Style="{StaticResource CardStyle}" Margin="0,0,0,12">
                     <StackPanel>
-                        <TextBlock Text="{loc:Loc UI:AboutPageAppearance}" Style="{StaticResource CategoryHeaderStyle}"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                            <TextBlock Text="&#xE790;" FontFamily="Segoe Fluent Icons" FontSize="18" Margin="0,0,10,0"
+                                       VerticalAlignment="Center" Foreground="{DynamicResource IconBrush}"/>
+                            <TextBlock Text="{loc:Loc UI:AboutPageAppearance}" Style="{StaticResource CategoryHeaderStyle}" Margin="0"/>
+                        </StackPanel>
                         <TextBlock Text="{loc:Loc UI:AboutPageFollowWindowsOrChooseA}"
                                    Style="{StaticResource DescriptionTextStyle}" Margin="0,0,0,16"/>
 
@@ -105,7 +105,11 @@
 
                 <Border Style="{StaticResource CardStyle}" Margin="0,0,0,12">
                     <StackPanel>
-                        <TextBlock Text="{loc:Loc UI:AboutPagePortableConfiguration}" Style="{StaticResource CategoryHeaderStyle}"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                            <TextBlock Text="&#xE8B7;" FontFamily="Segoe Fluent Icons" FontSize="18" Margin="0,0,10,0"
+                                       VerticalAlignment="Center" Foreground="{DynamicResource IconBrush}"/>
+                            <TextBlock Text="{loc:Loc UI:AboutPagePortableConfiguration}" Style="{StaticResource CategoryHeaderStyle}" Margin="0"/>
+                        </StackPanel>
                         <TextBlock Text="{loc:Loc UI:AboutPageExportOrImportCustomScripts}"
                                    Style="{StaticResource DescriptionTextStyle}" Margin="0,0,0,8"/>
                         <TextBlock x:Name="DataPathText" FontSize="11" TextWrapping="Wrap" Margin="0,0,0,14"
@@ -123,7 +127,11 @@
 
                 <Border Style="{StaticResource CardStyle}" Margin="0,0,0,12">
                     <StackPanel>
-                        <TextBlock Text="{loc:Loc UI:AboutPageUpdates}" Style="{StaticResource CategoryHeaderStyle}"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                            <TextBlock Text="&#xE895;" FontFamily="Segoe Fluent Icons" FontSize="18" Margin="0,0,10,0"
+                                       VerticalAlignment="Center" Foreground="{DynamicResource IconBrush}"/>
+                            <TextBlock Text="{loc:Loc UI:AboutPageUpdates}" Style="{StaticResource CategoryHeaderStyle}" Margin="0"/>
+                        </StackPanel>
                         <TextBlock Text="{loc:Loc UI:AboutPageTweakHubChecksGitHubReleasesWhen}"
                                    Style="{StaticResource DescriptionTextStyle}" Margin="0,0,0,14"/>
                         <StackPanel Orientation="Horizontal">
@@ -137,8 +145,11 @@
 
                 <Border Style="{StaticResource CardStyle}" Margin="0,0,0,4">
                     <StackPanel>
-                        <TextBlock x:Name="VersionText" FontSize="20" FontWeight="SemiBold"
-                                   Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE946;" FontFamily="Segoe Fluent Icons" FontSize="18" Margin="0,0,10,0"
+                                       VerticalAlignment="Center" Foreground="{DynamicResource IconBrush}"/>
+                            <TextBlock x:Name="VersionText" Style="{StaticResource CategoryHeaderStyle}" Margin="0"/>
+                        </StackPanel>
                         <TextBlock Text="© 2025–2026 Prime Build" Margin="0,4,0,14"
                                    Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
                         <TextBlock Text="{loc:Loc UI:AboutPageLicenseMITLicense}" Margin="0,0,0,6"
