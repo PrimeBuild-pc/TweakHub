@@ -69,7 +69,7 @@ public partial class UsbInputView : UserControl
             var items = chains.Select(chain => new InputItem(chain, chain.Controller is { } controller ? controllers.GetValueOrDefault(controller.Id) : null)).ToList();
             InputList.ItemsSource = items;
             NoInputText.Visibility = items.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
-            await RefreshPlanSuspendAsync();
+            RefreshPlanSuspend();
         }
         catch (Exception ex) when (ex is InvalidOperationException or System.Text.Json.JsonException)
         {
@@ -83,9 +83,9 @@ public partial class UsbInputView : UserControl
         }
     }
 
-    private async Task RefreshPlanSuspendAsync()
+    private void RefreshPlanSuspend()
     {
-        var value = await UsbService.GetPlanSuspendAsync();
+        var value = UsbService.GetPlanSuspend();
         PlanSuspendText.Text = L.Get(value switch { 1 => "Devices:PlanSuspendOn", 0 => "Devices:PlanSuspendOff", _ => "Devices:PlanSuspendUnknown" });
         PlanSuspendIcon.SetResourceReference(TextBlock.ForegroundProperty, value == 1 ? "WarningBrush" : value == 0 ? "SuccessBrush" : "IconBrush");
         PlanSuspendButton.IsEnabled = value == 1;
@@ -97,7 +97,7 @@ public partial class UsbInputView : UserControl
         PlanSuspendButton.IsEnabled = false;
         if (!await UsbService.DisablePlanSuspendAsync())
             await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Devices:ApplyFailedTitle"), L.Get("Devices:ApplyFailedMessage"));
-        await RefreshPlanSuspendAsync();
+        RefreshPlanSuspend();
     }
 
     private async void PlanSuspendRestore_Click(object sender, RoutedEventArgs e)
@@ -105,7 +105,7 @@ public partial class UsbInputView : UserControl
         PlanSuspendRestoreButton.IsEnabled = false;
         if (!await UsbService.RestorePlanSuspendAsync())
             await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Devices:ApplyFailedTitle"), L.Get("Devices:ApplyFailedMessage"));
-        await RefreshPlanSuspendAsync();
+        RefreshPlanSuspend();
     }
 
     private async void DeviceSuspend_Click(object sender, RoutedEventArgs e)

@@ -2,7 +2,6 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Text.Json;
-using System.Text.RegularExpressions;
 
 namespace TweakHub.Services;
 
@@ -38,12 +37,12 @@ public class PowerService
     /// <summary>Sets the AC value of a power setting in the active plan, keeping the original for <see cref="RestoreSettingAsync"/>.</summary>
     public async Task<bool> ApplySettingAsync(string id, string subgroup, string settingAlias, int targetAcValue)
     {
-        var scheme = await GetActiveSchemeAsync();
+        var scheme = ActiveScheme();
         if (scheme is null) return false;
 
         if (!_backup.Settings.ContainsKey(id))
         {
-            var original = await GetAcValueAsync(scheme, subgroup, settingAlias);
+            var original = GetAcValue(scheme, subgroup, settingAlias);
             if (original is null) return false;
             _backup.Settings[id] = new PowerSettingBackup { Scheme = scheme, Subgroup = subgroup, Alias = settingAlias, AcValue = original.Value };
             Save();
@@ -51,13 +50,13 @@ public class PowerService
 
         var result = await RunMutationAsync("/setacvalueindex", scheme, subgroup, settingAlias, targetAcValue.ToString(CultureInfo.InvariantCulture));
         if (result.Success) result = await RunMutationAsync("/setactive", scheme);
-        var verified = result.Success && await GetAcValueAsync(scheme, subgroup, settingAlias) == targetAcValue;
+        var verified = result.Success && GetAcValue(scheme, subgroup, settingAlias) == targetAcValue;
         Log("power-apply", id, verified, verified ? null : result.Error);
         return verified;
     }
 
-    public async Task<int?> GetActiveSettingAsync(string subgroup, string settingAlias) =>
-        await GetActiveSchemeAsync() is { } scheme ? await GetAcValueAsync(scheme, subgroup, settingAlias) : null;
+    public int? GetActiveSetting(string subgroup, string settingAlias) =>
+        ActiveScheme() is { } scheme ? GetAcValue(scheme, subgroup, settingAlias) : null;
 
     public async Task<bool> RestoreSettingAsync(string id)
     {
@@ -70,7 +69,7 @@ public class PowerService
             backup.Alias,
             backup.AcValue.ToString(CultureInfo.InvariantCulture));
         if (result.Success) result = await RunMutationAsync("/setactive", backup.Scheme);
-        var verified = result.Success && await GetAcValueAsync(backup.Scheme, backup.Subgroup, backup.Alias) == backup.AcValue;
+        var verified = result.Success && GetAcValue(backup.Scheme, backup.Subgroup, backup.Alias) == backup.AcValue;
         if (verified)
         {
             _backup.Settings.Remove(id);
@@ -80,15 +79,13 @@ public class PowerService
         return verified;
     }
 
-    /// <summary>One powercfg query for all three power tweaks instead of one process per tweak.</summary>
-    public async Task<PowerTweakStates> GetTweakStatesAsync()
+    public PowerTweakStates GetTweakStates()
     {
-        var scheme = await GetActiveSchemeAsync();
+        var scheme = ActiveScheme();
         if (scheme is null) return new(false, false, false);
-        var query = await RunAsync("/query", scheme, "SUB_PROCESSOR");
         return new(
-            query.Success && ParseAcSetting(query.Output, "PROCTHROTTLEMIN") == 100,
-            query.Success && ParseAcSetting(query.Output, "CPMINCORES") == 100,
+            GetAcValue(scheme, "SUB_PROCESSOR", "PROCTHROTTLEMIN") == 100,
+            GetAcValue(scheme, "SUB_PROCESSOR", "CPMINCORES") == 100,
             IsPerformancePlan(scheme));
     }
 
@@ -99,18 +96,8 @@ public class PowerService
 
     public string? PreferredScheme => _backup.PreferredScheme;
 
-    public async Task<IReadOnlyList<PowerScheme>> GetSchemesAsync()
-    {
-        var result = await RunAsync("/list");
-        return result.Success ? ParseSchemes(result.Output) : [];
-    }
-
-    internal static List<PowerScheme> ParseSchemes(string output) =>
-        Regex.Matches(output, @"([0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12})\s+\((.*)\)[ \t]*(\*)?\s*$", RegexOptions.Multiline)
-            .Select(match => new PowerScheme(match.Groups[1].Value.ToLowerInvariant(), match.Groups[2].Value, match.Groups[3].Success))
-            .GroupBy(scheme => scheme.Guid)
-            .Select(group => group.First())
-            .ToList();
+    public static IReadOnlyList<PowerScheme> GetSchemes() =>
+        PowerPlanService.GetPlans().Select(plan => new PowerScheme(plan.Id.ToString(), plan.Name, plan.Active)).ToList();
 
     public Task<bool> ApplyHighPerformancePlanAsync() => ApplyPerformancePlanAsync(null);
 
@@ -121,7 +108,7 @@ public class PowerService
     public async Task<bool> ApplyPerformancePlanAsync(string? schemeGuid)
     {
         var target = (schemeGuid ?? _backup.PreferredScheme ?? HighPerformanceScheme).ToLowerInvariant();
-        var installed = (await GetSchemesAsync()).Select(scheme => scheme.Guid).ToHashSet();
+        var installed = GetSchemes().Select(scheme => scheme.Guid).ToHashSet();
         if (!installed.Contains(target))
         {
             if (target != HighPerformanceScheme) return false;
@@ -131,7 +118,7 @@ public class PowerService
 
         if (string.IsNullOrWhiteSpace(_backup.ActiveScheme))
         {
-            _backup.ActiveScheme = await GetActiveSchemeAsync();
+            _backup.ActiveScheme = ActiveScheme();
             if (_backup.ActiveScheme is null) return false;
         }
         _backup.PreferredScheme = target;
@@ -139,7 +126,7 @@ public class PowerService
 
         var result = await RunMutationAsync("/setactive", target);
         var verified = result.Success &&
-                       string.Equals(await GetActiveSchemeAsync(), target, StringComparison.OrdinalIgnoreCase);
+                       string.Equals(ActiveScheme(), target, StringComparison.OrdinalIgnoreCase);
         Log("power-plan-apply", target, verified, verified ? null : result.Error);
         return verified;
     }
@@ -152,7 +139,7 @@ public class PowerService
             var copy = Guid.NewGuid().ToString();
             var result = await RunAsync("/duplicatescheme", template, copy);
             if (!result.Success) result = await RunMutationAsync("/duplicatescheme", template, copy);
-            if (result.Success && (await GetSchemesAsync()).Any(scheme => scheme.Guid == copy))
+            if (result.Success && GetSchemes().Any(scheme => scheme.Guid == copy))
             {
                 Log("power-plan-recreate", template, true, null);
                 return copy;
@@ -168,7 +155,7 @@ public class PowerService
         var original = _backup.ActiveScheme;
         var result = await RunMutationAsync("/setactive", original);
         var verified = result.Success &&
-                       string.Equals(await GetActiveSchemeAsync(), original, StringComparison.OrdinalIgnoreCase);
+                       string.Equals(ActiveScheme(), original, StringComparison.OrdinalIgnoreCase);
         if (verified)
         {
             _backup.ActiveScheme = null;
@@ -184,32 +171,25 @@ public class PowerService
         ? !string.IsNullOrWhiteSpace(_backup.ActiveScheme)
         : _backup.Settings.ContainsKey(id);
 
-    private async Task<string?> GetActiveSchemeAsync()
-    {
-        var result = await RunAsync("/getactivescheme");
-        if (!result.Success) return null;
-        return Regex.Match(result.Output, @"[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}").Value.ToLowerInvariant() is { Length: > 0 } guid
-            ? guid
-            : null;
-    }
+    private static string? ActiveScheme() => PowerPlanService.ActiveScheme()?.ToString();
 
-    private static async Task<int?> GetAcValueAsync(string scheme, string subgroup, string settingAlias)
+    // powrprof wants GUIDs; saved backups still name processor settings by their powercfg alias.
+    private static readonly Dictionary<string, Guid> Aliases = new(StringComparer.OrdinalIgnoreCase)
     {
-        var result = await RunAsync("/query", scheme, subgroup);
-        return result.Success ? ParseAcSetting(result.Output, settingAlias) : null;
-    }
+        ["SUB_PROCESSOR"] = new("54533251-82be-4824-96c1-47b60b740d00"),
+        ["PROCTHROTTLEMIN"] = new("893dee8e-2bef-41e0-89c6-b55d0929964c"),
+        ["CPMINCORES"] = new("0cc5b647-c1df-4637-891a-dec35c318583")
+    };
 
-    internal static int? ParseAcSetting(string output, string settingAlias)
-    {
-        var aliasIndex = output.IndexOf(settingAlias, StringComparison.OrdinalIgnoreCase);
-        if (aliasIndex < 0) return null;
-        var nextSetting = output.IndexOf("GUID Alias:", aliasIndex + settingAlias.Length, StringComparison.OrdinalIgnoreCase);
-        var block = output[aliasIndex..(nextSetting < 0 ? output.Length : nextSetting)];
-        var values = Regex.Matches(block, @"0x([0-9a-fA-F]{1,8})");
-        return values.Count >= 2
-            ? unchecked((int)uint.Parse(values[^2].Groups[1].Value, NumberStyles.HexNumber, CultureInfo.InvariantCulture))
+    /// <summary>Read through powrprof: parsing <c>powercfg /query</c> breaks on Windows languages other than English.</summary>
+    internal static int? GetAcValue(string scheme, string subgroup, string setting) =>
+        Guid.TryParse(scheme, out var schemeId) && ToGuid(subgroup) is { } subgroupId && ToGuid(setting) is { } settingId
+        && PowerPlanService.ReadValue(schemeId, subgroupId, settingId) is { } value
+            ? unchecked((int)value.Ac)
             : null;
-    }
+
+    private static Guid? ToGuid(string value) =>
+        Aliases.TryGetValue(value, out var id) ? id : Guid.TryParse(value, out id) ? id : null;
 
     internal static async Task<ProcessResult> RunMutationAsync(params string[] arguments)
     {

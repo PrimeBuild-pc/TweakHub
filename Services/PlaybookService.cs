@@ -167,7 +167,10 @@ public sealed class PlaybookService
         }
 
         await Preload.Get(Preload.TweakStates, TweakService.Instance.LoadWithStatesAsync);
-        steps.AddRange(TweakService.Instance.TweakCategories.SelectMany(category => category.Tweaks).Where(tweak => tweak.IsEnabled)
+        // The plan tweak would run after the PowerPlan step and switch to High performance instead of the captured plan.
+        var hasPlan = steps.Count > 0;
+        steps.AddRange(TweakService.Instance.TweakCategories.SelectMany(category => category.Tweaks)
+            .Where(tweak => tweak.IsEnabled && !(hasPlan && tweak.Id == "high_performance_power_plan"))
             .Select(tweak => new PlaybookStep { Type = PlaybookStepType.Tweak, ReferenceId = $"builtin:{tweak.Id}", Name = Trim(tweak.Name) }));
         steps.AddRange(UserDataService.Instance.LoadCustomTweaks().Where(IsApplied)
             .Select(tweak => new PlaybookStep { Type = PlaybookStepType.Tweak, ReferenceId = $"custom:{tweak.Id}", Name = Trim(tweak.Name) }));
@@ -216,8 +219,9 @@ public sealed class PlaybookService
 
     // Import and export
 
-    public void Export(Playbook playbook, string path)
+    public void Export(Playbook playbook, string path, UserDataService? data = null)
     {
+        data ??= UserDataService.Instance;
         var tweakIds = playbook.Steps.Where(step => step.ReferenceId.StartsWith("custom:", StringComparison.OrdinalIgnoreCase))
             .Select(step => step.ReferenceId[7..]).ToHashSet(StringComparer.OrdinalIgnoreCase);
         var scriptIds = playbook.Steps.Where(step => step.Type == PlaybookStepType.Script).Select(step => step.ReferenceId)
@@ -225,13 +229,13 @@ public sealed class PlaybookService
         JsonStore.Save(path, new PlaybookPackage
         {
             Playbook = playbook,
-            CustomTweaks = UserDataService.Instance.LoadCustomTweaks().Where(tweak => tweakIds.Contains(tweak.Id)).ToList(),
-            CustomScripts = UserDataService.Instance.LoadCustomScripts().Where(script => scriptIds.Contains(script.Id)).ToList()
+            CustomTweaks = data.LoadCustomTweaks().Where(tweak => tweakIds.Contains(tweak.Id)).ToList(),
+            CustomScripts = data.LoadCustomScripts().Where(script => scriptIds.Contains(script.Id)).ToList()
         });
     }
 
     /// <summary>Validates everything first, then adds the playbook and only the custom tweaks and scripts this PC does not have.</summary>
-    public PlaybookImportResult Import(string path)
+    public PlaybookImportResult Import(string path, UserDataService? data = null)
     {
         var file = new FileInfo(path);
         if (!file.Exists || file.Length > 10 * 1024 * 1024) throw new InvalidDataException(L.Get("Scripts:PlaybookInvalid"));
@@ -245,7 +249,7 @@ public sealed class PlaybookService
         foreach (var tweak in package.CustomTweaks) UserDataService.ValidateCustomTweak(tweak);
         foreach (var script in package.CustomScripts) UserDataService.ValidateCustomScript(script);
 
-        var data = UserDataService.Instance;
+        data ??= UserDataService.Instance;
         var tweaks = data.LoadCustomTweaks();
         var newTweaks = package.CustomTweaks.Where(tweak => tweaks.All(existing => !existing.Id.Equals(tweak.Id, StringComparison.OrdinalIgnoreCase))).ToList();
         var scripts = data.LoadCustomScripts().ToList();
@@ -391,15 +395,18 @@ public sealed class PlaybookService
         return await RegistryService.Instance.ApplyValuesWithBackupAsync(changes);
     }
 
-    /// <summary>Writes the saved values into the plan with the same id or name, or into a new copy of Balanced (or the active plan).</summary>
+    /// <summary>
+    /// Writes the saved values into the plan with the same id, or into a new copy of Balanced (or the active plan).
+    /// Never matched by name: another PC's plan with the same name may be a different plan. The copy keeps the saved id,
+    /// so running the playbook again updates it instead of adding another copy.
+    /// </summary>
     private static async Task<bool> ExecutePowerPlan(PlaybookStep step, Action<string> setDetails)
     {
         var plans = PowerPlanService.GetPlans();
         var savedId = Guid.Parse(step.ReferenceId);
-        var target = plans.FirstOrDefault(plan => plan.Id == savedId)?.Id
-                     ?? plans.FirstOrDefault(plan => plan.Name.Equals(step.Name, StringComparison.CurrentCultureIgnoreCase))?.Id;
+        var target = plans.FirstOrDefault(plan => plan.Id == savedId)?.Id;
         if (target is null && (plans.FirstOrDefault(plan => plan.Id == PowerPlanService.Balanced) ?? plans.FirstOrDefault(plan => plan.Active)) is { } source)
-            target = PowerPlanService.Duplicate(source.Id, step.Name);
+            target = PowerPlanService.Duplicate(source.Id, step.Name, savedId) ?? PowerPlanService.Duplicate(source.Id, step.Name);
         if (target is not { } scheme) return false;
 
         var known = PowerPlanService.LoadDefinitions().Select(definition => (definition.Subgroup, definition.Id)).ToHashSet();
