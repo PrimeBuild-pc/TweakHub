@@ -8,6 +8,28 @@ public class SystemTriageServiceTests
 {
     private static readonly string System32 = Environment.SystemDirectory;
 
+    [TestCase("8.8.8.8", true)]
+    [TestCase("2606:4700:4700::1111", true)]
+    [TestCase("::ffff:1.1.1.1", true)]
+    [TestCase("172.32.0.1", true)]
+    [TestCase("10.0.0.5", false)]
+    [TestCase("172.16.4.1", false)]
+    [TestCase("192.168.1.10", false)]
+    [TestCase("100.64.0.1", false)]
+    [TestCase("169.254.1.1", false)]
+    [TestCase("127.0.0.1", false)]
+    [TestCase("0.0.0.0", false)]
+    [TestCase("239.255.255.250", false)]
+    [TestCase("::1", false)]
+    [TestCase("::", false)]
+    [TestCase("fe80::1", false)]
+    [TestCase("fd00::1", false)]
+    [TestCase("*", false)]
+    public void OnlyInternetAddressesOfferAReputationLookup(string address, bool expected)
+    {
+        Assert.That(SystemTriageService.IsPublicAddress(address), Is.EqualTo(expected));
+    }
+
     [TestCase("\"C:\\Program Files\\App\\app.exe\" --minimized", "C:\\Program Files\\App\\app.exe")]
     [TestCase("\"\"C:\\Program Files\\Google\\helper.exe\"\" --metrics", "C:\\Program Files\\Google\\helper.exe")]
     [TestCase("C:\\Program Files\\OpenVPN\\bin\\openvpn-gui.exe", "C:\\Program Files\\OpenVPN\\bin\\openvpn-gui.exe")]

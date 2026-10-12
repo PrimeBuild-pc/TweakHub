@@ -267,7 +267,12 @@ public sealed class ShortcutService
             new ExternalTool { Name = "ExifTool", Description = L.Get("Tools:DescriptionInspectAndEditFileMetadata"), Category = "OSINT & Security", WingetId = "OliverBetz.ExifTool" },
             new ExternalTool { Name = "SpiderFoot", Description = L.Get("Tools:DescriptionAutomatedOSINTAndAttackSurfaceMapping"), Category = "OSINT & Security", DownloadUrl = "https://github.com/smicallef/spiderfoot" },
             new ExternalTool { Name = "Sherlock", Description = L.Get("Tools:DescriptionFindUsernamesAcrossSocialNetworks"), Category = "OSINT & Security", DownloadUrl = "https://github.com/sherlock-project/sherlock" },
-            new ExternalTool { Name = "OWASP Amass", Description = L.Get("Tools:DescriptionAttackSurfaceMappingAndAssetDiscovery"), Category = "OSINT & Security", DownloadUrl = "https://github.com/owasp-amass/amass" }
+            new ExternalTool { Name = "OWASP Amass", Description = L.Get("Tools:DescriptionAttackSurfaceMappingAndAssetDiscovery"), Category = "OSINT & Security", DownloadUrl = "https://github.com/owasp-amass/amass" },
+            new ExternalTool { Name = "Have I Been Pwned", Description = L.Get("Tools:DescriptionHaveIBeenPwned"), Category = "OSINT & Security", DownloadUrl = "https://haveibeenpwned.com/" },
+            new ExternalTool { Name = "Cover Your Tracks", Description = L.Get("Tools:DescriptionCoverYourTracks"), Category = "OSINT & Security", DownloadUrl = "https://coveryourtracks.eff.org/" },
+            new ExternalTool { Name = "Privacy Guides", Description = L.Get("Tools:DescriptionPrivacyGuides"), Category = "OSINT & Security", DownloadUrl = "https://www.privacyguides.org/" },
+            new ExternalTool { Name = "urlscan.io", Description = L.Get("Tools:DescriptionUrlscan"), Category = "OSINT & Security", DownloadUrl = "https://urlscan.io/" },
+            new ExternalTool { Name = "Nuclei", Description = L.Get("Tools:DescriptionNuclei"), Category = "OSINT & Security", DownloadUrl = "https://github.com/projectdiscovery/nuclei" }
         }) ExternalTools.Add(tool);
 
         foreach (var tool in UserDataService.Instance.LoadCustomTools())

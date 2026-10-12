@@ -357,6 +357,12 @@
                                                 <TextBlock Text="{loc:Loc Security:SearchTriage}"/>
                                             </StackPanel>
                                         </Button>
+                                        <Button Click="SearchMalwareBazaar_Click" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,8">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="&#xE721;" Style="{StaticResource IconTextStyle}" Margin="0,0,6,0"/>
+                                                <TextBlock Text="{loc:Loc Security:SearchMalwareBazaar}"/>
+                                            </StackPanel>
+                                        </Button>
                                         <Button Click="CopyReport_Click" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,8">
                                             <StackPanel Orientation="Horizontal">
                                                 <TextBlock Text="&#xE8C8;" Style="{StaticResource IconTextStyle}" Margin="0,0,6,0"/>

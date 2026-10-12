@@ -774,4 +774,10 @@ TweakHub 将以管理员身份运行此命令：
   <data name="StartupToggleFailedTitle" xml:space="preserve">
     <value>启动项未更改</value>
   </data>
+  <data name="SearchMalwareBazaar" xml:space="preserve">
+    <value>在 MalwareBazaar 上搜索</value>
+  </data>
+  <data name="CheckRemoteAddress" xml:space="preserve">
+    <value>在 AbuseIPDB 上检查远程 IP 的信誉（仅携带 IP 打开浏览器）</value>
+  </data>
 </root>

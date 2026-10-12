@@ -90,6 +90,11 @@ public class ShortcutServiceTests
     [TestCase("ffuf", "https://github.com/ffuf/ffuf", "OSINT & Security")]
     [TestCase("Xalgorix", "https://github.com/xalgorix/xalgorix", "OSINT & Security")]
     [TestCase("hackingtool", "https://github.com/Z4nzu/hackingtool", "OSINT & Security")]
+    [TestCase("Have I Been Pwned", "https://haveibeenpwned.com/", "OSINT & Security")]
+    [TestCase("Cover Your Tracks", "https://coveryourtracks.eff.org/", "OSINT & Security")]
+    [TestCase("Privacy Guides", "https://www.privacyguides.org/", "OSINT & Security")]
+    [TestCase("urlscan.io", "https://urlscan.io/", "OSINT & Security")]
+    [TestCase("Nuclei", "https://github.com/projectdiscovery/nuclei", "OSINT & Security")]
     public void NewReferencesAreUniqueAndNeverRunScripts(string name, string url, string category, string wingetId = "")
     {
         var service = ShortcutService.Instance;
