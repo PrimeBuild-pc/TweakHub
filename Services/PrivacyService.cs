@@ -95,16 +95,14 @@ public sealed class PrivacyService
         var sites = new List<AccountSite>();
         foreach (var item in document.RootElement.EnumerateArray())
         {
-            string Text(string name) => item.TryGetProperty(name, out var value) && value.ValueKind == JsonValueKind.String ? value.GetString() ?? "" : "";
+            string Text(string name) => JsonRead.Text(item, name);
             var name = Text("name");
             var url = Text("url");
             // Only open web pages: entries may carry mailto: or malformed links.
             if (name.Length == 0 || !Uri.TryCreate(url, UriKind.Absolute, out var uri) || uri.Scheme is not ("https" or "http")) url = string.Empty;
             var difficulty = Text("difficulty") switch { "easy" => "Easy", "medium" => "Medium", "hard" => "Hard", "impossible" => "Impossible", _ => "Unknown" };
             var notes = Text(noteKey) is { Length: > 0 } localized ? localized : Text("notes");
-            var domains = item.TryGetProperty("domains", out var list) && list.ValueKind == JsonValueKind.Array
-                ? list.EnumerateArray().Where(value => value.ValueKind == JsonValueKind.String).Select(value => value.GetString()!).ToList()
-                : [];
+            var domains = JsonRead.Texts(item, "domains");
             if (name.Length > 0) sites.Add(new AccountSite(name, url, difficulty, notes, domains));
         }
         return sites;
@@ -154,15 +152,12 @@ public sealed class PrivacyService
     {
         if (string.IsNullOrWhiteSpace(json)) return [];
         using var document = JsonDocument.Parse(json);
-        var items = document.RootElement.ValueKind == JsonValueKind.Array ? document.RootElement.EnumerateArray().ToList() : [document.RootElement];
-        return items.Select(item => new DnsAdapter(
-            item.TryGetProperty("Index", out var index) && index.TryGetInt32(out var number) ? number : 0,
-            item.TryGetProperty("Alias", out var alias) ? alias.GetString() ?? "" : "",
-            item.TryGetProperty("Servers", out var servers) && servers.ValueKind == JsonValueKind.Array
-                ? servers.EnumerateArray().Select(value => value.GetString() ?? "").Where(value => value.Length > 0).ToList()
-                : [],
-            item.TryGetProperty("Static", out var stat) ? stat.GetString() ?? "" : "",
-            item.TryGetProperty("Static6", out var stat6) ? stat6.GetString() ?? "" : "")).Where(adapter => adapter.Index > 0).ToList();
+        return JsonRead.Items(document.RootElement).Select(item => new DnsAdapter(
+            JsonRead.Int(item, "Index") ?? 0,
+            JsonRead.Text(item, "Alias"),
+            JsonRead.Texts(item, "Servers").Where(value => value.Length > 0).ToList(),
+            JsonRead.Text(item, "Static"),
+            JsonRead.Text(item, "Static6"))).Where(adapter => adapter.Index > 0).ToList();
     }
 
     /// <summary>Parses user input into canonical IP addresses; anything else is rejected before it reaches PowerShell.</summary>
@@ -176,18 +171,14 @@ public sealed class PrivacyService
 
     public async Task<PowerShellResult> ApplyDnsAsync(IReadOnlyList<DnsAdapter> adapters, string[]? servers)
     {
-        if (!HasDnsBackup)
-        {
-            Directory.CreateDirectory(AppDataPath.BasePath);
-            await File.WriteAllTextAsync(DnsBackupPath, JsonSerializer.Serialize(adapters));
-        }
+        if (!HasDnsBackup) JsonStore.Save(DnsBackupPath, adapters.ToList());
         return await PowerShellService.Instance.ExecuteScriptAsync(BuildDnsScript(adapters.Select(a => (a.Index, servers)).ToList()),
             requireAdministrator: true, TimeSpan.FromMinutes(2));
     }
 
     public async Task<PowerShellResult> RestoreDnsAsync()
     {
-        var saved = JsonSerializer.Deserialize<List<DnsAdapter>>(await File.ReadAllTextAsync(DnsBackupPath)) ?? [];
+        var saved = JsonStore.Load<List<DnsAdapter>>(DnsBackupPath);
         var plan = saved.Select(adapter => (adapter.Index,
             TryParseServers($"{adapter.StaticServers},{adapter.StaticServers6}", out var servers, max: 8) ? servers : null)).ToList();
         var result = await PowerShellService.Instance.ExecuteScriptAsync(BuildDnsScript(plan), requireAdministrator: true, TimeSpan.FromMinutes(2));

@@ -63,6 +63,7 @@ namespace TweakHub.Views
             LoadCustomTweaks();
             LoadFavoriteTweaks();
             await RefreshWindowsUpdatePresetAsync();
+            await RefreshPowerPlansAsync();
 
             var tweaks = _tweakService.TweakCategories.SelectMany(category => category.Tweaks).ToList();
             RestartVerificationService.Instance.MigrateLegacyCurrentBoot(tweaks);
@@ -76,103 +77,7 @@ namespace TweakHub.Views
             var results = await RestartVerificationService.Instance.VerifyAfterRebootAsync();
             if (results.Count == 0) return;
 
-            var dialog = new Window
-            {
-                Title = L.Get("Tweaks:RestartVerificationTitle"),
-                Width = 620,
-                Height = Math.Min(650, 210 + results.Count * 100),
-                Owner = Window.GetWindow(this),
-                WindowStartupLocation = WindowStartupLocation.CenterOwner,
-                Background = (System.Windows.Media.Brush)FindResource("WindowBackgroundBrush")
-            };
-            var root = new Grid { Margin = new Thickness(20) };
-            root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            root.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-            root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            var heading = new TextBlock
-            {
-                Text = L.Get("Tweaks:RestartVerificationDescription"),
-                TextWrapping = TextWrapping.Wrap,
-                Margin = new Thickness(0, 0, 0, 16)
-            };
-            root.Children.Add(heading);
-            var list = new StackPanel();
-            foreach (var result in results)
-            {
-                var card = new Grid { Margin = new Thickness(0, 0, 0, 10) };
-                card.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-                card.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-                var expected = result.Kind == RestartOperationKind.WindowsUpdate
-                    ? L.Get($"Tweaks:WindowsUpdatePreset{result.TargetPreset}")
-                    : L.Get(result.TargetEnabled ? "Scripts:PlaybookEnable" : "Scripts:PlaybookRestore");
-                var text = new TextBlock
-                {
-                    Text = $"{result.Name} — {expected}\n{L.Get($"Tweaks:RestartVerification{result.Status}")}",
-                    TextWrapping = TextWrapping.Wrap,
-                    VerticalAlignment = VerticalAlignment.Center
-                };
-                card.Children.Add(text);
-                if (result.Status is RestartVerificationStatus.Failed or RestartVerificationStatus.Partial)
-                {
-                    var actions = new StackPanel { Orientation = Orientation.Horizontal };
-                    var retry = new Button
-                    {
-                        Content = L.Get("Tweaks:RestartVerificationRetry"),
-                        Style = GetStyleOrDefault("ModernButtonStyle"),
-                        Margin = new Thickness(8, 0, 0, 0),
-                        Tag = result
-                    };
-                    retry.Click += async (_, _) =>
-                    {
-                        retry.IsEnabled = false;
-                        var success = await RestartVerificationService.Instance.RetryAsync(result);
-                        await AppDialog.ShowAsync(dialog, result.Name,
-                            L.Get(success ? "Tweaks:RestartVerificationRetryStarted" : "Tweaks:RestartVerificationActionFailed"));
-                        if (success) dialog.Close(); else retry.IsEnabled = true;
-                    };
-                    actions.Children.Add(retry);
-                    if (RestartVerificationService.Instance.CanRestore(result))
-                    {
-                        var restore = new Button
-                        {
-                            Content = L.Get("Tweaks:RestartVerificationRestore"),
-                            Style = GetStyleOrDefault("SecondaryButtonStyle"),
-                            Margin = new Thickness(8, 0, 0, 0)
-                        };
-                        restore.Click += async (_, _) =>
-                        {
-                            restore.IsEnabled = false;
-                            var success = await RestartVerificationService.Instance.RestoreOriginalAsync(result);
-                            await AppDialog.ShowAsync(dialog, result.Name,
-                                L.Get(success ? "Tweaks:RestartVerificationRestored" : "Tweaks:RestartVerificationActionFailed"));
-                            if (success) dialog.Close(); else restore.IsEnabled = true;
-                        };
-                        actions.Children.Add(restore);
-                    }
-                    Grid.SetColumn(actions, 1);
-                    card.Children.Add(actions);
-                }
-                list.Children.Add(card);
-            }
-            var scroll = new ScrollViewer { Content = list, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
-            Grid.SetRow(scroll, 1);
-            root.Children.Add(scroll);
-            var acknowledge = new Button
-            {
-                Content = L.Get("Tweaks:RestartVerificationAcknowledge"),
-                Style = GetStyleOrDefault("ModernButtonStyle"),
-                HorizontalAlignment = HorizontalAlignment.Right,
-                Margin = new Thickness(0, 16, 0, 0)
-            };
-            acknowledge.Click += (_, _) =>
-            {
-                RestartVerificationService.Instance.AcknowledgeResults();
-                dialog.Close();
-            };
-            Grid.SetRow(acknowledge, 2);
-            root.Children.Add(acknowledge);
-            dialog.Content = root;
-            dialog.ShowDialog();
+            new RestartVerificationDialog(results) { Owner = Window.GetWindow(this) }.ShowDialog();
         }
 
         private async Task LoadTweaksAsync()
@@ -187,6 +92,49 @@ namespace TweakHub.Views
             // Update sidebar badge immediately after initial state refresh
             NotifyMainWindowBadgeUpdate();
         }
+
+        private sealed record PowerPlanOption(string Guid, string Label);
+
+        private async Task RefreshPowerPlansAsync()
+        {
+            var schemes = await PowerService.Instance.GetSchemesAsync();
+            var options = schemes.Select(scheme => new PowerPlanOption(scheme.Guid,
+                scheme.Active ? L.Format("Tweaks:PowerPlanActive", scheme.Name) : scheme.Name)).ToList();
+            // Debloaters often delete the Windows plan; offer it anyway, TweakHub recreates it from the template.
+            if (schemes.All(scheme => scheme.Guid != PowerService.HighPerformanceScheme))
+                options.Add(new PowerPlanOption(PowerService.HighPerformanceScheme, L.Get("Tweaks:PowerPlanRecreateHighPerformance")));
+
+            var selected = PowerService.Instance.PreferredScheme ?? schemes.FirstOrDefault(scheme => scheme.Active)?.Guid;
+            PowerPlanComboBox.ItemsSource = options;
+            PowerPlanComboBox.SelectedItem = options.FirstOrDefault(option => option.Guid == selected) ?? options.FirstOrDefault();
+            var active = schemes.FirstOrDefault(scheme => scheme.Active);
+            PowerPlanStatusText.Text = active is null ? string.Empty : L.Format("Tweaks:PowerPlanCurrent", active.Name);
+        }
+
+        private async void ApplyPowerPlan_Click(object sender, RoutedEventArgs e)
+        {
+            if (PowerPlanComboBox.SelectedItem is not PowerPlanOption option) return;
+            ApplyPowerPlanButton.IsEnabled = false;
+            try
+            {
+                if (!await PowerService.Instance.ApplyPerformancePlanAsync(option.Guid))
+                {
+                    await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Tweaks:PowerPlanApplyFailed"), L.Get("Tweaks:PowerPlanApplyFailedMessage"));
+                    return;
+                }
+                _tweakService.RefreshBackupState();
+                await _tweakService.RefreshTweakStatesAsync();
+                await RefreshPowerPlansAsync();
+                NotifyMainWindowBadgeUpdate();
+            }
+            finally
+            {
+                ApplyPowerPlanButton.IsEnabled = true;
+            }
+        }
+
+        private void OpenPowerOptions_Click(object sender, RoutedEventArgs e) =>
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo("powercfg.cpl") { UseShellExecute = true });
 
         private async Task RefreshWindowsUpdatePresetAsync()
         {
@@ -381,7 +329,7 @@ namespace TweakHub.Views
             try
             {
                 var value = RegistryService.ParseData(tweak.ValueType, tweak.Data, out var kind);
-                var success = _registryService.ApplyValueWithBackup(tweak.RegistryPath, tweak.RegistryKey, value, kind);
+                var success = await Task.Run(() => _registryService.ApplyValueWithBackup(tweak.RegistryPath, tweak.RegistryKey, value, kind));
                 RefreshCustomTweakState(tweak);
                 if (success)
                     await AppDialog.ShowAsync(Window.GetWindow(this), tweak.Name, L.Get("Tweaks:RegistryTweakApplied"));
@@ -397,7 +345,7 @@ namespace TweakHub.Views
         private async void RestoreCustomTweak_Click(object sender, RoutedEventArgs e)
         {
             if (sender is not Button { DataContext: CustomRegistryTweak tweak }) return;
-            var success = _registryService.RestoreRegistryValue(tweak.RegistryPath, tweak.RegistryKey);
+            var success = await Task.Run(() => _registryService.RestoreRegistryValue(tweak.RegistryPath, tweak.RegistryKey));
             RefreshCustomTweakState(tweak);
             if (success)
                 await AppDialog.ShowAsync(Window.GetWindow(this), tweak.Name, L.Get("Tweaks:RegistryValueRestored"));
@@ -429,121 +377,27 @@ namespace TweakHub.Views
 
         private void OpenCustomTweakDialog(CustomRegistryTweak? existing = null)
         {
-            var dialog = new Window
+            var dialog = new CustomTweakDialog(existing) { Owner = Window.GetWindow(this) };
+            if (dialog.ShowDialog() != true || dialog.Result is not { } result) return;
+
+            if (existing == null)
             {
-                Title = L.Get(existing == null ? "Tweaks:AddCustomRegistryTweak" : "Tweaks:EditCustomRegistryTweak"),
-                Width = 480,
-                Height = 560,
-                Owner = Window.GetWindow(this),
-                WindowStartupLocation = WindowStartupLocation.CenterOwner,
-                Background = (System.Windows.Media.Brush)Application.Current.FindResource("WindowBackgroundBrush"),
-                ResizeMode = ResizeMode.NoResize
-            };
-            dialog.KeyDown += (_, ke) => { if (ke.Key == System.Windows.Input.Key.Escape) dialog.Close(); };
-
-            var grid = new Grid { Margin = new Thickness(16) };
-            for (int n = 0; n < 14; n++) grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-
-            var title = new TextBlock { Text = L.Get(existing == null ? "Tweaks:CreateCustomTweak" : "Tweaks:EditCustomTweak"), FontSize = 20, FontWeight = FontWeights.SemiBold, Margin = new Thickness(0,0,0,16), Foreground = (System.Windows.Media.Brush)Application.Current.FindResource("SystemControlForegroundBaseHighBrush") };
-            grid.Children.Add(title);
-
-            var nameLbl = new TextBlock { Text = L.Get("Tweaks:Name"), Margin = new Thickness(0,0,0,4) }; Grid.SetRow(nameLbl,1); grid.Children.Add(nameLbl);
-            var nameBox = new TextBox { Height = 32, Margin = new Thickness(0,0,0,8), Text = existing?.Name ?? "" };
-            Grid.SetRow(nameBox,2); grid.Children.Add(nameBox);
-
-            var descriptionLbl = new TextBlock { Text = L.Get("Tweaks:Description") }; Grid.SetRow(descriptionLbl,3); grid.Children.Add(descriptionLbl);
-            var descriptionBox = new TextBox { Height = 48, MaxLength = 500, Margin = new Thickness(0,0,0,8), Text = existing?.Description ?? "", AcceptsReturn = true, TextWrapping = TextWrapping.Wrap };
-            Grid.SetRow(descriptionBox,4); grid.Children.Add(descriptionBox);
-
-            var pathLbl = new TextBlock { Text = L.Get("Tweaks:RegistryPathLabel") }; Grid.SetRow(pathLbl,5); grid.Children.Add(pathLbl);
-            var pathBox = new TextBox { Height = 32, Margin = new Thickness(0,0,0,8), Text = existing?.RegistryPath ?? "" };
-            Grid.SetRow(pathBox,6); grid.Children.Add(pathBox);
-
-            var keyLbl = new TextBlock { Text = L.Get("Tweaks:ValueName") }; Grid.SetRow(keyLbl,7); grid.Children.Add(keyLbl);
-            var keyBox = new TextBox { Height = 32, Margin = new Thickness(0,0,0,8), Text = existing?.RegistryKey ?? "" };
-            Grid.SetRow(keyBox,8); grid.Children.Add(keyBox);
-
-            var typeLbl = new TextBlock { Text = L.Get("Tweaks:Type") }; Grid.SetRow(typeLbl,9); grid.Children.Add(typeLbl);
-            var typeBox = new ComboBox { Height = 32, Margin = new Thickness(0,0,0,8) };
-            typeBox.ItemsSource = new[] { "REG_SZ", "REG_DWORD (32-bit)", "REG_QWORD (64-bit)", "REG_BINARY", "REG_MULTI_SZ", "REG_EXPAND_SZ" };
-            typeBox.SelectedIndex = 0;
-            if (existing != null)
-            {
-                var current = existing.ValueType.ToUpperInvariant();
-                var map = new Dictionary<string,int> {
-                    {"REG_SZ",0},{"REG_DWORD",1},{"REG_QWORD",2},{"REG_BINARY",3},{"REG_MULTI_SZ",4},{"REG_EXPAND_SZ",5}
-                };
-                if (map.TryGetValue(current, out var idx)) typeBox.SelectedIndex = idx; else typeBox.SelectedIndex = 0;
+                _customTweaks.Add(result);
             }
-            Grid.SetRow(typeBox,10); grid.Children.Add(typeBox);
-
-            var dataLbl = new TextBlock { Text = L.Get("Tweaks:Value") }; Grid.SetRow(dataLbl,11); grid.Children.Add(dataLbl);
-            var dataBox = new TextBox { Height = 28, Margin = new Thickness(0,0,0,8), Text = existing?.Data ?? "" };
-            Grid.SetRow(dataBox,12); grid.Children.Add(dataBox);
-
-            var buttons = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0,8,0,0) };
-            var cancel = new Button { Content = L.Get("Tweaks:Cancel"), Style = GetStyleOrDefault("SecondaryButtonStyle"), Margin = new Thickness(0,0,8,0), MinWidth = 96, HorizontalContentAlignment = HorizontalAlignment.Center, VerticalContentAlignment = VerticalAlignment.Center };
-            var create = new Button { Content = L.Get(existing == null ? "Tweaks:Create" : "Tweaks:Save"), Style = GetStyleOrDefault("ExecuteButtonStyle"), MinWidth = 100, HorizontalContentAlignment = HorizontalAlignment.Center, VerticalContentAlignment = VerticalAlignment.Center };
-            buttons.Children.Add(cancel); buttons.Children.Add(create);
-            Grid.SetRow(buttons,13); grid.Children.Add(buttons);
-
-            cancel.Click += (_, __) => dialog.Close();
-            create.Click += async (_, __) =>
+            else
             {
-                if (string.IsNullOrWhiteSpace(nameBox.Text) || string.IsNullOrWhiteSpace(pathBox.Text) || string.IsNullOrWhiteSpace(keyBox.Text))
-                {
-                    await AppDialog.ShowWarningAsync(dialog, L.Get("Tweaks:InvalidRegistryTweak"), L.Get("Tweaks:RequiredCustomFields"));
-                    return;
-                }
-                string mapType(string s) => s.StartsWith("REG_DWORD") ? "REG_DWORD" : s.StartsWith("REG_QWORD") ? "REG_QWORD" : s;
-                var path = pathBox.Text.Trim();
-                var valueName = keyBox.Text.Trim();
-                var valueType = mapType(typeBox.SelectedItem?.ToString() ?? "REG_SZ");
-                var data = dataBox.Text ?? string.Empty;
-                try
-                {
-                    RegistryService.ValidateLocation(path, valueName);
-                    _ = RegistryService.ParseData(valueType, data, out var parsedKind);
-                }
-                catch (Exception ex)
-                {
-                    await AppDialog.ShowWarningAsync(dialog, L.Get("Tweaks:InvalidRegistryTweak"), ex.Message);
-                    return;
-                }
-
-                if (existing == null)
-                {
-                    _customTweaks.Add(new CustomRegistryTweak
-                    {
-                        Name = nameBox.Text.Trim(),
-                        Description = descriptionBox.Text.Trim(),
-                        RegistryPath = path,
-                        RegistryKey = valueName,
-                        ValueType = valueType,
-                        Data = data
-                    });
-                }
-                else
-                {
-                    existing.Name = nameBox.Text.Trim();
-                    existing.Description = descriptionBox.Text.Trim();
-                    existing.RegistryPath = path;
-                    existing.RegistryKey = valueName;
-                    existing.ValueType = valueType;
-                    existing.Data = data;
-                }
-                foreach (var tweak in _customTweaks) RefreshCustomTweakState(tweak);
-                _userData.SaveCustomTweaks(_customTweaks);
-                CustomTweaksList.Items.Refresh();
-                RefreshFavoriteLists();
-                dialog.Close();
-            };
-
-            dialog.Content = grid;
-            dialog.ShowDialog();
+                existing.Name = result.Name;
+                existing.Description = result.Description;
+                existing.RegistryPath = result.RegistryPath;
+                existing.RegistryKey = result.RegistryKey;
+                existing.ValueType = result.ValueType;
+                existing.Data = result.Data;
+            }
+            foreach (var tweak in _customTweaks) RefreshCustomTweakState(tweak);
+            _userData.SaveCustomTweaks(_customTweaks);
+            CustomTweaksList.Items.Refresh();
+            RefreshFavoriteLists();
         }
-
-        private Style GetStyleOrDefault(string key) => (Style)FindResource(key);
 
         private async void TweakToggle_Toggled(object sender, RoutedEventArgs e)
         {

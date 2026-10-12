@@ -24,4 +24,21 @@ public class PowerServiceTests
         Assert.That(PowerService.ParseAcSetting(output, "PROCTHROTTLEMIN"), Is.EqualTo(100));
         Assert.That(PowerService.ParseAcSetting(output, "MISSING"), Is.Null);
     }
+
+    [Test]
+    public void ParseSchemesKeepsCustomNamesActiveFlagAndSkipsDuplicates()
+    {
+        const string output = "Existing Power Schemes (* Active)\r\n-----------------------------------\r\n" +
+            "Power Scheme GUID: 57696e68-616e-6365-506f-776572000000  (Winhance Power Plan)\r\n" +
+            "Power Scheme GUID: C0AE4F83-B24F-4216-AB0B-B94722F1E8DD  (zoic's ultimate performance(amd)) *\r\n" +
+            "Power Scheme GUID: c0ae4f83-b24f-4216-ab0b-b94722f1e8dd  (zoic's ultimate performance(amd))\r\n";
+
+        var schemes = PowerService.ParseSchemes(output);
+        Assert.Multiple(() =>
+        {
+            Assert.That(schemes.Select(scheme => scheme.Name), Is.EqualTo(new[] { "Winhance Power Plan", "zoic's ultimate performance(amd)" }));
+            Assert.That(schemes[1].Guid, Is.EqualTo("c0ae4f83-b24f-4216-ab0b-b94722f1e8dd"));
+            Assert.That(schemes.Select(scheme => scheme.Active), Is.EqualTo(new[] { false, true }));
+        });
+    }
 }

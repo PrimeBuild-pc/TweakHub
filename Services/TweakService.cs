@@ -73,9 +73,6 @@ namespace TweakHub.Services
                 Name = L.Get("Tweaks:CategoryOrTweakNameMaximumCPUPerformanceOnAC"),
                 Description = L.Get("Tweaks:CategoryOrTweakDescriptionSetsTheActivePowerPlanMinimum"),
                 Type = TweakType.Power,
-                RegistryPath = @"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\54533251-82be-4824-96c1-47b60b740d00\893dee8e-2bef-41e0-89c6-b55d0929964c",
-                RegistryKey = "ValueMax",
-                EnabledValue = 0,   // Disable throttling
                 RiskLevel = 3
             });
 
@@ -85,9 +82,6 @@ namespace TweakHub.Services
                 Name = L.Get("Tweaks:CategoryOrTweakNameDisableCPUCoreParking"),
                 Description = L.Get("Tweaks:CategoryOrTweakDescriptionSetsTheActivePowerPlanMinimum2"),
                 Type = TweakType.Power,
-                RegistryPath = @"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\54533251-82be-4824-96c1-47b60b740d00\0cc5b647-c1df-4637-891a-dec35c318583",
-                RegistryKey = "ValueMax",
-                EnabledValue = 0,   // Disable core parking
                 RiskLevel = 3
             });
 
@@ -97,9 +91,6 @@ namespace TweakHub.Services
                 Name = L.Get("Tweaks:CategoryOrTweakNameForceHighPerformancePowerPlan"),
                 Description = L.Get("Tweaks:CategoryOrTweakDescriptionActivatesTheWindowsHighPerformancePlan"),
                 Type = TweakType.Power,
-                RegistryPath = @"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\User\PowerSchemes",
-                RegistryKey = "ActivePowerScheme",
-                EnabledValue = "8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c", // High Performance GUID
                 RiskLevel = 3
             });
 
@@ -577,12 +568,16 @@ namespace TweakHub.Services
             return true;
         }
 
-        internal static async Task<bool> IsServiceStoppedAsync(string serviceName)
+        internal static async Task<bool> IsServiceStoppedAsync(string serviceName) =>
+            (await GetStoppedServicesAsync(serviceName)).Contains(serviceName);
+
+        private static async Task<HashSet<string>> GetStoppedServicesAsync(params string[] serviceNames)
         {
             var result = await PowerShellService.Instance.ExecuteScriptAsync(
-                $"if ((Get-Service -Name '{serviceName}' -ErrorAction Stop).Status -ne 'Stopped') {{ exit 1 }}",
+                $"Get-Service -Name {string.Join(",", serviceNames.Select(PowerShellService.Literal))} -ErrorAction SilentlyContinue | Where-Object Status -eq 'Stopped' | ForEach-Object Name",
                 timeout: TimeSpan.FromSeconds(10));
-            return result.Success;
+            return result.Output.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                .ToHashSet(StringComparer.OrdinalIgnoreCase);
         }
 
         private static bool ApplyMouseAcceleration(bool disable)
@@ -670,6 +665,8 @@ namespace TweakHub.Services
 
         public async Task RefreshTweakStatesAsync()
         {
+            var power = await PowerService.Instance.GetTweakStatesAsync();
+            var stopped = await GetStoppedServicesAsync("SysMain", "WSearch");
             foreach (var tweak in TweakCategories.SelectMany(category => category.Tweaks))
             {
                 var changes = GetCompositeRegistryChanges(tweak.Id);
@@ -694,13 +691,11 @@ namespace TweakHub.Services
                 tweak.IsPartiallyApplied = false;
                 tweak.IsEnabled = tweak.Id switch
                 {
-                    "disable_cpu_throttling" => await PowerService.Instance
-                        .IsProcessorSettingActiveAsync("PROCTHROTTLEMIN", 100),
-                    "disable_core_parking" => await PowerService.Instance
-                        .IsProcessorSettingActiveAsync("CPMINCORES", 100),
-                    "high_performance_power_plan" => await PowerService.Instance.IsHighPerformancePlanActiveAsync(),
-                    "disable_sysmain" => RegistryService.Instance.CheckTweakStatus(tweak) && await IsServiceStoppedAsync("SysMain"),
-                    "disable_windows_search" => RegistryService.Instance.CheckTweakStatus(tweak) && await IsServiceStoppedAsync("WSearch"),
+                    "disable_cpu_throttling" => power.MaximumProcessorState,
+                    "disable_core_parking" => power.NoCoreParking,
+                    "high_performance_power_plan" => power.PerformancePlan,
+                    "disable_sysmain" => RegistryService.Instance.CheckTweakStatus(tweak) && stopped.Contains("SysMain"),
+                    "disable_windows_search" => RegistryService.Instance.CheckTweakStatus(tweak) && stopped.Contains("WSearch"),
                     _ => RegistryService.Instance.CheckTweakStatus(tweak)
                 };
             }

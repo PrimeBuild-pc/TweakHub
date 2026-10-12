@@ -139,7 +139,7 @@
     <value>Forzar Plan de Energía de Alto Rendimiento</value>
   </data>
   <data name="CategoryOrTweakDescriptionActivatesTheWindowsHighPerformancePlan" xml:space="preserve">
-    <value>Activa el plan de Alto Rendimiento de Windows y restaura el plan previamente activo cuando se desactiva.</value>
+    <value>Activa el plan elegido en la tarjeta Plan de energía de rendimiento (por defecto Alto rendimiento de Windows, recreado si falta) y restaura el plan anterior al desactivarlo.</value>
   </data>
   <data name="CategoryOrTweakNameNetworkLatencyReduction" xml:space="preserve">
     <value>Reducción de Latencia de Red</value>
@@ -576,5 +576,32 @@ Crearlo puede tardar un minuto y requiere privilegios de administrador.</value>
   </data>
   <data name="RestartVerificationActionFailed" xml:space="preserve">
     <value>La operación falló.</value>
+  </data>
+  <data name="PowerPlanTitle" xml:space="preserve">
+    <value>Plan de energía de rendimiento</value>
+  </data>
+  <data name="PowerPlanDescription" xml:space="preserve">
+    <value>Elige qué plan activa el ajuste "Forzar plan de alto rendimiento". Los planes personalizados (por ejemplo, planes de ajuste importados) se reconocen una vez elegidos; si se eliminó Alto rendimiento de Windows, TweakHub lo vuelve a crear a partir de la plantilla de Windows.</value>
+  </data>
+  <data name="PowerPlanUse" xml:space="preserve">
+    <value>Usar este plan</value>
+  </data>
+  <data name="PowerPlanOpenOptions" xml:space="preserve">
+    <value>Opciones de energía</value>
+  </data>
+  <data name="PowerPlanActive" xml:space="preserve">
+    <value>{0} (activo)</value>
+  </data>
+  <data name="PowerPlanRecreateHighPerformance" xml:space="preserve">
+    <value>Alto rendimiento (Windows, se volverá a crear)</value>
+  </data>
+  <data name="PowerPlanCurrent" xml:space="preserve">
+    <value>Plan activo: {0}</value>
+  </data>
+  <data name="PowerPlanApplyFailed" xml:space="preserve">
+    <value>Plan de energía sin cambios</value>
+  </data>
+  <data name="PowerPlanApplyFailedMessage" xml:space="preserve">
+    <value>No se pudo activar ni volver a crear el plan. Comprueba que sigue existiendo en Opciones de energía y que aceptaste la solicitud de administrador.</value>
   </data>
 </root>

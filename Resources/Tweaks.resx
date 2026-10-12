@@ -139,7 +139,7 @@
     <value>Force High Performance Power Plan</value>
   </data>
   <data name="CategoryOrTweakDescriptionActivatesTheWindowsHighPerformancePlan" xml:space="preserve">
-    <value>Activates the Windows High Performance plan and restores the previously active plan when disabled.</value>
+    <value>Activates the performance plan chosen in the Performance power plan card (Windows High performance by default, recreated if missing) and restores the previously active plan when disabled.</value>
   </data>
   <data name="CategoryOrTweakNameNetworkLatencyReduction" xml:space="preserve">
     <value>Network Latency Reduction</value>
@@ -614,5 +614,32 @@ Creating it may take a minute and requires administrator privileges.</value>
   </data>
   <data name="RestartVerificationActionFailed" xml:space="preserve">
     <value>The operation failed.</value>
+  </data>
+  <data name="PowerPlanTitle" xml:space="preserve">
+    <value>Performance power plan</value>
+  </data>
+  <data name="PowerPlanDescription" xml:space="preserve">
+    <value>Choose which plan the "Force High Performance Power Plan" tweak activates. Custom plans (for example imported tuning plans) are recognized once chosen; if Windows High performance was removed, TweakHub recreates it from the Windows template.</value>
+  </data>
+  <data name="PowerPlanUse" xml:space="preserve">
+    <value>Use this plan</value>
+  </data>
+  <data name="PowerPlanOpenOptions" xml:space="preserve">
+    <value>Power Options</value>
+  </data>
+  <data name="PowerPlanActive" xml:space="preserve">
+    <value>{0} (active)</value>
+  </data>
+  <data name="PowerPlanRecreateHighPerformance" xml:space="preserve">
+    <value>High performance (Windows, will be recreated)</value>
+  </data>
+  <data name="PowerPlanCurrent" xml:space="preserve">
+    <value>Active plan: {0}</value>
+  </data>
+  <data name="PowerPlanApplyFailed" xml:space="preserve">
+    <value>Power plan not changed</value>
+  </data>
+  <data name="PowerPlanApplyFailedMessage" xml:space="preserve">
+    <value>The plan could not be activated or recreated. Check that the plan still exists in Power Options and that you accepted the administrator prompt.</value>
   </data>
 </root>

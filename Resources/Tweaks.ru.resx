@@ -139,7 +139,7 @@
     <value>Принудительно использовать план высокопроизводительного электропитания</value>
   </data>
   <data name="CategoryOrTweakDescriptionActivatesTheWindowsHighPerformancePlan" xml:space="preserve">
-    <value>Активирует план высокой производительности Windows и восстанавливает ранее активный план при отключении.</value>
+    <value>Включает план, выбранный в карточке «План электропитания для производительности» (по умолчанию «Высокая производительность» Windows, воссоздаётся при отсутствии), и восстанавливает прежний план при отключении.</value>
   </data>
   <data name="CategoryOrTweakNameNetworkLatencyReduction" xml:space="preserve">
     <value>Сокращение задержки сети</value>
@@ -570,5 +570,32 @@ TweakHub восстанавливает захваченное исходное 
   </data>
   <data name="RestartVerificationActionFailed" xml:space="preserve">
     <value>Операция завершилась ошибкой.</value>
+  </data>
+  <data name="PowerPlanTitle" xml:space="preserve">
+    <value>План электропитания для производительности</value>
+  </data>
+  <data name="PowerPlanDescription" xml:space="preserve">
+    <value>Выберите план, который включает настройка «Принудительный план высокой производительности». Пользовательские планы (например, импортированные планы для тюнинга) распознаются после выбора; если план «Высокая производительность» Windows удалён, TweakHub воссоздаёт его из шаблона Windows.</value>
+  </data>
+  <data name="PowerPlanUse" xml:space="preserve">
+    <value>Использовать этот план</value>
+  </data>
+  <data name="PowerPlanOpenOptions" xml:space="preserve">
+    <value>Электропитание</value>
+  </data>
+  <data name="PowerPlanActive" xml:space="preserve">
+    <value>{0} (активен)</value>
+  </data>
+  <data name="PowerPlanRecreateHighPerformance" xml:space="preserve">
+    <value>Высокая производительность (Windows, будет воссоздан)</value>
+  </data>
+  <data name="PowerPlanCurrent" xml:space="preserve">
+    <value>Активный план: {0}</value>
+  </data>
+  <data name="PowerPlanApplyFailed" xml:space="preserve">
+    <value>План электропитания не изменён</value>
+  </data>
+  <data name="PowerPlanApplyFailedMessage" xml:space="preserve">
+    <value>Не удалось включить или воссоздать план. Проверьте, что он есть в разделе «Электропитание» и что вы подтвердили запрос администратора.</value>
   </data>
 </root>

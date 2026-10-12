@@ -1,0 +1,61 @@
+<Window x:Class="TweakHub.Views.Dialogs.RestartVerificationDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:loc="clr-namespace:TweakHub.Localization"
+        Title="{loc:Loc Tweaks:RestartVerificationTitle}" Width="620" SizeToContent="Height" MaxHeight="650"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
+        FontFamily="Segoe UI Variable Text" Background="{DynamicResource WindowBackgroundBrush}"
+        Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="{loc:Loc Tweaks:RestartVerificationDescription}" TextWrapping="Wrap" Margin="0,0,0,16"/>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <ItemsControl x:Name="ResultsList">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Style="{StaticResource CardStyle}" Margin="0,0,0,8" Padding="14,10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Title}" FontWeight="SemiBold" TextWrapping="Wrap"/>
+                                    <TextBlock Text="{Binding StatusText}" TextWrapping="Wrap" Margin="0,2,0,0"
+                                               Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                                    <Button Content="{loc:Loc Tweaks:RestartVerificationRetry}" Style="{StaticResource ModernButtonStyle}"
+                                            Margin="8,0,0,0" Click="Retry_Click">
+                                        <Button.Visibility>
+                                            <Binding Path="CanRetry">
+                                                <Binding.Converter><BooleanToVisibilityConverter/></Binding.Converter>
+                                            </Binding>
+                                        </Button.Visibility>
+                                    </Button>
+                                    <Button Content="{loc:Loc Tweaks:RestartVerificationRestore}" Style="{StaticResource SecondaryButtonStyle}"
+                                            Margin="8,0,0,0" Click="Restore_Click">
+                                        <Button.Visibility>
+                                            <Binding Path="CanRestore">
+                                                <Binding.Converter><BooleanToVisibilityConverter/></Binding.Converter>
+                                            </Binding>
+                                        </Button.Visibility>
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <Button Grid.Row="2" Content="{loc:Loc Tweaks:RestartVerificationAcknowledge}" Style="{StaticResource ModernButtonStyle}"
+                HorizontalAlignment="Right" Margin="0,16,0,0" IsDefault="True" Click="Acknowledge_Click"/>
+    </Grid>
+</Window>

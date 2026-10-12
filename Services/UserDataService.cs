@@ -161,6 +161,15 @@ public sealed class UserDataService
         tool.IsCustom = true;
     }
 
+    public static void ValidateCustomScript(CustomScript script)
+    {
+        script.Id = (script.Id ?? string.Empty).Trim();
+        script.Name = (script.Name ?? string.Empty).Trim();
+        script.Content ??= string.Empty;
+        if (!IsStableId(script.Id) || script.Name.Length is < 1 or > 100 || script.Content.Length > 1024 * 1024
+            || !Enum.IsDefined(script.Language)) throw new InvalidDataException(L.Get("UI:ProfileInvalid"));
+    }
+
     public static void ValidateWingetId(string id)
     {
         if (!Regex.IsMatch(id, "^[A-Za-z0-9][A-Za-z0-9._-]{1,127}$"))
@@ -206,14 +215,7 @@ public sealed class UserDataService
             || profile.FavoriteScripts.Count > 1000)
             throw new InvalidDataException(L.Get("UI:ProfileTooManyEntries"));
 
-        foreach (var script in profile.CustomScripts)
-        {
-            script.Id = (script.Id ?? string.Empty).Trim();
-            script.Name = (script.Name ?? string.Empty).Trim();
-            script.Content ??= string.Empty;
-            if (!IsStableId(script.Id) || script.Name.Length is < 1 or > 100 || script.Content.Length > 1024 * 1024
-                || !Enum.IsDefined(script.Language)) throw new InvalidDataException(L.Get("UI:ProfileInvalid"));
-        }
+        foreach (var script in profile.CustomScripts) ValidateCustomScript(script);
         EnsureUnique(profile.CustomScripts.Select(script => script.Id));
 
         foreach (var tweak in profile.CustomTweaks) ValidateCustomTweak(tweak);
@@ -264,30 +266,9 @@ public sealed class UserDataService
             throw new InvalidDataException(L.Get("UI:ProfileDuplicateIds"));
     }
 
-    private static T Load<T>(string path) where T : new()
-    {
-        if (!File.Exists(path)) return new T();
-        try
-        {
-            return JsonSerializer.Deserialize<T>(File.ReadAllText(path)) ?? new T();
-        }
-        catch (Exception ex)
-        {
-            var corrupt = path + $".corrupt-{DateTime.Now:yyyyMMddHHmmss}";
-            File.Move(path, corrupt, true);
-            Debug.WriteLine($"Invalid user data moved to {corrupt}: {ex.Message}");
-            return new T();
-        }
-    }
+    private static T Load<T>(string path) where T : new() => JsonStore.Load<T>(path, message => Debug.WriteLine(message));
 
-    private static void Save<T>(string path, T data)
-    {
-        var directory = Path.GetDirectoryName(path);
-        if (!string.IsNullOrEmpty(directory)) Directory.CreateDirectory(directory);
-        var temp = path + ".tmp";
-        File.WriteAllText(temp, JsonSerializer.Serialize(data, JsonOptions));
-        File.Move(temp, path, true);
-    }
+    private static void Save<T>(string path, T data) => JsonStore.Save(path, data);
 
     private static void ReplaceAll(IReadOnlyDictionary<string, object> writes)
     {

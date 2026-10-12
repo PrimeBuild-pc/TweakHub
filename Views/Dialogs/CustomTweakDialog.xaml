@@ -1,0 +1,53 @@
+<Window x:Class="TweakHub.Views.Dialogs.CustomTweakDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:loc="clr-namespace:TweakHub.Localization"
+        Width="520" SizeToContent="Height" MaxHeight="720"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="False"
+        FontFamily="Segoe UI Variable Text" Background="{DynamicResource WindowBackgroundBrush}"
+        Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock x:Name="HeadingText" FontSize="24" FontWeight="SemiBold" Margin="0,0,0,18"/>
+
+        <StackPanel Grid.Row="1">
+            <TextBlock Text="{loc:Loc Tweaks:Name}" Margin="0,0,0,4"/>
+            <TextBox x:Name="NameTextBox" MaxLength="100" Margin="0,0,0,12"/>
+
+            <TextBlock Text="{loc:Loc Tweaks:Description}" Margin="0,0,0,4"/>
+            <TextBox x:Name="DescriptionTextBox" MaxLength="500" Height="56" AcceptsReturn="True" TextWrapping="Wrap"
+                     VerticalScrollBarVisibility="Auto" Margin="0,0,0,12"/>
+
+            <TextBlock Text="{loc:Loc Tweaks:RegistryPathLabel}" Margin="0,0,0,4"/>
+            <TextBox x:Name="PathTextBox" Margin="0,0,0,12"/>
+
+            <TextBlock Text="{loc:Loc Tweaks:ValueName}" Margin="0,0,0,4"/>
+            <TextBox x:Name="ValueNameTextBox" Margin="0,0,0,12"/>
+
+            <TextBlock Text="{loc:Loc Tweaks:Type}" Margin="0,0,0,4"/>
+            <ComboBox x:Name="TypeComboBox" SelectedValuePath="Tag" Margin="0,0,0,12" HorizontalAlignment="Stretch">
+                <ComboBoxItem Content="REG_SZ" Tag="REG_SZ"/>
+                <ComboBoxItem Content="REG_DWORD (32-bit)" Tag="REG_DWORD"/>
+                <ComboBoxItem Content="REG_QWORD (64-bit)" Tag="REG_QWORD"/>
+                <ComboBoxItem Content="REG_BINARY" Tag="REG_BINARY"/>
+                <ComboBoxItem Content="REG_MULTI_SZ" Tag="REG_MULTI_SZ"/>
+                <ComboBoxItem Content="REG_EXPAND_SZ" Tag="REG_EXPAND_SZ"/>
+            </ComboBox>
+
+            <TextBlock Text="{loc:Loc Tweaks:Value}" Margin="0,0,0,4"/>
+            <TextBox x:Name="DataTextBox" FontFamily="Consolas"/>
+
+            <TextBlock x:Name="ValidationText" Margin="0,12,0,0" TextWrapping="Wrap" Foreground="{DynamicResource DangerBrush}"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,18,0,0">
+            <Button Content="{loc:Loc Tweaks:Cancel}" Style="{StaticResource SecondaryButtonStyle}" MinWidth="96" Margin="0,0,8,0" IsCancel="True"/>
+            <Button x:Name="SaveButton" Style="{StaticResource ModernButtonStyle}" MinWidth="100" IsDefault="True" Click="Save_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -14,13 +14,7 @@ public sealed class PlaybookService
     {
         var lines = new List<string>();
         var errors = new List<string>();
-        var builtIn = BuiltInTweaks();
-        var custom = UserDataService.Instance.LoadCustomTweaks().Where(tweak => !string.IsNullOrWhiteSpace(tweak.Id))
-            .GroupBy(tweak => tweak.Id, StringComparer.OrdinalIgnoreCase)
-            .ToDictionary(group => group.Key, group => group.First(), StringComparer.OrdinalIgnoreCase);
-        var scripts = UserDataService.Instance.LoadCustomScripts().Where(script => !string.IsNullOrWhiteSpace(script.Id))
-            .GroupBy(script => script.Id, StringComparer.OrdinalIgnoreCase)
-            .ToDictionary(group => group.Key, group => group.First(), StringComparer.OrdinalIgnoreCase);
+        var (builtIn, custom, scripts) = LoadReferences();
 
         for (var index = 0; index < playbook.Steps.Count; index++)
         {
@@ -68,13 +62,7 @@ public sealed class PlaybookService
         var preflight = Preflight(playbook);
         if (!preflight.CanRun) return new(false, 0, string.Join(Environment.NewLine, preflight.Errors), string.Empty);
 
-        var builtIn = BuiltInTweaks();
-        var custom = UserDataService.Instance.LoadCustomTweaks().Where(tweak => !string.IsNullOrWhiteSpace(tweak.Id))
-            .GroupBy(tweak => tweak.Id, StringComparer.OrdinalIgnoreCase)
-            .ToDictionary(group => group.Key, group => group.First(), StringComparer.OrdinalIgnoreCase);
-        var scripts = UserDataService.Instance.LoadCustomScripts().Where(script => !string.IsNullOrWhiteSpace(script.Id))
-            .GroupBy(script => script.Id, StringComparer.OrdinalIgnoreCase)
-            .ToDictionary(group => group.Key, group => group.First(), StringComparer.OrdinalIgnoreCase);
+        var (builtIn, custom, scripts) = LoadReferences();
         var lines = new List<string> { $"{DateTimeOffset.Now:O} — {playbook.Name}" };
         var completed = await RunSequentiallyAsync(playbook.Steps, async step =>
         {
@@ -125,6 +113,17 @@ public sealed class PlaybookService
         return completed;
     }
 
+    private static (Dictionary<string, PerformanceTweak> BuiltIn, Dictionary<string, CustomRegistryTweak> Custom, Dictionary<string, CustomScript> Scripts) LoadReferences()
+    {
+        static Dictionary<string, T> ById<T>(IEnumerable<T> items, Func<T, string> id) => items
+            .Where(item => !string.IsNullOrWhiteSpace(id(item)))
+            .GroupBy(id, StringComparer.OrdinalIgnoreCase)
+            .ToDictionary(group => group.Key, group => group.First(), StringComparer.OrdinalIgnoreCase);
+        return (BuiltInTweaks(),
+            ById(UserDataService.Instance.LoadCustomTweaks(), tweak => tweak.Id),
+            ById(UserDataService.Instance.LoadCustomScripts(), script => script.Id));
+    }
+
     private static Dictionary<string, PerformanceTweak> BuiltInTweaks()
     {
         if (TweakService.Instance.TweakCategories.Count == 0) TweakService.Instance.LoadTweaks();
@@ -142,9 +141,9 @@ public sealed class PlaybookService
 
         var tweak = custom[step.ReferenceId[7..]];
         if (!step.TargetEnabled)
-            return RegistryService.Instance.RestoreRegistryValue(tweak.RegistryPath, tweak.RegistryKey);
+            return await Task.Run(() => RegistryService.Instance.RestoreRegistryValue(tweak.RegistryPath, tweak.RegistryKey));
         var value = RegistryService.ParseData(tweak.ValueType, tweak.Data, out var kind);
-        return RegistryService.Instance.ApplyValueWithBackup(tweak.RegistryPath, tweak.RegistryKey, value, kind);
+        return await Task.Run(() => RegistryService.Instance.ApplyValueWithBackup(tweak.RegistryPath, tweak.RegistryKey, value, kind));
     }
 
     private static async Task<bool> ExecuteScript(

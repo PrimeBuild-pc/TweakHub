@@ -198,48 +198,15 @@ public partial class SecurityPage : Page
         icon.SetResourceReference(TextBlock.ForegroundProperty, on ? "SuccessBrush" : "DangerBrush");
     }
 
-    // Bar length is the age against twice the recommended interval, so the midpoint marks the limit.
+    // Bar length is the age against twice the recommended interval, so the marker in the middle is the limit.
     private void AddAgeBar(string labelKey, int? days, int recommended)
     {
-        var fraction = days is { } value ? Math.Clamp(value / (2.0 * recommended), 0.02, 1) : 1;
-        var row = new Grid { Margin = new Thickness(0, 0, 0, 14), ToolTip = L.Format("Security:AgeRecommended", recommended) };
-        row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(130) });
-        row.ColumnDefinitions.Add(new ColumnDefinition());
-        row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(90) });
-
-        var label = new TextBlock { Text = L.Get(labelKey), FontSize = 12, VerticalAlignment = VerticalAlignment.Center };
-        label.SetResourceReference(TextBlock.ForegroundProperty, "SystemControlForegroundBaseHighBrush");
-
-        var track = new Grid { Height = 8, VerticalAlignment = VerticalAlignment.Center };
-        track.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(fraction, GridUnitType.Star) });
-        track.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1 - fraction, GridUnitType.Star) });
-        var background = new Border { CornerRadius = new CornerRadius(4) };
-        background.SetResourceReference(Border.BackgroundProperty, "SubtleFillBrush");
-        Grid.SetColumnSpan(background, 2);
-        var bar = new Border { CornerRadius = new CornerRadius(4) };
-        bar.SetResourceReference(Border.BackgroundProperty, days is { } age && age <= recommended ? "SuccessBrush" : "WarningBrush");
-        var limit = new Rectangle { Width = 2, Height = 14, HorizontalAlignment = HorizontalAlignment.Center };
-        limit.SetResourceReference(Shape.FillProperty, "SystemControlForegroundBaseMediumBrush");
-        Grid.SetColumnSpan(limit, 2);
-        track.Children.Add(background);
-        track.Children.Add(bar);
-        track.Children.Add(limit);
-        Grid.SetColumn(track, 1);
-
-        var text = new TextBlock
-        {
-            Text = days switch { null => L.Get("Security:AgeNever"), 0 => L.Get("Security:AgeToday"), _ => L.Format("Security:AgeDays", days) },
-            FontSize = 12,
-            HorizontalAlignment = HorizontalAlignment.Right,
-            VerticalAlignment = VerticalAlignment.Center
-        };
-        text.SetResourceReference(TextBlock.ForegroundProperty, "SystemControlForegroundBaseMediumBrush");
-        Grid.SetColumn(text, 2);
-
-        row.Children.Add(label);
-        row.Children.Add(track);
-        row.Children.Add(text);
-        AgeChart.Children.Add(row);
+        var scale = 2.0 * recommended;
+        var length = days is { } value ? Math.Clamp(value, scale * 0.02, scale) : scale;
+        var brush = days is { } age && age <= recommended ? "SuccessBrush" : "WarningBrush";
+        var text = days switch { null => L.Get("Security:AgeNever"), 0 => L.Get("Security:AgeToday"), _ => L.Format("Security:AgeDays", days) };
+        AgeChart.Children.Add(SecurityCharts.Row(L.Get(labelKey), [new(length, brush, L.Format("Security:AgeRecommended", recommended))],
+            scale, text, selected: false, onClick: null, marker: recommended, labelWidth: 130, valueWidth: 90));
     }
 
     private async void Scan_Click(object sender, RoutedEventArgs e)

@@ -139,7 +139,7 @@
     <value>Forza il piano di alimentazione ad alte prestazioni</value>
   </data>
   <data name="CategoryOrTweakDescriptionActivatesTheWindowsHighPerformancePlan" xml:space="preserve">
-    <value>Attiva il piano ad alte prestazioni di Windows e ripristina il piano precedentemente attivo quando disabilitato.</value>
+    <value>Attiva il piano scelto nella scheda Piano energetico prestazioni (di default Prestazioni elevate di Windows, ricreato se manca) e ripristina il piano precedente quando disabilitato.</value>
   </data>
   <data name="CategoryOrTweakNameNetworkLatencyReduction" xml:space="preserve">
     <value>Riduzione della latenza di rete</value>
@@ -614,5 +614,32 @@ La creazione potrebbe richiedere un minuto e necessita dei privilegi di amminist
   </data>
   <data name="RestartVerificationActionFailed" xml:space="preserve">
     <value>Operazione non riuscita.</value>
+  </data>
+  <data name="PowerPlanTitle" xml:space="preserve">
+    <value>Piano energetico prestazioni</value>
+  </data>
+  <data name="PowerPlanDescription" xml:space="preserve">
+    <value>Scegli quale piano attiva il tweak "Forza il piano di alimentazione ad alte prestazioni". I piani personalizzati (ad esempio quelli importati per il tuning) vengono riconosciuti una volta scelti; se Prestazioni elevate di Windows è stato rimosso, TweakHub lo ricrea dal modello di Windows.</value>
+  </data>
+  <data name="PowerPlanUse" xml:space="preserve">
+    <value>Usa questo piano</value>
+  </data>
+  <data name="PowerPlanOpenOptions" xml:space="preserve">
+    <value>Opzioni risparmio energia</value>
+  </data>
+  <data name="PowerPlanActive" xml:space="preserve">
+    <value>{0} (attivo)</value>
+  </data>
+  <data name="PowerPlanRecreateHighPerformance" xml:space="preserve">
+    <value>Prestazioni elevate (Windows, verrà ricreato)</value>
+  </data>
+  <data name="PowerPlanCurrent" xml:space="preserve">
+    <value>Piano attivo: {0}</value>
+  </data>
+  <data name="PowerPlanApplyFailed" xml:space="preserve">
+    <value>Piano energetico non modificato</value>
+  </data>
+  <data name="PowerPlanApplyFailedMessage" xml:space="preserve">
+    <value>Impossibile attivare o ricreare il piano. Controlla che esista ancora in Opzioni risparmio energia e di aver accettato la richiesta di amministratore.</value>
   </data>
 </root>
