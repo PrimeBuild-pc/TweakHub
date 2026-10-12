@@ -408,7 +408,7 @@ Registro: {3}</value>
     <value>Playbooks</value>
   </data>
   <data name="PlaybooksDescription" xml:space="preserve">
-    <value>Crea flujos personalizados y ordenados con ajustes, paquetes WinGet exactos y scripts guardados.</value>
+    <value>Guarda con un clic la configuración de este PC y vuelve a aplicarla tras reinstalar o en otro PC: plan de energía, ajustes, interrupciones y USB, dispositivos desactivados, aplicaciones y scripts.</value>
   </data>
   <data name="BuiltInScripts" xml:space="preserve">
     <value>Scripts integrados</value>
@@ -458,15 +458,6 @@ Registro: {2}</value>
   <data name="PlaybookInvalid" xml:space="preserve">
     <value>Playbook no válido</value>
   </data>
-  <data name="AddTweakStep" xml:space="preserve">
-    <value>Añadir ajuste</value>
-  </data>
-  <data name="AddApplicationStep" xml:space="preserve">
-    <value>Añadir aplicación</value>
-  </data>
-  <data name="AddScriptStep" xml:space="preserve">
-    <value>Añadir script</value>
-  </data>
   <data name="MoveUp" xml:space="preserve">
     <value>Subir</value>
   </data>
@@ -478,12 +469,6 @@ Registro: {2}</value>
   </data>
   <data name="TweakTargetEnabled" xml:space="preserve">
     <value>Activar este ajuste (desmarca para restaurarlo)</value>
-  </data>
-  <data name="ApplicationName" xml:space="preserve">
-    <value>Nombre de la aplicación</value>
-  </data>
-  <data name="WingetPackageId" xml:space="preserve">
-    <value>ID exacto del paquete WinGet</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>Añadir</value>
@@ -499,9 +484,6 @@ Registro: {2}</value>
   </data>
   <data name="PlaybookRestore" xml:space="preserve">
     <value>Restaurar</value>
-  </data>
-  <data name="SelectCatalogueApplication" xml:space="preserve">
-    <value>Selecciona una aplicación WinGet existente o introduce una abajo</value>
   </data>
   <data name="FavoriteScript" xml:space="preserve">
     <value>Añadir o quitar script de favoritos</value>
@@ -571,5 +553,98 @@ Registro: {2}</value>
   </data>
   <data name="wsl_setup_CompletionNote" xml:space="preserve">
     <value>Si el resultado indica que es necesario reiniciar, reinicia Windows y abre Ubuntu una vez para completar su configuración inicial.</value>
+  </data>
+  <data name="PlaybookFromSystem" xml:space="preserve">
+    <value>Crear desde este PC</value>
+  </data>
+  <data name="PlaybookFromSystemHint" xml:space="preserve">
+    <value>Lee lo que tú y TweakHub habéis cambiado en este PC y lo propone como pasos; tú eliges qué conservar.</value>
+  </data>
+  <data name="ImportPlaybook" xml:space="preserve">
+    <value>Importar playbook</value>
+  </data>
+  <data name="ExportPlaybook" xml:space="preserve">
+    <value>Exportar</value>
+  </data>
+  <data name="PlaybookFileFilter" xml:space="preserve">
+    <value>Playbook de TweakHub (*.tweakhub-playbook.json)|*.tweakhub-playbook.json|JSON (*.json)|*.json</value>
+  </data>
+  <data name="PlaybookImported" xml:space="preserve">
+    <value>Se añadió "{0}" con {1} pasos. Ajustes personalizados nuevos: {2}. Scripts nuevos: {3}. Revisa los pasos antes de ejecutarlo.</value>
+  </data>
+  <data name="PlaybookStepsTitle" xml:space="preserve">
+    <value>Pasos</value>
+  </data>
+  <data name="PlaybookStepsHint" xml:space="preserve">
+    <value>Solo se guardan los pasos marcados. Se ejecutan de arriba abajo y se detienen en el primer error; los pasos de dispositivos que no están en el PC se omiten.</value>
+  </data>
+  <data name="PlaybookDetect" xml:space="preserve">
+    <value>Detectar en este PC</value>
+  </data>
+  <data name="PlaybookDetectHint" xml:space="preserve">
+    <value>Añade el plan de energía activo, los ajustes activos, la configuración de interrupciones y USB cambiada por TweakHub, los dispositivos desactivados y las aplicaciones favoritas (sin marcar).</value>
+  </data>
+  <data name="PlaybookDetecting" xml:space="preserve">
+    <value>Leyendo la configuración de este PC…</value>
+  </data>
+  <data name="PlaybookNoSteps" xml:space="preserve">
+    <value>Aún no hay pasos. Detéctalos en este PC o añade ajustes, aplicaciones y scripts abajo.</value>
+  </data>
+  <data name="PlaybookAddStep" xml:space="preserve">
+    <value>Añadir un paso</value>
+  </data>
+  <data name="PlaybookCapturedName" xml:space="preserve">
+    <value>Configuración de {0} ({1})</value>
+  </data>
+  <data name="PlaybookTypeTweak" xml:space="preserve">
+    <value>Ajuste</value>
+  </data>
+  <data name="PlaybookTypeWinget" xml:space="preserve">
+    <value>Aplicación (winget)</value>
+  </data>
+  <data name="PlaybookTypeScript" xml:space="preserve">
+    <value>Script personalizado</value>
+  </data>
+  <data name="PlaybookTypeDevice" xml:space="preserve">
+    <value>Dispositivo</value>
+  </data>
+  <data name="PlaybookTypeRegistry" xml:space="preserve">
+    <value>Interrupciones y energía USB</value>
+  </data>
+  <data name="PlaybookTypePowerPlan" xml:space="preserve">
+    <value>Plan de energía</value>
+  </data>
+  <data name="PlaybookDisableDevice" xml:space="preserve">
+    <value>Desactivar dispositivo: {0}</value>
+  </data>
+  <data name="PlaybookEnableDevice" xml:space="preserve">
+    <value>Activar dispositivo: {0}</value>
+  </data>
+  <data name="PlaybookRegistrySummary" xml:space="preserve">
+    <value>Interrupciones y energía USB: {0}</value>
+  </data>
+  <data name="PlaybookPowerSummary" xml:space="preserve">
+    <value>Plan de energía: {0}</value>
+  </data>
+  <data name="PlaybookPowerApplied" xml:space="preserve">
+    <value>{0} ajustes escritos; {1} no existen en este PC.</value>
+  </data>
+  <data name="PlaybookSkipped" xml:space="preserve">
+    <value>Omitido: no está en este PC.</value>
+  </data>
+  <data name="PlaybookInvalidData" xml:space="preserve">
+    <value>"{0}" contiene datos que TweakHub no acepta.</value>
+  </data>
+  <data name="PlaybookElevateTitle" xml:space="preserve">
+    <value>¿Ejecutar con un solo aviso de UAC?</value>
+  </data>
+  <data name="PlaybookElevateMessage" xml:space="preserve">
+    <value>{0} pasos necesitan permisos de administrador. TweakHub puede reiniciarse como administrador y ejecutar el playbook al momento con un solo aviso de UAC, o continuar y pedirlo en cada paso.</value>
+  </data>
+  <data name="PlaybookElevateRestart" xml:space="preserve">
+    <value>Reiniciar como administrador</value>
+  </data>
+  <data name="PlaybookElevateContinue" xml:space="preserve">
+    <value>Preguntar en cada paso</value>
   </data>
 </root>

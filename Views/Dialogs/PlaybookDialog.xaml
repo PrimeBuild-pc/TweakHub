@@ -1,0 +1,134 @@
+<Window x:Class="TweakHub.Views.Dialogs.PlaybookDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:loc="clr-namespace:TweakHub.Localization"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        Width="820" Height="720" MinWidth="680" MinHeight="520"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
+        FontFamily="Segoe UI Variable Text" Background="{DynamicResource WindowBackgroundBrush}"
+        Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock x:Name="HeadingText" FontSize="24" FontWeight="SemiBold" Margin="0,0,0,16"/>
+
+        <Grid Grid.Row="1" Margin="0,0,0,14">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="12"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                <TextBlock Text="{loc:Loc Scripts:PlaybookName}" Margin="0,0,0,4"/>
+                <TextBox x:Name="NameBox" MaxLength="100" AutomationProperties.Name="{loc:Loc Scripts:PlaybookName}"/>
+            </StackPanel>
+            <StackPanel Grid.Column="2">
+                <TextBlock Text="{loc:Loc Scripts:PlaybookDescription}" Margin="0,0,0,4"/>
+                <TextBox x:Name="DescriptionBox" MaxLength="500" AutomationProperties.Name="{loc:Loc Scripts:PlaybookDescription}"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="2" Margin="0,0,0,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                <TextBlock Text="{loc:Loc Scripts:PlaybookStepsTitle}" FontSize="16" FontWeight="SemiBold"/>
+                <TextBlock Text="{loc:Loc Scripts:PlaybookStepsHint}" Style="{StaticResource DescriptionTextStyle}"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,0,0">
+                <ui:ProgressRing x:Name="DetectRing" Width="20" Height="20" Margin="0,0,10,0"/>
+                <Button x:Name="DetectButton" Click="Detect_Click" Style="{StaticResource SecondaryButtonStyle}"
+                        ToolTip="{loc:Loc Scripts:PlaybookDetectHint}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE9F5;" FontFamily="Segoe Fluent Icons" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="{loc:Loc Scripts:PlaybookDetect}"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <Border Grid.Row="3" Style="{StaticResource CardStyle}" Margin="0" Padding="4">
+            <Grid>
+                <ListBox x:Name="StepsList" Background="Transparent" BorderThickness="0" HorizontalContentAlignment="Stretch"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled" AutomationProperties.Name="{loc:Loc Scripts:PlaybookStepsTitle}">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="32"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <CheckBox IsChecked="{Binding IsIncluded}" MinWidth="0" VerticalAlignment="Center"
+                                          AutomationProperties.Name="{Binding Summary}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding Icon}" FontFamily="Segoe Fluent Icons" FontSize="16"
+                                           VerticalAlignment="Center" Foreground="{DynamicResource AccentBrush}"/>
+                                <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Summary}" FontSize="13" TextTrimming="CharacterEllipsis" ToolTip="{Binding Summary}"/>
+                                    <TextBlock Text="{Binding TypeText}" FontSize="11" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center">
+                                    <Button Click="MoveUp_Click" Style="{StaticResource PreviewIconButtonStyle}" Width="28" Height="28" MinHeight="28" Margin="2,0"
+                                            ToolTip="{loc:Loc Scripts:MoveUp}" AutomationProperties.Name="{loc:Loc Scripts:MoveUp}">
+                                        <TextBlock Text="&#xE70E;" FontFamily="Segoe Fluent Icons" FontSize="12"/>
+                                    </Button>
+                                    <Button Click="MoveDown_Click" Style="{StaticResource PreviewIconButtonStyle}" Width="28" Height="28" MinHeight="28" Margin="2,0"
+                                            ToolTip="{loc:Loc Scripts:MoveDown}" AutomationProperties.Name="{loc:Loc Scripts:MoveDown}">
+                                        <TextBlock Text="&#xE70D;" FontFamily="Segoe Fluent Icons" FontSize="12"/>
+                                    </Button>
+                                    <Button Click="Remove_Click" Style="{StaticResource PreviewIconButtonStyle}" Width="28" Height="28" MinHeight="28" Margin="2,0"
+                                            ToolTip="{loc:Loc Scripts:RemoveStep}" AutomationProperties.Name="{loc:Loc Scripts:RemoveStep}">
+                                        <TextBlock Text="&#xE74D;" FontFamily="Segoe Fluent Icons" FontSize="12"/>
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <TextBlock x:Name="EmptyText" Text="{loc:Loc Scripts:PlaybookNoSteps}" Style="{StaticResource DescriptionTextStyle}"
+                           HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" MaxWidth="420"/>
+            </Grid>
+        </Border>
+
+        <!-- Manual steps: pick a kind, then an item from the catalogue or the user's own tweaks and scripts. -->
+        <Grid Grid.Row="4" Margin="0,12,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <ComboBox x:Name="AddKindBox" Width="170" SelectionChanged="AddKind_SelectionChanged" Margin="0,0,8,0"
+                      AutomationProperties.Name="{loc:Loc Scripts:PlaybookAddStep}"/>
+            <ComboBox x:Name="AddItemBox" Grid.Column="1" HorizontalAlignment="Stretch" DisplayMemberPath="Name" IsEditable="True" IsTextSearchEnabled="True"
+                      AutomationProperties.Name="{loc:Loc Scripts:PlaybookAddStep}"/>
+            <CheckBox x:Name="AddEnabledBox" Grid.Column="2" Content="{loc:Loc Scripts:TweakTargetEnabled}" IsChecked="True" Margin="12,0,0,0"/>
+            <Button Grid.Column="3" Click="Add_Click" Style="{StaticResource SecondaryButtonStyle}" Margin="8,0,0,0">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="&#xE710;" FontFamily="Segoe Fluent Icons" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                    <TextBlock Text="{loc:Loc Scripts:Add}"/>
+                </StackPanel>
+            </Button>
+        </Grid>
+
+        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,18,0,0">
+            <Button Content="{loc:Loc Scripts:Cancel}" Style="{StaticResource SecondaryButtonStyle}" IsCancel="True" Margin="0,0,8,0" MinWidth="110"/>
+            <Button Content="{loc:Loc Scripts:Save}" Style="{StaticResource ModernButtonStyle}" Click="Save_Click" MinWidth="110"/>
+        </StackPanel>
+    </Grid>
+</Window>

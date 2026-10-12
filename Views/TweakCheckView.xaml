@@ -1,0 +1,110 @@
+<UserControl x:Class="TweakHub.Views.TweakCheckView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:loc="clr-namespace:TweakHub.Localization"
+             xmlns:ui="http://schemas.modernwpf.com/2019"
+             xmlns:controls="clr-namespace:TweakHub.Views.Controls">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="SectionStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <Style x:Key="CheckStatusIconStyle" TargetType="TextBlock" BasedOn="{StaticResource IconTextStyle}">
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="Text" Value="&#xE73E;"/>
+                <Setter Property="Foreground" Value="{DynamicResource SuccessBrush}"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Status}" Value="Flagged">
+                        <Setter Property="Text" Value="&#xE7BA;"/>
+                        <Setter Property="Foreground" Value="{DynamicResource WarningBrush}"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Status}" Value="NeedsAdministrator">
+                        <Setter Property="Text" Value="&#xEA18;"/>
+                        <Setter Property="Foreground" Value="{DynamicResource IconSecondaryBrush}"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="0,8,12,0">
+        <StackPanel>
+            <Grid Margin="4,0,4,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="{loc:Loc Devices:ChecksDescription}" Style="{StaticResource DescriptionTextStyle}"/>
+                    <TextBlock x:Name="SummaryText" Style="{StaticResource DescriptionTextStyle}" FontSize="11" Margin="0,2,0,0"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="16,0,0,0">
+                    <Button x:Name="ScanButton" Click="Scan_Click" Style="{StaticResource ModernButtonStyle}" Margin="0,0,8,0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE72C;" Style="{StaticResource IconTextStyle}" Margin="0,0,6,0"/>
+                            <TextBlock Text="{loc:Loc Devices:ChecksScan}"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="ElevatedScanButton" Click="ElevatedScan_Click" Style="{StaticResource SecondaryButtonStyle}"
+                            ToolTip="{loc:Loc Devices:ChecksScanElevatedHint}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xEA18;" Style="{StaticResource IconTextStyle}" Margin="0,0,6,0"/>
+                            <TextBlock Text="{loc:Loc Security:SystemScanElevated}"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+            <TextBlock x:Name="ErrorText" Foreground="{DynamicResource DangerBrush}" TextWrapping="Wrap" Margin="4,0,4,8" Visibility="Collapsed"/>
+
+            <ItemsControl x:Name="ChecksList">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Style="{StaticResource CardStyle}" Padding="16,12">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Style="{StaticResource CheckStatusIconStyle}" Margin="0,0,14,0" VerticalAlignment="Top" ToolTip="{Binding StatusText}"/>
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Text="{Binding Title}" FontSize="14" FontWeight="SemiBold"
+                                               Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                                    <TextBlock Text="{Binding Explanation}" Style="{StaticResource DescriptionTextStyle}" Margin="0,2,0,0"/>
+                                    <TextBlock Text="{Binding Current}" FontSize="11" FontFamily="Cascadia Mono, Consolas" Margin="0,4,0,0" TextWrapping="Wrap"
+                                               Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,0,0">
+                                    <Button Click="Repair_Click" Style="{StaticResource ModernButtonStyle}" Margin="0,0,8,0"
+                                            ToolTip="{loc:Loc Security:RequiresAdministrator}">
+                                        <Button.Visibility>
+                                            <Binding Path="CanRepair">
+                                                <Binding.Converter><BooleanToVisibilityConverter/></Binding.Converter>
+                                            </Binding>
+                                        </Button.Visibility>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="&#xEA18;" Style="{StaticResource IconTextStyle}" Margin="0,0,6,0"/>
+                                            <TextBlock Text="{loc:Loc Devices:Repair}"/>
+                                        </StackPanel>
+                                    </Button>
+                                    <Button Click="Undo_Click" Style="{StaticResource SecondaryButtonStyle}" Content="{loc:Loc Devices:Undo}">
+                                        <Button.Visibility>
+                                            <Binding Path="CanUndo">
+                                                <Binding.Converter><BooleanToVisibilityConverter/></Binding.Converter>
+                                            </Binding>
+                                        </Button.Visibility>
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <TextBlock Text="{loc:Loc Devices:ChecksManagedNote}" Style="{StaticResource DescriptionTextStyle}" FontSize="11" Margin="4,8,4,0"/>
+        </StackPanel>
+    </ScrollViewer>
+    <controls:LoadingOverlay x:Name="Loading"/>
+    </Grid>
+</UserControl>

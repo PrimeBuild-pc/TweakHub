@@ -40,13 +40,13 @@ public partial class SecurityPage : Page
         InitializeComponent();
         Loaded += async (_, _) =>
         {
-            if (_snapshot is null) await RefreshAsync();
+            if (_snapshot is null) await RefreshAsync(initial: true);
         };
     }
 
     private async void Refresh_Click(object sender, RoutedEventArgs e) => await RefreshAsync();
 
-    private async Task RefreshAsync()
+    private async Task RefreshAsync(bool initial = false)
     {
         RefreshButton.IsEnabled = false;
         LoadingRing.IsActive = true;
@@ -54,7 +54,8 @@ public partial class SecurityPage : Page
         LoadErrorText.Visibility = Visibility.Collapsed;
         try
         {
-            _snapshot = await SecurityService.Instance.GetSnapshotAsync();
+            if (!initial) Preload.Invalidate(Preload.Security);
+            _snapshot = await Preload.Get(Preload.Security, SecurityService.Instance.GetSnapshotAsync);
             ChecksList.ItemsSource = _snapshot.Checks;
             DrawScoreRing(_snapshot);
             ShowDefender(_snapshot.Defender);
@@ -464,7 +465,7 @@ public partial class SecurityPage : Page
     {
         if (!ReferenceEquals(e.OriginalSource, Tabs)) return;
         if (Tabs.SelectedItem == ToolsTab && ToolsFrame.Content is null)
-            ToolsFrame.Navigate(new ExternalToolsPage(securityOnly: true));
+            ToolsFrame.Navigate(new ExternalToolsPage("OSINT & Security"));
         else if (Tabs.SelectedItem == SystemTab && !SystemView.HasScanned)
             await SystemView.ScanAsync(elevated: false);
         else if (Tabs.SelectedItem == PrivacyTab)

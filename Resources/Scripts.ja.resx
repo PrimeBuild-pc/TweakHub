@@ -408,7 +408,7 @@
     <value>プレイブック</value>
   </data>
   <data name="PlaybooksDescription" xml:space="preserve">
-    <value>調整、正確な WinGet パッケージ、保存済みスクリプトから独自の手順を作成します。</value>
+    <value>この PC の構成をワンクリックで保存し、再インストール後や別の PC で再適用できます: 電源プラン、調整、割り込みと USB の設定、無効化したデバイス、アプリ、スクリプト。</value>
   </data>
   <data name="BuiltInScripts" xml:space="preserve">
     <value>組み込みスクリプト</value>
@@ -458,15 +458,6 @@
   <data name="PlaybookInvalid" xml:space="preserve">
     <value>プレイブックが無効です</value>
   </data>
-  <data name="AddTweakStep" xml:space="preserve">
-    <value>調整を追加</value>
-  </data>
-  <data name="AddApplicationStep" xml:space="preserve">
-    <value>アプリを追加</value>
-  </data>
-  <data name="AddScriptStep" xml:space="preserve">
-    <value>スクリプトを追加</value>
-  </data>
   <data name="MoveUp" xml:space="preserve">
     <value>上へ</value>
   </data>
@@ -478,12 +469,6 @@
   </data>
   <data name="TweakTargetEnabled" xml:space="preserve">
     <value>この調整を有効化（オフで復元）</value>
-  </data>
-  <data name="ApplicationName" xml:space="preserve">
-    <value>アプリ名</value>
-  </data>
-  <data name="WingetPackageId" xml:space="preserve">
-    <value>正確な WinGet パッケージ ID</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>追加</value>
@@ -499,9 +484,6 @@
   </data>
   <data name="PlaybookRestore" xml:space="preserve">
     <value>復元</value>
-  </data>
-  <data name="SelectCatalogueApplication" xml:space="preserve">
-    <value>既存の WinGet アプリを選択するか、下に入力してください</value>
   </data>
   <data name="FavoriteScript" xml:space="preserve">
     <value>スクリプトのお気に入りを切り替える</value>
@@ -571,5 +553,98 @@
   </data>
   <data name="wsl_setup_CompletionNote" xml:space="preserve">
     <value>結果に再起動が必要と表示された場合は Windows を再起動し、Ubuntu を一度開いて初期設定を完了してください。</value>
+  </data>
+  <data name="PlaybookFromSystem" xml:space="preserve">
+    <value>この PC から作成</value>
+  </data>
+  <data name="PlaybookFromSystemHint" xml:space="preserve">
+    <value>あなたと TweakHub がこの PC で変更した内容を読み取り、手順として提案します。残す項目は自分で選べます。</value>
+  </data>
+  <data name="ImportPlaybook" xml:space="preserve">
+    <value>プレイブックをインポート</value>
+  </data>
+  <data name="ExportPlaybook" xml:space="preserve">
+    <value>エクスポート</value>
+  </data>
+  <data name="PlaybookFileFilter" xml:space="preserve">
+    <value>TweakHub プレイブック (*.tweakhub-playbook.json)|*.tweakhub-playbook.json|JSON (*.json)|*.json</value>
+  </data>
+  <data name="PlaybookImported" xml:space="preserve">
+    <value>「{0}」を {1} 個の手順で追加しました。新しいカスタム調整: {2}。新しいスクリプト: {3}。実行前に手順を確認してください。</value>
+  </data>
+  <data name="PlaybookStepsTitle" xml:space="preserve">
+    <value>手順</value>
+  </data>
+  <data name="PlaybookStepsHint" xml:space="preserve">
+    <value>チェックした手順だけが保存されます。上から順に実行され、最初の失敗で停止します。PC にないデバイスの手順はスキップされます。</value>
+  </data>
+  <data name="PlaybookDetect" xml:space="preserve">
+    <value>この PC から検出</value>
+  </data>
+  <data name="PlaybookDetectHint" xml:space="preserve">
+    <value>アクティブな電源プラン、有効な調整、TweakHub が変更した割り込みと USB の電源設定、無効化したデバイス、お気に入りのアプリ（未選択）を追加します。</value>
+  </data>
+  <data name="PlaybookDetecting" xml:space="preserve">
+    <value>この PC の構成を読み取っています…</value>
+  </data>
+  <data name="PlaybookNoSteps" xml:space="preserve">
+    <value>まだ手順がありません。この PC から検出するか、下で調整・アプリ・スクリプトを追加してください。</value>
+  </data>
+  <data name="PlaybookAddStep" xml:space="preserve">
+    <value>手順を追加</value>
+  </data>
+  <data name="PlaybookCapturedName" xml:space="preserve">
+    <value>{0} の構成 ({1})</value>
+  </data>
+  <data name="PlaybookTypeTweak" xml:space="preserve">
+    <value>調整</value>
+  </data>
+  <data name="PlaybookTypeWinget" xml:space="preserve">
+    <value>アプリ (winget)</value>
+  </data>
+  <data name="PlaybookTypeScript" xml:space="preserve">
+    <value>カスタムスクリプト</value>
+  </data>
+  <data name="PlaybookTypeDevice" xml:space="preserve">
+    <value>デバイス</value>
+  </data>
+  <data name="PlaybookTypeRegistry" xml:space="preserve">
+    <value>割り込みと USB 電源</value>
+  </data>
+  <data name="PlaybookTypePowerPlan" xml:space="preserve">
+    <value>電源プラン</value>
+  </data>
+  <data name="PlaybookDisableDevice" xml:space="preserve">
+    <value>デバイスを無効化: {0}</value>
+  </data>
+  <data name="PlaybookEnableDevice" xml:space="preserve">
+    <value>デバイスを有効化: {0}</value>
+  </data>
+  <data name="PlaybookRegistrySummary" xml:space="preserve">
+    <value>割り込みと USB 電源の設定: {0}</value>
+  </data>
+  <data name="PlaybookPowerSummary" xml:space="preserve">
+    <value>電源プラン: {0}</value>
+  </data>
+  <data name="PlaybookPowerApplied" xml:space="preserve">
+    <value>{0} 件の設定を書き込みました。{1} 件はこの PC にありません。</value>
+  </data>
+  <data name="PlaybookSkipped" xml:space="preserve">
+    <value>スキップ: この PC にありません。</value>
+  </data>
+  <data name="PlaybookInvalidData" xml:space="preserve">
+    <value>「{0}」には TweakHub が受け付けないデータが含まれています。</value>
+  </data>
+  <data name="PlaybookElevateTitle" xml:space="preserve">
+    <value>UAC の確認を 1 回にしますか？</value>
+  </data>
+  <data name="PlaybookElevateMessage" xml:space="preserve">
+    <value>{0} 個の手順に管理者権限が必要です。TweakHub を管理者として再起動し、UAC の確認 1 回でプレイブックをすぐ実行するか、手順ごとに確認して続行できます。</value>
+  </data>
+  <data name="PlaybookElevateRestart" xml:space="preserve">
+    <value>管理者として再起動</value>
+  </data>
+  <data name="PlaybookElevateContinue" xml:space="preserve">
+    <value>手順ごとに確認</value>
   </data>
 </root>

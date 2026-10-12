@@ -37,9 +37,8 @@ public partial class SecuritySystemView : UserControl
     public async Task ScanAsync(bool elevated)
     {
         ScanButton.IsEnabled = ElevatedScanButton.IsEnabled = ExportButton.IsEnabled = false;
-        BusyRing.IsActive = true;
+        Loading.Show(L.Get("Security:SystemScanning"));
         ErrorText.Visibility = Visibility.Collapsed;
-        StatusText.Text = L.Get("Security:SystemScanning");
         try
         {
             _triage = await SystemTriageService.Instance.CollectAsync(elevated);
@@ -56,7 +55,7 @@ public partial class SecuritySystemView : UserControl
         }
         finally
         {
-            BusyRing.IsActive = false;
+            Loading.Hide();
             ScanButton.IsEnabled = ElevatedScanButton.IsEnabled = true;
             ExportButton.IsEnabled = _triage != null;
         }

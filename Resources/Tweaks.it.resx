@@ -642,4 +642,138 @@ La creazione potrebbe richiedere un minuto e necessita dei privilegi di amminist
   <data name="PowerPlanApplyFailedMessage" xml:space="preserve">
     <value>Impossibile attivare o ricreare il piano. Controlla che esista ancora in Opzioni risparmio energia e di aver accettato la richiesta di amministratore.</value>
   </data>
+  <data name="PowerSectionTitle" xml:space="preserve">
+    <value>Piano energetico</value>
+  </data>
+  <data name="PowerSectionDescription" xml:space="preserve">
+    <value>Modifica ogni impostazione di un piano energetico, anche quelle nascoste, confrontala con un altro piano e gestisci i tuoi piani. I valori vengono scritti con la stessa API di Windows usata da powercfg.</value>
+  </data>
+  <data name="PowerTabEditor" xml:space="preserve">
+    <value>Editor impostazioni</value>
+  </data>
+  <data name="PowerTabPlans" xml:space="preserve">
+    <value>Piani</value>
+  </data>
+  <data name="PowerEditPlan" xml:space="preserve">
+    <value>Piano da modificare</value>
+  </data>
+  <data name="PowerComparePlan" xml:space="preserve">
+    <value>Confronta con</value>
+  </data>
+  <data name="PowerNoComparison" xml:space="preserve">
+    <value>Nessun confronto</value>
+  </data>
+  <data name="PowerSearch" xml:space="preserve">
+    <value>Cerca</value>
+  </data>
+  <data name="PowerSearchPlaceholder" xml:space="preserve">
+    <value>Nome, descrizione o GUID</value>
+  </data>
+  <data name="PowerDifferentOnly" xml:space="preserve">
+    <value>Solo valori diversi</value>
+  </data>
+  <data name="PowerShowHidden" xml:space="preserve">
+    <value>Mostra impostazioni nascoste</value>
+  </data>
+  <data name="PowerSubgroups" xml:space="preserve">
+    <value>Gruppi di impostazioni</value>
+  </data>
+  <data name="PowerAllSettings" xml:space="preserve">
+    <value>Tutte le impostazioni</value>
+  </data>
+  <data name="PowerOtherSettings" xml:space="preserve">
+    <value>Altre impostazioni</value>
+  </data>
+  <data name="PowerHidden" xml:space="preserve">
+    <value>Nascosta</value>
+  </data>
+  <data name="PowerModified" xml:space="preserve">
+    <value>Da applicare</value>
+  </data>
+  <data name="PowerUseCompare" xml:space="preserve">
+    <value>Usa questo valore</value>
+  </data>
+  <data name="PowerCompareValue" xml:space="preserve">
+    <value>{0}: {1}</value>
+  </data>
+  <data name="PowerPluggedIn" xml:space="preserve">
+    <value>Collegato</value>
+  </data>
+  <data name="PowerOnBattery" xml:space="preserve">
+    <value>A batteria</value>
+  </data>
+  <data name="PowerNoSettings" xml:space="preserve">
+    <value>Nessuna impostazione corrisponde ai filtri.</value>
+  </data>
+  <data name="PowerNoPending" xml:space="preserve">
+    <value>Stai modificando {0}. Le modifiche vengono applicate solo quando premi Applica.</value>
+  </data>
+  <data name="PowerPending" xml:space="preserve">
+    <value>{0} modifiche ancora da applicare</value>
+  </data>
+  <data name="PowerApplied" xml:space="preserve">
+    <value>{0} impostazioni applicate a {1}.</value>
+  </data>
+  <data name="PowerDiscard" xml:space="preserve">
+    <value>Annulla modifiche</value>
+  </data>
+  <data name="PowerDiscardTitle" xml:space="preserve">
+    <value>Annullare le modifiche?</value>
+  </data>
+  <data name="PowerDiscardMessage" xml:space="preserve">
+    <value>{0} modifiche non sono state applicate e andranno perse se apri un altro piano.</value>
+  </data>
+  <data name="PowerApplyFailed" xml:space="preserve">
+    <value>Alcune impostazioni non sono state applicate</value>
+  </data>
+  <data name="PowerApplyFailedMessage" xml:space="preserve">
+    <value>Windows ha rifiutato {0} valori anche come amministratore.
+
+{1}</value>
+  </data>
+  <data name="PowerPlansTitle" xml:space="preserve">
+    <value>Piani installati</value>
+  </data>
+  <data name="PowerPlansDescription" xml:space="preserve">
+    <value>Attiva, duplica, rinomina, esporta o elimina un piano. Duplica un piano prima di sperimentare, così puoi tornare indietro.</value>
+  </data>
+  <data name="PowerActive" xml:space="preserve">
+    <value>Piano attivo</value>
+  </data>
+  <data name="PowerActivate" xml:space="preserve">
+    <value>Attiva</value>
+  </data>
+  <data name="PowerEditSettings" xml:space="preserve">
+    <value>Modifica impostazioni</value>
+  </data>
+  <data name="PowerDuplicate" xml:space="preserve">
+    <value>Duplica</value>
+  </data>
+  <data name="PowerRename" xml:space="preserve">
+    <value>Rinomina</value>
+  </data>
+  <data name="PowerExport" xml:space="preserve">
+    <value>Esporta (.pow)</value>
+  </data>
+  <data name="PowerImport" xml:space="preserve">
+    <value>Importa .pow</value>
+  </data>
+  <data name="PowerDelete" xml:space="preserve">
+    <value>Elimina</value>
+  </data>
+  <data name="PowerDeleteMessage" xml:space="preserve">
+    <value>Eliminare il piano "{0}"? Windows non può ripristinare un piano personalizzato eliminato; esportalo prima se potrebbe servirti ancora.</value>
+  </data>
+  <data name="PowerNewName" xml:space="preserve">
+    <value>Nome del piano</value>
+  </data>
+  <data name="PowerCopyName" xml:space="preserve">
+    <value>{0} (copia)</value>
+  </data>
+  <data name="PowerActionFailed" xml:space="preserve">
+    <value>Windows non ha completato l'operazione</value>
+  </data>
+  <data name="PowerFileFilter" xml:space="preserve">
+    <value>Piano energetico (*.pow)|*.pow</value>
+  </data>
 </root>

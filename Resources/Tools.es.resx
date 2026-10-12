@@ -390,12 +390,6 @@
   <data name="DescriptionOpenSourceMouseAccelerationDriver" xml:space="preserve">
     <value>Controlador de aceleración de ratón de código abierto</value>
   </data>
-  <data name="DescriptionAdvancedUSBHIDPollingRateFilterDriver" xml:space="preserve">
-    <value>Controlador avanzado de filtro de tasa de sondeo USB HID</value>
-  </data>
-  <data name="DescriptionBrowserBasedCalibrationForSupportedPlayStationControllers" xml:space="preserve">
-    <value>Calibración basada en navegador para controladores PlayStation compatibles</value>
-  </data>
   <data name="DescriptionOfficialBrowserBasedMousePollingRateTester" xml:space="preserve">
     <value>Probador oficial basado en navegador de tasa de sondeo del ratón</value>
   </data>
@@ -943,5 +937,44 @@ Esto puede deberse a permisos insuficientes o a que la aplicación de destino no
   </data>
   <data name="DescriptionOpenBoardView" xml:space="preserve">
     <value>Visor de código abierto de archivos .brd y otros formatos boardview usados en la reparación a nivel de componente de placas base y GPU. Los archivos boardview proceden de terceros: abre solo archivos de fuentes de confianza. Abre solo la página oficial de versiones.</value>
+  </data>
+  <data name="CategoryLatencyInput" xml:space="preserve">
+    <value>Latencia y entrada</value>
+  </data>
+  <data name="DescriptionGoInterruptPolicy" xml:space="preserve">
+    <value>Configura el modo MSI, la prioridad de interrupciones y la afinidad de CPU por dispositivo. La pestaña Interrupciones y MSI de TweakHub cubre los mismos ajustes con copias de seguridad; valores erróneos pueden causar inestabilidad o que un dispositivo deje de funcionar hasta restaurarlos. MIT. Abre solo el repositorio oficial.</value>
+  </data>
+  <data name="DescriptionCpuDirect" xml:space="preserve">
+    <value>Cuenta los chips entre cada dispositivo USB y la CPU y comprueba MSI y la suspensión selectiva del controlador. La pestaña USB y entrada de TweakHub muestra la misma cadena de forma nativa; el original ejecuta un script remoto con irm | iex, así que léelo antes. MIT. Abre solo la página oficial.</value>
+  </data>
+  <data name="DescriptionDeepPoll" xml:space="preserve">
+    <value>Mide la tasa de sondeo USB con precisión de microsegundos mediante el rastreo ETW del kernel y requiere permisos de administrador. TweakHub incluye una prueba de sondeo del ratón más sencilla. Ejecuta un script remoto con irm | iex. MIT. Abre solo la página oficial.</value>
+  </data>
+  <data name="DescriptionDeepLog" xml:space="preserve">
+    <value>Graba 30 segundos de la entrada del mando y te guía para enviar la grabación al autor para su diagnóstico. Compártela solo si aceptas enviar esos datos. Ejecuta un script remoto con irm | iex. MIT. Abre solo la página oficial.</value>
+  </data>
+  <data name="DescriptionUsbRigProfiles" xml:space="preserve">
+    <value>Recopila tu perfil de hardware USB y lo publica en un tablón público para mapear problemas de compatibilidad. El envío es público: revisa antes lo que contiene. Ejecuta un script remoto con irm | iex. MIT. Abre solo la página oficial.</value>
+  </data>
+  <data name="DescriptionHidAnalyzer" xml:space="preserve">
+    <value>Analizador del sondeo de mandos y HID en el navegador mediante WebHID; la temporización del navegador limita la precisión a unos 250 Hz. No requiere instalación. Abre solo la página oficial.</value>
+  </data>
+  <data name="DescriptionHidusbf" xml:space="preserve">
+    <value>Aumenta la tasa de sondeo de ratones y mandos USB con un controlador de filtro. Los controladores sin firmar o con firma de prueba pueden ser bloqueados por el arranque seguro, la integridad de memoria o los antitrampas, y un ajuste erróneo puede dejar de hacer funcionar el dispositivo. Sin archivo de licencia. Abre solo el repositorio oficial.</value>
+  </data>
+  <data name="DescriptionBattleBeaver" xml:space="preserve">
+    <value>Guía para hacer overclock a mandos de PlayStation y Xbox en PC y obtener mayor tasa de sondeo. Síguela solo con tu propio hardware y revisa las normas antitrampas. Abre solo la página oficial.</value>
+  </data>
+  <data name="DescriptionPowerPlanSettingsEditor" xml:space="preserve">
+    <value>Interfaz de PowerShell que edita todos los ajustes de un plan de energía, incluidos los ocultos. Valores erróneos pueden subir las temperaturas o romper la suspensión; exporta antes el plan con powercfg. MIT. Abre solo el repositorio oficial.</value>
+  </data>
+  <data name="DescriptionAdvancedPowerOptions" xml:space="preserve">
+    <value>Explica las opciones avanzadas de energía de Windows, como la directiva de inactividad de dispositivos, la conectividad en espera y los estados del procesador. Solo documentación. MIT. Abre solo el repositorio oficial.</value>
+  </data>
+  <data name="DescriptionRepairBadTweaks" xml:space="preserve">
+    <value>Detecta y revierte ajustes populares que perjudican la estabilidad o la seguridad, como temporizadores forzados y mitigaciones desactivadas. La pestaña Comprobación de ajustes de TweakHub hace las mismas comprobaciones con explicaciones. MIT. Abre solo el repositorio oficial.</value>
+  </data>
+  <data name="DescriptionDualShockTools" xml:space="preserve">
+    <value>Aplicación web que calibra los sticks y gatillos de los mandos DualShock 4 y DualSense mediante WebHID en Chrome o Edge y corrige el drift sin abrir el mando. Abre solo el sitio oficial.</value>
   </data>
 </root>

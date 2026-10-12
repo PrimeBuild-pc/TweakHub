@@ -113,8 +113,9 @@ namespace TweakHub.Services
 
                 var result = await PowerShellService.Instance.ExecuteScriptAsync(
                     BuildRegScript(changes), requireAdministrator: changes.Any(change => RequiresElevation(change.KeyPath)));
-                var success = result.Success && changes.All(change => change.Value is not null &&
-                    ValuesEqual(GetRegistryValue(change.KeyPath, change.ValueName), Normalize(change.Value)));
+                var success = result.Success && changes.All(change => change.Value is null
+                    ? !RegistryValueExists(change.KeyPath, change.ValueName)
+                    : ValuesEqual(GetRegistryValue(change.KeyPath, change.ValueName), Normalize(change.Value)));
                 foreach (var change in changes)
                     Log("apply", change.KeyPath, change.ValueName, success, success ? null : result.Error);
                 if (!success) await RestoreValuesAsync(changes);
@@ -151,11 +152,13 @@ namespace TweakHub.Services
         private static string BuildRegScript(IEnumerable<RegistryValueChange> changes)
         {
             static string Quote(string value) => PowerShellService.Literal(value);
-            var script = new System.Text.StringBuilder("$ErrorActionPreference = 'Stop'\n");
+            // A skipped delete leaves $LASTEXITCODE untouched, so start from a known success value.
+            var script = new System.Text.StringBuilder("$ErrorActionPreference = 'Stop'\n$global:LASTEXITCODE = 0\n");
             foreach (var change in changes)
             {
+                // reg.exe fails when the value is already gone, which is the state we want, so delete only what exists.
                 if (change.Value is null)
-                    script.AppendLine($"& reg.exe delete {Quote(change.KeyPath)} /v {Quote(change.ValueName)} /f");
+                    script.AppendLine($"if ($null -ne (Get-ItemProperty -LiteralPath {Quote("Registry::" + change.KeyPath)} -Name {Quote(change.ValueName)} -ErrorAction SilentlyContinue)) {{ & reg.exe delete {Quote(change.KeyPath)} /v {Quote(change.ValueName)} /f }}");
                 else
                     script.AppendLine($"& reg.exe add {Quote(change.KeyPath)} /v {Quote(change.ValueName)} /t {RegType(change.Kind)} /d {Quote(FormatRegData(change.Value, change.Kind))} /f");
                 script.AppendLine("if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }");
@@ -201,6 +204,10 @@ namespace TweakHub.Services
                 throw;
             }
         }
+
+        /// <summary>Every value TweakHub has changed and can restore.</summary>
+        public IReadOnlyList<(string KeyPath, string ValueName)> BackedUpValues =>
+            _backups.Values.Select(backup => (backup.KeyPath, backup.ValueName)).ToList();
 
         public bool HasBackup(string keyPath, string valueName) =>
             _backups.ContainsKey(BackupKey(keyPath, valueName));

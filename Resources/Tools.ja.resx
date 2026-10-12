@@ -390,12 +390,6 @@
   <data name="DescriptionOpenSourceMouseAccelerationDriver" xml:space="preserve">
     <value>オープンソースのマウス アクセラレーション ドライバー</value>
   </data>
-  <data name="DescriptionAdvancedUSBHIDPollingRateFilterDriver" xml:space="preserve">
-    <value>高度な USB HID ポーリング レート フィルター ドライバー</value>
-  </data>
-  <data name="DescriptionBrowserBasedCalibrationForSupportedPlayStationControllers" xml:space="preserve">
-    <value>対応 PlayStation コントローラーをブラウザーで調整</value>
-  </data>
   <data name="DescriptionOfficialBrowserBasedMousePollingRateTester" xml:space="preserve">
     <value>公式のブラウザー ベース マウス ポーリング レート テスター</value>
   </data>
@@ -943,5 +937,44 @@
   </data>
   <data name="DescriptionOpenBoardView" xml:space="preserve">
     <value>マザーボードや GPU の部品レベル修理で使う .brd などのボードビュー ファイルを表示するオープンソース ビューアー。ボードビュー ファイルは第三者が提供するものなので、信頼できる入手元のファイルのみを開いてください。公式リリース ページのみを開きます。</value>
+  </data>
+  <data name="CategoryLatencyInput" xml:space="preserve">
+    <value>レイテンシーと入力</value>
+  </data>
+  <data name="DescriptionGoInterruptPolicy" xml:space="preserve">
+    <value>デバイスごとに MSI モード、割り込み優先度、CPU アフィニティを設定します。TweakHub の「割り込みと MSI」タブがバックアップ付きで同じ設定を扱います。誤った値は不安定化や、元に戻すまでデバイスが動作しない原因になります。MIT。公式リポジトリのみを開きます。</value>
+  </data>
+  <data name="DescriptionCpuDirect" xml:space="preserve">
+    <value>各 USB デバイスと CPU の間にあるチップ数を数え、コントローラーの MSI と USB セレクティブ サスペンドを確認します。TweakHub の「USB と入力」タブが同じ経路をネイティブに表示します。元のツールは irm | iex でリモート スクリプトを実行するため、実行前に内容を確認してください。MIT。公式ページのみを開きます。</value>
+  </data>
+  <data name="DescriptionDeepPoll" xml:space="preserve">
+    <value>カーネル ETW トレースで USB ポーリング レートをマイクロ秒精度で測定し、管理者権限が必要です。TweakHub には簡易的なマウス ポーリング テストがあります。irm | iex でリモート スクリプトを実行します。MIT。公式ページのみを開きます。</value>
+  </data>
+  <data name="DescriptionDeepLog" xml:space="preserve">
+    <value>コントローラー入力を 30 秒間記録し、診断のため作者へ送信する手順を案内します。そのデータの送信に同意する場合のみ共有してください。irm | iex でリモート スクリプトを実行します。MIT。公式ページのみを開きます。</value>
+  </data>
+  <data name="DescriptionUsbRigProfiles" xml:space="preserve">
+    <value>USB ハードウェア プロファイルを収集し、互換性の問題を把握するため公開ボードに掲載します。送信内容は公開されるため、事前に内容を確認してください。irm | iex でリモート スクリプトを実行します。MIT。公式ページのみを開きます。</value>
+  </data>
+  <data name="DescriptionHidAnalyzer" xml:space="preserve">
+    <value>WebHID を使ったブラウザー上のゲームパッド/HID ポーリング分析ツール。ブラウザーのタイミング制約により精度は約 250 Hz までです。インストール不要。公式ページのみを開きます。</value>
+  </data>
+  <data name="DescriptionHidusbf" xml:space="preserve">
+    <value>フィルター ドライバーで USB マウスやコントローラーのポーリング レートをオーバークロックします。署名なしやテスト署名のドライバーはセキュア ブート、メモリ整合性、アンチチートでブロックされることがあり、誤った設定でデバイスが動作しなくなる場合があります。ライセンス ファイルなし。公式リポジトリのみを開きます。</value>
+  </data>
+  <data name="DescriptionBattleBeaver" xml:space="preserve">
+    <value>PC で PlayStation/Xbox コントローラーをオーバークロックしてポーリング レートを上げるためのガイド。自分のハードウェアでのみ行い、アンチチートの規則を確認してください。公式ページのみを開きます。</value>
+  </data>
+  <data name="DescriptionPowerPlanSettingsEditor" xml:space="preserve">
+    <value>電源プランのすべての設定 (非表示のものを含む) を編集できる PowerShell GUI。誤った値は温度上昇やスリープ不良の原因になります。先に powercfg でプランをエクスポートしてください。MIT。公式リポジトリのみを開きます。</value>
+  </data>
+  <data name="DescriptionAdvancedPowerOptions" xml:space="preserve">
+    <value>デバイスのアイドル ポリシー、スタンバイ時の接続、プロセッサの状態など、Windows の詳細な電源オプションを解説します。読み物のみ。MIT。公式リポジトリのみを開きます。</value>
+  </data>
+  <data name="DescriptionRepairBadTweaks" xml:space="preserve">
+    <value>強制タイマーや無効化された緩和策など、安定性やセキュリティを損なう一般的な調整を検出して元に戻します。TweakHub の「調整チェック」タブが説明付きで同じ確認を行います。MIT。公式リポジトリのみを開きます。</value>
+  </data>
+  <data name="DescriptionDualShockTools" xml:space="preserve">
+    <value>Chrome または Edge の WebHID で DualShock 4 と DualSense のスティックとトリガーをキャリブレーションし、コントローラーを開けずにスティックのドリフトを補正する Web アプリです。公式サイトのみを開きます。</value>
   </data>
 </root>

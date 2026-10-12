@@ -6,7 +6,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="SecurityStyles.xaml"/>
+                <ResourceDictionary Source="SectionStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <Style x:Key="CardIconStyle" TargetType="TextBlock" BasedOn="{StaticResource IconTextStyle}">
                 <Setter Property="FontSize" Value="18"/>

@@ -1,0 +1,562 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Title" xml:space="preserve">
+    <value>デバイスとレイテンシー</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>安全に無効化できるデバイス、割り込み設定、入力デバイスの USB 経路、安定性を損なう調整を確認します。すべての変更は確認を求め、元に戻せます。</value>
+  </data>
+  <data name="TabDevices" xml:space="preserve">
+    <value>デバイス</value>
+  </data>
+  <data name="TabInterrupts" xml:space="preserve">
+    <value>割り込みと MSI</value>
+  </data>
+  <data name="TabUsb" xml:space="preserve">
+    <value>USB と入力</value>
+  </data>
+  <data name="TabChecks" xml:space="preserve">
+    <value>調整チェック</value>
+  </data>
+  <data name="TabTools" xml:space="preserve">
+    <value>ツールとリソース</value>
+  </data>
+  <data name="Scan" xml:space="preserve">
+    <value>スキャン</value>
+  </data>
+  <data name="Scanning" xml:space="preserve">
+    <value>プラグ アンド プレイ デバイスを読み取っています…</value>
+  </data>
+  <data name="Scanned" xml:space="preserve">
+    <value>{0} にスキャンしました。操作を選ぶまで何も変更されません。</value>
+  </data>
+  <data name="ScanFailed" xml:space="preserve">
+    <value>スキャンを完了できませんでした: {0}</value>
+  </data>
+  <data name="DevicesDescription" xml:space="preserve">
+    <value>レイテンシー ガイドでよく無効化されるデバイスと、無効化すると何が動かなくなるかの注記付きのプラグ アンド プレイ一覧です。「存在しない」「子なし」はデバイスが未使用である証拠にはなりません。</value>
+  </data>
+  <data name="EnableAll" xml:space="preserve">
+    <value>すべて再有効化</value>
+  </data>
+  <data name="EnableAllHint" xml:space="preserve">
+    <value>TweakHub が無効化したすべてのデバイスを再度有効にします。他の方法で無効化したデバイスはそのままです。</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>レポートをエクスポート</value>
+  </data>
+  <data name="TileTotal" xml:space="preserve">
+    <value>デバイス</value>
+  </data>
+  <data name="TileSuggested" xml:space="preserve">
+    <value>注記あり</value>
+  </data>
+  <data name="TileDisabled" xml:space="preserve">
+    <value>無効</value>
+  </data>
+  <data name="TileProblems" xml:space="preserve">
+    <value>問題あり</value>
+  </data>
+  <data name="CategoriesTitle" xml:space="preserve">
+    <value>デバイスの状態</value>
+  </data>
+  <data name="SuggestedOnly" xml:space="preserve">
+    <value>注記ありのデバイスのみ</value>
+  </data>
+  <data name="ColumnClass" xml:space="preserve">
+    <value>クラス</value>
+  </data>
+  <data name="ColumnCategory" xml:space="preserve">
+    <value>状態</value>
+  </data>
+  <data name="ColumnAdvice" xml:space="preserve">
+    <value>注記</value>
+  </data>
+  <data name="Breaks" xml:space="preserve">
+    <value>動作しなくなるもの:</value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>無効にする</value>
+  </data>
+  <data name="Enable" xml:space="preserve">
+    <value>有効にする</value>
+  </data>
+  <data name="DisableConfirmTitle" xml:space="preserve">
+    <value>デバイスを無効にしますか？</value>
+  </data>
+  <data name="DisableConfirmMessage" xml:space="preserve">
+    <value>{0} をデバイス マネージャーで無効にします。この一覧または「すべて再有効化」で元に戻せます。</value>
+  </data>
+  <data name="HighRiskWarning" xml:space="preserve">
+    <value>警告: これはシステム、ストレージ、ネットワーク、入力の重要なデバイスです。無効にすると Windows が起動しなくなったり、キーボード、マウス、ネットワークが使えなくなったりする場合があります。</value>
+  </data>
+  <data name="AvoidWarning" xml:space="preserve">
+    <value>このデバイスはレイテンシー ガイドでよく挙げられますが、無効にしても確かな効果はなく、問題の原因になることがあります。有効のままにすることをおすすめします。</value>
+  </data>
+  <data name="ToggleFailedTitle" xml:space="preserve">
+    <value>デバイスを変更できませんでした</value>
+  </data>
+  <data name="InterruptsDescription" xml:space="preserve">
+    <value>PCI デバイスと、それらが CPU に通知する方法です。MSI (メッセージ シグナル割り込み) は共有割り込み線を回避します。優先度と CPU アフィニティは特定の場合にのみ役立つ高度な設定です。</value>
+  </data>
+  <data name="RestartNote" xml:space="preserve">
+    <value>変更は再起動後に適用されます。</value>
+  </data>
+  <data name="TilePciDevices" xml:space="preserve">
+    <value>PCI デバイス</value>
+  </data>
+  <data name="TileMsi" xml:space="preserve">
+    <value>MSI を使用</value>
+  </data>
+  <data name="TileAffinity" xml:space="preserve">
+    <value>カスタム アフィニティ</value>
+  </data>
+  <data name="InterruptModeByClass" xml:space="preserve">
+    <value>クラス別の割り込みモード</value>
+  </data>
+  <data name="InterruptMsi" xml:space="preserve">
+    <value>MSI</value>
+  </data>
+  <data name="InterruptLineBased" xml:space="preserve">
+    <value>ライン ベース</value>
+  </data>
+  <data name="ColumnMode" xml:space="preserve">
+    <value>モード</value>
+  </data>
+  <data name="ColumnLimit" xml:space="preserve">
+    <value>メッセージ数</value>
+  </data>
+  <data name="ColumnPriority" xml:space="preserve">
+    <value>優先度</value>
+  </data>
+  <data name="ColumnAffinity" xml:space="preserve">
+    <value>CPU アフィニティ</value>
+  </data>
+  <data name="AffinityAuto" xml:space="preserve">
+    <value>自動 (Windows)</value>
+  </data>
+  <data name="PriorityUndefined" xml:space="preserve">
+    <value>既定</value>
+  </data>
+  <data name="PriorityLow" xml:space="preserve">
+    <value>低</value>
+  </data>
+  <data name="PriorityNormal" xml:space="preserve">
+    <value>通常</value>
+  </data>
+  <data name="PriorityHigh" xml:space="preserve">
+    <value>高</value>
+  </data>
+  <data name="EditorHint" xml:space="preserve">
+    <value>必要なものだけを 1 台ずつ変更し、再起動後に確認してください。「元に戻す」で TweakHub が見つけた値に戻します。</value>
+  </data>
+  <data name="UseMsi" xml:space="preserve">
+    <value>メッセージ シグナル割り込み (MSI) を使用</value>
+  </data>
+  <data name="MsiNotSupported" xml:space="preserve">
+    <value>このデバイスのドライバーは MSI 対応を宣言していません。</value>
+  </data>
+  <data name="AffinityHint" xml:space="preserve">
+    <value>このデバイスの割り込みを処理できる CPU を選びます。すべてオフにすると現在の設定を維持します。自動に戻すには「元に戻す」を使います。</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>適用</value>
+  </data>
+  <data name="RestoreOriginal" xml:space="preserve">
+    <value>元に戻す</value>
+  </data>
+  <data name="ApplyConfirmTitle" xml:space="preserve">
+    <value>割り込み設定を変更しますか？</value>
+  </data>
+  <data name="ApplyConfirmMessage" xml:space="preserve">
+    <value>TweakHub は {0} の割り込み設定をバックアップしてから変更します。再起動後にデバイスが動作しない場合は、「元に戻す」またはセーフ モードを使ってください。</value>
+  </data>
+  <data name="ApplyFailedTitle" xml:space="preserve">
+    <value>変更を適用できませんでした</value>
+  </data>
+  <data name="ApplyFailedMessage" xml:space="preserve">
+    <value>変更を書き込めないか、確認できませんでした。管理者の確認を承認したか確認してください。</value>
+  </data>
+  <data name="UsbDescription" xml:space="preserve">
+    <value>各マウス、キーボード、コントローラーから CPU までの経路です。外部ハブごとに経由が増え、USB の省電力は復帰時の遅延を生むことがあります。</value>
+  </data>
+  <data name="PlanSuspendTitle" xml:space="preserve">
+    <value>USB セレクティブ サスペンド</value>
+  </data>
+  <data name="PlanSuspendDescription" xml:space="preserve">
+    <value>アクティブなプランでアイドル状態の USB デバイスの電源を切れるようにします。オフにするとデスクトップでの復帰時の遅延を防げますが、ノート PC ではバッテリー持続時間が少し短くなる場合があります。</value>
+  </data>
+  <data name="PlanSuspendOn" xml:space="preserve">
+    <value>アクティブなプランで有効 (電源接続時)</value>
+  </data>
+  <data name="PlanSuspendOff" xml:space="preserve">
+    <value>アクティブなプランで無効 (電源接続時)</value>
+  </data>
+  <data name="PlanSuspendUnknown" xml:space="preserve">
+    <value>アクティブなプランでは利用できません</value>
+  </data>
+  <data name="PlanSuspendDisable" xml:space="preserve">
+    <value>オフにする</value>
+  </data>
+  <data name="PollingTitle" xml:space="preserve">
+    <value>マウスのポーリング テスト</value>
+  </data>
+  <data name="PollingDescription" xml:space="preserve">
+    <value>Raw Input メッセージから、マウスが Windows に報告する頻度を推定します。ブラウザー不要でローカルに動作します。マイクロ秒精度が必要な場合は DeepPoll を使ってください。</value>
+  </data>
+  <data name="PollingStart" xml:space="preserve">
+    <value>テスト開始</value>
+  </data>
+  <data name="PollingMove" xml:space="preserve">
+    <value>4 秒間マウスを素早く円を描くように動かしてください…</value>
+  </data>
+  <data name="PollingTooFew" xml:space="preserve">
+    <value>動きが十分に記録されませんでした。TweakHub を前面にしたまま、マウスを動かし続けてください。</value>
+  </data>
+  <data name="PollingResult" xml:space="preserve">
+    <value>{0} 件のレポートを測定しました。バーはレートの安定度を示します。</value>
+  </data>
+  <data name="InputDevicesTitle" xml:space="preserve">
+    <value>入力デバイス</value>
+  </data>
+  <data name="NoInputDevices" xml:space="preserve">
+    <value>マウス、キーボード、コントローラーが見つかりません。</value>
+  </data>
+  <data name="InputMouse" xml:space="preserve">
+    <value>マウス</value>
+  </data>
+  <data name="InputKeyboard" xml:space="preserve">
+    <value>キーボード</value>
+  </data>
+  <data name="InputController" xml:space="preserve">
+    <value>コントローラー</value>
+  </data>
+  <data name="NotUsb" xml:space="preserve">
+    <value>USB 接続ではありません</value>
+  </data>
+  <data name="HubsNone" xml:space="preserve">
+    <value>コントローラーに直結 (外部ハブなし)</value>
+  </data>
+  <data name="Hubs" xml:space="preserve">
+    <value>経路上の外部ハブ: {0}</value>
+  </data>
+  <data name="HopController" xml:space="preserve">
+    <value>USB コントローラー</value>
+  </data>
+  <data name="HopHub" xml:space="preserve">
+    <value>ハブ</value>
+  </data>
+  <data name="HopCpu" xml:space="preserve">
+    <value>プロセッサとチップセット</value>
+  </data>
+  <data name="ControllerMode" xml:space="preserve">
+    <value>コントローラー: {0}</value>
+  </data>
+  <data name="ControllerUnknown" xml:space="preserve">
+    <value>コントローラーのモードは不明</value>
+  </data>
+  <data name="DeviceSuspendOn" xml:space="preserve">
+    <value>省電力を許可</value>
+  </data>
+  <data name="DeviceSuspendOff" xml:space="preserve">
+    <value>省電力オフ</value>
+  </data>
+  <data name="DeviceSuspendDisable" xml:space="preserve">
+    <value>省電力をオフにする</value>
+  </data>
+  <data name="ReconnectNote" xml:space="preserve">
+    <value>完了しました。変更を適用するには、デバイスを抜き差しするか再起動してください。</value>
+  </data>
+  <data name="ChecksDescription" xml:space="preserve">
+    <value>安定性、セキュリティ、入力を損なう一般的な調整 (RepairBadTweaks の一覧) を探し、Windows の既定値に戻します。レジストリの修正はバックアップを残し、元に戻せます。</value>
+  </data>
+  <data name="ChecksScan" xml:space="preserve">
+    <value>チェック</value>
+  </data>
+  <data name="ChecksScanElevatedHint" xml:space="preserve">
+    <value>管理者権限が必要なブート タイマー設定も読み取ります。</value>
+  </data>
+  <data name="ChecksSummary" xml:space="preserve">
+    <value>{0} 件をチェック、修正が必要: {1} 件。</value>
+  </data>
+  <data name="ChecksManagedNote" xml:space="preserve">
+    <value>Win32PrioritySeparation、Prefetch、SysMain は Registry Tweaks で管理され、TweakHub がバックアップを保持しています。</value>
+  </data>
+  <data name="Repair" xml:space="preserve">
+    <value>既定に戻す</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>元に戻す</value>
+  </data>
+  <data name="RepairConfirmTitle" xml:space="preserve">
+    <value>Windows の既定値に戻しますか？</value>
+  </data>
+  <data name="RepairConfirmMessage" xml:space="preserve">
+    <value>{0} を Windows の既定値に戻します。</value>
+  </data>
+  <data name="RepairNoUndo" xml:space="preserve">
+    <value>この修正は Windows コマンドを実行するため、TweakHub から元に戻せません。</value>
+  </data>
+  <data name="RepairVerifyFailed" xml:space="preserve">
+    <value>レジストリの変更を確認できませんでした。</value>
+  </data>
+  <data name="CheckStatusOk" xml:space="preserve">
+    <value>既定</value>
+  </data>
+  <data name="CheckStatusFlagged" xml:space="preserve">
+    <value>調整で変更済み</value>
+  </data>
+  <data name="CheckStatusNeedsAdministrator" xml:space="preserve">
+    <value>読み取るには管理者としてチェックしてください</value>
+  </data>
+  <data name="CategoryHealthy" xml:space="preserve">
+    <value>正常</value>
+  </data>
+  <data name="CategoryHealthyHint" xml:space="preserve">
+    <value>存在し、プラグ アンド プレイの問題はありません。使用頻度は示しません。</value>
+  </data>
+  <data name="CategoryNotPresent" xml:space="preserve">
+    <value>存在しない</value>
+  </data>
+  <data name="CategoryNotPresentHint" xml:space="preserve">
+    <value>Windows が記憶していますが、現在は接続されていません。削除する理由にはなりません。</value>
+  </data>
+  <data name="CategoryDisabled" xml:space="preserve">
+    <value>無効</value>
+  </data>
+  <data name="CategoryDisabledHint" xml:space="preserve">
+    <value>デバイス マネージャーで無効化されています (問題コード 22)。</value>
+  </data>
+  <data name="CategoryProblem" xml:space="preserve">
+    <value>問題あり</value>
+  </data>
+  <data name="CategoryProblemHint" xml:space="preserve">
+    <value>Windows がこのデバイスのエラーを報告しています。無効化せずにドライバーを調べてください。</value>
+  </data>
+  <data name="CategoryIdleBus" xml:space="preserve">
+    <value>子のないバス</value>
+  </data>
+  <data name="CategoryIdleBusHint" xml:space="preserve">
+    <value>現在デバイスが接続されていないバスまたは列挙子です。後でデバイスが現れたときに必要になる場合があります。</value>
+  </data>
+  <data name="AdviceCommon" xml:space="preserve">
+    <value>通常は無効化しても安全</value>
+  </data>
+  <data name="AdviceSituational" xml:space="preserve">
+    <value>使い方によって異なる</value>
+  </data>
+  <data name="AdviceAvoid" xml:space="preserve">
+    <value>有効のままにする</value>
+  </data>
+  <data name="RuleHpet" xml:space="preserve">
+    <value>高精度イベント タイマー: レイテンシー ガイドでよく無効化されますが、最新の Windows はタイマーを自動で選ぶため、確かな効果はありません。</value>
+  </data>
+  <data name="RuleHpetBreaks" xml:space="preserve">
+    <value>それを前提とする一部のゲーム、ツール、古いドライバー。タイミングが不安定になることがあります。</value>
+  </data>
+  <data name="RuleSmBus" xml:space="preserve">
+    <value>SMBus コントローラー: マザーボード上のメモリーやセンサーのチップを読み取ります。</value>
+  </data>
+  <data name="RuleSmBusBreaks" xml:space="preserve">
+    <value>ハードウェア監視、RAM 情報、RGB ライティング、ファン制御ツール。</value>
+  </data>
+  <data name="RuleKernelDebug" xml:space="preserve">
+    <value>ネットワーク経由のカーネル デバッグにのみ使われるネットワーク アダプター。</value>
+  </data>
+  <data name="RuleKernelDebugBreaks" xml:space="preserve">
+    <value>ネットワーク カーネル デバッグ (開発者のみ)。</value>
+  </data>
+  <data name="RuleSystemSpeaker" xml:space="preserve">
+    <value>従来のシステム ビープ用のマザーボード ブザー。</value>
+  </data>
+  <data name="RuleSystemSpeakerBreaks" xml:space="preserve">
+    <value>マザーボードのビープ音のみ。</value>
+  </data>
+  <data name="RuleWanMiniport" xml:space="preserve">
+    <value>組み込みの VPN とダイヤルアップ プロトコル (IKEv2、L2TP、PPTP、SSTP、PPPoE)。</value>
+  </data>
+  <data name="RuleWanMiniportBreaks" xml:space="preserve">
+    <value>Windows の VPN 接続、PPPoE によるインターネット接続、一部のサードパーティ VPN クライアント。</value>
+  </data>
+  <data name="RuleRdpBus" xml:space="preserve">
+    <value>ローカル デバイスをリモート デスクトップ セッションへリダイレクトします。</value>
+  </data>
+  <data name="RuleRdpBusBreaks" xml:space="preserve">
+    <value>リモート デスクトップ セッション内のプリンター、ドライブ、USB デバイス。</value>
+  </data>
+  <data name="RuleVirtualDrive" xml:space="preserve">
+    <value>Windows が VHD/VHDX ファイルからマウントする仮想ディスクを作成します。</value>
+  </data>
+  <data name="RuleVirtualDriveBreaks" xml:space="preserve">
+    <value>仮想ディスク (VHD/VHDX) のマウントと、それに依存するツール。</value>
+  </data>
+  <data name="RuleNdisVirtual" xml:space="preserve">
+    <value>VPN や仮想化ツール用の仮想ネットワーク アダプターを作成します。</value>
+  </data>
+  <data name="RuleNdisVirtualBreaks" xml:space="preserve">
+    <value>一部の VPN クライアントと仮想マシンのネットワーク。</value>
+  </data>
+  <data name="RuleUmBus" xml:space="preserve">
+    <value>ユーザー モード ドライバー用のバス。</value>
+  </data>
+  <data name="RuleUmBusBreaks" xml:space="preserve">
+    <value>一部のセンサー、ポータブル デバイス、プリンター、Mixed Reality ヘッドセット。</value>
+  </data>
+  <data name="RuleCompositeBus" xml:space="preserve">
+    <value>Windows が複合デバイスを構成するために使うバス。</value>
+  </data>
+  <data name="RuleCompositeBusBreaks" xml:space="preserve">
+    <value>一部のワイヤレス アダプター、Bluetooth LE デバイス、ドッキング ステーション。</value>
+  </data>
+  <data name="RuleHyperV" xml:space="preserve">
+    <value>Hyper-V 仮想化インフラストラクチャ。</value>
+  </data>
+  <data name="RuleHyperVBreaks" xml:space="preserve">
+    <value>Hyper-V、WSL 2、Windows サンドボックス、Docker Desktop、仮想化ベースのセキュリティ。</value>
+  </data>
+  <data name="RuleWifiDirect" xml:space="preserve">
+    <value>Wi-Fi Direct 接続用の仮想アダプター。</value>
+  </data>
+  <data name="RuleWifiDirectBreaks" xml:space="preserve">
+    <value>モバイル ホットスポット、ワイヤレス ディスプレイ (Miracast)、Wi-Fi による近距離共有。</value>
+  </data>
+  <data name="RuleTeredo" xml:space="preserve">
+    <value>IPv6 トンネリング アダプター (Teredo、ISATAP)。</value>
+  </data>
+  <data name="RuleTeredoBreaks" xml:space="preserve">
+    <value>一部のネットワークでの Xbox ネットワークのパーティー チャットとマルチプレイ、古い IPv6 構成。</value>
+  </data>
+  <data name="RuleVirtualPrinter" xml:space="preserve">
+    <value>仮想プリンター キュー (PDF、XPS、FAX、OneNote)。</value>
+  </data>
+  <data name="RuleVirtualPrinterBreaks" xml:space="preserve">
+    <value>その仮想プリンターへの印刷。</value>
+  </data>
+  <data name="CheckBcdTimers" xml:space="preserve">
+    <value>強制されたブート タイマー (bcdedit)</value>
+  </data>
+  <data name="CheckBcdTimersExplain" xml:space="preserve">
+    <value>useplatformclock、disabledynamictick、useplatformtick、tscsyncpolicy はデバッグ用です。強制するとタイマーの負荷が増えることが多いです。</value>
+  </data>
+  <data name="CheckMitigations" xml:space="preserve">
+    <value>CPU 脆弱性の緩和策</value>
+  </data>
+  <data name="CheckMitigationsExplain" xml:space="preserve">
+    <value>FeatureSettingsOverride は Spectre/Meltdown 対策を無効にします。現在の CPU では速度向上は小さく、PC が攻撃可能になります。</value>
+  </data>
+  <data name="CheckAutoTuning" xml:space="preserve">
+    <value>TCP 受信ウィンドウの自動調整</value>
+  </data>
+  <data name="CheckAutoTuningExplain" xml:space="preserve">
+    <value>自動調整を制限すると高速回線でのダウンロード速度が落ち、ping は下がりません。</value>
+  </data>
+  <data name="CheckSvcHostSplit" xml:space="preserve">
+    <value>サービス ホストのグループ化</value>
+  </data>
+  <data name="CheckSvcHostSplitExplain" xml:space="preserve">
+    <value>SvcHostSplitThresholdInKB を上げてもタスク マネージャーでプロセスが減って見えるだけです。分離されたサービス ホストの方が安定します。</value>
+  </data>
+  <data name="CheckThreadDpc" xml:space="preserve">
+    <value>スレッド化 DPC</value>
+  </data>
+  <data name="CheckThreadDpcExplain" xml:space="preserve">
+    <value>ThreadDpcEnable=0 はすべての遅延プロシージャ呼び出しを高優先度で実行させ、レイテンシーを悪化させることがあります。</value>
+  </data>
+  <data name="CheckErrorReporting" xml:space="preserve">
+    <value>Windows エラー報告</value>
+  </data>
+  <data name="CheckErrorReportingExplain" xml:space="preserve">
+    <value>無効にすると問題の診断に役立つクラッシュ レポートがなくなり、性能も向上しません。</value>
+  </data>
+  <data name="CheckInputQueues" xml:space="preserve">
+    <value>マウスとキーボードのキュー サイズ</value>
+  </data>
+  <data name="CheckInputQueuesExplain" xml:space="preserve">
+    <value>MouseDataQueueSize や KeyboardDataQueueSize を小さくすると、入力が集中したときに取りこぼすことがあります。入力遅延は減りません。</value>
+  </data>
+  <data name="CheckCsrssPriority" xml:space="preserve">
+    <value>csrss.exe の優先度</value>
+  </data>
+  <data name="CheckCsrssPriorityExplain" xml:space="preserve">
+    <value>csrss.exe は重要な Windows プロセスです。CPU や I/O の優先度を強制しても効果は測定できず、不安定の原因になります。</value>
+  </data>
+  <data name="CheckMpo" xml:space="preserve">
+    <value>マルチプレーン オーバーレイの無効化</value>
+  </data>
+  <data name="CheckMpoExplain" xml:space="preserve">
+    <value>OverlayTestMode は MPO を無効にします。GPU のちらつきが直る場合のみ維持してください。それ以外では MPO がウィンドウ表示のゲームのレイテンシーを下げます。</value>
+  </data>
+  <data name="CheckMemoryManagement" xml:space="preserve">
+    <value>メモリ マネージャーの設定</value>
+  </data>
+  <data name="CheckMemoryManagementExplain" xml:space="preserve">
+    <value>DisablePagingExecutive、LargeSystemCache、IoPageLockLimit、CacheUnmapBehindLengthInMB は古いサーバー向けの値で、デスクトップではメモリーを無駄にします。</value>
+  </data>
+  <data name="CheckRawMouseThrottle" xml:space="preserve">
+    <value>Raw マウスのスロットル</value>
+  </data>
+  <data name="CheckRawMouseThrottleExplain" xml:space="preserve">
+    <value>RawMouseThrottle の値はバックグラウンド ウィンドウにのみ関係します。強制すると高ポーリング レートのマウスの挙動が変わり、ゲームでの効果はありません。</value>
+  </data>
+  <data name="CheckGlobalTimer" xml:space="preserve">
+    <value>グローバル タイマー分解能の要求</value>
+  </data>
+  <data name="CheckGlobalTimerExplain" xml:space="preserve">
+    <value>Windows 10 と同様に、いずれかのアプリが要求した最も細かいタイマーをすべてのプロセスで共有させます。消費電力が増えるため、特定の古いゲームで必要な場合のみ維持してください。</value>
+  </data>
+  <data name="ScriptsTitle" xml:space="preserve">
+    <value>Marius Heier のスクリプト</value>
+  </data>
+  <data name="ScriptsDescription" xml:space="preserve">
+    <value>作者の対話型ツールを、作者の説明どおりに実行します。TweakHub は管理者の PowerShell ウィンドウを開き、tools.mariusheier.com からスクリプトをダウンロードして実行します。スクリプトの内容は TweakHub では確認も変更もしません。</value>
+  </data>
+  <data name="ScriptCpuDirect" xml:space="preserve">
+    <value>各 USB デバイスをコントローラーと CPU に対応付け、MSI の有効化と USB 省電力の無効化を提案します。</value>
+  </data>
+  <data name="ScriptDeepPoll" xml:space="preserve">
+    <value>カーネルトレースでマウスとコントローラーの実際のポーリングレートとジッターを測定します。</value>
+  </data>
+  <data name="ScriptDeepLog" xml:space="preserve">
+    <value>コントローラー入力を 30 秒間記録します。アップロード前に送信内容を表示します。</value>
+  </data>
+  <data name="ScriptRig" xml:space="preserve">
+    <value>USB 構成を他のユーザーが共有したプロファイルと比較し、自分の構成を送信できます。</value>
+  </data>
+  <data name="ScriptRun" xml:space="preserve">
+    <value>管理者として実行</value>
+  </data>
+  <data name="ScriptPage" xml:space="preserve">
+    <value>公式ページを開く</value>
+  </data>
+  <data name="ScriptWarningTitle" xml:space="preserve">
+    <value>サードパーティのスクリプト</value>
+  </data>
+  <data name="ScriptWarningMessage" xml:space="preserve">
+    <value>{0} は TweakHub ではなく Marius Heier が作成したものです。PowerShell が作者のサイトからダウンロードし、管理者権限で実行します:
+
+{1}
+
+TweakHub はスクリプトの動作を確認できず、作者はいつでも内容を変更できます。不安な場合は、先に公式ページで内容を確認してください。この警告は {0} を初めて実行するときにのみ表示されます。</value>
+  </data>
+  <data name="LoadingInterrupts" xml:space="preserve">
+    <value>割り込み設定を読み取っています…</value>
+  </data>
+  <data name="LoadingUsb" xml:space="preserve">
+    <value>USB デバイスから CPU までの経路をたどっています…</value>
+  </data>
+  <data name="LoadingChecks" xml:space="preserve">
+    <value>有害な調整を確認しています…</value>
+  </data>
+</root>

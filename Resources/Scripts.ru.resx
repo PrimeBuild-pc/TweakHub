@@ -408,7 +408,7 @@
     <value>Плейбуки</value>
   </data>
   <data name="PlaybooksDescription" xml:space="preserve">
-    <value>Создавайте собственные последовательности из настроек, точных пакетов WinGet и сохранённых скриптов.</value>
+    <value>Сохраните конфигурацию этого ПК одним щелчком и примените её снова после переустановки или на другом ПК: схема питания, твики, параметры прерываний и USB, отключённые устройства, приложения и скрипты.</value>
   </data>
   <data name="BuiltInScripts" xml:space="preserve">
     <value>Встроенные скрипты</value>
@@ -458,15 +458,6 @@
   <data name="PlaybookInvalid" xml:space="preserve">
     <value>Недопустимый плейбук</value>
   </data>
-  <data name="AddTweakStep" xml:space="preserve">
-    <value>Добавить настройку</value>
-  </data>
-  <data name="AddApplicationStep" xml:space="preserve">
-    <value>Добавить приложение</value>
-  </data>
-  <data name="AddScriptStep" xml:space="preserve">
-    <value>Добавить скрипт</value>
-  </data>
   <data name="MoveUp" xml:space="preserve">
     <value>Выше</value>
   </data>
@@ -478,12 +469,6 @@
   </data>
   <data name="TweakTargetEnabled" xml:space="preserve">
     <value>Включить настройку (снимите флажок для восстановления)</value>
-  </data>
-  <data name="ApplicationName" xml:space="preserve">
-    <value>Название приложения</value>
-  </data>
-  <data name="WingetPackageId" xml:space="preserve">
-    <value>Точный ID пакета WinGet</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>Добавить</value>
@@ -499,9 +484,6 @@
   </data>
   <data name="PlaybookRestore" xml:space="preserve">
     <value>Восстановить</value>
-  </data>
-  <data name="SelectCatalogueApplication" xml:space="preserve">
-    <value>Выберите приложение WinGet из каталога или укажите его ниже</value>
   </data>
   <data name="FavoriteScript" xml:space="preserve">
     <value>Добавить или удалить скрипт из избранного</value>
@@ -571,5 +553,98 @@
   </data>
   <data name="wsl_setup_CompletionNote" xml:space="preserve">
     <value>Если в результате указана необходимость перезагрузки, перезапустите Windows и один раз откройте Ubuntu для завершения первоначальной настройки.</value>
+  </data>
+  <data name="PlaybookFromSystem" xml:space="preserve">
+    <value>Создать с этого ПК</value>
+  </data>
+  <data name="PlaybookFromSystemHint" xml:space="preserve">
+    <value>Считывает изменения, сделанные вами и TweakHub на этом ПК, и предлагает их как шаги; вы выбираете, что оставить.</value>
+  </data>
+  <data name="ImportPlaybook" xml:space="preserve">
+    <value>Импорт плейбука</value>
+  </data>
+  <data name="ExportPlaybook" xml:space="preserve">
+    <value>Экспорт</value>
+  </data>
+  <data name="PlaybookFileFilter" xml:space="preserve">
+    <value>Плейбук TweakHub (*.tweakhub-playbook.json)|*.tweakhub-playbook.json|JSON (*.json)|*.json</value>
+  </data>
+  <data name="PlaybookImported" xml:space="preserve">
+    <value>«{0}» добавлен, шагов: {1}. Новых пользовательских твиков: {2}. Новых скриптов: {3}. Проверьте шаги перед запуском.</value>
+  </data>
+  <data name="PlaybookStepsTitle" xml:space="preserve">
+    <value>Шаги</value>
+  </data>
+  <data name="PlaybookStepsHint" xml:space="preserve">
+    <value>Сохраняются только отмеченные шаги. Они выполняются сверху вниз и останавливаются на первой ошибке; шаги для отсутствующих на ПК устройств пропускаются.</value>
+  </data>
+  <data name="PlaybookDetect" xml:space="preserve">
+    <value>Обнаружить на этом ПК</value>
+  </data>
+  <data name="PlaybookDetectHint" xml:space="preserve">
+    <value>Добавляет активную схему питания, включённые твики, изменённые TweakHub параметры прерываний и питания USB, отключённые устройства и избранные приложения (без отметки).</value>
+  </data>
+  <data name="PlaybookDetecting" xml:space="preserve">
+    <value>Чтение конфигурации этого ПК…</value>
+  </data>
+  <data name="PlaybookNoSteps" xml:space="preserve">
+    <value>Шагов пока нет. Обнаружьте их на этом ПК или добавьте твики, приложения и скрипты ниже.</value>
+  </data>
+  <data name="PlaybookAddStep" xml:space="preserve">
+    <value>Добавить шаг</value>
+  </data>
+  <data name="PlaybookCapturedName" xml:space="preserve">
+    <value>Конфигурация {0} ({1})</value>
+  </data>
+  <data name="PlaybookTypeTweak" xml:space="preserve">
+    <value>Твик</value>
+  </data>
+  <data name="PlaybookTypeWinget" xml:space="preserve">
+    <value>Приложение (winget)</value>
+  </data>
+  <data name="PlaybookTypeScript" xml:space="preserve">
+    <value>Пользовательский скрипт</value>
+  </data>
+  <data name="PlaybookTypeDevice" xml:space="preserve">
+    <value>Устройство</value>
+  </data>
+  <data name="PlaybookTypeRegistry" xml:space="preserve">
+    <value>Прерывания и питание USB</value>
+  </data>
+  <data name="PlaybookTypePowerPlan" xml:space="preserve">
+    <value>Схема электропитания</value>
+  </data>
+  <data name="PlaybookDisableDevice" xml:space="preserve">
+    <value>Отключить устройство: {0}</value>
+  </data>
+  <data name="PlaybookEnableDevice" xml:space="preserve">
+    <value>Включить устройство: {0}</value>
+  </data>
+  <data name="PlaybookRegistrySummary" xml:space="preserve">
+    <value>Параметры прерываний и питания USB: {0}</value>
+  </data>
+  <data name="PlaybookPowerSummary" xml:space="preserve">
+    <value>Схема электропитания: {0}</value>
+  </data>
+  <data name="PlaybookPowerApplied" xml:space="preserve">
+    <value>Записано параметров: {0}; отсутствуют на этом ПК: {1}.</value>
+  </data>
+  <data name="PlaybookSkipped" xml:space="preserve">
+    <value>Пропущено: нет на этом ПК.</value>
+  </data>
+  <data name="PlaybookInvalidData" xml:space="preserve">
+    <value>«{0}» содержит данные, которые TweakHub не принимает.</value>
+  </data>
+  <data name="PlaybookElevateTitle" xml:space="preserve">
+    <value>Запустить с одним запросом UAC?</value>
+  </data>
+  <data name="PlaybookElevateMessage" xml:space="preserve">
+    <value>Шагов, требующих прав администратора: {0}. TweakHub может перезапуститься от имени администратора и сразу выполнить плейбук с одним запросом UAC или продолжить с запросом на каждом шаге.</value>
+  </data>
+  <data name="PlaybookElevateRestart" xml:space="preserve">
+    <value>Перезапустить от админа</value>
+  </data>
+  <data name="PlaybookElevateContinue" xml:space="preserve">
+    <value>Спрашивать на каждом шаге</value>
   </data>
 </root>

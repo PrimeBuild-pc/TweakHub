@@ -408,7 +408,7 @@ Log: {3}</value>
     <value>Playbooks</value>
   </data>
   <data name="PlaybooksDescription" xml:space="preserve">
-    <value>Build your own ordered workflows from tweaks, exact WinGet packages, and saved scripts.</value>
+    <value>Save this PC's configuration in one click and apply it again after a reinstall or on another PC: power plan, tweaks, interrupt and USB settings, disabled devices, apps and scripts.</value>
   </data>
   <data name="BuiltInScripts" xml:space="preserve">
     <value>Built-in scripts</value>
@@ -458,15 +458,6 @@ Log: {2}</value>
   <data name="PlaybookInvalid" xml:space="preserve">
     <value>Invalid playbook</value>
   </data>
-  <data name="AddTweakStep" xml:space="preserve">
-    <value>Add Tweak</value>
-  </data>
-  <data name="AddApplicationStep" xml:space="preserve">
-    <value>Add Application</value>
-  </data>
-  <data name="AddScriptStep" xml:space="preserve">
-    <value>Add Script</value>
-  </data>
   <data name="MoveUp" xml:space="preserve">
     <value>Move Up</value>
   </data>
@@ -478,12 +469,6 @@ Log: {2}</value>
   </data>
   <data name="TweakTargetEnabled" xml:space="preserve">
     <value>Enable this tweak (clear to restore it)</value>
-  </data>
-  <data name="ApplicationName" xml:space="preserve">
-    <value>Application name</value>
-  </data>
-  <data name="WingetPackageId" xml:space="preserve">
-    <value>Exact WinGet package ID</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>Add</value>
@@ -499,9 +484,6 @@ Log: {2}</value>
   </data>
   <data name="PlaybookRestore" xml:space="preserve">
     <value>Restore</value>
-  </data>
-  <data name="SelectCatalogueApplication" xml:space="preserve">
-    <value>Select an existing WinGet application or enter one below</value>
   </data>
   <data name="FavoriteScript" xml:space="preserve">
     <value>Toggle script favorite</value>
@@ -571,5 +553,98 @@ Log: {2}</value>
   </data>
   <data name="wsl_setup_CompletionNote" xml:space="preserve">
     <value>Restart Windows if the result reports that a reboot is required, then open Ubuntu once to finish its first-run setup.</value>
+  </data>
+  <data name="PlaybookFromSystem" xml:space="preserve">
+    <value>Create from this PC</value>
+  </data>
+  <data name="PlaybookFromSystemHint" xml:space="preserve">
+    <value>Reads what TweakHub and you have changed on this PC and proposes it as steps; you choose what to keep.</value>
+  </data>
+  <data name="ImportPlaybook" xml:space="preserve">
+    <value>Import playbook</value>
+  </data>
+  <data name="ExportPlaybook" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="PlaybookFileFilter" xml:space="preserve">
+    <value>TweakHub playbook (*.tweakhub-playbook.json)|*.tweakhub-playbook.json|JSON (*.json)|*.json</value>
+  </data>
+  <data name="PlaybookImported" xml:space="preserve">
+    <value>"{0}" was added with {1} steps. New custom tweaks: {2}. New scripts: {3}. Review the steps before running it.</value>
+  </data>
+  <data name="PlaybookStepsTitle" xml:space="preserve">
+    <value>Steps</value>
+  </data>
+  <data name="PlaybookStepsHint" xml:space="preserve">
+    <value>Only checked steps are saved. They run from top to bottom and stop at the first failure; steps for devices missing on the PC are skipped.</value>
+  </data>
+  <data name="PlaybookDetect" xml:space="preserve">
+    <value>Detect from this PC</value>
+  </data>
+  <data name="PlaybookDetectHint" xml:space="preserve">
+    <value>Adds the active power plan, active tweaks, interrupt and USB power settings changed by TweakHub, disabled devices and favorite apps (unchecked).</value>
+  </data>
+  <data name="PlaybookDetecting" xml:space="preserve">
+    <value>Reading this PC's configuration…</value>
+  </data>
+  <data name="PlaybookNoSteps" xml:space="preserve">
+    <value>No steps yet. Detect them from this PC or add tweaks, apps and scripts below.</value>
+  </data>
+  <data name="PlaybookAddStep" xml:space="preserve">
+    <value>Add a step</value>
+  </data>
+  <data name="PlaybookCapturedName" xml:space="preserve">
+    <value>Configuration of {0} ({1})</value>
+  </data>
+  <data name="PlaybookTypeTweak" xml:space="preserve">
+    <value>Tweak</value>
+  </data>
+  <data name="PlaybookTypeWinget" xml:space="preserve">
+    <value>App (winget)</value>
+  </data>
+  <data name="PlaybookTypeScript" xml:space="preserve">
+    <value>Custom script</value>
+  </data>
+  <data name="PlaybookTypeDevice" xml:space="preserve">
+    <value>Device</value>
+  </data>
+  <data name="PlaybookTypeRegistry" xml:space="preserve">
+    <value>Interrupts and USB power</value>
+  </data>
+  <data name="PlaybookTypePowerPlan" xml:space="preserve">
+    <value>Power plan</value>
+  </data>
+  <data name="PlaybookDisableDevice" xml:space="preserve">
+    <value>Disable device: {0}</value>
+  </data>
+  <data name="PlaybookEnableDevice" xml:space="preserve">
+    <value>Enable device: {0}</value>
+  </data>
+  <data name="PlaybookRegistrySummary" xml:space="preserve">
+    <value>Interrupt and USB power settings: {0}</value>
+  </data>
+  <data name="PlaybookPowerSummary" xml:space="preserve">
+    <value>Power plan: {0}</value>
+  </data>
+  <data name="PlaybookPowerApplied" xml:space="preserve">
+    <value>{0} settings written; {1} do not exist on this PC.</value>
+  </data>
+  <data name="PlaybookSkipped" xml:space="preserve">
+    <value>Skipped: not found on this PC.</value>
+  </data>
+  <data name="PlaybookInvalidData" xml:space="preserve">
+    <value>"{0}" contains data TweakHub does not accept.</value>
+  </data>
+  <data name="PlaybookElevateTitle" xml:space="preserve">
+    <value>Run with one UAC prompt?</value>
+  </data>
+  <data name="PlaybookElevateMessage" xml:space="preserve">
+    <value>{0} steps need administrator rights. TweakHub can restart as administrator and run the playbook right away with a single UAC prompt, or continue and ask for each step.</value>
+  </data>
+  <data name="PlaybookElevateRestart" xml:space="preserve">
+    <value>Restart as administrator</value>
+  </data>
+  <data name="PlaybookElevateContinue" xml:space="preserve">
+    <value>Ask for each step</value>
   </data>
 </root>

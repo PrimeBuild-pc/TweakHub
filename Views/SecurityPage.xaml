@@ -8,7 +8,7 @@
       Background="Transparent">
 
     <Page.Resources>
-        <ResourceDictionary Source="SecurityStyles.xaml"/>
+        <ResourceDictionary Source="SectionStyles.xaml"/>
     </Page.Resources>
 
     <Grid Margin="32">

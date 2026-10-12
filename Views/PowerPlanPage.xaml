@@ -1,0 +1,306 @@
+<Page x:Class="TweakHub.Views.PowerPlanPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:loc="clr-namespace:TweakHub.Localization"
+      xmlns:ui="http://schemas.modernwpf.com/2019"
+      Title="{loc:Loc Tweaks:PowerSectionTitle}"
+      Background="Transparent">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="SectionStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <!-- Only the editor matching the setting kind is built: a hidden NumberBox would clamp option values to its 0 maximum. -->
+            <DataTemplate x:Key="AcOptions">
+                <ComboBox ItemsSource="{Binding Options}" DisplayMemberPath="Label" SelectedValuePath="Value"
+                          SelectedValue="{Binding Ac}" Width="230" AutomationProperties.Name="{Binding Name}"/>
+            </DataTemplate>
+            <DataTemplate x:Key="DcOptions">
+                <ComboBox ItemsSource="{Binding Options}" DisplayMemberPath="Label" SelectedValuePath="Value"
+                          SelectedValue="{Binding Dc}" Width="230" AutomationProperties.Name="{Binding Name}"/>
+            </DataTemplate>
+            <DataTemplate x:Key="AcRange">
+                <StackPanel Orientation="Horizontal">
+                    <ui:NumberBox Value="{Binding AcNumber, UpdateSourceTrigger=PropertyChanged}" Minimum="{Binding Minimum}" Maximum="{Binding Maximum}"
+                                  SmallChange="{Binding Increment}" Width="150" ValidationMode="Disabled" SpinButtonPlacementMode="Inline"
+                                  AutomationProperties.Name="{Binding Name}"/>
+                    <TextBlock Text="{Binding Units}" Style="{StaticResource LabelTextStyle}" Margin="8,0,0,0" Width="72" TextTrimming="CharacterEllipsis"/>
+                </StackPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="DcRange">
+                <StackPanel Orientation="Horizontal">
+                    <ui:NumberBox Value="{Binding DcNumber, UpdateSourceTrigger=PropertyChanged}" Minimum="{Binding Minimum}" Maximum="{Binding Maximum}"
+                                  SmallChange="{Binding Increment}" Width="150" ValidationMode="Disabled" SpinButtonPlacementMode="Inline"
+                                  AutomationProperties.Name="{Binding Name}"/>
+                    <TextBlock Text="{Binding Units}" Style="{StaticResource LabelTextStyle}" Margin="8,0,0,0" Width="72" TextTrimming="CharacterEllipsis"/>
+                </StackPanel>
+            </DataTemplate>
+            <Style x:Key="ValueEditorStyle" TargetType="ContentControl">
+                <Setter Property="ContentTemplate" Value="{StaticResource AcOptions}"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Definition.IsRange}" Value="True">
+                        <Setter Property="ContentTemplate" Value="{StaticResource AcRange}"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="DcValueEditorStyle" TargetType="ContentControl">
+                <Setter Property="ContentTemplate" Value="{StaticResource DcOptions}"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Definition.IsRange}" Value="True">
+                        <Setter Property="ContentTemplate" Value="{StaticResource DcRange}"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid Margin="32">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Margin="0,0,0,12">
+            <TextBlock Text="{loc:Loc Tweaks:PowerSectionTitle}" FontSize="28" FontWeight="Light" Margin="0,0,0,6"
+                       Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+            <TextBlock Text="{loc:Loc Tweaks:PowerSectionDescription}" Style="{StaticResource DescriptionTextStyle}"/>
+        </StackPanel>
+
+        <TabControl x:Name="Tabs" Grid.Row="1" Style="{StaticResource PaddedTabControl}" ItemContainerStyle="{StaticResource ModernTabItem}">
+            <!-- Settings editor -->
+            <TabItem x:Name="EditorTab" Header="{loc:Loc Tweaks:PowerTabEditor}">
+                <Grid Margin="0,8,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <WrapPanel Margin="4,0,4,10">
+                        <StackPanel Margin="0,0,16,6">
+                            <TextBlock Text="{loc:Loc Tweaks:PowerEditPlan}" Style="{StaticResource LabelTextStyle}" Margin="0,0,0,4"/>
+                            <ComboBox x:Name="EditPlanBox" Width="280" DisplayMemberPath="Name" SelectionChanged="EditPlan_SelectionChanged"
+                                      AutomationProperties.Name="{loc:Loc Tweaks:PowerEditPlan}"/>
+                        </StackPanel>
+                        <StackPanel Margin="0,0,16,6">
+                            <TextBlock Text="{loc:Loc Tweaks:PowerComparePlan}" Style="{StaticResource LabelTextStyle}" Margin="0,0,0,4"/>
+                            <ComboBox x:Name="ComparePlanBox" Width="260" DisplayMemberPath="Name" SelectionChanged="ComparePlan_SelectionChanged"
+                                      AutomationProperties.Name="{loc:Loc Tweaks:PowerComparePlan}"/>
+                        </StackPanel>
+                        <StackPanel Margin="0,0,16,6">
+                            <TextBlock Text="{loc:Loc Tweaks:PowerSearch}" Style="{StaticResource LabelTextStyle}" Margin="0,0,0,4"/>
+                            <TextBox x:Name="SearchBox" Width="240" TextChanged="Filter_Changed"
+                                     ui:ControlHelper.PlaceholderText="{loc:Loc Tweaks:PowerSearchPlaceholder}"
+                                     AutomationProperties.Name="{loc:Loc Tweaks:PowerSearch}"/>
+                        </StackPanel>
+                        <StackPanel VerticalAlignment="Bottom" Margin="0,0,0,8">
+                            <CheckBox x:Name="DifferentOnlyBox" Content="{loc:Loc Tweaks:PowerDifferentOnly}" Checked="Filter_Changed" Unchecked="Filter_Changed"/>
+                        </StackPanel>
+                        <StackPanel VerticalAlignment="Bottom" Margin="16,0,0,8">
+                            <CheckBox x:Name="ShowHiddenBox" Content="{loc:Loc Tweaks:PowerShowHidden}" IsChecked="True"
+                                      Checked="Filter_Changed" Unchecked="Filter_Changed"/>
+                        </StackPanel>
+                    </WrapPanel>
+
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="250"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <ListBox x:Name="SubgroupList" Margin="4,0,12,0" Background="Transparent" SelectionChanged="Filter_Changed"
+                                 AutomationProperties.Name="{loc:Loc Tweaks:PowerSubgroups}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding Label}" FontSize="13" TextTrimming="CharacterEllipsis" ToolTip="{Binding Label}"/>
+                                        <TextBlock Grid.Column="1" Text="{Binding Count}" FontSize="12" Margin="8,0,0,0"
+                                                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+
+                        <ItemsControl x:Name="SettingsList" Grid.Column="1" VirtualizingPanel.IsVirtualizing="True"
+                                      VirtualizingPanel.ScrollUnit="Pixel" VirtualizingPanel.VirtualizationMode="Recycling">
+                            <ItemsControl.Template>
+                                <ControlTemplate TargetType="ItemsControl">
+                                    <ScrollViewer CanContentScroll="True" VerticalScrollBarVisibility="Auto" Padding="0,0,12,0">
+                                        <ItemsPresenter/>
+                                    </ScrollViewer>
+                                </ControlTemplate>
+                            </ItemsControl.Template>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate><VirtualizingStackPanel/></ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource CardStyle}" Padding="16,10" Margin="0,0,0,4">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel VerticalAlignment="Center" ToolTip="{Binding Tooltip}">
+                                                <WrapPanel>
+                                                    <TextBlock Text="{Binding Name}" FontSize="13" FontWeight="SemiBold" Margin="0,0,8,0"
+                                                               Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                                                    <Border CornerRadius="4" Padding="6,1" Margin="0,0,6,0" Background="{DynamicResource SubtleFillBrush}"
+                                                            Visibility="{Binding HiddenVisibility}">
+                                                        <TextBlock Text="{loc:Loc Tweaks:PowerHidden}" FontSize="11"/>
+                                                    </Border>
+                                                    <Border CornerRadius="4" Padding="6,1" Background="{DynamicResource AccentBrush}"
+                                                            Visibility="{Binding ModifiedVisibility}">
+                                                        <TextBlock Text="{loc:Loc Tweaks:PowerModified}" FontSize="11" Foreground="{DynamicResource AccentForegroundBrush}"/>
+                                                    </Border>
+                                                </WrapPanel>
+                                                <TextBlock Text="{Binding Description}" Style="{StaticResource DescriptionTextStyle}" Margin="0,2,0,0"/>
+                                                <StackPanel Orientation="Horizontal" Margin="0,4,0,0" Visibility="{Binding CompareVisibility}">
+                                                    <TextBlock Text="{Binding CompareText}" FontSize="11" VerticalAlignment="Center"
+                                                               Foreground="{DynamicResource AccentBrush}"/>
+                                                    <Button Content="{loc:Loc Tweaks:PowerUseCompare}" Click="UseCompare_Click" FontSize="11"
+                                                            Padding="8,2" MinHeight="22" Margin="8,0,0,0" Style="{StaticResource SecondaryButtonStyle}"/>
+                                                </StackPanel>
+                                            </StackPanel>
+
+                                            <StackPanel Grid.Column="1" Margin="16,0,0,0" VerticalAlignment="Center">
+                                                <TextBlock Text="{loc:Loc Tweaks:PowerPluggedIn}" Style="{StaticResource LabelTextStyle}" FontSize="11"
+                                                           Margin="0,0,0,2" Visibility="{Binding DcVisibility}"/>
+                                                <ContentControl Content="{Binding}" Focusable="False" Style="{StaticResource ValueEditorStyle}"/>
+                                            </StackPanel>
+                                            <!-- Collapsed controls are never measured, so desktops never build (or write through) the battery editors. -->
+                                            <StackPanel Grid.Column="2" Margin="12,0,0,0" VerticalAlignment="Center" Visibility="{Binding DcVisibility}">
+                                                <TextBlock Text="{loc:Loc Tweaks:PowerOnBattery}" Style="{StaticResource LabelTextStyle}" FontSize="11" Margin="0,0,0,2"/>
+                                                <ContentControl Content="{Binding}" Focusable="False" Style="{StaticResource DcValueEditorStyle}"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <TextBlock x:Name="NoSettingsText" Grid.Column="1" Text="{loc:Loc Tweaks:PowerNoSettings}" Visibility="Collapsed"
+                                   Style="{StaticResource DescriptionTextStyle}" Margin="8"/>
+                    </Grid>
+
+                    <Border Grid.Row="2" Style="{StaticResource CardStyle}" Margin="4,10,16,0" Padding="16,10">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock x:Name="PendingText" Style="{StaticResource ValueTextStyle}"/>
+                            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                <Button x:Name="DiscardButton" Content="{loc:Loc Tweaks:PowerDiscard}" Click="Discard_Click"
+                                        Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0" IsEnabled="False"/>
+                                <Button x:Name="ApplyButton" Click="Apply_Click" Style="{StaticResource ModernButtonStyle}" IsEnabled="False">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="&#xE73E;" Style="{StaticResource IconTextStyle}" Margin="0,0,6,0"/>
+                                        <TextBlock Text="{loc:Loc Tweaks:Apply}"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </TabItem>
+
+            <!-- Plans -->
+            <TabItem Header="{loc:Loc Tweaks:PowerTabPlans}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="0,8,12,0">
+                    <StackPanel>
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="{loc:Loc Tweaks:PowerPlanTitle}" Style="{StaticResource SectionTitleStyle}" Margin="0,0,0,4"/>
+                                <TextBlock Text="{loc:Loc Tweaks:PowerPlanDescription}" Style="{StaticResource DescriptionTextStyle}" Margin="0,0,0,12"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                    <ComboBox x:Name="PowerPlanComboBox" Width="320" DisplayMemberPath="Label"
+                                              AutomationProperties.Name="{loc:Loc Tweaks:PowerPlanTitle}"/>
+                                    <Button x:Name="ApplyPowerPlanButton" Style="{StaticResource ModernButtonStyle}" Margin="8,0,0,0"
+                                            Content="{loc:Loc Tweaks:PowerPlanUse}" Click="ApplyPowerPlan_Click"/>
+                                </StackPanel>
+                                <TextBlock x:Name="PowerPlanStatusText" FontWeight="SemiBold" Foreground="{DynamicResource AccentBrush}"/>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource CardStyle}" Margin="4,8,4,4">
+                            <StackPanel>
+                                <Grid Margin="0,0,0,12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel>
+                                        <TextBlock Text="{loc:Loc Tweaks:PowerPlansTitle}" Style="{StaticResource SectionTitleStyle}" Margin="0,0,0,4"/>
+                                        <TextBlock Text="{loc:Loc Tweaks:PowerPlansDescription}" Style="{StaticResource DescriptionTextStyle}"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top" Margin="16,0,0,0">
+                                        <Button Click="ImportPlan_Click" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="&#xE8B5;" Style="{StaticResource IconTextStyle}" Margin="0,0,6,0"/>
+                                                <TextBlock Text="{loc:Loc Tweaks:PowerImport}"/>
+                                            </StackPanel>
+                                        </Button>
+                                        <Button Click="OpenPowerOptions_Click" Style="{StaticResource SecondaryButtonStyle}"
+                                                Content="{loc:Loc Tweaks:PowerPlanOpenOptions}"/>
+                                    </StackPanel>
+                                </Grid>
+                                <ItemsControl x:Name="PlansList">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Padding="12,8" Margin="0,0,0,4" CornerRadius="6" Background="{DynamicResource SubtleFillBrush}">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="30"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Text="&#xE73E;" Style="{StaticResource IconTextStyle}" FontSize="16"
+                                                               Foreground="{DynamicResource SuccessBrush}" Visibility="{Binding ActiveVisibility}"
+                                                               ToolTip="{loc:Loc Tweaks:PowerActive}"/>
+                                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                        <TextBlock Text="{Binding Plan.Name}" FontSize="13" FontWeight="SemiBold"
+                                                                   Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                                                        <TextBlock Text="{Binding Detail}" Style="{StaticResource DescriptionTextStyle}" FontSize="11"/>
+                                                    </StackPanel>
+                                                    <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                                                        <Button Content="{loc:Loc Tweaks:PowerActivate}" Click="ActivatePlan_Click" Margin="0,0,6,0"
+                                                                Style="{StaticResource ModernButtonStyle}" Visibility="{Binding InactiveVisibility}"/>
+                                                        <Button Click="EditPlan_Click" Style="{StaticResource SmallIconButtonStyle}"
+                                                                ToolTip="{loc:Loc Tweaks:PowerEditSettings}" AutomationProperties.Name="{loc:Loc Tweaks:PowerEditSettings}">
+                                                            <TextBlock Text="&#xE70F;" Style="{StaticResource IconTextStyle}"/>
+                                                        </Button>
+                                                        <Button Click="DuplicatePlan_Click" Style="{StaticResource SmallIconButtonStyle}"
+                                                                ToolTip="{loc:Loc Tweaks:PowerDuplicate}" AutomationProperties.Name="{loc:Loc Tweaks:PowerDuplicate}">
+                                                            <TextBlock Text="&#xE8C8;" Style="{StaticResource IconTextStyle}"/>
+                                                        </Button>
+                                                        <Button Click="RenamePlan_Click" Style="{StaticResource SmallIconButtonStyle}"
+                                                                ToolTip="{loc:Loc Tweaks:PowerRename}" AutomationProperties.Name="{loc:Loc Tweaks:PowerRename}">
+                                                            <TextBlock Text="&#xE8AC;" Style="{StaticResource IconTextStyle}"/>
+                                                        </Button>
+                                                        <Button Click="ExportPlan_Click" Style="{StaticResource SmallIconButtonStyle}"
+                                                                ToolTip="{loc:Loc Tweaks:PowerExport}" AutomationProperties.Name="{loc:Loc Tweaks:PowerExport}">
+                                                            <TextBlock Text="&#xEDE1;" Style="{StaticResource IconTextStyle}"/>
+                                                        </Button>
+                                                        <Button Click="DeletePlan_Click" Style="{StaticResource SmallIconButtonStyle}" IsEnabled="{Binding CanDelete}"
+                                                                ToolTip="{loc:Loc Tweaks:PowerDelete}" AutomationProperties.Name="{loc:Loc Tweaks:PowerDelete}">
+                                                            <TextBlock Text="&#xE74D;" Style="{StaticResource IconTextStyle}"/>
+                                                        </Button>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Page>

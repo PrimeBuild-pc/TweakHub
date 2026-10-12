@@ -165,6 +165,16 @@ The sidebar **Security** section uses built-in Windows features instead of bundl
 
 Review each card's warnings and upstream documentation before using a tool. In particular, mVolt tuning can damage GPU hardware; optional Sigcheck VirusTotal queries/uploads may disclose hashes or files; Safety Scanner is not resident protection; Triage submissions may become public; ffuf, Xalgorix and hackingtool must only be used against systems you are authorized to test. No third-party code or binaries are bundled or reused: SecurityToolkit and mVolt have unverified reuse licensing, and Sparkle and SCSKiller are GPL-3.0 references only. Sergei Strelec WinPE bundles many third-party tools under their own licenses; verify boot ISO checksums before writing them to USB.
 
+## Devices & latency
+
+The sidebar **Devices & latency** section brings the useful parts of popular latency tools into TweakHub, with backups instead of one-way scripts:
+
+- **Devices**: Plug and Play inventory (working, not present, disabled, problems, buses without children) with notes on devices latency guides often disable, what stops working if you do, and which ones to leave alone (for example HPET and SMBus). Devices can be disabled and re-enabled; everything TweakHub disabled can be re-enabled at once. Inspired by Device-Analyzer v1.
+- **Interrupts & MSI**: MSI mode, interrupt priority and CPU affinity per PCI device, as in GoInterruptPolicy, written through the registry backup used by Registry Tweaks and restorable per device. Changes apply after a restart.
+- **USB & input**: the path from each mouse, keyboard and controller through external hubs to its USB controller (with the controller's MSI state), USB selective suspend in the active plan and per device, and a local raw-input mouse polling test with a distribution chart. Inspired by Marius Heier's USB Latency Analyzer and DeepPoll.
+- **Tweak check**: the RepairBadTweaks list (forced boot timers, disabled CPU mitigations, TCP auto-tuning, input queue sizes, csrss priority, MPO, memory manager values, raw mouse throttle, global timer requests) with explanations; registry repairs keep a backup and can be undone. Win32PrioritySeparation, Prefetch and SysMain stay managed by Registry Tweaks.
+- **Tools and resources**: the **Latency & Input** catalog (GoInterruptPolicy, Marius Heier's tools, hidusbf, Battle Beaver controller overclocking, PowerPlanSettingsEditor, the Advanced Power Options guide, RepairBadTweaks). TweakHub never runs their `irm | iex` scripts; cards only open the official pages.
+
 ## Build from source
 
 Requirements: Windows 11 and the .NET 10 SDK.

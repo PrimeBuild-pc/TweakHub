@@ -368,4 +368,37 @@
   <data name="ImportProfileSummary" xml:space="preserve">
     <value>この有効なプロファイルには、スクリプト {0}、調整 {1}、ツール {2}、プレイブック {3} が含まれます。インポートすると現在の転送可能な設定が置き換えられ、復元コピーが作成されます。続行しますか？</value>
   </data>
+  <data name="SplashSubtitle" xml:space="preserve">
+    <value>起動前にシステムを読み取っています</value>
+  </data>
+  <data name="SplashTweaks" xml:space="preserve">
+    <value>レジストリの調整とその状態</value>
+  </data>
+  <data name="SplashWindowsUpdate" xml:space="preserve">
+    <value>Windows Update のモード</value>
+  </data>
+  <data name="SplashPower" xml:space="preserve">
+    <value>電源プランと設定</value>
+  </data>
+  <data name="SplashSecurity" xml:space="preserve">
+    <value>セキュリティの状態</value>
+  </data>
+  <data name="SplashDevices" xml:space="preserve">
+    <value>デバイスとドライバー</value>
+  </data>
+  <data name="SplashInterrupts" xml:space="preserve">
+    <value>割り込みと MSI</value>
+  </data>
+  <data name="SplashChecks" xml:space="preserve">
+    <value>有害な調整の確認</value>
+  </data>
+  <data name="SplashReading" xml:space="preserve">
+    <value>読み取り中: {0}</value>
+  </data>
+  <data name="SplashSeconds" xml:space="preserve">
+    <value>{0} 秒</value>
+  </data>
+  <data name="SplashStepFailed" xml:space="preserve">
+    <value>セクションで再試行します</value>
+  </data>
 </root>

@@ -368,4 +368,37 @@
   <data name="ImportProfileSummary" xml:space="preserve">
     <value>此有效配置文件包含 {0} 个脚本、{1} 个调整项、{2} 个工具和 {3} 个操作手册。导入将替换当前可传输配置并创建恢复副本。是否继续？</value>
   </data>
+  <data name="SplashSubtitle" xml:space="preserve">
+    <value>打开前正在读取系统</value>
+  </data>
+  <data name="SplashTweaks" xml:space="preserve">
+    <value>注册表调整及其状态</value>
+  </data>
+  <data name="SplashWindowsUpdate" xml:space="preserve">
+    <value>Windows 更新模式</value>
+  </data>
+  <data name="SplashPower" xml:space="preserve">
+    <value>电源计划和设置</value>
+  </data>
+  <data name="SplashSecurity" xml:space="preserve">
+    <value>安全状态</value>
+  </data>
+  <data name="SplashDevices" xml:space="preserve">
+    <value>设备和驱动程序</value>
+  </data>
+  <data name="SplashInterrupts" xml:space="preserve">
+    <value>中断和 MSI</value>
+  </data>
+  <data name="SplashChecks" xml:space="preserve">
+    <value>有害调整检查</value>
+  </data>
+  <data name="SplashReading" xml:space="preserve">
+    <value>正在读取：{0}</value>
+  </data>
+  <data name="SplashSeconds" xml:space="preserve">
+    <value>{0} 秒</value>
+  </data>
+  <data name="SplashStepFailed" xml:space="preserve">
+    <value>将在该部分重试</value>
+  </data>
 </root>

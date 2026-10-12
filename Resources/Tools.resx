@@ -390,12 +390,6 @@
   <data name="DescriptionOpenSourceMouseAccelerationDriver" xml:space="preserve">
     <value>Open-source mouse acceleration driver</value>
   </data>
-  <data name="DescriptionAdvancedUSBHIDPollingRateFilterDriver" xml:space="preserve">
-    <value>Advanced USB HID polling-rate filter driver</value>
-  </data>
-  <data name="DescriptionBrowserBasedCalibrationForSupportedPlayStationControllers" xml:space="preserve">
-    <value>Browser-based calibration for supported PlayStation controllers</value>
-  </data>
   <data name="DescriptionOfficialBrowserBasedMousePollingRateTester" xml:space="preserve">
     <value>Official browser-based mouse polling-rate tester</value>
   </data>
@@ -943,5 +937,44 @@ This may be due to insufficient permissions or the target application not being 
   </data>
   <data name="DescriptionOpenBoardView" xml:space="preserve">
     <value>Open-source viewer for .brd and other boardview files used in motherboard and GPU component-level repair. Boardview files come from third parties; open only files from sources you trust. Opens only the official releases page.</value>
+  </data>
+  <data name="CategoryLatencyInput" xml:space="preserve">
+    <value>Latency &amp; Input</value>
+  </data>
+  <data name="DescriptionGoInterruptPolicy" xml:space="preserve">
+    <value>Sets MSI mode, interrupt priority and CPU affinity per device. TweakHub's Interrupts and MSI tab covers the same settings with backups; wrong values can cause instability or a device that stops working until restored. MIT. Opens only the official repository.</value>
+  </data>
+  <data name="DescriptionCpuDirect" xml:space="preserve">
+    <value>Counts the chips between each USB device and the CPU and checks controller MSI and selective suspend. TweakHub's USB and input tab shows the same chain natively; the original runs a remote script with irm | iex, so read it before running. MIT. Opens only the official page.</value>
+  </data>
+  <data name="DescriptionDeepPoll" xml:space="preserve">
+    <value>Measures USB polling rate with microsecond precision through kernel ETW tracing and needs administrator rights. TweakHub includes a simpler mouse polling test. Runs a remote script with irm | iex. MIT. Opens only the official page.</value>
+  </data>
+  <data name="DescriptionDeepLog" xml:space="preserve">
+    <value>Records 30 seconds of controller input and helps you send the recording to the author for diagnosis. Only share it if you agree to send that data. Runs a remote script with irm | iex. MIT. Opens only the official page.</value>
+  </data>
+  <data name="DescriptionUsbRigProfiles" xml:space="preserve">
+    <value>Collects your USB hardware profile and publishes it on a public board to map compatibility problems. The submission is public: review what it contains first. Runs a remote script with irm | iex. MIT. Opens only the official page.</value>
+  </data>
+  <data name="DescriptionHidAnalyzer" xml:space="preserve">
+    <value>Browser-based gamepad and HID polling analyzer through WebHID; browser timing limits precision to roughly 250 Hz. Nothing to install. Opens only the official page.</value>
+  </data>
+  <data name="DescriptionHidusbf" xml:space="preserve">
+    <value>Overclocks the polling rate of USB mice and controllers with a filter driver. Unsigned or test-signed drivers can be blocked by Secure Boot, memory integrity or anti-cheat software and a bad setting can stop the device from working. No license file. Opens only the official repository.</value>
+  </data>
+  <data name="DescriptionBattleBeaver" xml:space="preserve">
+    <value>Guide to overclocking PlayStation and Xbox controllers on PC for a higher polling rate. Follow it only with your own hardware and check anti-cheat rules. Opens only the official page.</value>
+  </data>
+  <data name="DescriptionPowerPlanSettingsEditor" xml:space="preserve">
+    <value>PowerShell GUI that edits every setting of a power plan, including hidden ones. Wrong values can raise temperatures or break sleep; export the plan with powercfg first. MIT. Opens only the official repository.</value>
+  </data>
+  <data name="DescriptionAdvancedPowerOptions" xml:space="preserve">
+    <value>Explains the advanced Windows power options such as device idle policy, standby connectivity and processor states. Reading material only. MIT. Opens only the official repository.</value>
+  </data>
+  <data name="DescriptionRepairBadTweaks" xml:space="preserve">
+    <value>Detects and reverts popular tweaks that hurt stability or security, such as forced timers and disabled mitigations. TweakHub's Tweak check tab runs the same checks with explanations. MIT. Opens only the official repository.</value>
+  </data>
+  <data name="DescriptionDualShockTools" xml:space="preserve">
+    <value>Web app that calibrates the sticks and triggers of DualShock 4 and DualSense controllers over WebHID in Chrome or Edge, and fixes stick drift without opening the controller. Opens only the official site.</value>
   </data>
 </root>

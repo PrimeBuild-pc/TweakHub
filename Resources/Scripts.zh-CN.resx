@@ -408,7 +408,7 @@
     <value>操作手册</value>
   </data>
   <data name="PlaybooksDescription" xml:space="preserve">
-    <value>使用调整项、精确 WinGet 包和已保存脚本创建自定义有序流程。</value>
+    <value>一键保存此电脑的配置，并在重装后或其他电脑上再次应用：电源计划、调整、中断和 USB 设置、已禁用的设备、应用和脚本。</value>
   </data>
   <data name="BuiltInScripts" xml:space="preserve">
     <value>内置脚本</value>
@@ -458,15 +458,6 @@
   <data name="PlaybookInvalid" xml:space="preserve">
     <value>操作手册无效</value>
   </data>
-  <data name="AddTweakStep" xml:space="preserve">
-    <value>添加调整项</value>
-  </data>
-  <data name="AddApplicationStep" xml:space="preserve">
-    <value>添加应用</value>
-  </data>
-  <data name="AddScriptStep" xml:space="preserve">
-    <value>添加脚本</value>
-  </data>
   <data name="MoveUp" xml:space="preserve">
     <value>上移</value>
   </data>
@@ -478,12 +469,6 @@
   </data>
   <data name="TweakTargetEnabled" xml:space="preserve">
     <value>启用此调整项（取消勾选可还原）</value>
-  </data>
-  <data name="ApplicationName" xml:space="preserve">
-    <value>应用名称</value>
-  </data>
-  <data name="WingetPackageId" xml:space="preserve">
-    <value>精确 WinGet 包 ID</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>添加</value>
@@ -499,9 +484,6 @@
   </data>
   <data name="PlaybookRestore" xml:space="preserve">
     <value>还原</value>
-  </data>
-  <data name="SelectCatalogueApplication" xml:space="preserve">
-    <value>选择现有 WinGet 应用，或在下方输入</value>
   </data>
   <data name="FavoriteScript" xml:space="preserve">
     <value>切换脚本收藏状态</value>
@@ -571,5 +553,98 @@
   </data>
   <data name="wsl_setup_CompletionNote" xml:space="preserve">
     <value>如果结果提示需要重启，请重启 Windows，然后打开一次 Ubuntu 以完成首次运行设置。</value>
+  </data>
+  <data name="PlaybookFromSystem" xml:space="preserve">
+    <value>从此电脑创建</value>
+  </data>
+  <data name="PlaybookFromSystemHint" xml:space="preserve">
+    <value>读取你和 TweakHub 在此电脑上所做的更改并作为步骤列出，由你选择保留哪些。</value>
+  </data>
+  <data name="ImportPlaybook" xml:space="preserve">
+    <value>导入剧本</value>
+  </data>
+  <data name="ExportPlaybook" xml:space="preserve">
+    <value>导出</value>
+  </data>
+  <data name="PlaybookFileFilter" xml:space="preserve">
+    <value>TweakHub 剧本 (*.tweakhub-playbook.json)|*.tweakhub-playbook.json|JSON (*.json)|*.json</value>
+  </data>
+  <data name="PlaybookImported" xml:space="preserve">
+    <value>已添加“{0}”，共 {1} 个步骤。新的自定义调整：{2}。新的脚本：{3}。运行前请检查各步骤。</value>
+  </data>
+  <data name="PlaybookStepsTitle" xml:space="preserve">
+    <value>步骤</value>
+  </data>
+  <data name="PlaybookStepsHint" xml:space="preserve">
+    <value>只保存勾选的步骤。步骤从上到下运行，遇到首个失败即停止；电脑上不存在的设备对应的步骤会被跳过。</value>
+  </data>
+  <data name="PlaybookDetect" xml:space="preserve">
+    <value>从此电脑检测</value>
+  </data>
+  <data name="PlaybookDetectHint" xml:space="preserve">
+    <value>添加当前电源计划、已启用的调整、TweakHub 更改的中断和 USB 电源设置、已禁用的设备以及收藏的应用（未勾选）。</value>
+  </data>
+  <data name="PlaybookDetecting" xml:space="preserve">
+    <value>正在读取此电脑的配置…</value>
+  </data>
+  <data name="PlaybookNoSteps" xml:space="preserve">
+    <value>还没有步骤。可从此电脑检测，或在下方添加调整、应用和脚本。</value>
+  </data>
+  <data name="PlaybookAddStep" xml:space="preserve">
+    <value>添加步骤</value>
+  </data>
+  <data name="PlaybookCapturedName" xml:space="preserve">
+    <value>{0} 的配置（{1}）</value>
+  </data>
+  <data name="PlaybookTypeTweak" xml:space="preserve">
+    <value>调整</value>
+  </data>
+  <data name="PlaybookTypeWinget" xml:space="preserve">
+    <value>应用 (winget)</value>
+  </data>
+  <data name="PlaybookTypeScript" xml:space="preserve">
+    <value>自定义脚本</value>
+  </data>
+  <data name="PlaybookTypeDevice" xml:space="preserve">
+    <value>设备</value>
+  </data>
+  <data name="PlaybookTypeRegistry" xml:space="preserve">
+    <value>中断和 USB 电源</value>
+  </data>
+  <data name="PlaybookTypePowerPlan" xml:space="preserve">
+    <value>电源计划</value>
+  </data>
+  <data name="PlaybookDisableDevice" xml:space="preserve">
+    <value>禁用设备：{0}</value>
+  </data>
+  <data name="PlaybookEnableDevice" xml:space="preserve">
+    <value>启用设备：{0}</value>
+  </data>
+  <data name="PlaybookRegistrySummary" xml:space="preserve">
+    <value>中断和 USB 电源设置：{0}</value>
+  </data>
+  <data name="PlaybookPowerSummary" xml:space="preserve">
+    <value>电源计划：{0}</value>
+  </data>
+  <data name="PlaybookPowerApplied" xml:space="preserve">
+    <value>已写入 {0} 项设置；{1} 项在此电脑上不存在。</value>
+  </data>
+  <data name="PlaybookSkipped" xml:space="preserve">
+    <value>已跳过：此电脑上不存在。</value>
+  </data>
+  <data name="PlaybookInvalidData" xml:space="preserve">
+    <value>“{0}”包含 TweakHub 不接受的数据。</value>
+  </data>
+  <data name="PlaybookElevateTitle" xml:space="preserve">
+    <value>只确认一次 UAC？</value>
+  </data>
+  <data name="PlaybookElevateMessage" xml:space="preserve">
+    <value>有 {0} 个步骤需要管理员权限。TweakHub 可以以管理员身份重启并立即运行剧本，只需确认一次 UAC；也可以继续并在每一步确认。</value>
+  </data>
+  <data name="PlaybookElevateRestart" xml:space="preserve">
+    <value>以管理员身份重启</value>
+  </data>
+  <data name="PlaybookElevateContinue" xml:space="preserve">
+    <value>每一步都询问</value>
   </data>
 </root>

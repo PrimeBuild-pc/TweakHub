@@ -1,0 +1,562 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Title" xml:space="preserve">
+    <value>Устройства и задержка</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Проверьте устройства, которые можно безопасно отключить, настройки прерываний, USB-путь устройств ввода и твики, ухудшающие стабильность. Каждое изменение требует подтверждения и может быть отменено.</value>
+  </data>
+  <data name="TabDevices" xml:space="preserve">
+    <value>Устройства</value>
+  </data>
+  <data name="TabInterrupts" xml:space="preserve">
+    <value>Прерывания и MSI</value>
+  </data>
+  <data name="TabUsb" xml:space="preserve">
+    <value>USB и ввод</value>
+  </data>
+  <data name="TabChecks" xml:space="preserve">
+    <value>Проверка твиков</value>
+  </data>
+  <data name="TabTools" xml:space="preserve">
+    <value>Инструменты и ресурсы</value>
+  </data>
+  <data name="Scan" xml:space="preserve">
+    <value>Сканировать</value>
+  </data>
+  <data name="Scanning" xml:space="preserve">
+    <value>Чтение устройств Plug and Play…</value>
+  </data>
+  <data name="Scanned" xml:space="preserve">
+    <value>Сканирование в {0}. Ничего не меняется, пока вы не выберете действие.</value>
+  </data>
+  <data name="ScanFailed" xml:space="preserve">
+    <value>Не удалось завершить сканирование: {0}</value>
+  </data>
+  <data name="DevicesDescription" xml:space="preserve">
+    <value>Перечень Plug and Play с пометками об устройствах, которые часто отключают в гайдах по задержке, и о том, что перестанет работать. «Отсутствует» или «нет дочерних» не доказывает, что устройство не используется.</value>
+  </data>
+  <data name="EnableAll" xml:space="preserve">
+    <value>Включить все</value>
+  </data>
+  <data name="EnableAllHint" xml:space="preserve">
+    <value>Включает все устройства, отключённые TweakHub. Отключённые другим способом остаются как есть.</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Экспорт отчёта</value>
+  </data>
+  <data name="TileTotal" xml:space="preserve">
+    <value>Устройства</value>
+  </data>
+  <data name="TileSuggested" xml:space="preserve">
+    <value>С пометками</value>
+  </data>
+  <data name="TileDisabled" xml:space="preserve">
+    <value>Отключены</value>
+  </data>
+  <data name="TileProblems" xml:space="preserve">
+    <value>С проблемами</value>
+  </data>
+  <data name="CategoriesTitle" xml:space="preserve">
+    <value>Состояние устройств</value>
+  </data>
+  <data name="SuggestedOnly" xml:space="preserve">
+    <value>Только устройства с пометками</value>
+  </data>
+  <data name="ColumnClass" xml:space="preserve">
+    <value>Класс</value>
+  </data>
+  <data name="ColumnCategory" xml:space="preserve">
+    <value>Состояние</value>
+  </data>
+  <data name="ColumnAdvice" xml:space="preserve">
+    <value>Пометка</value>
+  </data>
+  <data name="Breaks" xml:space="preserve">
+    <value>Перестанет работать:</value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Отключить</value>
+  </data>
+  <data name="Enable" xml:space="preserve">
+    <value>Включить</value>
+  </data>
+  <data name="DisableConfirmTitle" xml:space="preserve">
+    <value>Отключить устройство?</value>
+  </data>
+  <data name="DisableConfirmMessage" xml:space="preserve">
+    <value>{0} будет отключено в диспетчере устройств. Включить его снова можно из этого списка или кнопкой «Включить все».</value>
+  </data>
+  <data name="HighRiskWarning" xml:space="preserve">
+    <value>Внимание: это ключевое системное устройство, накопитель, сеть или ввод. Его отключение может помешать загрузке Windows или оставить без клавиатуры, мыши или сети.</value>
+  </data>
+  <data name="AvoidWarning" xml:space="preserve">
+    <value>Это устройство часто упоминается в гайдах по задержке, но его отключение не даёт надёжной пользы и может вызвать проблемы. TweakHub рекомендует оставить его включённым.</value>
+  </data>
+  <data name="ToggleFailedTitle" xml:space="preserve">
+    <value>Устройство не изменено</value>
+  </data>
+  <data name="InterruptsDescription" xml:space="preserve">
+    <value>PCI-устройства и способ, которым они сигнализируют ЦП. MSI (прерывания, передаваемые сообщениями) исключает общие линии прерываний; приоритет и привязка к ЦП — продвинутые настройки, полезные лишь в отдельных случаях.</value>
+  </data>
+  <data name="RestartNote" xml:space="preserve">
+    <value>Изменения вступят в силу после перезагрузки.</value>
+  </data>
+  <data name="TilePciDevices" xml:space="preserve">
+    <value>PCI-устройства</value>
+  </data>
+  <data name="TileMsi" xml:space="preserve">
+    <value>Используют MSI</value>
+  </data>
+  <data name="TileAffinity" xml:space="preserve">
+    <value>Своя привязка</value>
+  </data>
+  <data name="InterruptModeByClass" xml:space="preserve">
+    <value>Режим прерываний по классам</value>
+  </data>
+  <data name="InterruptMsi" xml:space="preserve">
+    <value>MSI</value>
+  </data>
+  <data name="InterruptLineBased" xml:space="preserve">
+    <value>По линии</value>
+  </data>
+  <data name="ColumnMode" xml:space="preserve">
+    <value>Режим</value>
+  </data>
+  <data name="ColumnLimit" xml:space="preserve">
+    <value>Сообщения</value>
+  </data>
+  <data name="ColumnPriority" xml:space="preserve">
+    <value>Приоритет</value>
+  </data>
+  <data name="ColumnAffinity" xml:space="preserve">
+    <value>Привязка к ЦП</value>
+  </data>
+  <data name="AffinityAuto" xml:space="preserve">
+    <value>Автоматически (Windows)</value>
+  </data>
+  <data name="PriorityUndefined" xml:space="preserve">
+    <value>По умолчанию</value>
+  </data>
+  <data name="PriorityLow" xml:space="preserve">
+    <value>Низкий</value>
+  </data>
+  <data name="PriorityNormal" xml:space="preserve">
+    <value>Обычный</value>
+  </data>
+  <data name="PriorityHigh" xml:space="preserve">
+    <value>Высокий</value>
+  </data>
+  <data name="EditorHint" xml:space="preserve">
+    <value>Меняйте только нужное, по одному устройству, и проверяйте после перезагрузки. «Восстановить исходные» вернёт значения, найденные TweakHub.</value>
+  </data>
+  <data name="UseMsi" xml:space="preserve">
+    <value>Использовать прерывания-сообщения (MSI)</value>
+  </data>
+  <data name="MsiNotSupported" xml:space="preserve">
+    <value>Драйвер этого устройства не заявляет поддержку MSI.</value>
+  </data>
+  <data name="AffinityHint" xml:space="preserve">
+    <value>Выберите ЦП, которые могут обрабатывать прерывания этого устройства. Оставьте все выключенными, чтобы сохранить текущую настройку; «Восстановить исходные» вернёт автоматический режим.</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Применить</value>
+  </data>
+  <data name="RestoreOriginal" xml:space="preserve">
+    <value>Восстановить исходные</value>
+  </data>
+  <data name="ApplyConfirmTitle" xml:space="preserve">
+    <value>Изменить настройки прерываний?</value>
+  </data>
+  <data name="ApplyConfirmMessage" xml:space="preserve">
+    <value>TweakHub сохранит и изменит настройки прерываний {0}. Если после перезагрузки устройство не работает, используйте «Восстановить исходные» или безопасный режим.</value>
+  </data>
+  <data name="ApplyFailedTitle" xml:space="preserve">
+    <value>Изменение не применено</value>
+  </data>
+  <data name="ApplyFailedMessage" xml:space="preserve">
+    <value>Не удалось записать или проверить изменение. Убедитесь, что вы подтвердили запрос администратора.</value>
+  </data>
+  <data name="UsbDescription" xml:space="preserve">
+    <value>Путь от каждой мыши, клавиатуры и контроллера до ЦП: каждый внешний концентратор добавляет звено, а энергосбережение USB может добавить задержки при пробуждении.</value>
+  </data>
+  <data name="PlanSuspendTitle" xml:space="preserve">
+    <value>Выборочная приостановка USB</value>
+  </data>
+  <data name="PlanSuspendDescription" xml:space="preserve">
+    <value>Позволяет Windows отключать простаивающие USB-устройства в активном плане. Отключение убирает всплески при пробуждении на настольных ПК; ноутбуки могут немного потерять в автономности.</value>
+  </data>
+  <data name="PlanSuspendOn" xml:space="preserve">
+    <value>Включена в активном плане (от сети)</value>
+  </data>
+  <data name="PlanSuspendOff" xml:space="preserve">
+    <value>Отключена в активном плане (от сети)</value>
+  </data>
+  <data name="PlanSuspendUnknown" xml:space="preserve">
+    <value>Недоступно в активном плане</value>
+  </data>
+  <data name="PlanSuspendDisable" xml:space="preserve">
+    <value>Отключить</value>
+  </data>
+  <data name="PollingTitle" xml:space="preserve">
+    <value>Тест частоты опроса мыши</value>
+  </data>
+  <data name="PollingDescription" xml:space="preserve">
+    <value>Оценивает, как часто мышь отправляет данные Windows, по сообщениям raw input. Локально и без браузера; для микросекундной точности используйте DeepPoll.</value>
+  </data>
+  <data name="PollingStart" xml:space="preserve">
+    <value>Начать тест</value>
+  </data>
+  <data name="PollingMove" xml:space="preserve">
+    <value>Быстро водите мышью кругами 4 секунды…</value>
+  </data>
+  <data name="PollingTooFew" xml:space="preserve">
+    <value>Недостаточно движения. Держите TweakHub активным и непрерывно двигайте мышь.</value>
+  </data>
+  <data name="PollingResult" xml:space="preserve">
+    <value>Измерено отчётов: {0}. Полосы показывают стабильность частоты.</value>
+  </data>
+  <data name="InputDevicesTitle" xml:space="preserve">
+    <value>Устройства ввода</value>
+  </data>
+  <data name="NoInputDevices" xml:space="preserve">
+    <value>Мышь, клавиатура или контроллер не найдены.</value>
+  </data>
+  <data name="InputMouse" xml:space="preserve">
+    <value>Мышь</value>
+  </data>
+  <data name="InputKeyboard" xml:space="preserve">
+    <value>Клавиатура</value>
+  </data>
+  <data name="InputController" xml:space="preserve">
+    <value>Контроллер</value>
+  </data>
+  <data name="NotUsb" xml:space="preserve">
+    <value>Подключено не по USB</value>
+  </data>
+  <data name="HubsNone" xml:space="preserve">
+    <value>Напрямую к контроллеру (без внешних концентраторов)</value>
+  </data>
+  <data name="Hubs" xml:space="preserve">
+    <value>Внешних концентраторов в пути: {0}</value>
+  </data>
+  <data name="HopController" xml:space="preserve">
+    <value>USB-контроллер</value>
+  </data>
+  <data name="HopHub" xml:space="preserve">
+    <value>Концентратор</value>
+  </data>
+  <data name="HopCpu" xml:space="preserve">
+    <value>Процессор и чипсет</value>
+  </data>
+  <data name="ControllerMode" xml:space="preserve">
+    <value>Контроллер: {0}</value>
+  </data>
+  <data name="ControllerUnknown" xml:space="preserve">
+    <value>Режим контроллера неизвестен</value>
+  </data>
+  <data name="DeviceSuspendOn" xml:space="preserve">
+    <value>энергосбережение разрешено</value>
+  </data>
+  <data name="DeviceSuspendOff" xml:space="preserve">
+    <value>энергосбережение выключено</value>
+  </data>
+  <data name="DeviceSuspendDisable" xml:space="preserve">
+    <value>Выключить энергосбережение</value>
+  </data>
+  <data name="ReconnectNote" xml:space="preserve">
+    <value>Готово. Переподключите устройство или перезагрузите ПК, чтобы применить изменение.</value>
+  </data>
+  <data name="ChecksDescription" xml:space="preserve">
+    <value>Ищет популярные твики, ухудшающие стабильность, безопасность или ввод (список RepairBadTweaks), и возвращает значения Windows по умолчанию. Исправления реестра сохраняют резервную копию и могут быть отменены.</value>
+  </data>
+  <data name="ChecksScan" xml:space="preserve">
+    <value>Проверить</value>
+  </data>
+  <data name="ChecksScanElevatedHint" xml:space="preserve">
+    <value>Также читает настройки таймеров загрузки, для которых нужны права администратора.</value>
+  </data>
+  <data name="ChecksSummary" xml:space="preserve">
+    <value>Проверок: {0}, требуют исправления: {1}.</value>
+  </data>
+  <data name="ChecksManagedNote" xml:space="preserve">
+    <value>Win32PrioritySeparation, Prefetch и SysMain управляются в разделе Registry Tweaks, где TweakHub хранит их резервные копии.</value>
+  </data>
+  <data name="Repair" xml:space="preserve">
+    <value>Вернуть по умолчанию</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>Отменить</value>
+  </data>
+  <data name="RepairConfirmTitle" xml:space="preserve">
+    <value>Вернуть значение Windows по умолчанию?</value>
+  </data>
+  <data name="RepairConfirmMessage" xml:space="preserve">
+    <value>{0} будет возвращено к значению Windows по умолчанию.</value>
+  </data>
+  <data name="RepairNoUndo" xml:space="preserve">
+    <value>Это исправление выполняет команду Windows и не может быть отменено из TweakHub.</value>
+  </data>
+  <data name="RepairVerifyFailed" xml:space="preserve">
+    <value>Не удалось проверить изменение реестра.</value>
+  </data>
+  <data name="CheckStatusOk" xml:space="preserve">
+    <value>По умолчанию</value>
+  </data>
+  <data name="CheckStatusFlagged" xml:space="preserve">
+    <value>Изменено твиком</value>
+  </data>
+  <data name="CheckStatusNeedsAdministrator" xml:space="preserve">
+    <value>Проверьте от имени администратора</value>
+  </data>
+  <data name="CategoryHealthy" xml:space="preserve">
+    <value>Работают</value>
+  </data>
+  <data name="CategoryHealthyHint" xml:space="preserve">
+    <value>Присутствует, проблем Plug and Play нет. Не показывает, насколько оно используется.</value>
+  </data>
+  <data name="CategoryNotPresent" xml:space="preserve">
+    <value>Отсутствуют</value>
+  </data>
+  <data name="CategoryNotPresentHint" xml:space="preserve">
+    <value>Windows его помнит, но сейчас оно не подключено. Это не повод его удалять.</value>
+  </data>
+  <data name="CategoryDisabled" xml:space="preserve">
+    <value>Отключены</value>
+  </data>
+  <data name="CategoryDisabledHint" xml:space="preserve">
+    <value>Отключено в диспетчере устройств (код проблемы 22).</value>
+  </data>
+  <data name="CategoryProblem" xml:space="preserve">
+    <value>С проблемами</value>
+  </data>
+  <data name="CategoryProblemHint" xml:space="preserve">
+    <value>Windows сообщает об ошибке устройства: проверьте драйвер, а не отключайте его.</value>
+  </data>
+  <data name="CategoryIdleBus" xml:space="preserve">
+    <value>Шины без дочерних</value>
+  </data>
+  <data name="CategoryIdleBusHint" xml:space="preserve">
+    <value>Шина или перечислитель без подключённых устройств; может понадобиться, когда устройство появится позже.</value>
+  </data>
+  <data name="AdviceCommon" xml:space="preserve">
+    <value>Обычно можно отключить</value>
+  </data>
+  <data name="AdviceSituational" xml:space="preserve">
+    <value>Зависит от использования</value>
+  </data>
+  <data name="AdviceAvoid" xml:space="preserve">
+    <value>Оставьте включённым</value>
+  </data>
+  <data name="RuleHpet" xml:space="preserve">
+    <value>Высокоточный таймер событий: часто отключают в гайдах по задержке, но современная Windows сама выбирает таймеры, и надёжного выигрыша нет.</value>
+  </data>
+  <data name="RuleHpetBreaks" xml:space="preserve">
+    <value>Некоторые игры, утилиты и старые драйверы, которые на него рассчитывают; тайминги могут стать менее стабильными.</value>
+  </data>
+  <data name="RuleSmBus" xml:space="preserve">
+    <value>Контроллер SMBus: читает микросхемы памяти и датчиков на материнской плате.</value>
+  </data>
+  <data name="RuleSmBusBreaks" xml:space="preserve">
+    <value>Мониторинг оборудования, сведения о памяти, RGB-подсветка и управление вентиляторами.</value>
+  </data>
+  <data name="RuleKernelDebug" xml:space="preserve">
+    <value>Сетевой адаптер только для отладки ядра по сети.</value>
+  </data>
+  <data name="RuleKernelDebugBreaks" xml:space="preserve">
+    <value>Сетевая отладка ядра (только для разработчиков).</value>
+  </data>
+  <data name="RuleSystemSpeaker" xml:space="preserve">
+    <value>Динамик материнской платы для системных сигналов.</value>
+  </data>
+  <data name="RuleSystemSpeakerBreaks" xml:space="preserve">
+    <value>Только сигнал материнской платы.</value>
+  </data>
+  <data name="RuleWanMiniport" xml:space="preserve">
+    <value>Встроенные протоколы VPN и коммутируемого доступа (IKEv2, L2TP, PPTP, SSTP, PPPoE).</value>
+  </data>
+  <data name="RuleWanMiniportBreaks" xml:space="preserve">
+    <value>VPN-подключения Windows, интернет через PPPoE и некоторые сторонние VPN-клиенты.</value>
+  </data>
+  <data name="RuleRdpBus" xml:space="preserve">
+    <value>Перенаправляет локальные устройства в сеансы удалённого рабочего стола.</value>
+  </data>
+  <data name="RuleRdpBusBreaks" xml:space="preserve">
+    <value>Принтеры, диски и USB-устройства в сеансах удалённого рабочего стола.</value>
+  </data>
+  <data name="RuleVirtualDrive" xml:space="preserve">
+    <value>Создаёт виртуальные диски, которые Windows подключает из файлов VHD и VHDX.</value>
+  </data>
+  <data name="RuleVirtualDriveBreaks" xml:space="preserve">
+    <value>Подключение виртуальных дисков (VHD/VHDX) и инструменты, которые на них полагаются.</value>
+  </data>
+  <data name="RuleNdisVirtual" xml:space="preserve">
+    <value>Создаёт виртуальные сетевые адаптеры для VPN и средств виртуализации.</value>
+  </data>
+  <data name="RuleNdisVirtualBreaks" xml:space="preserve">
+    <value>Некоторые VPN-клиенты и сеть виртуальных машин.</value>
+  </data>
+  <data name="RuleUmBus" xml:space="preserve">
+    <value>Шина для драйверов пользовательского режима.</value>
+  </data>
+  <data name="RuleUmBusBreaks" xml:space="preserve">
+    <value>Некоторые датчики, портативные устройства, принтеры и гарнитуры смешанной реальности.</value>
+  </data>
+  <data name="RuleCompositeBus" xml:space="preserve">
+    <value>Шина, через которую Windows собирает составные устройства.</value>
+  </data>
+  <data name="RuleCompositeBusBreaks" xml:space="preserve">
+    <value>Некоторые беспроводные адаптеры, устройства Bluetooth LE и док-станции.</value>
+  </data>
+  <data name="RuleHyperV" xml:space="preserve">
+    <value>Инфраструктура виртуализации Hyper-V.</value>
+  </data>
+  <data name="RuleHyperVBreaks" xml:space="preserve">
+    <value>Hyper-V, WSL 2, песочница Windows, Docker Desktop и безопасность на основе виртуализации.</value>
+  </data>
+  <data name="RuleWifiDirect" xml:space="preserve">
+    <value>Виртуальный адаптер для подключений Wi-Fi Direct.</value>
+  </data>
+  <data name="RuleWifiDirectBreaks" xml:space="preserve">
+    <value>Мобильный хот-спот, беспроводной дисплей (Miracast) и обмен с устройствами поблизости по Wi-Fi.</value>
+  </data>
+  <data name="RuleTeredo" xml:space="preserve">
+    <value>Адаптеры туннелирования IPv6 (Teredo, ISATAP).</value>
+  </data>
+  <data name="RuleTeredoBreaks" xml:space="preserve">
+    <value>Групповой чат и мультиплеер сети Xbox в некоторых сетях и старые конфигурации IPv6.</value>
+  </data>
+  <data name="RuleVirtualPrinter" xml:space="preserve">
+    <value>Виртуальная очередь печати (PDF, XPS, факс или OneNote).</value>
+  </data>
+  <data name="RuleVirtualPrinterBreaks" xml:space="preserve">
+    <value>Печать на этот виртуальный принтер.</value>
+  </data>
+  <data name="CheckBcdTimers" xml:space="preserve">
+    <value>Принудительные таймеры загрузки (bcdedit)</value>
+  </data>
+  <data name="CheckBcdTimersExplain" xml:space="preserve">
+    <value>useplatformclock, disabledynamictick, useplatformtick и tscsyncpolicy предназначены для отладки; их принудительная установка обычно увеличивает нагрузку таймеров.</value>
+  </data>
+  <data name="CheckMitigations" xml:space="preserve">
+    <value>Защита от уязвимостей ЦП</value>
+  </data>
+  <data name="CheckMitigationsExplain" xml:space="preserve">
+    <value>FeatureSettingsOverride отключает защиту от Spectre и Meltdown. Прирост на современных ЦП мал, а ПК становится уязвимым.</value>
+  </data>
+  <data name="CheckAutoTuning" xml:space="preserve">
+    <value>Автонастройка окна приёма TCP</value>
+  </data>
+  <data name="CheckAutoTuningExplain" xml:space="preserve">
+    <value>Ограничение автонастройки снижает скорость загрузки на быстрых каналах и не уменьшает пинг.</value>
+  </data>
+  <data name="CheckSvcHostSplit" xml:space="preserve">
+    <value>Группировка узлов служб</value>
+  </data>
+  <data name="CheckSvcHostSplitExplain" xml:space="preserve">
+    <value>Увеличение SvcHostSplitThresholdInKB лишь скрывает процессы в диспетчере задач; раздельные узлы служб стабильнее.</value>
+  </data>
+  <data name="CheckThreadDpc" xml:space="preserve">
+    <value>Потоковые DPC</value>
+  </data>
+  <data name="CheckThreadDpcExplain" xml:space="preserve">
+    <value>ThreadDpcEnable=0 заставляет выполнять все DPC с высоким приоритетом, что может ухудшить задержку.</value>
+  </data>
+  <data name="CheckErrorReporting" xml:space="preserve">
+    <value>Отчёты об ошибках Windows</value>
+  </data>
+  <data name="CheckErrorReportingExplain" xml:space="preserve">
+    <value>Отключение убирает отчёты о сбоях, полезные для диагностики, и не повышает производительность.</value>
+  </data>
+  <data name="CheckInputQueues" xml:space="preserve">
+    <value>Размер очереди мыши и клавиатуры</value>
+  </data>
+  <data name="CheckInputQueuesExplain" xml:space="preserve">
+    <value>Уменьшение MouseDataQueueSize или KeyboardDataQueueSize может терять ввод при всплесках; задержку ввода это не снижает.</value>
+  </data>
+  <data name="CheckCsrssPriority" xml:space="preserve">
+    <value>Приоритет csrss.exe</value>
+  </data>
+  <data name="CheckCsrssPriorityExplain" xml:space="preserve">
+    <value>csrss.exe — критический процесс Windows; принудительный приоритет ЦП или ввода-вывода не даёт измеримой пользы и может вызвать нестабильность.</value>
+  </data>
+  <data name="CheckMpo" xml:space="preserve">
+    <value>Отключённое многоплоскостное наложение</value>
+  </data>
+  <data name="CheckMpoExplain" xml:space="preserve">
+    <value>OverlayTestMode отключает MPO. Оставляйте только если это устраняет мерцание на вашей видеокарте; иначе MPO снижает задержку в оконных играх.</value>
+  </data>
+  <data name="CheckMemoryManagement" xml:space="preserve">
+    <value>Параметры диспетчера памяти</value>
+  </data>
+  <data name="CheckMemoryManagementExplain" xml:space="preserve">
+    <value>DisablePagingExecutive, LargeSystemCache, IoPageLockLimit и CacheUnmapBehindLengthInMB — значения для старых серверов, на настольных ПК они тратят память впустую.</value>
+  </data>
+  <data name="CheckRawMouseThrottle" xml:space="preserve">
+    <value>Ограничение raw-ввода мыши</value>
+  </data>
+  <data name="CheckRawMouseThrottleExplain" xml:space="preserve">
+    <value>Значения RawMouseThrottle важны только для фоновых окон; их принудительная установка меняет поведение мышей с высокой частотой опроса и не даёт выигрыша в играх.</value>
+  </data>
+  <data name="CheckGlobalTimer" xml:space="preserve">
+    <value>Глобальные запросы разрешения таймера</value>
+  </data>
+  <data name="CheckGlobalTimerExplain" xml:space="preserve">
+    <value>Заставляет все процессы использовать самый точный таймер, запрошенный любым приложением, как в Windows 10. Повышает энергопотребление; оставляйте только если это нужно конкретной старой игре.</value>
+  </data>
+  <data name="ScriptsTitle" xml:space="preserve">
+    <value>Скрипты Marius Heier</value>
+  </data>
+  <data name="ScriptsDescription" xml:space="preserve">
+    <value>Интерактивные инструменты автора, запускаемые так, как он описывает: TweakHub открывает окно PowerShell от имени администратора, которое загружает скрипт с tools.mariusheier.com и выполняет его. TweakHub не проверяет и не меняет действия скрипта.</value>
+  </data>
+  <data name="ScriptCpuDirect" xml:space="preserve">
+    <value>Сопоставляет каждое USB-устройство с контроллером и ЦП, затем предлагает включить MSI и отключить энергосбережение USB.</value>
+  </data>
+  <data name="ScriptDeepPoll" xml:space="preserve">
+    <value>Измеряет реальную частоту опроса и джиттер мыши и контроллера с помощью трассировки ядра.</value>
+  </data>
+  <data name="ScriptDeepLog" xml:space="preserve">
+    <value>Записывает 30 секунд ввода контроллера; перед отправкой показывает, что будет отправлено.</value>
+  </data>
+  <data name="ScriptRig" xml:space="preserve">
+    <value>Сравнивает вашу конфигурацию USB с профилями других пользователей и может отправить вашу.</value>
+  </data>
+  <data name="ScriptRun" xml:space="preserve">
+    <value>Запустить от админа</value>
+  </data>
+  <data name="ScriptPage" xml:space="preserve">
+    <value>Открыть официальную страницу</value>
+  </data>
+  <data name="ScriptWarningTitle" xml:space="preserve">
+    <value>Сторонний скрипт</value>
+  </data>
+  <data name="ScriptWarningMessage" xml:space="preserve">
+    <value>{0} создан Marius Heier, а не TweakHub. PowerShell загрузит его с сайта автора и выполнит с правами администратора:
+
+{1}
+
+TweakHub не может проверить, что делает скрипт, а автор может изменить его в любой момент. Если сомневаетесь, сначала прочитайте его на официальной странице. Это предупреждение появляется только при первом запуске {0}.</value>
+  </data>
+  <data name="LoadingInterrupts" xml:space="preserve">
+    <value>Чтение параметров прерываний…</value>
+  </data>
+  <data name="LoadingUsb" xml:space="preserve">
+    <value>Построение пути USB-устройств до ЦП…</value>
+  </data>
+  <data name="LoadingChecks" xml:space="preserve">
+    <value>Проверка вредных твиков…</value>
+  </data>
+</root>

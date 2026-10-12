@@ -390,12 +390,6 @@
   <data name="DescriptionOpenSourceMouseAccelerationDriver" xml:space="preserve">
     <value>Драйвер ускорения мыши с открытым исходным кодом</value>
   </data>
-  <data name="DescriptionAdvancedUSBHIDPollingRateFilterDriver" xml:space="preserve">
-    <value>Усовершенствованный драйвер фильтра скорости опроса USB HID</value>
-  </data>
-  <data name="DescriptionBrowserBasedCalibrationForSupportedPlayStationControllers" xml:space="preserve">
-    <value>Калибровка на основе браузера для поддерживаемых контроллеров PlayStation</value>
-  </data>
   <data name="DescriptionOfficialBrowserBasedMousePollingRateTester" xml:space="preserve">
     <value>Официальный тестер скорости опроса мыши на основе браузера</value>
   </data>
@@ -943,5 +937,44 @@
   </data>
   <data name="DescriptionOpenBoardView" xml:space="preserve">
     <value>Просмотрщик с открытым кодом для файлов .brd и других форматов boardview, используемых при компонентном ремонте материнских плат и видеокарт. Файлы boardview поступают от третьих лиц: открывайте только файлы из надёжных источников. Открывает только официальную страницу релизов.</value>
+  </data>
+  <data name="CategoryLatencyInput" xml:space="preserve">
+    <value>Задержка и ввод</value>
+  </data>
+  <data name="DescriptionGoInterruptPolicy" xml:space="preserve">
+    <value>Настраивает режим MSI, приоритет прерываний и привязку к ЦП для каждого устройства. Вкладка «Прерывания и MSI» в TweakHub делает то же с резервными копиями; неверные значения могут вызвать нестабильность или отказ устройства до восстановления. MIT. Открывает только официальный репозиторий.</value>
+  </data>
+  <data name="DescriptionCpuDirect" xml:space="preserve">
+    <value>Считает микросхемы между каждым USB-устройством и ЦП и проверяет MSI и выборочную приостановку контроллера. Вкладка «USB и ввод» в TweakHub показывает ту же цепочку встроенно; оригинал запускает удалённый скрипт через irm | iex — прочитайте его перед запуском. MIT. Открывает только официальную страницу.</value>
+  </data>
+  <data name="DescriptionDeepPoll" xml:space="preserve">
+    <value>Измеряет частоту опроса USB с микросекундной точностью через трассировку ETW ядра и требует прав администратора. В TweakHub есть упрощённый тест опроса мыши. Запускает удалённый скрипт через irm | iex. MIT. Открывает только официальную страницу.</value>
+  </data>
+  <data name="DescriptionDeepLog" xml:space="preserve">
+    <value>Записывает 30 секунд ввода с контроллера и помогает отправить запись автору для диагностики. Делитесь ею, только если согласны передать эти данные. Запускает удалённый скрипт через irm | iex. MIT. Открывает только официальную страницу.</value>
+  </data>
+  <data name="DescriptionUsbRigProfiles" xml:space="preserve">
+    <value>Собирает профиль USB-оборудования и публикует его на открытой доске для выявления проблем совместимости. Отправка публична: сначала проверьте её содержимое. Запускает удалённый скрипт через irm | iex. MIT. Открывает только официальную страницу.</value>
+  </data>
+  <data name="DescriptionHidAnalyzer" xml:space="preserve">
+    <value>Анализатор опроса геймпадов и HID в браузере через WebHID; точность ограничена таймингом браузера примерно 250 Гц. Установка не нужна. Открывает только официальную страницу.</value>
+  </data>
+  <data name="DescriptionHidusbf" xml:space="preserve">
+    <value>Разгоняет частоту опроса USB-мышей и контроллеров с помощью драйвера-фильтра. Неподписанные или тестово подписанные драйверы могут блокироваться безопасной загрузкой, целостностью памяти или античитом, а неверная настройка может вывести устройство из строя. Нет файла лицензии. Открывает только официальный репозиторий.</value>
+  </data>
+  <data name="DescriptionBattleBeaver" xml:space="preserve">
+    <value>Руководство по разгону контроллеров PlayStation и Xbox на ПК для повышения частоты опроса. Выполняйте только со своим оборудованием и проверьте правила античитов. Открывает только официальную страницу.</value>
+  </data>
+  <data name="DescriptionPowerPlanSettingsEditor" xml:space="preserve">
+    <value>Графический интерфейс PowerShell для изменения всех параметров плана электропитания, включая скрытые. Неверные значения могут повысить температуру или нарушить сон; сначала экспортируйте план через powercfg. MIT. Открывает только официальный репозиторий.</value>
+  </data>
+  <data name="DescriptionAdvancedPowerOptions" xml:space="preserve">
+    <value>Объясняет дополнительные параметры электропитания Windows: политику простоя устройств, подключение в режиме ожидания, состояния процессора. Только документация. MIT. Открывает только официальный репозиторий.</value>
+  </data>
+  <data name="DescriptionRepairBadTweaks" xml:space="preserve">
+    <value>Находит и отменяет популярные твики, ухудшающие стабильность или безопасность, например принудительные таймеры и отключённые меры защиты. Вкладка «Проверка твиков» в TweakHub выполняет те же проверки с пояснениями. MIT. Открывает только официальный репозиторий.</value>
+  </data>
+  <data name="DescriptionDualShockTools" xml:space="preserve">
+    <value>Веб-приложение для калибровки стиков и триггеров DualShock 4 и DualSense через WebHID в Chrome или Edge; исправляет дрейф стиков без вскрытия контроллера. Открывает только официальный сайт.</value>
   </data>
 </root>

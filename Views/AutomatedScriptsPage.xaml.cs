@@ -15,10 +15,6 @@ namespace TweakHub.Views
 {
     public partial class AutomatedScriptsPage : Page
     {
-        private sealed record TweakChoice(string ReferenceId, string Name)
-        {
-            public override string ToString() => Name;
-        }
 
         private sealed record BuiltInScriptCard(
             string Id, string Icon, string Name, string Description, string Category, string ExecuteText,
@@ -149,6 +145,13 @@ namespace TweakHub.Views
             LoadFavoriteScripts();
             LoadPlaybooks();
             LoadScriptHistory();
+            Loaded += async (_, _) =>
+            {
+                // Started again as administrator to run this playbook with a single UAC prompt.
+                if (App.StartupPlaybookId is not { } id) return;
+                App.StartupPlaybookId = null;
+                if (_playbooks.FirstOrDefault(playbook => playbook.Id == id) is { } playbook) await RunPlaybookAsync(playbook, confirmed: true);
+            };
         }
 
         private void LoadCustomScripts()
@@ -213,11 +216,13 @@ namespace TweakHub.Views
             }
         }
 
-        private void NewPlaybook_Click(object sender, RoutedEventArgs e) => EditPlaybook();
+        private void NewPlaybook_Click(object sender, RoutedEventArgs e) => EditPlaybook(null, detect: false);
+
+        private void CapturePlaybook_Click(object sender, RoutedEventArgs e) => EditPlaybook(null, detect: true);
 
         private void EditPlaybook_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button { DataContext: Playbook playbook }) EditPlaybook(playbook);
+            if (sender is Button { DataContext: Playbook playbook }) EditPlaybook(playbook, detect: false);
         }
 
         private async void DeletePlaybook_Click(object sender, RoutedEventArgs e)
@@ -236,9 +241,48 @@ namespace TweakHub.Views
             }
         }
 
-        private async void RunPlaybook_Click(object sender, RoutedEventArgs e)
+        private async void ExportPlaybook_Click(object sender, RoutedEventArgs e)
         {
             if (sender is not Button { DataContext: Playbook playbook }) return;
+            var dialog = new SaveFileDialog
+            {
+                Filter = L.Get("Scripts:PlaybookFileFilter"),
+                FileName = string.Concat(playbook.Name.Split(System.IO.Path.GetInvalidFileNameChars())) + ".tweakhub-playbook.json"
+            };
+            if (dialog.ShowDialog() != true) return;
+            try { PlaybookService.Instance.Export(playbook, dialog.FileName); }
+            catch (Exception ex) when (ex is System.IO.IOException or UnauthorizedAccessException)
+            {
+                await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Scripts:ExportPlaybook"), ex.Message);
+            }
+        }
+
+        private async void ImportPlaybook_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new OpenFileDialog { Filter = L.Get("Scripts:PlaybookFileFilter") };
+            if (dialog.ShowDialog() != true) return;
+            try
+            {
+                var result = PlaybookService.Instance.Import(dialog.FileName);
+                LoadPlaybooks();
+                LoadCustomScripts();
+                await AppDialog.ShowAsync(Window.GetWindow(this), L.Get("Scripts:ImportPlaybook"),
+                    L.Format("Scripts:PlaybookImported", result.Playbook.Name, result.Playbook.Steps.Count, result.CustomTweaks, result.CustomScripts));
+            }
+            catch (Exception ex) when (ex is System.IO.InvalidDataException or System.IO.IOException or UnauthorizedAccessException)
+            {
+                await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Scripts:ImportPlaybook"), ex.Message);
+            }
+        }
+
+        private async void RunPlaybook_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button { DataContext: Playbook playbook }) await RunPlaybookAsync(playbook, confirmed: false);
+        }
+
+        /// <param name="confirmed">Already confirmed before TweakHub restarted as administrator.</param>
+        private async Task RunPlaybookAsync(Playbook playbook, bool confirmed)
+        {
             PlaybookPreflight preflight;
             try { preflight = PlaybookService.Instance.Preflight(playbook); }
             catch (Exception ex)
@@ -252,9 +296,19 @@ namespace TweakHub.Views
                     string.Join(Environment.NewLine, preflight.Errors));
                 return;
             }
-            var preview = string.Join(Environment.NewLine, preflight.Lines);
-            if (!await AppDialog.ConfirmAsync(Window.GetWindow(this), playbook.Name,
-                    L.Format("Scripts:PlaybookRunConfirmation", preview), L.Get("Scripts:Run"), L.Get("Scripts:Cancel"))) return;
+            if (!confirmed)
+            {
+                var preview = string.Join(Environment.NewLine, preflight.Lines);
+                if (!await AppDialog.ConfirmAsync(Window.GetWindow(this), playbook.Name,
+                        L.Format("Scripts:PlaybookRunConfirmation", preview), L.Get("Scripts:Run"), L.Get("Scripts:Cancel"))) return;
+                // Several administrator steps would each ask for UAC: one elevated restart asks once.
+                if (preflight.AdministratorSteps > 1 && !Elevation.IsAdministrator
+                    && await AppDialog.ConfirmAsync(Window.GetWindow(this), L.Get("Scripts:PlaybookElevateTitle"),
+                        L.Format("Scripts:PlaybookElevateMessage", preflight.AdministratorSteps),
+                        L.Get("Scripts:PlaybookElevateRestart"), L.Get("Scripts:PlaybookElevateContinue"), DialogKind.Shield)
+                    && App.RestartElevated($"--run-playbook {playbook.Id}"))
+                    return;
+            }
 
             var progressWindow = new ProgressWindow(playbook.Name);
             progressWindow.Show();
@@ -279,209 +333,22 @@ namespace TweakHub.Views
             }
         }
 
-        private void EditPlaybook(Playbook? existing = null)
+        private void EditPlaybook(Playbook? existing, bool detect)
         {
-            var working = new Playbook
+            var dialog = new PlaybookDialog(existing, detect) { Owner = Window.GetWindow(this) };
+            if (dialog.ShowDialog() != true || dialog.Result is not { } saved) return;
+            try
             {
-                Id = existing?.Id ?? Guid.NewGuid().ToString("N"),
-                Name = existing?.Name ?? string.Empty,
-                Description = existing?.Description ?? string.Empty,
-                Steps = existing?.Steps.Select(CloneStep).ToList() ?? []
-            };
-            var steps = new ObservableCollection<PlaybookStep>(working.Steps);
-            var dialog = CreateEditorWindow(L.Get(existing == null ? "Scripts:CreatePlaybook" : "Scripts:EditPlaybook"), 720, 620);
-            var grid = new Grid { Margin = new Thickness(20) };
-            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-
-            var name = new TextBox { Text = working.Name, Margin = new Thickness(0, 4, 0, 10) };
-            System.Windows.Automation.AutomationProperties.SetName(name, L.Get("Scripts:PlaybookName"));
-            var namePanel = new StackPanel();
-            namePanel.Children.Add(new TextBlock { Text = L.Get("Scripts:PlaybookName") });
-            namePanel.Children.Add(name);
-            grid.Children.Add(namePanel);
-            var description = new TextBox { Text = working.Description, Margin = new Thickness(0, 4, 0, 12) };
-            System.Windows.Automation.AutomationProperties.SetName(description, L.Get("Scripts:PlaybookDescription"));
-            var descriptionPanel = new StackPanel();
-            descriptionPanel.Children.Add(new TextBlock { Text = L.Get("Scripts:PlaybookDescription") });
-            descriptionPanel.Children.Add(description);
-            Grid.SetRow(descriptionPanel, 1);
-            grid.Children.Add(descriptionPanel);
-            var list = new ListBox { ItemsSource = steps, DisplayMemberPath = nameof(PlaybookStep.Summary), Margin = new Thickness(0, 0, 0, 10) };
-            Grid.SetRow(list, 2);
-            grid.Children.Add(list);
-
-            var stepButtons = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 0, 0, 14) };
-            Button AddButton(string text, RoutedEventHandler click)
-            {
-                var button = new Button { Content = text, Style = GetStyleOrDefault("SecondaryButtonStyle"), Margin = new Thickness(0, 0, 8, 0) };
-                button.Click += click;
-                stepButtons.Children.Add(button);
-                return button;
+                var playbooks = _playbooks.Select(playbook => playbook == existing ? saved : playbook).ToList();
+                if (existing == null) playbooks.Add(saved);
+                _userDataService.SavePlaybooks(playbooks);
+                LoadPlaybooks();
             }
-            AddButton(L.Get("Scripts:AddTweakStep"), (_, _) => AddTweakStep(dialog, steps));
-            AddButton(L.Get("Scripts:AddApplicationStep"), (_, _) => AddApplicationStep(dialog, steps));
-            AddButton(L.Get("Scripts:AddScriptStep"), (_, _) => AddScriptStep(dialog, steps));
-            AddButton(L.Get("Scripts:MoveUp"), (_, _) => MoveStep(steps, list.SelectedIndex, -1));
-            AddButton(L.Get("Scripts:MoveDown"), (_, _) => MoveStep(steps, list.SelectedIndex, 1));
-            AddButton(L.Get("Scripts:RemoveStep"), (_, _) => { if (list.SelectedItem is PlaybookStep step) steps.Remove(step); });
-            Grid.SetRow(stepButtons, 3);
-            grid.Children.Add(stepButtons);
-
-            var actions = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right };
-            var cancel = new Button { Content = L.Get("Scripts:Cancel"), Style = GetStyleOrDefault("SecondaryButtonStyle"), Margin = new Thickness(0, 0, 8, 0) };
-            var save = new Button { Content = L.Get("Scripts:Save"), Style = GetStyleOrDefault("ExecuteButtonStyle") };
-            cancel.Click += (_, _) => dialog.Close();
-            save.Click += async (_, _) =>
+            catch (Exception ex) when (ex is System.IO.IOException or UnauthorizedAccessException)
             {
-                working.Name = name.Text.Trim();
-                working.Description = description.Text.Trim();
-                working.Steps = steps.ToList();
-                try
-                {
-                    UserDataService.ValidatePlaybook(working);
-                    var saved = _playbooks.Select(playbook => playbook == existing ? working : playbook).ToList();
-                    if (existing == null) saved.Add(working);
-                    _userDataService.SavePlaybooks(saved);
-                    if (existing == null) _playbooks.Add(working);
-                    else
-                    {
-                        existing.Name = working.Name;
-                        existing.Description = working.Description;
-                        existing.Steps = working.Steps;
-                    }
-                    PlaybooksControl.Items.Refresh();
-                    dialog.Close();
-                }
-                catch (Exception ex)
-                {
-                    await AppDialog.ShowWarningAsync(dialog, L.Get("Scripts:PlaybookInvalid"), ex.Message);
-                }
-            };
-            actions.Children.Add(cancel);
-            actions.Children.Add(save);
-            Grid.SetRow(actions, 4);
-            grid.Children.Add(actions);
-            dialog.Content = grid;
-            dialog.ShowDialog();
+                _ = AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Scripts:PlaybookInvalid"), ex.Message);
+            }
         }
-
-        private void AddTweakStep(Window owner, ObservableCollection<PlaybookStep> steps)
-        {
-            if (TweakService.Instance.TweakCategories.Count == 0) TweakService.Instance.LoadTweaks();
-            var choices = TweakService.Instance.TweakCategories.SelectMany(category => category.Tweaks)
-                .Select(tweak => new TweakChoice($"builtin:{tweak.Id}", tweak.Name))
-                .Concat(_userDataService.LoadCustomTweaks().Select(tweak => new TweakChoice($"custom:{tweak.Id}", tweak.Name)))
-                .OrderBy(choice => choice.Name).ToList();
-            var dialog = CreateEditorWindow(L.Get("Scripts:AddTweakStep"), 480, 240, owner);
-            var panel = new StackPanel { Margin = new Thickness(20) };
-            var combo = new ComboBox { ItemsSource = choices, SelectedIndex = choices.Count > 0 ? 0 : -1, Margin = new Thickness(0, 0, 0, 12) };
-            System.Windows.Automation.AutomationProperties.SetName(combo, L.Get("Scripts:AddTweakStep"));
-            var enabled = new CheckBox { Content = L.Get("Scripts:TweakTargetEnabled"), IsChecked = true, Margin = new Thickness(0, 0, 0, 16) };
-            var add = new Button { Content = L.Get("Scripts:Add"), Style = GetStyleOrDefault("ExecuteButtonStyle"), HorizontalAlignment = HorizontalAlignment.Right };
-            add.Click += (_, _) =>
-            {
-                if (combo.SelectedItem is not TweakChoice choice) return;
-                steps.Add(new PlaybookStep { Type = PlaybookStepType.Tweak, ReferenceId = choice.ReferenceId, Name = choice.Name, TargetEnabled = enabled.IsChecked == true });
-                dialog.Close();
-            };
-            panel.Children.Add(combo); panel.Children.Add(enabled); panel.Children.Add(add);
-            dialog.Content = panel;
-            dialog.ShowDialog();
-        }
-
-        private void AddApplicationStep(Window owner, ObservableCollection<PlaybookStep> steps)
-        {
-            if (ShortcutService.Instance.ExternalTools.Count == 0) ShortcutService.Instance.Initialize();
-            var available = ShortcutService.Instance.ExternalTools.Where(tool => tool.WingetId.Length > 0)
-                .OrderBy(tool => tool.Name).ToList();
-            var dialog = CreateEditorWindow(L.Get("Scripts:AddApplicationStep"), 500, 420, owner);
-            var panel = new StackPanel { Margin = new Thickness(20) };
-            var catalogue = new ComboBox
-            {
-                ItemsSource = available,
-                DisplayMemberPath = nameof(ExternalTool.Name),
-                Margin = new Thickness(0, 0, 0, 10),
-                ToolTip = L.Get("Scripts:SelectCatalogueApplication")
-            };
-            var name = new TextBox { Margin = new Thickness(0, 4, 0, 10) };
-            var winget = new TextBox { Margin = new Thickness(0, 4, 0, 16) };
-            System.Windows.Automation.AutomationProperties.SetName(name, L.Get("Scripts:ApplicationName"));
-            System.Windows.Automation.AutomationProperties.SetName(winget, L.Get("Scripts:WingetPackageId"));
-            catalogue.SelectionChanged += (_, _) =>
-            {
-                if (catalogue.SelectedItem is not ExternalTool tool) return;
-                name.Text = tool.Name;
-                winget.Text = tool.WingetId;
-            };
-            var add = new Button { Content = L.Get("Scripts:Add"), Style = GetStyleOrDefault("ExecuteButtonStyle"), HorizontalAlignment = HorizontalAlignment.Right };
-            add.Click += async (_, _) =>
-            {
-                try { UserDataService.ValidateWingetId(winget.Text.Trim()); }
-                catch (Exception ex) { await AppDialog.ShowWarningAsync(dialog, L.Get("Scripts:PlaybookInvalid"), ex.Message); return; }
-                if (string.IsNullOrWhiteSpace(name.Text)) return;
-                steps.Add(new PlaybookStep { Type = PlaybookStepType.Winget, Name = name.Text.Trim(), WingetId = winget.Text.Trim() });
-                dialog.Close();
-            };
-            panel.Children.Add(new TextBlock { Text = L.Get("Scripts:SelectCatalogueApplication"), Margin = new Thickness(0, 0, 0, 4) });
-            panel.Children.Add(catalogue);
-            panel.Children.Add(new TextBlock { Text = L.Get("Scripts:ApplicationName") });
-            panel.Children.Add(name);
-            panel.Children.Add(new TextBlock { Text = L.Get("Scripts:WingetPackageId") });
-            panel.Children.Add(winget);
-            panel.Children.Add(add);
-            dialog.Content = panel;
-            dialog.ShowDialog();
-        }
-
-        private void AddScriptStep(Window owner, ObservableCollection<PlaybookStep> steps)
-        {
-            var scripts = _customScripts.ToList();
-            var dialog = CreateEditorWindow(L.Get("Scripts:AddScriptStep"), 480, 210, owner);
-            var panel = new StackPanel { Margin = new Thickness(20) };
-            var combo = new ComboBox { ItemsSource = scripts, DisplayMemberPath = nameof(CustomScript.Name), SelectedIndex = scripts.Count > 0 ? 0 : -1, Margin = new Thickness(0, 0, 0, 16) };
-            System.Windows.Automation.AutomationProperties.SetName(combo, L.Get("Scripts:AddScriptStep"));
-            var add = new Button { Content = L.Get("Scripts:Add"), Style = GetStyleOrDefault("ExecuteButtonStyle"), HorizontalAlignment = HorizontalAlignment.Right };
-            add.Click += (_, _) =>
-            {
-                if (combo.SelectedItem is not CustomScript script) return;
-                steps.Add(new PlaybookStep { Type = PlaybookStepType.Script, ReferenceId = script.Id, Name = script.Name });
-                dialog.Close();
-            };
-            panel.Children.Add(combo); panel.Children.Add(add);
-            dialog.Content = panel;
-            dialog.ShowDialog();
-        }
-
-        private static void MoveStep(ObservableCollection<PlaybookStep> steps, int index, int direction)
-        {
-            var target = index + direction;
-            if (index < 0 || target < 0 || target >= steps.Count) return;
-            steps.Move(index, target);
-        }
-
-        private static PlaybookStep CloneStep(PlaybookStep step) => new()
-        {
-            Id = step.Id,
-            Type = step.Type,
-            ReferenceId = step.ReferenceId,
-            Name = step.Name,
-            WingetId = step.WingetId,
-            TargetEnabled = step.TargetEnabled
-        };
-
-        private static Window CreateEditorWindow(string title, double width, double height, Window? owner = null) => new()
-        {
-            Title = title,
-            Width = width,
-            Height = height,
-            Owner = owner ?? Application.Current.MainWindow,
-            WindowStartupLocation = WindowStartupLocation.CenterOwner,
-            Background = (Brush)Application.Current.FindResource("WindowBackgroundBrush")
-        };
 
         private void LoadScriptHistory()
         {
@@ -602,7 +469,6 @@ namespace TweakHub.Views
             if (sender is Button { DataContext: CustomScript script }) await DeleteCustomScript(script);
         }
 
-        private Style GetStyleOrDefault(string key) => (Style)FindResource(key);
 
         private async Task ExecuteCustomScript(CustomScript script, CancellationToken cancellationToken)
         {

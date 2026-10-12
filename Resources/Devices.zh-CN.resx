@@ -1,0 +1,562 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Title" xml:space="preserve">
+    <value>设备与延迟</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>查看可以安全禁用的设备、中断设置、输入设备的 USB 路径以及影响稳定性的调整。每项更改都会请求确认并可撤销。</value>
+  </data>
+  <data name="TabDevices" xml:space="preserve">
+    <value>设备</value>
+  </data>
+  <data name="TabInterrupts" xml:space="preserve">
+    <value>中断与 MSI</value>
+  </data>
+  <data name="TabUsb" xml:space="preserve">
+    <value>USB 与输入</value>
+  </data>
+  <data name="TabChecks" xml:space="preserve">
+    <value>调整检查</value>
+  </data>
+  <data name="TabTools" xml:space="preserve">
+    <value>工具与资源</value>
+  </data>
+  <data name="Scan" xml:space="preserve">
+    <value>扫描</value>
+  </data>
+  <data name="Scanning" xml:space="preserve">
+    <value>正在读取即插即用设备…</value>
+  </data>
+  <data name="Scanned" xml:space="preserve">
+    <value>扫描于 {0}。在你选择操作之前不会做任何更改。</value>
+  </data>
+  <data name="ScanFailed" xml:space="preserve">
+    <value>无法完成扫描：{0}</value>
+  </data>
+  <data name="DevicesDescription" xml:space="preserve">
+    <value>即插即用设备清单，并注明延迟优化指南常建议禁用的设备以及禁用后会失效的功能。“不存在”或“无子设备”并不能证明设备未被使用。</value>
+  </data>
+  <data name="EnableAll" xml:space="preserve">
+    <value>全部重新启用</value>
+  </data>
+  <data name="EnableAllHint" xml:space="preserve">
+    <value>重新启用 TweakHub 禁用的所有设备。在其他地方禁用的设备保持不变。</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>导出报告</value>
+  </data>
+  <data name="TileTotal" xml:space="preserve">
+    <value>设备</value>
+  </data>
+  <data name="TileSuggested" xml:space="preserve">
+    <value>有说明</value>
+  </data>
+  <data name="TileDisabled" xml:space="preserve">
+    <value>已禁用</value>
+  </data>
+  <data name="TileProblems" xml:space="preserve">
+    <value>有问题</value>
+  </data>
+  <data name="CategoriesTitle" xml:space="preserve">
+    <value>设备状态</value>
+  </data>
+  <data name="SuggestedOnly" xml:space="preserve">
+    <value>仅显示有说明的设备</value>
+  </data>
+  <data name="ColumnClass" xml:space="preserve">
+    <value>类别</value>
+  </data>
+  <data name="ColumnCategory" xml:space="preserve">
+    <value>状态</value>
+  </data>
+  <data name="ColumnAdvice" xml:space="preserve">
+    <value>说明</value>
+  </data>
+  <data name="Breaks" xml:space="preserve">
+    <value>将失效：</value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>禁用</value>
+  </data>
+  <data name="Enable" xml:space="preserve">
+    <value>启用</value>
+  </data>
+  <data name="DisableConfirmTitle" xml:space="preserve">
+    <value>禁用设备？</value>
+  </data>
+  <data name="DisableConfirmMessage" xml:space="preserve">
+    <value>将在设备管理器中禁用 {0}。可从此列表或“全部重新启用”再次启用。</value>
+  </data>
+  <data name="HighRiskWarning" xml:space="preserve">
+    <value>警告：这是关键的系统、存储、网络或输入设备。禁用后可能导致 Windows 无法启动，或使键盘、鼠标、网络无法使用。</value>
+  </data>
+  <data name="AvoidWarning" xml:space="preserve">
+    <value>该设备常出现在延迟优化指南中，但禁用它没有可靠的收益，还可能引发问题。TweakHub 建议保持启用。</value>
+  </data>
+  <data name="ToggleFailedTitle" xml:space="preserve">
+    <value>设备未更改</value>
+  </data>
+  <data name="InterruptsDescription" xml:space="preserve">
+    <value>PCI 设备及其通知 CPU 的方式。MSI（消息信号中断）可避免共享中断线；优先级和 CPU 亲和性属于高级设置，仅在特定情况下有用。</value>
+  </data>
+  <data name="RestartNote" xml:space="preserve">
+    <value>更改将在重启后生效。</value>
+  </data>
+  <data name="TilePciDevices" xml:space="preserve">
+    <value>PCI 设备</value>
+  </data>
+  <data name="TileMsi" xml:space="preserve">
+    <value>使用 MSI</value>
+  </data>
+  <data name="TileAffinity" xml:space="preserve">
+    <value>自定义亲和性</value>
+  </data>
+  <data name="InterruptModeByClass" xml:space="preserve">
+    <value>按类别的中断模式</value>
+  </data>
+  <data name="InterruptMsi" xml:space="preserve">
+    <value>MSI</value>
+  </data>
+  <data name="InterruptLineBased" xml:space="preserve">
+    <value>基于线路</value>
+  </data>
+  <data name="ColumnMode" xml:space="preserve">
+    <value>模式</value>
+  </data>
+  <data name="ColumnLimit" xml:space="preserve">
+    <value>消息数</value>
+  </data>
+  <data name="ColumnPriority" xml:space="preserve">
+    <value>优先级</value>
+  </data>
+  <data name="ColumnAffinity" xml:space="preserve">
+    <value>CPU 亲和性</value>
+  </data>
+  <data name="AffinityAuto" xml:space="preserve">
+    <value>自动 (Windows)</value>
+  </data>
+  <data name="PriorityUndefined" xml:space="preserve">
+    <value>默认</value>
+  </data>
+  <data name="PriorityLow" xml:space="preserve">
+    <value>低</value>
+  </data>
+  <data name="PriorityNormal" xml:space="preserve">
+    <value>正常</value>
+  </data>
+  <data name="PriorityHigh" xml:space="preserve">
+    <value>高</value>
+  </data>
+  <data name="EditorHint" xml:space="preserve">
+    <value>只修改必要的内容，一次一个设备，并在重启后测试。“恢复原始设置”会还原 TweakHub 找到的值。</value>
+  </data>
+  <data name="UseMsi" xml:space="preserve">
+    <value>使用消息信号中断 (MSI)</value>
+  </data>
+  <data name="MsiNotSupported" xml:space="preserve">
+    <value>该设备的驱动程序未声明支持 MSI。</value>
+  </data>
+  <data name="AffinityHint" xml:space="preserve">
+    <value>选择可处理该设备中断的 CPU。全部不选则保持当前设置；使用“恢复原始设置”可恢复为自动。</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>应用</value>
+  </data>
+  <data name="RestoreOriginal" xml:space="preserve">
+    <value>恢复原始设置</value>
+  </data>
+  <data name="ApplyConfirmTitle" xml:space="preserve">
+    <value>更改中断设置？</value>
+  </data>
+  <data name="ApplyConfirmMessage" xml:space="preserve">
+    <value>TweakHub 将备份并更改 {0} 的中断设置。如果重启后设备无法工作，请使用“恢复原始设置”或安全模式。</value>
+  </data>
+  <data name="ApplyFailedTitle" xml:space="preserve">
+    <value>更改未应用</value>
+  </data>
+  <data name="ApplyFailedMessage" xml:space="preserve">
+    <value>无法写入或验证该更改。请检查是否已接受管理员提示。</value>
+  </data>
+  <data name="UsbDescription" xml:space="preserve">
+    <value>每个鼠标、键盘和手柄到 CPU 的路径：每个外部集线器都会增加一跳，USB 节能可能带来唤醒延迟。</value>
+  </data>
+  <data name="PlanSuspendTitle" xml:space="preserve">
+    <value>USB 选择性挂起</value>
+  </data>
+  <data name="PlanSuspendDescription" xml:space="preserve">
+    <value>允许 Windows 在当前计划中关闭空闲的 USB 设备。关闭后可避免台式机唤醒时的延迟尖峰；笔记本电脑可能会损失部分续航。</value>
+  </data>
+  <data name="PlanSuspendOn" xml:space="preserve">
+    <value>当前计划中已启用（接通电源时）</value>
+  </data>
+  <data name="PlanSuspendOff" xml:space="preserve">
+    <value>当前计划中已禁用（接通电源时）</value>
+  </data>
+  <data name="PlanSuspendUnknown" xml:space="preserve">
+    <value>当前计划中不可用</value>
+  </data>
+  <data name="PlanSuspendDisable" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="PollingTitle" xml:space="preserve">
+    <value>鼠标轮询测试</value>
+  </data>
+  <data name="PollingDescription" xml:space="preserve">
+    <value>根据原始输入消息估算鼠标向 Windows 报告的频率。本地运行，无需浏览器；如需微秒级精度请使用 DeepPoll。</value>
+  </data>
+  <data name="PollingStart" xml:space="preserve">
+    <value>开始测试</value>
+  </data>
+  <data name="PollingMove" xml:space="preserve">
+    <value>请在 4 秒内快速画圈移动鼠标…</value>
+  </data>
+  <data name="PollingTooFew" xml:space="preserve">
+    <value>捕获的移动不足。请保持 TweakHub 在前台并持续移动鼠标。</value>
+  </data>
+  <data name="PollingResult" xml:space="preserve">
+    <value>已测量 {0} 个报告。条形图显示频率的稳定程度。</value>
+  </data>
+  <data name="InputDevicesTitle" xml:space="preserve">
+    <value>输入设备</value>
+  </data>
+  <data name="NoInputDevices" xml:space="preserve">
+    <value>未找到鼠标、键盘或手柄。</value>
+  </data>
+  <data name="InputMouse" xml:space="preserve">
+    <value>鼠标</value>
+  </data>
+  <data name="InputKeyboard" xml:space="preserve">
+    <value>键盘</value>
+  </data>
+  <data name="InputController" xml:space="preserve">
+    <value>手柄</value>
+  </data>
+  <data name="NotUsb" xml:space="preserve">
+    <value>未通过 USB 连接</value>
+  </data>
+  <data name="HubsNone" xml:space="preserve">
+    <value>直连控制器（无外部集线器）</value>
+  </data>
+  <data name="Hubs" xml:space="preserve">
+    <value>路径中有 {0} 个外部集线器</value>
+  </data>
+  <data name="HopController" xml:space="preserve">
+    <value>USB 控制器</value>
+  </data>
+  <data name="HopHub" xml:space="preserve">
+    <value>集线器</value>
+  </data>
+  <data name="HopCpu" xml:space="preserve">
+    <value>处理器与芯片组</value>
+  </data>
+  <data name="ControllerMode" xml:space="preserve">
+    <value>控制器：{0}</value>
+  </data>
+  <data name="ControllerUnknown" xml:space="preserve">
+    <value>控制器模式未知</value>
+  </data>
+  <data name="DeviceSuspendOn" xml:space="preserve">
+    <value>允许节能</value>
+  </data>
+  <data name="DeviceSuspendOff" xml:space="preserve">
+    <value>节能已关闭</value>
+  </data>
+  <data name="DeviceSuspendDisable" xml:space="preserve">
+    <value>关闭节能</value>
+  </data>
+  <data name="ReconnectNote" xml:space="preserve">
+    <value>已完成。请重新插拔设备或重启以应用更改。</value>
+  </data>
+  <data name="ChecksDescription" xml:space="preserve">
+    <value>查找会损害稳定性、安全性或输入的常见调整（RepairBadTweaks 列表），并恢复 Windows 默认值。注册表修复会保留备份，可以撤销。</value>
+  </data>
+  <data name="ChecksScan" xml:space="preserve">
+    <value>检查</value>
+  </data>
+  <data name="ChecksScanElevatedHint" xml:space="preserve">
+    <value>同时读取需要管理员权限的启动计时器设置。</value>
+  </data>
+  <data name="ChecksSummary" xml:space="preserve">
+    <value>共 {0} 项检查，{1} 项需要修复。</value>
+  </data>
+  <data name="ChecksManagedNote" xml:space="preserve">
+    <value>Win32PrioritySeparation、Prefetch 和 SysMain 由“注册表调整”管理，TweakHub 在那里保留它们的备份。</value>
+  </data>
+  <data name="Repair" xml:space="preserve">
+    <value>恢复默认</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>撤销</value>
+  </data>
+  <data name="RepairConfirmTitle" xml:space="preserve">
+    <value>恢复 Windows 默认值？</value>
+  </data>
+  <data name="RepairConfirmMessage" xml:space="preserve">
+    <value>{0} 将恢复为 Windows 默认值。</value>
+  </data>
+  <data name="RepairNoUndo" xml:space="preserve">
+    <value>此修复会运行 Windows 命令，无法在 TweakHub 中撤销。</value>
+  </data>
+  <data name="RepairVerifyFailed" xml:space="preserve">
+    <value>无法验证注册表更改。</value>
+  </data>
+  <data name="CheckStatusOk" xml:space="preserve">
+    <value>默认</value>
+  </data>
+  <data name="CheckStatusFlagged" xml:space="preserve">
+    <value>已被调整修改</value>
+  </data>
+  <data name="CheckStatusNeedsAdministrator" xml:space="preserve">
+    <value>需以管理员身份检查才能读取</value>
+  </data>
+  <data name="CategoryHealthy" xml:space="preserve">
+    <value>正常</value>
+  </data>
+  <data name="CategoryHealthyHint" xml:space="preserve">
+    <value>存在且无即插即用问题。这并不表示其使用频率。</value>
+  </data>
+  <data name="CategoryNotPresent" xml:space="preserve">
+    <value>不存在</value>
+  </data>
+  <data name="CategoryNotPresentHint" xml:space="preserve">
+    <value>Windows 记得该设备但当前未连接。这不是移除它的理由。</value>
+  </data>
+  <data name="CategoryDisabled" xml:space="preserve">
+    <value>已禁用</value>
+  </data>
+  <data name="CategoryDisabledHint" xml:space="preserve">
+    <value>已在设备管理器中禁用（问题代码 22）。</value>
+  </data>
+  <data name="CategoryProblem" xml:space="preserve">
+    <value>有问题</value>
+  </data>
+  <data name="CategoryProblemHint" xml:space="preserve">
+    <value>Windows 报告该设备出错：请排查驱动程序，而不是禁用它。</value>
+  </data>
+  <data name="CategoryIdleBus" xml:space="preserve">
+    <value>无子设备的总线</value>
+  </data>
+  <data name="CategoryIdleBusHint" xml:space="preserve">
+    <value>当前未连接设备的总线或枚举器；之后出现设备时可能需要它。</value>
+  </data>
+  <data name="AdviceCommon" xml:space="preserve">
+    <value>通常可安全禁用</value>
+  </data>
+  <data name="AdviceSituational" xml:space="preserve">
+    <value>取决于你的用途</value>
+  </data>
+  <data name="AdviceAvoid" xml:space="preserve">
+    <value>保持启用</value>
+  </data>
+  <data name="RuleHpet" xml:space="preserve">
+    <value>高精度事件计时器：延迟优化指南常建议禁用，但现代 Windows 会自行选择计时器，关闭它不会带来可靠收益。</value>
+  </data>
+  <data name="RuleHpetBreaks" xml:space="preserve">
+    <value>依赖它的部分游戏、工具和旧驱动；计时可能变得不稳定。</value>
+  </data>
+  <data name="RuleSmBus" xml:space="preserve">
+    <value>SMBus 控制器：读取主板上的内存和传感器芯片。</value>
+  </data>
+  <data name="RuleSmBusBreaks" xml:space="preserve">
+    <value>硬件监控、内存信息、RGB 灯效和风扇控制工具。</value>
+  </data>
+  <data name="RuleKernelDebug" xml:space="preserve">
+    <value>仅用于通过网络进行内核调试的网络适配器。</value>
+  </data>
+  <data name="RuleKernelDebugBreaks" xml:space="preserve">
+    <value>网络内核调试（仅限开发者）。</value>
+  </data>
+  <data name="RuleSystemSpeaker" xml:space="preserve">
+    <value>主板蜂鸣器，用于传统系统提示音。</value>
+  </data>
+  <data name="RuleSystemSpeakerBreaks" xml:space="preserve">
+    <value>仅主板提示音。</value>
+  </data>
+  <data name="RuleWanMiniport" xml:space="preserve">
+    <value>内置 VPN 和拨号协议（IKEv2、L2TP、PPTP、SSTP、PPPoE）。</value>
+  </data>
+  <data name="RuleWanMiniportBreaks" xml:space="preserve">
+    <value>Windows VPN 连接、PPPoE 上网以及部分第三方 VPN 客户端。</value>
+  </data>
+  <data name="RuleRdpBus" xml:space="preserve">
+    <value>将本地设备重定向到远程桌面会话。</value>
+  </data>
+  <data name="RuleRdpBusBreaks" xml:space="preserve">
+    <value>远程桌面会话中的打印机、驱动器和 USB 设备。</value>
+  </data>
+  <data name="RuleVirtualDrive" xml:space="preserve">
+    <value>创建 Windows 从 VHD 和 VHDX 文件挂载的虚拟磁盘。</value>
+  </data>
+  <data name="RuleVirtualDriveBreaks" xml:space="preserve">
+    <value>挂载虚拟磁盘（VHD/VHDX）及依赖它们的工具。</value>
+  </data>
+  <data name="RuleNdisVirtual" xml:space="preserve">
+    <value>为 VPN 和虚拟化工具创建虚拟网络适配器。</value>
+  </data>
+  <data name="RuleNdisVirtualBreaks" xml:space="preserve">
+    <value>部分 VPN 客户端和虚拟机网络。</value>
+  </data>
+  <data name="RuleUmBus" xml:space="preserve">
+    <value>用户模式驱动程序的总线。</value>
+  </data>
+  <data name="RuleUmBusBreaks" xml:space="preserve">
+    <value>部分传感器、便携设备、打印机和混合现实头显。</value>
+  </data>
+  <data name="RuleCompositeBus" xml:space="preserve">
+    <value>Windows 用于构建复合设备的总线。</value>
+  </data>
+  <data name="RuleCompositeBusBreaks" xml:space="preserve">
+    <value>部分无线适配器、蓝牙 LE 设备和扩展坞。</value>
+  </data>
+  <data name="RuleHyperV" xml:space="preserve">
+    <value>Hyper-V 虚拟化基础结构。</value>
+  </data>
+  <data name="RuleHyperVBreaks" xml:space="preserve">
+    <value>Hyper-V、WSL 2、Windows 沙盒、Docker Desktop 和基于虚拟化的安全性。</value>
+  </data>
+  <data name="RuleWifiDirect" xml:space="preserve">
+    <value>用于 Wi-Fi Direct 连接的虚拟适配器。</value>
+  </data>
+  <data name="RuleWifiDirectBreaks" xml:space="preserve">
+    <value>移动热点、无线投屏 (Miracast) 和通过 Wi-Fi 的就近共享。</value>
+  </data>
+  <data name="RuleTeredo" xml:space="preserve">
+    <value>IPv6 隧道适配器（Teredo、ISATAP）。</value>
+  </data>
+  <data name="RuleTeredoBreaks" xml:space="preserve">
+    <value>部分网络下的 Xbox 网络派对聊天和多人游戏，以及旧的 IPv6 配置。</value>
+  </data>
+  <data name="RuleVirtualPrinter" xml:space="preserve">
+    <value>虚拟打印队列（PDF、XPS、传真或 OneNote）。</value>
+  </data>
+  <data name="RuleVirtualPrinterBreaks" xml:space="preserve">
+    <value>打印到该虚拟打印机。</value>
+  </data>
+  <data name="CheckBcdTimers" xml:space="preserve">
+    <value>强制启动计时器 (bcdedit)</value>
+  </data>
+  <data name="CheckBcdTimersExplain" xml:space="preserve">
+    <value>useplatformclock、disabledynamictick、useplatformtick 和 tscsyncpolicy 用于调试；强制设置通常会增加计时器开销。</value>
+  </data>
+  <data name="CheckMitigations" xml:space="preserve">
+    <value>CPU 漏洞缓解措施</value>
+  </data>
+  <data name="CheckMitigationsExplain" xml:space="preserve">
+    <value>FeatureSettingsOverride 会关闭 Spectre 和 Meltdown 防护。在现代 CPU 上提速很小，却会使电脑易受攻击。</value>
+  </data>
+  <data name="CheckAutoTuning" xml:space="preserve">
+    <value>TCP 接收窗口自动调整</value>
+  </data>
+  <data name="CheckAutoTuningExplain" xml:space="preserve">
+    <value>限制自动调整会降低高速网络的下载速度，并不会降低延迟。</value>
+  </data>
+  <data name="CheckSvcHostSplit" xml:space="preserve">
+    <value>服务主机分组</value>
+  </data>
+  <data name="CheckSvcHostSplitExplain" xml:space="preserve">
+    <value>调高 SvcHostSplitThresholdInKB 只会让任务管理器中的进程看起来变少；独立的服务主机更稳定。</value>
+  </data>
+  <data name="CheckThreadDpc" xml:space="preserve">
+    <value>线程化 DPC</value>
+  </data>
+  <data name="CheckThreadDpcExplain" xml:space="preserve">
+    <value>ThreadDpcEnable=0 会强制所有延迟过程调用以高优先级运行，可能使延迟更差。</value>
+  </data>
+  <data name="CheckErrorReporting" xml:space="preserve">
+    <value>Windows 错误报告</value>
+  </data>
+  <data name="CheckErrorReportingExplain" xml:space="preserve">
+    <value>禁用后将失去有助于诊断问题的崩溃报告，也不会提升性能。</value>
+  </data>
+  <data name="CheckInputQueues" xml:space="preserve">
+    <value>鼠标与键盘队列大小</value>
+  </data>
+  <data name="CheckInputQueuesExplain" xml:space="preserve">
+    <value>减小 MouseDataQueueSize 或 KeyboardDataQueueSize 可能在输入密集时丢失输入，并不会降低输入延迟。</value>
+  </data>
+  <data name="CheckCsrssPriority" xml:space="preserve">
+    <value>csrss.exe 优先级</value>
+  </data>
+  <data name="CheckCsrssPriorityExplain" xml:space="preserve">
+    <value>csrss.exe 是关键的 Windows 进程；强制其 CPU 或 I/O 优先级没有可测量的收益，还可能导致不稳定。</value>
+  </data>
+  <data name="CheckMpo" xml:space="preserve">
+    <value>已禁用多平面叠加</value>
+  </data>
+  <data name="CheckMpoExplain" xml:space="preserve">
+    <value>OverlayTestMode 会关闭 MPO。仅当它能修复你的 GPU 闪烁时才保留；否则 MPO 可降低窗口化游戏的延迟。</value>
+  </data>
+  <data name="CheckMemoryManagement" xml:space="preserve">
+    <value>内存管理器设置</value>
+  </data>
+  <data name="CheckMemoryManagementExplain" xml:space="preserve">
+    <value>DisablePagingExecutive、LargeSystemCache、IoPageLockLimit 和 CacheUnmapBehindLengthInMB 是旧式服务器的设置，在台式机上会浪费内存。</value>
+  </data>
+  <data name="CheckRawMouseThrottle" xml:space="preserve">
+    <value>原始鼠标节流</value>
+  </data>
+  <data name="CheckRawMouseThrottleExplain" xml:space="preserve">
+    <value>RawMouseThrottle 值只影响后台窗口；强制设置会改变高轮询率鼠标的行为，对游戏没有收益。</value>
+  </data>
+  <data name="CheckGlobalTimer" xml:space="preserve">
+    <value>全局计时器分辨率请求</value>
+  </data>
+  <data name="CheckGlobalTimerExplain" xml:space="preserve">
+    <value>使所有进程共享任一应用请求的最高计时器精度（与 Windows 10 相同）。会增加功耗；仅在特定旧游戏需要时保留。</value>
+  </data>
+  <data name="ScriptsTitle" xml:space="preserve">
+    <value>Marius Heier 脚本</value>
+  </data>
+  <data name="ScriptsDescription" xml:space="preserve">
+    <value>作者的交互式工具，完全按其说明运行：TweakHub 打开管理员 PowerShell 窗口，从 tools.mariusheier.com 下载并运行脚本。TweakHub 不检查也不修改脚本的行为。</value>
+  </data>
+  <data name="ScriptCpuDirect" xml:space="preserve">
+    <value>将每个 USB 设备映射到其控制器和 CPU，然后提供启用 MSI 和关闭 USB 节能的选项。</value>
+  </data>
+  <data name="ScriptDeepPoll" xml:space="preserve">
+    <value>通过内核跟踪测量鼠标和手柄的实际轮询率和抖动。</value>
+  </data>
+  <data name="ScriptDeepLog" xml:space="preserve">
+    <value>录制 30 秒手柄输入；上传前会列出将发送的内容。</value>
+  </data>
+  <data name="ScriptRig" xml:space="preserve">
+    <value>将你的 USB 配置与其他用户共享的配置进行比较，并可提交你的配置。</value>
+  </data>
+  <data name="ScriptRun" xml:space="preserve">
+    <value>以管理员身份运行</value>
+  </data>
+  <data name="ScriptPage" xml:space="preserve">
+    <value>打开官方页面</value>
+  </data>
+  <data name="ScriptWarningTitle" xml:space="preserve">
+    <value>第三方脚本</value>
+  </data>
+  <data name="ScriptWarningMessage" xml:space="preserve">
+    <value>{0} 由 Marius Heier 制作，而非 TweakHub。PowerShell 将从作者网站下载并以管理员权限运行它：
+
+{1}
+
+TweakHub 无法检查脚本的行为，作者也可以随时修改它。如有疑问，请先在官方页面阅读。此警告仅在首次运行 {0} 时显示。</value>
+  </data>
+  <data name="LoadingInterrupts" xml:space="preserve">
+    <value>正在读取中断设置…</value>
+  </data>
+  <data name="LoadingUsb" xml:space="preserve">
+    <value>正在追踪 USB 设备到 CPU 的路径…</value>
+  </data>
+  <data name="LoadingChecks" xml:space="preserve">
+    <value>正在检查有害调整…</value>
+  </data>
+</root>

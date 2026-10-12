@@ -260,20 +260,12 @@ public sealed class SystemTriageService
 
     public static string ToCsv(SystemTriage triage)
     {
-        static string Cell(object? value)
-        {
-            var text = Convert.ToString(value, L.Culture) ?? string.Empty;
-            // Prefix formula starters so spreadsheet apps never evaluate imported values.
-            if (text.Length > 0 && "=+-@".Contains(text[0])) text = "'" + text;
-            return "\"" + text.Replace("\"", "\"\"") + "\"";
-        }
-
         var builder = new StringBuilder();
         builder.AppendLine("Section,Type,Name,PID,Local,Remote,State,Command,Path,Trust,Signer,Enabled");
         foreach (var c in triage.Connections)
-            builder.AppendLine(string.Join(",", new object?[] { "Connection", c.Protocol, c.Process, c.Pid, c.LocalText, c.RemoteText, c.State, "", c.Path, c.Trust, c.Signer, "" }.Select(Cell)));
+            builder.AppendLine(Csv.Row("Connection", c.Protocol, c.Process, c.Pid, c.LocalText, c.RemoteText, c.State, "", c.Path, c.Trust, c.Signer, ""));
         foreach (var s in triage.Startup)
-            builder.AppendLine(string.Join(",", new object?[] { "Startup", s.Kind, s.Name, "", "", "", s.Location, s.Command, s.Path, s.Trust, s.Signer, s.Enabled }.Select(Cell)));
+            builder.AppendLine(Csv.Row("Startup", s.Kind, s.Name, "", "", "", s.Location, s.Command, s.Path, s.Trust, s.Signer, s.Enabled));
         return builder.ToString();
     }
 }

@@ -368,4 +368,37 @@ Scaricarlo, verificarlo e installarlo ora?</value>
   <data name="ImportProfileSummary" xml:space="preserve">
     <value>Questo profilo valido contiene {0} script, {1} tweak, {2} strumenti e {3} playbook. L’importazione sostituisce la configurazione trasferibile corrente e crea una copia di recupero. Continuare?</value>
   </data>
+  <data name="SplashSubtitle" xml:space="preserve">
+    <value>Lettura del sistema prima dell'apertura</value>
+  </data>
+  <data name="SplashTweaks" xml:space="preserve">
+    <value>Tweak del registro e loro stato</value>
+  </data>
+  <data name="SplashWindowsUpdate" xml:space="preserve">
+    <value>Modalità di Windows Update</value>
+  </data>
+  <data name="SplashPower" xml:space="preserve">
+    <value>Piani energetici e impostazioni</value>
+  </data>
+  <data name="SplashSecurity" xml:space="preserve">
+    <value>Stato della sicurezza</value>
+  </data>
+  <data name="SplashDevices" xml:space="preserve">
+    <value>Dispositivi e driver</value>
+  </data>
+  <data name="SplashInterrupts" xml:space="preserve">
+    <value>Interrupt e MSI</value>
+  </data>
+  <data name="SplashChecks" xml:space="preserve">
+    <value>Verifica dei tweak dannosi</value>
+  </data>
+  <data name="SplashReading" xml:space="preserve">
+    <value>Lettura in corso: {0}</value>
+  </data>
+  <data name="SplashSeconds" xml:space="preserve">
+    <value>{0} s</value>
+  </data>
+  <data name="SplashStepFailed" xml:space="preserve">
+    <value>Riprova nella sezione</value>
+  </data>
 </root>

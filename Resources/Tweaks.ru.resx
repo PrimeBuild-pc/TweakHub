@@ -598,4 +598,138 @@ TweakHub восстанавливает захваченное исходное 
   <data name="PowerPlanApplyFailedMessage" xml:space="preserve">
     <value>Не удалось включить или воссоздать план. Проверьте, что он есть в разделе «Электропитание» и что вы подтвердили запрос администратора.</value>
   </data>
+  <data name="PowerSectionTitle" xml:space="preserve">
+    <value>Электропитание</value>
+  </data>
+  <data name="PowerSectionDescription" xml:space="preserve">
+    <value>Изменяйте все параметры схемы электропитания, включая скрытые, сравнивайте её с другой схемой и управляйте схемами. Значения записываются тем же API Windows, что и powercfg.</value>
+  </data>
+  <data name="PowerTabEditor" xml:space="preserve">
+    <value>Редактор параметров</value>
+  </data>
+  <data name="PowerTabPlans" xml:space="preserve">
+    <value>Схемы</value>
+  </data>
+  <data name="PowerEditPlan" xml:space="preserve">
+    <value>Изменяемая схема</value>
+  </data>
+  <data name="PowerComparePlan" xml:space="preserve">
+    <value>Сравнить с</value>
+  </data>
+  <data name="PowerNoComparison" xml:space="preserve">
+    <value>Без сравнения</value>
+  </data>
+  <data name="PowerSearch" xml:space="preserve">
+    <value>Поиск</value>
+  </data>
+  <data name="PowerSearchPlaceholder" xml:space="preserve">
+    <value>Имя, описание или GUID</value>
+  </data>
+  <data name="PowerDifferentOnly" xml:space="preserve">
+    <value>Только отличающиеся</value>
+  </data>
+  <data name="PowerShowHidden" xml:space="preserve">
+    <value>Показывать скрытые</value>
+  </data>
+  <data name="PowerSubgroups" xml:space="preserve">
+    <value>Группы параметров</value>
+  </data>
+  <data name="PowerAllSettings" xml:space="preserve">
+    <value>Все параметры</value>
+  </data>
+  <data name="PowerOtherSettings" xml:space="preserve">
+    <value>Другие параметры</value>
+  </data>
+  <data name="PowerHidden" xml:space="preserve">
+    <value>Скрытый</value>
+  </data>
+  <data name="PowerModified" xml:space="preserve">
+    <value>Не применено</value>
+  </data>
+  <data name="PowerUseCompare" xml:space="preserve">
+    <value>Использовать</value>
+  </data>
+  <data name="PowerCompareValue" xml:space="preserve">
+    <value>{0}: {1}</value>
+  </data>
+  <data name="PowerPluggedIn" xml:space="preserve">
+    <value>От сети</value>
+  </data>
+  <data name="PowerOnBattery" xml:space="preserve">
+    <value>От батареи</value>
+  </data>
+  <data name="PowerNoSettings" xml:space="preserve">
+    <value>Нет параметров, соответствующих фильтрам.</value>
+  </data>
+  <data name="PowerNoPending" xml:space="preserve">
+    <value>Изменение {0}. Изменения вступают в силу только после нажатия «Применить».</value>
+  </data>
+  <data name="PowerPending" xml:space="preserve">
+    <value>Не применено изменений: {0}</value>
+  </data>
+  <data name="PowerApplied" xml:space="preserve">
+    <value>Применено параметров к {1}: {0}.</value>
+  </data>
+  <data name="PowerDiscard" xml:space="preserve">
+    <value>Отменить изменения</value>
+  </data>
+  <data name="PowerDiscardTitle" xml:space="preserve">
+    <value>Отменить изменения?</value>
+  </data>
+  <data name="PowerDiscardMessage" xml:space="preserve">
+    <value>Изменения ({0}) не применены и будут потеряны при открытии другой схемы.</value>
+  </data>
+  <data name="PowerApplyFailed" xml:space="preserve">
+    <value>Некоторые параметры не применены</value>
+  </data>
+  <data name="PowerApplyFailedMessage" xml:space="preserve">
+    <value>Windows отклонила значения ({0}) даже от имени администратора.
+
+{1}</value>
+  </data>
+  <data name="PowerPlansTitle" xml:space="preserve">
+    <value>Установленные схемы</value>
+  </data>
+  <data name="PowerPlansDescription" xml:space="preserve">
+    <value>Активируйте, дублируйте, переименовывайте, экспортируйте или удаляйте схемы. Перед экспериментами сделайте копию, чтобы можно было вернуться.</value>
+  </data>
+  <data name="PowerActive" xml:space="preserve">
+    <value>Активная схема</value>
+  </data>
+  <data name="PowerActivate" xml:space="preserve">
+    <value>Активировать</value>
+  </data>
+  <data name="PowerEditSettings" xml:space="preserve">
+    <value>Изменить параметры</value>
+  </data>
+  <data name="PowerDuplicate" xml:space="preserve">
+    <value>Дублировать</value>
+  </data>
+  <data name="PowerRename" xml:space="preserve">
+    <value>Переименовать</value>
+  </data>
+  <data name="PowerExport" xml:space="preserve">
+    <value>Экспорт (.pow)</value>
+  </data>
+  <data name="PowerImport" xml:space="preserve">
+    <value>Импорт .pow</value>
+  </data>
+  <data name="PowerDelete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="PowerDeleteMessage" xml:space="preserve">
+    <value>Удалить схему «{0}»? Windows не может восстановить удалённую пользовательскую схему; при необходимости сначала экспортируйте её.</value>
+  </data>
+  <data name="PowerNewName" xml:space="preserve">
+    <value>Имя схемы</value>
+  </data>
+  <data name="PowerCopyName" xml:space="preserve">
+    <value>{0} (копия)</value>
+  </data>
+  <data name="PowerActionFailed" xml:space="preserve">
+    <value>Windows не выполнила действие</value>
+  </data>
+  <data name="PowerFileFilter" xml:space="preserve">
+    <value>Схема электропитания (*.pow)|*.pow</value>
+  </data>
 </root>

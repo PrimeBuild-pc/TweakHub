@@ -408,7 +408,7 @@ Registro: {3}</value>
     <value>Playbook</value>
   </data>
   <data name="PlaybooksDescription" xml:space="preserve">
-    <value>Crea procedure personalizzate e ordinate con tweak, pacchetti WinGet esatti e script salvati.</value>
+    <value>Salva con un clic la configurazione di questo PC e riapplicala dopo una reinstallazione o su un altro PC: piano energetico, tweak, impostazioni interrupt e USB, dispositivi disattivati, app e script.</value>
   </data>
   <data name="BuiltInScripts" xml:space="preserve">
     <value>Script integrati</value>
@@ -458,15 +458,6 @@ Log: {2}</value>
   <data name="PlaybookInvalid" xml:space="preserve">
     <value>Playbook non valido</value>
   </data>
-  <data name="AddTweakStep" xml:space="preserve">
-    <value>Aggiungi tweak</value>
-  </data>
-  <data name="AddApplicationStep" xml:space="preserve">
-    <value>Aggiungi applicazione</value>
-  </data>
-  <data name="AddScriptStep" xml:space="preserve">
-    <value>Aggiungi script</value>
-  </data>
   <data name="MoveUp" xml:space="preserve">
     <value>Sposta su</value>
   </data>
@@ -478,12 +469,6 @@ Log: {2}</value>
   </data>
   <data name="TweakTargetEnabled" xml:space="preserve">
     <value>Abilita questo tweak (deseleziona per ripristinarlo)</value>
-  </data>
-  <data name="ApplicationName" xml:space="preserve">
-    <value>Nome applicazione</value>
-  </data>
-  <data name="WingetPackageId" xml:space="preserve">
-    <value>ID esatto del pacchetto WinGet</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>Aggiungi</value>
@@ -499,9 +484,6 @@ Log: {2}</value>
   </data>
   <data name="PlaybookRestore" xml:space="preserve">
     <value>Ripristina</value>
-  </data>
-  <data name="SelectCatalogueApplication" xml:space="preserve">
-    <value>Seleziona un’applicazione WinGet esistente oppure inseriscila sotto</value>
   </data>
   <data name="FavoriteScript" xml:space="preserve">
     <value>Aggiungi o rimuovi lo script dai preferiti</value>
@@ -571,5 +553,98 @@ Log: {2}</value>
   </data>
   <data name="wsl_setup_CompletionNote" xml:space="preserve">
     <value>Se il risultato richiede un riavvio, riavvia Windows e poi apri Ubuntu una volta per completare la configurazione iniziale.</value>
+  </data>
+  <data name="PlaybookFromSystem" xml:space="preserve">
+    <value>Crea da questo PC</value>
+  </data>
+  <data name="PlaybookFromSystemHint" xml:space="preserve">
+    <value>Legge cosa avete cambiato tu e TweakHub su questo PC e lo propone come passi; scegli tu cosa tenere.</value>
+  </data>
+  <data name="ImportPlaybook" xml:space="preserve">
+    <value>Importa playbook</value>
+  </data>
+  <data name="ExportPlaybook" xml:space="preserve">
+    <value>Esporta</value>
+  </data>
+  <data name="PlaybookFileFilter" xml:space="preserve">
+    <value>Playbook TweakHub (*.tweakhub-playbook.json)|*.tweakhub-playbook.json|JSON (*.json)|*.json</value>
+  </data>
+  <data name="PlaybookImported" xml:space="preserve">
+    <value>"{0}" è stato aggiunto con {1} passi. Nuovi tweak personalizzati: {2}. Nuovi script: {3}. Controlla i passi prima di eseguirlo.</value>
+  </data>
+  <data name="PlaybookStepsTitle" xml:space="preserve">
+    <value>Passi</value>
+  </data>
+  <data name="PlaybookStepsHint" xml:space="preserve">
+    <value>Vengono salvati solo i passi selezionati. Vengono eseguiti dall'alto in basso e si fermano al primo errore; i passi per dispositivi assenti sul PC vengono saltati.</value>
+  </data>
+  <data name="PlaybookDetect" xml:space="preserve">
+    <value>Rileva da questo PC</value>
+  </data>
+  <data name="PlaybookDetectHint" xml:space="preserve">
+    <value>Aggiunge il piano energetico attivo, i tweak attivi, le impostazioni interrupt e USB cambiate da TweakHub, i dispositivi disattivati e le app preferite (non selezionate).</value>
+  </data>
+  <data name="PlaybookDetecting" xml:space="preserve">
+    <value>Lettura della configurazione di questo PC…</value>
+  </data>
+  <data name="PlaybookNoSteps" xml:space="preserve">
+    <value>Ancora nessun passo. Rilevali da questo PC o aggiungi tweak, app e script qui sotto.</value>
+  </data>
+  <data name="PlaybookAddStep" xml:space="preserve">
+    <value>Aggiungi un passo</value>
+  </data>
+  <data name="PlaybookCapturedName" xml:space="preserve">
+    <value>Configurazione di {0} ({1})</value>
+  </data>
+  <data name="PlaybookTypeTweak" xml:space="preserve">
+    <value>Tweak</value>
+  </data>
+  <data name="PlaybookTypeWinget" xml:space="preserve">
+    <value>App (winget)</value>
+  </data>
+  <data name="PlaybookTypeScript" xml:space="preserve">
+    <value>Script personalizzato</value>
+  </data>
+  <data name="PlaybookTypeDevice" xml:space="preserve">
+    <value>Dispositivo</value>
+  </data>
+  <data name="PlaybookTypeRegistry" xml:space="preserve">
+    <value>Interrupt e risparmio USB</value>
+  </data>
+  <data name="PlaybookTypePowerPlan" xml:space="preserve">
+    <value>Piano energetico</value>
+  </data>
+  <data name="PlaybookDisableDevice" xml:space="preserve">
+    <value>Disattiva dispositivo: {0}</value>
+  </data>
+  <data name="PlaybookEnableDevice" xml:space="preserve">
+    <value>Riattiva dispositivo: {0}</value>
+  </data>
+  <data name="PlaybookRegistrySummary" xml:space="preserve">
+    <value>Impostazioni interrupt e risparmio USB: {0}</value>
+  </data>
+  <data name="PlaybookPowerSummary" xml:space="preserve">
+    <value>Piano energetico: {0}</value>
+  </data>
+  <data name="PlaybookPowerApplied" xml:space="preserve">
+    <value>{0} impostazioni scritte; {1} non esistono su questo PC.</value>
+  </data>
+  <data name="PlaybookSkipped" xml:space="preserve">
+    <value>Saltato: non presente su questo PC.</value>
+  </data>
+  <data name="PlaybookInvalidData" xml:space="preserve">
+    <value>"{0}" contiene dati che TweakHub non accetta.</value>
+  </data>
+  <data name="PlaybookElevateTitle" xml:space="preserve">
+    <value>Eseguire con una sola richiesta UAC?</value>
+  </data>
+  <data name="PlaybookElevateMessage" xml:space="preserve">
+    <value>{0} passi richiedono privilegi di amministratore. TweakHub può riavviarsi come amministratore ed eseguire subito il playbook con una sola richiesta UAC, oppure continuare chiedendo conferma per ogni passo.</value>
+  </data>
+  <data name="PlaybookElevateRestart" xml:space="preserve">
+    <value>Riavvia come amministratore</value>
+  </data>
+  <data name="PlaybookElevateContinue" xml:space="preserve">
+    <value>Chiedi a ogni passo</value>
   </data>
 </root>

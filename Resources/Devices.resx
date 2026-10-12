@@ -1,0 +1,562 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Title" xml:space="preserve">
+    <value>Devices &amp; latency</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Review devices you can safely disable, interrupt settings, the USB path of your input devices and tweaks that hurt stability. Every change asks for confirmation and can be undone.</value>
+  </data>
+  <data name="TabDevices" xml:space="preserve">
+    <value>Devices</value>
+  </data>
+  <data name="TabInterrupts" xml:space="preserve">
+    <value>Interrupts &amp; MSI</value>
+  </data>
+  <data name="TabUsb" xml:space="preserve">
+    <value>USB &amp; input</value>
+  </data>
+  <data name="TabChecks" xml:space="preserve">
+    <value>Tweak check</value>
+  </data>
+  <data name="TabTools" xml:space="preserve">
+    <value>Tools and resources</value>
+  </data>
+  <data name="Scan" xml:space="preserve">
+    <value>Scan</value>
+  </data>
+  <data name="Scanning" xml:space="preserve">
+    <value>Reading Plug and Play devices…</value>
+  </data>
+  <data name="Scanned" xml:space="preserve">
+    <value>Scanned at {0}. Nothing is changed until you choose an action.</value>
+  </data>
+  <data name="ScanFailed" xml:space="preserve">
+    <value>The scan could not be completed: {0}</value>
+  </data>
+  <data name="DevicesDescription" xml:space="preserve">
+    <value>Plug and Play inventory with notes on devices that latency guides often disable, and what stops working if you do. "Not present" or "no children" never proves a device is unused.</value>
+  </data>
+  <data name="EnableAll" xml:space="preserve">
+    <value>Re-enable all</value>
+  </data>
+  <data name="EnableAllHint" xml:space="preserve">
+    <value>Re-enables every device that TweakHub disabled. Devices disabled elsewhere are left as they are.</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Export report</value>
+  </data>
+  <data name="TileTotal" xml:space="preserve">
+    <value>Devices</value>
+  </data>
+  <data name="TileSuggested" xml:space="preserve">
+    <value>With notes</value>
+  </data>
+  <data name="TileDisabled" xml:space="preserve">
+    <value>Disabled</value>
+  </data>
+  <data name="TileProblems" xml:space="preserve">
+    <value>With problems</value>
+  </data>
+  <data name="CategoriesTitle" xml:space="preserve">
+    <value>Device status</value>
+  </data>
+  <data name="SuggestedOnly" xml:space="preserve">
+    <value>Only devices with notes</value>
+  </data>
+  <data name="ColumnClass" xml:space="preserve">
+    <value>Class</value>
+  </data>
+  <data name="ColumnCategory" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="ColumnAdvice" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="Breaks" xml:space="preserve">
+    <value>Stops working:</value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Disable</value>
+  </data>
+  <data name="Enable" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="DisableConfirmTitle" xml:space="preserve">
+    <value>Disable device?</value>
+  </data>
+  <data name="DisableConfirmMessage" xml:space="preserve">
+    <value>{0} will be disabled in Device Manager. You can enable it again from this list or with Re-enable all.</value>
+  </data>
+  <data name="HighRiskWarning" xml:space="preserve">
+    <value>Warning: this is a core system, storage, network or input device. Disabling it can stop Windows from booting or leave you without keyboard, mouse or network.</value>
+  </data>
+  <data name="AvoidWarning" xml:space="preserve">
+    <value>This device is often listed in latency guides, but disabling it gives no reliable benefit and can cause problems. TweakHub recommends leaving it enabled.</value>
+  </data>
+  <data name="ToggleFailedTitle" xml:space="preserve">
+    <value>Device not changed</value>
+  </data>
+  <data name="InterruptsDescription" xml:space="preserve">
+    <value>PCI devices and how they signal the CPU. MSI (message signaled interrupts) avoids shared interrupt lines; priority and CPU affinity are advanced settings that only help in specific cases.</value>
+  </data>
+  <data name="RestartNote" xml:space="preserve">
+    <value>Changes apply after a restart.</value>
+  </data>
+  <data name="TilePciDevices" xml:space="preserve">
+    <value>PCI devices</value>
+  </data>
+  <data name="TileMsi" xml:space="preserve">
+    <value>Using MSI</value>
+  </data>
+  <data name="TileAffinity" xml:space="preserve">
+    <value>Custom affinity</value>
+  </data>
+  <data name="InterruptModeByClass" xml:space="preserve">
+    <value>Interrupt mode by class</value>
+  </data>
+  <data name="InterruptMsi" xml:space="preserve">
+    <value>MSI</value>
+  </data>
+  <data name="InterruptLineBased" xml:space="preserve">
+    <value>Line-based</value>
+  </data>
+  <data name="ColumnMode" xml:space="preserve">
+    <value>Mode</value>
+  </data>
+  <data name="ColumnLimit" xml:space="preserve">
+    <value>Messages</value>
+  </data>
+  <data name="ColumnPriority" xml:space="preserve">
+    <value>Priority</value>
+  </data>
+  <data name="ColumnAffinity" xml:space="preserve">
+    <value>CPU affinity</value>
+  </data>
+  <data name="AffinityAuto" xml:space="preserve">
+    <value>Automatic (Windows)</value>
+  </data>
+  <data name="PriorityUndefined" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="PriorityLow" xml:space="preserve">
+    <value>Low</value>
+  </data>
+  <data name="PriorityNormal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="PriorityHigh" xml:space="preserve">
+    <value>High</value>
+  </data>
+  <data name="EditorHint" xml:space="preserve">
+    <value>Change only what you need, one device at a time, and test after the restart. Restore original puts back the values TweakHub found.</value>
+  </data>
+  <data name="UseMsi" xml:space="preserve">
+    <value>Use message signaled interrupts (MSI)</value>
+  </data>
+  <data name="MsiNotSupported" xml:space="preserve">
+    <value>The driver of this device does not declare MSI support.</value>
+  </data>
+  <data name="AffinityHint" xml:space="preserve">
+    <value>Select the CPUs that may handle this device's interrupts. Leave all off to keep the current setting; use Restore original to go back to automatic.</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="RestoreOriginal" xml:space="preserve">
+    <value>Restore original</value>
+  </data>
+  <data name="ApplyConfirmTitle" xml:space="preserve">
+    <value>Change interrupt settings?</value>
+  </data>
+  <data name="ApplyConfirmMessage" xml:space="preserve">
+    <value>TweakHub will back up and change the interrupt settings of {0}. If the device stops working after the restart, use Restore original or Safe Mode.</value>
+  </data>
+  <data name="ApplyFailedTitle" xml:space="preserve">
+    <value>Change not applied</value>
+  </data>
+  <data name="ApplyFailedMessage" xml:space="preserve">
+    <value>The change could not be written or verified. Check that you accepted the administrator prompt.</value>
+  </data>
+  <data name="UsbDescription" xml:space="preserve">
+    <value>The path from each mouse, keyboard and controller to the CPU: every external hub adds a hop, and USB power saving can add wake-up delays.</value>
+  </data>
+  <data name="PlanSuspendTitle" xml:space="preserve">
+    <value>USB selective suspend</value>
+  </data>
+  <data name="PlanSuspendDescription" xml:space="preserve">
+    <value>Lets Windows power down idle USB devices in the active plan. Turning it off avoids wake-up spikes on desktops; laptops may lose some battery life.</value>
+  </data>
+  <data name="PlanSuspendOn" xml:space="preserve">
+    <value>Enabled in the active plan (on AC power)</value>
+  </data>
+  <data name="PlanSuspendOff" xml:space="preserve">
+    <value>Disabled in the active plan (on AC power)</value>
+  </data>
+  <data name="PlanSuspendUnknown" xml:space="preserve">
+    <value>Not available in the active plan</value>
+  </data>
+  <data name="PlanSuspendDisable" xml:space="preserve">
+    <value>Turn off</value>
+  </data>
+  <data name="PollingTitle" xml:space="preserve">
+    <value>Mouse polling test</value>
+  </data>
+  <data name="PollingDescription" xml:space="preserve">
+    <value>Estimates how often your mouse reports to Windows from raw input messages. Browser-free and local; for microsecond precision use DeepPoll.</value>
+  </data>
+  <data name="PollingStart" xml:space="preserve">
+    <value>Start test</value>
+  </data>
+  <data name="PollingMove" xml:space="preserve">
+    <value>Move the mouse quickly in circles for 4 seconds…</value>
+  </data>
+  <data name="PollingTooFew" xml:space="preserve">
+    <value>Not enough movement was captured. Keep TweakHub focused and move the mouse continuously.</value>
+  </data>
+  <data name="PollingResult" xml:space="preserve">
+    <value>{0} reports measured. The bars show how stable the rate was.</value>
+  </data>
+  <data name="InputDevicesTitle" xml:space="preserve">
+    <value>Input devices</value>
+  </data>
+  <data name="NoInputDevices" xml:space="preserve">
+    <value>No mouse, keyboard or controller was found.</value>
+  </data>
+  <data name="InputMouse" xml:space="preserve">
+    <value>Mouse</value>
+  </data>
+  <data name="InputKeyboard" xml:space="preserve">
+    <value>Keyboard</value>
+  </data>
+  <data name="InputController" xml:space="preserve">
+    <value>Controller</value>
+  </data>
+  <data name="NotUsb" xml:space="preserve">
+    <value>Not connected through USB</value>
+  </data>
+  <data name="HubsNone" xml:space="preserve">
+    <value>Direct to the controller (no external hubs)</value>
+  </data>
+  <data name="Hubs" xml:space="preserve">
+    <value>{0} external hub(s) in the path</value>
+  </data>
+  <data name="HopController" xml:space="preserve">
+    <value>USB controller</value>
+  </data>
+  <data name="HopHub" xml:space="preserve">
+    <value>Hub</value>
+  </data>
+  <data name="HopCpu" xml:space="preserve">
+    <value>Processor and chipset</value>
+  </data>
+  <data name="ControllerMode" xml:space="preserve">
+    <value>Controller: {0}</value>
+  </data>
+  <data name="ControllerUnknown" xml:space="preserve">
+    <value>Controller mode unknown</value>
+  </data>
+  <data name="DeviceSuspendOn" xml:space="preserve">
+    <value>power saving allowed</value>
+  </data>
+  <data name="DeviceSuspendOff" xml:space="preserve">
+    <value>power saving off</value>
+  </data>
+  <data name="DeviceSuspendDisable" xml:space="preserve">
+    <value>Turn off power saving</value>
+  </data>
+  <data name="ReconnectNote" xml:space="preserve">
+    <value>Done. Unplug and reconnect the device, or restart, to apply the change.</value>
+  </data>
+  <data name="ChecksDescription" xml:space="preserve">
+    <value>Looks for popular tweaks that hurt stability, security or input (the RepairBadTweaks list) and puts the Windows default back. Registry repairs keep a backup and can be undone.</value>
+  </data>
+  <data name="ChecksScan" xml:space="preserve">
+    <value>Check</value>
+  </data>
+  <data name="ChecksScanElevatedHint" xml:space="preserve">
+    <value>Also reads boot timer settings, which need administrator rights.</value>
+  </data>
+  <data name="ChecksSummary" xml:space="preserve">
+    <value>{0} checks, {1} to fix.</value>
+  </data>
+  <data name="ChecksManagedNote" xml:space="preserve">
+    <value>Win32PrioritySeparation, Prefetch and SysMain are managed by Registry Tweaks, where TweakHub keeps their backups.</value>
+  </data>
+  <data name="Repair" xml:space="preserve">
+    <value>Restore default</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>Undo</value>
+  </data>
+  <data name="RepairConfirmTitle" xml:space="preserve">
+    <value>Restore Windows default?</value>
+  </data>
+  <data name="RepairConfirmMessage" xml:space="preserve">
+    <value>{0} will be set back to the Windows default.</value>
+  </data>
+  <data name="RepairNoUndo" xml:space="preserve">
+    <value>This repair runs a Windows command and cannot be undone from TweakHub.</value>
+  </data>
+  <data name="RepairVerifyFailed" xml:space="preserve">
+    <value>The registry change could not be verified.</value>
+  </data>
+  <data name="CheckStatusOk" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="CheckStatusFlagged" xml:space="preserve">
+    <value>Changed by a tweak</value>
+  </data>
+  <data name="CheckStatusNeedsAdministrator" xml:space="preserve">
+    <value>Check as administrator to read this</value>
+  </data>
+  <data name="CategoryHealthy" xml:space="preserve">
+    <value>Working</value>
+  </data>
+  <data name="CategoryHealthyHint" xml:space="preserve">
+    <value>Present and without Plug and Play problems. This does not measure how much it is used.</value>
+  </data>
+  <data name="CategoryNotPresent" xml:space="preserve">
+    <value>Not present</value>
+  </data>
+  <data name="CategoryNotPresentHint" xml:space="preserve">
+    <value>Remembered by Windows but not connected now. Not a reason to remove it.</value>
+  </data>
+  <data name="CategoryDisabled" xml:space="preserve">
+    <value>Disabled</value>
+  </data>
+  <data name="CategoryDisabledHint" xml:space="preserve">
+    <value>Disabled in Device Manager (problem code 22).</value>
+  </data>
+  <data name="CategoryProblem" xml:space="preserve">
+    <value>With problems</value>
+  </data>
+  <data name="CategoryProblemHint" xml:space="preserve">
+    <value>Windows reports an error for this device: diagnose the driver instead of disabling it.</value>
+  </data>
+  <data name="CategoryIdleBus" xml:space="preserve">
+    <value>Bus without children</value>
+  </data>
+  <data name="CategoryIdleBusHint" xml:space="preserve">
+    <value>A bus or enumerator with no devices attached right now; it may be needed when a device appears later.</value>
+  </data>
+  <data name="AdviceCommon" xml:space="preserve">
+    <value>Usually safe to disable</value>
+  </data>
+  <data name="AdviceSituational" xml:space="preserve">
+    <value>Depends on what you use</value>
+  </data>
+  <data name="AdviceAvoid" xml:space="preserve">
+    <value>Leave enabled</value>
+  </data>
+  <data name="RuleHpet" xml:space="preserve">
+    <value>High precision event timer: often disabled in latency guides, but modern Windows chooses its timers itself and turning it off brings no reliable gain.</value>
+  </data>
+  <data name="RuleHpetBreaks" xml:space="preserve">
+    <value>Some games, tools and older drivers that expect it; timing can become less stable.</value>
+  </data>
+  <data name="RuleSmBus" xml:space="preserve">
+    <value>SMBus controller: reads memory and sensor chips on the motherboard.</value>
+  </data>
+  <data name="RuleSmBusBreaks" xml:space="preserve">
+    <value>Hardware monitoring, RAM information, RGB lighting and fan control tools.</value>
+  </data>
+  <data name="RuleKernelDebug" xml:space="preserve">
+    <value>Network adapter used only for kernel debugging over the network.</value>
+  </data>
+  <data name="RuleKernelDebugBreaks" xml:space="preserve">
+    <value>Network kernel debugging (developers only).</value>
+  </data>
+  <data name="RuleSystemSpeaker" xml:space="preserve">
+    <value>Motherboard beeper for old-style system beeps.</value>
+  </data>
+  <data name="RuleSystemSpeakerBreaks" xml:space="preserve">
+    <value>Only the motherboard beep.</value>
+  </data>
+  <data name="RuleWanMiniport" xml:space="preserve">
+    <value>Built-in VPN and dial-up protocols (IKEv2, L2TP, PPTP, SSTP, PPPoE).</value>
+  </data>
+  <data name="RuleWanMiniportBreaks" xml:space="preserve">
+    <value>Windows VPN connections, PPPoE internet and some third-party VPN clients.</value>
+  </data>
+  <data name="RuleRdpBus" xml:space="preserve">
+    <value>Redirects local devices into Remote Desktop sessions.</value>
+  </data>
+  <data name="RuleRdpBusBreaks" xml:space="preserve">
+    <value>Printers, drives and USB devices inside Remote Desktop sessions.</value>
+  </data>
+  <data name="RuleVirtualDrive" xml:space="preserve">
+    <value>Creates the virtual disks Windows mounts from VHD and VHDX files.</value>
+  </data>
+  <data name="RuleVirtualDriveBreaks" xml:space="preserve">
+    <value>Mounting virtual disks (VHD/VHDX) and tools that rely on them.</value>
+  </data>
+  <data name="RuleNdisVirtual" xml:space="preserve">
+    <value>Creates virtual network adapters for VPNs and virtualization tools.</value>
+  </data>
+  <data name="RuleNdisVirtualBreaks" xml:space="preserve">
+    <value>Some VPN clients and virtual machine networking.</value>
+  </data>
+  <data name="RuleUmBus" xml:space="preserve">
+    <value>Bus for user-mode drivers.</value>
+  </data>
+  <data name="RuleUmBusBreaks" xml:space="preserve">
+    <value>Some sensors, portable devices, printers and mixed reality headsets.</value>
+  </data>
+  <data name="RuleCompositeBus" xml:space="preserve">
+    <value>Bus Windows uses to build composite devices.</value>
+  </data>
+  <data name="RuleCompositeBusBreaks" xml:space="preserve">
+    <value>Some wireless adapters, Bluetooth LE devices and docking stations.</value>
+  </data>
+  <data name="RuleHyperV" xml:space="preserve">
+    <value>Hyper-V virtualization infrastructure.</value>
+  </data>
+  <data name="RuleHyperVBreaks" xml:space="preserve">
+    <value>Hyper-V, WSL 2, Windows Sandbox, Docker Desktop and virtualization-based security.</value>
+  </data>
+  <data name="RuleWifiDirect" xml:space="preserve">
+    <value>Virtual adapter for Wi-Fi Direct connections.</value>
+  </data>
+  <data name="RuleWifiDirectBreaks" xml:space="preserve">
+    <value>Mobile hotspot, wireless display (Miracast) and nearby sharing over Wi-Fi.</value>
+  </data>
+  <data name="RuleTeredo" xml:space="preserve">
+    <value>IPv6 tunneling adapters (Teredo, ISATAP).</value>
+  </data>
+  <data name="RuleTeredoBreaks" xml:space="preserve">
+    <value>Xbox network party chat and multiplayer on some networks, and older IPv6 setups.</value>
+  </data>
+  <data name="RuleVirtualPrinter" xml:space="preserve">
+    <value>Virtual printer queue (PDF, XPS, Fax or OneNote).</value>
+  </data>
+  <data name="RuleVirtualPrinterBreaks" xml:space="preserve">
+    <value>Printing to that virtual printer.</value>
+  </data>
+  <data name="CheckBcdTimers" xml:space="preserve">
+    <value>Forced boot timers (bcdedit)</value>
+  </data>
+  <data name="CheckBcdTimersExplain" xml:space="preserve">
+    <value>useplatformclock, disabledynamictick, useplatformtick and tscsyncpolicy are meant for debugging; forcing them usually increases timer overhead.</value>
+  </data>
+  <data name="CheckMitigations" xml:space="preserve">
+    <value>CPU vulnerability mitigations</value>
+  </data>
+  <data name="CheckMitigationsExplain" xml:space="preserve">
+    <value>FeatureSettingsOverride turns off Spectre and Meltdown protections. The speed gain on current CPUs is small and the PC becomes exploitable.</value>
+  </data>
+  <data name="CheckAutoTuning" xml:space="preserve">
+    <value>TCP receive window auto-tuning</value>
+  </data>
+  <data name="CheckAutoTuningExplain" xml:space="preserve">
+    <value>Restricting auto-tuning limits download speed on fast connections and does not lower ping.</value>
+  </data>
+  <data name="CheckSvcHostSplit" xml:space="preserve">
+    <value>Service host grouping</value>
+  </data>
+  <data name="CheckSvcHostSplitExplain" xml:space="preserve">
+    <value>Raising SvcHostSplitThresholdInKB only hides processes in Task Manager; separate service hosts are more stable.</value>
+  </data>
+  <data name="CheckThreadDpc" xml:space="preserve">
+    <value>Threaded DPCs</value>
+  </data>
+  <data name="CheckThreadDpcExplain" xml:space="preserve">
+    <value>ThreadDpcEnable=0 forces all deferred procedure calls to run at high priority, which can make latency worse.</value>
+  </data>
+  <data name="CheckErrorReporting" xml:space="preserve">
+    <value>Windows Error Reporting</value>
+  </data>
+  <data name="CheckErrorReportingExplain" xml:space="preserve">
+    <value>Disabling it removes crash reports that help diagnose problems and does not improve performance.</value>
+  </data>
+  <data name="CheckInputQueues" xml:space="preserve">
+    <value>Mouse and keyboard queue size</value>
+  </data>
+  <data name="CheckInputQueuesExplain" xml:space="preserve">
+    <value>Shrinking MouseDataQueueSize or KeyboardDataQueueSize can drop input during bursts; it does not reduce input lag.</value>
+  </data>
+  <data name="CheckCsrssPriority" xml:space="preserve">
+    <value>csrss.exe priority</value>
+  </data>
+  <data name="CheckCsrssPriorityExplain" xml:space="preserve">
+    <value>csrss.exe is a critical Windows process; forcing its CPU or I/O priority gives no measurable benefit and can cause instability.</value>
+  </data>
+  <data name="CheckMpo" xml:space="preserve">
+    <value>Multi-plane overlay disabled</value>
+  </data>
+  <data name="CheckMpoExplain" xml:space="preserve">
+    <value>OverlayTestMode turns off MPO. Keep it only if it fixes flickering on your GPU; otherwise MPO lowers latency in windowed games.</value>
+  </data>
+  <data name="CheckMemoryManagement" xml:space="preserve">
+    <value>Memory manager settings</value>
+  </data>
+  <data name="CheckMemoryManagementExplain" xml:space="preserve">
+    <value>DisablePagingExecutive, LargeSystemCache, IoPageLockLimit and CacheUnmapBehindLengthInMB are server-era values that waste memory on desktops.</value>
+  </data>
+  <data name="CheckRawMouseThrottle" xml:space="preserve">
+    <value>Raw mouse throttle</value>
+  </data>
+  <data name="CheckRawMouseThrottleExplain" xml:space="preserve">
+    <value>RawMouseThrottle values only matter for background windows; forcing them changes how high polling-rate mice behave and gives no gain in games.</value>
+  </data>
+  <data name="CheckGlobalTimer" xml:space="preserve">
+    <value>Global timer resolution requests</value>
+  </data>
+  <data name="CheckGlobalTimerExplain" xml:space="preserve">
+    <value>Makes every process share the finest timer any app requests, as on Windows 10. It raises power use; keep it only if a specific old game needs it.</value>
+  </data>
+  <data name="ScriptsTitle" xml:space="preserve">
+    <value>Marius Heier scripts</value>
+  </data>
+  <data name="ScriptsDescription" xml:space="preserve">
+    <value>The author's interactive tools, run exactly as he documents them: TweakHub opens an administrator PowerShell window that downloads the script from tools.mariusheier.com and runs it. TweakHub does not check or change what the script does.</value>
+  </data>
+  <data name="ScriptCpuDirect" xml:space="preserve">
+    <value>Maps every USB device to its controller and CPU, then offers to enable MSI and turn off USB power saving.</value>
+  </data>
+  <data name="ScriptDeepPoll" xml:space="preserve">
+    <value>Measures the real polling rate and jitter of mouse and controller with kernel tracing.</value>
+  </data>
+  <data name="ScriptDeepLog" xml:space="preserve">
+    <value>Records 30 seconds of controller input; it lists what it would send before any upload.</value>
+  </data>
+  <data name="ScriptRig" xml:space="preserve">
+    <value>Compares your USB setup with profiles shared by other users and can submit yours.</value>
+  </data>
+  <data name="ScriptRun" xml:space="preserve">
+    <value>Run as admin</value>
+  </data>
+  <data name="ScriptPage" xml:space="preserve">
+    <value>Open the official page</value>
+  </data>
+  <data name="ScriptWarningTitle" xml:space="preserve">
+    <value>Third-party script</value>
+  </data>
+  <data name="ScriptWarningMessage" xml:space="preserve">
+    <value>{0} is made by Marius Heier, not by TweakHub. PowerShell will download it from the author's site and run it with administrator rights:
+
+{1}
+
+TweakHub cannot check what the script does, and the author can change it at any time. Read it on the official page first if you are unsure. This warning appears only the first time you run {0}.</value>
+  </data>
+  <data name="LoadingInterrupts" xml:space="preserve">
+    <value>Reading interrupt settings…</value>
+  </data>
+  <data name="LoadingUsb" xml:space="preserve">
+    <value>Tracing USB devices to the CPU…</value>
+  </data>
+  <data name="LoadingChecks" xml:space="preserve">
+    <value>Checking for harmful tweaks…</value>
+  </data>
+</root>
