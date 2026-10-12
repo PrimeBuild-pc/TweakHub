@@ -104,7 +104,8 @@ jobs:
 
       # Enable the WINGET_PUBLISHED repository variable after the initial package PR is approved.
       - name: Publish to WinGet
-        if: vars.WINGET_PUBLISHED == 'true'
+        # Pre-release tags (vX.Y.Z-beta.N) stay off WinGet.
+        if: vars.WINGET_PUBLISHED == 'true' && !contains(steps.tag.outputs.tag, '-')
         uses: vedantmgoyal9/winget-releaser@4ffc7888bffd451b357355dc214d43bb9f23917e # v2
         with:
           identifier: PrimeBuild.TweakHub
