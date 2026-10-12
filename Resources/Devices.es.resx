@@ -565,4 +565,187 @@ TweakHub no puede comprobar lo que hace el script y el autor puede cambiarlo en 
   <data name="LoadingChecks" xml:space="preserve">
     <value>Buscando ajustes dañinos…</value>
   </data>
+  <data name="TabLinks" xml:space="preserve">
+    <value>Conexiones</value>
+  </data>
+  <data name="LinksDescription" xml:space="preserve">
+    <value>Comprueba si la GPU, los SSD NVMe, las tarjetas PCIe y los dispositivos USB funcionan con todas sus líneas y a máxima velocidad, y qué pasa por el chipset. Solo lectura: mueve un dispositivo a otra ranura o puerto y vuelve a pulsar Analizar.</value>
+  </data>
+  <data name="LoadingLinks" xml:space="preserve">
+    <value>Leyendo los enlaces PCIe…</value>
+  </data>
+  <data name="PlatformTitle" xml:space="preserve">
+    <value>Plataforma</value>
+  </data>
+  <data name="BoardLabel" xml:space="preserve">
+    <value>Placa base</value>
+  </data>
+  <data name="CpuLabel" xml:space="preserve">
+    <value>Procesador</value>
+  </data>
+  <data name="ChipsetLabel" xml:space="preserve">
+    <value>Chipset</value>
+  </data>
+  <data name="UplinkLabel" xml:space="preserve">
+    <value>Enlace CPU–chipset</value>
+  </data>
+  <data name="LinksTitle" xml:space="preserve">
+    <value>Dispositivos PCIe</value>
+  </data>
+  <data name="NoLinkDevices" xml:space="preserve">
+    <value>No se encontró ningún dispositivo PCIe con información de enlace.</value>
+  </data>
+  <data name="LinkKindGpu" xml:space="preserve">
+    <value>GPU</value>
+  </data>
+  <data name="LinkKindNvme" xml:space="preserve">
+    <value>SSD NVMe</value>
+  </data>
+  <data name="LinkKindNetwork" xml:space="preserve">
+    <value>Red</value>
+  </data>
+  <data name="LinkKindOther" xml:space="preserve">
+    <value>Dispositivo PCIe</value>
+  </data>
+  <data name="LinkStatusOk" xml:space="preserve">
+    <value>Correcto</value>
+  </data>
+  <data name="LinkStatusCheck" xml:space="preserve">
+    <value>Revisar</value>
+  </data>
+  <data name="LinkStatusBad" xml:space="preserve">
+    <value>Pierde rendimiento</value>
+  </data>
+  <data name="LinkStatusUnknown" xml:space="preserve">
+    <value>No legible</value>
+  </data>
+  <data name="AttachCpu" xml:space="preserve">
+    <value>Conectado a la CPU</value>
+  </data>
+  <data name="AttachChipset" xml:space="preserve">
+    <value>Conectado al chipset</value>
+  </data>
+  <data name="AttachUnknown" xml:space="preserve">
+    <value>Conexión no determinada</value>
+  </data>
+  <data name="RootPort" xml:space="preserve">
+    <value>puerto raíz {0}</value>
+  </data>
+  <data name="LinkOk" xml:space="preserve">
+    <value>Usa todas las líneas y la velocidad máxima que admite.</value>
+  </data>
+  <data name="LinkOkChipset" xml:space="preserve">
+    <value>Usa todas las líneas y la velocidad máxima. Pasa por el chipset, que reparte un único enlace con la CPU entre USB, SATA y los demás dispositivos conectados.</value>
+  </data>
+  <data name="LinkLanesMissing" xml:space="preserve">
+    <value>Funciona a x{0} en lugar de x{1}. Normalmente la ranura es más estrecha o un M.2 o una ranura cercana comparte sus líneas: consulta la tabla de líneas compartidas en el manual de la placa base o mueve el dispositivo a una ranura completa.</value>
+  </data>
+  <data name="LinkGpuOnChipset" xml:space="preserve">
+    <value>La GPU pasa por el chipset y comparte su enlace con la CPU con USB, SATA y otras unidades. Muévela a la ranura x16 principal, la más cercana a la CPU.</value>
+  </data>
+  <data name="LinkGpuGenLower" xml:space="preserve">
+    <value>Enlace a PCIe {0} en lugar de {1}. Las GPU lo bajan en reposo: abre un juego o una aplicación 3D y pulsa Analizar. Si no cambia, la ranura o la CPU están limitadas a PCIe {0}.</value>
+  </data>
+  <data name="LinkGenLower" xml:space="preserve">
+    <value>Enlace a PCIe {0} en lugar de {1}: la ranura es más lenta que el dispositivo. Si la placa base tiene una ranura PCIe {1} libre, muévelo allí.</value>
+  </data>
+  <data name="LinkHidden" xml:space="preserve">
+    <value>Esta tarjeta tiene un conmutador PCIe integrado: Windows solo ve el enlace interno y el real no se puede leer sin los datos del controlador de la GPU.</value>
+  </data>
+  <data name="LinkChipsetUnknown" xml:space="preserve">
+    <value>Chipset no reconocido: no se puede calcular el ancho de banda compartido.</value>
+  </data>
+  <data name="LinkChipsetIdle" xml:space="preserve">
+    <value>Ningún dispositivo rápido pasa por el chipset.</value>
+  </data>
+  <data name="LinkChipsetOk" xml:space="preserve">
+    <value>Dispositivos rápidos en el chipset: {0}, hasta {1:0.#} GB/s. El enlace {3} ({2:0.#} GB/s) es suficiente.</value>
+  </data>
+  <data name="LinkChipsetShared" xml:space="preserve">
+    <value>Dispositivos rápidos en el chipset: {0}, juntos hasta {1:0.#} GB/s, más que el enlace {3} con la CPU ({2:0.#} GB/s). Si se usan a la vez, por ejemplo al copiar entre dos SSD, se reparten el ancho de banda. Es ancho de banda teórico, no tráfico medido.</value>
+  </data>
+  <data name="UsbTitle" xml:space="preserve">
+    <value>Dispositivos USB</value>
+  </data>
+  <data name="UsbKindHub" xml:space="preserve">
+    <value>Concentrador</value>
+  </data>
+  <data name="UsbKindStorage" xml:space="preserve">
+    <value>Almacenamiento</value>
+  </data>
+  <data name="UsbKindVideo" xml:space="preserve">
+    <value>Cámara</value>
+  </data>
+  <data name="UsbKindInput" xml:space="preserve">
+    <value>Entrada</value>
+  </data>
+  <data name="UsbKindAudio" xml:space="preserve">
+    <value>Audio</value>
+  </data>
+  <data name="UsbKindOther" xml:space="preserve">
+    <value>Dispositivo USB</value>
+  </data>
+  <data name="LinkUsbSlowPort" xml:space="preserve">
+    <value>Admite USB 3 pero funciona a USB 2 (480 Mb/s). Conéctalo a un puerto USB 3 (normalmente azul o marcado SS) con un cable USB 3 y sin un concentrador USB 2 en medio, y pulsa Analizar.</value>
+  </data>
+  <data name="LinkUsbInputHub" xml:space="preserve">
+    <value>Pasa por {0} concentrador(es). Para un ratón o un teclado es mejor un puerto del PC: así no comparte el concentrador con otros dispositivos.</value>
+  </data>
+  <data name="LinkUsbSharedHub" xml:space="preserve">
+    <value>Comparte un concentrador con {0}: todo lo que hay detrás de un concentrador pasa por un único enlace con el PC, así que si se usan a la vez se reparten el ancho de banda. Conecta uno de ellos directamente al PC.</value>
+  </data>
+  <data name="LinkUsbOk" xml:space="preserve">
+    <value>Funciona a la velocidad que admite.</value>
+  </data>
+  <data name="LinkUsbUnknown" xml:space="preserve">
+    <value>El concentrador no informó de la velocidad de este puerto.</value>
+  </data>
+  <data name="SourceCpu" xml:space="preserve">
+    <value>CPU</value>
+  </data>
+  <data name="SourceChipset" xml:space="preserve">
+    <value>chipset</value>
+  </data>
+  <data name="M2Label" xml:space="preserve">
+    <value>Ranuras M.2</value>
+  </data>
+  <data name="SlotsLabel" xml:space="preserve">
+    <value>Ranuras PCIe</value>
+  </data>
+  <data name="SharingLabel" xml:space="preserve">
+    <value>Líneas compartidas</value>
+  </data>
+  <data name="SharingNone" xml:space="preserve">
+    <value>Ninguna en estas ranuras</value>
+  </data>
+  <data name="SharingDisables" xml:space="preserve">
+    <value>con {0} en uso: {1} desactivado</value>
+  </data>
+  <data name="SharingLanes" xml:space="preserve">
+    <value>con {0} en uso: {1} funciona a x{2}</value>
+  </data>
+  <data name="BoardNotListed" xml:space="preserve">
+    <value>Esta placa base aún no está en la lista de TweakHub: los consejos son genéricos.</value>
+  </data>
+  <data name="HintSharing" xml:space="preserve">
+    <value>En esta placa base: {0}.</value>
+  </data>
+  <data name="HintFasterM2" xml:space="preserve">
+    <value>Ranuras M.2 hasta PCIe {0} en esta placa base: {1}.</value>
+  </data>
+  <data name="HintCpuM2" xml:space="preserve">
+    <value>Ranuras M.2 conectadas a la CPU en esta placa base: {0}. Al menos una parece libre: es el mejor sitio para la unidad del sistema o de los juegos.</value>
+  </data>
+  <data name="HintSlotGen" xml:space="preserve">
+    <value>La ranura principal de esta placa base ({0}) llega hasta PCIe {1}.</value>
+  </data>
+  <data name="LinkSlotLimit" xml:space="preserve">
+    <value>La ranura llega hasta PCIe {0}: el dispositivo funciona al máximo que permite esta placa base.</value>
+  </data>
+  <data name="LinkSlotLanes" xml:space="preserve">
+    <value>Esta placa base conecta la ranura M.2 con x{0} líneas: la unidad funciona a lo que ofrece la ranura, no a su velocidad máxima.</value>
+  </data>
+  <data name="HintWiderM2" xml:space="preserve">
+    <value>Ranuras M.2 con x{0} líneas en esta placa base: {1}.</value>
+  </data>
 </root>

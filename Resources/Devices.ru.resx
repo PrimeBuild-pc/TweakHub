@@ -565,4 +565,187 @@ TweakHub не может проверить, что делает скрипт, �
   <data name="LoadingChecks" xml:space="preserve">
     <value>Проверка вредных твиков…</value>
   </data>
+  <data name="TabLinks" xml:space="preserve">
+    <value>Подключения</value>
+  </data>
+  <data name="LinksDescription" xml:space="preserve">
+    <value>Проверяет, работают ли видеокарта, NVMe-накопители, PCIe-платы и USB-устройства на всех линиях и на максимальной скорости, и что подключено через чипсет. Только чтение: переставьте устройство в другой слот или порт и снова нажмите «Сканировать».</value>
+  </data>
+  <data name="LoadingLinks" xml:space="preserve">
+    <value>Чтение PCIe-подключений…</value>
+  </data>
+  <data name="PlatformTitle" xml:space="preserve">
+    <value>Платформа</value>
+  </data>
+  <data name="BoardLabel" xml:space="preserve">
+    <value>Материнская плата</value>
+  </data>
+  <data name="CpuLabel" xml:space="preserve">
+    <value>Процессор</value>
+  </data>
+  <data name="ChipsetLabel" xml:space="preserve">
+    <value>Чипсет</value>
+  </data>
+  <data name="UplinkLabel" xml:space="preserve">
+    <value>Канал CPU–чипсет</value>
+  </data>
+  <data name="LinksTitle" xml:space="preserve">
+    <value>PCIe-устройства</value>
+  </data>
+  <data name="NoLinkDevices" xml:space="preserve">
+    <value>Не найдено PCIe-устройств с данными о соединении.</value>
+  </data>
+  <data name="LinkKindGpu" xml:space="preserve">
+    <value>Видеокарта</value>
+  </data>
+  <data name="LinkKindNvme" xml:space="preserve">
+    <value>NVMe-накопитель</value>
+  </data>
+  <data name="LinkKindNetwork" xml:space="preserve">
+    <value>Сеть</value>
+  </data>
+  <data name="LinkKindOther" xml:space="preserve">
+    <value>PCIe-устройство</value>
+  </data>
+  <data name="LinkStatusOk" xml:space="preserve">
+    <value>В порядке</value>
+  </data>
+  <data name="LinkStatusCheck" xml:space="preserve">
+    <value>Проверить</value>
+  </data>
+  <data name="LinkStatusBad" xml:space="preserve">
+    <value>Теряет производительность</value>
+  </data>
+  <data name="LinkStatusUnknown" xml:space="preserve">
+    <value>Недоступно</value>
+  </data>
+  <data name="AttachCpu" xml:space="preserve">
+    <value>Подключено к процессору</value>
+  </data>
+  <data name="AttachChipset" xml:space="preserve">
+    <value>Подключено к чипсету</value>
+  </data>
+  <data name="AttachUnknown" xml:space="preserve">
+    <value>Подключение не определено</value>
+  </data>
+  <data name="RootPort" xml:space="preserve">
+    <value>корневой порт {0}</value>
+  </data>
+  <data name="LinkOk" xml:space="preserve">
+    <value>Работает на всех линиях и на максимальной поддерживаемой скорости.</value>
+  </data>
+  <data name="LinkOkChipset" xml:space="preserve">
+    <value>Работает на всех линиях и на максимальной скорости. Подключено через чипсет, который делит одно соединение с процессором между USB, SATA и другими устройствами.</value>
+  </data>
+  <data name="LinkLanesMissing" xml:space="preserve">
+    <value>Работает в режиме x{0} вместо x{1}. Обычно слот уже или соседний M.2 либо слот делит с ним линии: проверьте таблицу разделения линий в руководстве к материнской плате или переставьте устройство в полноценный слот.</value>
+  </data>
+  <data name="LinkGpuOnChipset" xml:space="preserve">
+    <value>Видеокарта подключена через чипсет и делит соединение с процессором с USB, SATA и другими накопителями. Переставьте её в основной слот x16, ближайший к процессору.</value>
+  </data>
+  <data name="LinkGpuGenLower" xml:space="preserve">
+    <value>Соединение PCIe {0} вместо {1}. В простое видеокарты его снижают: запустите игру или 3D-приложение и нажмите «Сканировать». Если не изменится, слот или процессор ограничены PCIe {0}.</value>
+  </data>
+  <data name="LinkGenLower" xml:space="preserve">
+    <value>Соединение PCIe {0} вместо {1}: слот медленнее устройства. Если на материнской плате есть свободный слот PCIe {1}, переставьте устройство туда.</value>
+  </data>
+  <data name="LinkHidden" xml:space="preserve">
+    <value>На этой плате есть встроенный PCIe-коммутатор: Windows видит только внутреннее соединение, а реальное нельзя прочитать без данных драйвера видеокарты.</value>
+  </data>
+  <data name="LinkChipsetUnknown" xml:space="preserve">
+    <value>Чипсет не распознан: невозможно рассчитать общую пропускную способность.</value>
+  </data>
+  <data name="LinkChipsetIdle" xml:space="preserve">
+    <value>Через чипсет не подключено ни одного быстрого устройства.</value>
+  </data>
+  <data name="LinkChipsetOk" xml:space="preserve">
+    <value>Быстрых устройств на чипсете: {0}, до {1:0.#} ГБ/с. Канала {3} ({2:0.#} ГБ/с) достаточно.</value>
+  </data>
+  <data name="LinkChipsetShared" xml:space="preserve">
+    <value>Быстрых устройств на чипсете: {0}, вместе до {1:0.#} ГБ/с — больше, чем канал {3} к процессору ({2:0.#} ГБ/с). При одновременной работе, например при копировании между двумя SSD, они делят пропускную способность. Это теоретическая пропускная способность, а не измеренный трафик.</value>
+  </data>
+  <data name="UsbTitle" xml:space="preserve">
+    <value>USB-устройства</value>
+  </data>
+  <data name="UsbKindHub" xml:space="preserve">
+    <value>Хаб</value>
+  </data>
+  <data name="UsbKindStorage" xml:space="preserve">
+    <value>Накопитель</value>
+  </data>
+  <data name="UsbKindVideo" xml:space="preserve">
+    <value>Камера</value>
+  </data>
+  <data name="UsbKindInput" xml:space="preserve">
+    <value>Ввод</value>
+  </data>
+  <data name="UsbKindAudio" xml:space="preserve">
+    <value>Аудио</value>
+  </data>
+  <data name="UsbKindOther" xml:space="preserve">
+    <value>USB-устройство</value>
+  </data>
+  <data name="LinkUsbSlowPort" xml:space="preserve">
+    <value>Поддерживает USB 3, но работает как USB 2 (480 Мбит/с). Подключите его к порту USB 3 (обычно синему или с пометкой SS) кабелем USB 3 без хаба USB 2 посередине, затем нажмите «Сканировать».</value>
+  </data>
+  <data name="LinkUsbInputHub" xml:space="preserve">
+    <value>Подключено через хабы: {0}. Мышь и клавиатуру лучше подключать прямо к порту ПК, чтобы они не делили хаб с другими устройствами.</value>
+  </data>
+  <data name="LinkUsbSharedHub" xml:space="preserve">
+    <value>Делит хаб с: {0}. Всё, что подключено через хаб, идёт к ПК по одному каналу, поэтому при одновременной работе устройства делят пропускную способность. Подключите одно из них прямо к ПК.</value>
+  </data>
+  <data name="LinkUsbOk" xml:space="preserve">
+    <value>Работает на поддерживаемой скорости.</value>
+  </data>
+  <data name="LinkUsbUnknown" xml:space="preserve">
+    <value>Хаб не сообщил скорость этого порта.</value>
+  </data>
+  <data name="SourceCpu" xml:space="preserve">
+    <value>CPU</value>
+  </data>
+  <data name="SourceChipset" xml:space="preserve">
+    <value>чипсет</value>
+  </data>
+  <data name="M2Label" xml:space="preserve">
+    <value>Слоты M.2</value>
+  </data>
+  <data name="SlotsLabel" xml:space="preserve">
+    <value>Слоты PCIe</value>
+  </data>
+  <data name="SharingLabel" xml:space="preserve">
+    <value>Общие линии</value>
+  </data>
+  <data name="SharingNone" xml:space="preserve">
+    <value>Нет для этих слотов</value>
+  </data>
+  <data name="SharingDisables" xml:space="preserve">
+    <value>при занятом {0}: {1} отключается</value>
+  </data>
+  <data name="SharingLanes" xml:space="preserve">
+    <value>при занятом {0}: {1} работает в режиме x{2}</value>
+  </data>
+  <data name="BoardNotListed" xml:space="preserve">
+    <value>Этой материнской платы ещё нет в списке TweakHub: советы будут общими.</value>
+  </data>
+  <data name="HintSharing" xml:space="preserve">
+    <value>На этой материнской плате: {0}.</value>
+  </data>
+  <data name="HintFasterM2" xml:space="preserve">
+    <value>Слоты M.2 до PCIe {0} на этой материнской плате: {1}.</value>
+  </data>
+  <data name="HintCpuM2" xml:space="preserve">
+    <value>Слоты M.2, подключённые к процессору на этой плате: {0}. Как минимум один, похоже, свободен: это лучшее место для системного или игрового диска.</value>
+  </data>
+  <data name="HintSlotGen" xml:space="preserve">
+    <value>Основной слот этой платы ({0}) работает максимум в режиме PCIe {1}.</value>
+  </data>
+  <data name="LinkSlotLimit" xml:space="preserve">
+    <value>Слот работает максимум в режиме PCIe {0}: устройство работает на пределе возможностей этой платы.</value>
+  </data>
+  <data name="LinkSlotLanes" xml:space="preserve">
+    <value>Эта материнская плата подключает слот M.2 по x{0} линиям: накопитель работает на скорости слота, а не на своей максимальной.</value>
+  </data>
+  <data name="HintWiderM2" xml:space="preserve">
+    <value>Слоты M.2 с x{0} линиями на этой материнской плате: {1}.</value>
+  </data>
 </root>

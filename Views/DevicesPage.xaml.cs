@@ -26,6 +26,7 @@ public partial class DevicesPage : Page
         if (!ReferenceEquals(e.OriginalSource, Tabs)) return;
         if (Tabs.SelectedItem == InterruptsTab && !Interrupts.HasScanned) await Interrupts.ScanAsync(initial: true);
         else if (Tabs.SelectedItem == UsbTab && !Usb.HasScanned) await Usb.ScanAsync(initial: true);
+        else if (Tabs.SelectedItem == LinksTab && !Links.HasScanned) await Links.ScanAsync(initial: true);
         else if (Tabs.SelectedItem == ChecksTab && !Checks.HasScanned) await Checks.ScanAsync(elevated: false, initial: true);
         else if (Tabs.SelectedItem == ToolsTab && ToolsFrame.Content is null) ToolsFrame.Navigate(new ExternalToolsPage("Latency & Input"));
     }
