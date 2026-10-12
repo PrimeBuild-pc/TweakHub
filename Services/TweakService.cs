@@ -671,7 +671,7 @@ namespace TweakHub.Services
 
         public async Task RefreshTweakStatesAsync()
         {
-            var power = await PowerService.Instance.GetTweakStatesAsync();
+            var power = PowerService.Instance.GetTweakStates();
             var stopped = await GetStoppedServicesAsync("SysMain", "WSearch");
             foreach (var tweak in TweakCategories.SelectMany(category => category.Tweaks))
             {

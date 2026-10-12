@@ -103,7 +103,7 @@ public partial class PowerPlanPage : Page
             _loaded = true;
             await Preload.Get(Preload.PowerSchemes, () => Task.Run(PowerPlanService.LoadDefinitions));
             RefreshPlans();
-            await RefreshPerformancePlanAsync();
+            RefreshPerformancePlan();
         };
     }
 
@@ -234,15 +234,17 @@ public partial class PowerPlanPage : Page
         ApplyButton.IsEnabled = false;
         var failed = await Task.Run(() => PowerPlanService.WriteValues(plan.Id, changes));
         // Some settings are locked to administrators: retry only those, in one UAC prompt.
+        var success = true;
         if (failed.Count > 0)
         {
             var result = await PowerShellService.Instance.ExecuteScriptAsync(PowerPlanService.BuildElevatedWriteScript(plan.Id, failed), requireAdministrator: true);
-            if (!result.Success)
+            success = result.Success;
+            if (!success)
                 await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Tweaks:PowerApplyFailed"),
                     L.Format("Tweaks:PowerApplyFailedMessage", failed.Count, result.Error));
         }
         LoadRows();
-        PendingText.Text = L.Format("Tweaks:PowerApplied", changes.Count, plan.Name);
+        if (success) PendingText.Text = L.Format("Tweaks:PowerApplied", changes.Count, plan.Name);
     }
 
     // Plans tab
@@ -255,7 +257,7 @@ public partial class PowerPlanPage : Page
         if (!PowerPlanService.Activate(plan.Id))
             await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Tweaks:PowerActionFailed"), plan.Name);
         RefreshPlans();
-        await RefreshPerformancePlanAsync();
+        RefreshPerformancePlan();
     }
 
     private void EditPlan_Click(object sender, RoutedEventArgs e)
@@ -276,7 +278,7 @@ public partial class PowerPlanPage : Page
             return;
         }
         RefreshPlans();
-        await RefreshPerformancePlanAsync();
+        RefreshPerformancePlan();
     }
 
     private async void RenamePlan_Click(object sender, RoutedEventArgs e)
@@ -286,7 +288,7 @@ public partial class PowerPlanPage : Page
         if (!PowerPlanService.Rename(plan.Id, name))
             await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Tweaks:PowerActionFailed"), plan.Name);
         RefreshPlans();
-        await RefreshPerformancePlanAsync();
+        RefreshPerformancePlan();
     }
 
     private async void DeletePlan_Click(object sender, RoutedEventArgs e)
@@ -297,7 +299,7 @@ public partial class PowerPlanPage : Page
         if (!PowerPlanService.Delete(plan.Id))
             await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Tweaks:PowerActionFailed"), plan.Name);
         RefreshPlans(plan.Id == _editedPlan?.Id ? PowerPlanService.ActiveScheme() : null);
-        await RefreshPerformancePlanAsync();
+        RefreshPerformancePlan();
     }
 
     private async void ExportPlan_Click(object sender, RoutedEventArgs e)
@@ -320,7 +322,7 @@ public partial class PowerPlanPage : Page
             return;
         }
         RefreshPlans(created);
-        await RefreshPerformancePlanAsync();
+        RefreshPerformancePlan();
     }
 
     private void OpenPowerOptions_Click(object sender, RoutedEventArgs e) =>
@@ -328,9 +330,9 @@ public partial class PowerPlanPage : Page
 
     // Plan used by the "Force high performance" tweak (moved here from Registry Tweaks).
 
-    private async Task RefreshPerformancePlanAsync()
+    private void RefreshPerformancePlan()
     {
-        var schemes = await PowerService.Instance.GetSchemesAsync();
+        var schemes = PowerService.GetSchemes();
         var options = schemes.Select(scheme => new PowerPlanOption(scheme.Guid,
             scheme.Active ? L.Format("Tweaks:PowerPlanActive", scheme.Name) : scheme.Name)).ToList();
         // Debloaters often delete the Windows plan; offer it anyway, TweakHub recreates it from the template.
@@ -357,7 +359,7 @@ public partial class PowerPlanPage : Page
             }
             TweakService.Instance.RefreshBackupState();
             RefreshPlans();
-            await RefreshPerformancePlanAsync();
+            RefreshPerformancePlan();
         }
         finally
         {

@@ -76,4 +76,50 @@ public class PlaybookCaptureTests
         Assert.That(arguments, Does.Contain("irm https://tools.mariusheier.com/cpudirect.ps1 | iex"));
         Assert.That(ThirdPartyScriptService.MariusHeier.All(item => item.ScriptUrl.StartsWith("https://tools.mariusheier.com/")), Is.True);
     }
+
+    [Test]
+    public void ImportingTheSamePlaybookTwiceAddsOnlyMissingItemsAndRenamesTheCollidingPlaybook()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"TweakHubPlaybook-{Guid.NewGuid():N}");
+        var file = root + ".json";
+        try
+        {
+            static CustomRegistryTweak Tweak(string id) => new() { Id = id, Name = id, RegistryPath = @"HKCU\Software\TweakHub", RegistryKey = id, Data = "1" };
+            var source = new UserDataService(Path.Combine(root, "source"));
+            source.SaveCustomTweaks([Tweak("used"), Tweak("unused")]);
+            source.SaveCustomScripts([new CustomScript { Id = "script-1", Name = "Script", Content = "Write-Output source" }]);
+            var playbook = new Playbook
+            {
+                Id = "setup", Name = "Setup",
+                Steps =
+                [
+                    new() { Type = PlaybookStepType.Tweak, Name = "used", ReferenceId = "custom:used" },
+                    new() { Type = PlaybookStepType.Script, Name = "Script", ReferenceId = "script-1" }
+                ]
+            };
+            PlaybookService.Instance.Export(playbook, file, source);
+
+            // The destination already has a script with the same id: its own version wins.
+            var destination = new UserDataService(Path.Combine(root, "destination"));
+            destination.SaveCustomScripts([new CustomScript { Id = "script-1", Name = "Mine", Content = "Write-Output mine" }]);
+            var first = PlaybookService.Instance.Import(file, destination);
+            var second = PlaybookService.Instance.Import(file, destination);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That((first.CustomTweaks, first.CustomScripts), Is.EqualTo((1, 0)));
+                Assert.That((second.CustomTweaks, second.CustomScripts), Is.EqualTo((0, 0)));
+                Assert.That(destination.LoadCustomTweaks().Select(tweak => tweak.Id), Is.EqualTo(new[] { "used" }), "Only referenced tweaks are exported");
+                Assert.That(destination.LoadCustomScripts().Single().Content, Is.EqualTo("Write-Output mine"));
+                Assert.That(first.Playbook.Id, Is.EqualTo("setup"));
+                Assert.That(second.Playbook.Id, Is.Not.EqualTo("setup"));
+                Assert.That(destination.LoadPlaybooks().Select(item => item.Id), Is.EquivalentTo(new[] { "setup", second.Playbook.Id }));
+            });
+        }
+        finally
+        {
+            if (Directory.Exists(root)) Directory.Delete(root, true);
+            File.Delete(file);
+        }
+    }
 }

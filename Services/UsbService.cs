@@ -102,7 +102,7 @@ public sealed class UsbService
     private const string UsbSubgroup = "2a737441-1930-4402-8d77-b2bebba308a3";
     private const string SelectiveSuspendSetting = "48e6b7a6-50f5-4782-a5d4-53bb8f07e226";
 
-    public static Task<int?> GetPlanSuspendAsync() => PowerService.Instance.GetActiveSettingAsync(UsbSubgroup, SelectiveSuspendSetting);
+    public static int? GetPlanSuspend() => PowerService.Instance.GetActiveSetting(UsbSubgroup, SelectiveSuspendSetting);
 
     public static Task<bool> DisablePlanSuspendAsync() => PowerService.Instance.ApplySettingAsync(PlanSuspendId, UsbSubgroup, SelectiveSuspendSetting, 0);
 

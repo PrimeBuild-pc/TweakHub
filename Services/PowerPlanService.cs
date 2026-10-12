@@ -38,7 +38,8 @@ public static unsafe class PowerPlanService
     private static IReadOnlyList<PowerSettingDefinition>? _definitions;
     private static readonly object DefinitionsLock = new();
 
-    public static bool HasBattery => GetSystemPowerStatus(out var status) && status.BatteryFlag is not (128 or 255);
+    // Read once: the editor asks for every row, and a PC does not gain or lose a battery while the app runs.
+    public static bool HasBattery { get; } = GetSystemPowerStatus(out var status) && status.BatteryFlag is not (128 or 255);
 
     public static IReadOnlyList<PowerPlan> GetPlans()
     {
@@ -120,12 +121,14 @@ public static unsafe class PowerPlanService
 
     public static bool Activate(Guid scheme) => PowerSetActiveScheme(IntPtr.Zero, &scheme) == ErrorSuccess;
 
-    public static Guid? Duplicate(Guid source, string name)
+    /// <summary>Copies <paramref name="source"/>; with <paramref name="requestedId"/> the copy gets that GUID instead of a new one.</summary>
+    public static Guid? Duplicate(Guid source, string name, Guid? requestedId = null)
     {
-        IntPtr created = IntPtr.Zero;
+        var requested = requestedId.GetValueOrDefault();
+        IntPtr created = requestedId is null ? IntPtr.Zero : (IntPtr)(&requested);
         if (PowerDuplicateScheme(IntPtr.Zero, &source, &created) != ErrorSuccess || created == IntPtr.Zero) return null;
         var id = Marshal.PtrToStructure<Guid>(created);
-        LocalFree(created);
+        if (created != (IntPtr)(&requested)) LocalFree(created);
         Rename(id, name);
         return id;
     }
