@@ -774,4 +774,10 @@ The current configuration is saved the first time so you can restore it.</value>
   <data name="StartupToggleFailedTitle" xml:space="preserve">
     <value>Startup entry not changed</value>
   </data>
+  <data name="SearchMalwareBazaar" xml:space="preserve">
+    <value>Search on MalwareBazaar</value>
+  </data>
+  <data name="CheckRemoteAddress" xml:space="preserve">
+    <value>Check the remote IP reputation on AbuseIPDB (opens the browser with the IP only)</value>
+  </data>
 </root>

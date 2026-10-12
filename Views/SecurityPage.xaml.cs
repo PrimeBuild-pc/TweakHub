@@ -436,6 +436,11 @@ public partial class SecurityPage : Page
         if (_fileReport is { } report) Open($"https://tria.ge/s?q={report.Sha256}");
     }
 
+    private void SearchMalwareBazaar_Click(object sender, RoutedEventArgs e)
+    {
+        if (_fileReport is { } report) Open($"https://bazaar.abuse.ch/browse.php?search=sha256%3A{report.Sha256}");
+    }
+
     private void CopyReport_Click(object sender, RoutedEventArgs e)
     {
         if (_fileReport is not { } report) return;

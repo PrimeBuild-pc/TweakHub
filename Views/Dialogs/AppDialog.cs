@@ -44,6 +44,14 @@ public static class AppDialog
         return Task.FromResult<string?>(Show(owner, dialog) && dialog.InputText.Length > 0 ? dialog.InputText : null);
     }
 
+    /// <summary>Lets the user tick one or more choices; null when cancelled or nothing is ticked.</summary>
+    public static Task<IReadOnlyList<int>?> ChooseAsync(Window? owner, string title, string message, IEnumerable<(string Label, bool IsChecked)> choices)
+    {
+        var dialog = new AppDialogWindow(title, message, L.Get("UI:OK"), L.Get("UI:Cancel"), DialogKind.Info);
+        dialog.SetChoices(choices);
+        return Task.FromResult<IReadOnlyList<int>?>(Show(owner, dialog) && dialog.CheckedChoices.Count > 0 ? dialog.CheckedChoices : null);
+    }
+
     private static bool Show(Window? owner, string title, string message, string primary, string? secondary, DialogKind kind, bool topmost = false)
     {
         var dialog = new AppDialogWindow(title, message, primary, secondary, kind) { Topmost = topmost };

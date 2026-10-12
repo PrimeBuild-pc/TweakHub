@@ -647,4 +647,19 @@
   <data name="PlaybookElevateContinue" xml:space="preserve">
     <value>每一步都询问</value>
   </data>
+  <data name="temp_cleanup_Name" xml:space="preserve">
+    <value>临时文件清理</value>
+  </data>
+  <data name="temp_cleanup_Description" xml:space="preserve">
+    <value>删除用户和 Windows Temp 文件夹中超过一天的临时文件，并清除传递优化缓存。正在使用的文件会被跳过。</value>
+  </data>
+  <data name="temp_cleanup_Category" xml:space="preserve">
+    <value>维护</value>
+  </data>
+  <data name="temp_cleanup_Execute" xml:space="preserve">
+    <value>运行清理</value>
+  </data>
+  <data name="temp_cleanup_Confirmation" xml:space="preserve">
+    <value>这将删除超过一天的临时文件和传递优化缓存。是否继续？</value>
+  </data>
 </root>

@@ -977,4 +977,19 @@
   <data name="DescriptionDualShockTools" xml:space="preserve">
     <value>Chrome または Edge の WebHID で DualShock 4 と DualSense のスティックとトリガーをキャリブレーションし、コントローラーを開けずにスティックのドリフトを補正する Web アプリです。公式サイトのみを開きます。</value>
   </data>
+  <data name="DescriptionHaveIBeenPwned" xml:space="preserve">
+    <value>メール アドレスや電話番号が既知のデータ侵害に含まれているかを確認し、通知を登録できます。TweakHub は公式サイトを開くだけで、アドレスを送信することはありません。</value>
+  </data>
+  <data name="DescriptionCoverYourTracks" xml:space="preserve">
+    <value>ブラウザーがトラッカーをどれだけブロックし、そのフィンガープリントがどれだけ一意かを示す EFF のテストです。公式サイトのみを開きます。</value>
+  </data>
+  <data name="DescriptionPrivacyGuides" xml:space="preserve">
+    <value>脅威モデルの解説付きで、プライバシーとセキュリティのツールを推奨する独立した非営利のガイドです。公式サイトのみを開きます。</value>
+  </data>
+  <data name="DescriptionUrlscan" xml:space="preserve">
+    <value>疑わしいリンクをリモート ブラウザーでスキャンし、リダイレクト先、読み込む内容、既知のフィッシングかどうかを表示します。スキャンは公開される場合があるため、非公開のリンクは送信しないでください。公式サイトのみを開きます。</value>
+  </data>
+  <data name="DescriptionNuclei" xml:space="preserve">
+    <value>ProjectDiscovery による、自分のサーバーや Web アプリ向けのテンプレート ベースの脆弱性スキャナーです。コマンドライン ツールです。テストを許可されたシステムでのみ使用してください。公式リポジトリのみを開きます。</value>
+  </data>
 </root>

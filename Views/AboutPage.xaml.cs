@@ -113,6 +113,38 @@ public partial class AboutPage : Page
         }
     }
 
+    private async void ImportPreviousCopy_Click(object sender, RoutedEventArgs e)
+    {
+        var dialog = new OpenFolderDialog { Title = L.Get("UI:PreviousDataPickTitle") };
+        if (dialog.ShowDialog() != true) return;
+        var owner = Window.GetWindow(this);
+        try
+        {
+            if (UserDataService.FindDataDirectory(dialog.FolderName) is not { } source)
+            {
+                await AppDialog.ShowErrorAsync(owner, L.Get("UI:PreviousDataTitle"), L.Get("UI:PreviousDataNotFound"));
+                return;
+            }
+            if (!await AppDialog.ConfirmAsync(owner, L.Get("UI:PreviousDataTitle"), L.Format("UI:PreviousDataConfirm", source),
+                    L.Get("UI:Import"), L.Get("UI:Cancel"))) return;
+
+            var result = UserDataService.Instance.ImportPreviousData(source, AppDataPath.AppsPath);
+            var profile = result.Profile;
+            var message = L.Format("UI:PreviousDataImported", profile.Scripts, profile.Tweaks, profile.Tools, profile.Playbooks,
+                result.UndoFiles, result.AppFiles, profile.RecoveryPath);
+            if (result.KeptCurrent.Count > 0)
+                message += Environment.NewLine + Environment.NewLine + L.Format("UI:PreviousDataKept", string.Join(", ", result.KeptCurrent));
+            await AppDialog.ShowAsync(owner, L.Get("UI:PreviousDataTitle"), message);
+            // Services loaded their data at startup and would overwrite the imported files: start fresh.
+            Process.Start(new ProcessStartInfo(Environment.ProcessPath!) { UseShellExecute = true });
+            Application.Current.Shutdown();
+        }
+        catch (Exception ex)
+        {
+            ProfileResultText.Text = ex.Message;
+        }
+    }
+
     private async void CheckForUpdates_Click(object sender, RoutedEventArgs e)
     {
         CheckForUpdatesButton.IsEnabled = false;

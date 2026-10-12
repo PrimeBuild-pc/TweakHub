@@ -196,6 +196,13 @@ public partial class SecuritySystemView : UserControl
             await AppDialog.ShowAsync(Window.GetWindow(this), L.Get("Security:OpenFailedTitle"), L.Get("Security:PathUnavailable"));
     }
 
+    // Opens the browser with the remote IP only, on explicit click.
+    private void CheckRemoteAddress_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is FrameworkElement { DataContext: NetworkConnection { HasPublicRemote: true } connection })
+            SecurityService.OpenSettings($"https://www.abuseipdb.com/check/{connection.Remote}");
+    }
+
     private async void Toggle_Click(object sender, RoutedEventArgs e)
     {
         if (_triage is null || sender is not Button { DataContext: StartupEntry entry } button) return;

@@ -774,4 +774,10 @@ TweakHub выполнит эту команду от имени админист
   <data name="StartupToggleFailedTitle" xml:space="preserve">
     <value>Элемент автозапуска не изменён</value>
   </data>
+  <data name="SearchMalwareBazaar" xml:space="preserve">
+    <value>Искать в MalwareBazaar</value>
+  </data>
+  <data name="CheckRemoteAddress" xml:space="preserve">
+    <value>Проверить репутацию удалённого IP в AbuseIPDB (открывает браузер только с IP)</value>
+  </data>
 </root>

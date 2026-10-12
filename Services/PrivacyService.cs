@@ -171,7 +171,9 @@ public sealed class PrivacyService
 
     public async Task<PowerShellResult> ApplyDnsAsync(IReadOnlyList<DnsAdapter> adapters, string[]? servers)
     {
-        if (!HasDnsBackup) JsonStore.Save(DnsBackupPath, adapters.ToList());
+        // Adapters from an earlier apply keep their original servers; adapters seen for the first time are added.
+        var saved = HasDnsBackup ? JsonStore.Load<List<DnsAdapter>>(DnsBackupPath) : [];
+        JsonStore.Save(DnsBackupPath, saved.Concat(adapters.Where(adapter => saved.All(known => known.Index != adapter.Index))).ToList());
         return await PowerShellService.Instance.ExecuteScriptAsync(BuildDnsScript(adapters.Select(a => (a.Index, servers)).ToList()),
             requireAdministrator: true, TimeSpan.FromMinutes(2));
     }

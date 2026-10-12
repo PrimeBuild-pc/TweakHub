@@ -137,4 +137,64 @@ public class UserDataServiceTests
         };
         Assert.Throws<InvalidDataException>(() => UserDataService.ValidateCustomTool(tool));
     }
+
+    [Test]
+    public void ImportingAV142PortableFolderKeepsProfileUndoDataAndAppsWithoutOverwritingNewUndoData()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"TweakHubMigration-{Guid.NewGuid():N}");
+        var oldRoot = Path.Combine(root, "TweakHub-1.4.2");
+        var oldData = Path.Combine(oldRoot, "Data");
+        var newData = Path.Combine(root, "TweakHub-new", "Data");
+        var newApps = Path.Combine(root, "TweakHub-new", "Apps");
+        try
+        {
+            // Files exactly as v1.4.2 writes them, read-only summary properties included.
+            Directory.CreateDirectory(oldData);
+            File.WriteAllText(Path.Combine(oldRoot, "portable.flag"), string.Empty);
+            File.WriteAllText(Path.Combine(oldData, "favorite-tweaks.json"), """["disable_game_bar"]""");
+            File.WriteAllText(Path.Combine(oldData, "playbooks.json"), """
+                [{"Id":"setup","Name":"My setup","Description":"","Steps":[
+                  {"Id":"t1","Type":0,"ReferenceId":"builtin:disable_fullscreen_optimizations","Name":"Disable FSO","WingetId":"","TargetEnabled":true,"Summary":"x"},
+                  {"Id":"w1","Type":1,"ReferenceId":"","Name":"PowerToys","WingetId":"Microsoft.PowerToys","TargetEnabled":true,"Summary":"x"}],
+                  "StepSummary":"2 steps"}]
+                """);
+            File.WriteAllText(Path.Combine(oldData, "registry-backup.json"), """
+                [{"KeyPath":"HKEY_CURRENT_USER\\System\\GameConfigStore","ValueName":"GameDVR_FSEBehaviorMode","Existed":true,"Kind":4,"Data":"0"}]
+                """);
+            File.WriteAllText(Path.Combine(oldData, "power-backup.json"), """{"old":true}""");
+            Directory.CreateDirectory(Path.Combine(oldRoot, "Apps", "Tool"));
+            File.WriteAllText(Path.Combine(oldRoot, "Apps", "Tool", "tool.exe"), "old");
+
+            // The new copy already restored everything once (empty list) and has power changes of its own.
+            Directory.CreateDirectory(newData);
+            File.WriteAllText(Path.Combine(newData, "registry-backup.json"), "[]");
+            File.WriteAllText(Path.Combine(newData, "power-backup.json"), """{"new":true}""");
+
+            Assert.That(UserDataService.FindDataDirectory(oldRoot), Is.EqualTo(oldData));
+            var service = new UserDataService(newData);
+            Assert.Throws<InvalidOperationException>(() => service.ImportPreviousData(newData, newApps));
+            var result = service.ImportPreviousData(oldData, newApps);
+
+            var registry = new RegistryService(newData);
+            registry.Initialize();
+            Assert.Multiple(() =>
+            {
+                Assert.That(result.Profile.Playbooks, Is.EqualTo(1));
+                Assert.That(service.LoadPlaybooks().Single().Steps.Select(step => step.ReferenceId),
+                    Is.EqualTo(new[] { "builtin:disable_fullscreen_optimizations", "" }));
+                Assert.That(service.LoadFavoriteTweaks(), Does.Contain("disable_game_bar"));
+                Assert.That(registry.HasBackup(@"HKEY_CURRENT_USER\System\GameConfigStore", "GameDVR_FSEBehaviorMode"));
+                Assert.That(result.UndoFiles, Is.EqualTo(1));
+                Assert.That(result.KeptCurrent, Is.EqualTo(new[] { "power-backup.json" }));
+                Assert.That(File.ReadAllText(Path.Combine(newData, "power-backup.json")), Does.Contain("new"));
+                Assert.That(result.AppFiles, Is.EqualTo(1));
+                Assert.That(File.ReadAllText(Path.Combine(newApps, "Tool", "tool.exe")), Is.EqualTo("old"));
+                Assert.That(File.Exists(result.Profile.RecoveryPath));
+            });
+        }
+        finally
+        {
+            if (Directory.Exists(root)) Directory.Delete(root, true);
+        }
+    }
 }

@@ -554,7 +554,7 @@
 
 {1}
 
-TweakHub non può controllare cosa fa lo script e l'autore può modificarlo in qualsiasi momento. Se hai dubbi, leggilo prima sulla pagina ufficiale. Questo avviso compare solo la prima volta che esegui {0}.</value>
+TweakHub non può controllare cosa fa lo script e l'autore può modificarlo in qualsiasi momento. Se hai dubbi, leggilo prima sulla pagina ufficiale. Questo avviso ricompare ogni volta che l'autore modifica {0}.</value>
   </data>
   <data name="LoadingInterrupts" xml:space="preserve">
     <value>Lettura delle impostazioni degli interrupt…</value>
@@ -564,5 +564,188 @@ TweakHub non può controllare cosa fa lo script e l'autore può modificarlo in q
   </data>
   <data name="LoadingChecks" xml:space="preserve">
     <value>Controllo dei tweak dannosi…</value>
+  </data>
+  <data name="TabLinks" xml:space="preserve">
+    <value>Collegamenti</value>
+  </data>
+  <data name="LinksDescription" xml:space="preserve">
+    <value>Controlla se GPU, SSD NVMe, schede PCIe e dispositivi USB lavorano con tutte le linee e alla velocità massima, e cosa passa dal chipset. Solo lettura: sposta un dispositivo in un altro slot o porta e premi di nuovo Analizza.</value>
+  </data>
+  <data name="LoadingLinks" xml:space="preserve">
+    <value>Lettura dei collegamenti PCIe…</value>
+  </data>
+  <data name="PlatformTitle" xml:space="preserve">
+    <value>Piattaforma</value>
+  </data>
+  <data name="BoardLabel" xml:space="preserve">
+    <value>Scheda madre</value>
+  </data>
+  <data name="CpuLabel" xml:space="preserve">
+    <value>Processore</value>
+  </data>
+  <data name="ChipsetLabel" xml:space="preserve">
+    <value>Chipset</value>
+  </data>
+  <data name="UplinkLabel" xml:space="preserve">
+    <value>Collegamento CPU–chipset</value>
+  </data>
+  <data name="LinksTitle" xml:space="preserve">
+    <value>Dispositivi PCIe</value>
+  </data>
+  <data name="NoLinkDevices" xml:space="preserve">
+    <value>Nessun dispositivo PCIe con informazioni sul collegamento.</value>
+  </data>
+  <data name="LinkKindGpu" xml:space="preserve">
+    <value>GPU</value>
+  </data>
+  <data name="LinkKindNvme" xml:space="preserve">
+    <value>SSD NVMe</value>
+  </data>
+  <data name="LinkKindNetwork" xml:space="preserve">
+    <value>Rete</value>
+  </data>
+  <data name="LinkKindOther" xml:space="preserve">
+    <value>Dispositivo PCIe</value>
+  </data>
+  <data name="LinkStatusOk" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="LinkStatusCheck" xml:space="preserve">
+    <value>Da controllare</value>
+  </data>
+  <data name="LinkStatusBad" xml:space="preserve">
+    <value>Perde prestazioni</value>
+  </data>
+  <data name="LinkStatusUnknown" xml:space="preserve">
+    <value>Non leggibile</value>
+  </data>
+  <data name="AttachCpu" xml:space="preserve">
+    <value>Collegato alla CPU</value>
+  </data>
+  <data name="AttachChipset" xml:space="preserve">
+    <value>Collegato al chipset</value>
+  </data>
+  <data name="AttachUnknown" xml:space="preserve">
+    <value>Collegamento non determinato</value>
+  </data>
+  <data name="RootPort" xml:space="preserve">
+    <value>root port {0}</value>
+  </data>
+  <data name="LinkOk" xml:space="preserve">
+    <value>Usa tutte le linee e la velocità massima che supporta.</value>
+  </data>
+  <data name="LinkOkChipset" xml:space="preserve">
+    <value>Usa tutte le linee e la velocità massima. Passa dal chipset, che divide un solo collegamento con la CPU tra USB, SATA e gli altri dispositivi collegati.</value>
+  </data>
+  <data name="LinkLanesMissing" xml:space="preserve">
+    <value>Usa x{0} invece di x{1}. Di solito lo slot è più stretto o un M.2 o uno slot vicino ne condivide le linee: controlla la tabella di condivisione nel manuale della scheda madre o sposta il dispositivo in uno slot completo.</value>
+  </data>
+  <data name="LinkGpuOnChipset" xml:space="preserve">
+    <value>La GPU passa dal chipset e divide il collegamento con la CPU con USB, SATA e altri dischi. Spostala nello slot x16 principale, quello più vicino alla CPU.</value>
+  </data>
+  <data name="LinkGpuGenLower" xml:space="preserve">
+    <value>Collegamento a PCIe {0} invece di {1}. Le GPU lo abbassano a riposo: apri un gioco o un'app 3D e premi Analizza. Se resta così, lo slot o la CPU sono limitati a PCIe {0}.</value>
+  </data>
+  <data name="LinkGenLower" xml:space="preserve">
+    <value>Collegamento a PCIe {0} invece di {1}: lo slot è più lento del dispositivo. Se la scheda madre ha uno slot PCIe {1} libero, spostalo lì.</value>
+  </data>
+  <data name="LinkHidden" xml:space="preserve">
+    <value>Questa scheda ha uno switch PCIe interno: Windows vede solo il collegamento interno e quello reale non si può leggere senza i dati del driver della GPU.</value>
+  </data>
+  <data name="LinkChipsetUnknown" xml:space="preserve">
+    <value>Chipset non riconosciuto: non si può calcolare la banda condivisa.</value>
+  </data>
+  <data name="LinkChipsetIdle" xml:space="preserve">
+    <value>Nessun dispositivo veloce passa dal chipset.</value>
+  </data>
+  <data name="LinkChipsetOk" xml:space="preserve">
+    <value>Dispositivi veloci sul chipset: {0}, fino a {1:0.#} GB/s. Il collegamento {3} ({2:0.#} GB/s) basta.</value>
+  </data>
+  <data name="LinkChipsetShared" xml:space="preserve">
+    <value>Dispositivi veloci sul chipset: {0}, insieme fino a {1:0.#} GB/s, più del collegamento {3} con la CPU ({2:0.#} GB/s). Se li usi insieme, ad esempio copiando tra due SSD, si dividono la banda. È banda teorica, non traffico misurato.</value>
+  </data>
+  <data name="UsbTitle" xml:space="preserve">
+    <value>Dispositivi USB</value>
+  </data>
+  <data name="UsbKindHub" xml:space="preserve">
+    <value>Hub</value>
+  </data>
+  <data name="UsbKindStorage" xml:space="preserve">
+    <value>Archiviazione</value>
+  </data>
+  <data name="UsbKindVideo" xml:space="preserve">
+    <value>Videocamera</value>
+  </data>
+  <data name="UsbKindInput" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="UsbKindAudio" xml:space="preserve">
+    <value>Audio</value>
+  </data>
+  <data name="UsbKindOther" xml:space="preserve">
+    <value>Dispositivo USB</value>
+  </data>
+  <data name="LinkUsbSlowPort" xml:space="preserve">
+    <value>Supporta USB 3 ma sta andando a USB 2 (480 Mb/s). Collegalo a una porta USB 3 (di solito blu o marcata SS), con un cavo USB 3 e senza hub USB 2 in mezzo, poi premi Analizza.</value>
+  </data>
+  <data name="LinkUsbInputHub" xml:space="preserve">
+    <value>Passa da {0} hub. Per mouse e tastiera è meglio una porta del PC: così non divide l'hub con altri dispositivi.</value>
+  </data>
+  <data name="LinkUsbSharedHub" xml:space="preserve">
+    <value>Divide un hub con {0}: tutto quello che c'è dietro un hub passa da un solo collegamento con il PC, quindi se li usi insieme si dividono la banda. Collegane uno direttamente al PC.</value>
+  </data>
+  <data name="LinkUsbOk" xml:space="preserve">
+    <value>Va alla velocità che supporta.</value>
+  </data>
+  <data name="LinkUsbUnknown" xml:space="preserve">
+    <value>L'hub non ha riportato la velocità di questa porta.</value>
+  </data>
+  <data name="SourceCpu" xml:space="preserve">
+    <value>CPU</value>
+  </data>
+  <data name="SourceChipset" xml:space="preserve">
+    <value>chipset</value>
+  </data>
+  <data name="M2Label" xml:space="preserve">
+    <value>Slot M.2</value>
+  </data>
+  <data name="SlotsLabel" xml:space="preserve">
+    <value>Slot PCIe</value>
+  </data>
+  <data name="SharingLabel" xml:space="preserve">
+    <value>Linee condivise</value>
+  </data>
+  <data name="SharingNone" xml:space="preserve">
+    <value>Nessuna per questi slot</value>
+  </data>
+  <data name="SharingDisables" xml:space="preserve">
+    <value>con {0} in uso: {1} disattivato</value>
+  </data>
+  <data name="SharingLanes" xml:space="preserve">
+    <value>con {0} in uso: {1} va a x{2}</value>
+  </data>
+  <data name="BoardNotListed" xml:space="preserve">
+    <value>Questa scheda madre non è ancora nell'elenco di TweakHub: i suggerimenti restano generici.</value>
+  </data>
+  <data name="HintSharing" xml:space="preserve">
+    <value>Su questa scheda madre: {0}.</value>
+  </data>
+  <data name="HintFasterM2" xml:space="preserve">
+    <value>Slot M.2 fino a PCIe {0} su questa scheda madre: {1}.</value>
+  </data>
+  <data name="HintCpuM2" xml:space="preserve">
+    <value>Slot M.2 collegati alla CPU su questa scheda madre: {0}. Almeno uno sembra libero: è il posto migliore per il disco di sistema o dei giochi.</value>
+  </data>
+  <data name="HintSlotGen" xml:space="preserve">
+    <value>Lo slot principale di questa scheda madre ({0}) arriva a PCIe {1}.</value>
+  </data>
+  <data name="LinkSlotLimit" xml:space="preserve">
+    <value>Lo slot arriva a PCIe {0}: il dispositivo va al massimo che questa scheda madre consente.</value>
+  </data>
+  <data name="LinkSlotLanes" xml:space="preserve">
+    <value>Questa scheda madre collega lo slot M.2 con x{0} linee: il disco va a quanto offre lo slot, non alla sua velocità massima.</value>
+  </data>
+  <data name="HintWiderM2" xml:space="preserve">
+    <value>Slot M.2 con x{0} linee su questa scheda madre: {1}.</value>
   </data>
 </root>

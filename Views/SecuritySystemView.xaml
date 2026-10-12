@@ -136,6 +136,13 @@
                                                             ToolTip="{loc:Loc Security:AnalyzeFile}" AutomationProperties.Name="{loc:Loc Security:AnalyzeFile}">
                                                         <TextBlock Text="&#xE721;" Style="{StaticResource IconTextStyle}" FontSize="12"/>
                                                     </Button>
+                                                    <Button Click="CheckRemoteAddress_Click" Style="{StaticResource SmallIconButtonStyle}"
+                                                            ToolTip="{loc:Loc Security:CheckRemoteAddress}" AutomationProperties.Name="{loc:Loc Security:CheckRemoteAddress}">
+                                                        <Button.Visibility>
+                                                            <Binding Path="HasPublicRemote"><Binding.Converter><BooleanToVisibilityConverter/></Binding.Converter></Binding>
+                                                        </Button.Visibility>
+                                                        <TextBlock Text="&#xE774;" Style="{StaticResource IconTextStyle}" FontSize="12"/>
+                                                    </Button>
                                                 </StackPanel>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>

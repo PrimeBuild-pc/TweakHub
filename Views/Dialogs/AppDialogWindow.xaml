@@ -32,6 +32,7 @@
                     <TextBlock x:Name="MessageText" FontSize="14" LineHeight="20" TextWrapping="Wrap"/>
                 </ScrollViewer>
                 <TextBox x:Name="InputBox" Visibility="Collapsed" Margin="0,14,0,0"/>
+                <StackPanel x:Name="ChoicePanel" Visibility="Collapsed" Margin="0,14,0,0"/>
             </StackPanel>
         </Grid>
 

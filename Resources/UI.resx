@@ -401,4 +401,40 @@ Download, verify and install it now?</value>
   <data name="SplashStepFailed" xml:space="preserve">
     <value>Will retry in the section</value>
   </data>
+  <data name="AboutPageImportPreviousCopy" xml:space="preserve">
+    <value>Import from another copy</value>
+  </data>
+  <data name="AboutPageImportPreviousCopyTip" xml:space="preserve">
+    <value>Choose the folder of an older TweakHub (portable folder, its Data folder or %AppData%\TweakHub) to bring over profile, undo data and portable apps.</value>
+  </data>
+  <data name="PreviousDataPickTitle" xml:space="preserve">
+    <value>Choose the folder of the previous TweakHub</value>
+  </data>
+  <data name="PreviousDataTitle" xml:space="preserve">
+    <value>Import from another copy</value>
+  </data>
+  <data name="PreviousDataNotFound" xml:space="preserve">
+    <value>No TweakHub data was found in this folder. Choose the folder that contains TweakHub.exe, its Data folder or %AppData%\TweakHub.</value>
+  </data>
+  <data name="PreviousDataSameFolder" xml:space="preserve">
+    <value>This is the data folder of the TweakHub you are running.</value>
+  </data>
+  <data name="PreviousDataConfirm" xml:space="preserve">
+    <value>Import from {0}:
+• profile: custom scripts, tweaks and tools, playbooks, favorites and appearance (replaces the current one, which is saved as a recovery copy first);
+• undo data for the changes made by that copy, so you can still restore them here;
+• portable programs in Apps that are missing here.
+
+TweakHub restarts when the import is done.</value>
+  </data>
+  <data name="PreviousDataImported" xml:space="preserve">
+    <value>Imported {0} scripts, {1} custom tweaks, {2} tools and {3} playbooks, {4} undo data files and {5} files in Apps.
+
+Recovery copy of the previous profile: {6}
+
+TweakHub will now restart.</value>
+  </data>
+  <data name="PreviousDataKept" xml:space="preserve">
+    <value>Not imported because this copy already has changes of its own to undo: {0}. Restore them here first, then import again to bring over the old ones.</value>
+  </data>
 </root>

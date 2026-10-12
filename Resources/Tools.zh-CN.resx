@@ -977,4 +977,19 @@
   <data name="DescriptionDualShockTools" xml:space="preserve">
     <value>在 Chrome 或 Edge 中通过 WebHID 校准 DualShock 4 和 DualSense 手柄摇杆与扳机的网页应用，无需拆开手柄即可修正摇杆漂移。仅打开官方网站。</value>
   </data>
+  <data name="DescriptionHaveIBeenPwned" xml:space="preserve">
+    <value>检查电子邮件地址或电话号码是否出现在已知的数据泄露中，并订阅提醒。TweakHub 只打开官方网站，绝不会发送你的地址。</value>
+  </data>
+  <data name="DescriptionCoverYourTracks" xml:space="preserve">
+    <value>EFF 提供的测试，显示浏览器拦截跟踪器的效果以及其指纹的独特程度。仅打开官方网站。</value>
+  </data>
+  <data name="DescriptionPrivacyGuides" xml:space="preserve">
+    <value>独立的非营利指南，按威胁模型说明并推荐隐私与安全工具。仅打开官方网站。</value>
+  </data>
+  <data name="DescriptionUrlscan" xml:space="preserve">
+    <value>在远程浏览器中扫描可疑链接，显示其重定向目标、加载的内容以及是否为已知钓鱼网站。扫描结果可能公开，切勿提交私密链接。仅打开官方网站。</value>
+  </data>
+  <data name="DescriptionNuclei" xml:space="preserve">
+    <value>ProjectDiscovery 出品的基于模板的漏洞扫描器，用于检测你自己的服务器和 Web 应用。命令行工具，仅可在获得授权测试的系统上使用。仅打开官方仓库。</value>
+  </data>
 </root>

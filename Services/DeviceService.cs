@@ -18,6 +18,14 @@ public sealed record PnpDeviceInfo(string Id, string Name, string Class, string 
     public int Children { get; init; }
     /// <summary>Product name the device reports over USB (for example "G502 HERO"); empty for most other buses.</summary>
     public string BusName { get; init; } = string.Empty;
+    /// <summary>PCI: bus number and (device &lt;&lt; 16 | function); USB: Address is the hub port. -1 when the bus reports none.</summary>
+    public int BusNumber { get; init; } = -1;
+    public int Address { get; init; } = -1;
+    /// <summary>PCIe link as Windows reads it from the device: generation (1 = 2.5 GT/s) and lanes; 0 when the device has none.</summary>
+    public int LinkGen { get; init; }
+    public int LinkWidth { get; init; }
+    public int MaxLinkGen { get; init; }
+    public int MaxLinkWidth { get; init; }
     public DeviceRule? Rule { get; init; }
     public bool DisabledByTweakHub { get; init; }
 
@@ -79,7 +87,9 @@ public sealed class DeviceService
         $devices = @(Get-PnpDevice)
         $props = @{}
         # One pipeline for every device: about 25 ms per device instead of one process each.
-        $devices | Get-PnpDeviceProperty -KeyName DEVPKEY_Device_Parent, DEVPKEY_Device_Service, DEVPKEY_Device_DriverInfPath, DEVPKEY_Device_BusReportedDeviceDesc | ForEach-Object {
+        $devices | Get-PnpDeviceProperty -KeyName DEVPKEY_Device_Parent, DEVPKEY_Device_Service, DEVPKEY_Device_DriverInfPath, DEVPKEY_Device_BusReportedDeviceDesc,
+            DEVPKEY_Device_BusNumber, DEVPKEY_Device_Address, DEVPKEY_PciDevice_CurrentLinkSpeed, DEVPKEY_PciDevice_CurrentLinkWidth,
+            DEVPKEY_PciDevice_MaxLinkSpeed, DEVPKEY_PciDevice_MaxLinkWidth | ForEach-Object {
             if (-not $props.ContainsKey($_.InstanceId)) { $props[$_.InstanceId] = @{} }
             $props[$_.InstanceId][$_.KeyName] = $_.Data
         }
@@ -89,7 +99,10 @@ public sealed class DeviceService
             [pscustomobject]@{ Id = [string]$_.InstanceId; Name = [string]$_.FriendlyName; Class = [string]$_.Class; Status = [string]$_.Status
                 Present = [bool]$_.Present; Problem = [int]$_.ConfigManagerErrorCode; Parent = [string]$p['DEVPKEY_Device_Parent']
                 Service = [string]$p['DEVPKEY_Device_Service']; Inf = [string]$p['DEVPKEY_Device_DriverInfPath']
-                BusName = [string]$p['DEVPKEY_Device_BusReportedDeviceDesc'] }
+                BusName = [string]$p['DEVPKEY_Device_BusReportedDeviceDesc']
+                BusNumber = $p['DEVPKEY_Device_BusNumber']; Address = $p['DEVPKEY_Device_Address']
+                LinkGen = $p['DEVPKEY_PciDevice_CurrentLinkSpeed']; LinkWidth = $p['DEVPKEY_PciDevice_CurrentLinkWidth']
+                MaxLinkGen = $p['DEVPKEY_PciDevice_MaxLinkSpeed']; MaxLinkWidth = $p['DEVPKEY_PciDevice_MaxLinkWidth'] }
         }) | ConvertTo-Json -Compress
         """ + PowerShellService.AsciiJson;
 
@@ -107,7 +120,13 @@ public sealed class DeviceService
         var raw = JsonRead.Items(document.RootElement).Select(item => new PnpDeviceInfo(
             JsonRead.Text(item, "Id"), JsonRead.Text(item, "Name"), JsonRead.Text(item, "Class"), JsonRead.Text(item, "Status"),
             JsonRead.Bool(item, "Present", fallback: true), JsonRead.Int(item, "Problem") ?? 0,
-            JsonRead.Text(item, "Parent"), JsonRead.Text(item, "Service"), JsonRead.Text(item, "Inf")) { BusName = JsonRead.Text(item, "BusName") })
+            JsonRead.Text(item, "Parent"), JsonRead.Text(item, "Service"), JsonRead.Text(item, "Inf"))
+            {
+                BusName = JsonRead.Text(item, "BusName"),
+                BusNumber = JsonRead.Int(item, "BusNumber") ?? -1, Address = JsonRead.Int(item, "Address") ?? -1,
+                LinkGen = JsonRead.Int(item, "LinkGen") ?? 0, LinkWidth = JsonRead.Int(item, "LinkWidth") ?? 0,
+                MaxLinkGen = JsonRead.Int(item, "MaxLinkGen") ?? 0, MaxLinkWidth = JsonRead.Int(item, "MaxLinkWidth") ?? 0
+            })
             .Where(device => device.Id.Length > 0)
             .ToList();
 

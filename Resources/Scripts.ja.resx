@@ -647,4 +647,19 @@
   <data name="PlaybookElevateContinue" xml:space="preserve">
     <value>手順ごとに確認</value>
   </data>
+  <data name="temp_cleanup_Name" xml:space="preserve">
+    <value>一時ファイルのクリーンアップ</value>
+  </data>
+  <data name="temp_cleanup_Description" xml:space="preserve">
+    <value>ユーザーと Windows の Temp フォルダーから 1 日以上前の一時ファイルを削除し、配信の最適化キャッシュを消去します。使用中のファイルはスキップされます。</value>
+  </data>
+  <data name="temp_cleanup_Category" xml:space="preserve">
+    <value>メンテナンス</value>
+  </data>
+  <data name="temp_cleanup_Execute" xml:space="preserve">
+    <value>クリーンアップを実行</value>
+  </data>
+  <data name="temp_cleanup_Confirmation" xml:space="preserve">
+    <value>1 日以上前の一時ファイルと配信の最適化キャッシュを削除します。続行しますか?</value>
+  </data>
 </root>

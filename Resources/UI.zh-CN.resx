@@ -401,4 +401,40 @@
   <data name="SplashStepFailed" xml:space="preserve">
     <value>将在该部分重试</value>
   </data>
+  <data name="AboutPageImportPreviousCopy" xml:space="preserve">
+    <value>从其他副本导入</value>
+  </data>
+  <data name="AboutPageImportPreviousCopyTip" xml:space="preserve">
+    <value>选择旧版 TweakHub 的文件夹（便携版文件夹、其 Data 文件夹或 %AppData%\TweakHub），以迁移配置文件、撤销数据和便携应用。</value>
+  </data>
+  <data name="PreviousDataPickTitle" xml:space="preserve">
+    <value>选择旧版 TweakHub 的文件夹</value>
+  </data>
+  <data name="PreviousDataTitle" xml:space="preserve">
+    <value>从其他副本导入</value>
+  </data>
+  <data name="PreviousDataNotFound" xml:space="preserve">
+    <value>此文件夹中没有 TweakHub 数据。请选择包含 TweakHub.exe 的文件夹、其 Data 文件夹或 %AppData%\TweakHub。</value>
+  </data>
+  <data name="PreviousDataSameFolder" xml:space="preserve">
+    <value>这是当前正在运行的 TweakHub 的数据文件夹。</value>
+  </data>
+  <data name="PreviousDataConfirm" xml:space="preserve">
+    <value>从 {0} 导入：
+• 配置文件：自定义脚本、调整项和工具、剧本、收藏和外观（替换当前配置，当前配置会先保存为恢复副本）；
+• 撤销该副本所做更改的数据，以便在这里也能还原；
+• 此处缺少的 Apps 中的便携程序。
+
+导入完成后 TweakHub 会重新启动。</value>
+  </data>
+  <data name="PreviousDataImported" xml:space="preserve">
+    <value>已导入 {0} 个脚本、{1} 个自定义调整项、{2} 个工具和 {3} 个剧本，{4} 个撤销数据文件以及 Apps 中的 {5} 个文件。
+
+先前配置文件的恢复副本：{6}
+
+TweakHub 现在将重新启动。</value>
+  </data>
+  <data name="PreviousDataKept" xml:space="preserve">
+    <value>未导入，因为此副本已有自己需要撤销的更改：{0}。请先在这里还原它们，然后再次导入以迁移旧数据。</value>
+  </data>
 </root>

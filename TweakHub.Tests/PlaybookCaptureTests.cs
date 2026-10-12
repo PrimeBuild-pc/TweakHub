@@ -68,12 +68,12 @@ public class PlaybookCaptureTests
     }
 
     [Test]
-    public void ThirdPartyScriptsRunTheDocumentedCommandInAWindowThatStaysOpen()
+    public void ThirdPartyScriptsRunTheDownloadedCopyInAWindowThatStaysOpen()
     {
         var script = ThirdPartyScriptService.MariusHeier.Single(item => item.Id == "CpuDirect");
-        var arguments = ThirdPartyScriptService.BuildArguments(script);
+        var arguments = ThirdPartyScriptService.BuildArguments(script, @"C:\Temp\O'Brien\cpudirect.ps1");
         Assert.That(arguments, Does.StartWith("-NoExit -NoProfile"));
-        Assert.That(arguments, Does.Contain("irm https://tools.mariusheier.com/cpudirect.ps1 | iex"));
+        Assert.That(arguments, Does.Contain(@"Get-Content -LiteralPath 'C:\Temp\O''Brien\cpudirect.ps1' -Raw").And.EndWith("iex $code\""));
         Assert.That(ThirdPartyScriptService.MariusHeier.All(item => item.ScriptUrl.StartsWith("https://tools.mariusheier.com/")), Is.True);
     }
 

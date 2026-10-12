@@ -401,4 +401,40 @@
   <data name="SplashStepFailed" xml:space="preserve">
     <value>セクションで再試行します</value>
   </data>
+  <data name="AboutPageImportPreviousCopy" xml:space="preserve">
+    <value>別のコピーからインポート</value>
+  </data>
+  <data name="AboutPageImportPreviousCopyTip" xml:space="preserve">
+    <value>以前の TweakHub のフォルダー (ポータブル フォルダー、その Data フォルダー、または %AppData%\TweakHub) を選択して、プロファイル、元に戻すためのデータ、ポータブル アプリを取り込みます。</value>
+  </data>
+  <data name="PreviousDataPickTitle" xml:space="preserve">
+    <value>以前の TweakHub のフォルダーを選択</value>
+  </data>
+  <data name="PreviousDataTitle" xml:space="preserve">
+    <value>別のコピーからインポート</value>
+  </data>
+  <data name="PreviousDataNotFound" xml:space="preserve">
+    <value>このフォルダーに TweakHub のデータが見つかりません。TweakHub.exe があるフォルダー、その Data フォルダー、または %AppData%\TweakHub を選択してください。</value>
+  </data>
+  <data name="PreviousDataSameFolder" xml:space="preserve">
+    <value>これは実行中の TweakHub のデータ フォルダーです。</value>
+  </data>
+  <data name="PreviousDataConfirm" xml:space="preserve">
+    <value>{0} からインポートします:
+• プロファイル: カスタム スクリプト、Tweak、ツール、プレイブック、お気に入り、外観 (現在のものを置き換えます。現在のものは先に復元用コピーとして保存されます)
+• そのコピーで行った変更を元に戻すためのデータ (ここからでも復元できます)
+• ここにない Apps のポータブル プログラム
+
+インポートが終わると TweakHub が再起動します。</value>
+  </data>
+  <data name="PreviousDataImported" xml:space="preserve">
+    <value>スクリプト {0} 件、カスタム Tweak {1} 件、ツール {2} 件、プレイブック {3} 件、元に戻すためのデータ ファイル {4} 件、Apps のファイル {5} 件をインポートしました。
+
+以前のプロファイルの復元用コピー: {6}
+
+TweakHub を再起動します。</value>
+  </data>
+  <data name="PreviousDataKept" xml:space="preserve">
+    <value>このコピーにはすでに元に戻す変更があるため、インポートしませんでした: {0}。先にここで復元してから、もう一度インポートすると古いデータを取り込めます。</value>
+  </data>
 </root>

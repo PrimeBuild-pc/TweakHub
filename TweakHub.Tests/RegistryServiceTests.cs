@@ -72,6 +72,34 @@ public class RegistryServiceTests
         }
     }
 
+    // HKCU\ and HKEY_CURRENT_USER\ are one value: two backups would remember two different originals.
+    // Restoring values that never changed (UAC declined on apply) must succeed and clear the backups.
+    [Test]
+    public async Task ShortAndLongRootsShareOneBackupAndUnchangedValuesRestoreCleanly()
+    {
+        var id = Guid.NewGuid().ToString("N");
+        var subKey = $@"Software\TweakHubTests\{id}";
+        var dataPath = Path.Combine(Path.GetTempPath(), $"TweakHubTests-{id}");
+        try
+        {
+            using (var key = Registry.CurrentUser.CreateSubKey(subKey))
+                key!.SetValue("Existing", 7, RegistryValueKind.DWord);
+            var service = new RegistryService(dataPath);
+            service.Initialize();
+            service.CreateBackupValues([new($@"HKCU\{subKey}", "Existing", 9), new($@"HKCU\{subKey}", "Missing", 1)]);
+            Assert.That(service.CreateBackupValues([new($@"HKEY_CURRENT_USER\{subKey}", "Existing", 9)]), Is.Zero);
+            Assert.That(service.HasBackup($@"HKEY_CURRENT_USER\{subKey}", "Missing"), Is.True);
+
+            Assert.That(await service.RestoreValuesAsync([new($@"HKEY_CURRENT_USER\{subKey}", "Existing", null), new($@"HKCU\{subKey}", "Missing", null)]), Is.True);
+            Assert.That(service.BackupCount, Is.Zero);
+        }
+        finally
+        {
+            Registry.CurrentUser.DeleteSubKeyTree(subKey, false);
+            if (Directory.Exists(dataPath)) Directory.Delete(dataPath, true);
+        }
+    }
+
     [Test]
     public void InvalidRootIsRejectedInsteadOfFallingBackToHkcu()
     {
