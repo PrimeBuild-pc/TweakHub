@@ -169,7 +169,7 @@
     <value>Desactivar optimizaciones de pantalla completa</value>
   </data>
   <data name="CategoryOrTweakDescriptionDisablesWindowsFullscreenOptimizationsForBetter" xml:space="preserve">
-    <value>Desactiva las optimizaciones de pantalla completa de Windows para mejorar el rendimiento en juegos</value>
+    <value>No recomendado en Windows 11: bloquea independent flip y puede añadir latencia en juegos en ventana o sin bordes. Usa "Optimizar la presentación para independent flip"; se mantiene para poder deshacer cambios anteriores.</value>
   </data>
   <data name="CategoryOrTweakNameDisableXboxGameBar" xml:space="preserve">
     <value>Desactivar barra de juegos de Xbox</value>
@@ -223,7 +223,7 @@
     <value>Desactivar políticas de IA de Windows</value>
   </data>
   <data name="CategoryOrTweakDescriptionHidesTheWindowsAIComponentsSettings" xml:space="preserve">
-    <value>Oculta la página de configuración de los componentes de IA de Windows y desactiva las funciones de IA de Bloc de notas. La eliminación del paquete está disponible por separado bajo Scripts Automatizados.</value>
+    <value>Mediante directivas oculta la página de configuración de los componentes de IA de Windows y desactiva Copilot, las instantáneas de Recall, Click to Do y las funciones de IA de Bloc de notas. La eliminación del paquete está disponible por separado bajo Scripts Automatizados.</value>
   </data>
   <data name="CategoryOrTweakNameDisableWindowsPlatformBinaryTableWPBT" xml:space="preserve">
     <value>Desactivar la Tabla de Binarios de la Plataforma de Windows (WPBT)</value>
@@ -427,7 +427,7 @@ Ubicación de la copia de seguridad: {1}</value>
     <value>Aplicar todas las mejoras recomendadas</value>
   </data>
   <data name="ApplyAllRecommendedMessage" xml:space="preserve">
-    <value>Se aplicará el conjunto de rendimiento y máxima privacidad junto con el modo Seguridad de Windows Update. Incluye directivas de privacidad de alto impacto que pueden deshabilitar funciones de Windows o integraciones de dispositivos. SysMain y Prefetch no cambiarán porque deshabilitarlos puede reducir el rendimiento.
+    <value>Se aplicará el conjunto de rendimiento y máxima privacidad junto con el modo Seguridad de Windows Update. Incluye directivas de privacidad de alto impacto que pueden deshabilitar funciones de Windows o integraciones de dispositivos. SysMain, Prefetch y las optimizaciones de pantalla completa no cambiarán porque deshabilitarlos puede reducir el rendimiento; el ajuste de red de baja latencia queda a tu elección.
 
 Se creará una copia de seguridad automáticamente antes de aplicar los cambios.</value>
   </data>
@@ -737,5 +737,53 @@ Crearlo puede tardar un minuto y requiere privilegios de administrador.</value>
   </data>
   <data name="PowerFileFilter" xml:space="preserve">
     <value>Plan de energía (*.pow)|*.pow</value>
+  </data>
+  <data name="CategoryOrTweakNameEnableTaskbarEndTask" xml:space="preserve">
+    <value>Añadir "Finalizar tarea" al menú de la barra de tareas</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionEnableTaskbarEndTask" xml:space="preserve">
+    <value>Al hacer clic derecho en una aplicación de la barra de tareas aparece "Finalizar tarea", que cierra una aplicación bloqueada sin abrir el Administrador de tareas. Requiere Windows 11 23H2 o posterior.</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableTelemetry" xml:space="preserve">
+    <value>Reducir la telemetría de Windows</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisableTelemetry" xml:space="preserve">
+    <value>Ajusta los datos de diagnóstico al nivel mínimo que permite la edición ("Obligatorios" en Home y Pro), deshabilita el servicio Experiencias del usuario y telemetría asociadas (DiagTrack) y detiene las solicitudes de comentarios. Con las compilaciones de Windows Insider hay que deshacerlo.</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableConsumerContent" xml:space="preserve">
+    <value>Desactivar contenido sugerido e instalación automática de aplicaciones</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisableConsumerContent" xml:space="preserve">
+    <value>Impide que Windows instale en silencio aplicaciones promocionadas y desactiva consejos, sugerencias en Inicio y Configuración, las recomendaciones de Inicio y la pantalla "Terminar de configurar el dispositivo".</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableBingSearch" xml:space="preserve">
+    <value>Quitar los resultados web de Bing de la búsqueda de Windows</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisableBingSearch" xml:space="preserve">
+    <value>La búsqueda de Inicio y de la barra de tareas muestra solo resultados locales: sin sugerencias web de Bing ni destacados de búsqueda. Surte efecto tras cerrar sesión o reiniciar.</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableFastStartup" xml:space="preserve">
+    <value>Desactivar el inicio rápido</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisableFastStartup" xml:space="preserve">
+    <value>El apagado pasa a ser completo en lugar de hibernar el kernel. Los controladores y las actualizaciones se cargan desde cero en cada encendido y el arranque dual o los cambios en la BIOS son más seguros; el inicio tarda unos segundos más.</value>
+  </data>
+  <data name="CategoryOrTweakNameDetailedBsod" xml:space="preserve">
+    <value>Mostrar detalles en la pantalla azul</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDetailedBsod" xml:space="preserve">
+    <value>Tras un bloqueo, la pantalla de error muestra también los parámetros del error, útiles para identificar el controlador culpable. No cambia nada más.</value>
+  </data>
+  <data name="CategoryOrTweakNameOptimizeNetworkForGaming" xml:space="preserve">
+    <value>Ajuste de red de baja latencia para juegos</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionOptimizeNetworkForGaming" xml:space="preserve">
+    <value>En los adaptadores de red físicos desactiva la moderación de interrupciones y el ahorro de energía Ethernet (EEE, Green Ethernet) cuando el controlador los ofrece, y limita las descargas en segundo plano de Windows Update al 30 % del ancho de banda para que no saturen la línea durante una partida. Menos ping y menos picos, con algo más de uso de CPU. El bufferbloat de descarga se resuelve en el router (SQM: fq_codel o CAKE). Surte efecto tras reiniciar; restaurar devuelve cada valor a su estado.</value>
+  </data>
+  <data name="CategoryOrTweakNameOptimizeFlipModel" xml:space="preserve">
+    <value>Optimizar la presentación para independent flip</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionOptimizeFlipModel" xml:space="preserve">
+    <value>Aplica los ajustes de Windows 11 que permiten a los juegos llegar a independent flip con la menor latencia, también en ventana sin bordes: programación de GPU acelerada por hardware, optimizaciones para juegos en ventana (flip model), optimizaciones de pantalla completa y multiplane overlay activas, y Modo de juego. Sustituye a "Desactivar optimizaciones de pantalla completa", que bloquea esta vía. Los demás ajustes de DirectX se conservan; HAGS requiere una GPU y un controlador compatibles.</value>
   </data>
 </root>

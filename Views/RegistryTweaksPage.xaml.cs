@@ -453,8 +453,9 @@ namespace TweakHub.Views
             var changes = TweakService.GetCompositeRegistryChanges(tweak.Id);
             if (changes.Count > 0)
             {
-                var commands = changes.Select(change =>
-                    $"reg add \"{change.KeyPath}\" /v \"{change.ValueName}\" /t {change.Kind switch { Microsoft.Win32.RegistryValueKind.String => "REG_SZ", _ => "REG_DWORD" }} /d {change.Value} /f");
+                var commands = changes.Select(change => change.Value is null
+                    ? $"reg delete \"{change.KeyPath}\" /v \"{change.ValueName}\" /f"
+                    : $"reg add \"{change.KeyPath}\" /v \"{change.ValueName}\" /t {change.Kind switch { Microsoft.Win32.RegistryValueKind.String => "REG_SZ", _ => "REG_DWORD" }} /d {change.Value} /f");
                 return L.Format("Tweaks:CompositePreview", tweak.Name, tweak.RiskLevel, string.Join("\n", commands));
             }
 

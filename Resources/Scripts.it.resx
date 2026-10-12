@@ -647,4 +647,19 @@ Log: {2}</value>
   <data name="PlaybookElevateContinue" xml:space="preserve">
     <value>Chiedi a ogni passo</value>
   </data>
+  <data name="temp_cleanup_Name" xml:space="preserve">
+    <value>Pulizia dei file temporanei</value>
+  </data>
+  <data name="temp_cleanup_Description" xml:space="preserve">
+    <value>Elimina i file temporanei più vecchi di un giorno dalle cartelle Temp dell'utente e di Windows e svuota la cache di Ottimizzazione recapito. I file in uso vengono saltati.</value>
+  </data>
+  <data name="temp_cleanup_Category" xml:space="preserve">
+    <value>Manutenzione</value>
+  </data>
+  <data name="temp_cleanup_Execute" xml:space="preserve">
+    <value>Esegui Pulizia</value>
+  </data>
+  <data name="temp_cleanup_Confirmation" xml:space="preserve">
+    <value>Questo elimina i file temporanei più vecchi di un giorno e la cache di Ottimizzazione recapito. Continuare?</value>
+  </data>
 </root>

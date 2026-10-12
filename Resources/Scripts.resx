@@ -647,4 +647,19 @@ Log: {2}</value>
   <data name="PlaybookElevateContinue" xml:space="preserve">
     <value>Ask for each step</value>
   </data>
+  <data name="temp_cleanup_Name" xml:space="preserve">
+    <value>Temporary Files Cleanup</value>
+  </data>
+  <data name="temp_cleanup_Description" xml:space="preserve">
+    <value>Delete temporary files older than one day from the user and Windows Temp folders and clear the Delivery Optimization cache. Files in use are skipped.</value>
+  </data>
+  <data name="temp_cleanup_Category" xml:space="preserve">
+    <value>Maintenance</value>
+  </data>
+  <data name="temp_cleanup_Execute" xml:space="preserve">
+    <value>Run Cleanup</value>
+  </data>
+  <data name="temp_cleanup_Confirmation" xml:space="preserve">
+    <value>This deletes temporary files older than one day and the Delivery Optimization cache. Continue?</value>
+  </data>
 </root>

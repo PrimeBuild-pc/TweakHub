@@ -169,7 +169,7 @@
     <value>全画面表示の最適化を無効化</value>
   </data>
   <data name="CategoryOrTweakDescriptionDisablesWindowsFullscreenOptimizationsForBetter" xml:space="preserve">
-    <value>ゲームのパフォーマンス向上のため、Windows の全画面表示の最適化を無効にします</value>
+    <value>Windows 11 では非推奨: Independent Flip を妨げ、ウィンドウやボーダーレスのゲームで遅延が増えることがあります。代わりに「Independent Flip 向けに表示を最適化」を使ってください。以前の変更を元に戻せるように残しています。</value>
   </data>
   <data name="CategoryOrTweakNameDisableXboxGameBar" xml:space="preserve">
     <value>Xbox Game Bar を無効化</value>
@@ -223,7 +223,7 @@
     <value>Windows AI ポリシーを無効化</value>
   </data>
   <data name="CategoryOrTweakDescriptionHidesTheWindowsAIComponentsSettings" xml:space="preserve">
-    <value>Windows AI コンポーネントの設定ページを非表示にし、メモ帳の AI 機能を無効にします。パッケージの削除は自動スクリプトから個別に実行できます。</value>
+    <value>ポリシーで Windows AI コンポーネントの設定ページを非表示にし、Copilot、Recall のスナップショット、Click to Do、メモ帳の AI 機能を無効にします。パッケージの削除は自動スクリプトから個別に実行できます。</value>
   </data>
   <data name="CategoryOrTweakNameDisableWindowsPlatformBinaryTableWPBT" xml:space="preserve">
     <value>Windows Platform Binary Table（WPBT）を無効化</value>
@@ -427,7 +427,7 @@ TweakHub は記録した元の値を復元します。</value>
     <value>すべての推奨調整を適用</value>
   </data>
   <data name="ApplyAllRecommendedMessage" xml:space="preserve">
-    <value>パフォーマンス設定と最大プライバシー設定に加え、セキュリティ Windows Update モードを適用します。Windows の機能やデバイス連携を無効にする可能性がある、影響の大きいプライバシー ポリシーが含まれます。SysMain と Prefetch は、無効にするとパフォーマンスが低下する可能性があるため変更しません。
+    <value>パフォーマンス設定と最大プライバシー設定に加え、セキュリティ Windows Update モードを適用します。Windows の機能やデバイス連携を無効にする可能性がある、影響の大きいプライバシー ポリシーが含まれます。SysMain、Prefetch、全画面表示の最適化は、無効にするとパフォーマンスが低下する可能性があるため変更しません。低遅延ネットワーク プリセットは任意で適用してください。
 
 変更を適用する前にバックアップを自動作成します。</value>
   </data>
@@ -787,5 +787,53 @@ TweakHub は記録した元の値を復元します。</value>
   </data>
   <data name="PowerFileFilter" xml:space="preserve">
     <value>電源プラン (*.pow)|*.pow</value>
+  </data>
+  <data name="CategoryOrTweakNameEnableTaskbarEndTask" xml:space="preserve">
+    <value>タスクバーのメニューに「タスクの終了」を追加</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionEnableTaskbarEndTask" xml:space="preserve">
+    <value>タスクバーのアプリを右クリックすると「タスクの終了」が表示され、タスク マネージャーを開かずに応答しないアプリを閉じられます。Windows 11 23H2 以降が必要です。</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableTelemetry" xml:space="preserve">
+    <value>Windows のテレメトリを削減</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisableTelemetry" xml:space="preserve">
+    <value>診断データをエディションで許可される最小レベル (Home と Pro では「必須」) に設定し、Connected User Experiences and Telemetry サービス (DiagTrack) を無効にして、フィードバックの要求を止めます。Windows Insider ビルドでは元に戻す必要があります。</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableConsumerContent" xml:space="preserve">
+    <value>おすすめコンテンツとアプリの自動インストールを無効化</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisableConsumerContent" xml:space="preserve">
+    <value>Windows による宣伝アプリのサイレント インストールを止め、ヒント、スタートと設定のおすすめ、スタートの推奨事項、「デバイスのセットアップを完了しましょう」画面を無効にします。</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableBingSearch" xml:space="preserve">
+    <value>Windows 検索から Bing の Web 結果を削除</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisableBingSearch" xml:space="preserve">
+    <value>スタートとタスクバーの検索にローカルの結果だけを表示し、Bing の Web 候補と検索のハイライトを表示しません。サインアウトまたは再起動後に有効になります。</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableFastStartup" xml:space="preserve">
+    <value>高速スタートアップを無効化</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisableFastStartup" xml:space="preserve">
+    <value>カーネルを休止状態にせず完全にシャットダウンします。電源を入れるたびにドライバーと更新プログラムが正しく読み込まれ、デュアル ブートや BIOS の変更も安全になります。起動は数秒長くなります。</value>
+  </data>
+  <data name="CategoryOrTweakNameDetailedBsod" xml:space="preserve">
+    <value>ブルー スクリーンに詳細を表示</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDetailedBsod" xml:space="preserve">
+    <value>クラッシュ後の停止画面にエラーのパラメーターも表示され、原因のドライバーを特定しやすくなります。それ以外は何も変更しません。</value>
+  </data>
+  <data name="CategoryOrTweakNameOptimizeNetworkForGaming" xml:space="preserve">
+    <value>ゲーム向け低遅延ネットワーク プリセット</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionOptimizeNetworkForGaming" xml:space="preserve">
+    <value>物理ネットワーク アダプターで、ドライバーが対応している場合に割り込みモデレーションと Ethernet の省電力 (EEE、Green Ethernet) を無効にし、Windows Update のバックグラウンド ダウンロードを帯域幅の 30% に制限して、試合中に回線を占有しないようにします。ping とスパイクが減り、CPU 使用率はわずかに上がります。ダウンロード側のバッファーブロートはルーター (SQM: fq_codel または CAKE) で解決します。再起動後に有効になり、復元するとすべての値が元に戻ります。</value>
+  </data>
+  <data name="CategoryOrTweakNameOptimizeFlipModel" xml:space="preserve">
+    <value>Independent Flip 向けに表示を最適化</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionOptimizeFlipModel" xml:space="preserve">
+    <value>ボーダーレス ウィンドウでも、ゲームが最小の遅延で Independent Flip に到達できる Windows 11 の設定を適用します: ハードウェア アクセラレータによる GPU スケジューリング、ウィンドウ ゲームの最適化 (フリップ モデル)、全画面表示の最適化とマルチプレーン オーバーレイの有効化、ゲーム モード。この経路を妨げる「全画面表示の最適化を無効化」に代わるものです。ほかの DirectX 設定は保持されます。HAGS には対応する GPU とドライバーが必要です。</value>
   </data>
 </root>

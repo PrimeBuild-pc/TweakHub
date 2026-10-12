@@ -85,6 +85,10 @@ namespace TweakHub.Views
                 L.Get("Scripts:component_cleanup_Description"),
                 L.Get("Scripts:component_cleanup_Category"), L.Get("Scripts:component_cleanup_Execute"), true, 60,
                 L.Get("Scripts:component_cleanup_Confirmation")),
+            new("temp-cleanup", "", L.Get("Scripts:temp_cleanup_Name"),
+                L.Get("Scripts:temp_cleanup_Description"),
+                L.Get("Scripts:temp_cleanup_Category"), L.Get("Scripts:temp_cleanup_Execute"), true, 30,
+                L.Get("Scripts:temp_cleanup_Confirmation")),
             new("network-reset", "\uE968", L.Get("Scripts:network_reset_Name"),
                 L.Get("Scripts:network_reset_Description"),
                 L.Get("Scripts:network_reset_Category"), L.Get("Scripts:network_reset_Execute"), true, 15,
@@ -621,6 +625,29 @@ foreach ($command in $commands) {
             "component-cleanup" => @"
 & DISM.exe /Online /Cleanup-Image /StartComponentCleanup
 if ($LASTEXITCODE -ne 0) { throw ""DISM failed with exit code $LASTEXITCODE"" }
+",
+            "temp-cleanup" => @"
+$ErrorActionPreference = 'Stop'
+# Only files untouched for a day, so running installers and apps keep their current temp files.
+$cutoff = (Get-Date).AddDays(-1)
+$script:freed = 0
+function Clear-Folder([string]$path) {
+    foreach ($item in Get-ChildItem -LiteralPath $path -Force -ErrorAction SilentlyContinue) {
+        # Never follow junctions or symbolic links out of the temp folder.
+        if ($item.Attributes -band [IO.FileAttributes]::ReparsePoint) { continue }
+        if ($item.PSIsContainer) {
+            Clear-Folder $item.FullName
+            try { [IO.Directory]::Delete($item.FullName) } catch { }
+        } elseif ($item.LastWriteTime -lt $cutoff) {
+            try { Remove-Item -LiteralPath $item.FullName -Force -ErrorAction Stop; $script:freed += $item.Length } catch { }
+        }
+    }
+}
+foreach ($folder in @([IO.Path]::GetTempPath(), (Join-Path $env:SystemRoot 'Temp')) | Select-Object -Unique) {
+    if (Test-Path -LiteralPath $folder) { Clear-Folder $folder }
+}
+Delete-DeliveryOptimizationCache -Force -ErrorAction SilentlyContinue
+'Freed {0:N1} MB of temporary files. Files in use or newer than one day were kept.' -f ($script:freed / 1MB)
 ",
             "network-reset" => @"
 & ipconfig.exe /flushdns

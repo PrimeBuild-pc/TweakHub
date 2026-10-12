@@ -169,7 +169,7 @@
     <value>Отключить полноэкранную оптимизацию</value>
   </data>
   <data name="CategoryOrTweakDescriptionDisablesWindowsFullscreenOptimizationsForBetter" xml:space="preserve">
-    <value>Отключает полноэкранную оптимизацию Windows для повышения производительности в играх</value>
+    <value>Не рекомендуется в Windows 11: блокирует independent flip и может увеличить задержку в оконных и безрамочных играх. Используйте «Оптимизировать вывод кадров для independent flip»; оставлено, чтобы можно было отменить прежние изменения.</value>
   </data>
   <data name="CategoryOrTweakNameDisableXboxGameBar" xml:space="preserve">
     <value>Отключить игровую панель Xbox</value>
@@ -223,7 +223,7 @@
     <value>Отключить политики Windows AI.</value>
   </data>
   <data name="CategoryOrTweakDescriptionHidesTheWindowsAIComponentsSettings" xml:space="preserve">
-    <value>Скрывает страницу настроек компонентов Windows AI и отключает функции Notepad AI. Удаление пакета доступно отдельно в разделе «Автоматические сценарии».</value>
+    <value>С помощью политик скрывает страницу настроек компонентов Windows AI и отключает Copilot, снимки Recall, Click to Do и функции Notepad AI. Удаление пакета доступно отдельно в разделе «Автоматические сценарии».</value>
   </data>
   <data name="CategoryOrTweakNameDisableWindowsPlatformBinaryTableWPBT" xml:space="preserve">
     <value>Отключить двоичную таблицу платформы Windows (WPBT)</value>
@@ -427,7 +427,7 @@ TweakHub восстанавливает захваченное исходное 
     <value>Применить все рекомендуемые настройки</value>
   </data>
   <data name="ApplyAllRecommendedMessage" xml:space="preserve">
-    <value>Будут применены настройки производительности и максимальной конфиденциальности, а также режим безопасности Центра обновления Windows. Набор включает политики конфиденциальности, способные отключить функции Windows или интеграцию устройств. SysMain и Prefetch останутся без изменений, поскольку их отключение может снизить производительность.
+    <value>Будут применены настройки производительности и максимальной конфиденциальности, а также режим безопасности Центра обновления Windows. Набор включает политики конфиденциальности, способные отключить функции Windows или интеграцию устройств. SysMain, Prefetch и полноэкранная оптимизация останутся без изменений, поскольку их отключение может снизить производительность; сетевой пресет с низкой задержкой включается по вашему выбору.
 
 Перед изменениями будет автоматически создана резервная копия.</value>
   </data>
@@ -731,5 +731,53 @@ TweakHub восстанавливает захваченное исходное 
   </data>
   <data name="PowerFileFilter" xml:space="preserve">
     <value>Схема электропитания (*.pow)|*.pow</value>
+  </data>
+  <data name="CategoryOrTweakNameEnableTaskbarEndTask" xml:space="preserve">
+    <value>Добавить «Завершить задачу» в меню панели задач</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionEnableTaskbarEndTask" xml:space="preserve">
+    <value>При щелчке правой кнопкой по приложению на панели задач появляется «Завершить задачу»: зависшее приложение можно закрыть без диспетчера задач. Требуется Windows 11 23H2 или новее.</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableTelemetry" xml:space="preserve">
+    <value>Сократить телеметрию Windows</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisableTelemetry" xml:space="preserve">
+    <value>Устанавливает минимальный уровень диагностических данных для выпуска («Обязательные» в Home и Pro), отключает службу функциональных возможностей для подключённых пользователей и телеметрии (DiagTrack) и запросы отзывов. Для сборок Windows Insider изменение нужно отменить.</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableConsumerContent" xml:space="preserve">
+    <value>Отключить рекомендуемый контент и автоустановку приложений</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisableConsumerContent" xml:space="preserve">
+    <value>Запрещает Windows незаметно устанавливать рекламируемые приложения и отключает советы, предложения в меню «Пуск» и «Параметрах», рекомендации «Пуска» и экран «Завершите настройку устройства».</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableBingSearch" xml:space="preserve">
+    <value>Убрать веб-результаты Bing из поиска Windows</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisableBingSearch" xml:space="preserve">
+    <value>Поиск в «Пуске» и на панели задач показывает только локальные результаты: без веб-подсказок Bing и основных моментов поиска. Вступает в силу после выхода из системы или перезагрузки.</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableFastStartup" xml:space="preserve">
+    <value>Отключить быстрый запуск</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisableFastStartup" xml:space="preserve">
+    <value>Компьютер полностью выключается вместо гибернации ядра. Драйверы и обновления загружаются заново при каждом включении, двойная загрузка и изменения BIOS становятся безопаснее; запуск занимает на несколько секунд дольше.</value>
+  </data>
+  <data name="CategoryOrTweakNameDetailedBsod" xml:space="preserve">
+    <value>Показывать подробности на синем экране</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDetailedBsod" xml:space="preserve">
+    <value>После сбоя на экране ошибки также отображаются параметры ошибки, которые помогают найти виновный драйвер. Больше ничего не меняет.</value>
+  </data>
+  <data name="CategoryOrTweakNameOptimizeNetworkForGaming" xml:space="preserve">
+    <value>Сетевой пресет с низкой задержкой для игр</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionOptimizeNetworkForGaming" xml:space="preserve">
+    <value>На физических сетевых адаптерах отключает модерацию прерываний и энергосбережение Ethernet (EEE, Green Ethernet), если драйвер их поддерживает, и ограничивает фоновые загрузки Центра обновления Windows 30% полосы, чтобы они не забивали канал во время матча. Ниже пинг и меньше скачков, немного выше нагрузка на ЦП. Bufferbloat при загрузке решается на роутере (SQM: fq_codel или CAKE). Вступает в силу после перезагрузки; восстановление возвращает все значения.</value>
+  </data>
+  <data name="CategoryOrTweakNameOptimizeFlipModel" xml:space="preserve">
+    <value>Оптимизировать вывод кадров для independent flip</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionOptimizeFlipModel" xml:space="preserve">
+    <value>Применяет параметры Windows 11, которые позволяют играм выйти на independent flip с минимальной задержкой, в том числе в окне без рамки: аппаратное планирование GPU, оптимизации для игр в оконном режиме (flip model), включённые полноэкранная оптимизация и multiplane overlay, игровой режим. Заменяет «Отключить полноэкранную оптимизацию», которая блокирует этот путь. Остальные параметры DirectX сохраняются; для HAGS нужны совместимые GPU и драйвер.</value>
   </data>
 </root>

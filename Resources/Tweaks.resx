@@ -169,7 +169,7 @@
     <value>Disable Fullscreen Optimizations</value>
   </data>
   <data name="CategoryOrTweakDescriptionDisablesWindowsFullscreenOptimizationsForBetter" xml:space="preserve">
-    <value>Disables Windows fullscreen optimizations for better gaming performance</value>
+    <value>Not recommended on Windows 11: it blocks independent flip and can add latency in windowed and borderless games. Use "Optimize presentation for independent flip" instead; kept so older changes can be undone.</value>
   </data>
   <data name="CategoryOrTweakNameDisableXboxGameBar" xml:space="preserve">
     <value>Disable Xbox Game Bar</value>
@@ -223,7 +223,7 @@
     <value>Disable Windows AI Policies</value>
   </data>
   <data name="CategoryOrTweakDescriptionHidesTheWindowsAIComponentsSettings" xml:space="preserve">
-    <value>Hides the Windows AI components settings page and disables Notepad AI features. Package removal is available separately under Automated Scripts.</value>
+    <value>Through policies hides the Windows AI components settings page and turns off Copilot, Recall snapshots, Click to Do and Notepad AI features. Package removal is available separately under Automated Scripts.</value>
   </data>
   <data name="CategoryOrTweakNameDisableWindowsPlatformBinaryTableWPBT" xml:space="preserve">
     <value>Disable Windows Platform Binary Table (WPBT)</value>
@@ -427,7 +427,7 @@ Backup location: {1}</value>
     <value>Apply All Recommended Tweaks</value>
   </data>
   <data name="ApplyAllRecommendedMessage" xml:space="preserve">
-    <value>This applies the performance and maximum-privacy set plus the Security Windows Update mode. It includes high-impact privacy policies that can disable Windows features or device integrations. SysMain and Prefetch stay unchanged because disabling them can reduce performance.
+    <value>This applies the performance and maximum-privacy set plus the Security Windows Update mode. It includes high-impact privacy policies that can disable Windows features or device integrations. SysMain, Prefetch and fullscreen optimizations stay unchanged because disabling them can reduce performance; the low-latency network preset is left to you.
 
 A backup will be created automatically before applying changes.</value>
   </data>
@@ -775,5 +775,53 @@ Creating it may take a minute and requires administrator privileges.</value>
   </data>
   <data name="PowerFileFilter" xml:space="preserve">
     <value>Power plan (*.pow)|*.pow</value>
+  </data>
+  <data name="CategoryOrTweakNameEnableTaskbarEndTask" xml:space="preserve">
+    <value>Add "End task" to the taskbar menu</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionEnableTaskbarEndTask" xml:space="preserve">
+    <value>Right-clicking an app on the taskbar shows End task, which closes a frozen app without opening Task Manager. Requires Windows 11 23H2 or later.</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableTelemetry" xml:space="preserve">
+    <value>Reduce Windows telemetry</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisableTelemetry" xml:space="preserve">
+    <value>Sets diagnostic data to the lowest level the edition allows (Required on Home and Pro), disables the Connected User Experiences and Telemetry service (DiagTrack) and stops feedback prompts. Windows Insider builds need it turned back off.</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableConsumerContent" xml:space="preserve">
+    <value>Disable suggested content and automatic app installs</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisableConsumerContent" xml:space="preserve">
+    <value>Stops Windows from silently installing promoted apps and turns off tips, suggestions in Start and Settings, Start recommendations and the "finish setting up your device" screen.</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableBingSearch" xml:space="preserve">
+    <value>Remove Bing web results from Windows search</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisableBingSearch" xml:space="preserve">
+    <value>Start and taskbar search show only local results: no Bing web suggestions and no search highlights. Takes effect after signing out or restarting.</value>
+  </data>
+  <data name="CategoryOrTweakNameDisableFastStartup" xml:space="preserve">
+    <value>Disable Fast Startup</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDisableFastStartup" xml:space="preserve">
+    <value>Shuts down fully instead of hibernating the kernel. Drivers and updates load cleanly at every power-on, and dual boot or BIOS changes are safer; startup takes a few seconds longer.</value>
+  </data>
+  <data name="CategoryOrTweakNameDetailedBsod" xml:space="preserve">
+    <value>Show details on the blue screen</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionDetailedBsod" xml:space="preserve">
+    <value>After a crash the stop screen also shows the error parameters, which help identify the driver at fault. Changes nothing else.</value>
+  </data>
+  <data name="CategoryOrTweakNameOptimizeNetworkForGaming" xml:space="preserve">
+    <value>Low-latency network preset for gaming</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionOptimizeNetworkForGaming" xml:space="preserve">
+    <value>On physical network adapters turns off interrupt moderation and Ethernet power saving (EEE, Green Ethernet) where the driver offers them, and limits background Windows Update downloads to 30% of the bandwidth so they do not fill the line during a match. Lower ping and fewer spikes, slightly higher CPU use. Download bufferbloat is solved on the router (SQM: fq_codel or CAKE). Takes effect after a restart; restore puts every value back.</value>
+  </data>
+  <data name="CategoryOrTweakNameOptimizeFlipModel" xml:space="preserve">
+    <value>Optimize presentation for independent flip</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionOptimizeFlipModel" xml:space="preserve">
+    <value>Applies the Windows 11 settings that let games reach independent flip with the lowest latency, also in borderless windows: hardware-accelerated GPU scheduling, optimizations for windowed games (flip model), fullscreen optimizations and multiplane overlay left on, and Game Mode. Replaces "Disable fullscreen optimizations", which blocks this path. Other DirectX settings are kept; HAGS needs a GPU and driver that support it.</value>
   </data>
 </root>
