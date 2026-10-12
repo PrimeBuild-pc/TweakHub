@@ -17,7 +17,11 @@
     <a href="#languages"><img alt="Six interface languages" src="https://img.shields.io/badge/UI%20languages-6-5B5FC7?style=plastic&amp;logo=googletranslate&amp;logoColor=white"></a>
     <a href="LICENSE"><img alt="License" src="https://img.shields.io/github/license/PrimeBuild-pc/TweakHub?style=plastic"></a>
   </p>
-  <p><a href="https://github.com/PrimeBuild-pc/TweakHub/releases/latest"><img alt="Download latest release" src="https://img.shields.io/badge/download-latest%20release-2EA44F?style=for-the-badge&amp;logo=github&amp;logoColor=white"></a></p>
+  <p>
+    <a href="https://github.com/PrimeBuild-pc/TweakHub/releases/latest"><img alt="Download latest release" src="https://img.shields.io/badge/download-latest%20release-2EA44F?style=for-the-badge&amp;logo=github&amp;logoColor=white"></a>
+    <a href="https://github.com/PrimeBuild-pc/TweakHub/releases/tag/v1.5.0-beta.1"><img alt="Try the v1.5.0 beta" src="https://img.shields.io/badge/try%20the%20beta-v1.5.0--beta.1-F28C28?style=for-the-badge&amp;logo=github&amp;logoColor=white"></a>
+  </p>
+  <p><sub>The beta button opens the release page: read the notes first, it is a pre-release for testing.</sub></p>
   <p>
     <a href="#features"><b>Features</b></a> ·
     <a href="#screenshots"><b>Screenshots</b></a> ·
@@ -93,6 +97,9 @@ TweakHub supports **Windows 11 build 22000 or newer**.
 <a id="languages"></a>The interface and installer support English, Russian, Simplified Chinese, Spanish, Italian and Japanese. TweakHub follows the Windows display language by default; an explicit language can be selected under **Settings**.
 
 ## Screenshots
+
+> [!IMPORTANT]
+> These screenshots show the **v1.5.0-beta.1 pre-release**. Some sections (Security, Devices & latency, Power plan and the new tweaks) are not in the latest stable release yet. To try them, read the [beta release notes](https://github.com/PrimeBuild-pc/TweakHub/releases/tag/v1.5.0-beta.1) and download it from there.
 
 <p align="center"><sub>Scroll the gallery sideways (swipe on touch screens) and click any screenshot to open it at full size.</sub></p>
 
