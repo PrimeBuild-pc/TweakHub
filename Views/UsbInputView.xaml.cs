@@ -125,7 +125,8 @@ public partial class UsbInputView : UserControl
     // Raw input polling test
 
     private const int WmInput = 0x00FF;
-    private const int RidInput = 0x10000003;
+    // RID_HEADER: only the header is read; RID_INPUT would need the whole RAWINPUT and fails on this buffer.
+    private const int RidHeader = 0x10000005;
     private const int RimTypeMouse = 0;
     private static readonly TimeSpan TestLength = TimeSpan.FromSeconds(4);
     private readonly Dictionary<IntPtr, List<long>> _samples = [];
@@ -178,7 +179,7 @@ public partial class UsbInputView : UserControl
         if (message != WmInput) return IntPtr.Zero;
         var timestamp = Stopwatch.GetTimestamp();
         var size = (uint)Marshal.SizeOf<RawInputHeader>();
-        if (GetRawInputData(lParam, RidInput, out var header, ref size, (uint)Marshal.SizeOf<RawInputHeader>()) != uint.MaxValue
+        if (GetRawInputData(lParam, RidHeader, out var header, ref size, (uint)Marshal.SizeOf<RawInputHeader>()) != uint.MaxValue
             && header.Type == RimTypeMouse)
         {
             if (!_samples.TryGetValue(header.Device, out var list)) _samples[header.Device] = list = [];
