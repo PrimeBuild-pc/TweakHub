@@ -626,7 +626,8 @@ foreach ($command in $commands) {
 & DISM.exe /Online /Cleanup-Image /StartComponentCleanup
 if ($LASTEXITCODE -ne 0) { throw ""DISM failed with exit code $LASTEXITCODE"" }
 ",
-            "temp-cleanup" => @"
+            // The caller's temp folder: a standard user elevates as another account, whose GetTempPath is not theirs.
+            "temp-cleanup" => "$userTemp = " + PowerShellService.Literal(Path.GetTempPath()) + @"
 $ErrorActionPreference = 'Stop'
 # Only files untouched for a day, so running installers and apps keep their current temp files.
 $cutoff = (Get-Date).AddDays(-1)
@@ -643,7 +644,7 @@ function Clear-Folder([string]$path) {
         }
     }
 }
-foreach ($folder in @([IO.Path]::GetTempPath(), (Join-Path $env:SystemRoot 'Temp')) | Select-Object -Unique) {
+foreach ($folder in @($userTemp, (Join-Path $env:SystemRoot 'Temp')) | Select-Object -Unique) {
     if (Test-Path -LiteralPath $folder) { Clear-Folder $folder }
 }
 Delete-DeliveryOptimizationCache -Force -ErrorAction SilentlyContinue
