@@ -34,6 +34,8 @@ namespace TweakHub.Views
 
             Loaded += RegistryTweaksPage_Loaded;
             _tweakService.PropertyChanged += TweakService_PropertyChanged;
+            // Backups from an earlier session are counted at startup, before this page could hear the change.
+            UpdateRestoreAllButton();
         }
         private readonly PowerShellService _powerShellService = PowerShellService.Instance;
 
@@ -41,14 +43,14 @@ namespace TweakHub.Views
         private void TweakService_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(TweakService.HasAppliedTweaksThisSession))
-            {
-                Dispatcher.Invoke(() =>
-                {
-                    RestoreAllButton.Visibility = _tweakService.HasAppliedTweaksThisSession ? Visibility.Visible : Visibility.Collapsed;
-                    RestoreAllButton.IsEnabled = _tweakService.HasAppliedTweaksThisSession;
-                    RestoreAllButton.Opacity = _tweakService.HasAppliedTweaksThisSession ? 1.0 : 0.65;
-                });
-            }
+                Dispatcher.Invoke(UpdateRestoreAllButton);
+        }
+
+        private void UpdateRestoreAllButton()
+        {
+            RestoreAllButton.Visibility = _tweakService.HasAppliedTweaksThisSession ? Visibility.Visible : Visibility.Collapsed;
+            RestoreAllButton.IsEnabled = _tweakService.HasAppliedTweaksThisSession;
+            RestoreAllButton.Opacity = _tweakService.HasAppliedTweaksThisSession ? 1.0 : 0.65;
         }
 
         private async void RegistryTweaksPage_Loaded(object sender, RoutedEventArgs e)
