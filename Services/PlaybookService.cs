@@ -167,10 +167,11 @@ public sealed class PlaybookService
         }
 
         await Preload.Get(Preload.TweakStates, TweakService.Instance.LoadWithStatesAsync);
-        // The plan tweak would run after the PowerPlan step and switch to High performance instead of the captured plan.
+        // Power tweaks change the active plan: after the PowerPlan step they would overwrite the captured values
+        // (or switch to High performance), and the step already carries every setting they touch.
         var hasPlan = steps.Count > 0;
         steps.AddRange(TweakService.Instance.TweakCategories.SelectMany(category => category.Tweaks)
-            .Where(tweak => tweak.IsEnabled && !(hasPlan && tweak.Id == "high_performance_power_plan"))
+            .Where(tweak => tweak.IsEnabled && !(hasPlan && tweak.Type == TweakType.Power))
             .Select(tweak => new PlaybookStep { Type = PlaybookStepType.Tweak, ReferenceId = $"builtin:{tweak.Id}", Name = Trim(tweak.Name) }));
         steps.AddRange(UserDataService.Instance.LoadCustomTweaks().Where(IsApplied)
             .Select(tweak => new PlaybookStep { Type = PlaybookStepType.Tweak, ReferenceId = $"custom:{tweak.Id}", Name = Trim(tweak.Name) }));

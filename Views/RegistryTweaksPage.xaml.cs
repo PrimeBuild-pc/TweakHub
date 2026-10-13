@@ -369,7 +369,8 @@ namespace TweakHub.Views
                 || !toggle.IsKeyboardFocusWithin) return;
 
             var targetState = toggle.IsOn;
-            if (tweak.RiskLevel >= 3 && !await AppDialog.ConfirmAsync(
+            // Turning a tweak off restores the captured original, so only applying it needs the risk warning.
+            if (targetState && tweak.RiskLevel >= 3 && !await AppDialog.ConfirmAsync(
                     Window.GetWindow(this),
                     L.Get("Tweaks:HighRiskWarning"),
                     L.Format("Tweaks:HighRiskMessage", tweak.RiskLevel, tweak.Description),

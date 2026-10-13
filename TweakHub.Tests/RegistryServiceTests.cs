@@ -101,6 +101,22 @@ public class RegistryServiceTests
     }
 
     [Test]
+    public void UserPoliciesNeedElevationAndScriptsWriteThisUsersHive()
+    {
+        var sid = System.Security.Principal.WindowsIdentity.GetCurrent().User!.Value;
+        Assert.Multiple(() =>
+        {
+            Assert.That(RegistryService.RequiresElevation(@"HKCU\Software\Microsoft\Windows\CurrentVersion\Search"), Is.False);
+            Assert.That(RegistryService.RequiresElevation(@"HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Explorer"), Is.True,
+                "Users can only read their own policy key");
+            Assert.That(RegistryService.RequiresElevation(@"HKLM\SOFTWARE\Policies\Microsoft"), Is.True);
+            Assert.That(RegistryService.ForScript(@"HKCU\Software\Policies\Microsoft"), Is.EqualTo($@"HKEY_USERS\{sid}\Software\Policies\Microsoft"));
+            Assert.That(RegistryService.ForScript(@"HKEY_CURRENT_USER\Control Panel\Mouse"), Is.EqualTo($@"HKEY_USERS\{sid}\Control Panel\Mouse"));
+            Assert.That(RegistryService.ForScript(@"HKLM\SOFTWARE\Microsoft"), Is.EqualTo(@"HKLM\SOFTWARE\Microsoft"));
+        });
+    }
+
+    [Test]
     public void InvalidRootIsRejectedInsteadOfFallingBackToHkcu()
     {
         var service = new RegistryService(Path.Combine(Path.GetTempPath(), $"TweakHubTests-{Guid.NewGuid():N}"));
