@@ -797,10 +797,11 @@ Write-Output 'Standby list emptied once. Do not schedule this operation.'
             "remove-windows-ai" => @"
 $ErrorActionPreference = 'Stop'
 $policyPath = 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer'
-New-Item $policyPath -Force | Out-Null
+# New-Item -Force on an existing key deletes its values and subkeys: create the key only when it is missing.
+if (-not (Test-Path $policyPath)) { New-Item $policyPath -Force | Out-Null }
 New-ItemProperty $policyPath -Name SettingsPageVisibility -PropertyType String -Value 'hide:aicomponents' -Force | Out-Null
 $notepadPath = 'HKLM:\SOFTWARE\Policies\WindowsNotepad'
-New-Item $notepadPath -Force | Out-Null
+if (-not (Test-Path $notepadPath)) { New-Item $notepadPath -Force | Out-Null }
 New-ItemProperty $notepadPath -Name DisableAIFeatures -PropertyType DWord -Value 1 -Force | Out-Null
 Get-AppxPackage -AllUsers '*Copilot*' | ForEach-Object { Remove-AppxPackage -Package $_.PackageFullName -AllUsers }
 Get-AppxPackage -AllUsers Microsoft.MicrosoftOfficeHub | ForEach-Object { Remove-AppxPackage -Package $_.PackageFullName -AllUsers }
