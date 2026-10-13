@@ -651,7 +651,7 @@ namespace TweakHub.Views
 
         /// <summary>Each administrator change asks UAC once; one elevated restart asks only once. True when TweakHub is restarting.</summary>
         private async Task<bool> RestartElevatedForBulkAsync(int changes) =>
-            changes > 1 && !Elevation.IsAdministrator
+            changes > 1 && Elevation.CanRestartElevated
             && await AppDialog.ConfirmAsync(Window.GetWindow(this), L.Get("Scripts:PlaybookElevateTitle"),
                 L.Format("Tweaks:BulkElevateMessage", changes), L.Get("Scripts:PlaybookElevateRestart"),
                 L.Get("Scripts:PlaybookElevateContinue"), DialogKind.Shield)

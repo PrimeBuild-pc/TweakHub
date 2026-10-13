@@ -778,23 +778,10 @@ namespace TweakHub.Services
 
         public async Task<(int restored, int failed)> RestoreAllTweaksAsync()
         {
-            var tweaks = TweakCategories.SelectMany(category => category.Tweaks).Where(HasBackup).ToList();
             var restored = 0;
             var failed = 0;
-            foreach (var tweak in tweaks)
-            {
-                if (await ApplyCoreAsync(tweak, false))
-                {
-                    restored++;
-                    if (tweak.RequiresRestart)
-                    {
-                        tweak.IsRestartPending = true;
-                        RestartVerificationService.Instance.TrackTweak(tweak.Id, false);
-                    }
-                }
-                else failed++;
-            }
-
+            // The preset first: it shares values with single tweaks (driver updates, device metadata), and restoring
+            // those first would drop the shared backups the preset needs.
             var windowsUpdate = WindowsUpdatePresetService.Instance;
             var windowsUpdateRestored = false;
             if (windowsUpdate.HasCompleteBackup)
@@ -809,6 +796,20 @@ namespace TweakHub.Services
                 {
                     if (await RegistryService.Instance.RestoreValuesAsync(legacyPreset)) restored++; else failed++;
                 }
+            }
+
+            foreach (var tweak in TweakCategories.SelectMany(category => category.Tweaks).Where(HasBackup).ToList())
+            {
+                if (await ApplyCoreAsync(tweak, false))
+                {
+                    restored++;
+                    if (tweak.RequiresRestart)
+                    {
+                        tweak.IsRestartPending = true;
+                        RestartVerificationService.Instance.TrackTweak(tweak.Id, false);
+                    }
+                }
+                else failed++;
             }
 
             if (windowsUpdateRestored)

@@ -306,7 +306,7 @@ namespace TweakHub.Views
                 if (!await AppDialog.ConfirmAsync(Window.GetWindow(this), playbook.Name,
                         L.Format("Scripts:PlaybookRunConfirmation", preview), L.Get("Scripts:Run"), L.Get("Scripts:Cancel"))) return;
                 // Several administrator steps would each ask for UAC: one elevated restart asks once.
-                if (preflight.AdministratorSteps > 1 && !Elevation.IsAdministrator
+                if (preflight.AdministratorSteps > 1 && Elevation.CanRestartElevated
                     && await AppDialog.ConfirmAsync(Window.GetWindow(this), L.Get("Scripts:PlaybookElevateTitle"),
                         L.Format("Scripts:PlaybookElevateMessage", preflight.AdministratorSteps),
                         L.Get("Scripts:PlaybookElevateRestart"), L.Get("Scripts:PlaybookElevateContinue"), DialogKind.Shield)
