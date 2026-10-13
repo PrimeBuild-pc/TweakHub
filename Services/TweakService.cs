@@ -863,7 +863,9 @@ namespace TweakHub.Services
                     var matches = changes.Count(change =>
                         Equals(RegistryService.Instance.GetRegistryValue(change.KeyPath, change.ValueName), change.Value));
                     tweak.IsEnabled = matches == changes.Count;
-                    tweak.IsPartiallyApplied = matches > 0 && matches < changes.Count;
+                    // Some targets are also Windows defaults (the GameDVR values of the flip tweak are 0 out of the box):
+                    // only a group TweakHub changed and still has a backup for can be half applied.
+                    tweak.IsPartiallyApplied = matches > 0 && matches < changes.Count && HasBackup(tweak);
                     continue;
                 }
 
@@ -887,7 +889,7 @@ namespace TweakHub.Services
             var matches = changes.Count(change =>
                 Equals(RegistryService.Instance.GetRegistryValue(change.KeyPath, change.ValueName), change.Value));
             tweak.IsEnabled = changes.Count > 0 && matches == changes.Count;
-            tweak.IsPartiallyApplied = matches > 0 && matches < changes.Count;
+            tweak.IsPartiallyApplied = matches > 0 && matches < changes.Count && NetworkAdapterService.BackedUpChanges().Count > 0;
             // Values changed on an adapter that is gone or no longer supported must stay restorable.
             tweak.UnavailableReason = changes.Count > 0 || NetworkAdapterService.BackedUpChanges().Count > 0
                 ? string.Empty
