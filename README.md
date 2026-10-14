@@ -51,9 +51,6 @@
 
 <p align="center"><sub>Scroll the gallery sideways (swipe on touch screens) and click any screenshot to open it at full size.</sub></p>
 
-> [!IMPORTANT]
-> These screenshots show the **v1.5.0-beta.1 pre-release**. Some sections (Security, Devices & latency, Power plan and the new tweaks) are not in the latest stable release yet. To try them, read the [beta release notes](https://github.com/PrimeBuild-pc/TweakHub/releases/tag/v1.5.0-beta.1) and download it from there.
-
 > [!WARNING]
 > **Use at your own risk.** TweakHub is intended for experienced technicians and power users as a fast way to review and apply selected system changes. It is not a one-click optimizer, and its tweaks should never be applied blindly.
 >
@@ -119,9 +116,7 @@ TweakHub supports **Windows 11 build 22000 or newer**.
 <div align="center">
   <p>
     <a href="https://github.com/PrimeBuild-pc/TweakHub/releases/latest"><img alt="Download latest release" src="https://img.shields.io/badge/download-latest%20release-2EA44F?style=for-the-badge&amp;logo=github&amp;logoColor=white"></a>
-    <a href="https://github.com/PrimeBuild-pc/TweakHub/releases/tag/v1.5.0-beta.1"><img alt="Try the v1.5.0 beta" src="https://img.shields.io/badge/try%20the%20beta-v1.5.0--beta.1-F28C28?style=for-the-badge&amp;logo=github&amp;logoColor=white"></a>
   </p>
-  <p><sub>The beta button opens the release page: read the notes first, it is a pre-release for testing.</sub></p>
 </div>
 
 <table>
