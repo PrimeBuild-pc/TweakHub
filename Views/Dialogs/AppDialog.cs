@@ -24,10 +24,7 @@ public static class AppDialog
         bool topmost = false) =>
         Task.FromResult(Show(owner, title, message, primaryButtonText ?? L.Get("UI:Yes"), secondaryButtonText ?? L.Get("UI:No"), kind, topmost));
 
-    public static Task ShowRestartRequiredAsync(Window? owner, string message) => ShowAsync(
-        owner,
-        L.Get("UI:RestartRequired"),
-        L.Format("UI:RestartRequiredMessage", message));
+    public static Task ShowRestartRequiredAsync(Window? owner, string message) => ShowAsync(owner, L.Get("UI:RestartRequired"), message);
 
     public static Task ShowDisclaimerAsync(Window? owner) => Task.FromResult(Show(
         owner,

@@ -34,6 +34,8 @@ namespace TweakHub.Views
 
             Loaded += RegistryTweaksPage_Loaded;
             _tweakService.PropertyChanged += TweakService_PropertyChanged;
+            // Backups from an earlier session are counted at startup, before this page could hear the change.
+            UpdateRestoreAllButton();
         }
         private readonly PowerShellService _powerShellService = PowerShellService.Instance;
 
@@ -41,14 +43,14 @@ namespace TweakHub.Views
         private void TweakService_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(TweakService.HasAppliedTweaksThisSession))
-            {
-                Dispatcher.Invoke(() =>
-                {
-                    RestoreAllButton.Visibility = _tweakService.HasAppliedTweaksThisSession ? Visibility.Visible : Visibility.Collapsed;
-                    RestoreAllButton.IsEnabled = _tweakService.HasAppliedTweaksThisSession;
-                    RestoreAllButton.Opacity = _tweakService.HasAppliedTweaksThisSession ? 1.0 : 0.65;
-                });
-            }
+                Dispatcher.Invoke(UpdateRestoreAllButton);
+        }
+
+        private void UpdateRestoreAllButton()
+        {
+            RestoreAllButton.Visibility = _tweakService.HasAppliedTweaksThisSession ? Visibility.Visible : Visibility.Collapsed;
+            RestoreAllButton.IsEnabled = _tweakService.HasAppliedTweaksThisSession;
+            RestoreAllButton.Opacity = _tweakService.HasAppliedTweaksThisSession ? 1.0 : 0.65;
         }
 
         private async void RegistryTweaksPage_Loaded(object sender, RoutedEventArgs e)
@@ -369,7 +371,8 @@ namespace TweakHub.Views
                 || !toggle.IsKeyboardFocusWithin) return;
 
             var targetState = toggle.IsOn;
-            if (tweak.RiskLevel >= 3 && !await AppDialog.ConfirmAsync(
+            // Turning a tweak off restores the captured original, so only applying it needs the risk warning.
+            if (targetState && tweak.RiskLevel >= 3 && !await AppDialog.ConfirmAsync(
                     Window.GetWindow(this),
                     L.Get("Tweaks:HighRiskWarning"),
                     L.Format("Tweaks:HighRiskMessage", tweak.RiskLevel, tweak.Description),
@@ -650,7 +653,7 @@ namespace TweakHub.Views
 
         /// <summary>Each administrator change asks UAC once; one elevated restart asks only once. True when TweakHub is restarting.</summary>
         private async Task<bool> RestartElevatedForBulkAsync(int changes) =>
-            changes > 1 && !Elevation.IsAdministrator
+            changes > 1 && Elevation.CanRestartElevated
             && await AppDialog.ConfirmAsync(Window.GetWindow(this), L.Get("Scripts:PlaybookElevateTitle"),
                 L.Format("Tweaks:BulkElevateMessage", changes), L.Get("Scripts:PlaybookElevateRestart"),
                 L.Get("Scripts:PlaybookElevateContinue"), DialogKind.Shield)

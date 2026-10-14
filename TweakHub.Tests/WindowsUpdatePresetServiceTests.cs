@@ -46,4 +46,31 @@ public class WindowsUpdatePresetServiceTests
         process.WaitForExit();
         Assert.That(process.ExitCode, Is.Zero);
     }
+
+    // New-Item -Force recreates an existing key: every preset kept only the last value it set in each key.
+    [Test]
+    public void SetPolicyKeepsTheValuesAlreadyInTheKey()
+    {
+        var scriptPath = Path.Combine(AppContext.BaseDirectory, "Scripts", "WindowsUpdatePreset.ps1");
+        var key = $@"HKCU:\Software\TweakHubTests\{Guid.NewGuid():N}";
+        var command = $$"""
+            $ast = [System.Management.Automation.Language.Parser]::ParseFile('{{scriptPath.Replace("'", "''")}}', [ref]$null, [ref]$null)
+            Invoke-Expression $ast.Find({ param($node) $node -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -eq 'Set-Policy' }, $true).Extent.Text
+            Set-Policy '{{key}}' 'First' 1
+            Set-Policy '{{key}}' 'Second' 2
+            (Get-Item '{{key}}').GetValueNames() -join ','
+            Remove-Item '{{key}}' -Recurse -Force
+            """;
+        using var process = Process.Start(new ProcessStartInfo
+        {
+            FileName = "powershell.exe",
+            Arguments = "-NoProfile -NonInteractive -EncodedCommand " + Convert.ToBase64String(System.Text.Encoding.Unicode.GetBytes(command)),
+            UseShellExecute = false,
+            RedirectStandardOutput = true,
+            CreateNoWindow = true
+        })!;
+        var output = process.StandardOutput.ReadToEnd().Trim();
+        process.WaitForExit();
+        Assert.That(output, Is.EqualTo("First,Second"));
+    }
 }

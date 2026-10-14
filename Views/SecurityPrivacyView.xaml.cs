@@ -151,6 +151,9 @@ public partial class SecurityPrivacyView : UserControl
     private async void ApplyDns_Click(object sender, RoutedEventArgs e)
     {
         if (!TryGetSelectedServers(out var servers)) return;
+        // The list is read when the page opens: an adapter connected since then would be skipped.
+        await RefreshDnsAsync();
+        if (_adapters.Count == 0) return;
         var target = servers is null ? L.Get("Security:DnsAutomatic") : string.Join(", ", servers);
         var message = L.Format("Security:DnsConfirmMessage", string.Join(", ", _adapters.Select(adapter => adapter.Alias)), target);
         if (SelectedPreset == "Custom") message += "\n\n" + L.Get("Security:DnsPiholeNote");

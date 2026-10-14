@@ -221,11 +221,6 @@ Details: {1}</value>
   <data name="RestartRequired" xml:space="preserve">
     <value>Restart Required</value>
   </data>
-  <data name="RestartRequiredMessage" xml:space="preserve">
-    <value>{0}
-
-This message is shown once per session.</value>
-  </data>
   <data name="DisclaimerTitle" xml:space="preserve">
     <value>TweakHub Disclaimer</value>
   </data>

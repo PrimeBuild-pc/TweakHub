@@ -104,7 +104,8 @@ function Clear-ManagedPolicies {
 }
 
 function Set-Policy([string]$Path, [string]$Name, [int]$Value) {
-    New-Item -Path $Path -Force | Out-Null
+    # New-Item -Force on an existing key deletes its values and subkeys: create the key only when it is missing.
+    if (-not (Test-Path -LiteralPath $Path)) { New-Item -Path $Path -Force | Out-Null }
     New-ItemProperty -Path $Path -Name $Name -PropertyType DWord -Value $Value -Force | Out-Null
 }
 

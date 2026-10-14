@@ -34,7 +34,8 @@ public class AutomatedScriptsPageTests
             Assert.That(AutomatedScriptsPage.GetBuiltInScript("component-cleanup"),
                 Does.Contain("StartComponentCleanup"));
             Assert.That(AutomatedScriptsPage.GetBuiltInScript("temp-cleanup"),
-                Does.Contain("ReparsePoint").And.Contain("AddDays(-1)").And.Contain("Delete-DeliveryOptimizationCache"));
+                Does.Contain("ReparsePoint").And.Contain("AddDays(-1)").And.Contain("Delete-DeliveryOptimizationCache")
+                    .And.StartWith($"$userTemp = '{Path.GetTempPath()}'"), "The elevated script cleans the caller's temp folder");
             Assert.That(AutomatedScriptsPage.GetBuiltInScript("network-reset"),
                 Does.Contain("winsock reset").And.Contain("int ip reset"));
             Assert.That(AutomatedScriptsPage.GetBuiltInScript("windows-update-reset"),

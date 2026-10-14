@@ -778,23 +778,10 @@ namespace TweakHub.Services
 
         public async Task<(int restored, int failed)> RestoreAllTweaksAsync()
         {
-            var tweaks = TweakCategories.SelectMany(category => category.Tweaks).Where(HasBackup).ToList();
             var restored = 0;
             var failed = 0;
-            foreach (var tweak in tweaks)
-            {
-                if (await ApplyCoreAsync(tweak, false))
-                {
-                    restored++;
-                    if (tweak.RequiresRestart)
-                    {
-                        tweak.IsRestartPending = true;
-                        RestartVerificationService.Instance.TrackTweak(tweak.Id, false);
-                    }
-                }
-                else failed++;
-            }
-
+            // The preset first: it shares values with single tweaks (driver updates, device metadata), and restoring
+            // those first would drop the shared backups the preset needs.
             var windowsUpdate = WindowsUpdatePresetService.Instance;
             var windowsUpdateRestored = false;
             if (windowsUpdate.HasCompleteBackup)
@@ -809,6 +796,20 @@ namespace TweakHub.Services
                 {
                     if (await RegistryService.Instance.RestoreValuesAsync(legacyPreset)) restored++; else failed++;
                 }
+            }
+
+            foreach (var tweak in TweakCategories.SelectMany(category => category.Tweaks).Where(HasBackup).ToList())
+            {
+                if (await ApplyCoreAsync(tweak, false))
+                {
+                    restored++;
+                    if (tweak.RequiresRestart)
+                    {
+                        tweak.IsRestartPending = true;
+                        RestartVerificationService.Instance.TrackTweak(tweak.Id, false);
+                    }
+                }
+                else failed++;
             }
 
             if (windowsUpdateRestored)
@@ -862,7 +863,9 @@ namespace TweakHub.Services
                     var matches = changes.Count(change =>
                         Equals(RegistryService.Instance.GetRegistryValue(change.KeyPath, change.ValueName), change.Value));
                     tweak.IsEnabled = matches == changes.Count;
-                    tweak.IsPartiallyApplied = matches > 0 && matches < changes.Count;
+                    // Some targets are also Windows defaults (the GameDVR values of the flip tweak are 0 out of the box):
+                    // only a group TweakHub changed and still has a backup for can be half applied.
+                    tweak.IsPartiallyApplied = matches > 0 && matches < changes.Count && HasBackup(tweak);
                     continue;
                 }
 
@@ -886,7 +889,7 @@ namespace TweakHub.Services
             var matches = changes.Count(change =>
                 Equals(RegistryService.Instance.GetRegistryValue(change.KeyPath, change.ValueName), change.Value));
             tweak.IsEnabled = changes.Count > 0 && matches == changes.Count;
-            tweak.IsPartiallyApplied = matches > 0 && matches < changes.Count;
+            tweak.IsPartiallyApplied = matches > 0 && matches < changes.Count && NetworkAdapterService.BackedUpChanges().Count > 0;
             // Values changed on an adapter that is gone or no longer supported must stay restorable.
             tweak.UnavailableReason = changes.Count > 0 || NetworkAdapterService.BackedUpChanges().Count > 0
                 ? string.Empty

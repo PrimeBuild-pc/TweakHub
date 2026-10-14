@@ -176,11 +176,12 @@ namespace TweakHub.Services
             var script = new System.Text.StringBuilder("$ErrorActionPreference = 'Stop'\n$global:LASTEXITCODE = 0\n");
             foreach (var change in changes)
             {
+                var keyPath = ForScript(change.KeyPath);
                 // reg.exe fails when the value is already gone, which is the state we want, so delete only what exists.
                 if (change.Value is null)
-                    script.AppendLine($"if ($null -ne (Get-ItemProperty -LiteralPath {Quote("Registry::" + change.KeyPath)} -Name {Quote(change.ValueName)} -ErrorAction SilentlyContinue)) {{ & reg.exe delete {Quote(change.KeyPath)} /v {Quote(change.ValueName)} /f }}");
+                    script.AppendLine($"if ($null -ne (Get-ItemProperty -LiteralPath {Quote("Registry::" + keyPath)} -Name {Quote(change.ValueName)} -ErrorAction SilentlyContinue)) {{ & reg.exe delete {Quote(keyPath)} /v {Quote(change.ValueName)} /f }}");
                 else
-                    script.AppendLine($"& reg.exe add {Quote(change.KeyPath)} /v {Quote(change.ValueName)} /t {RegType(change.Kind)} /d {Quote(FormatRegData(change.Value, change.Kind))} /f");
+                    script.AppendLine($"& reg.exe add {Quote(keyPath)} /v {Quote(change.ValueName)} /t {RegType(change.Kind)} /d {Quote(FormatRegData(change.Value, change.Kind))} /f");
                 script.AppendLine("if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }");
             }
             return script.ToString();
@@ -362,9 +363,22 @@ namespace TweakHub.Services
             return true;
         }
 
-        private static bool RequiresElevation(string keyPath) =>
-            !keyPath.StartsWith("HKCU\\", StringComparison.OrdinalIgnoreCase) &&
-            !keyPath.StartsWith("HKEY_CURRENT_USER\\", StringComparison.OrdinalIgnoreCase);
+        // HKCU\Software\Policies is read-only for the user, like the machine hives.
+        internal static bool RequiresElevation(string keyPath) => UserSubKey(keyPath) is not { } subKey
+            || subKey.StartsWith(@"Software\Policies\", StringComparison.OrdinalIgnoreCase);
+
+        private static string? UserSubKey(string keyPath) =>
+            keyPath.StartsWith("HKCU\\", StringComparison.OrdinalIgnoreCase) ? keyPath[5..]
+            : keyPath.StartsWith("HKEY_CURRENT_USER\\", StringComparison.OrdinalIgnoreCase) ? keyPath[18..]
+            : null;
+
+        /// <summary>
+        /// HKCU of this user as a HKEY_USERS path. An elevated script can run under another account
+        /// (a standard user types an administrator's password), where HKCU would be that account's hive.
+        /// </summary>
+        internal static string ForScript(string keyPath) => UserSubKey(keyPath) is { } subKey
+            ? $@"HKEY_USERS\{System.Security.Principal.WindowsIdentity.GetCurrent().User!.Value}\{subKey}"
+            : keyPath;
 
         private static bool RunElevatedReg(
             string action,
@@ -383,7 +397,7 @@ namespace TweakHub.Services
                     WindowStyle = ProcessWindowStyle.Hidden
                 };
                 startInfo.ArgumentList.Add(action);
-                startInfo.ArgumentList.Add(keyPath);
+                startInfo.ArgumentList.Add(ForScript(keyPath));
                 startInfo.ArgumentList.Add("/v");
                 startInfo.ArgumentList.Add(valueName);
                 if (action == "add")

@@ -306,7 +306,7 @@ namespace TweakHub.Views
                 if (!await AppDialog.ConfirmAsync(Window.GetWindow(this), playbook.Name,
                         L.Format("Scripts:PlaybookRunConfirmation", preview), L.Get("Scripts:Run"), L.Get("Scripts:Cancel"))) return;
                 // Several administrator steps would each ask for UAC: one elevated restart asks once.
-                if (preflight.AdministratorSteps > 1 && !Elevation.IsAdministrator
+                if (preflight.AdministratorSteps > 1 && Elevation.CanRestartElevated
                     && await AppDialog.ConfirmAsync(Window.GetWindow(this), L.Get("Scripts:PlaybookElevateTitle"),
                         L.Format("Scripts:PlaybookElevateMessage", preflight.AdministratorSteps),
                         L.Get("Scripts:PlaybookElevateRestart"), L.Get("Scripts:PlaybookElevateContinue"), DialogKind.Shield)
@@ -626,7 +626,8 @@ foreach ($command in $commands) {
 & DISM.exe /Online /Cleanup-Image /StartComponentCleanup
 if ($LASTEXITCODE -ne 0) { throw ""DISM failed with exit code $LASTEXITCODE"" }
 ",
-            "temp-cleanup" => @"
+            // The caller's temp folder: a standard user elevates as another account, whose GetTempPath is not theirs.
+            "temp-cleanup" => "$userTemp = " + PowerShellService.Literal(Path.GetTempPath()) + @"
 $ErrorActionPreference = 'Stop'
 # Only files untouched for a day, so running installers and apps keep their current temp files.
 $cutoff = (Get-Date).AddDays(-1)
@@ -643,7 +644,7 @@ function Clear-Folder([string]$path) {
         }
     }
 }
-foreach ($folder in @([IO.Path]::GetTempPath(), (Join-Path $env:SystemRoot 'Temp')) | Select-Object -Unique) {
+foreach ($folder in @($userTemp, (Join-Path $env:SystemRoot 'Temp')) | Select-Object -Unique) {
     if (Test-Path -LiteralPath $folder) { Clear-Folder $folder }
 }
 Delete-DeliveryOptimizationCache -Force -ErrorAction SilentlyContinue
@@ -797,10 +798,11 @@ Write-Output 'Standby list emptied once. Do not schedule this operation.'
             "remove-windows-ai" => @"
 $ErrorActionPreference = 'Stop'
 $policyPath = 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer'
-New-Item $policyPath -Force | Out-Null
+# New-Item -Force on an existing key deletes its values and subkeys: create the key only when it is missing.
+if (-not (Test-Path $policyPath)) { New-Item $policyPath -Force | Out-Null }
 New-ItemProperty $policyPath -Name SettingsPageVisibility -PropertyType String -Value 'hide:aicomponents' -Force | Out-Null
 $notepadPath = 'HKLM:\SOFTWARE\Policies\WindowsNotepad'
-New-Item $notepadPath -Force | Out-Null
+if (-not (Test-Path $notepadPath)) { New-Item $notepadPath -Force | Out-Null }
 New-ItemProperty $notepadPath -Name DisableAIFeatures -PropertyType DWord -Value 1 -Force | Out-Null
 Get-AppxPackage -AllUsers '*Copilot*' | ForEach-Object { Remove-AppxPackage -Package $_.PackageFullName -AllUsers }
 Get-AppxPackage -AllUsers Microsoft.MicrosoftOfficeHub | ForEach-Object { Remove-AppxPackage -Package $_.PackageFullName -AllUsers }
