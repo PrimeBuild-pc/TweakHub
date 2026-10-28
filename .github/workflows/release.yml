@@ -111,5 +111,4 @@ jobs:
           identifier: PrimeBuild.TweakHub
           release-tag: ${{ steps.tag.outputs.tag }}
           installers-regex: 'TweakHub-Setup-.*\.exe$'
-          max-versions-to-keep: 5
           token: ${{ secrets.WINGET_TOKEN }}
