@@ -16,19 +16,19 @@
     <value>TweakHub by Prime Build</value>
   </data>
   <data name="MainWindowWindows11PerformanceControls" xml:space="preserve">
-    <value>Controlli delle prestazioni di Windows 11</value>
+    <value>Prestazioni di Windows 11</value>
   </data>
   <data name="MainWindowRegistryTweaks" xml:space="preserve">
     <value>Modifiche al Registro</value>
   </data>
   <data name="MainWindowExternalTools" xml:space="preserve">
-    <value>Strumenti Esterni</value>
+    <value>Strumenti esterni</value>
   </data>
   <data name="MainWindowAutomatedScripts" xml:space="preserve">
-    <value>Script Automatizzati</value>
+    <value>Script automatizzati</value>
   </data>
   <data name="MainWindowQuickAccess" xml:space="preserve">
-    <value>Accesso Rapido</value>
+    <value>Accesso rapido</value>
   </data>
   <data name="MainWindowAbout" xml:space="preserve">
     <value>Impostazioni</value>
@@ -40,7 +40,7 @@
     <value>Impostazioni dell'aspetto</value>
   </data>
   <data name="MainWindowAppearanceSettings2" xml:space="preserve">
-    <value>Impostazioni di aspetto</value>
+    <value>Impostazioni dell'aspetto</value>
   </data>
   <data name="AboutPageAbout" xml:space="preserve">
     <value>Impostazioni</value>
@@ -127,7 +127,7 @@
     <value>Elaborazione...</value>
   </data>
   <data name="ProgressWindowPleaseWait" xml:space="preserve">
-    <value>Attendere prego...</value>
+    <value>Attendere...</value>
   </data>
   <data name="WindowsVersionMessage" xml:space="preserve">
     <value>TweakHub supporta Windows 11 build 22000 o versioni successive.</value>
@@ -144,7 +144,7 @@ Dettagli: {1}</value>
     <value>Errore di TweakHub</value>
   </data>
   <data name="ThemeSystem" xml:space="preserve">
-    <value>Sincronizzato con Windows</value>
+    <value>Come Windows</value>
   </data>
   <data name="ThemeLight" xml:space="preserve">
     <value>Modalità chiara</value>
@@ -222,7 +222,7 @@ Dettagli: {1}</value>
     <value>Riavvio richiesto</value>
   </data>
   <data name="DisclaimerTitle" xml:space="preserve">
-    <value>Disclaimer di TweakHub</value>
+    <value>Avvertenze di TweakHub</value>
   </data>
   <data name="DisclaimerMessage" xml:space="preserve">
     <value>TweakHub può modificare le impostazioni di Windows, il registro, la configurazione di avvio e altri componenti del sistema. Crea un punto di ripristino del sistema prima di procedere.
@@ -325,7 +325,7 @@ Scaricarlo, verificarlo e installarlo ora?</value>
     <value>È necessario il percorso del registro.</value>
   </data>
   <data name="RegistryPathInvalid" xml:space="preserve">
-    <value>Il percorso del registro deve includere una radice e una sottchiave supportate.</value>
+    <value>Il percorso del registro deve includere una radice e una sottochiave supportate.</value>
   </data>
   <data name="RegistryRootUnsupported" xml:space="preserve">
     <value>Radice del registro non supportata '{0}'.</value>
@@ -430,6 +430,6 @@ Copia di recupero del profilo precedente: {6}
 Ora TweakHub si riavvia.</value>
   </data>
   <data name="PreviousDataKept" xml:space="preserve">
-    <value>Non importati perché questa copia ha già modifiche proprie da annullare: {0}. Ripristinale prima qui, poi ripeti l'import per portare quelle vecchie.</value>
+    <value>Non importati perché questa copia ha già modifiche proprie da annullare: {0}. Ripristinale prima qui, poi ripeti l'importazione per portare quelle vecchie.</value>
   </data>
 </root>

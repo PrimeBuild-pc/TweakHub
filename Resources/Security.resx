@@ -960,7 +960,7 @@ The current configuration is saved the first time so you can restore it.</value>
     <value>Delete "{0}"? A backup is saved first and can be restored from Deleted entries.</value>
   </data>
   <data name="StartupDeleteServiceConfirm" xml:space="preserve">
-    <value>Delete the service "{0}"? Disabling it is usually enough. A backup of its registry key is saved first; the service disappears after a restart, and a restored one comes back after a restart.</value>
+    <value>Delete the service "{0}"? Disabling it is usually enough. If it is running it is stopped first, but never when other running services depend on it. A backup of its registry key is saved first; a restored service comes back after a restart.</value>
   </data>
   <data name="StartupDeleteFailedTitle" xml:space="preserve">
     <value>Entry not deleted</value>

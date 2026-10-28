@@ -49,7 +49,7 @@
     <value>自定义外部工具</value>
   </data>
   <data name="CustomToolDialogCreateAReusableWebsiteWinget" xml:space="preserve">
-    <value>创建可重复使用的网站、Winget 或 PowerShell 卡。PowerShell 仅在确认后运行。</value>
+    <value>创建可重复使用的网站、Winget 或 PowerShell 卡片。PowerShell 仅在确认后运行。</value>
   </data>
   <data name="CustomToolDialogName" xml:space="preserve">
     <value>名称</value>
@@ -73,7 +73,7 @@
     <value>运行 PowerShell 命令</value>
   </data>
   <data name="CustomToolDialogValue" xml:space="preserve">
-    <value>Value</value>
+    <value>值</value>
   </data>
   <data name="CustomToolDialogRequestAdministratorPrivileges" xml:space="preserve">
     <value>请求管理员权限</value>
@@ -313,7 +313,7 @@
     <value>高级 CPU 与 GPU 工作负载分析和时间线分析</value>
   </data>
   <data name="DescriptionLowLevelRadeonGPUPerformanceAndWorkload" xml:space="preserve">
-    <value>低端 Radeon GPU 性能和工作负载分析</value>
+    <value>Radeon GPU 底层性能和工作负载分析</value>
   </data>
   <data name="DescriptionGPUInformationSensorsAndValidation" xml:space="preserve">
     <value>GPU 信息、传感器和验证</value>
@@ -358,7 +358,7 @@
     <value>检查和编辑显示分辨率及 EDID 数据</value>
   </data>
   <data name="DescriptionAutomateNVIDIADigitalVibranceAndAMDSaturation" xml:space="preserve">
-    <value>为每个游戏自动设置 NVIDIA 数字动态图像和 AMD 饱和度</value>
+    <value>按游戏自动设置 NVIDIA 数字振动控制和 AMD 饱和度</value>
   </data>
   <data name="DescriptionOpenSourceRGBDeviceControl" xml:space="preserve">
     <value>开源 RGB 设备控制</value>
@@ -397,31 +397,31 @@
     <value>存储性能基准测试</value>
   </data>
   <data name="DescriptionStorageHealthAndSMARTInformation" xml:space="preserve">
-    <value>存储健康和SMART信息</value>
+    <value>存储健康状况和 SMART 信息</value>
   </data>
   <data name="DescriptionNirSoftInventoryAndManagementOfCurrentAnd" xml:space="preserve">
-    <value>NirSoft当前和历史USB设备的清单和管理</value>
+    <value>NirSoft 出品的当前及历史 USB 设备清单与管理工具</value>
   </data>
   <data name="DescriptionMariusHeierUSBLatencyToolsOpensThe" xml:space="preserve">
-    <value>Marius Heier USB延迟工具；打开官网而不执行脚本</value>
+    <value>Marius Heier USB 延迟工具；打开官网，不执行脚本</value>
   </data>
   <data name="DescriptionMicrosoftCommandLineStorageLoadGeneratorAnd" xml:space="preserve">
     <value>微软命令行存储负载生成器和基准测试</value>
   </data>
   <data name="DescriptionOpenSourceBitTorrentClient" xml:space="preserve">
-    <value>开源BitTorrent客户端</value>
+    <value>开源 BitTorrent 客户端</value>
   </data>
   <data name="DescriptionInspectAndTuneWindowsTCPIPParameters" xml:space="preserve">
-    <value>检查和调整Windows TCP/IP参数</value>
+    <value>检查和调整 Windows TCP/IP 参数</value>
   </data>
   <data name="DescriptionMicrosoftSysinternalsLiveTCPAndUDPEndpoint" xml:space="preserve">
-    <value>微软Sysinternals实时TCP和UDP端点查看器</value>
+    <value>Microsoft Sysinternals 实时 TCP 和 UDP 端点查看器</value>
   </data>
   <data name="DescriptionTestAndSwitchDNSResolvers" xml:space="preserve">
-    <value>测试和切换DNS解析器</value>
+    <value>测试和切换 DNS 解析器</value>
   </data>
   <data name="DescriptionMeasureMaximumTCPAndUDPNetworkThroughput" xml:space="preserve">
-    <value>测量最大TCP和UDP网络吞吐量</value>
+    <value>测量 TCP 和 UDP 网络的最大吞吐量</value>
   </data>
   <data name="DescriptionCaptureAndInspectNetworkTrafficAndProtocols" xml:space="preserve">
     <value>捕获和检查网络流量及协议</value>
@@ -493,7 +493,7 @@
     <value>跨平台 CPU 和 GPU 计算基准测试</value>
   </data>
   <data name="DescriptionGoogleSAgenticDevelopmentEnvironment" xml:space="preserve">
-    <value>谷歌的自主开发环境</value>
+    <value>Google 的智能体开发环境</value>
   </data>
   <data name="DescriptionAIFirstCodeEditor" xml:space="preserve">
     <value>以 AI 为先的代码编辑器</value>
@@ -502,16 +502,16 @@
     <value>运行和管理本地语言模型</value>
   </data>
   <data name="DescriptionOpenSourceAICodingAgentForThe" xml:space="preserve">
-    <value>终端的开源 AI 编码代理</value>
+    <value>面向终端的开源 AI 编程智能体</value>
   </data>
   <data name="DescriptionMinimalExtensibleTerminalCodingAgentFramework" xml:space="preserve">
-    <value>最小可扩展的终端编码代理框架</value>
+    <value>极简、可扩展的终端编程智能体框架</value>
   </data>
   <data name="DescriptionAgenticTerminalAndDevelopmentEnvironment" xml:space="preserve">
-    <value>自主终端和开发环境</value>
+    <value>智能体终端和开发环境</value>
   </data>
   <data name="DescriptionLocalInterfaceForTrainingAndRunningOpen" xml:space="preserve">
-    <value>用于训练和运行开源模型的本地接口</value>
+    <value>用于训练和运行开放模型的本地界面</value>
   </data>
   <data name="DescriptionDiscoverDownloadAndRunLocalLanguageModels" xml:space="preserve">
     <value>发现、下载和运行本地语言模型</value>
@@ -607,7 +607,7 @@
     <value>HTTPS 链接</value>
   </data>
   <data name="WingetHelp" xml:space="preserve">
-    <value>示例：Microsoft.PowerToys。TweakHub 添加了 --id 和 --exact。</value>
+    <value>示例：Microsoft.PowerToys。TweakHub 会自动添加 --id 和 --exact。</value>
   </data>
   <data name="PowerShellHelp" xml:space="preserve">
     <value>允许使用如 irm ... | iex 之类的命令，但执行前会再次显示以确认。</value>
@@ -637,16 +637,16 @@
     <value>编辑自定义工具</value>
   </data>
   <data name="EditToolNamed" xml:space="preserve">
-    <value>编辑{0}</value>
+    <value>编辑 {0}</value>
   </data>
   <data name="DeleteCustomTool" xml:space="preserve">
     <value>删除自定义工具</value>
   </data>
   <data name="DeleteToolNamed" xml:space="preserve">
-    <value>删除{0}</value>
+    <value>删除 {0}</value>
   </data>
   <data name="DeleteToolMessage" xml:space="preserve">
-    <value>删除{0}？</value>
+    <value>删除 {0}？</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>删除</value>

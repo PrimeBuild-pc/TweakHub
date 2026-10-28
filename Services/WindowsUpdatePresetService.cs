@@ -27,6 +27,8 @@ internal sealed class WindowsUpdatePresetService
         new(@"HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU", "NoAutoRebootWithLoggedOnUsers", null),
         new(@"HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU", "AUPowerManagement", null),
         new(@"HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate", "ExcludeWUDriversInQualityUpdate", null),
+        new(@"HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate", "SetUpdateNotificationLevel", null),
+        new(@"HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate", "UpdateNotificationLevel", null),
         new(@"HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate", "DeferFeatureUpdates", null),
         new(@"HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate", "DeferFeatureUpdatesPeriodInDays", null),
         new(@"HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate", "DeferQualityUpdates", null),
@@ -42,6 +44,12 @@ internal sealed class WindowsUpdatePresetService
         // removes 'hide:windowsupdate', and backing it up here would let a preset restore undo the Windows AI tweak.
         new(@"HKLM\SOFTWARE\Policies\Microsoft\Windows\Device Metadata", "PreventDeviceMetadataFromNetwork", null)
     ];
+
+    // Home editions report EditionID Core, CoreN, CoreSingleLanguage or CoreCountrySpecific.
+    internal static bool IsHomeEditionId(string? editionId) => editionId?.StartsWith("Core", StringComparison.OrdinalIgnoreCase) == true;
+
+    public static bool IsHomeEdition => IsHomeEditionId(
+        Microsoft.Win32.Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion", "EditionID", null) as string);
 
     internal WindowsUpdatePresetService(string scriptPath, string backupPath)
     {

@@ -13,10 +13,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ExternalToolsPageExternalTools" xml:space="preserve">
-    <value>Herramientas Externas</value>
+    <value>Herramientas externas</value>
   </data>
   <data name="ExternalToolsPageExternalTools2" xml:space="preserve">
-    <value>Herramientas Externas</value>
+    <value>Herramientas externas</value>
   </data>
   <data name="ExternalToolsPageInstallCuratedToolsOrAdd" xml:space="preserve">
     <value>Instala herramientas seleccionadas o agrega tus propias tarjetas de Winget, PowerShell y sitios web.</value>
@@ -34,10 +34,10 @@
     <value>Descargando...</value>
   </data>
   <data name="QuickAccessPageQuickAccess" xml:space="preserve">
-    <value>Acceso Rápido</value>
+    <value>Acceso rápido</value>
   </data>
   <data name="QuickAccessPageQuickAccess2" xml:space="preserve">
-    <value>Acceso Rápido</value>
+    <value>Acceso rápido</value>
   </data>
   <data name="QuickAccessPageQuickShortcutsToWindowsControl" xml:space="preserve">
     <value>Atajos rápidos a paneles de control de Windows, configuraciones del sistema y herramientas de configuración avanzada.</value>
@@ -196,7 +196,7 @@
     <value>Desinstalador de aplicaciones en masa de código abierto</value>
   </data>
   <data name="DescriptionExtendedReplacementForTheClassicWindowsDisk" xml:space="preserve">
-    <value>Reemplazo extendido para la clásica limpieza de disco de Windows</value>
+    <value>Sustituto ampliado del clásico Liberador de espacio en disco de Windows</value>
   </data>
   <data name="DescriptionRemoveRecordsForNonPresentDevicesOpens" xml:space="preserve">
     <value>Eliminar registros de dispositivos no presentes; abre la página de información de MajorGeeks</value>
@@ -205,10 +205,10 @@
     <value>Utilidad gráfica de mantenimiento y limpieza de imágenes de Windows</value>
   </data>
   <data name="DescriptionInspectAndRemovePackagesFromTheWindows" xml:space="preserve">
-    <value>Inspeccionar y eliminar paquetes del almacenamiento de controladores de Windows</value>
+    <value>Inspeccionar y eliminar paquetes del almacén de controladores de Windows</value>
   </data>
   <data name="DescriptionOpenSourceOfflineDriverInstallerAndIndex" xml:space="preserve">
-    <value>Instalador de controladores fuera de línea e índice de código abierto</value>
+    <value>Instalador e índice de controladores sin conexión, de código abierto</value>
   </data>
   <data name="DescriptionGraphicalInterfaceForWinGetAndOtherPackage" xml:space="preserve">
     <value>Interfaz gráfica para WinGet y otros administradores de paquetes</value>
@@ -250,10 +250,10 @@
     <value>Controles de prioridad de procesos, afinidad y capacidad de respuesta</value>
   </data>
   <data name="DescriptionInspectAndConfigureCPUCoreParkingAnd" xml:space="preserve">
-    <value>Inspeccionar y configurar el estacionamiento de núcleos de CPU y la escalabilidad de frecuencia</value>
+    <value>Inspeccionar y configurar el aparcamiento de núcleos de la CPU y el escalado de frecuencia</value>
   </data>
   <data name="DescriptionCycleStressTestsAcrossIndividualCPUCores" xml:space="preserve">
-    <value>Pruebas de estrés de ciclo en núcleos individuales de CPU</value>
+    <value>Pruebas de estrés rotativas en cada núcleo de la CPU</value>
   </data>
   <data name="DescriptionAdvancedAMDSMUMSRAndPowerTable" xml:space="preserve">
     <value>Inspección avanzada de AMD SMU, MSR y tabla de energía</value>
@@ -265,10 +265,10 @@
     <value>Lanzador gráfico avanzado para Karhu RAM Test</value>
   </data>
   <data name="DescriptionCommunityMemoryStabilityTestDownloadsTheUser" xml:space="preserve">
-    <value>Prueba comunitaria de estabilidad de memoria; descarga el archivo de lanzamiento de GitHub proporcionado por el usuario</value>
+    <value>Prueba comunitaria de estabilidad de memoria; descarga el archivo de la versión de GitHub indicado por el usuario</value>
   </data>
   <data name="DescriptionBootableMemoryDiagnostics" xml:space="preserve">
-    <value>Diagnósticos de memoria arrancables</value>
+    <value>Diagnóstico de memoria desde un medio de arranque</value>
   </data>
   <data name="DescriptionDetailedHardwareInformationAndSensorMonitoring" xml:space="preserve">
     <value>Información detallada del hardware y monitoreo de sensores</value>
@@ -286,7 +286,7 @@
     <value>Curva de ventilador y control de sensores de código abierto</value>
   </data>
   <data name="DescriptionIntelFramePresentationAndPerformanceMonitoring" xml:space="preserve">
-    <value>Monitoreo y presentación de cuadros de Intel</value>
+    <value>Monitoreo de Intel de la presentación de fotogramas y del rendimiento</value>
   </data>
   <data name="DescriptionMicrosoftGPUAndCPUPerformanceTraceVisualization" xml:space="preserve">
     <value>Visualización de trazas de rendimiento de GPU y CPU de Microsoft</value>
@@ -352,7 +352,7 @@
     <value>Utilidad avanzada de firmware para tarjetas gráficas AMD, anteriormente ATIFlash</value>
   </data>
   <data name="DescriptionCommunityTroubleshootingUtilityForMultiplaneOverlayIssues" xml:space="preserve">
-    <value>Utilidad comunitaria de resolución de problemas para problemas de Multipantalla</value>
+    <value>Utilidad comunitaria para solucionar problemas de Multiplane Overlay (MPO)</value>
   </data>
   <data name="DescriptionInspectAndEditDisplayResolutionsAndEDID" xml:space="preserve">
     <value>Inspeccionar y editar resoluciones de pantalla y datos EDID</value>
@@ -457,10 +457,10 @@
     <value>Lanzador de pruebas comparativas, validación y gestión de resultados</value>
   </data>
   <data name="DescriptionCurrentOfficialMaxonCPUAndGPURendering" xml:space="preserve">
-    <value>Referencia oficial actual de renderizado CPU y GPU de Maxon</value>
+    <value>Benchmark oficial actual de renderizado en CPU y GPU de Maxon</value>
   </data>
   <data name="DescriptionLegacyMaxonCPURenderingBenchmark" xml:space="preserve">
-    <value>Referencia de renderizado CPU heredada de Maxon</value>
+    <value>Benchmark heredado de renderizado en CPU de Maxon</value>
   </data>
   <data name="DescriptionTechPowerUpArchiveForOlderCinebenchReleasesThe" xml:space="preserve">
     <value>Archivo de TechPowerUp para versiones antiguas de Cinebench; el usuario elige la versión</value>
@@ -469,22 +469,22 @@
     <value>Prueba de estabilidad de CPU y memoria de alta carga</value>
   </data>
   <data name="DescriptionGPUStressTestAndOpenGLVulkanBenchmark" xml:space="preserve">
-    <value>Prueba de esfuerzo de GPU y referencia OpenGL/Vulkan</value>
+    <value>Prueba de esfuerzo de GPU y benchmark OpenGL/Vulkan</value>
   </data>
   <data name="DescriptionMSIGPUStressTestAndOpenGLVulkan" xml:space="preserve">
-    <value>Prueba de esfuerzo de GPU MSI y referencia OpenGL/Vulkan</value>
+    <value>Prueba de esfuerzo de GPU de MSI y benchmark OpenGL/Vulkan</value>
   </data>
   <data name="DescriptionHeavyCPURAMAndMemoryControllerBenchmark" xml:space="preserve">
-    <value>Referencia y prueba de esfuerzo de CPU, RAM y controlador de memoria pesada</value>
+    <value>Benchmark y prueba de esfuerzo intensivos de CPU, RAM y controlador de memoria</value>
   </data>
   <data name="DescriptionVulkanBasedGPUMemoryStabilityAndError" xml:space="preserve">
     <value>Prueba de estabilidad y errores de memoria GPU basada en Vulkan</value>
   </data>
   <data name="DescriptionModernUnigineGPUBenchmarkAndStabilityTest" xml:space="preserve">
-    <value>Referencia y prueba de estabilidad de GPU moderna de Unigine</value>
+    <value>Benchmark moderno de GPU y prueba de estabilidad de Unigine</value>
   </data>
   <data name="DescriptionIndustryStandardGamingCPUAndGPUBenchmark" xml:space="preserve">
-    <value>Suite de referencia de CPU y GPU estándar de la industria para juegos</value>
+    <value>Conjunto de benchmarks de CPU y GPU para juegos, estándar del sector</value>
   </data>
   <data name="DescriptionRealWorldCPUAndGPURenderingBenchmark" xml:space="preserve">
     <value>Prueba de rendimiento de renderizado de CPU y GPU en el mundo real</value>
@@ -493,7 +493,7 @@
     <value>Prueba de rendimiento de computación de CPU y GPU multiplataforma</value>
   </data>
   <data name="DescriptionGoogleSAgenticDevelopmentEnvironment" xml:space="preserve">
-    <value>Entorno de desarrollo agente de Google</value>
+    <value>Entorno de desarrollo agéntico de Google</value>
   </data>
   <data name="DescriptionAIFirstCodeEditor" xml:space="preserve">
     <value>Editor de código centrado en IA</value>
@@ -508,7 +508,7 @@
     <value>Marco de agente de codificación para terminal minimalista y extensible</value>
   </data>
   <data name="DescriptionAgenticTerminalAndDevelopmentEnvironment" xml:space="preserve">
-    <value>Terminal y entorno de desarrollo agente</value>
+    <value>Terminal y entorno de desarrollo agénticos</value>
   </data>
   <data name="DescriptionLocalInterfaceForTrainingAndRunningOpen" xml:space="preserve">
     <value>Interfaz local para entrenar y ejecutar modelos abiertos</value>
@@ -544,19 +544,19 @@
     <value>Utilidades del sistema</value>
   </data>
   <data name="CategoryCPUMemory" xml:space="preserve">
-    <value>CPU y Memoria</value>
+    <value>CPU y memoria</value>
   </data>
   <data name="CategoryFirmwarePower" xml:space="preserve">
-    <value>Firmware y Energía</value>
+    <value>Firmware y energía</value>
   </data>
   <data name="CategoryMonitoringDiagnostics" xml:space="preserve">
-    <value>Monitoreo y Diagnóstico</value>
+    <value>Monitoreo y diagnóstico</value>
   </data>
   <data name="CategoryGPUDisplay" xml:space="preserve">
-    <value>GPU y Pantalla</value>
+    <value>GPU y pantalla</value>
   </data>
   <data name="CategoryGamingInput" xml:space="preserve">
-    <value>Juegos y Entrada</value>
+    <value>Juegos y entrada</value>
   </data>
   <data name="CategoryStorageUSB" xml:space="preserve">
     <value>Almacenamiento y USB</value>
@@ -568,25 +568,25 @@
     <value>Audio</value>
   </data>
   <data name="CategoryBenchmarksStability" xml:space="preserve">
-    <value>Referencias y Estabilidad</value>
+    <value>Benchmarks y estabilidad</value>
   </data>
   <data name="CategoryAITools" xml:space="preserve">
     <value>Herramientas de IA</value>
   </data>
   <data name="CategorySystemManagement" xml:space="preserve">
-    <value>Gestión del Sistema</value>
+    <value>Gestión del sistema</value>
   </data>
   <data name="CategorySystemInformation" xml:space="preserve">
-    <value>Información del Sistema</value>
+    <value>Información del sistema</value>
   </data>
   <data name="CategoryAdvancedTools" xml:space="preserve">
-    <value>Herramientas Avanzadas</value>
+    <value>Herramientas avanzadas</value>
   </data>
   <data name="CategoryPerformance" xml:space="preserve">
     <value>Rendimiento</value>
   </data>
   <data name="CategoryPowerManagement" xml:space="preserve">
-    <value>Gestión de Energía</value>
+    <value>Gestión de energía</value>
   </data>
   <data name="CategoryDisplay" xml:space="preserve">
     <value>Pantalla</value>
@@ -613,7 +613,7 @@
     <value>Se permiten comandos como irm ... | iex, pero se muestran nuevamente para confirmación antes de la ejecución.</value>
   </data>
   <data name="WebsiteHelp" xml:space="preserve">
-    <value>Use una página de proyecto HTTPS, página de descarga o archivo en línea.</value>
+    <value>Usa una página de proyecto HTTPS, una página de descarga o un archivo en línea.</value>
   </data>
   <data name="ToolCount" xml:space="preserve">
     <value>Herramientas: {0}</value>
@@ -664,7 +664,7 @@
     <value>Confirmar desinstalación</value>
   </data>
   <data name="ConfirmUninstallMessage" xml:space="preserve">
-    <value>¿Está seguro de que desea desinstalar {0}?</value>
+    <value>¿Seguro que quieres desinstalar {0}?</value>
   </data>
   <data name="UnableSaveFavorites" xml:space="preserve">
     <value>No se pueden guardar los favoritos</value>
@@ -682,10 +682,10 @@
     <value>Ejecutar</value>
   </data>
   <data name="LoadToolsFailed" xml:space="preserve">
-    <value>No se pudieron cargar las herramientas externas. Por favor, reinicie TweakHub.</value>
+    <value>No se pudieron cargar las herramientas externas. Reinicia TweakHub.</value>
   </data>
   <data name="ShortcutExecutionFailed" xml:space="preserve">
-    <value>Ejecución del Acceso Directo Fallida</value>
+    <value>No se pudo ejecutar el acceso directo</value>
   </data>
   <data name="ShortcutExecutionFailedMessage" xml:space="preserve">
     <value>No se pudo ejecutar el acceso directo: {0}
@@ -693,7 +693,7 @@
 Esto puede deberse a permisos insuficientes o a que la aplicación de destino no esté disponible.</value>
   </data>
   <data name="ShortcutError" xml:space="preserve">
-    <value>Error de Acceso Directo</value>
+    <value>Error del acceso directo</value>
   </data>
   <data name="ShortcutErrorMessage" xml:space="preserve">
     <value>Ocurrió un error al ejecutar el acceso directo:
@@ -701,13 +701,13 @@ Esto puede deberse a permisos insuficientes o a que la aplicación de destino no
 {0}</value>
   </data>
   <data name="LoadShortcutsFailed" xml:space="preserve">
-    <value>No se pudieron cargar los accesos directos. Por favor, reinicie TweakHub.</value>
+    <value>No se pudieron cargar los accesos directos. Reinicia TweakHub.</value>
   </data>
   <data name="RunPowerShellTitle" xml:space="preserve">
-    <value>Ejecutar Comando Personalizado de PowerShell</value>
+    <value>Ejecutar comando personalizado de PowerShell</value>
   </data>
   <data name="RunPowerShellMessage" xml:space="preserve">
-    <value>Solo ejecute comandos que confíe. Este comando puede descargar o modificar software.
+    <value>Ejecuta solo comandos en los que confíes. Este comando puede descargar o modificar software.
 
 {0}</value>
   </data>
@@ -735,16 +735,16 @@ Esto puede deberse a permisos insuficientes o a que la aplicación de destino no
     <value>Iniciando {0}...</value>
   </data>
   <data name="ActionCompleted" xml:space="preserve">
-    <value>{0} completado: {1}</value>
+    <value>{0} completada: {1}</value>
   </data>
   <data name="ActionFailed" xml:space="preserve">
-    <value>{0} fallido: {1}</value>
+    <value>{0} fallida: {1}</value>
   </data>
   <data name="ActionInstallation" xml:space="preserve">
     <value>instalación</value>
   </data>
   <data name="ActionUninstall" xml:space="preserve">
-    <value>desinstalar</value>
+    <value>desinstalación</value>
   </data>
   <data name="CategoryDevelopmentDevOps" xml:space="preserve">
     <value>Desarrollo y DevOps</value>
@@ -960,7 +960,7 @@ Esto puede deberse a permisos insuficientes o a que la aplicación de destino no
     <value>Analizador del sondeo de mandos y HID en el navegador mediante WebHID; la temporización del navegador limita la precisión a unos 250 Hz. No requiere instalación. Abre solo la página oficial.</value>
   </data>
   <data name="DescriptionHidusbf" xml:space="preserve">
-    <value>Aumenta la tasa de sondeo de ratones y mandos USB con un controlador de filtro. Los controladores sin firmar o con firma de prueba pueden ser bloqueados por el arranque seguro, la integridad de memoria o los antitrampas, y un ajuste erróneo puede dejar de hacer funcionar el dispositivo. Sin archivo de licencia. Abre solo el repositorio oficial.</value>
+    <value>Aumenta la tasa de sondeo de ratones y mandos USB con un controlador de filtro. Los controladores sin firmar o con firma de prueba pueden ser bloqueados por el arranque seguro, la integridad de memoria o los antitrampas, y un ajuste erróneo puede hacer que el dispositivo deje de funcionar. Sin archivo de licencia. Abre solo el repositorio oficial.</value>
   </data>
   <data name="DescriptionBattleBeaver" xml:space="preserve">
     <value>Guía para hacer overclock a mandos de PlayStation y Xbox en PC y obtener mayor tasa de sondeo. Síguela solo con tu propio hardware y revisa las normas antitrampas. Abre solo la página oficial.</value>

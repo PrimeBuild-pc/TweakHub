@@ -331,7 +331,7 @@
     <value>存在しない</value>
   </data>
   <data name="CategoryNotPresentHint" xml:space="preserve">
-    <value>Windows が記憶していますが、現在は接続されていません。削除する理由にはなりません。</value>
+    <value>Windows が記憶していますが、現在は接続されていません (通常はコード 45)。たとえば古い USB ポート、モニター、仮想デバイスなどです。故障やレイテンシーの問題ではなく、無効にしても効果はありません。</value>
   </data>
   <data name="CategoryDisabled" xml:space="preserve">
     <value>無効</value>
@@ -785,7 +785,7 @@ TweakHub はスクリプトの動作を確認できず、作者はいつでも�
     <value>未使用のデバイスは見つかりませんでした。無効にするものはありません。</value>
   </data>
   <data name="UnusedMessage" xml:space="preserve">
-    <value>これらのデバイスはこの PC で使われていません。残したいものはチェックを外してください。「すべて再有効化」でいつでも元に戻せます。 ネットワーク カードはチェックされていません。まったく使わない場合のみチェックしてください（例: 常に有線で使うデスクトップの Wi-Fi）。</value>
+    <value>これらのデバイスはこの PC で使われていません。残したいものはチェックを外してください。「すべて再有効化」でいつでも元に戻せます。ネットワーク カードはチェックされていません。まったく使わない場合のみチェックしてください（例: 常に有線で使うデスクトップの Wi-Fi）。</value>
   </data>
   <data name="UnusedFailed" xml:space="preserve">
     <value>次のデバイスを無効にできませんでした:

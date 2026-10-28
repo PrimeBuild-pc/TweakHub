@@ -223,7 +223,7 @@ TweakHub 将以管理员身份运行此命令：
     <value>已关闭</value>
   </data>
   <data name="ProtectionAge" xml:space="preserve">
-    <value>防护新鲜度</value>
+    <value>防护时效</value>
   </data>
   <data name="AgeSignatures" xml:space="preserve">
     <value>定义</value>
@@ -262,13 +262,13 @@ TweakHub 将以管理员身份运行此命令：
     <value>更新定义</value>
   </data>
   <data name="ActionRunning" xml:space="preserve">
-    <value>正在进行{0}… 你可以继续使用 TweakHub。</value>
+    <value>正在进行 {0}… 你可以继续使用 TweakHub。</value>
   </data>
   <data name="ActionCompleted" xml:space="preserve">
-    <value>{0}已完成。</value>
+    <value>{0} 已完成。</value>
   </data>
   <data name="ActionFailed" xml:space="preserve">
-    <value>{0}失败：{1}</value>
+    <value>{0} 失败：{1}</value>
   </data>
   <data name="OfflineConfirmTitle" xml:space="preserve">
     <value>要重新启动以进行脱机扫描吗？</value>
@@ -960,7 +960,7 @@ TweakHub 将以管理员身份运行此命令：
     <value>删除“{0}”？会先保存备份，可在“已删除的条目”中还原。</value>
   </data>
   <data name="StartupDeleteServiceConfirm" xml:space="preserve">
-    <value>删除服务“{0}”？通常禁用即可。会先备份其注册表项；服务在重启后消失，还原后也需重启才会恢复。</value>
+    <value>删除服务“{0}”？通常禁用即可。如果服务正在运行，会先将其停止；但如果有其他正在运行的服务依赖它，则不会停止也不会删除。会先备份其注册表项；还原的服务需重启后才会恢复。</value>
   </data>
   <data name="StartupDeleteFailedTitle" xml:space="preserve">
     <value>未删除条目</value>

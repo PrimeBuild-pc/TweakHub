@@ -684,7 +684,7 @@
     <value>クリーン インストール後に再インストールするには、管理者として次を実行します: pnputil /add-driver "&lt;バックアップ フォルダー&gt;\*.inf" /subdirs /install</value>
   </data>
   <data name="PlaybookTypeTweakCheck" xml:space="preserve">
-    <value>Tweak Check の修復</value>
+    <value>調整チェックの修復</value>
   </data>
   <data name="PlaybookTypeSecurityFix" xml:space="preserve">
     <value>セキュリティ修正</value>
@@ -699,7 +699,7 @@
     <value>DNS サーバー</value>
   </data>
   <data name="PlaybookTweakCheckSummary" xml:space="preserve">
-    <value>Tweak Check、変更されていれば修復: {0}</value>
+    <value>調整チェック、変更されていれば修復: {0}</value>
   </data>
   <data name="PlaybookSecurityFixSummary" xml:space="preserve">
     <value>セキュリティ、必要なら修正: {0}</value>

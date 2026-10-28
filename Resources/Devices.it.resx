@@ -40,7 +40,7 @@
     <value>Lettura dei dispositivi Plug and Play…</value>
   </data>
   <data name="Scanned" xml:space="preserve">
-    <value>Analisi delle {0}. Nulla viene modificato finché non scegli un'azione.</value>
+    <value>Analisi eseguita alle {0}. Nulla viene modificato finché non scegli un'azione.</value>
   </data>
   <data name="ScanFailed" xml:space="preserve">
     <value>Impossibile completare l'analisi: {0}</value>
@@ -280,7 +280,7 @@
     <value>Fatto. Scollega e ricollega il dispositivo, o riavvia, per applicare la modifica.</value>
   </data>
   <data name="ChecksDescription" xml:space="preserve">
-    <value>Cerca tweak diffusi che peggiorano stabilità, sicurezza o input (l'elenco di RepairBadTweaks) e ripristina il default di Windows. Le correzioni del registro conservano un backup e si possono annullare.</value>
+    <value>Cerca tweak diffusi che peggiorano stabilità, sicurezza o input (l'elenco di RepairBadTweaks) e ripristina il valore predefinito di Windows. Le correzioni del registro conservano un backup e si possono annullare.</value>
   </data>
   <data name="ChecksScan" xml:space="preserve">
     <value>Verifica</value>
@@ -295,16 +295,16 @@
     <value>Win32PrioritySeparation, Prefetch e SysMain sono gestiti da Registry Tweaks, dove TweakHub ne conserva i backup.</value>
   </data>
   <data name="Repair" xml:space="preserve">
-    <value>Ripristina default</value>
+    <value>Ripristina predefinito</value>
   </data>
   <data name="Undo" xml:space="preserve">
     <value>Annulla</value>
   </data>
   <data name="RepairConfirmTitle" xml:space="preserve">
-    <value>Ripristinare il default di Windows?</value>
+    <value>Ripristinare il valore predefinito di Windows?</value>
   </data>
   <data name="RepairConfirmMessage" xml:space="preserve">
-    <value>{0} verrà riportato al default di Windows.</value>
+    <value>{0} verrà riportato al valore predefinito di Windows.</value>
   </data>
   <data name="RepairNoUndo" xml:space="preserve">
     <value>Questa correzione esegue un comando di Windows e non si può annullare da TweakHub.</value>
@@ -313,7 +313,7 @@
     <value>Impossibile verificare la modifica del registro.</value>
   </data>
   <data name="CheckStatusOk" xml:space="preserve">
-    <value>Default</value>
+    <value>Predefinito</value>
   </data>
   <data name="CheckStatusFlagged" xml:space="preserve">
     <value>Modificato da un tweak</value>
@@ -541,7 +541,7 @@
     <value>Confronta la tua configurazione USB con i profili condivisi da altri utenti e può inviare la tua.</value>
   </data>
   <data name="ScriptRun" xml:space="preserve">
-    <value>Esegui come admin</value>
+    <value>Esegui come amministratore</value>
   </data>
   <data name="ScriptPage" xml:space="preserve">
     <value>Apri la pagina ufficiale</value>
@@ -629,7 +629,7 @@ TweakHub non può controllare cosa fa lo script e l'autore può modificarlo in q
     <value>Collegamento non determinato</value>
   </data>
   <data name="RootPort" xml:space="preserve">
-    <value>root port {0}</value>
+    <value>porta root {0}</value>
   </data>
   <data name="LinkOk" xml:space="preserve">
     <value>Usa tutte le linee e la velocità massima che supporta.</value>

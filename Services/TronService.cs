@@ -194,6 +194,7 @@ public sealed class TronService
     /// </summary>
     internal static string BuildRunScript(string packagePath, string hash) => $$"""
         $ErrorActionPreference = 'Stop'
+        {{PowerShellService.SystemFolders}}
         try {
             $admins = [Security.Principal.SecurityIdentifier]'S-1-5-32-544'
             Get-ChildItem -LiteralPath $env:ProgramData -Directory -Filter 'TweakHub-Tron-*' -Attributes !ReparsePoint |

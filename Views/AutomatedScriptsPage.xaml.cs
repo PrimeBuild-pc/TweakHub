@@ -610,7 +610,8 @@ namespace TweakHub.Views
 
             try
             {
-                var command = $"$env:TWEAKHUB_TARGET_USER = {PowerShellService.Literal(Environment.UserName)}{Environment.NewLine}{BuiltInScripts.Body(script.Id)}";
+                var command = string.Join(Environment.NewLine, PowerShellService.SystemFolders, PowerShellService.SystemModulesOnly,
+                    $"$env:TWEAKHUB_TARGET_USER = {PowerShellService.Literal(Environment.UserName)}", BuiltInScripts.Body(script.Id));
                 using var process = Process.Start(CreateInteractivePowerShellStartInfo(
                     command, script.RequiresAdministrator))
                     ?? throw new InvalidOperationException("Failed to start PowerShell.");

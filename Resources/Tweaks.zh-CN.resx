@@ -16,7 +16,7 @@
     <value>注册表调整</value>
   </data>
   <data name="RegistryTweaksPageOnlyPartOfThisGrouped" xml:space="preserve">
-    <value>当前只有部分此分组调整已应用</value>
+    <value>此分组调整当前仅部分应用</value>
   </data>
   <data name="RegistryTweaksPageRestartWindowsToMakeThis" xml:space="preserve">
     <value>重启 Windows 以使此更改完全生效</value>
@@ -103,7 +103,7 @@
     <value>收藏</value>
   </data>
   <data name="RegistryTweaksPageNoFavoriteRegistryTweaksYet" xml:space="preserve">
-    <value>还没有喜欢的注册表调整。选择一个星标以添加。</value>
+    <value>尚无收藏的注册表调整。点击星标即可添加。</value>
   </data>
   <data name="RegistryTweaksPageRecommended2" xml:space="preserve">
     <value>推荐</value>
@@ -163,7 +163,7 @@
     <value>禁用鼠标加速</value>
   </data>
   <data name="CategoryOrTweakDescriptionChangesMouseSpeedAndBothThresholdValues" xml:space="preserve">
-    <value>更改鼠标速度和两个阈值作为一个可恢复的操作。</value>
+    <value>将 MouseSpeed 和两个阈值作为一个可还原的操作一起更改。</value>
   </data>
   <data name="CategoryOrTweakNameDisableFullscreenOptimizations" xml:space="preserve">
     <value>禁用全屏优化</value>
@@ -193,7 +193,7 @@
     <value>禁用启动应用延迟</value>
   </data>
   <data name="CategoryOrTweakDescriptionRemovesArtificialDelayForStartupApplications" xml:space="preserve">
-    <value>删除启动应用程序的人工延迟</value>
+    <value>移除启动应用的人为延迟</value>
   </data>
   <data name="CategoryOrTweakNameMemoryManagement" xml:space="preserve">
     <value>内存管理</value>
@@ -241,37 +241,37 @@
     <value>禁用自动驱动搜索和共同安装程序</value>
   </data>
   <data name="CategoryOrTweakDescriptionDisablesAutomaticDriverSearchingAndAll" xml:space="preserve">
-    <value>禁用自动驱动搜索和所有设备共同安装程序。此效应是系统范围的，并不限于雷蛇设备。</value>
+    <value>禁用自动驱动搜索和所有设备共同安装程序。此设置作用于整个系统，并不限于 Razer 设备。</value>
   </data>
   <data name="CategoryOrTweakNameDisableNotificationsAndCalendar" xml:space="preserve">
     <value>禁用通知和日历</value>
   </data>
   <data name="CategoryOrTweakDescriptionDisablesNotificationCenterToastNotificationsAnd" xml:space="preserve">
-    <value>禁用通知中心、浮出通知以及当前用户的相关日历弹出窗口。</value>
+    <value>为当前用户禁用通知中心、Toast 通知及相关的日历弹出窗口。</value>
   </data>
   <data name="CategoryOrTweakNameAdvanced" xml:space="preserve">
     <value>高级</value>
   </data>
   <data name="CategoryOrTweakDescriptionHigherImpactChangesThatTradeWindows" xml:space="preserve">
-    <value>高影响更改，以Windows功能换取较低的后台活动</value>
+    <value>影响较大的更改：以牺牲部分 Windows 功能换取更少的后台活动</value>
   </data>
   <data name="CategoryOrTweakNameDisableWindowsSearchIndexing" xml:space="preserve">
-    <value>禁用Windows搜索索引</value>
+    <value>禁用 Windows 搜索索引</value>
   </data>
   <data name="CategoryOrTweakDescriptionDisablesWindowsSearchIndexingAndRestores" xml:space="preserve">
-    <value>禁用Windows搜索索引，并在重新启用时还原捕获的服务配置。</value>
+    <value>禁用 Windows 搜索索引，并在重新启用时还原之前记录的服务配置。</value>
   </data>
   <data name="CategoryOrTweakNameWindowsUpdateControl" xml:space="preserve">
-    <value>Windows更新控制</value>
+    <value>Windows 更新控制</value>
   </data>
   <data name="CategoryOrTweakDescriptionControlDriverDeliveryAndUseA" xml:space="preserve">
     <value>控制驱动程序交付，并使用保守的手动更新策略</value>
   </data>
   <data name="CategoryOrTweakNameExcludeDriversFromWindowsUpdate" xml:space="preserve">
-    <value>从Windows更新中排除驱动程序</value>
+    <value>从 Windows 更新中排除驱动程序</value>
   </data>
   <data name="CategoryOrTweakDescriptionPreventsWindowsUpdateQualityUpdatesFrom" xml:space="preserve">
-    <value>防止Windows更新质量更新自动交付设备驱动程序。</value>
+    <value>防止 Windows 更新的质量更新自动推送设备驱动程序。</value>
   </data>
   <data name="CategoryOrTweakNameVisualEffectsPerformance" xml:space="preserve">
     <value>视觉效果与性能</value>
@@ -444,7 +444,7 @@ TweakHub 会恢复捕获的原始值。</value>
     <value>已应用：{0}</value>
   </data>
   <data name="FailedCount" xml:space="preserve">
-    <value>应用失败: {0}</value>
+    <value>应用失败：{0}</value>
   </data>
   <data name="SomeChangesRequireRestart" xml:space="preserve">
     <value>某些更改需要重启系统后才能生效。</value>
@@ -520,7 +520,15 @@ TweakHub 会恢复捕获的原始值。</value>
   <data name="WindowsUpdatePresetCustom" xml:space="preserve"><value>自定义或部分应用</value></data>
   <data name="WindowsUpdatePresetDefaultDescription" xml:space="preserve"><value>删除这些模式管理的策略，恢复更新服务的标准启动方式并启用更新任务。</value></data>
   <data name="WindowsUpdatePresetDisabledDescription" xml:space="preserve"><value>停止并禁用 Windows 更新服务和任务，阻止自动更新并清除已下载的更新文件。</value></data>
-  <data name="WindowsUpdatePresetSecurityDescription" xml:space="preserve"><value>安全和质量更新保持正常计划，排除驱动程序，并将功能更新推迟 365 天。</value></data>
+  <data name="WindowsUpdatePresetSecurityDescription" xml:space="preserve"><value>安全更新不会推迟，但不会自动下载、安装或重启：Windows 会通知你，由你下载、安装并重启。排除驱动程序，并将功能更新推迟 365 天。</value></data>
+  <data name="WindowsUpdateSecurityHomeTitle" xml:space="preserve"><value>Windows 家庭版上的安全模式</value></data>
+  <data name="WindowsUpdateSecurityHomeMessage" xml:space="preserve"><value>Windows 家庭版只部分遵循此模式。
+
+不可用：将功能更新推迟 365 天。这是 Windows 更新企业版策略，只有专业版、企业版和教育版会遵循，因此家庭版会在 Microsoft 推送时安装新版 Windows。
+
+已写入但不保证生效：下载前通知、不自动重启、不从 Windows 更新获取驱动程序。Microsoft 将这些策略记录为适用于专业版及更高版本，部分家庭版会忽略它们。如果更新开始自动下载，说明你的版本忽略了这些策略。
+
+在家庭版上，你仍可在“设置”&gt;“Windows 更新”中暂停更新，最长 5 周。</value></data>
   <data name="WindowsUpdatePresetCustomDescription" xml:space="preserve"><value>当前 Windows 设置与任何 TweakHub 模式都不完全匹配。请选择一个模式替换它们。</value></data>
   <data name="WindowsUpdateCurrentMode" xml:space="preserve"><value>当前模式：{0}</value></data>
   <data name="WindowsUpdateBundledScript" xml:space="preserve"><value>本地内置脚本；不会下载远程代码</value></data>

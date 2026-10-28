@@ -166,6 +166,18 @@ public sealed class SystemTriageService
     internal const string StartupScript = WmiFunction + """
         $ErrorActionPreference = 'SilentlyContinue'
         $approvedBase = 'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved'
+        $caller = '__CALLER_SID__'
+        $userStartup = [Environment]::GetFolderPath('Startup')
+        if ($caller -match '^S-1-[0-9-]+$' -and $caller -ne [Security.Principal.WindowsIdentity]::GetCurrent().User.Value) {
+            # Elevated with another administrator account: list the signed-in user's entries, not that account's.
+            Remove-PSDrive -Name HKCU -Scope Global -Force
+            $null = New-PSDrive -Name HKCU -PSProvider Registry -Root ('HKEY_USERS\' + $caller) -Scope Global
+            $callerProfile = (Get-ItemProperty -LiteralPath ('HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\' + $caller)).ProfileImagePath
+            $shellFolder = (Get-Item -LiteralPath 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders').GetValue('Startup', $null, 'DoNotExpandEnvironmentNames')
+            $userStartup = if ($shellFolder -match '^%USERPROFILE%\\') { $callerProfile + $shellFolder.Substring(13) }
+                elseif ($shellFolder -and $shellFolder -notmatch '%') { $shellFolder }
+                else { Join-Path $callerProfile 'AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup' }
+        }
         # Task Manager marks disabled entries with an odd first byte in StartupApproved.
         function IsApproved($key, $name) {
             $value = (Get-ItemProperty -LiteralPath $key -Name $name).$name
@@ -210,8 +222,8 @@ public sealed class SystemTriageService
                         Approved = $approved; Enabled = (-not $approved) -or (IsApproved $approved $name) } } } }
             }
             $shell = New-Object -ComObject WScript.Shell
-            foreach ($folder in @('Startup', 'HKCU'), @('CommonStartup', 'HKLM')) {
-                $dir = [Environment]::GetFolderPath($folder[0])
+            foreach ($folder in @($userStartup, 'HKCU'), @([Environment]::GetFolderPath('CommonStartup'), 'HKLM')) {
+                $dir = $folder[0]
                 $approved = $folder[1] + ':\' + $approvedBase + '\StartupFolder'
                 Get-ChildItem -LiteralPath $dir -File | Where-Object Name -ne 'desktop.ini' | ForEach-Object {
                     $command = '"' + $_.FullName + '"'
@@ -285,7 +297,9 @@ public sealed class SystemTriageService
     public async Task<SystemTriage> CollectAsync(bool elevated, bool startupOnly = false, CancellationToken cancellationToken = default)
     {
         var tracked = string.Join(",", LoadDisabledServices().Keys.Select(PowerShellService.Literal));
-        var script = startupOnly ? StartupScript.Replace("__TRACKED_SERVICES__", tracked) : ConnectionsScript;
+        var script = startupOnly
+            ? StartupScript.Replace("__TRACKED_SERVICES__", tracked).Replace("__CALLER_SID__", PowerShellService.CurrentUserSid)
+            : ConnectionsScript;
         var inventory = await PowerShellService.Instance.ExecuteScriptAsync(script, elevated, TimeSpan.FromMinutes(3), cancellationToken);
         if (!inventory.Success) throw new InvalidOperationException(string.IsNullOrWhiteSpace(inventory.Error) ? inventory.ExitCode.ToString() : inventory.Error);
         var (connections, startup) = ParseInventory(inventory.Output);
@@ -653,6 +667,20 @@ public sealed class SystemTriageService
                 break;
         }
 
+        // A running service would only be marked for deletion: it keeps running and its key stays until a restart.
+        // Stop it first, never its running dependents: if it cannot stop, nothing is stored or deleted.
+        var prepare = entry.Kind == "Service"
+            ? $$"""
+                Add-Type -AssemblyName System.ServiceProcess
+                $service = New-Object System.ServiceProcess.ServiceController({{Q(entry.Location)}})
+                if ($service.Status -ne 'Stopped') {
+                    if (@($service.DependentServices | Where-Object { $_.Status -ne 'Stopped' }).Count) { throw 'Other running services depend on this service; nothing was deleted.' }
+                    $service.Stop()
+                    $service.WaitForStatus('Stopped', [TimeSpan]::FromSeconds(30))
+                }
+                """
+            : string.Empty;
+
         record ??= NewBackup(entry);
         var json = Q(JsonSerializer.Serialize(record with { Payload = string.Empty }));
         // Saved before the delete. Machine-wide entries go to HKLM, which only administrators can write; user entries
@@ -670,7 +698,7 @@ public sealed class SystemTriageService
                 $record.Payload = $payload
                 [IO.File]::WriteAllText({{Q(System.IO.Path.Combine(BackupFolder, ValidId(record.Id) + ".json"))}}, ($record | ConvertTo-Json -Compress), [Text.UTF8Encoding]::new($false))
                 """;
-        return $"{capture}\n{store}\n{remove}";
+        return $"{capture}\n{prepare}\n{store}\n{remove}";
     }
 
     internal static string BuildRestoreScript(StartupBackup backup)

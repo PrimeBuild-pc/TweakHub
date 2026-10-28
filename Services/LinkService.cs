@@ -332,7 +332,7 @@ public static class LinkService
         var vendorLinks = await Task.Run(AdlxService.ReadLinks);
         var byId = devices.GroupBy(device => device.Id, StringComparer.OrdinalIgnoreCase)
             .ToDictionary(group => group.Key, group => group.First(), StringComparer.OrdinalIgnoreCase);
-        var usbSpeeds = await Task.Run(() => UsbSpeedService.Read(UsbPortDevices(devices, byId).Select(device => (device.Parent, device.Address)).ToList()));
+        var usbSpeeds = await Task.Run(() => UsbSpeedService.Read(UsbPortDevices(devices, byId).Select(device => (device.Parent, device.Address, device.Id)).ToList()));
         var board = RegistryService.Instance.GetRegistryValue(@"HKEY_LOCAL_MACHINE\HARDWARE\DESCRIPTION\System\BIOS", "BaseBoardProduct") as string ?? string.Empty;
         var cpu = RegistryService.Instance.GetRegistryValue(@"HKEY_LOCAL_MACHINE\HARDWARE\DESCRIPTION\System\CentralProcessor\0", "ProcessorNameString") as string ?? string.Empty;
         return Evaluate(devices, vendorLinks, usbSpeeds, board.Trim(), cpu.Trim());

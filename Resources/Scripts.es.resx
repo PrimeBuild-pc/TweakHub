@@ -13,7 +13,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AutomatedScriptsPageAutomatedScripts" xml:space="preserve">
-    <value>Scripts Automatizados</value>
+    <value>Scripts automatizados</value>
   </data>
   <data name="AutomatedScriptsPageView" xml:space="preserve">
     <value>Ver</value>
@@ -37,16 +37,16 @@
     <value>Eliminar</value>
   </data>
   <data name="AutomatedScriptsPageAutomatedScripts2" xml:space="preserve">
-    <value>Scripts Automatizados</value>
+    <value>Scripts automatizados</value>
   </data>
   <data name="AutomatedScriptsPageRunMaintenanceCommandsAndManage" xml:space="preserve">
-    <value>Ejecute comandos de mantenimiento y gestione sus scripts personalizados de PowerShell o CMD.</value>
+    <value>Ejecuta comandos de mantenimiento y gestiona tus scripts personalizados de PowerShell o CMD.</value>
   </data>
   <data name="AutomatedScriptsPageImport" xml:space="preserve">
     <value>Importar archivos de script</value>
   </data>
   <data name="AutomatedScriptsPageNewScript" xml:space="preserve">
-    <value>Nuevo Script</value>
+    <value>Nuevo script</value>
   </data>
   <data name="winget_Name" xml:space="preserve">
     <value>Instalar o reparar WinGet</value>
@@ -55,7 +55,7 @@
     <value>Instala o repara Microsoft WinGet, valida sus orígenes y comprueba una búsqueda real antes de indicar éxito.</value>
   </data>
   <data name="winget_Category" xml:space="preserve">
-    <value>Gestor de Paquetes</value>
+    <value>Gestor de paquetes</value>
   </data>
   <data name="winget_Execute" xml:space="preserve">
     <value>Ejecutar</value>
@@ -100,7 +100,7 @@
     <value>Herramienta CTT - Winutil</value>
   </data>
   <data name="ctt_winutil_Description" xml:space="preserve">
-    <value>Descargar y ejecutar el script actual de utilidad de Windows de Chris Titus Tech.</value>
+    <value>Descarga y ejecuta el script actual de la utilidad de Windows de Chris Titus Tech.</value>
   </data>
   <data name="ctt_winutil_Category" xml:space="preserve">
     <value>Utilidades</value>
@@ -109,22 +109,22 @@
     <value>Ejecutar</value>
   </data>
   <data name="ctt_winutil_Confirmation" xml:space="preserve">
-    <value>Esto descarga y ejecuta un script remoto que puede cambiar con el tiempo. Solo continúe si confía en christitus.com.</value>
+    <value>Esto descarga y ejecuta un script remoto que puede cambiar con el tiempo. Continúa solo si confías en christitus.com.</value>
   </data>
   <data name="dism_sfc_chkdsk_Name" xml:space="preserve">
     <value>Reparación del sistema con DISM + SFC + CHKDSK</value>
   </data>
   <data name="dism_sfc_chkdsk_Description" xml:space="preserve">
-    <value>Repare la imagen de Windows y los archivos del sistema, luego escanee la unidad del sistema en busca de errores del sistema de archivos.</value>
+    <value>Repara la imagen de Windows y los archivos del sistema y luego analiza la unidad del sistema en busca de errores del sistema de archivos.</value>
   </data>
   <data name="dism_sfc_chkdsk_Category" xml:space="preserve">
-    <value>Reparar</value>
+    <value>Reparación</value>
   </data>
   <data name="dism_sfc_chkdsk_Execute" xml:space="preserve">
     <value>Ejecutar reparación</value>
   </data>
   <data name="dism_sfc_chkdsk_Confirmation" xml:space="preserve">
-    <value>La reparación del sistema puede tardar entre 15 y 90 minutos. No cierre TweakHub mientras se esté ejecutando.</value>
+    <value>La reparación del sistema puede tardar entre 15 y 90 minutos. No cierres TweakHub mientras se ejecuta.</value>
   </data>
   <data name="dism_sfc_chkdsk_CompletionNote" xml:space="preserve">
     <value>Se recomienda reiniciar después de las reparaciones.</value>
@@ -133,7 +133,7 @@
     <value>Limpieza del almacén de componentes</value>
   </data>
   <data name="component_cleanup_Description" xml:space="preserve">
-    <value>Elimine versiones de componentes de Windows obsoletas para recuperar espacio en disco.</value>
+    <value>Elimina versiones obsoletas de componentes de Windows para recuperar espacio en disco.</value>
   </data>
   <data name="component_cleanup_Category" xml:space="preserve">
     <value>Mantenimiento</value>
@@ -160,7 +160,7 @@
     <value>Esto puede afectar la configuración de red estática y requiere un reinicio. ¿Continuar?</value>
   </data>
   <data name="network_reset_CompletionNote" xml:space="preserve">
-    <value>Reinicie Windows antes de probar la conexión.</value>
+    <value>Reinicia Windows antes de probar la conexión.</value>
   </data>
   <data name="windows_update_reset_Name" xml:space="preserve">
     <value>Restablecimiento de componentes de Windows Update</value>
@@ -169,10 +169,10 @@
     <value>Recrear las cachés de descarga y catálogo de Windows Update cuando las actualizaciones estén atascadas.</value>
   </data>
   <data name="windows_update_reset_Category" xml:space="preserve">
-    <value>Reparar</value>
+    <value>Reparación</value>
   </data>
   <data name="windows_update_reset_Execute" xml:space="preserve">
-    <value>Ejecutar Restablecimiento</value>
+    <value>Ejecutar restablecimiento</value>
   </data>
   <data name="windows_update_reset_Confirmation" xml:space="preserve">
     <value>Esto borra las descargas de actualizaciones en caché y el historial de actualizaciones que se muestra en Configuración. ¿Continuar?</value>
@@ -187,13 +187,13 @@
     <value>Memoria</value>
   </data>
   <data name="empty_standby_list_Execute" xml:space="preserve">
-    <value>Ejecutar Una Vez</value>
+    <value>Ejecutar una vez</value>
   </data>
   <data name="empty_standby_list_Confirmation" xml:space="preserve">
     <value>La RAM en caché se libera automáticamente cuando las aplicaciones la necesitan. Vaciarla rutinariamente no mejora los FPS ni el rendimiento del PC y puede hacer que los juegos se carguen más lentamente. Continuar solo si hay un problema documentado de la lista de espera.</value>
   </data>
   <data name="remove_windows_ai_Name" xml:space="preserve">
-    <value>Windows AI - Deshabilitar y Eliminar</value>
+    <value>Windows AI - Desactivar y eliminar</value>
   </data>
   <data name="remove_windows_ai_Description" xml:space="preserve">
     <value>Desactivar las políticas de IA de Windows y eliminar los paquetes disponibles de Copilot/CoreAI y Recall.</value>
@@ -238,7 +238,7 @@
     <value>¿Eliminar el bloque de Adobe de TweakHub del archivo hosts?</value>
   </data>
   <data name="CompletedOnThisPc" xml:space="preserve">
-    <value>Completado en esta PC: {0}</value>
+    <value>Completado en este PC: {0}</value>
   </data>
   <data name="ImportFilter" xml:space="preserve">
     <value>Scripts (*.ps1;*.cmd;*.bat)|*.ps1;*.cmd;*.bat</value>
@@ -250,7 +250,7 @@
     <value>CMD (*.cmd)|*.cmd</value>
   </data>
   <data name="AdministratorScript" xml:space="preserve">
-    <value>Script de Administrador</value>
+    <value>Script de administrador</value>
   </data>
   <data name="AdministratorScriptMessage" xml:space="preserve">
     <value>¿Ejecutar '{0}' con privilegios de administrador?</value>
@@ -265,16 +265,16 @@
     <value>Script completado en {0:F1}s.</value>
   </data>
   <data name="CustomScriptFailed" xml:space="preserve">
-    <value>Script falló (salida {0}) después de {1:F1}s.</value>
+    <value>El script falló (salida {0}) después de {1:F1}s.</value>
   </data>
   <data name="CreateCustomScript" xml:space="preserve">
-    <value>Crear Script Personalizado</value>
+    <value>Crear script personalizado</value>
   </data>
   <data name="EditCustomScript" xml:space="preserve">
-    <value>Editar Script Personalizado</value>
+    <value>Editar script personalizado</value>
   </data>
   <data name="EnterScriptName" xml:space="preserve">
-    <value>Ingrese el nombre del script</value>
+    <value>Escribe el nombre del script</value>
   </data>
   <data name="CmdBatch" xml:space="preserve">
     <value>CMD Batch</value>
@@ -310,7 +310,7 @@
     <value>Script en ejecución</value>
   </data>
   <data name="StopBeforeDeleting" xml:space="preserve">
-    <value>Detenga el script antes de eliminarlo.</value>
+    <value>Detén el script antes de eliminarlo.</value>
   </data>
   <data name="ConfirmDelete" xml:space="preserve">
     <value>Confirmar eliminación</value>
@@ -361,7 +361,7 @@ Esta acción no se puede deshacer.</value>
 {1}</value>
   </data>
   <data name="RunningCommands" xml:space="preserve">
-    <value>Ejecutando comandos. No cierre TweakHub...</value>
+    <value>Ejecutando comandos. No cierres TweakHub...</value>
   </data>
   <data name="LogSaveFailed" xml:space="preserve">
     <value>No se pudo guardar el registro: {0}</value>
@@ -651,7 +651,7 @@ Registro: {2}</value>
     <value>Limpieza de archivos temporales</value>
   </data>
   <data name="temp_cleanup_Description" xml:space="preserve">
-    <value>Elimine los archivos temporales con más de un día de las carpetas Temp del usuario y de Windows y vacíe la caché de Optimización de distribución. Los archivos en uso se omiten.</value>
+    <value>Elimina los archivos temporales con más de un día de las carpetas Temp del usuario y de Windows y vacía la caché de Optimización de distribución. Los archivos en uso se omiten.</value>
   </data>
   <data name="temp_cleanup_Category" xml:space="preserve">
     <value>Mantenimiento</value>
@@ -684,7 +684,7 @@ Registro: {2}</value>
     <value>Para reinstalarlos tras una instalación limpia, ejecuta como administrador: pnputil /add-driver "&lt;carpeta de la copia&gt;\*.inf" /subdirs /install</value>
   </data>
   <data name="PlaybookTypeTweakCheck" xml:space="preserve">
-    <value>Reparación de Tweak Check</value>
+    <value>Reparación de Comprobación de ajustes</value>
   </data>
   <data name="PlaybookTypeSecurityFix" xml:space="preserve">
     <value>Corrección de seguridad</value>
@@ -699,7 +699,7 @@ Registro: {2}</value>
     <value>Servidores DNS</value>
   </data>
   <data name="PlaybookTweakCheckSummary" xml:space="preserve">
-    <value>Tweak Check, reparar si se cambió: {0}</value>
+    <value>Comprobación de ajustes, reparar si cambió: {0}</value>
   </data>
   <data name="PlaybookSecurityFixSummary" xml:space="preserve">
     <value>Seguridad, corregir si hace falta: {0}</value>
@@ -723,7 +723,7 @@ Registro: {2}</value>
     <value>Restaurar controladores desde la copia</value>
   </data>
   <data name="driver_restore_Description" xml:space="preserve">
-    <value>Instala con pnputil los paquetes de controladores de una carpeta de copia (por ejemplo la creada por Copia de controladores): útil justo después de una instalación limpia de Windows. Tú eliges la carpeta.</value>
+    <value>Instala con pnputil los paquetes de controladores de una carpeta de copia (por ejemplo la creada por Copia de seguridad de controladores): útil justo después de una instalación limpia de Windows. Tú eliges la carpeta.</value>
   </data>
   <data name="driver_restore_Execute" xml:space="preserve">
     <value>Elegir carpeta</value>
@@ -735,7 +735,7 @@ Registro: {2}</value>
     <value>Revisa el Administrador de dispositivos; reinicia Windows si un controlador lo pide.</value>
   </data>
   <data name="driver_restore_NoPackages" xml:space="preserve">
-    <value>No se encontró ningún paquete de controlador (archivo .inf) en {0}. Elige la carpeta creada por Copia de controladores.</value>
+    <value>No se encontró ningún paquete de controlador (archivo .inf) en {0}. Elige la carpeta creada por Copia de seguridad de controladores.</value>
   </data>
   <data name="driver_restore_ConfirmFolder" xml:space="preserve">
     <value>Se instalarán {0} paquetes de controladores desde:

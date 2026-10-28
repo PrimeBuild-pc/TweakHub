@@ -25,8 +25,9 @@ public partial class DevicesPage : Page
     {
         if (!ReferenceEquals(e.OriginalSource, Tabs)) return;
         if (Tabs.SelectedItem == DriversTab) Drivers.LoadBackups();
-        else if (Tabs.SelectedItem == InterruptsTab) await Interrupts.ScanAsync(initial: !Interrupts.HasScanned);
-        else if (Tabs.SelectedItem == AffinityTab) await Affinity.ScanAsync(initial: !Affinity.HasScanned);
+        // Interrupts and Affinity share one cached scan: a change in either rescans it, so the other only redraws.
+        else if (Tabs.SelectedItem == InterruptsTab) await Interrupts.ScanAsync(initial: true);
+        else if (Tabs.SelectedItem == AffinityTab) await Affinity.ScanAsync(initial: true);
         else if (Tabs.SelectedItem == UsbTab && !Usb.HasScanned) await Usb.ScanAsync(initial: true);
         else if (Tabs.SelectedItem == LinksTab && !Links.HasScanned) await Links.ScanAsync(initial: true);
         else if (Tabs.SelectedItem == ChecksTab && !Checks.HasScanned) await Checks.ScanAsync(elevated: false, initial: true);

@@ -73,10 +73,10 @@
     <value>强调色</value>
   </data>
   <data name="AboutPageUseWindowsAccentColor" xml:space="preserve">
-    <value>使用Windows强调色</value>
+    <value>使用 Windows 强调色</value>
   </data>
   <data name="AboutPageHexColorForExample0078D4" xml:space="preserve">
-    <value>十六进制颜色，例如#0078D4</value>
+    <value>十六进制颜色，例如 #0078D4</value>
   </data>
   <data name="AboutPageEffects" xml:space="preserve">
     <value>效果</value>
@@ -109,7 +109,7 @@
     <value>更新</value>
   </data>
   <data name="AboutPageTweakHubChecksGitHubReleasesWhen" xml:space="preserve">
-    <value>TweakHub 在启动时检查 GitHub 版本。仅在您确认后才会下载、验证和安装更​​新。</value>
+    <value>TweakHub 在启动时检查 GitHub Releases。只有在您确认后，才会下载、验证并安装更新。</value>
   </data>
   <data name="AboutPageCheckForUpdates" xml:space="preserve">
     <value>检查更新</value>
@@ -159,7 +159,7 @@
     <value>{0} • {1}</value>
   </data>
   <data name="InvalidAccentColor" xml:space="preserve">
-    <value>以#RRGGBB 格式输入颜色。</value>
+    <value>请以 #RRGGBB 格式输入颜色。</value>
   </data>
   <data name="AppearanceSaveFailed" xml:space="preserve">
     <value>外观已应用于此会话，但无法保存。</value>
@@ -180,7 +180,7 @@
     <value>TweakHub 配置文件(*.tweakhub.json;*.json)|*.tweakhub.json;*.json</value>
   </data>
   <data name="ProfileExported" xml:space="preserve">
-    <value>导出的配置文件</value>
+    <value>已导出配置文件</value>
   </data>
   <data name="ImportProfileTitle" xml:space="preserve">
     <value>导入 TweakHub 配置文件</value>
@@ -210,7 +210,7 @@
     <value>{0:F0}% 完成</value>
   </data>
   <data name="OK" xml:space="preserve">
-    <value>正常</value>
+    <value>确定</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>是</value>
@@ -268,7 +268,7 @@
     <value>您正在运行最新版本。</value>
   </data>
   <data name="UpdateAvailable" xml:space="preserve">
-    <value>可用更新</value>
+    <value>有可用更新</value>
   </data>
   <data name="UpdateAvailableMessage" xml:space="preserve">
     <value>TweakHub {0} 可用。
@@ -287,7 +287,7 @@
     <value>此版本不包含此安装模式的验证包。</value>
   </data>
   <data name="UpdatingTweakHub" xml:space="preserve">
-    <value>更新 TweakHub</value>
+    <value>正在更新 TweakHub</value>
   </data>
   <data name="DownloadingVerifiedUpdate" xml:space="preserve">
     <value>正在下载经过验证的更新...</value>
@@ -310,13 +310,13 @@
     <value>更新校验和与版本不匹配。</value>
   </data>
   <data name="PortableExecutableMissing" xml:space="preserve">
-    <value>可移植存档不包含 TweakHub.exe。</value>
+    <value>便携版压缩包中不包含 TweakHub.exe。</value>
   </data>
   <data name="UntrustedDownloadUrl" xml:space="preserve">
     <value>该版本包含不受信任的下载 URL。</value>
   </data>
   <data name="BackupCreatedStatus" xml:space="preserve">
-    <value>创建的备份：{0}</value>
+    <value>已创建备份：{0}</value>
   </data>
   <data name="RegistryValueNameRequired" xml:space="preserve">
     <value>需要注册表值名称。</value>
@@ -334,7 +334,7 @@
     <value>刚刚</value>
   </data>
   <data name="FewMomentsAgo" xml:space="preserve">
-    <value>几分钟前</value>
+    <value>片刻前</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
     <value>{0} 分钟前</value>
@@ -416,14 +416,14 @@
   </data>
   <data name="PreviousDataConfirm" xml:space="preserve">
     <value>从 {0} 导入：
-• 配置文件：自定义脚本、调整项和工具、剧本、收藏和外观（替换当前配置，当前配置会先保存为恢复副本）；
+• 配置文件：自定义脚本、调整项和工具、操作手册、收藏和外观（替换当前配置，当前配置会先保存为恢复副本）；
 • 撤销该副本所做更改的数据，以便在这里也能还原；
 • 此处缺少的 Apps 中的便携程序。
 
 导入完成后 TweakHub 会重新启动。</value>
   </data>
   <data name="PreviousDataImported" xml:space="preserve">
-    <value>已导入 {0} 个脚本、{1} 个自定义调整项、{2} 个工具和 {3} 个剧本，{4} 个撤销数据文件以及 Apps 中的 {5} 个文件。
+    <value>已导入 {0} 个脚本、{1} 个自定义调整项、{2} 个工具和 {3} 个操作手册，{4} 个撤销数据文件以及 Apps 中的 {5} 个文件。
 
 先前配置文件的恢复副本：{6}
 

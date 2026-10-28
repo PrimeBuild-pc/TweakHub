@@ -12,7 +12,7 @@ $ErrorActionPreference = 'Stop'
 # The script is bundled with TweakHub and never downloads or executes remote code.
 $registryValues = @(
     @{ Path = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU'; Names = @('NoAutoUpdate', 'AUOptions', 'NoAutoRebootWithLoggedOnUsers', 'AUPowerManagement') },
-    @{ Path = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate'; Names = @('ExcludeWUDriversInQualityUpdate', 'DeferFeatureUpdates', 'DeferFeatureUpdatesPeriodInDays', 'DeferQualityUpdates', 'DeferQualityUpdatesPeriodInDays') },
+    @{ Path = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate'; Names = @('ExcludeWUDriversInQualityUpdate', 'DeferFeatureUpdates', 'DeferFeatureUpdatesPeriodInDays', 'DeferQualityUpdates', 'DeferQualityUpdatesPeriodInDays', 'SetUpdateNotificationLevel', 'UpdateNotificationLevel') },
     @{ Path = 'HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings'; Names = @('BranchReadinessLevel', 'DeferFeatureUpdatesPeriodInDays', 'DeferQualityUpdatesPeriodInDays') },
     @{ Path = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\Device Metadata'; Names = @('PreventDeviceMetadataFromNetwork') },
     @{ Path = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\DriverSearching'; Names = @('DontPromptForWindowsUpdate', 'DontSearchWindowsUpdate', 'DriverUpdateWizardWuSearchEnabled') },
@@ -115,7 +115,12 @@ function Set-UpdateAvailability {
     Set-Service -Name wuauserv -StartupType Manual
     Set-Service -Name UsoSvc -StartupType Automatic
     Start-Service -Name UsoSvc -ErrorAction SilentlyContinue
-    Get-UpdateTasks | Enable-ScheduledTask -ErrorAction SilentlyContinue | Out-Null
+    # Windows ships some update tasks disabled (WakeUpAndScanForUpdates wakes the PC): re-enable only those that
+    # were on before TweakHub first changed anything. Save-Backup always runs first, so the backup exists here.
+    $before = @{}
+    foreach ($task in @((Get-Content -LiteralPath $BackupPath -Raw | ConvertFrom-Json).Tasks)) { $before[$task.TaskPath + $task.TaskName] = [bool]$task.Enabled }
+    Get-UpdateTasks | Where-Object { $before[$_.TaskPath + $_.TaskName] -ne $false } |
+        Enable-ScheduledTask -ErrorAction SilentlyContinue | Out-Null
 }
 
 function Get-DetectedPreset {
@@ -125,7 +130,8 @@ function Get-DetectedPreset {
     $tasks = @(Get-UpdateTasks)
     $allTasksDisabled = $tasks.Count -eq 0 -or @($tasks | Where-Object { $_.Settings.Enabled }).Count -eq 0
     $availabilityIsDefault = $services.BITS -eq 'Manual' -and $services.wuauserv -eq 'Manual' -and $services.UsoSvc -eq 'Auto'
-    $noDisabledTasks = @($tasks | Where-Object { -not $_.Settings.Enabled }).Count -eq 0
+    # Not "every task enabled": Windows ships some disabled and protected (UpdateOrchestrator\Schedule Work).
+    $noDisabledTasks = -not $allTasksDisabled
 
     $au = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU'
     $wu = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate'
@@ -150,7 +156,7 @@ function Get-DetectedPreset {
         (Get-RegistryValue $driver 'DontPromptForWindowsUpdate') -eq 1 -and
         (Get-RegistryValue $driver 'DontSearchWindowsUpdate') -eq 1 -and
         (Get-RegistryValue $driver 'DriverUpdateWizardWuSearchEnabled') -eq 0 -and
-        (Get-RegistryValue $au 'AUOptions') -eq 4 -and
+        (Get-RegistryValue $au 'AUOptions') -eq 2 -and
         (Get-RegistryValue $au 'NoAutoRebootWithLoggedOnUsers') -eq 1) {
         return 'Security'
     }
@@ -212,8 +218,9 @@ switch ($Preset) {
         Set-Policy $wu 'ExcludeWUDriversInQualityUpdate' 1
         Set-Policy $wu 'DeferFeatureUpdates' 1
         Set-Policy $wu 'DeferFeatureUpdatesPeriodInDays' 365
-        # Quality/security updates intentionally remain on the normal schedule.
-        Set-Policy $au 'AUOptions' 4
+        # Security updates are not deferred, but nothing downloads or installs by itself: 2 = notify before download.
+        # Clear-ManagedPolicies already removed the notification-level policies, so the notifications stay on.
+        Set-Policy $au 'AUOptions' 2
         Set-Policy $au 'NoAutoRebootWithLoggedOnUsers' 1
         Set-Policy $au 'AUPowerManagement' 0
     }

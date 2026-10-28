@@ -44,7 +44,7 @@
   <data name="TronReady" xml:space="preserve"><value>Распакованные файлы проверены. Перед запуском прочитайте документацию.</value></data>
   <data name="TronStarted" xml:space="preserve"><value>Tron запущен в отдельной повышенной консоли. Следуйте его запросам. Закрытие TweakHub не остановит Tron; это не подтверждение успешной очистки.</value></data>
   <data name="Working" xml:space="preserve"><value>Выполняется… подождите.</value></data>
-  <data name="AffinityTitle" xml:space="preserve"><value>Привязка CPU</value></data>
+  <data name="AffinityTitle" xml:space="preserve"><value>Привязка к ЦП</value></data>
   <data name="AffinityDescription" xml:space="preserve"><value>Назначает прерывания PCI логическим CPU, не процессам. USB/HID обычно делят прерывания хост-контроллера. Одинаковый номер ядра означает потоки SMT. Драйвер может игнорировать политику; ошибка ухудшает задержку или стабильность. Нужна перезагрузка; автоматической оптимизации нет.</value></data>
   <data name="AutomaticAffinity" xml:space="preserve"><value>Автоматическое назначение Windows</value></data>
   <data name="AffinityHint" xml:space="preserve"><value>Выберите CPU или автоматическое назначение. Метки ядер объединяют потоки SMT. Восстановление меняет только привязку, не MSI или приоритет.</value></data>

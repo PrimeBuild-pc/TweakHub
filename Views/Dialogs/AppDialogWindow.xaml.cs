@@ -65,7 +65,11 @@ public partial class AppDialogWindow : Window
     public IReadOnlyList<int> CheckedChoices =>
         [.. ChoicePanel.Children.OfType<CheckBox>().Select((box, index) => (box, index)).Where(item => item.box.IsChecked == true).Select(item => item.index)];
 
-    private void Primary_Click(object sender, RoutedEventArgs e) => DialogResult = true;
+    // A click that lands after the dialog closed (queued double click, Enter, UI Automation) would throw and crash the app.
+    private void Primary_Click(object sender, RoutedEventArgs e)
+    {
+        if (IsVisible) DialogResult = true;
+    }
 
     private void Body_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {

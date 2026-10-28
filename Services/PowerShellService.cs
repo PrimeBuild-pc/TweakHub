@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.IO;
+using System.IO.Pipes;
 using System.Text;
 using TweakHub.Models;
 
@@ -16,7 +17,8 @@ namespace TweakHub.Services
             string script,
             bool requireAdministrator = false,
             TimeSpan? timeout = null,
-            CancellationToken cancellationToken = default)
+            CancellationToken cancellationToken = default,
+            bool userModules = false)
         {
             var id = Guid.NewGuid().ToString("N");
             // Already elevated: the script is run by path, so keep it where unelevated processes cannot rewrite it.
@@ -24,8 +26,7 @@ namespace TweakHub.Services
                 ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Temp")
                 : Path.GetTempPath();
             var scriptPath = Path.Combine(scriptFolder, $"TweakHub-{id}.ps1");
-            var outputPath = Path.Combine(Path.GetTempPath(), $"TweakHub-{id}.out");
-            var errorPath = Path.Combine(Path.GetTempPath(), $"TweakHub-{id}.err");
+            var pipeName = $"TweakHub-{id}";
             var stopwatch = Stopwatch.StartNew();
 
             using var timeoutSource = timeout is null ? null : new CancellationTokenSource(timeout.Value);
@@ -37,27 +38,31 @@ namespace TweakHub.Services
             {
                 // Windows PowerShell 5.1 reads BOM-less scripts as ANSI, which mangles non-ASCII paths and text.
                 var encoding = new UTF8Encoding(true);
-                var scriptBytes = encoding.GetPreamble().Concat(encoding.GetBytes(BuildScriptContext(script))).ToArray();
+                var scriptBytes = encoding.GetPreamble().Concat(encoding.GetBytes(BuildScriptContext(script, userModules))).ToArray();
                 await File.WriteAllBytesAsync(scriptPath, scriptBytes, linkedSource.Token);
                 var elevated = requireAdministrator && !Elevation.IsAdministrator;
                 var startInfo = elevated
-                    ? CreateElevatedStartInfo(scriptPath, scriptBytes, outputPath, errorPath)
+                    ? CreateElevatedStartInfo(scriptPath, scriptBytes, pipeName)
                     : CreateStartInfo(scriptPath);
 
                 using var process = new Process { StartInfo = startInfo };
                 if (!process.Start()) return Failure("Failed to start PowerShell process", stopwatch.Elapsed);
 
-                Task<string>? outputTask = null;
+                Task<string>? outputTask;
                 Task<string>? errorTask = null;
-                if (!elevated)
+                if (elevated)
+                    outputTask = ReadElevatedOutputAsync(pipeName, process, linkedSource.Token);
+                else
                 {
                     outputTask = process.StandardOutput.ReadToEndAsync(linkedSource.Token);
                     errorTask = process.StandardError.ReadToEndAsync(linkedSource.Token);
                 }
 
+                string output, error;
                 try
                 {
                     await process.WaitForExitAsync(linkedSource.Token);
+                    (output, error) = elevated ? SplitElevatedOutput(await outputTask) : (await outputTask, await errorTask!);
                 }
                 catch (OperationCanceledException)
                 {
@@ -71,13 +76,6 @@ namespace TweakHub.Services
                         Duration = stopwatch.Elapsed
                     };
                 }
-
-                var output = elevated
-                    ? await ReadIfExists(outputPath)
-                    : await outputTask!;
-                var error = elevated
-                    ? await ReadIfExists(errorPath)
-                    : await errorTask!;
 
                 return new PowerShellResult
                 {
@@ -94,20 +92,42 @@ namespace TweakHub.Services
             }
             finally
             {
-                foreach (var path in new[] { scriptPath, outputPath, errorPath })
-                    try { File.Delete(path); } catch { }
+                try { File.Delete(scriptPath); } catch { }
             }
         }
 
-
+        // The user's own scripts may import modules installed in their profile.
         public async Task<PowerShellResult> ExecuteCustomScriptAsync(CustomScript script, CancellationToken cancellationToken = default)
         {
             if (script.Language == ScriptLanguage.PowerShell)
                 return await ExecuteScriptAsync(script.Content, script.RequiresAdministrator,
-                    TimeSpan.FromMinutes(15), cancellationToken);
+                    TimeSpan.FromMinutes(15), cancellationToken, userModules: true);
 
             return await ExecuteScriptAsync(BuildBatchRunner(script.Content), script.RequiresAdministrator,
-                TimeSpan.FromMinutes(15), cancellationToken);
+                TimeSpan.FromMinutes(15), cancellationToken, userModules: true);
+        }
+
+        /// <summary>
+        /// Reads what the elevated wrapper sends on its pipe. The wrapper waits for this connection before it runs the
+        /// script, so nothing is lost; if the process ends without ever opening the pipe the result is empty.
+        /// </summary>
+        internal static async Task<string> ReadElevatedOutputAsync(string pipeName, Process process, CancellationToken token)
+        {
+            using var pipe = new NamedPipeClientStream(".", pipeName, PipeDirection.In, PipeOptions.Asynchronous);
+            using var stop = CancellationTokenSource.CreateLinkedTokenSource(token);
+            var connect = pipe.ConnectAsync(stop.Token);
+            if (await Task.WhenAny(connect, process.WaitForExitAsync(token)) != connect) stop.Cancel();
+            try { await connect; }
+            catch (OperationCanceledException) when (!token.IsCancellationRequested) { return string.Empty; }
+            using var reader = new StreamReader(pipe, new UTF8Encoding(false));
+            return await reader.ReadToEndAsync(token);
+        }
+
+        // The wrapper sends the output, then a NUL and the error text if the script failed.
+        internal static (string Output, string Error) SplitElevatedOutput(string text)
+        {
+            var separator = text.IndexOf('\0');
+            return separator < 0 ? (text, string.Empty) : (text[..separator], text[(separator + 1)..]);
         }
 
         /// <summary>
@@ -131,10 +151,31 @@ namespace TweakHub.Services
         public static string Literal(string value) =>
             "'" + System.Text.RegularExpressions.Regex.Replace(value, "['‘’‚‛]", "$0$0") + "'";
 
-        internal static string BuildScriptContext(string script)
+        /// <summary>
+        /// The user can redefine windir, ProgramData and the rest in their own environment, which an elevated PowerShell
+        /// inherits. Reset them from Windows itself (kernel and HKLM) before any script builds a path from them.
+        /// </summary>
+        internal const string SystemFolders = """
+            $env:SystemRoot = $env:windir = [Environment]::GetFolderPath('Windows')
+            $env:SystemDrive = [IO.Path]::GetPathRoot($env:windir).TrimEnd('\')
+            $machine = [Microsoft.Win32.RegistryKey]::OpenBaseKey('LocalMachine', 'Registry64')
+            $folders = $machine.OpenSubKey('SOFTWARE\Microsoft\Windows\CurrentVersion')
+            $env:ProgramFiles = $folders.GetValue('ProgramFilesDir')
+            ${env:ProgramFiles(x86)} = $folders.GetValue('ProgramFilesDir (x86)')
+            $env:ProgramData = $machine.OpenSubKey('SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList').GetValue('ProgramData', $null, 'DoNotExpandEnvironmentNames') -replace '%SystemDrive%', $env:SystemDrive
+            $folders.Close(); $machine.Close(); Remove-Variable folders, machine
+            """;
+
+        // Module autoload would otherwise look in the user's Documents first, where any unelevated process can plant one.
+        internal const string SystemModulesOnly =
+            "$env:PSModulePath = (Join-Path $env:windir 'System32\\WindowsPowerShell\\v1.0\\Modules') + ';' + (Join-Path $env:ProgramFiles 'WindowsPowerShell\\Modules')";
+
+        internal static string BuildScriptContext(string script, bool userModules = false)
         {
             return $$"""
                 $ErrorActionPreference = 'Stop'
+                {{SystemFolders}}
+                {{(userModules ? string.Empty : SystemModulesOnly)}}
                 $env:TWEAKHUB_ROOT = {{Literal(AppDataPath.RootPath)}}
                 $env:TWEAKHUB_APPS = {{Literal(AppDataPath.AppsPath)}}
                 Set-Location -LiteralPath $env:TWEAKHUB_ROOT
@@ -163,9 +204,26 @@ namespace TweakHub.Services
         /// The temp files can be replaced by any process of the user after the UAC prompt; the command line cannot.
         /// So the wrapper travels on the command line with the hash of the script it was approved for, reads the file
         /// once and runs those exact bytes: a script swapped after approval is refused, never run.
+        /// The output goes back on a pipe the elevated process creates itself, one instance and readable only by the
+        /// calling user: no file in the user's temp folder that a link could redirect to a system file.
+        /// The pipe is opened before the script runs and each line is sent as it comes, so a script that calls exit
+        /// still delivers everything it wrote.
         /// </summary>
-        internal static string BuildElevatedWrapper(string scriptPath, byte[] scriptBytes, string outputPath, string errorPath) => $$"""
+        internal static string BuildElevatedWrapper(string scriptPath, byte[] scriptBytes, string pipeName, string clientSid) => $$"""
             $ErrorActionPreference = 'Stop'
+            $access = New-Object IO.Pipes.PipeSecurity
+            foreach ($rule in @(@('S-1-5-32-544', 'FullControl'), @('S-1-5-18', 'FullControl'), @({{Literal(clientSid)}}, 'Read'))) {
+                $access.AddAccessRule((New-Object IO.Pipes.PipeAccessRule([Security.Principal.SecurityIdentifier]$rule[0], $rule[1], 'Allow')))
+            }
+            $pipe = New-Object IO.Pipes.NamedPipeServerStream({{Literal(pipeName)}}, 'Out', 1, 'Byte', 'Asynchronous', 0, 0, $access)
+            $wait = $pipe.BeginWaitForConnection($null, $null)
+            $writer = $null
+            if ($wait.AsyncWaitHandle.WaitOne(30000)) {
+                $pipe.EndWaitForConnection($wait)
+                $writer = New-Object IO.StreamWriter($pipe, (New-Object Text.UTF8Encoding($false)))
+                $writer.AutoFlush = $true
+            }
+            function Send([string]$text) { if ($script:writer) { try { $script:writer.Write($text) } catch { $script:writer = $null } } }
             try {
                 $bytes = [IO.File]::ReadAllBytes({{Literal(scriptPath)}})
                 $hash = [BitConverter]::ToString([Security.Cryptography.SHA256]::Create().ComputeHash($bytes)).Replace('-', '')
@@ -173,16 +231,18 @@ namespace TweakHub.Services
                     throw 'The script changed after it was approved; nothing was run.'
                 }
                 $script = [scriptblock]::Create([Text.Encoding]::UTF8.GetString($bytes).TrimStart([char]0xFEFF))
-                & $script *> {{Literal(outputPath)}}
-                if (-not $?) { exit 1 }
-                exit 0
+                & $script *>&1 | Out-String -Stream | ForEach-Object { Send ($_ + "`r`n") }
+                $code = 0
             } catch {
-                $_ | Out-String | Set-Content -LiteralPath {{Literal(errorPath)}}
-                exit 1
+                Send ([string][char]0 + ($_ | Out-String))
+                $code = 1
             }
+            try { if ($writer) { $pipe.WaitForPipeDrain() } } catch { }
+            $pipe.Dispose()
+            exit $code
             """;
 
-        private static ProcessStartInfo CreateElevatedStartInfo(string scriptPath, byte[] scriptBytes, string outputPath, string errorPath)
+        private static ProcessStartInfo CreateElevatedStartInfo(string scriptPath, byte[] scriptBytes, string pipeName)
         {
             var startInfo = new ProcessStartInfo
             {
@@ -195,7 +255,7 @@ namespace TweakHub.Services
             foreach (var argument in new[] { "-WindowStyle", "Hidden", "-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-EncodedCommand" })
                 startInfo.ArgumentList.Add(argument);
             startInfo.ArgumentList.Add(Convert.ToBase64String(Encoding.Unicode.GetBytes(
-                BuildElevatedWrapper(scriptPath, scriptBytes, outputPath, errorPath))));
+                BuildElevatedWrapper(scriptPath, scriptBytes, pipeName, CurrentUserSid))));
             return startInfo;
         }
 
@@ -211,8 +271,14 @@ namespace TweakHub.Services
             startInfo.ArgumentList.Add(scriptPath);
         }
 
-        private static async Task<string> ReadIfExists(string path) =>
-            File.Exists(path) ? await File.ReadAllTextAsync(path) : string.Empty;
+        internal static string CurrentUserSid
+        {
+            get
+            {
+                using var identity = System.Security.Principal.WindowsIdentity.GetCurrent();
+                return identity.User!.Value;
+            }
+        }
 
         private static PowerShellResult Failure(string error, TimeSpan duration) => new()
         {

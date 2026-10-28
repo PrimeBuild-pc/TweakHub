@@ -13,10 +13,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ExternalToolsPageExternalTools" xml:space="preserve">
-    <value>Strumenti Esterni</value>
+    <value>Strumenti esterni</value>
   </data>
   <data name="ExternalToolsPageExternalTools2" xml:space="preserve">
-    <value>Strumenti Esterni</value>
+    <value>Strumenti esterni</value>
   </data>
   <data name="ExternalToolsPageInstallCuratedToolsOrAdd" xml:space="preserve">
     <value>Installa strumenti selezionati o aggiungi le tue schede Winget, PowerShell e siti web.</value>
@@ -34,16 +34,16 @@
     <value>Download in corso...</value>
   </data>
   <data name="QuickAccessPageQuickAccess" xml:space="preserve">
-    <value>Accesso Rapido</value>
+    <value>Accesso rapido</value>
   </data>
   <data name="QuickAccessPageQuickAccess2" xml:space="preserve">
-    <value>Accesso Rapido</value>
+    <value>Accesso rapido</value>
   </data>
   <data name="QuickAccessPageQuickShortcutsToWindowsControl" xml:space="preserve">
     <value>Scorciatoie rapide ai pannelli di controllo di Windows, alle impostazioni di sistema e agli strumenti di configurazione avanzata.</value>
   </data>
   <data name="CustomToolDialogCustomExternalTool" xml:space="preserve">
-    <value>Strumento Esterno Personalizzato</value>
+    <value>Strumento esterno personalizzato</value>
   </data>
   <data name="CustomToolDialogCustomExternalTool2" xml:space="preserve">
     <value>Strumento esterno personalizzato</value>
@@ -103,34 +103,34 @@
     <value>Gestione disco</value>
   </data>
   <data name="ShortcutNameTaskManager" xml:space="preserve">
-    <value>Gestione Attività</value>
+    <value>Gestione attività</value>
   </data>
   <data name="ShortcutNameResourceMonitor" xml:space="preserve">
-    <value>Monitor Risorse</value>
+    <value>Monitoraggio risorse</value>
   </data>
   <data name="ShortcutNamePowerOptions" xml:space="preserve">
-    <value>Opzioni Risparmio Energia</value>
+    <value>Opzioni risparmio energia</value>
   </data>
   <data name="ShortcutNameNetworkConnections" xml:space="preserve">
-    <value>Connessioni di Rete</value>
+    <value>Connessioni di rete</value>
   </data>
   <data name="ShortcutNameSoundSettings" xml:space="preserve">
-    <value>Impostazioni Suono</value>
+    <value>Impostazioni audio</value>
   </data>
   <data name="ShortcutNameDisplaySettings" xml:space="preserve">
-    <value>Impostazioni Schermo</value>
+    <value>Impostazioni schermo</value>
   </data>
   <data name="ShortcutNameWindowsFeatures" xml:space="preserve">
     <value>Funzionalità di Windows</value>
   </data>
   <data name="ShortcutNameDiskCleanup" xml:space="preserve">
-    <value>Pulizia Disco</value>
+    <value>Pulizia disco</value>
   </data>
   <data name="ShortcutNameGroupPolicyEditor" xml:space="preserve">
-    <value>Editor Criteri di Gruppo</value>
+    <value>Editor Criteri di gruppo</value>
   </data>
   <data name="ShortcutNameTaskScheduler" xml:space="preserve">
-    <value>Utilità di Pianificazione</value>
+    <value>Utilità di pianificazione</value>
   </data>
   <data name="DescriptionManageHardwareDevicesAndDrivers" xml:space="preserve">
     <value>Gestisci dispositivi hardware e driver</value>
@@ -187,7 +187,7 @@
     <value>Launcher rapido open-source per app, file, comandi e ricerche web</value>
   </data>
   <data name="DescriptionDynamicTilingWindowManagerForWindows" xml:space="preserve">
-    <value>Window manager dinamico a piastrelle per Windows</value>
+    <value>Window manager a tiling dinamico per Windows</value>
   </data>
   <data name="DescriptionInspectAndManageEveryWindowsStartupLocation" xml:space="preserve">
     <value>Ispeziona e gestisci ogni posizione di avvio di Windows</value>
@@ -202,10 +202,10 @@
     <value>Rimuovi record dei dispositivi non presenti; apre la pagina informativa di MajorGeeks</value>
   </data>
   <data name="DescriptionGraphicalWindowsImageServicingAndCleanupUtility" xml:space="preserve">
-    <value>Utilità grafica di Windows per la gestione e pulizia delle immagini</value>
+    <value>Utilità grafica per la manutenzione e la pulizia delle immagini di Windows</value>
   </data>
   <data name="DescriptionInspectAndRemovePackagesFromTheWindows" xml:space="preserve">
-    <value>Ispeziona e rimuovi pacchetti dallo store dei driver di Windows</value>
+    <value>Ispeziona e rimuovi pacchetti dall'archivio driver di Windows</value>
   </data>
   <data name="DescriptionOpenSourceOfflineDriverInstallerAndIndex" xml:space="preserve">
     <value>Installer e indice di driver offline open-source</value>
@@ -223,13 +223,13 @@
     <value>Cruscotto per manutenzione e personalizzazione di Windows dal Microsoft Store</value>
   </data>
   <data name="DescriptionChrisTitusTechWindowsUtilityOpensThe" xml:space="preserve">
-    <value>Chris Titus Tech utilità Windows; apre il progetto ufficiale, mai uno script remoto</value>
+    <value>Utilità Windows di Chris Titus Tech; apre il progetto ufficiale, mai uno script remoto</value>
   </data>
   <data name="DescriptionFastLocalFileAndFolderSearch" xml:space="preserve">
     <value>Ricerca veloce di file e cartelle locali</value>
   </data>
   <data name="DescriptionFastVisualDiskSpaceAnalyzer" xml:space="preserve">
-    <value>Analizzatore visivo dello spazio su disco veloce</value>
+    <value>Analizzatore visivo e veloce dello spazio su disco</value>
   </data>
   <data name="DescriptionCPUMemoryAndPlatformInformation" xml:space="preserve">
     <value>Informazioni su CPU, memoria e piattaforma</value>
@@ -253,7 +253,7 @@
     <value>Ispeziona e configura il core parking della CPU e la regolazione della frequenza</value>
   </data>
   <data name="DescriptionCycleStressTestsAcrossIndividualCPUCores" xml:space="preserve">
-    <value>Test di stress del ciclo su singoli core CPU</value>
+    <value>Stress test a rotazione sui singoli core della CPU</value>
   </data>
   <data name="DescriptionAdvancedAMDSMUMSRAndPowerTable" xml:space="preserve">
     <value>Ispezione avanzata AMD SMU, MSR e tabella di alimentazione</value>
@@ -268,13 +268,13 @@
     <value>Test di stabilità della memoria della comunità; scarica l'archivio release fornito dall'utente su GitHub</value>
   </data>
   <data name="DescriptionBootableMemoryDiagnostics" xml:space="preserve">
-    <value>Diagnostica della memoria avviabile</value>
+    <value>Diagnostica della memoria da supporto avviabile</value>
   </data>
   <data name="DescriptionDetailedHardwareInformationAndSensorMonitoring" xml:space="preserve">
     <value>Informazioni dettagliate sull'hardware e monitoraggio dei sensori</value>
   </data>
   <data name="DescriptionCPUIDHardwareTemperatureVoltageAndFanMonitoring" xml:space="preserve">
-    <value>Monitoraggio della temperatura, della tensione e della ventola dell'hardware CPUID</value>
+    <value>Monitoraggio CPUID di temperature, tensioni e ventole dell'hardware</value>
   </data>
   <data name="DescriptionMicrosoftSysinternalsPhysicalMemoryAnalyzer" xml:space="preserve">
     <value>Analizzatore della memoria fisica di Microsoft Sysinternals</value>
@@ -283,13 +283,13 @@
     <value>Analizza l'audio in tempo reale e la latenza DPC</value>
   </data>
   <data name="DescriptionOpenSourceFanCurveAndSensorControl" xml:space="preserve">
-    <value>Curva delle ventole open-source e controllo dei sensori</value>
+    <value>Controllo open-source di curve delle ventole e sensori</value>
   </data>
   <data name="DescriptionIntelFramePresentationAndPerformanceMonitoring" xml:space="preserve">
-    <value>Monitoraggio delle prestazioni e presentazione dei frame di Intel</value>
+    <value>Monitoraggio Intel della presentazione dei frame e delle prestazioni</value>
   </data>
   <data name="DescriptionMicrosoftGPUAndCPUPerformanceTraceVisualization" xml:space="preserve">
-    <value>Visualizzazione della traccia delle prestazioni della GPU e della CPU di Microsoft</value>
+    <value>Visualizzazione Microsoft delle tracce di prestazioni di GPU e CPU</value>
   </data>
   <data name="DescriptionStaticInspectionOfWindowsExecutablesWithoutRunning" xml:space="preserve">
     <value>Ispezione statica degli eseguibili Windows senza eseguirli</value>
@@ -313,7 +313,7 @@
     <value>Profilazione avanzata dei carichi di lavoro CPU e GPU e analisi della timeline</value>
   </data>
   <data name="DescriptionLowLevelRadeonGPUPerformanceAndWorkload" xml:space="preserve">
-    <value>Analisi delle prestazioni della GPU Radeon a basso livello e del carico di lavoro</value>
+    <value>Analisi a basso livello di prestazioni e carico di lavoro delle GPU Radeon</value>
   </data>
   <data name="DescriptionGPUInformationSensorsAndValidation" xml:space="preserve">
     <value>Informazioni sulla GPU, sensori e convalida</value>
@@ -343,7 +343,7 @@
     <value>Personalizza le installazioni dei driver NVIDIA</value>
   </data>
   <data name="DescriptionCompletelyRemoveGraphicsDriversBeforeReinstalling" xml:space="preserve">
-    <value>Rimuovere completamente i driver grafici prima di reinstallarli</value>
+    <value>Rimuovi completamente i driver grafici prima di reinstallarli</value>
   </data>
   <data name="DescriptionAdvancedNVIDIAGraphicsCardFirmwareUtility" xml:space="preserve">
     <value>Utility avanzata per il firmware delle schede grafiche NVIDIA</value>
@@ -352,7 +352,7 @@
     <value>Utility avanzata per il firmware delle schede grafiche AMD, precedentemente ATIFlash</value>
   </data>
   <data name="DescriptionCommunityTroubleshootingUtilityForMultiplaneOverlayIssues" xml:space="preserve">
-    <value>Utility di risoluzione dei problemi della comunità per problemi con Multiplane Overlay</value>
+    <value>Utility della comunità per risolvere i problemi di Multiplane Overlay</value>
   </data>
   <data name="DescriptionInspectAndEditDisplayResolutionsAndEDID" xml:space="preserve">
     <value>Ispeziona e modifica le risoluzioni del display e i dati EDID</value>
@@ -367,7 +367,7 @@
     <value>Illuminazione RGB unificata ed effetti dei dispositivi</value>
   </data>
   <data name="DescriptionUnofficialGUIForAdvancedAMIFirmwareVariable" xml:space="preserve">
-    <value>GUI non ufficiale per la modifica avanzata delle variabili del firmware AMI; utilizzare solo con un piano di recupero</value>
+    <value>GUI non ufficiale per la modifica avanzata delle variabili del firmware AMI; da usare solo con un piano di recupero</value>
   </data>
   <data name="DescriptionCommunitySCEWINBinariesAndTroubleshootingFirmwareChanges" xml:space="preserve">
     <value>Binari SCEWIN della comunità e risoluzione dei problemi; le modifiche al firmware possono rendere il sistema non avviabile</value>
@@ -397,7 +397,7 @@
     <value>Benchmark delle prestazioni di archiviazione</value>
   </data>
   <data name="DescriptionStorageHealthAndSMARTInformation" xml:space="preserve">
-    <value>Salute dello storage e informazioni SMART</value>
+    <value>Stato di salute dell'archiviazione e informazioni SMART</value>
   </data>
   <data name="DescriptionNirSoftInventoryAndManagementOfCurrentAnd" xml:space="preserve">
     <value>Inventario NirSoft e gestione dei dispositivi USB attuali e storici</value>
@@ -406,28 +406,28 @@
     <value>Strumenti di latenza USB di Marius Heier; apre il sito ufficiale senza eseguire script</value>
   </data>
   <data name="DescriptionMicrosoftCommandLineStorageLoadGeneratorAnd" xml:space="preserve">
-    <value>Generatore di carico e benchmark dello storage da riga di comando Microsoft</value>
+    <value>Generatore di carico e benchmark per l'archiviazione da riga di comando, di Microsoft</value>
   </data>
   <data name="DescriptionOpenSourceBitTorrentClient" xml:space="preserve">
     <value>Client BitTorrent open-source</value>
   </data>
   <data name="DescriptionInspectAndTuneWindowsTCPIPParameters" xml:space="preserve">
-    <value>Ispezionare e ottimizzare i parametri TCP/IP di Windows</value>
+    <value>Ispeziona e ottimizza i parametri TCP/IP di Windows</value>
   </data>
   <data name="DescriptionMicrosoftSysinternalsLiveTCPAndUDPEndpoint" xml:space="preserve">
     <value>Visualizzatore live degli endpoint TCP e UDP di Microsoft Sysinternals</value>
   </data>
   <data name="DescriptionTestAndSwitchDNSResolvers" xml:space="preserve">
-    <value>Testare e cambiare i resolver DNS</value>
+    <value>Testa e cambia i resolver DNS</value>
   </data>
   <data name="DescriptionMeasureMaximumTCPAndUDPNetworkThroughput" xml:space="preserve">
-    <value>Misurare la massima velocità di rete TCP e UDP</value>
+    <value>Misura il throughput massimo di rete TCP e UDP</value>
   </data>
   <data name="DescriptionCaptureAndInspectNetworkTrafficAndProtocols" xml:space="preserve">
-    <value>Catturare e ispezionare il traffico e i protocolli di rete</value>
+    <value>Cattura e ispeziona il traffico e i protocolli di rete</value>
   </data>
   <data name="DescriptionAudioEqualizerAndEnhancement" xml:space="preserve">
-    <value>Equalizzatore audio e miglioramento</value>
+    <value>Equalizzatore e miglioramento dell'audio</value>
   </data>
   <data name="DescriptionSystemWideParametricAudioEqualizer" xml:space="preserve">
     <value>Equalizzatore audio parametrico a livello di sistema</value>
@@ -442,7 +442,7 @@
     <value>Diagnostica hardware, monitoraggio e benchmark di sistema</value>
   </data>
   <data name="DescriptionFrameTimeCaptureAndPerformanceAnalysis" xml:space="preserve">
-    <value>Cattura del tempo dei frame e analisi delle prestazioni</value>
+    <value>Acquisizione dei frame time e analisi delle prestazioni</value>
   </data>
   <data name="DescriptionCPUGPUMemoryAndPowerStabilityTesting" xml:space="preserve">
     <value>Test di stabilità di CPU, GPU, memoria e alimentazione</value>
@@ -454,13 +454,13 @@
     <value>Benchmark GPU Unigine e test di stabilità</value>
   </data>
   <data name="DescriptionBenchmarkLauncherValidationAndResultManagement" xml:space="preserve">
-    <value>Launcher per benchmark, convalidazione e gestione dei risultati</value>
+    <value>Launcher per benchmark, convalida e gestione dei risultati</value>
   </data>
   <data name="DescriptionCurrentOfficialMaxonCPUAndGPURendering" xml:space="preserve">
-    <value>Benchmark ufficiale Maxon attuale per CPU e GPU</value>
+    <value>Benchmark di rendering CPU e GPU ufficiale e attuale di Maxon</value>
   </data>
   <data name="DescriptionLegacyMaxonCPURenderingBenchmark" xml:space="preserve">
-    <value>Benchmark Maxon per CPU legacy</value>
+    <value>Benchmark legacy di rendering CPU di Maxon</value>
   </data>
   <data name="DescriptionTechPowerUpArchiveForOlderCinebenchReleasesThe" xml:space="preserve">
     <value>Archivio TechPowerUp per versioni Cinebench più vecchie; l'utente sceglie la versione</value>
@@ -472,7 +472,7 @@
     <value>Stress test GPU e benchmark OpenGL/Vulkan</value>
   </data>
   <data name="DescriptionMSIGPUStressTestAndOpenGLVulkan" xml:space="preserve">
-    <value>Stress test MSI GPU e benchmark OpenGL/Vulkan</value>
+    <value>Stress test GPU di MSI e benchmark OpenGL/Vulkan</value>
   </data>
   <data name="DescriptionHeavyCPURAMAndMemoryControllerBenchmark" xml:space="preserve">
     <value>Benchmark e stress test intensivo di CPU, RAM e controller di memoria</value>
@@ -487,7 +487,7 @@
     <value>Suite di benchmark per CPU e GPU da gaming standard di settore</value>
   </data>
   <data name="DescriptionRealWorldCPUAndGPURenderingBenchmark" xml:space="preserve">
-    <value>Benchmark di rendering CPU e GPU nel mondo reale</value>
+    <value>Benchmark di rendering CPU e GPU con carichi reali</value>
   </data>
   <data name="DescriptionCrossPlatformCPUAndGPUComputeBenchmark" xml:space="preserve">
     <value>Benchmark di calcolo CPU e GPU multipiattaforma</value>
@@ -568,25 +568,25 @@
     <value>Audio</value>
   </data>
   <data name="CategoryBenchmarksStability" xml:space="preserve">
-    <value>Prestazioni e Stabilità</value>
+    <value>Benchmark e stabilità</value>
   </data>
   <data name="CategoryAITools" xml:space="preserve">
     <value>Strumenti AI</value>
   </data>
   <data name="CategorySystemManagement" xml:space="preserve">
-    <value>Gestione del Sistema</value>
+    <value>Gestione del sistema</value>
   </data>
   <data name="CategorySystemInformation" xml:space="preserve">
-    <value>Informazioni sul Sistema</value>
+    <value>Informazioni sul sistema</value>
   </data>
   <data name="CategoryAdvancedTools" xml:space="preserve">
-    <value>Strumenti Avanzati</value>
+    <value>Strumenti avanzati</value>
   </data>
   <data name="CategoryPerformance" xml:space="preserve">
     <value>Prestazioni</value>
   </data>
   <data name="CategoryPowerManagement" xml:space="preserve">
-    <value>Gestione Energetica</value>
+    <value>Gestione energetica</value>
   </data>
   <data name="CategoryDisplay" xml:space="preserve">
     <value>Display</value>
@@ -682,7 +682,7 @@
     <value>Esegui</value>
   </data>
   <data name="LoadToolsFailed" xml:space="preserve">
-    <value>Impossibile caricare gli strumenti esterni. Per favore, riavvia TweakHub.</value>
+    <value>Impossibile caricare gli strumenti esterni. Riavvia TweakHub.</value>
   </data>
   <data name="ShortcutExecutionFailed" xml:space="preserve">
     <value>Esecuzione del collegamento fallita</value>
@@ -701,7 +701,7 @@ Questo potrebbe essere dovuto a permessi insufficienti o al fatto che l'applicaz
 {0}</value>
   </data>
   <data name="LoadShortcutsFailed" xml:space="preserve">
-    <value>Impossibile caricare i collegamenti. Si prega di riavviare TweakHub.</value>
+    <value>Impossibile caricare i collegamenti. Riavvia TweakHub.</value>
   </data>
   <data name="RunPowerShellTitle" xml:space="preserve">
     <value>Esegui comando PowerShell personalizzato</value>
@@ -724,7 +724,7 @@ Questo potrebbe essere dovuto a permessi insufficienti o al fatto che l'applicaz
     <value>Comando completato</value>
   </data>
   <data name="CommandFailedTitle" xml:space="preserve">
-    <value>Comando fallito</value>
+    <value>Comando non riuscito</value>
   </data>
   <data name="CommandFinishedMessage" xml:space="preserve">
     <value>{0} terminato in {1:F1} secondi.
@@ -735,16 +735,16 @@ Questo potrebbe essere dovuto a permessi insufficienti o al fatto che l'applicaz
     <value>Avvio di {0}...</value>
   </data>
   <data name="ActionCompleted" xml:space="preserve">
-    <value>{0} completato: {1}</value>
+    <value>{0} completata: {1}</value>
   </data>
   <data name="ActionFailed" xml:space="preserve">
-    <value>{0} fallito: {1}</value>
+    <value>{0} non riuscita: {1}</value>
   </data>
   <data name="ActionInstallation" xml:space="preserve">
     <value>installazione</value>
   </data>
   <data name="ActionUninstall" xml:space="preserve">
-    <value>disinstalla</value>
+    <value>disinstallazione</value>
   </data>
   <data name="CategoryDevelopmentDevOps" xml:space="preserve">
     <value>Sviluppo e DevOps</value>
@@ -966,7 +966,7 @@ Questo potrebbe essere dovuto a permessi insufficienti o al fatto che l'applicaz
     <value>Guida all'overclock dei controller PlayStation e Xbox su PC per un polling rate più alto. Seguila solo con il tuo hardware e verifica le regole degli anti-cheat. Apre solo la pagina ufficiale.</value>
   </data>
   <data name="DescriptionPowerPlanSettingsEditor" xml:space="preserve">
-    <value>Interfaccia PowerShell che modifica ogni impostazione di un piano energetico, comprese quelle nascoste. Valori errati possono alzare le temperature o rompere la sospensione; esporta prima il piano con powercfg. MIT. Apre solo il repository ufficiale.</value>
+    <value>Interfaccia PowerShell che modifica ogni impostazione di un piano energetico, comprese quelle nascoste. Valori errati possono alzare le temperature o compromettere la sospensione; esporta prima il piano con powercfg. MIT. Apre solo il repository ufficiale.</value>
   </data>
   <data name="DescriptionAdvancedPowerOptions" xml:space="preserve">
     <value>Spiega le opzioni avanzate di risparmio energia di Windows, come criterio di inattività dei dispositivi, connettività in standby e stati del processore. Solo documentazione. MIT. Apre solo il repository ufficiale.</value>

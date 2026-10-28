@@ -13,7 +13,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AutomatedScriptsPageAutomatedScripts" xml:space="preserve">
-    <value>Автоматизированные сценарии</value>
+    <value>Автоматические сценарии</value>
   </data>
   <data name="AutomatedScriptsPageView" xml:space="preserve">
     <value>Просмотреть</value>
@@ -40,10 +40,10 @@
     <value>Автоматические сценарии</value>
   </data>
   <data name="AutomatedScriptsPageRunMaintenanceCommandsAndManage" xml:space="preserve">
-    <value>Выполнять команды обслуживания и управлять пользовательскими сценариями PowerShell или CMD.</value>
+    <value>Выполняйте команды обслуживания и управляйте своими сценариями PowerShell или CMD.</value>
   </data>
   <data name="AutomatedScriptsPageImport" xml:space="preserve">
-    <value>Импорт файлов скриптов</value>
+    <value>Импорт файлов сценариев</value>
   </data>
   <data name="AutomatedScriptsPageNewScript" xml:space="preserve">
     <value>Новый сценарий</value>
@@ -55,7 +55,7 @@
     <value>Устанавливает или исправляет Microsoft WinGet, проверяет источники и реальный поиск пакета перед сообщением об успехе.</value>
   </data>
   <data name="winget_Category" xml:space="preserve">
-    <value>Менеджер пакетов.</value>
+    <value>Менеджер пакетов</value>
   </data>
   <data name="winget_Execute" xml:space="preserve">
     <value>Выполнить</value>
@@ -112,28 +112,28 @@
     <value>При этом загружается и выполняется удаленный сценарий, который может меняться со временем. Продолжайте, только если вы доверяете christitus.com.</value>
   </data>
   <data name="dism_sfc_chkdsk_Name" xml:space="preserve">
-    <value>DISM + SFC + CHKDSK Восстановление системы</value>
+    <value>Восстановление системы: DISM + SFC + CHKDSK</value>
   </data>
   <data name="dism_sfc_chkdsk_Description" xml:space="preserve">
-    <value>Восстановите образ Windows и системные файлы, затем просканируйте системный диск на наличие ошибок файловой системы.</value>
+    <value>Восстанавливает образ Windows и системные файлы, затем проверяет системный диск на ошибки файловой системы.</value>
   </data>
   <data name="dism_sfc_chkdsk_Category" xml:space="preserve">
-    <value>Восстановить</value>
+    <value>Восстановление</value>
   </data>
   <data name="dism_sfc_chkdsk_Execute" xml:space="preserve">
-    <value>Запустите Repair</value>
+    <value>Запустить восстановление</value>
   </data>
   <data name="dism_sfc_chkdsk_Confirmation" xml:space="preserve">
     <value>Восстановление системы может занять 15–90 минут. Не закрывайте TweakHub во время его работы.</value>
   </data>
   <data name="dism_sfc_chkdsk_CompletionNote" xml:space="preserve">
-    <value>После ремонта рекомендуется перезапустить.</value>
+    <value>После восстановления рекомендуется перезагрузка.</value>
   </data>
   <data name="component_cleanup_Name" xml:space="preserve">
     <value>Очистка хранилища компонентов</value>
   </data>
   <data name="component_cleanup_Description" xml:space="preserve">
-    <value>Удалите замененные версии компонентов Windows, чтобы освободить место на диске.</value>
+    <value>Удаляет заменённые версии компонентов Windows, освобождая место на диске.</value>
   </data>
   <data name="component_cleanup_Category" xml:space="preserve">
     <value>Обслуживание</value>
@@ -166,10 +166,10 @@
     <value>Сброс компонентов обновления Windows</value>
   </data>
   <data name="windows_update_reset_Description" xml:space="preserve">
-    <value>Воссоздайте кэши загрузки и каталога Центра обновления Windows, если обновления зависли.</value>
+    <value>Воссоздаёт кэши загрузки и каталога Центра обновления Windows, если обновления зависли.</value>
   </data>
   <data name="windows_update_reset_Category" xml:space="preserve">
-    <value>Восстановить</value>
+    <value>Восстановление</value>
   </data>
   <data name="windows_update_reset_Execute" xml:space="preserve">
     <value>Выполнить сброс</value>
@@ -187,16 +187,16 @@
     <value>Память</value>
   </data>
   <data name="empty_standby_list_Execute" xml:space="preserve">
-    <value>Один раз</value>
+    <value>Выполнить один раз</value>
   </data>
   <data name="empty_standby_list_Confirmation" xml:space="preserve">
-    <value>Кэшированная оперативная память освобождается автоматически, когда приложениям это необходимо. Регулярная его очистка не улучшает FPS или производительность ПК и может замедлить загрузку игр. Продолжайте только в случае задокументированной проблемы с резервным списком.</value>
+    <value>Кэшированная оперативная память освобождается автоматически, когда она нужна приложениям. Регулярная её очистка не улучшает FPS или производительность ПК и может замедлить загрузку игр. Продолжайте только при задокументированной проблеме с резервным списком.</value>
   </data>
   <data name="remove_windows_ai_Name" xml:space="preserve">
     <value>Windows AI — отключить и удалить</value>
   </data>
   <data name="remove_windows_ai_Description" xml:space="preserve">
-    <value>Отключите политики Windows AI и удалите доступные пакеты Copilot/CoreAI и Recall.</value>
+    <value>Отключает политики Windows AI и удаляет доступные пакеты Copilot/CoreAI и Recall.</value>
   </data>
   <data name="remove_windows_ai_Category" xml:space="preserve">
     <value>Конфиденциальность</value>
@@ -208,10 +208,10 @@
     <value>Это удаляет пакеты и отключает функции. Это частично необратимо, и TweakHub не может гарантировать автоматическую переустановку. Продолжить?</value>
   </data>
   <data name="adobe_hosts_block_Name" xml:space="preserve">
-    <value>Список заблокированных URL-адресов Adobe – Включить</value>
+    <value>Список блокировки URL Adobe — включить</value>
   </data>
   <data name="adobe_hosts_block_Description" xml:space="preserve">
-    <value>Добавьте поддерживаемый черный список Ruddernation Designs Adobe в файл хостов внутри маркеров TweakHub.</value>
+    <value>Добавляет в файл hosts, между маркерами TweakHub, список блокировки Adobe, поддерживаемый Ruddernation Designs.</value>
   </data>
   <data name="adobe_hosts_block_Category" xml:space="preserve">
     <value>Конфиденциальность</value>
@@ -223,10 +223,10 @@
     <value>При этом загружается сторонний список и блокируются соответствующие хосты Adobe во всей системе. Продолжить?</value>
   </data>
   <data name="adobe_hosts_unblock_Name" xml:space="preserve">
-    <value>Список заблокированных URL-адресов Adobe – удалить</value>
+    <value>Список блокировки URL Adobe — удалить</value>
   </data>
   <data name="adobe_hosts_unblock_Description" xml:space="preserve">
-    <value>Удалить только блок файла хостов, добавленный ранее между маркерами TweakHub.</value>
+    <value>Удаляет из файла hosts только блок, ранее добавленный между маркерами TweakHub.</value>
   </data>
   <data name="adobe_hosts_unblock_Category" xml:space="preserve">
     <value>Конфиденциальность</value>
@@ -235,7 +235,7 @@
     <value>Удалить</value>
   </data>
   <data name="adobe_hosts_unblock_Confirmation" xml:space="preserve">
-    <value>Удалить блок Adobe TweakHub из файла хостов?</value>
+    <value>Удалить блок Adobe, добавленный TweakHub, из файла hosts?</value>
   </data>
   <data name="CompletedOnThisPc" xml:space="preserve">
     <value>Выполнено на этом компьютере: {0}</value>
@@ -259,13 +259,13 @@
     <value>Выполнить</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Отменить</value>
+    <value>Отмена</value>
   </data>
   <data name="CustomScriptCompleted" xml:space="preserve">
     <value>Сценарий завершен за {0:F1} с.</value>
   </data>
   <data name="CustomScriptFailed" xml:space="preserve">
-    <value>Скрипт не выполнен (выход {0}) через {1:F1} с.</value>
+    <value>Сценарий завершился с ошибкой (код выхода {0}) через {1:F1} с.</value>
   </data>
   <data name="CreateCustomScript" xml:space="preserve">
     <value>Создать собственный сценарий</value>
@@ -280,7 +280,7 @@
     <value>CMD Batch</value>
   </data>
   <data name="RequiresAdministrator" xml:space="preserve">
-    <value>Требуется администратор</value>
+    <value>Требуются права администратора</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>Создать</value>
@@ -295,10 +295,10 @@
     <value>Требуется имя.</value>
   </data>
   <data name="ScriptCreated" xml:space="preserve">
-    <value>Скрипт создан</value>
+    <value>Сценарий создан</value>
   </data>
   <data name="ScriptUpdated" xml:space="preserve">
-    <value>Скрипт обновлен</value>
+    <value>Сценарий обновлён</value>
   </data>
   <data name="ScriptCreatedMessage" xml:space="preserve">
     <value>Сценарий '{0}' успешно создан.</value>
@@ -324,17 +324,17 @@
     <value>Сценарий удален</value>
   </data>
   <data name="ScriptDeletedMessage" xml:space="preserve">
-    <value>Скрипт '{0}' был удален.</value>
+    <value>Сценарий '{0}' удалён.</value>
   </data>
   <data name="ScriptLoadError" xml:space="preserve">
     <value># Ошибка загрузки сценария:
 {0}</value>
   </data>
   <data name="WingetScriptMissingPreview" xml:space="preserve">
-    <value># WinGetInstall.ps1 не найден в папке "Сценарии".</value>
+    <value># WinGetInstall.ps1 не найден в папке Scripts.</value>
   </data>
   <data name="Install" xml:space="preserve">
-    <value>Install</value>
+    <value>Установить</value>
   </data>
   <data name="InstallationError" xml:space="preserve">
     <value>Ошибка установки</value>
@@ -346,7 +346,7 @@
     <value>Установка или исправление WinGet</value>
   </data>
   <data name="RunningWingetScript" xml:space="preserve">
-    <value>Запуск проверяемого сценария исправления WinGet...</value>
+    <value>Запуск проверенного сценария исправления WinGet...</value>
   </data>
   <data name="InstallationComplete" xml:space="preserve">
     <value>WinGet проверен</value>
@@ -387,7 +387,7 @@
     <value>Ошибка</value>
   </data>
   <data name="NamedScriptFailed" xml:space="preserve">
-    <value>{0} не удалось</value>
+    <value>{0}: ошибка</value>
   </data>
   <data name="CurrentUser" xml:space="preserve">
     <value>Текущий пользователь</value>
@@ -513,7 +513,7 @@
     <value>Исправляет кэш и регистрацию пакета, затем проверяет запуск Microsoft Store.</value>
   </data>
   <data name="microsoft_store_repair_Confirmation" xml:space="preserve">
-    <value>Возможно восстановление кэша и регистрации пакета Microsoft Store. Установленные приложения и покупки сохранятся. Продолжить?</value>
+    <value>Возможен сброс кэша и регистрации пакета Microsoft Store. Установленные приложения и покупки сохранятся. Продолжить?</value>
   </data>
   <data name="gaming_services_repair_Name" xml:space="preserve">
     <value>Исправить игровые службы Xbox</value>
@@ -552,7 +552,7 @@
     <value>Будут включены Подсистема Windows для Linux и Платформа виртуальной машины, обновлён WSL и при необходимости установлена Ubuntu. Продолжить?</value>
   </data>
   <data name="wsl_setup_CompletionNote" xml:space="preserve">
-    <value>Если в результате указана необходимость перезагрузки, перезапустите Windows и один раз откройте Ubuntu для завершения первоначальной настройки.</value>
+    <value>Если в результате указана необходимость перезагрузки, перезагрузите Windows и один раз откройте Ubuntu для завершения первоначальной настройки.</value>
   </data>
   <data name="PlaybookFromSystem" xml:space="preserve">
     <value>Создать с этого ПК</value>
@@ -642,7 +642,7 @@
     <value>Шагов, требующих прав администратора: {0}. TweakHub может перезапуститься от имени администратора и сразу выполнить плейбук с одним запросом UAC или продолжить с запросом на каждом шаге.</value>
   </data>
   <data name="PlaybookElevateRestart" xml:space="preserve">
-    <value>Перезапустить от админа</value>
+    <value>Перезапустить от имени администратора</value>
   </data>
   <data name="PlaybookElevateContinue" xml:space="preserve">
     <value>Спрашивать на каждом шаге</value>
@@ -651,7 +651,7 @@
     <value>Очистка временных файлов</value>
   </data>
   <data name="temp_cleanup_Description" xml:space="preserve">
-    <value>Удалите временные файлы старше одного дня из папок Temp пользователя и Windows и очистите кэш оптимизации доставки. Используемые файлы пропускаются.</value>
+    <value>Удаляет временные файлы старше одного дня из папок Temp пользователя и Windows и очищает кэш оптимизации доставки. Используемые файлы пропускаются.</value>
   </data>
   <data name="temp_cleanup_Category" xml:space="preserve">
     <value>Обслуживание</value>
@@ -684,7 +684,7 @@
     <value>Чтобы установить их после чистой установки, выполните от имени администратора: pnputil /add-driver "&lt;папка копии&gt;\*.inf" /subdirs /install</value>
   </data>
   <data name="PlaybookTypeTweakCheck" xml:space="preserve">
-    <value>Исправление Tweak Check</value>
+    <value>Исправление из «Проверки твиков»</value>
   </data>
   <data name="PlaybookTypeSecurityFix" xml:space="preserve">
     <value>Исправление безопасности</value>
@@ -699,7 +699,7 @@
     <value>DNS-серверы</value>
   </data>
   <data name="PlaybookTweakCheckSummary" xml:space="preserve">
-    <value>Tweak Check, исправить при изменении: {0}</value>
+    <value>Проверка твиков, исправить при изменении: {0}</value>
   </data>
   <data name="PlaybookSecurityFixSummary" xml:space="preserve">
     <value>Безопасность, исправить при необходимости: {0}</value>
@@ -742,7 +742,7 @@
 {1}</value>
   </data>
   <data name="PlaybookImportReview" xml:space="preserve">
-    <value>«{0}» добавляет этот код в TweakHub. Он выполняется при запуске сценария, с правами администратора, если это указано. Импортируйте его, только если доверяете источнику файла.
+    <value>«{0}» добавляет этот код в TweakHub. Он выполняется при запуске плейбука, с правами администратора, если это указано. Импортируйте его, только если доверяете источнику файла.
 
 {1}</value>
   </data>

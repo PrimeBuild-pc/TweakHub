@@ -189,8 +189,12 @@ namespace TweakHub.Views
                 if (preset is WindowsUpdatePreset.Default or WindowsUpdatePreset.Disabled)
                     RestartVerificationService.Instance.TrackWindowsUpdate(preset);
                 NotifyMainWindowBadgeUpdate();
-                await AppDialog.ShowAsync(Window.GetWindow(this), L.Get("Tweaks:WindowsUpdateApplied"),
-                    L.Format("Tweaks:WindowsUpdateAppliedMessage", L.Get($"Tweaks:WindowsUpdatePreset{preset}")));
+                if (preset == WindowsUpdatePreset.Security && WindowsUpdatePresetService.IsHomeEdition)
+                    await AppDialog.ShowWarningAsync(Window.GetWindow(this), L.Get("Tweaks:WindowsUpdateSecurityHomeTitle"),
+                        L.Get("Tweaks:WindowsUpdateSecurityHomeMessage"));
+                else
+                    await AppDialog.ShowAsync(Window.GetWindow(this), L.Get("Tweaks:WindowsUpdateApplied"),
+                        L.Format("Tweaks:WindowsUpdateAppliedMessage", L.Get($"Tweaks:WindowsUpdatePreset{preset}")));
                 if (preset is WindowsUpdatePreset.Default or WindowsUpdatePreset.Disabled && !_tweakService.RestartNoticeShownThisSession)
                 {
                     _tweakService.RestartNoticeShownThisSession = true;

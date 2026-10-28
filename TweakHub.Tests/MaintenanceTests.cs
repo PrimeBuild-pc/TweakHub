@@ -54,6 +54,22 @@ public class MaintenanceTests
         // Only constructors: no Loaded events, network downloads, service commands or registry writes.
     }
 
+    // crash.log 28/10: "DialogResult can be set only after Window is created and shown as dialog" from Primary_Click.
+    [Test]
+    public void DialogButtonClickedWhenTheDialogIsNotOpenDoesNotCrash()
+    {
+        if (Application.Current is null)
+        {
+            var app = new App();
+            app.InitializeComponent();
+            app.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+        }
+        var dialog = new TweakHub.Views.Dialogs.AppDialogWindow("t", "m", "OK", null, TweakHub.Views.Dialogs.DialogKind.Shield);
+        var primary = (Button)dialog.FindName("PrimaryButton");
+        Assert.DoesNotThrow(() => primary.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent)));
+        dialog.Close();
+    }
+
     [Test]
     public async Task GeneratedMaintenanceScriptsParseWithoutExecutingThem()
     {
