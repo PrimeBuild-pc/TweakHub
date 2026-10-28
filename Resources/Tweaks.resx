@@ -539,7 +539,19 @@ Creating it may take a minute and requires administrator privileges.</value>
     <value>Stops and disables Windows Update services and tasks, blocks automatic updates and clears downloaded update files.</value>
   </data>
   <data name="WindowsUpdatePresetSecurityDescription" xml:space="preserve">
-    <value>Keeps security and quality updates on their normal schedule, excludes drivers and defers feature updates for 365 days.</value>
+    <value>Security updates are not deferred, but nothing is downloaded, installed or restarted automatically: Windows notifies you and you download, install and restart. Drivers are excluded and feature updates are deferred for 365 days.</value>
+  </data>
+  <data name="WindowsUpdateSecurityHomeTitle" xml:space="preserve">
+    <value>Security mode on Windows Home</value>
+  </data>
+  <data name="WindowsUpdateSecurityHomeMessage" xml:space="preserve">
+    <value>Windows Home follows this mode only in part.
+
+Not available: deferring feature updates by 365 days. It is a Windows Update for Business policy that only Pro, Enterprise and Education honor, so Home installs a new Windows version when Microsoft offers it.
+
+Set but not guaranteed: notify before download, no automatic restart and no drivers from Windows Update. Microsoft documents these policies for Pro and later, and some Home builds ignore them. If updates start downloading on their own, your build is ignoring them.
+
+On Home you can still pause updates for up to 5 weeks in Settings &gt; Windows Update.</value>
   </data>
   <data name="WindowsUpdatePresetCustomDescription" xml:space="preserve">
     <value>The current Windows settings do not exactly match any TweakHub preset. Select a mode to replace them.</value>

@@ -40,7 +40,7 @@
     <value>Чтение устройств Plug and Play…</value>
   </data>
   <data name="Scanned" xml:space="preserve">
-    <value>Сканирование в {0}. Ничего не меняется, пока вы не выберете действие.</value>
+    <value>Сканирование выполнено в {0}. Ничего не меняется, пока вы не выберете действие.</value>
   </data>
   <data name="ScanFailed" xml:space="preserve">
     <value>Не удалось завершить сканирование: {0}</value>
@@ -196,16 +196,16 @@
     <value>Выборочная приостановка USB</value>
   </data>
   <data name="PlanSuspendDescription" xml:space="preserve">
-    <value>Позволяет Windows отключать простаивающие USB-устройства в активном плане. Отключение убирает всплески при пробуждении на настольных ПК; ноутбуки могут немного потерять в автономности.</value>
+    <value>Позволяет Windows отключать простаивающие USB-устройства в активной схеме электропитания. Отключение убирает всплески при пробуждении на настольных ПК; ноутбуки могут немного потерять в автономности.</value>
   </data>
   <data name="PlanSuspendOn" xml:space="preserve">
-    <value>Включена в активном плане (от сети)</value>
+    <value>Включена в активной схеме (от сети)</value>
   </data>
   <data name="PlanSuspendOff" xml:space="preserve">
-    <value>Отключена в активном плане (от сети)</value>
+    <value>Отключена в активной схеме (от сети)</value>
   </data>
   <data name="PlanSuspendUnknown" xml:space="preserve">
-    <value>Недоступно в активном плане</value>
+    <value>Недоступно в активной схеме</value>
   </data>
   <data name="PlanSuspendDisable" xml:space="preserve">
     <value>Отключить</value>
@@ -319,7 +319,7 @@
     <value>Изменено твиком</value>
   </data>
   <data name="CheckStatusNeedsAdministrator" xml:space="preserve">
-    <value>Проверьте от имени администратора</value>
+    <value>Для чтения нужна проверка от имени администратора</value>
   </data>
   <data name="CategoryHealthy" xml:space="preserve">
     <value>Работают</value>
@@ -331,7 +331,7 @@
     <value>Отсутствуют</value>
   </data>
   <data name="CategoryNotPresentHint" xml:space="preserve">
-    <value>Windows его помнит, но сейчас оно не подключено. Это не повод его удалять.</value>
+    <value>Windows его помнит, но сейчас оно не подключено (обычно код 45): например, старый USB-порт, монитор или виртуальное устройство. Это не неисправность и не проблема задержки; отключение ничего не даёт.</value>
   </data>
   <data name="CategoryDisabled" xml:space="preserve">
     <value>Отключены</value>
@@ -346,7 +346,7 @@
     <value>Windows сообщает об ошибке устройства: проверьте драйвер, а не отключайте его.</value>
   </data>
   <data name="CategoryIdleBus" xml:space="preserve">
-    <value>Шины без дочерних</value>
+    <value>Пустые шины</value>
   </data>
   <data name="CategoryIdleBusHint" xml:space="preserve">
     <value>Шина или перечислитель без подключённых устройств; может понадобиться, когда устройство появится позже.</value>
@@ -541,7 +541,7 @@
     <value>Сравнивает вашу конфигурацию USB с профилями других пользователей и может отправить вашу.</value>
   </data>
   <data name="ScriptRun" xml:space="preserve">
-    <value>Запустить от админа</value>
+    <value>Запустить от имени администратора</value>
   </data>
   <data name="ScriptPage" xml:space="preserve">
     <value>Открыть официальную страницу</value>
@@ -862,7 +862,7 @@ TweakHub не может проверить, что делает скрипт, �
     <value>Версия</value>
   </data>
   <data name="DriversColumnNewer" xml:space="preserve">
-    <value>Новая версия</value>
+    <value>Более новая версия</value>
   </data>
   <data name="DriversColumnDate" xml:space="preserve">
     <value>Дата</value>

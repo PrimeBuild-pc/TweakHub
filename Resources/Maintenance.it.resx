@@ -44,11 +44,11 @@ Avvio elevato in una console visibile, con il disclaimer di Tron. Argomenti: -p 
   <data name="TronReady" xml:space="preserve"><value>File estratti verificati. Leggi la documentazione prima di avviare Tron.</value></data>
   <data name="TronStarted" xml:space="preserve"><value>Tron avviato in una console elevata separata. Segui le sue richieste. Chiudere TweakHub non lo arresta; questo non è un esito di pulizia riuscita.</value></data>
   <data name="Working" xml:space="preserve"><value>Operazione in corso… attendi.</value></data>
-  <data name="AffinityTitle" xml:space="preserve"><value>Affinity</value></data>
+  <data name="AffinityTitle" xml:space="preserve"><value>Affinità</value></data>
   <data name="AffinityDescription" xml:space="preserve"><value>Assegna gli interrupt dei dispositivi PCI a CPU logiche, non ai processi delle app. Le periferiche USB/HID condividono normalmente gli interrupt del controller host. Le etichette dello stesso core identificano i thread SMT. I driver possono ignorare il criterio; valori errati possono peggiorare latenza e stabilità. Richiede riavvio, nessuna ottimizzazione automatica.</value></data>
   <data name="AutomaticAffinity" xml:space="preserve"><value>Assegnazione automatica di Windows</value></data>
-  <data name="AffinityHint" xml:space="preserve"><value>Seleziona una o più CPU logiche, oppure l'assegnazione automatica Windows. Le etichette core fisico raggruppano i thread SMT. Ripristina originale agisce solo sull'affinity, non su MSI o priorità.</value></data>
-  <data name="AffinityUnsupported" xml:space="preserve"><value>Affinity manuale non disponibile: topologia non leggibile oppure PC con più gruppi di processori. Nessuna maschera a 64 bit presunta o troncata. Restano disponibili assegnazione automatica e ripristino del backup.</value></data>
+  <data name="AffinityHint" xml:space="preserve"><value>Seleziona una o più CPU logiche, oppure l'assegnazione automatica Windows. Le etichette core fisico raggruppano i thread SMT. Ripristina originale agisce solo sull'affinità, non su MSI o priorità.</value></data>
+  <data name="AffinityUnsupported" xml:space="preserve"><value>Affinità manuale non disponibile: topologia non leggibile oppure PC con più gruppi di processori. Nessuna maschera a 64 bit presunta o troncata. Restano disponibili assegnazione automatica e ripristino del backup.</value></data>
   <data name="AffinitySelectionRequired" xml:space="preserve"><value>Seleziona almeno una CPU supportata oppure l'assegnazione automatica Windows.</value></data>
   <data name="CpuLabel" xml:space="preserve"><value>CPU {0} · Core {1}</value></data>
   <data name="NoAutoSleepName" xml:space="preserve"><value>Mai sospensione automatica alla presa</value></data>

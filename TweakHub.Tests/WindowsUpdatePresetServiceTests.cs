@@ -14,6 +14,10 @@ public class WindowsUpdatePresetServiceTests
         Assert.Multiple(() =>
         {
             Assert.That(script, Does.Contain("Set-Policy $wu 'DeferFeatureUpdatesPeriodInDays' 365"));
+            Assert.That(script, Does.Contain("Set-Policy $au 'AUOptions' 2"), "security updates wait for the user");
+            Assert.That(script, Does.Contain("Set-Policy $au 'NoAutoRebootWithLoggedOnUsers' 1"));
+            Assert.That(script, Does.Not.Contain("Get-UpdateTasks | Enable-ScheduledTask"), "tasks Windows ships disabled stay disabled");
+            Assert.That(script, Does.Contain("'SetUpdateNotificationLevel', 'UpdateNotificationLevel'"), "notification blocks are cleared");
             Assert.That(script, Does.Not.Contain("Set-Policy $wu 'DeferQualityUpdates'"));
             Assert.That(script, Does.Not.Contain("Set-Policy $wu 'DeferQualityUpdatesPeriodInDays'"));
             Assert.That(script, Does.Match("Save-Backup\\s+Clear-ManagedPolicies"));
@@ -21,6 +25,18 @@ public class WindowsUpdatePresetServiceTests
             Assert.That(script, Does.Not.Contain("Invoke-WebRequest").And.Not.Contain("Invoke-RestMethod"));
         });
     }
+
+    [TestCase("Core", true)]
+    [TestCase("CoreN", true)]
+    [TestCase("CoreSingleLanguage", true)]
+    [TestCase("CoreCountrySpecific", true)]
+    [TestCase("Professional", false)]
+    [TestCase("ProfessionalWorkstation", false)]
+    [TestCase("Enterprise", false)]
+    [TestCase("ServerStandardCore", false)]
+    [TestCase(null, false)]
+    public void HomeEditionIsRecognizedFromEditionId(string? editionId, bool isHome) =>
+        Assert.That(WindowsUpdatePresetService.IsHomeEditionId(editionId), Is.EqualTo(isHome));
 
     // A value the script sets without a backup stays changed after Restore (PreventDeviceMetadataFromNetwork did).
     [Test]

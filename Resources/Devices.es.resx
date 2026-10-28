@@ -331,7 +331,7 @@
     <value>No presentes</value>
   </data>
   <data name="CategoryNotPresentHint" xml:space="preserve">
-    <value>Windows lo recuerda pero no está conectado ahora. No es motivo para quitarlo.</value>
+    <value>Windows lo recuerda, pero ahora no está conectado (normalmente código 45): por ejemplo, un puerto USB antiguo, un monitor o un dispositivo virtual. No es una avería ni un problema de latencia; desactivarlo no aporta nada.</value>
   </data>
   <data name="CategoryDisabled" xml:space="preserve">
     <value>Desactivados</value>
@@ -352,7 +352,7 @@
     <value>Un bus o enumerador sin dispositivos conectados ahora; puede necesitarse cuando aparezca un dispositivo más adelante.</value>
   </data>
   <data name="AdviceCommon" xml:space="preserve">
-    <value>Normalmente se puede desactivar</value>
+    <value>Suele poder desactivarse</value>
   </data>
   <data name="AdviceSituational" xml:space="preserve">
     <value>Depende de lo que uses</value>
@@ -541,7 +541,7 @@
     <value>Compara tu configuración USB con perfiles compartidos por otros usuarios y puede enviar la tuya.</value>
   </data>
   <data name="ScriptRun" xml:space="preserve">
-    <value>Ejecutar como admin</value>
+    <value>Ejecutar como administrador</value>
   </data>
   <data name="ScriptPage" xml:space="preserve">
     <value>Abrir la página oficial</value>

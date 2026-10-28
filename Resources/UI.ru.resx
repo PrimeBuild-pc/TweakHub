@@ -16,7 +16,7 @@
     <value>TweakHub by Prime Build</value>
   </data>
   <data name="MainWindowWindows11PerformanceControls" xml:space="preserve">
-    <value>Контроль производительности Windows 11</value>
+    <value>Производительность Windows 11</value>
   </data>
   <data name="MainWindowRegistryTweaks" xml:space="preserve">
     <value>Настройки реестра</value>
@@ -28,7 +28,7 @@
     <value>Автоматические сценарии</value>
   </data>
   <data name="MainWindowQuickAccess" xml:space="preserve">
-    <value>Быстрый Доступ</value>
+    <value>Быстрый доступ</value>
   </data>
   <data name="MainWindowAbout" xml:space="preserve">
     <value>Настройки</value>
@@ -49,19 +49,19 @@
     <value>Настройки</value>
   </data>
   <data name="AboutPageApplicationInformationAppearanceAndUpdates" xml:space="preserve">
-    <value>Настройки приложения, переносимые профили, обновления и информация.</value>
+    <value>Настройки приложения, портативные профили, обновления и информация.</value>
   </data>
   <data name="AboutPageAppearance" xml:space="preserve">
     <value>Внешний вид</value>
   </data>
   <data name="AboutPageFollowWindowsOrChooseA" xml:space="preserve">
-    <value>Следуйте Windows или выберите фиксированную тему, цвет акцента и фон.</value>
+    <value>Следовать настройкам Windows или выбрать фиксированную тему, цвет акцента и фон.</value>
   </data>
   <data name="AboutPageTheme" xml:space="preserve">
     <value>Тема</value>
   </data>
   <data name="AboutPageUseWindowsSetting" xml:space="preserve">
-    <value>Использовать настройки Windows</value>
+    <value>Как в Windows</value>
   </data>
   <data name="AboutPageLight" xml:space="preserve">
     <value>Светлый</value>
@@ -82,13 +82,13 @@
     <value>Эффекты</value>
   </data>
   <data name="AboutPageEnableMicaAndTransparency" xml:space="preserve">
-    <value>Включить слюду и прозрачность</value>
+    <value>Включить Mica и прозрачность</value>
   </data>
   <data name="AboutPageLanguage" xml:space="preserve">
     <value>Язык</value>
   </data>
   <data name="AboutPageUseWindowsSetting2" xml:space="preserve">
-    <value>Использовать Windows настройка</value>
+    <value>Как в Windows</value>
   </data>
   <data name="AboutPageApplyAppearance" xml:space="preserve">
     <value>Применить внешний вид</value>
@@ -100,10 +100,10 @@
     <value>Экспортируйте или импортируйте пользовательские скрипты, настройки реестра, внешние инструменты, плейбуки, ссылки на приложения, избранное и оформление в одном профиле JSON. Состояние конкретного компьютера и файлы из Apps не включаются.</value>
   </data>
   <data name="AboutPageExportProfile" xml:space="preserve">
-    <value>Профиль экспорта</value>
+    <value>Экспортировать профиль</value>
   </data>
   <data name="AboutPageImportProfile" xml:space="preserve">
-    <value>Профиль импорта</value>
+    <value>Импортировать профиль</value>
   </data>
   <data name="AboutPageUpdates" xml:space="preserve">
     <value>Обновления</value>
@@ -144,7 +144,7 @@
     <value>Ошибка TweakHub</value>
   </data>
   <data name="ThemeSystem" xml:space="preserve">
-    <value>Синхронизировано с Windows</value>
+    <value>Как в Windows</value>
   </data>
   <data name="ThemeLight" xml:space="preserve">
     <value>Светлый режим</value>
@@ -159,10 +159,10 @@
     <value>{0} • {1}</value>
   </data>
   <data name="InvalidAccentColor" xml:space="preserve">
-    <value>Введите цвет в #RRGGBB format.</value>
+    <value>Введите цвет в формате #RRGGBB.</value>
   </data>
   <data name="AppearanceSaveFailed" xml:space="preserve">
-    <value>Внешний вид был применен для этого сеанса, но не удалось сохранить.</value>
+    <value>Внешний вид применен для этого сеанса, но сохранить его не удалось.</value>
   </data>
   <data name="DataLocation" xml:space="preserve">
     <value>Расположение данных: {0}</value>
@@ -174,7 +174,7 @@
     <value>Применено — перезапустите TweakHub, чтобы изменить язык</value>
   </data>
   <data name="ProfileSaveFilter" xml:space="preserve">
-    <value>Профиль TweakHub (*.tweakhub.json)|*.tweakhub.json|JSON файлы (*.json)|*.json</value>
+    <value>Профиль TweakHub (*.tweakhub.json)|*.tweakhub.json|Файлы JSON (*.json)|*.json</value>
   </data>
   <data name="ProfileOpenFilter" xml:space="preserve">
     <value>Профиль TweakHub (*.tweakhub.json;*.json)|*.tweakhub.json;*.json</value>
@@ -189,7 +189,7 @@
     <value>Импортировать</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Отменить</value>
+    <value>Отмена</value>
   </data>
   <data name="ProfileImported" xml:space="preserve">
     <value>Профиль импортирован</value>
@@ -201,7 +201,7 @@
     <value>Проверка...</value>
   </data>
   <data name="CheckedJustNow" xml:space="preserve">
-    <value>Проверено только что сейчас</value>
+    <value>Проверено только что</value>
   </data>
   <data name="Processing" xml:space="preserve">
     <value>Обработка...</value>
@@ -256,7 +256,7 @@
     <value>Введите идентификатор пакета Winget, а не командную строку.</value>
   </data>
   <data name="HttpsRequired" xml:space="preserve">
-    <value>Ссылки должны использоваться HTTPS.</value>
+    <value>Ссылки должны использовать HTTPS.</value>
   </data>
   <data name="PowerShellTooLong" xml:space="preserve">
     <value>Команды PowerShell ограничены 8192 символами.</value>
@@ -271,11 +271,11 @@
     <value>Доступно обновление</value>
   </data>
   <data name="UpdateAvailableMessage" xml:space="preserve">
-    <value>TweakHub {0} доступен.
+    <value>Доступна версия TweakHub {0}.
 
-Установлено: {1}
+Установлена: {1}
 
-Загрузите, проверьте и установите его сейчас?</value>
+Загрузить, проверить и установить её сейчас?</value>
   </data>
   <data name="Update" xml:space="preserve">
     <value>Обновить</value>
@@ -293,7 +293,7 @@
     <value>Загрузка проверенного обновления...</value>
   </data>
   <data name="UpdateFailed" xml:space="preserve">
-    <value>Обновить Ошибка</value>
+    <value>Ошибка обновления</value>
   </data>
   <data name="UpdateFailedMessage" xml:space="preserve">
     <value>TweakHub не смог обновиться автоматически.
@@ -310,7 +310,7 @@
     <value>Контрольная сумма обновления не соответствует выпуску.</value>
   </data>
   <data name="PortableExecutableMissing" xml:space="preserve">
-    <value>Переносной архив не содержит TweakHub.exe.</value>
+    <value>Портативный архив не содержит TweakHub.exe.</value>
   </data>
   <data name="UntrustedDownloadUrl" xml:space="preserve">
     <value>Выпуск содержит ненадежный URL-адрес загрузки.</value>
@@ -322,7 +322,7 @@
     <value>Необходимо имя значения реестра.</value>
   </data>
   <data name="RegistryPathRequired" xml:space="preserve">
-    <value>Путь к реестру: требуется.</value>
+    <value>Требуется путь реестра.</value>
   </data>
   <data name="RegistryPathInvalid" xml:space="preserve">
     <value>Путь реестра должен включать поддерживаемый корень и подраздел.</value>
@@ -331,10 +331,10 @@
     <value>Неподдерживаемый корень реестра '{0}'.</value>
   </data>
   <data name="JustNow" xml:space="preserve">
-    <value>только сейчас</value>
+    <value>только что</value>
   </data>
   <data name="FewMomentsAgo" xml:space="preserve">
-    <value>несколько минут назад</value>
+    <value>несколько секунд назад</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
     <value>{0}м назад</value>

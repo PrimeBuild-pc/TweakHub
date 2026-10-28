@@ -9,15 +9,34 @@ namespace TweakHub.Tests;
 /// <summary>Fixes from the security review: elevated scripts, backups and JSON writes.</summary>
 public class ElevationHardeningTests
 {
-    private static async Task<(int Code, string Output, string Error)> RunWrapperAsync(string wrapper)
+    internal static async Task<(int Code, string Output, string Error)> RunWrapperAsync(string wrapper, string pipeName)
     {
         var start = new ProcessStartInfo("powershell.exe") { UseShellExecute = false, CreateNoWindow = true };
         foreach (var argument in new[] { "-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-EncodedCommand",
                      Convert.ToBase64String(Encoding.Unicode.GetBytes(wrapper)) })
             start.ArgumentList.Add(argument);
         using var process = Process.Start(start)!;
-        await process.WaitForExitAsync();
-        return (process.ExitCode, string.Empty, string.Empty);
+        using var timeout = new CancellationTokenSource(TimeSpan.FromMinutes(2));
+        var text = await PowerShellService.ReadElevatedOutputAsync(pipeName, process, timeout.Token);
+        await process.WaitForExitAsync(timeout.Token);
+        var (output, error) = PowerShellService.SplitElevatedOutput(text);
+        return (process.ExitCode, output, error);
+    }
+
+    // The elevated wrapper, run unelevated here: the pipe and the hash check work the same way.
+    internal static async Task<(int Code, string Output, string Error)> RunThroughWrapperAsync(string body)
+    {
+        var folder = Directory.CreateTempSubdirectory("TweakHubWrapper-");
+        try
+        {
+            var script = Path.Combine(folder.FullName, "script.ps1");
+            var encoding = new UTF8Encoding(true);
+            var bytes = encoding.GetPreamble().Concat(encoding.GetBytes(PowerShellService.BuildScriptContext(body))).ToArray();
+            await File.WriteAllBytesAsync(script, bytes);
+            var pipe = "TweakHubTest-" + Guid.NewGuid().ToString("N");
+            return await RunWrapperAsync(PowerShellService.BuildElevatedWrapper(script, bytes, pipe, PowerShellService.CurrentUserSid), pipe);
+        }
+        finally { folder.Delete(true); }
     }
 
     [Test]
@@ -88,23 +107,64 @@ public class ElevationHardeningTests
         try
         {
             var script = Path.Combine(folder.FullName, "script.ps1");
-            var output = Path.Combine(folder.FullName, "out.txt");
-            var error = Path.Combine(folder.FullName, "err.txt");
             var approved = new UTF8Encoding(true).GetPreamble().Concat(Encoding.UTF8.GetBytes("Write-Output 'approved-run'")).ToArray();
             await File.WriteAllBytesAsync(script, approved);
-            var wrapper = PowerShellService.BuildElevatedWrapper(script, approved, output, error);
+            var pipe = "TweakHubTest-" + Guid.NewGuid().ToString("N");
+            var wrapper = PowerShellService.BuildElevatedWrapper(script, approved, pipe, PowerShellService.CurrentUserSid);
 
-            var (code, _, _) = await RunWrapperAsync(wrapper);
+            var (code, output, _) = await RunWrapperAsync(wrapper, pipe);
             Assert.That(code, Is.Zero);
-            Assert.That(await File.ReadAllTextAsync(output), Does.Contain("approved-run"));
+            Assert.That(output, Does.Contain("approved-run"));
 
-            File.Delete(output);
             await File.WriteAllTextAsync(script, "Write-Output 'swapped-run'");
-            (code, _, _) = await RunWrapperAsync(wrapper);
+            (code, output, var error) = await RunWrapperAsync(wrapper, pipe);
             Assert.That(code, Is.EqualTo(1));
-            Assert.That(await File.ReadAllTextAsync(error), Does.Contain("changed after it was approved"));
-            Assert.That(File.Exists(output) ? await File.ReadAllTextAsync(output) : string.Empty, Does.Not.Contain("swapped-run"));
+            Assert.That(error, Does.Contain("changed after it was approved"));
+            Assert.That(output, Does.Not.Contain("swapped-run"));
         }
         finally { folder.Delete(true); }
+    }
+
+    [Test]
+    public async Task ElevatedOutputSurvivesExitErrorsAndNonAsciiText()
+    {
+        var (code, output, error) = await RunThroughWrapperAsync("Write-Output 'before-exit'; Write-Host 'host-line'; exit 7");
+        Assert.That(code, Is.EqualTo(7));
+        Assert.That(output, Does.Contain("before-exit").And.Contain("host-line"));
+        Assert.That(error, Is.Empty);
+
+        (code, output, error) = await RunThroughWrapperAsync("Write-Output 'partial'; throw 'boom-failure'");
+        Assert.That(code, Is.EqualTo(1));
+        Assert.That(output, Does.Contain("partial"));
+        Assert.That(error, Does.Contain("boom-failure"));
+
+        (code, output, _) = await RunThroughWrapperAsync("Write-Output 'Città – 日本語 – Привет'");
+        Assert.That(code, Is.Zero);
+        Assert.That(output, Does.Contain("Città – 日本語 – Привет"));
+    }
+
+    [Test]
+    public async Task ScriptsUseWindowsFoldersEvenWhenTheUserRedefinesThem()
+    {
+        // A redefined SystemRoot stops powershell.exe from starting at all, so it is not a way in.
+        var names = new[] { "windir", "ProgramData", "ProgramFiles" };
+        var saved = names.ToDictionary(name => name, Environment.GetEnvironmentVariable);
+        try
+        {
+            foreach (var name in names) Environment.SetEnvironmentVariable(name, @"C:\Users\Public\Fake" + name);
+            var (code, output, error) = await RunThroughWrapperAsync(
+                "Write-Output \"$env:windir|$env:SystemRoot|$env:ProgramData|$env:ProgramFiles|$env:SystemDrive|$env:PSModulePath\"");
+            Assert.That(code, Is.Zero, error);
+            var windows = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
+            var drive = Path.GetPathRoot(windows)!.TrimEnd('\\');
+            var expected = string.Join("|", windows, windows, drive + @"\ProgramData",
+                Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), drive) + "|";
+            Assert.That(output.Trim(), Does.StartWith(expected));
+            Assert.That(output, Does.Not.Contain("Fake").And.Not.Contain("Documents"));
+        }
+        finally
+        {
+            foreach (var (name, value) in saved) Environment.SetEnvironmentVariable(name, value);
+        }
     }
 }

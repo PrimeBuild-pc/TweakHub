@@ -52,8 +52,8 @@
   <data name="AffinitySelectionRequired" xml:space="preserve"><value>请至少选择一个支持的 CPU，或使用自动分配。</value></data>
   <data name="CpuLabel" xml:space="preserve"><value>CPU {0} · 核心 {1}</value></data>
   <data name="NoAutoSleepName" xml:space="preserve"><value>接通电源时从不自动睡眠</value></data>
-  <data name="NoAutoSleepDescription" xml:space="preserve"><value>设置 Windows 电源策略（组策略 → 电源管理），使电脑接通电源时从不自动睡眠或休眠，关闭混合睡眠，硬盘从不关闭，节能模式不会自动开启也不会被强制始终开启。适用于所有电源计划；使用电池时不做任何更改。仍可手动让电脑睡眠。由于数值直接写入注册表，组策略编辑器仍显示“未配置”。还原会恢复原始值。 需要重启。</value></data>
+  <data name="NoAutoSleepDescription" xml:space="preserve"><value>设置 Windows 电源策略（组策略 → 电源管理），使电脑接通电源时从不自动睡眠或休眠，关闭混合睡眠，硬盘从不关闭，节能模式不会自动开启也不会被强制始终开启。适用于所有电源计划；使用电池时不做任何更改。仍可手动让电脑睡眠。由于数值直接写入注册表，组策略编辑器仍显示“未配置”。还原会恢复原始值。需要重启。</value></data>
   <data name="DisableSleepName" xml:space="preserve"><value>接通电源时完全关闭睡眠</value></data>
-  <data name="DisableSleepDescription" xml:space="preserve"><value>接通电源时，Windows 不再允许待机状态 (S1–S3)，睡眠键不执行任何操作，并从“开始”的电源菜单中隐藏“睡眠”。仅在从不让这台电脑睡眠时使用。可选，不包含在推荐项中。使用现代待机 (Modern Standby) 的电脑不使用 S1–S3，保留其自身的睡眠功能。还原会恢复原始值。 需要重启。</value></data>
+  <data name="DisableSleepDescription" xml:space="preserve"><value>接通电源时，Windows 不再允许待机状态 (S1–S3)，睡眠键不执行任何操作，并从“开始”的电源菜单中隐藏“睡眠”。仅在从不让这台电脑睡眠时使用。可选，不包含在推荐项中。使用现代待机 (Modern Standby) 的电脑不使用 S1–S3，保留其自身的睡眠功能。还原会恢复原始值。需要重启。</value></data>
   <data name="TronBlockedByAntivirus" xml:space="preserve"><value>Microsoft Defender（或你的杀毒软件）将 Tron 软件包识别为可能不需要的软件并已将其删除。TweakHub 从不添加杀毒软件排除项。如果你信任 Tron，请自行为此副本的 Data\Tools\Tron 文件夹和 C:\ProgramData\TweakHub-Tron-* 添加排除项，然后重试。</value></data>
 </root>

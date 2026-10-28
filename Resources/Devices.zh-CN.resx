@@ -331,7 +331,7 @@
     <value>不存在</value>
   </data>
   <data name="CategoryNotPresentHint" xml:space="preserve">
-    <value>Windows 记得该设备但当前未连接。这不是移除它的理由。</value>
+    <value>Windows 记得该设备，但当前未连接（通常为代码 45）：例如旧的 USB 端口、显示器或虚拟设备。这不是故障，也不是延迟问题；禁用它没有任何好处。</value>
   </data>
   <data name="CategoryDisabled" xml:space="preserve">
     <value>已禁用</value>
@@ -662,7 +662,7 @@ TweakHub 无法检查脚本的行为，作者也可以随时修改它。如有�
     <value>芯片组上的高速设备：{0} 个，最高 {1:0.#} GB/s。{3} 链路（{2:0.#} GB/s）足够。</value>
   </data>
   <data name="LinkChipsetShared" xml:space="preserve">
-    <value>芯片组上的高速设备：{0} 个，合计最高 {1:0.#} GB/s，超过到 CPU 的 {3} 链路（{2:0.#} GB/s）。同时使用时（例如在两块 SSD 之间复制）会分享带宽。这是理论带宽，不是实测流量。</value>
+    <value>芯片组上的高速设备：{0} 个，合计最高 {1:0.#} GB/s，超过到 CPU 的 {3} 链路（{2:0.#} GB/s）。同时使用时（例如在两块 SSD 之间复制）会共享带宽。这是理论带宽，不是实测流量。</value>
   </data>
   <data name="UsbTitle" xml:space="preserve">
     <value>USB 设备</value>
@@ -692,7 +692,7 @@ TweakHub 无法检查脚本的行为，作者也可以随时修改它。如有�
     <value>经过 {0} 个集线器。鼠标和键盘最好直接接到电脑的接口上，这样不会与其他设备共享集线器。</value>
   </data>
   <data name="LinkUsbSharedHub" xml:space="preserve">
-    <value>与 {0} 共用一个集线器：集线器后面的所有设备都通过同一条链路连接电脑，同时使用时会分享带宽。请把其中一个直接接到电脑上。</value>
+    <value>与 {0} 共用一个集线器：集线器后面的所有设备都通过同一条链路连接电脑，同时使用时会共享带宽。请把其中一个直接接到电脑上。</value>
   </data>
   <data name="LinkUsbOk" xml:space="preserve">
     <value>以其支持的速度运行。</value>
@@ -785,7 +785,7 @@ TweakHub 无法检查脚本的行为，作者也可以随时修改它。如有�
     <value>未找到未使用的设备：没有需要禁用的内容。</value>
   </data>
   <data name="UnusedMessage" xml:space="preserve">
-    <value>这些设备在这台电脑上未被使用。取消勾选你想保留的设备。可随时通过“全部重新启用”重新启用。 网卡默认不勾选：只有从不使用时才勾选（例如始终使用有线连接的台式机上的 Wi-Fi）。</value>
+    <value>这些设备在这台电脑上未被使用。取消勾选你想保留的设备。可随时通过“全部重新启用”重新启用。网卡默认不勾选：只有从不使用时才勾选（例如始终使用有线连接的台式机上的 Wi-Fi）。</value>
   </data>
   <data name="UnusedFailed" xml:space="preserve">
     <value>以下设备无法禁用：

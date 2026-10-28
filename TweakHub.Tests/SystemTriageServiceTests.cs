@@ -228,8 +228,12 @@ public class SystemTriageServiceTests
             Assert.That(folder, Does.Contain("ReparsePoint"), "links are refused, never followed");
             AssertBackupBeforeDelete(folder, $"Get-Item -LiteralPath {PowerShellService.Literal(link)} -Force", "Remove-Item -LiteralPath $file.FullName -Force");
 
-            AssertBackupBeforeDelete(SystemTriageService.BuildDeleteScript(new StartupEntry("Service", "Agent", "", "agent", "")),
-                @"OpenSubKey('SYSTEM\CurrentControlSet\Services\agent')", "sc.exe\" delete 'agent'");
+            var service = SystemTriageService.BuildDeleteScript(new StartupEntry("Service", "Agent", "", "agent", ""));
+            AssertBackupBeforeDelete(service, @"OpenSubKey('SYSTEM\CurrentControlSet\Services\agent')", "sc.exe\" delete 'agent'");
+            // A running service is stopped (never its running dependents, never forced) before the backup is stored.
+            Assert.That(service, Does.Contain("ServiceController('agent')").And.Contain("DependentServices").And.Not.Contain("-Force"));
+            Assert.That(service.IndexOf("$service.Stop()", StringComparison.Ordinal),
+                Is.LessThan(service.IndexOf("$store", StringComparison.Ordinal)).And.GreaterThan(0));
 
             AssertBackupBeforeDelete(SystemTriageService.BuildDeleteScript(new StartupEntry("Ifeo", "sethc.exe", "", @"HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\sethc.exe", "")),
                 @"OpenSubKey('SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\sethc.exe', $true)", "DeleteValue('Debugger')");
@@ -415,13 +419,21 @@ public class SystemTriageServiceTests
                 $errors | ForEach-Object { $_.Message }
             }
             """;
-        var start = new System.Diagnostics.ProcessStartInfo("powershell.exe") { UseShellExecute = false, CreateNoWindow = true, RedirectStandardOutput = true };
-        foreach (var argument in new[] { "-NoProfile", "-NonInteractive", "-EncodedCommand", Convert.ToBase64String(System.Text.Encoding.Unicode.GetBytes(check)) })
-            start.ArgumentList.Add(argument);
-        using var process = System.Diagnostics.Process.Start(start)!;
-        var output = await process.StandardOutput.ReadToEndAsync();
-        await process.WaitForExitAsync();
-        Assert.That(output.Trim(), Is.Empty);
+        // A file, not -EncodedCommand: all the scripts together exceed the command line limit.
+        var file = Path.Combine(Path.GetTempPath(), $"TweakHubParse-{Guid.NewGuid():N}.ps1");
+        await File.WriteAllTextAsync(file, check);
+        try
+        {
+            var start = new System.Diagnostics.ProcessStartInfo("powershell.exe") { UseShellExecute = false, CreateNoWindow = true, RedirectStandardOutput = true };
+            foreach (var argument in new[] { "-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-File", file })
+                start.ArgumentList.Add(argument);
+            using var process = System.Diagnostics.Process.Start(start)!;
+            var output = await process.StandardOutput.ReadToEndAsync();
+            await process.WaitForExitAsync();
+            Assert.That(output.Trim(), Is.Empty);
+            Assert.That(process.ExitCode, Is.Zero);
+        }
+        finally { File.Delete(file); }
     }
 
     [Test]
@@ -499,24 +511,36 @@ public class SystemTriageServiceTests
         try
         {
             var script = Path.Combine(folder.FullName, "s.ps1");
-            var output = Path.Combine(folder.FullName, "out.txt");
-            var error = Path.Combine(folder.FullName, "err.txt");
+            var pipe = "TweakHubTest-" + Guid.NewGuid().ToString("N");
             var encoding = new System.Text.UTF8Encoding(true);
             var bytes = encoding.GetPreamble().Concat(encoding.GetBytes(
                 PowerShellService.BuildScriptContext(SystemTriageService.StartupScript.Replace("__TRACKED_SERVICES__", "")))).ToArray();
             await File.WriteAllBytesAsync(script, bytes);
-            var start = new System.Diagnostics.ProcessStartInfo("powershell.exe") { UseShellExecute = false, CreateNoWindow = true };
-            foreach (var argument in new[] { "-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-EncodedCommand",
-                         Convert.ToBase64String(System.Text.Encoding.Unicode.GetBytes(PowerShellService.BuildElevatedWrapper(script, bytes, output, error))) })
-                start.ArgumentList.Add(argument);
-            using var process = System.Diagnostics.Process.Start(start)!;
-            await process.WaitForExitAsync();
+            var (code, output, error) = await ElevationHardeningTests.RunWrapperAsync(
+                PowerShellService.BuildElevatedWrapper(script, bytes, pipe, PowerShellService.CurrentUserSid), pipe);
 
-            Assert.That(process.ExitCode, Is.Zero, File.Exists(error) ? await File.ReadAllTextAsync(error) : "");
-            var json = (await File.ReadAllLinesAsync(output)).Last(line => line.StartsWith('{'));
+            Assert.That(code, Is.Zero, error);
+            var json = output.Split('\n').Select(line => line.TrimEnd('\r')).Last(line => line.StartsWith('{'));
             Assert.That(SystemTriageService.ParseInventory(json).Startup.Any(entry => entry.Kind == "Task"), Is.True);
         }
         finally { folder.Delete(true); }
+    }
+
+    [Test]
+    public async Task ElevatedScanWithAnotherAccountListsTheSignedInUsersEntries()
+    {
+        var prologue = SystemTriageService.StartupScript[..SystemTriageService.StartupScript.IndexOf("$startup = @(", StringComparison.Ordinal)];
+        const string probe = "\nWrite-Output ((Get-PSDrive HKCU).Root + '|' + $userStartup)";
+
+        // Another account (SYSTEM stands in for the signed-in user): its hive and its own Startup folder.
+        var (code, output, error) = await ElevationHardeningTests.RunThroughWrapperAsync(prologue.Replace("__CALLER_SID__", "S-1-5-18") + probe);
+        Assert.That(code, Is.Zero, error);
+        Assert.That(output.Trim(), Does.StartWith(@"HKEY_USERS\S-1-5-18|").IgnoreCase
+            .And.EndWith(@"config\systemprofile\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup").IgnoreCase);
+
+        (code, output, error) = await ElevationHardeningTests.RunThroughWrapperAsync(prologue.Replace("__CALLER_SID__", PowerShellService.CurrentUserSid) + probe);
+        Assert.That(code, Is.Zero, error);
+        Assert.That(output.Trim(), Is.EqualTo(@"HKEY_CURRENT_USER|" + Environment.GetFolderPath(Environment.SpecialFolder.Startup)).IgnoreCase);
     }
 
     [Test]

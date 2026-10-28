@@ -813,7 +813,7 @@ La configuración actual se guarda la primera vez para poder restaurarla.</value
     <value>Mostrar los valores de esta área</value>
   </data>
   <data name="StartupPageTitle" xml:space="preserve">
-    <value>Inicio</value>
+    <value>Inicio automático</value>
   </data>
   <data name="StartupPageDescription" xml:space="preserve">
     <value>Todo lo que se inicia con Windows o al iniciar sesión: claves Run, carpetas de inicio, tareas programadas, servicios, controladores, extensiones del Explorador, puntos de secuestro y suscripciones WMI. Antes de eliminar una entrada se guarda una copia de seguridad que se puede restaurar.</value>
@@ -960,7 +960,7 @@ La configuración actual se guarda la primera vez para poder restaurarla.</value
     <value>¿Eliminar "{0}"? Antes se guarda una copia de seguridad que se puede restaurar desde Entradas eliminadas.</value>
   </data>
   <data name="StartupDeleteServiceConfirm" xml:space="preserve">
-    <value>¿Eliminar el servicio "{0}"? Normalmente basta con desactivarlo. Antes se guarda una copia de su clave del Registro; el servicio desaparece tras reiniciar y, si se restaura, vuelve tras reiniciar.</value>
+    <value>¿Eliminar el servicio "{0}"? Normalmente basta con desactivarlo. Si está en ejecución, primero se detiene, pero nunca si otros servicios en ejecución dependen de él. Antes se guarda una copia de su clave del Registro; un servicio restaurado vuelve tras reiniciar.</value>
   </data>
   <data name="StartupDeleteFailedTitle" xml:space="preserve">
     <value>Entrada no eliminada</value>

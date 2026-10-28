@@ -19,7 +19,7 @@
     <value>Внешние инструменты</value>
   </data>
   <data name="ExternalToolsPageInstallCuratedToolsOrAdd" xml:space="preserve">
-    <value>Установите рекомендованные инструменты или добавьте свои собственные Winget, PowerShell и карточки веб-сайта.</value>
+    <value>Установите проверенные инструменты или добавьте свои карточки Winget, PowerShell и веб-сайтов.</value>
   </data>
   <data name="ExternalToolsPageShowFavoritesOnly" xml:space="preserve">
     <value>Показать только избранное</value>
@@ -49,7 +49,7 @@
     <value>Пользовательский внешний инструмент</value>
   </data>
   <data name="CustomToolDialogCreateAReusableWebsiteWinget" xml:space="preserve">
-    <value>Создайте многоразовый веб-сайт, карту Winget или PowerShell. PowerShell запускается только после подтверждения.</value>
+    <value>Создайте карточку веб-сайта, Winget или PowerShell для повторного использования. PowerShell запускается только после подтверждения.</value>
   </data>
   <data name="CustomToolDialogName" xml:space="preserve">
     <value>Имя</value>
@@ -82,7 +82,7 @@
     <value>Отмена</value>
   </data>
   <data name="CustomToolDialogSaveTool" xml:space="preserve">
-    <value>Инструмент сохранения</value>
+    <value>Сохранить инструмент</value>
   </data>
   <data name="ShortcutNameDeviceManager" xml:space="preserve">
     <value>Диспетчер устройств</value>
@@ -193,10 +193,10 @@
     <value>Проверка и управление каждым местом запуска Windows</value>
   </data>
   <data name="DescriptionOpenSourceBulkApplicationUninstaller" xml:space="preserve">
-    <value>Массовая деинсталляция приложений с открытым исходным кодом</value>
+    <value>Массовый деинсталлятор приложений с открытым исходным кодом</value>
   </data>
   <data name="DescriptionExtendedReplacementForTheClassicWindowsDisk" xml:space="preserve">
-    <value>Расширенная замена классической Windows Disk Cleanup</value>
+    <value>Расширенная замена классической «Очистки диска» Windows</value>
   </data>
   <data name="DescriptionRemoveRecordsForNonPresentDevicesOpens" xml:space="preserve">
     <value>Удаление записей об отсутствующих устройствах; открывает информационную страницу MajorGeeks</value>
@@ -217,13 +217,13 @@
     <value>Графический интерфейс для идентификаторов конфигурации функций Windows</value>
   </data>
   <data name="DescriptionConfigureAndCustomizeWindowsFromATransparent" xml:space="preserve">
-    <value>Настройка и настройка Windows с помощью прозрачного пользовательского интерфейса с открытым исходным кодом</value>
+    <value>Настройка и персонализация Windows через прозрачный интерфейс с открытым исходным кодом</value>
   </data>
   <data name="DescriptionWindowsMaintenanceAndCustomizationDashboardFromMicrosoft" xml:space="preserve">
     <value>Информационная панель обслуживания и настройки Windows из Microsoft Store</value>
   </data>
   <data name="DescriptionChrisTitusTechWindowsUtilityOpensThe" xml:space="preserve">
-    <value>Утилита Криса Титуса Tech для Windows; открывает официальный проект, а не удаленный скрипт</value>
+    <value>Утилита Chris Titus Tech для Windows; открывает официальный проект, а не удалённый скрипт</value>
   </data>
   <data name="DescriptionFastLocalFileAndFolderSearch" xml:space="preserve">
     <value>Быстрый локальный поиск файлов и папок</value>
@@ -247,7 +247,7 @@
     <value>Проверка и управление привязкой потоков ЦП</value>
   </data>
   <data name="DescriptionProcessPriorityAffinityAndResponsivenessControls" xml:space="preserve">
-    <value>Управление приоритетом процесса, привязкой и оперативностью</value>
+    <value>Управление приоритетом, привязкой и отзывчивостью процессов</value>
   </data>
   <data name="DescriptionInspectAndConfigureCPUCoreParkingAnd" xml:space="preserve">
     <value>Проверка и настройка парковки ядер ЦП и масштабирование частоты</value>
@@ -268,13 +268,13 @@
     <value>Тест стабильности памяти сообщества; загружает предоставленный пользователем архив выпуска GitHub</value>
   </data>
   <data name="DescriptionBootableMemoryDiagnostics" xml:space="preserve">
-    <value>Диагностика загрузочной памяти</value>
+    <value>Загрузочная диагностика памяти</value>
   </data>
   <data name="DescriptionDetailedHardwareInformationAndSensorMonitoring" xml:space="preserve">
     <value>Подробная информация об оборудовании и мониторинг датчиков</value>
   </data>
   <data name="DescriptionCPUIDHardwareTemperatureVoltageAndFanMonitoring" xml:space="preserve">
-    <value>Контроль температуры, напряжения и вентилятора оборудования CPUID</value>
+    <value>Мониторинг температуры, напряжений и вентиляторов от CPUID</value>
   </data>
   <data name="DescriptionMicrosoftSysinternalsPhysicalMemoryAnalyzer" xml:space="preserve">
     <value>Анализатор физической памяти Microsoft Sysinternals</value>
@@ -283,22 +283,22 @@
     <value>Анализ звука в реальном времени и задержки DPC</value>
   </data>
   <data name="DescriptionOpenSourceFanCurveAndSensorControl" xml:space="preserve">
-    <value>Кривая вентилятора с открытым исходным кодом и сенсорное управление</value>
+    <value>Управление кривыми вентиляторов и датчиками с открытым исходным кодом</value>
   </data>
   <data name="DescriptionIntelFramePresentationAndPerformanceMonitoring" xml:space="preserve">
-    <value>Представление кадров Intel и мониторинг производительности</value>
+    <value>Мониторинг вывода кадров и производительности от Intel</value>
   </data>
   <data name="DescriptionMicrosoftGPUAndCPUPerformanceTraceVisualization" xml:space="preserve">
-    <value>Визуализация отслеживания производительности графического процессора и процессора Microsoft</value>
+    <value>Визуализация трассировки производительности GPU и ЦП от Microsoft</value>
   </data>
   <data name="DescriptionStaticInspectionOfWindowsExecutablesWithoutRunning" xml:space="preserve">
     <value>Статическая проверка исполняемых файлов Windows без их запуска</value>
   </data>
   <data name="DescriptionSysinternalsProcessHandleAndDLLDiagnostics" xml:space="preserve">
-    <value>Системные процессы, обработка и диагностика DLL</value>
+    <value>Диагностика процессов, дескрипторов и DLL от Sysinternals</value>
   </data>
   <data name="DescriptionRealTimeFilesystemRegistryAndProcessTracing" xml:space="preserve">
-    <value>Файловая система в реальном времени, реестр и трассировка процессов</value>
+    <value>Трассировка файловой системы, реестра и процессов в реальном времени</value>
   </data>
   <data name="DescriptionAdvancedETWRecordingAndAnalysisWithWPR" xml:space="preserve">
     <value>Расширенная запись и анализ ETW с помощью WPR и WPA</value>
@@ -328,7 +328,7 @@
     <value>Платная утилита настройки графического процессора AMD из Microsoft Store</value>
   </data>
   <data name="DescriptionLegacyFreeAMDGPUTuningUtilityFrom" xml:space="preserve">
-    <value>Устаревшая бесплатная утилита настройки графического процессора AMD от лаборатории Игоря</value>
+    <value>Устаревшая бесплатная утилита настройки GPU AMD от Igor's Lab</value>
   </data>
   <data name="DescriptionAdvancedAMDRadeonPowerLimitEditor" xml:space="preserve">
     <value>Расширенный редактор ограничения мощности AMD Radeon</value>
@@ -343,16 +343,16 @@
     <value>Настройка установки драйверов NVIDIA</value>
   </data>
   <data name="DescriptionCompletelyRemoveGraphicsDriversBeforeReinstalling" xml:space="preserve">
-    <value>Полностью удалите графические драйверы перед переустановкой</value>
+    <value>Полное удаление графических драйверов перед переустановкой</value>
   </data>
   <data name="DescriptionAdvancedNVIDIAGraphicsCardFirmwareUtility" xml:space="preserve">
-    <value>Утилита расширенной прошивки видеокарты NVIDIA</value>
+    <value>Продвинутая утилита для прошивки видеокарт NVIDIA</value>
   </data>
   <data name="DescriptionAdvancedAMDGraphicsCardFirmwareUtilityFormerly" xml:space="preserve">
-    <value>Утилита расширенной прошивки видеокарты AMD, ранее ATIFlash</value>
+    <value>Продвинутая утилита для прошивки видеокарт AMD, ранее ATIFlash</value>
   </data>
   <data name="DescriptionCommunityTroubleshootingUtilityForMultiplaneOverlayIssues" xml:space="preserve">
-    <value>Утилита сообщества по устранению неполадок при проблемах с многоплоскостным наложением</value>
+    <value>Утилита сообщества для устранения проблем с Multiplane Overlay (MPO)</value>
   </data>
   <data name="DescriptionInspectAndEditDisplayResolutionsAndEDID" xml:space="preserve">
     <value>Проверка и редактирование разрешения дисплея и данных EDID</value>
@@ -373,19 +373,19 @@
     <value>Двоичные файлы SCEWIN сообщества и устранение неполадок; изменения прошивки могут привести к невозможности загрузки системы</value>
   </data>
   <data name="DescriptionInspectHiddenWindowsPowerPlanSettingsOpens" xml:space="preserve">
-    <value>Проверьте скрытые настройки плана электропитания Windows; открывает стабильную страницу загрузки MediaFire</value>
+    <value>Просмотр скрытых параметров схем электропитания Windows; открывает стабильную страницу загрузки на MediaFire</value>
   </data>
   <data name="DescriptionManageDLSSVersionsInSupportedGames" xml:space="preserve">
     <value>Управление версиями DLSS в поддерживаемых играх</value>
   </data>
   <data name="DescriptionUpscalerInjectionAndCompatibilityLayerForSupported" xml:space="preserve">
-    <value>Уровень внедрения и совместимости апскейлера для поддерживаемых игр</value>
+    <value>Внедрение апскейлеров и слой совместимости для поддерживаемых игр</value>
   </data>
   <data name="DescriptionCommunityDirectX12UpscalerAndFrameGeneration" xml:space="preserve">
-    <value>Мод совместимости с масштабированием и генерацией кадров Community DirectX 12</value>
+    <value>Мод сообщества для совместимости апскейлеров и генерации кадров в DirectX 12</value>
   </data>
   <data name="DescriptionLightweightOpenSourceConfigurableCrosshairOverlay" xml:space="preserve">
-    <value>Легкое настраиваемое наложение перекрестия с открытым исходным кодом</value>
+    <value>Лёгкий настраиваемый оверлей прицела с открытым исходным кодом</value>
   </data>
   <data name="DescriptionOpenSourceMouseAccelerationDriver" xml:space="preserve">
     <value>Драйвер ускорения мыши с открытым исходным кодом</value>
@@ -394,7 +394,7 @@
     <value>Официальный тестер скорости опроса мыши на основе браузера</value>
   </data>
   <data name="DescriptionStoragePerformanceBenchmark" xml:space="preserve">
-    <value>Проверка производительности хранилища</value>
+    <value>Тест производительности накопителей</value>
   </data>
   <data name="DescriptionStorageHealthAndSMARTInformation" xml:space="preserve">
     <value>Информация о состоянии хранилища и SMART</value>
@@ -403,10 +403,10 @@
     <value>Инвентаризация NirSoft и управление текущими и историческими USB-устройствами</value>
   </data>
   <data name="DescriptionMariusHeierUSBLatencyToolsOpensThe" xml:space="preserve">
-    <value>Инструменты Marius Heier USB для измерения задержки; открывает официальный сайт без выполнения скриптов</value>
+    <value>Инструменты Marius Heier для задержки USB; открывает официальный сайт без выполнения скриптов</value>
   </data>
   <data name="DescriptionMicrosoftCommandLineStorageLoadGeneratorAnd" xml:space="preserve">
-    <value>Генератор нагрузки хранилища командной строки Microsoft и тест производительности</value>
+    <value>Консольный генератор нагрузки и тест производительности накопителей от Microsoft</value>
   </data>
   <data name="DescriptionOpenSourceBitTorrentClient" xml:space="preserve">
     <value>Клиент BitTorrent с открытым исходным кодом</value>
@@ -415,10 +415,10 @@
     <value>Проверка и настройка параметров Windows TCP/IP</value>
   </data>
   <data name="DescriptionMicrosoftSysinternalsLiveTCPAndUDPEndpoint" xml:space="preserve">
-    <value>Microsoft Sysinternals live TCP и UDP Endpoint Viewer</value>
+    <value>Просмотр активных конечных точек TCP и UDP в реальном времени от Microsoft Sysinternals</value>
   </data>
   <data name="DescriptionTestAndSwitchDNSResolvers" xml:space="preserve">
-    <value>Проверка и переключение преобразователей DNS</value>
+    <value>Проверка и переключение DNS-серверов</value>
   </data>
   <data name="DescriptionMeasureMaximumTCPAndUDPNetworkThroughput" xml:space="preserve">
     <value>Измерение максимальной пропускной способности сети TCP и UDP</value>
@@ -451,7 +451,7 @@
     <value>Нагрузочное тестирование процессора и памяти</value>
   </data>
   <data name="DescriptionUnigineGPUBenchmarkAndStabilityTest" xml:space="preserve">
-    <value>Бенч-тест графического процессора Unigine и тест стабильности</value>
+    <value>Тест производительности и стабильности GPU от Unigine</value>
   </data>
   <data name="DescriptionBenchmarkLauncherValidationAndResultManagement" xml:space="preserve">
     <value>Программа запуска тестов, проверка и управление результатами</value>
@@ -475,10 +475,10 @@
     <value>Стресс-тест графического процессора MSI и тест OpenGL/Vulkan</value>
   </data>
   <data name="DescriptionHeavyCPURAMAndMemoryControllerBenchmark" xml:space="preserve">
-    <value>Тестирование и стресс-тест тяжелого процессора, оперативной памяти и контроллера памяти</value>
+    <value>Интенсивный тест производительности и стресс-тест ЦП, ОЗУ и контроллера памяти</value>
   </data>
   <data name="DescriptionVulkanBasedGPUMemoryStabilityAndError" xml:space="preserve">
-    <value>тест стабильности и ошибок памяти графического процессора на базе Vulkan</value>
+    <value>Тест стабильности и ошибок видеопамяти на базе Vulkan</value>
   </data>
   <data name="DescriptionModernUnigineGPUBenchmarkAndStabilityTest" xml:space="preserve">
     <value>Современный тест графического процессора Unigine и тест стабильности</value>
@@ -499,13 +499,13 @@
     <value>Редактор кода на основе искусственного интеллекта</value>
   </data>
   <data name="DescriptionRunAndManageLocalLanguageModels" xml:space="preserve">
-    <value>Запуск и управление моделями на местном языке</value>
+    <value>Запуск локальных языковых моделей и управление ими</value>
   </data>
   <data name="DescriptionOpenSourceAICodingAgentForThe" xml:space="preserve">
-    <value>Агент кодирования AI с открытым исходным кодом для терминала</value>
+    <value>ИИ-агент для программирования в терминале с открытым исходным кодом</value>
   </data>
   <data name="DescriptionMinimalExtensibleTerminalCodingAgentFramework" xml:space="preserve">
-    <value>Минимальная расширяемая среда агента кодирования терминала</value>
+    <value>Минималистичный расширяемый фреймворк агентов программирования для терминала</value>
   </data>
   <data name="DescriptionAgenticTerminalAndDevelopmentEnvironment" xml:space="preserve">
     <value>Агентный терминал и среда разработки</value>
@@ -514,7 +514,7 @@
     <value>Локальный интерфейс для обучения и запуска открытых моделей</value>
   </data>
   <data name="DescriptionDiscoverDownloadAndRunLocalLanguageModels" xml:space="preserve">
-    <value>Обнаружение, загрузка и запуск моделей на местном языке</value>
+    <value>Поиск, загрузка и запуск локальных языковых моделей</value>
   </data>
   <data name="DescriptionOpenSourceLocalAIDesktopApplication" xml:space="preserve">
     <value>Локальное настольное приложение искусственного интеллекта с открытым исходным кодом</value>
@@ -727,24 +727,24 @@
     <value>Команда не выполнена</value>
   </data>
   <data name="CommandFinishedMessage" xml:space="preserve">
-    <value>{0} завершена через {1:F1} секунд.
+    <value>{0}: завершено за {1:F1} с.
 
 {2}</value>
   </data>
   <data name="StartingAction" xml:space="preserve">
-    <value>Начинается {0}...</value>
+    <value>Запуск: {0}...</value>
   </data>
   <data name="ActionCompleted" xml:space="preserve">
-    <value>{0} завершено: {1}</value>
+    <value>{0} — готово: {1}</value>
   </data>
   <data name="ActionFailed" xml:space="preserve">
-    <value>{0} не удалось: {1}</value>
+    <value>{0} — ошибка: {1}</value>
   </data>
   <data name="ActionInstallation" xml:space="preserve">
     <value>установка</value>
   </data>
   <data name="ActionUninstall" xml:space="preserve">
-    <value>удалить</value>
+    <value>удаление</value>
   </data>
   <data name="CategoryDevelopmentDevOps" xml:space="preserve">
     <value>Разработка и DevOps</value>
@@ -966,7 +966,7 @@
     <value>Руководство по разгону контроллеров PlayStation и Xbox на ПК для повышения частоты опроса. Выполняйте только со своим оборудованием и проверьте правила античитов. Открывает только официальную страницу.</value>
   </data>
   <data name="DescriptionPowerPlanSettingsEditor" xml:space="preserve">
-    <value>Графический интерфейс PowerShell для изменения всех параметров плана электропитания, включая скрытые. Неверные значения могут повысить температуру или нарушить сон; сначала экспортируйте план через powercfg. MIT. Открывает только официальный репозиторий.</value>
+    <value>Графический интерфейс PowerShell для изменения всех параметров схемы электропитания, включая скрытые. Неверные значения могут повысить температуру или нарушить работу спящего режима; сначала экспортируйте схему через powercfg. MIT. Открывает только официальный репозиторий.</value>
   </data>
   <data name="DescriptionAdvancedPowerOptions" xml:space="preserve">
     <value>Объясняет дополнительные параметры электропитания Windows: политику простоя устройств, подключение в режиме ожидания, состояния процессора. Только документация. MIT. Открывает только официальный репозиторий.</value>
@@ -987,7 +987,7 @@
     <value>Независимые некоммерческие руководства и рекомендации инструментов для конфиденциальности и безопасности с разбором модели угроз. Открывает только официальный сайт.</value>
   </data>
   <data name="DescriptionUrlscan" xml:space="preserve">
-    <value>Проверяет подозрительную ссылку в удалённом браузере и показывает, куда она перенаправляет, что загружает и известен ли фишинг. Проверки могут быть публичными: никогда не отправляйте личные ссылки. Открывает только официальный сайт.</value>
+    <value>Проверяет подозрительную ссылку в удалённом браузере и показывает, куда она перенаправляет, что загружает и не является ли она известным фишингом. Проверки могут быть публичными: никогда не отправляйте личные ссылки. Открывает только официальный сайт.</value>
   </data>
   <data name="DescriptionNuclei" xml:space="preserve">
     <value>Сканер уязвимостей на основе шаблонов от ProjectDiscovery для собственных серверов и веб-приложений. Инструмент командной строки: используйте его только на системах, которые вам разрешено тестировать. Открывает только официальный репозиторий.</value>

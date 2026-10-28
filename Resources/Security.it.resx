@@ -430,10 +430,10 @@ TweakHub eseguirà questo comando come amministratore:
     <value>Raccolta di connessioni, elementi di avvio e firme…</value>
   </data>
   <data name="SystemScannedPartial" xml:space="preserve">
-    <value>Analisi delle {0}. Per i percorsi dei processi di sistema serve l'analisi come amministratore.</value>
+    <value>Analisi eseguita alle {0}. Per i percorsi dei processi di sistema serve l'analisi come amministratore.</value>
   </data>
   <data name="SystemScannedElevated" xml:space="preserve">
-    <value>Analisi come amministratore delle {0}.</value>
+    <value>Analisi come amministratore eseguita alle {0}.</value>
   </data>
   <data name="SystemScanFailed" xml:space="preserve">
     <value>Impossibile completare l'analisi: {0}</value>
@@ -828,7 +828,7 @@ La configurazione attuale viene salvata la prima volta per poterla ripristinare.
     <value>Elenca anche attività, sottoscrizioni e chiavi leggibili solo dagli amministratori.</value>
   </data>
   <data name="StartupScannedPartial" xml:space="preserve">
-    <value>Scansione delle {0}. Alcune attività e sottoscrizioni WMI richiedono la scansione come amministratore.</value>
+    <value>Scansione eseguita alle {0}. Alcune attività e sottoscrizioni WMI richiedono la scansione come amministratore.</value>
   </data>
   <data name="StartupPolicyRun" xml:space="preserve">
     <value>Run (criteri)</value>
@@ -960,7 +960,7 @@ La configurazione attuale viene salvata la prima volta per poterla ripristinare.
     <value>Eliminare "{0}"? Prima viene salvato un backup, ripristinabile da Voci eliminate.</value>
   </data>
   <data name="StartupDeleteServiceConfirm" xml:space="preserve">
-    <value>Eliminare il servizio "{0}"? Di solito basta disattivarlo. Prima viene salvato un backup della sua chiave di registro; il servizio sparisce dopo un riavvio e, se ripristinato, torna dopo un riavvio.</value>
+    <value>Eliminare il servizio "{0}"? Di solito basta disattivarlo. Se è in esecuzione viene prima arrestato, ma mai quando altri servizi in esecuzione dipendono da lui. Prima viene salvato un backup della sua chiave di registro; un servizio ripristinato torna dopo un riavvio.</value>
   </data>
   <data name="StartupDeleteFailedTitle" xml:space="preserve">
     <value>Voce non eliminata</value>

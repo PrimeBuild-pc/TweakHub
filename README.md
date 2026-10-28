@@ -36,6 +36,8 @@
     <td align="center"><a href="assets/screenshots/security-overview.png"><img src="assets/screenshots/security-overview.png" alt="Security overview" width="440"></a><br><sub><b>Security · Overview</b></sub></td>
     <td align="center"><a href="assets/screenshots/security-privacy.png"><img src="assets/screenshots/security-privacy.png" alt="Security privacy and accounts" width="440"></a><br><sub><b>Security · Privacy and accounts</b></sub></td>
     <td align="center"><a href="assets/screenshots/security-tools.png"><img src="assets/screenshots/security-tools.png" alt="Security tools and resources" width="440"></a><br><sub><b>Security · Tools and resources</b></sub></td>
+    <td align="center"><a href="assets/screenshots/startup.png"><img src="assets/screenshots/startup.png" alt="Startup manager with run keys, scheduled tasks and services" width="440"></a><br><sub><b>Startup</b></sub></td>
+    <td align="center"><a href="assets/screenshots/drivers.png"><img src="assets/screenshots/drivers.png" alt="Old driver versions in the driver store" width="440"></a><br><sub><b>Devices · Drivers</b></sub></td>
     <td align="center"><a href="assets/screenshots/connections.png"><img src="assets/screenshots/connections.png" alt="Connections tab with PCIe link width and speed" width="440"></a><br><sub><b>Devices · Connections</b></sub></td>
     <td align="center"><a href="assets/screenshots/devices.png"><img src="assets/screenshots/devices.png" alt="Device inventory" width="440"></a><br><sub><b>Devices · Inventory</b></sub></td>
     <td align="center"><a href="assets/screenshots/interrupts-msi.png"><img src="assets/screenshots/interrupts-msi.png" alt="Interrupts and MSI" width="440"></a><br><sub><b>Devices · Interrupts &amp; MSI</b></sub></td>
@@ -106,6 +108,11 @@ It runs as the current user and requests administrator privileges only when an o
     </td>
   </tr>
 </table>
+
+New in 1.6.1:
+- **Windows Update "Security" mode:** security updates are no longer deferred, but nothing downloads, installs or restarts by itself: Windows notifies you, and you download, install and restart. Drivers stay excluded and feature updates are deferred for 365 days. A clean Windows install is now recognized as "Default". On Windows Home, TweakHub explains which parts the edition ignores.
+- **Hardening:** elevated script output goes through a private named pipe instead of temporary files, system folder variables are reset in every script, a running service is stopped before it is deleted, and elevated startup scans by another administrator read the right user.
+- **Fixes:** a crash when a dialog button was pressed as the dialog closed, 534 translation fixes across the five translated languages, and USB devices in sleep are no longer woken by the Connections scan.
 
 New in 1.6.0:
 - **Startup:** an Autoruns-style view of everything that starts with Windows (Run keys, startup folders, scheduled tasks, services, drivers, Explorer extensions, Winlogon, IFEO, WMI) with signatures and missing-file badges. Entries can be disabled or deleted with a backup and restored later; Windows-critical entries are protected.

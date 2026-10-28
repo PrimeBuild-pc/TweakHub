@@ -166,7 +166,7 @@
     <value>Windows 更新组件重置</value>
   </data>
   <data name="windows_update_reset_Description" xml:space="preserve">
-    <value>重新创建 Windows 更新下载和目录缓存，当更新卡住时。</value>
+    <value>当更新卡住时，重新创建 Windows 更新的下载和目录缓存。</value>
   </data>
   <data name="windows_update_reset_Category" xml:space="preserve">
     <value>修复</value>
@@ -235,7 +235,7 @@
     <value>删除</value>
   </data>
   <data name="adobe_hosts_unblock_Confirmation" xml:space="preserve">
-    <value>从 hosts 文件中删除 TweakHub Adobe 块？</value>
+    <value>要从 hosts 文件中删除 TweakHub 添加的 Adobe 阻止列表吗？</value>
   </data>
   <data name="CompletedOnThisPc" xml:space="preserve">
     <value>已在此电脑完成：{0}</value>
@@ -331,7 +331,7 @@
 {0}</value>
   </data>
   <data name="WingetScriptMissingPreview" xml:space="preserve">
-    <value>在 Scripts 文件夹中未找到 WinGetInstall.ps1。</value>
+    <value># 在 Scripts 文件夹中未找到 WinGetInstall.ps1。</value>
   </data>
   <data name="Install" xml:space="preserve">
     <value>安装</value>
@@ -561,13 +561,13 @@
     <value>读取你和 TweakHub 在此电脑上所做的更改并作为步骤列出，由你选择保留哪些。</value>
   </data>
   <data name="ImportPlaybook" xml:space="preserve">
-    <value>导入剧本</value>
+    <value>导入操作手册</value>
   </data>
   <data name="ExportPlaybook" xml:space="preserve">
     <value>导出</value>
   </data>
   <data name="PlaybookFileFilter" xml:space="preserve">
-    <value>TweakHub 剧本 (*.tweakhub-playbook.json)|*.tweakhub-playbook.json|JSON (*.json)|*.json</value>
+    <value>TweakHub 操作手册 (*.tweakhub-playbook.json)|*.tweakhub-playbook.json|JSON (*.json)|*.json</value>
   </data>
   <data name="PlaybookImported" xml:space="preserve">
     <value>已添加“{0}”，共 {1} 个步骤。新的自定义调整：{2}。新的脚本：{3}。运行前请检查各步骤。</value>
@@ -639,7 +639,7 @@
     <value>只确认一次 UAC？</value>
   </data>
   <data name="PlaybookElevateMessage" xml:space="preserve">
-    <value>有 {0} 个步骤需要管理员权限。TweakHub 可以以管理员身份重启并立即运行剧本，只需确认一次 UAC；也可以继续并在每一步确认。</value>
+    <value>有 {0} 个步骤需要管理员权限。TweakHub 可以以管理员身份重启并立即运行操作手册，只需确认一次 UAC；也可以继续并在每一步确认。</value>
   </data>
   <data name="PlaybookElevateRestart" xml:space="preserve">
     <value>以管理员身份重启</value>
@@ -684,7 +684,7 @@
     <value>全新安装后要重新安装它们，请以管理员身份运行：pnputil /add-driver "&lt;备份文件夹&gt;\*.inf" /subdirs /install</value>
   </data>
   <data name="PlaybookTypeTweakCheck" xml:space="preserve">
-    <value>Tweak Check 修复</value>
+    <value>调整检查修复</value>
   </data>
   <data name="PlaybookTypeSecurityFix" xml:space="preserve">
     <value>安全修复</value>
@@ -699,7 +699,7 @@
     <value>DNS 服务器</value>
   </data>
   <data name="PlaybookTweakCheckSummary" xml:space="preserve">
-    <value>Tweak Check，如被修改则修复：{0}</value>
+    <value>调整检查，如被修改则修复：{0}</value>
   </data>
   <data name="PlaybookSecurityFixSummary" xml:space="preserve">
     <value>安全，如有需要则修复：{0}</value>
@@ -742,7 +742,7 @@
 {1}</value>
   </data>
   <data name="PlaybookImportReview" xml:space="preserve">
-    <value>“{0}”会向 TweakHub 添加以下代码。运行该方案时会执行这些代码，如有标记则以管理员权限运行。仅在信任文件来源时导入。
+    <value>“{0}”会向 TweakHub 添加以下代码。运行该操作手册时会执行这些代码，如有标记则以管理员权限运行。仅在信任文件来源时导入。
 
 {1}</value>
   </data>

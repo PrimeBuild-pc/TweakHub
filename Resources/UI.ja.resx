@@ -316,7 +316,7 @@
     <value>リリースに信頼できないダウンロード URL が含まれています。</value>
   </data>
   <data name="BackupCreatedStatus" xml:space="preserve">
-    <value>バックアップ作成日時: {0}</value>
+    <value>バックアップ作成: {0}</value>
   </data>
   <data name="RegistryValueNameRequired" xml:space="preserve">
     <value>レジストリ値の名前は必須です。</value>

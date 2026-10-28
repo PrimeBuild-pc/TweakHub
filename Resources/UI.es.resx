@@ -16,19 +16,19 @@
     <value>TweakHub by Prime Build</value>
   </data>
   <data name="MainWindowWindows11PerformanceControls" xml:space="preserve">
-    <value>Controles de rendimiento de Windows 11</value>
+    <value>Rendimiento de Windows 11</value>
   </data>
   <data name="MainWindowRegistryTweaks" xml:space="preserve">
     <value>Ajustes del Registro</value>
   </data>
   <data name="MainWindowExternalTools" xml:space="preserve">
-    <value>Herramientas Externas</value>
+    <value>Herramientas externas</value>
   </data>
   <data name="MainWindowAutomatedScripts" xml:space="preserve">
-    <value>Scripts Automatizados</value>
+    <value>Scripts automatizados</value>
   </data>
   <data name="MainWindowQuickAccess" xml:space="preserve">
-    <value>Acceso Rápido</value>
+    <value>Acceso rápido</value>
   </data>
   <data name="MainWindowAbout" xml:space="preserve">
     <value>Configuración</value>
@@ -109,7 +109,7 @@
     <value>Actualizaciones</value>
   </data>
   <data name="AboutPageTweakHubChecksGitHubReleasesWhen" xml:space="preserve">
-    <value>TweakHub verifica los Lanzamientos de GitHub al iniciarse. Las actualizaciones se descargan, verifican e instalan solo después de tu confirmación.</value>
+    <value>TweakHub consulta las versiones publicadas en GitHub al iniciarse. Las actualizaciones se descargan, verifican e instalan solo después de tu confirmación.</value>
   </data>
   <data name="AboutPageCheckForUpdates" xml:space="preserve">
     <value>Buscar actualizaciones</value>
@@ -127,7 +127,7 @@
     <value>Procesando...</value>
   </data>
   <data name="ProgressWindowPleaseWait" xml:space="preserve">
-    <value>Por favor espere...</value>
+    <value>Espera, por favor...</value>
   </data>
   <data name="WindowsVersionMessage" xml:space="preserve">
     <value>TweakHub es compatible con Windows 11 versión 22000 o posterior.</value>
@@ -144,7 +144,7 @@ Detalles: {1}</value>
     <value>Error de TweakHub</value>
   </data>
   <data name="ThemeSystem" xml:space="preserve">
-    <value>Sincronizado con Windows</value>
+    <value>Como en Windows</value>
   </data>
   <data name="ThemeLight" xml:space="preserve">
     <value>Modo claro</value>
@@ -225,11 +225,11 @@ Detalles: {1}</value>
     <value>Aviso de TweakHub</value>
   </data>
   <data name="DisclaimerMessage" xml:space="preserve">
-    <value>TweakHub puede hacer cambios en la configuración de Windows, el registro, la configuración de arranque y otros componentes del sistema. Cree un punto de restauración del sistema antes de continuar.
+    <value>TweakHub puede hacer cambios en la configuración de Windows, el registro, la configuración de arranque y otros componentes del sistema. Crea un punto de restauración del sistema antes de continuar.
 
-Usted procede bajo su propio riesgo. El autor no asume responsabilidad por cualquier daño, pérdida de datos o inestabilidad del sistema que pueda ocurrir.
+Continúas bajo tu propio riesgo. El autor no asume ninguna responsabilidad por daños, pérdida de datos o inestabilidad del sistema que puedan producirse.
 
-Al continuar, usted reconoce y acepta estas condiciones.</value>
+Al continuar, reconoces y aceptas estas condiciones.</value>
   </data>
   <data name="IUnderstand" xml:space="preserve">
     <value>Entiendo</value>
@@ -275,7 +275,7 @@ Al continuar, usted reconoce y acepta estas condiciones.</value>
 
 Instalado: {1}
 
-¿Desea descargar, verificar e instalar ahora?</value>
+¿Descargarlo, verificarlo e instalarlo ahora?</value>
   </data>
   <data name="Update" xml:space="preserve">
     <value>Actualizar</value>
@@ -307,7 +307,7 @@ Instalado: {1}
     <value>La descarga de la actualización está incompleta.</value>
   </data>
   <data name="ChecksumMismatch" xml:space="preserve">
-    <value>El resumen de actualización no coincide con la versión.</value>
+    <value>La suma de verificación de la actualización no coincide con la versión publicada.</value>
   </data>
   <data name="PortableExecutableMissing" xml:space="preserve">
     <value>El archivo portátil no contiene TweakHub.exe.</value>

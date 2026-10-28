@@ -364,7 +364,7 @@
     <value>高リスク調整の警告</value>
   </data>
   <data name="HighRiskMessage" xml:space="preserve">
-    <value>この調整のリスク レベルは高です（{0}/5）。
+    <value>この調整はリスク レベルが高い設定です ({0}/5)。
 
 説明: {1}
 
@@ -551,7 +551,19 @@ TweakHub は記録した元の値を復元します。</value>
     <value>Windows Update のサービスとタスクを停止して無効にし、自動更新をブロックして、ダウンロード済みの更新ファイルを消去します。</value>
   </data>
   <data name="WindowsUpdatePresetSecurityDescription" xml:space="preserve">
-    <value>セキュリティ更新と品質更新を通常のスケジュールに保ち、ドライバーを除外して、機能更新を 365 日延期します。</value>
+    <value>セキュリティ更新は延期しませんが、自動でダウンロード、インストール、再起動は行いません。Windows が通知し、ダウンロード、インストール、再起動はユーザーが行います。ドライバーを除外し、機能更新を 365 日延期します。</value>
+  </data>
+  <data name="WindowsUpdateSecurityHomeTitle" xml:space="preserve">
+    <value>Windows Home でのセキュリティ モード</value>
+  </data>
+  <data name="WindowsUpdateSecurityHomeMessage" xml:space="preserve">
+    <value>Windows Home では、このモードの一部しか適用されません。
+
+利用不可: 機能更新の 365 日延期。これは Pro、Enterprise、Education だけが従う Windows Update for Business のポリシーのため、Home では Microsoft が提供した時点で新しいバージョンの Windows がインストールされます。
+
+設定済みだが保証なし: ダウンロード前の通知、自動再起動なし、Windows Update からのドライバー除外。Microsoft はこれらのポリシーを Pro 以上向けとしており、一部の Home ビルドでは無視されます。更新プログラムが自動でダウンロードされ始めた場合、そのビルドでは無視されています。
+
+Home でも、[設定] &gt; [Windows Update] で更新を最大 5 週間一時停止できます。</value>
   </data>
   <data name="WindowsUpdatePresetCustomDescription" xml:space="preserve">
     <value>現在の Windows 設定は、どの TweakHub プリセットとも完全には一致しません。置き換えるモードを選択してください。</value>

@@ -52,8 +52,8 @@
   <data name="AffinitySelectionRequired" xml:space="preserve"><value>対応 CPU を一つ以上選択するか、Windows の自動割り当てを使ってください。</value></data>
   <data name="CpuLabel" xml:space="preserve"><value>CPU {0} · コア {1}</value></data>
   <data name="NoAutoSleepName" xml:space="preserve"><value>電源接続時に自動スリープしない</value></data>
-  <data name="NoAutoSleepDescription" xml:space="preserve"><value>Windows の電源ポリシー（グループ ポリシー → 電源の管理）を設定し、電源接続時に PC が自動でスリープや休止状態にならず、ハイブリッド スリープをオフにし、ディスクの電源を切らず、省電力が自動でオンになったり常時オンに固定されたりしないようにします。すべての電源プランに適用され、バッテリー駆動時は変更されません。手動でのスリープは引き続き可能です。値はレジストリに直接書き込まれるため、グループ ポリシー エディターでは「未構成」と表示されたままです。復元すると元の値に戻ります。 再起動が必要です。</value></data>
+  <data name="NoAutoSleepDescription" xml:space="preserve"><value>Windows の電源ポリシー（グループ ポリシー → 電源の管理）を設定し、電源接続時に PC が自動でスリープや休止状態にならず、ハイブリッド スリープをオフにし、ディスクの電源を切らず、省電力が自動でオンになったり常時オンに固定されたりしないようにします。すべての電源プランに適用され、バッテリー駆動時は変更されません。手動でのスリープは引き続き可能です。値はレジストリに直接書き込まれるため、グループ ポリシー エディターでは「未構成」と表示されたままです。復元すると元の値に戻ります。再起動が必要です。</value></data>
   <data name="DisableSleepName" xml:space="preserve"><value>電源接続時にスリープを完全に無効化</value></data>
-  <data name="DisableSleepDescription" xml:space="preserve"><value>電源接続時に Windows はスタンバイ状態 (S1–S3) を使用しなくなり、スリープ キーは何もせず、スタートの電源メニューから「スリープ」が非表示になります。この PC を一切スリープさせない場合のみ使用してください。任意設定で、推奨には含まれません。Modern Standby の PC は S1–S3 を使用しないため、独自のスリープが残ります。復元すると元の値に戻ります。 再起動が必要です。</value></data>
+  <data name="DisableSleepDescription" xml:space="preserve"><value>電源接続時に Windows はスタンバイ状態 (S1–S3) を使用しなくなり、スリープ キーは何もせず、スタートの電源メニューから「スリープ」が非表示になります。この PC を一切スリープさせない場合のみ使用してください。任意設定で、推奨には含まれません。Modern Standby の PC は S1–S3 を使用しないため、独自のスリープが残ります。復元すると元の値に戻ります。再起動が必要です。</value></data>
   <data name="TronBlockedByAntivirus" xml:space="preserve"><value>Microsoft Defender（またはお使いのウイルス対策）が Tron パッケージを望ましくない可能性のあるソフトウェアとしてブロックし、削除しました。TweakHub がウイルス対策の除外を追加することはありません。Tron を信頼する場合は、このコピーの Data\Tools\Tron フォルダーと C:\ProgramData\TweakHub-Tron-* をご自身で除外に追加してから、もう一度お試しください。</value></data>
 </root>

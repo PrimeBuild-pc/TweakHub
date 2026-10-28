@@ -16,13 +16,13 @@
     <value>Настройки реестра</value>
   </data>
   <data name="RegistryTweaksPageOnlyPartOfThisGrouped" xml:space="preserve">
-    <value>В настоящее время применяется только часть этой сгруппированной настройки</value>
+    <value>Сейчас применена только часть этой групповой настройки</value>
   </data>
   <data name="RegistryTweaksPageRestartWindowsToMakeThis" xml:space="preserve">
-    <value>Перезапустите Windows, чтобы это изменение вступило в силу</value>
+    <value>Перезагрузите Windows, чтобы изменение полностью вступило в силу</value>
   </data>
   <data name="RegistryTweaksPageAddOrRemoveFromFavorites" xml:space="preserve">
-    <value>Добавьте или удалите из избранного</value>
+    <value>Добавить в избранное или удалить из него</value>
   </data>
   <data name="RegistryTweaksPageToggleFavorite" xml:space="preserve">
     <value>Переключить избранное</value>
@@ -40,7 +40,7 @@
     <value>Это значение реестра в настоящее время соответствует пользовательской настройке</value>
   </data>
   <data name="RegistryTweaksPageAddOrRemoveFromFavorites2" xml:space="preserve">
-    <value>Добавить или удалить из избранного</value>
+    <value>Добавить в избранное или удалить из него</value>
   </data>
   <data name="RegistryTweaksPageToggleFavorite2" xml:space="preserve">
     <value>Переключить избранное</value>
@@ -67,7 +67,7 @@
     <value>Настройки реестра</value>
   </data>
   <data name="RegistryTweaksPageOptimizeWindowsPerformanceThroughRegistry" xml:space="preserve">
-    <value>Оптимизация производительности Windows путем внесения изменений в реестр. Изменения автоматически сохраняются.</value>
+    <value>Оптимизация производительности Windows с помощью изменений реестра. Перед каждым изменением автоматически создаётся резервная копия.</value>
   </data>
   <data name="RegistryTweaksPageRefreshStatus" xml:space="preserve">
     <value>Обновить статус</value>
@@ -79,13 +79,13 @@
     <value>Создать точку восстановления</value>
   </data>
   <data name="RegistryTweaksPageApplyRecommended" xml:space="preserve">
-    <value>Применить рекомендуется</value>
+    <value>Применить рекомендуемые</value>
   </data>
   <data name="RegistryTweaksPageRestoreAllChanges" xml:space="preserve">
     <value>Восстановить все изменения</value>
   </data>
   <data name="RegistryTweaksPageRecommended" xml:space="preserve">
-    <value>Рекомендуется</value>
+    <value>Рекомендуемые</value>
   </data>
   <data name="RegistryTweaksPageCustomTweaks" xml:space="preserve">
     <value>Пользовательские настройки</value>
@@ -106,7 +106,7 @@
     <value>Избранных настроек реестра пока нет. Выберите звездочку, чтобы добавить одну.</value>
   </data>
   <data name="RegistryTweaksPageRecommended2" xml:space="preserve">
-    <value>Рекомендуется</value>
+    <value>Рекомендуемые</value>
   </data>
   <data name="RegistryTweaksPageCustomTweaks2" xml:space="preserve">
     <value>Пользовательские настройки</value>
@@ -118,28 +118,28 @@
     <value>Оптимизация планирования ЦП, приоритета и производительности процессора</value>
   </data>
   <data name="CategoryOrTweakNamePrioritizeForegroundPrograms" xml:space="preserve">
-    <value>Приоритизировать программы приоритетного плана</value>
+    <value>Приоритет программам переднего плана</value>
   </data>
   <data name="CategoryOrTweakDescriptionUsesTheWindowsForegroundProgramScheduling" xml:space="preserve">
-    <value>Использует профиль планирования программы приоритетного плана Windows и восстанавливает полученное исходное значение.</value>
+    <value>Использует профиль планирования Windows для программ переднего плана и восстанавливает сохранённое исходное значение.</value>
   </data>
   <data name="CategoryOrTweakNameMaximumCPUPerformanceOnAC" xml:space="preserve">
-    <value>Максимальная производительность ЦП при переменном токе</value>
+    <value>Максимальная производительность ЦП при питании от сети</value>
   </data>
   <data name="CategoryOrTweakDescriptionSetsTheActivePowerPlanMinimum" xml:space="preserve">
-    <value>Задает минимальное состояние процессора активного плана электропитания на 100 % при подключении к сети. Увеличивает энергопотребление и нагрев.</value>
+    <value>Задаёт минимальное состояние процессора 100 % в активной схеме электропитания при работе от сети. Увеличивает энергопотребление и нагрев.</value>
   </data>
   <data name="CategoryOrTweakNameDisableCPUCoreParking" xml:space="preserve">
-    <value>Отключить парковку ядра ЦП</value>
+    <value>Отключить парковку ядер ЦП</value>
   </data>
   <data name="CategoryOrTweakDescriptionSetsTheActivePowerPlanMinimum2" xml:space="preserve">
-    <value>Устанавливает минимальное количество припаркованных ядер активного плана электропитания на 100 % при подключении к сети. Увеличивает энергопотребление и нагрев.</value>
+    <value>Задаёт в активной схеме электропитания минимум 100 % активных (не припаркованных) ядер при работе от сети. Увеличивает энергопотребление и нагрев.</value>
   </data>
   <data name="CategoryOrTweakNameForceHighPerformancePowerPlan" xml:space="preserve">
-    <value>Принудительно использовать план высокопроизводительного электропитания</value>
+    <value>Принудительно включить схему «Высокая производительность»</value>
   </data>
   <data name="CategoryOrTweakDescriptionActivatesTheWindowsHighPerformancePlan" xml:space="preserve">
-    <value>Включает план, выбранный в карточке «План электропитания для производительности» (по умолчанию «Высокая производительность» Windows, воссоздаётся при отсутствии), и восстанавливает прежний план при отключении.</value>
+    <value>Включает схему, выбранную в карточке «Схема электропитания для производительности» (по умолчанию «Высокая производительность» Windows, воссоздаётся при отсутствии), и восстанавливает прежнюю схему при отключении.</value>
   </data>
   <data name="CategoryOrTweakNameNetworkLatencyReduction" xml:space="preserve">
     <value>Сокращение задержки сети</value>
@@ -163,7 +163,7 @@
     <value>Отключить ускорение мыши</value>
   </data>
   <data name="CategoryOrTweakDescriptionChangesMouseSpeedAndBothThresholdValues" xml:space="preserve">
-    <value>Изменяет MouseSpeed ​​и оба пороговых значения как одну восстанавливаемую операцию.</value>
+    <value>Изменяет MouseSpeed и оба пороговых значения одной операцией, которую можно отменить.</value>
   </data>
   <data name="CategoryOrTweakNameDisableFullscreenOptimizations" xml:space="preserve">
     <value>Отключить полноэкранную оптимизацию</value>
@@ -187,7 +187,7 @@
     <value>Уменьшить задержку отображения меню</value>
   </data>
   <data name="CategoryOrTweakDescriptionMakesMenusAppearInstantlyForBetter" xml:space="preserve">
-    <value>Мгновенно отображать меню для лучшего реагирования</value>
+    <value>Меню появляются мгновенно, система откликается быстрее</value>
   </data>
   <data name="CategoryOrTweakNameDisableStartupApplicationDelay" xml:space="preserve">
     <value>Отключить задержку запуска приложения</value>
@@ -220,7 +220,7 @@
     <value>Обратимые политики конфиденциальности и установки устройств. Просмотрите элементы высокого риска перед их применением.</value>
   </data>
   <data name="CategoryOrTweakNameDisableWindowsAIPolicies" xml:space="preserve">
-    <value>Отключить политики Windows AI.</value>
+    <value>Отключить политики Windows AI</value>
   </data>
   <data name="CategoryOrTweakDescriptionHidesTheWindowsAIComponentsSettings" xml:space="preserve">
     <value>С помощью политик скрывает страницу настроек компонентов Windows AI и отключает Copilot, снимки Recall, Click to Do и функции Notepad AI. Удаление пакета доступно отдельно в разделе «Автоматические сценарии».</value>
@@ -229,7 +229,7 @@
     <value>Отключить двоичную таблицу платформы Windows (WPBT)</value>
   </data>
   <data name="CategoryOrTweakDescriptionPreventsFirmwareProvidedWPBTSoftwareFrom" xml:space="preserve">
-    <value>Предотвращает запуск встроенного программного обеспечения WPBT при загрузке. Это может привести к отключению программного обеспечения безопасности, восстановления или управления поставщика.</value>
+    <value>Не позволяет ПО WPBT, предоставляемому прошивкой, запускаться при загрузке. Это может отключить программы безопасности, восстановления или управления от производителя.</value>
   </data>
   <data name="CategoryOrTweakNamePreventDeviceCompanionApps" xml:space="preserve">
     <value>Запретить приложения Device Companion</value>
@@ -253,13 +253,13 @@
     <value>Дополнительно</value>
   </data>
   <data name="CategoryOrTweakDescriptionHigherImpactChangesThatTradeWindows" xml:space="preserve">
-    <value>Более серьезные изменения, которые меняют функциональность Windows на более низкую фоновую активность</value>
+    <value>Изменения с большим эффектом: часть функций Windows в обмен на меньшую фоновую активность</value>
   </data>
   <data name="CategoryOrTweakNameDisableWindowsSearchIndexing" xml:space="preserve">
     <value>Отключить индексирование поиска Windows</value>
   </data>
   <data name="CategoryOrTweakDescriptionDisablesWindowsSearchIndexingAndRestores" xml:space="preserve">
-    <value>Отключает индексирование поиска Windows и восстанавливает захваченную конфигурацию службы при повторном включении.</value>
+    <value>Отключает индексирование поиска Windows и при повторном включении восстанавливает сохранённую конфигурацию службы.</value>
   </data>
   <data name="CategoryOrTweakNameWindowsUpdateControl" xml:space="preserve">
     <value>Управление обновлениями Windows</value>
@@ -271,7 +271,7 @@
     <value>Исключить драйверы из Центра обновления Windows</value>
   </data>
   <data name="CategoryOrTweakDescriptionPreventsWindowsUpdateQualityUpdatesFrom" xml:space="preserve">
-    <value>Предотвращает автоматическую доставку драйверов устройств качественными обновлениями Центра обновления Windows.</value>
+    <value>Не позволяет исправлениям качества из Центра обновления Windows автоматически устанавливать драйверы устройств.</value>
   </data>
   <data name="CategoryOrTweakNameVisualEffectsPerformance" xml:space="preserve">
     <value>Визуальные эффекты и производительность</value>
@@ -337,7 +337,7 @@
     <value>Путь реестра (например, HKCU\Software\...)</value>
   </data>
   <data name="ValueName" xml:space="preserve">
-    <value>Значение Имя</value>
+    <value>Имя значения</value>
   </data>
   <data name="Type" xml:space="preserve">
     <value>Тип</value>
@@ -374,7 +374,7 @@
     <value>Применить</value>
   </data>
   <data name="TweakApplicationFailed" xml:space="preserve">
-    <value>Ошибка приложения настройки</value>
+    <value>Не удалось применить настройку</value>
   </data>
   <data name="TweakApplicationFailedMessage" xml:space="preserve">
     <value>Не удалось применить настройку: {0}
@@ -450,15 +450,15 @@ TweakHub восстанавливает захваченное исходное 
     <value>Для вступления в силу некоторых изменений требуется перезагрузка системы.</value>
   </data>
   <data name="TweaksApplied" xml:space="preserve">
-    <value>Примененные настройки</value>
+    <value>Настройки применены</value>
   </data>
   <data name="CreateRestorePointMessage" xml:space="preserve">
-    <value>При этом будет автоматически создана точка восстановления системы с именем «TweakHub — Pre Tweaks».
+    <value>В фоновом режиме будет создана точка восстановления системы с именем «TweakHub - Pre Tweaks».
 
-Создание может занять минуту и ​​требует прав администратора.</value>
+Создание может занять минуту и требует прав администратора.</value>
   </data>
   <data name="CreateRestorePoint" xml:space="preserve">
-    <value>Создать точку восстановления.</value>
+    <value>Создать точку восстановления</value>
   </data>
   <data name="CreatingRestorePoint" xml:space="preserve">
     <value>Создание точки восстановления системы...</value>
@@ -473,7 +473,7 @@ TweakHub восстанавливает захваченное исходное 
     <value>Точка восстановления создана успешно.</value>
   </data>
   <data name="RestorePointFailed" xml:space="preserve">
-    <value>Точка восстановления не выполнена.</value>
+    <value>Не удалось создать точку восстановления</value>
   </data>
   <data name="RestoreAllChanges" xml:space="preserve">
     <value>Восстановить все изменения</value>
@@ -520,7 +520,15 @@ TweakHub восстанавливает захваченное исходное 
   <data name="WindowsUpdatePresetCustom" xml:space="preserve"><value>Пользовательский или частично применённый</value></data>
   <data name="WindowsUpdatePresetDefaultDescription" xml:space="preserve"><value>Удаляет управляемые этими режимами политики, восстанавливает стандартный запуск служб и включает задачи обновления.</value></data>
   <data name="WindowsUpdatePresetDisabledDescription" xml:space="preserve"><value>Останавливает и отключает службы и задачи обновления, блокирует автоматические обновления и удаляет загруженные файлы.</value></data>
-  <data name="WindowsUpdatePresetSecurityDescription" xml:space="preserve"><value>Сохраняет обычный график обновлений безопасности и качества, исключает драйверы и откладывает обновления функций на 365 дней.</value></data>
+  <data name="WindowsUpdatePresetSecurityDescription" xml:space="preserve"><value>Обновления безопасности не откладываются, но ничего не скачивается, не устанавливается и не перезагружается автоматически: Windows уведомляет, а вы сами скачиваете, устанавливаете и перезагружаете. Исключает драйверы и откладывает обновления функций на 365 дней.</value></data>
+  <data name="WindowsUpdateSecurityHomeTitle" xml:space="preserve"><value>Режим «Безопасность» в Windows Home</value></data>
+  <data name="WindowsUpdateSecurityHomeMessage" xml:space="preserve"><value>Windows Home применяет этот режим лишь частично.
+
+Недоступно: отсрочка обновлений функций на 365 дней. Это политика Windows Update для бизнеса, которую соблюдают только Pro, Enterprise и Education, поэтому Home устанавливает новую версию Windows, как только Microsoft её предложит.
+
+Записано, но не гарантировано: уведомление перед скачиванием, отсутствие автоматической перезагрузки и драйверов из Windows Update. Microsoft описывает эти политики для Pro и более старших выпусков, и некоторые сборки Home их игнорируют. Если обновления начнут скачиваться сами, ваша сборка их игнорирует.
+
+В Home можно приостановить обновления на срок до 5 недель в разделе «Параметры» &gt; «Центр обновления Windows».</value></data>
   <data name="WindowsUpdatePresetCustomDescription" xml:space="preserve"><value>Текущие настройки не соответствуют ни одному режиму TweakHub. Выберите режим, чтобы заменить их.</value></data>
   <data name="WindowsUpdateCurrentMode" xml:space="preserve"><value>Текущий режим: {0}</value></data>
   <data name="WindowsUpdateBundledScript" xml:space="preserve"><value>Встроенный локальный скрипт; удалённый код не загружается</value></data>
@@ -532,12 +540,12 @@ TweakHub восстанавливает захваченное исходное 
   <data name="WindowsUpdateApplyFailed" xml:space="preserve"><value>Не удалось применить режим Центра обновления Windows</value></data>
   <data name="WindowsUpdateApplied" xml:space="preserve"><value>Режим Центра обновления Windows применён</value></data>
   <data name="WindowsUpdateAppliedMessage" xml:space="preserve"><value>Режим {0} успешно применён.</value></data>
-  <data name="WindowsUpdateRestartMessage" xml:space="preserve"><value>Перезапустите Windows, чтобы завершить применение режима обновления.</value></data>
+  <data name="WindowsUpdateRestartMessage" xml:space="preserve"><value>Перезагрузите Windows, чтобы завершить применение режима Центра обновления Windows.</value></data>
   <data name="RestartVerificationTitle" xml:space="preserve">
-    <value>Проверка после перезапуска</value>
+    <value>Проверка после перезагрузки</value>
   </data>
   <data name="RestartVerificationDescription" xml:space="preserve">
-    <value>TweakHub проверил изменения, ожидавшие перезапуска Windows.</value>
+    <value>TweakHub проверил изменения, ожидавшие перезагрузки Windows.</value>
   </data>
   <data name="RestartVerificationVerified" xml:space="preserve">
     <value>Проверено: ожидаемое состояние активно.</value>
@@ -561,7 +569,7 @@ TweakHub восстанавливает захваченное исходное 
     <value>Понятно</value>
   </data>
   <data name="RestartVerificationRetryStarted" xml:space="preserve">
-    <value>Изменение применено повторно. Перезапустите Windows для проверки.</value>
+    <value>Изменение применено повторно. Перезагрузите Windows, чтобы проверить его.</value>
   </data>
   <data name="RestartVerificationRestored" xml:space="preserve">
     <value>Исходное состояние восстановлено.</value>
@@ -570,31 +578,31 @@ TweakHub восстанавливает захваченное исходное 
     <value>Операция завершилась ошибкой.</value>
   </data>
   <data name="PowerPlanTitle" xml:space="preserve">
-    <value>План электропитания для производительности</value>
+    <value>Схема электропитания для производительности</value>
   </data>
   <data name="PowerPlanDescription" xml:space="preserve">
-    <value>Выберите план, который включает настройка «Принудительный план высокой производительности». Пользовательские планы (например, импортированные планы для тюнинга) распознаются после выбора; если план «Высокая производительность» Windows удалён, TweakHub воссоздаёт его из шаблона Windows.</value>
+    <value>Выберите схему, которую включает настройка «Принудительно включить схему „Высокая производительность“». Пользовательские схемы (например, импортированные схемы для тюнинга) распознаются после выбора; если схема «Высокая производительность» Windows удалена, TweakHub воссоздаёт её из шаблона Windows.</value>
   </data>
   <data name="PowerPlanUse" xml:space="preserve">
-    <value>Использовать этот план</value>
+    <value>Использовать эту схему</value>
   </data>
   <data name="PowerPlanOpenOptions" xml:space="preserve">
     <value>Электропитание</value>
   </data>
   <data name="PowerPlanActive" xml:space="preserve">
-    <value>{0} (активен)</value>
+    <value>{0} (активна)</value>
   </data>
   <data name="PowerPlanRecreateHighPerformance" xml:space="preserve">
-    <value>Высокая производительность (Windows, будет воссоздан)</value>
+    <value>Высокая производительность (Windows, будет воссоздана)</value>
   </data>
   <data name="PowerPlanCurrent" xml:space="preserve">
-    <value>Активный план: {0}</value>
+    <value>Активная схема: {0}</value>
   </data>
   <data name="PowerPlanApplyFailed" xml:space="preserve">
-    <value>План электропитания не изменён</value>
+    <value>Схема электропитания не изменена</value>
   </data>
   <data name="PowerPlanApplyFailedMessage" xml:space="preserve">
-    <value>Не удалось включить или воссоздать план. Проверьте, что он есть в разделе «Электропитание» и что вы подтвердили запрос администратора.</value>
+    <value>Не удалось включить или воссоздать схему. Проверьте, что она есть в разделе «Электропитание» и что вы подтвердили запрос администратора.</value>
   </data>
   <data name="PowerSectionTitle" xml:space="preserve">
     <value>Электропитание</value>
