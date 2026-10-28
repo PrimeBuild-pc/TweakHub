@@ -16,6 +16,8 @@ public class TweakCatalogueTests
         {
             "cpu_priority_separation",
             "disable_cpu_throttling",
+            "disable_power_throttling",
+            "disable_hibernation",
             "disable_core_parking",
             "high_performance_power_plan",
             "optimize_network_throttling",
@@ -43,6 +45,8 @@ public class TweakCatalogueTests
             "disable_bing_search",
             "disable_windows_search",
             "disable_fast_startup",
+            "power_policy_no_auto_sleep",
+            "power_policy_disable_sleep",
             "detailed_bsod",
             "disable_automatic_driver_updates",
             "disable_animations",
@@ -103,11 +107,22 @@ public class TweakCatalogueTests
         var tweaks = service.TweakCategories.SelectMany(category => category.Tweaks).ToList();
 
         Assert.That(TweakService.RecommendedWindowsUpdatePreset, Is.EqualTo(WindowsUpdatePreset.Security));
-        var exceptions = new[] { "disable_sysmain", "disable_prefetch", "disable_fullscreen_optimizations", "optimize_network_for_gaming" };
+        var exceptions = new[] { "disable_sysmain", "disable_prefetch", "disable_fullscreen_optimizations", "optimize_network_for_gaming", "disable_hibernation", "disable_power_throttling", "power_policy_disable_sleep" };
         Assert.That(tweaks.Where(tweak => !exceptions.Contains(tweak.Id)),
             Has.All.Matches<TweakHub.Models.PerformanceTweak>(TweakService.IsRecommended));
         Assert.That(tweaks.Where(tweak => exceptions.Contains(tweak.Id)),
             Has.None.Matches<TweakHub.Models.PerformanceTweak>(TweakService.IsRecommended));
+    }
+
+    [TestCase("power_policy_no_auto_sleep", 6)]
+    [TestCase("power_policy_disable_sleep", 3)]
+    public void SleepPoliciesOnlyChangeThePluggedInSettings(string id, int count)
+    {
+        var changes = TweakService.GetCompositeRegistryChanges(id);
+        Assert.That(changes, Has.Count.EqualTo(count));
+        Assert.That(changes.Select(change => change.ValueName), Has.None.EqualTo("DCSettingIndex"));
+        Assert.That(changes.Where(change => change.KeyPath.Contains(@"\Power\PowerSettings\")),
+            Has.All.Matches<RegistryValueChange>(change => change.ValueName == "ACSettingIndex" && Equals(change.Value, 0)));
     }
 
     [TestCase(null, "SwapEffectUpgradeEnable=1;")]

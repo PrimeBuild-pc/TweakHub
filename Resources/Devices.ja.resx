@@ -748,4 +748,129 @@ TweakHub はスクリプトの動作を確認できず、作者はいつでも�
   <data name="HintWiderM2" xml:space="preserve">
     <value>このマザーボードの x{0} レーンの M.2 スロット：{1}。</value>
   </data>
+  <data name="AdviceUnknown" xml:space="preserve">
+    <value>未評価 — 有効のままにする</value>
+  </data>
+  <data name="RuleUnknown" xml:space="preserve">
+    <value>無効化を推奨する検証済み情報はありません。正常なデバイスや子デバイスのないバスは CPU の無駄を意味しません。用途が不明な場合は有効のままにしてください。</value>
+  </data>
+  <data name="RuleUnknownBreaks" xml:space="preserve">
+    <value>このデバイスと依存する機能。正確な影響は不明です。先にドライバーと接続デバイスを確認してください。</value>
+  </data>
+  <data name="RuleUsbHub" xml:space="preserve">
+    <value>マザーボード内部も含む USB ハブです。有効のままにしてください。内部 USB は RGB、ファンコントローラー、Bluetooth、ケースのポートに使われる場合があります。</value>
+  </data>
+  <data name="RuleUsbHubBreaks" xml:space="preserve">
+    <value>ハブ配下の全デバイス。マウス/キーボード、照明制御、冷却制御、内部周辺機器を含む場合があります。遅延低減のために無効化しないでください。</value>
+  </data>
+  <data name="LinkUsbHub" xml:space="preserve">
+    <value>USB ハブ（内部の場合もあります）。USB 3 ハブには USB 2 側もあるため、480 Mb/s だけで接続が遅いとは判断できません。ハブ名では配下の RGB/ファン機器は特定できません。</value>
+  </data>
+  <data name="CheckPreviewReads" xml:space="preserve">
+    <value>読み取り</value>
+  </data>
+  <data name="CheckPreviewRepair" xml:space="preserve">
+    <value>修復で実行</value>
+  </data>
+  <data name="CheckPreviewTooltip" xml:space="preserve">
+    <value>このチェックが読み取る内容と、修復で変更される内容を表示</value>
+  </data>
+  <data name="DisableUnused" xml:space="preserve">
+    <value>未使用を無効化</value>
+  </data>
+  <data name="DisableUnusedHint" xml:space="preserve">
+    <value>この PC で使われていないデバイスを見つけ、チェックしたものを管理者の確認 1 回で無効にします。「すべて再有効化」で元に戻せます。</value>
+  </data>
+  <data name="UnusedNone" xml:space="preserve">
+    <value>未使用のデバイスは見つかりませんでした。無効にするものはありません。</value>
+  </data>
+  <data name="UnusedMessage" xml:space="preserve">
+    <value>これらのデバイスはこの PC で使われていません。残したいものはチェックを外してください。「すべて再有効化」でいつでも元に戻せます。 ネットワーク カードはチェックされていません。まったく使わない場合のみチェックしてください（例: 常に有線で使うデスクトップの Wi-Fi）。</value>
+  </data>
+  <data name="UnusedFailed" xml:space="preserve">
+    <value>次のデバイスを無効にできませんでした:
+{0}</value>
+  </data>
+  <data name="UnusedAlways" xml:space="preserve">
+    <value>通常の PC では不要</value>
+  </data>
+  <data name="UnusedTunnel" xml:space="preserve">
+    <value>古い IPv6 トンネル（ほとんど使われない）</value>
+  </data>
+  <data name="UnusedRemoteDesktop" xml:space="preserve">
+    <value>リモート デスクトップがオフ</value>
+  </data>
+  <data name="UnusedVpn" xml:space="preserve">
+    <value>Windows の VPN または PPPoE 接続が設定されていない</value>
+  </data>
+  <data name="UnusedNic" xml:space="preserve">
+    <value>リンクのないネットワーク カード（別のカードが接続中）</value>
+  </data>
+  <data name="TabDrivers" xml:space="preserve">
+    <value>ドライバー</value>
+  </data>
+  <data name="DriversTitle" xml:space="preserve">
+    <value>古いバージョンのドライバー</value>
+  </data>
+  <data name="DriversDescription" xml:space="preserve">
+    <value>Driver Store Explorer の「Select old drivers」と同様に、新しいバージョンに置き換えられ、どのデバイスも使用していないサードパーティ ドライバーの古いバージョンを見つけます。Windows が削除する前に各パッケージをバックアップへエクスポートし、下から復元できます。使用中のドライバー、VPN、仮想マシン、フィルター ドライバーは提案されません。スキャンには管理者権限が必要です。</value>
+  </data>
+  <data name="DriversScan" xml:space="preserve">
+    <value>ドライバー ストアをスキャン</value>
+  </data>
+  <data name="DriversScanning" xml:space="preserve">
+    <value>ドライバー ストアを読み取っています…</value>
+  </data>
+  <data name="DriversScanned" xml:space="preserve">
+    <value>サードパーティ パッケージ {0} 個、削除できる古いバージョン {1} 個。</value>
+  </data>
+  <data name="DriversNone" xml:space="preserve">
+    <value>サードパーティ パッケージ {0} 個: 削除する古いバージョンはありません。</value>
+  </data>
+  <data name="DriversRemove" xml:space="preserve">
+    <value>古いバージョンを削除</value>
+  </data>
+  <data name="DriversRemoveMessage" xml:space="preserve">
+    <value>残したいパッケージのチェックを外してください。各パッケージは先にバックアップされます。デバイスが使用中のパッケージは Windows が削除を拒否します。</value>
+  </data>
+  <data name="DriversRemoving" xml:space="preserve">
+    <value>バックアップして削除しています…</value>
+  </data>
+  <data name="DriversRemoved" xml:space="preserve">
+    <value>{0} 個のパッケージを削除しました。バックアップは下に表示されます。</value>
+  </data>
+  <data name="DriversFailed" xml:space="preserve">
+    <value>次のパッケージは残されました:
+{0}</value>
+  </data>
+  <data name="DriversBackups" xml:space="preserve">
+    <value>削除したドライバーのバックアップ</value>
+  </data>
+  <data name="DriversNoBackups" xml:space="preserve">
+    <value>削除したドライバーはありません。</value>
+  </data>
+  <data name="DriversRestore" xml:space="preserve">
+    <value>復元</value>
+  </data>
+  <data name="DriversRestoreConfirm" xml:space="preserve">
+    <value>{0} を Windows のドライバー ストアに戻しますか？復元後にバックアップは削除されます。</value>
+  </data>
+  <data name="DriversColumnProvider" xml:space="preserve">
+    <value>提供元</value>
+  </data>
+  <data name="DriversColumnVersion" xml:space="preserve">
+    <value>バージョン</value>
+  </data>
+  <data name="DriversColumnNewer" xml:space="preserve">
+    <value>新しいバージョン</value>
+  </data>
+  <data name="DriversColumnDate" xml:space="preserve">
+    <value>日付</value>
+  </data>
+  <data name="UnusedVpnOtherUser" xml:space="preserve">
+    <value>あなたには VPN/PPPoE 接続がありませんが、別のユーザー（{0}）にはあります。そのユーザーが使う場合は有効のままにしてください</value>
+  </data>
+  <data name="UnusedVpnUnchecked" xml:space="preserve">
+    <value>あなたには VPN/PPPoE 接続がありません。{0} の接続は確認できませんでした（読み取るには TweakHub を管理者として起動してください）</value>
+  </data>
 </root>

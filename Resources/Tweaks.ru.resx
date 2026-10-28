@@ -799,4 +799,52 @@ TweakHub восстанавливает захваченное исходное 
   <data name="NetworkAdapterConnected" xml:space="preserve">
     <value>подключён</value>
   </data>
+  <data name="RevertedTweaksTitle" xml:space="preserve">
+    <value>Твики, отменённые Windows</value>
+  </data>
+  <data name="RevertedTweaksMessage" xml:space="preserve">
+    <value>TweakHub применил эти твики, но их параметры вернулись к прежним значениям, обычно после обновления Windows: {0}. При повторном применении исходная резервная копия сохраняется, поэтому «Восстановить» по-прежнему вернёт исходные значения.</value>
+  </data>
+  <data name="RevertedTweaksReapply" xml:space="preserve">
+    <value>Применить снова</value>
+  </data>
+  <data name="RiskSafe" xml:space="preserve">
+    <value>Безопасно</value>
+  </data>
+  <data name="RiskCosmetic" xml:space="preserve">
+    <value>Внешний вид</value>
+  </data>
+  <data name="RiskModerate" xml:space="preserve">
+    <value>Умеренно</value>
+  </data>
+  <data name="RiskCaution" xml:space="preserve">
+    <value>Осторожно</value>
+  </data>
+  <data name="RiskSafeHint" xml:space="preserve">
+    <value>Низкий риск: легко отменить, не влияет на стабильность.</value>
+  </data>
+  <data name="RiskCosmeticHint" xml:space="preserve">
+    <value>Меняет только внешний вид или визуальную реакцию Windows.</value>
+  </data>
+  <data name="RiskModerateHint" xml:space="preserve">
+    <value>Меняет поведение системы: прочитайте описание и сохраните резервную копию.</value>
+  </data>
+  <data name="RiskCautionHint" xml:space="preserve">
+    <value>Может отключить функции или защиту Windows: применяйте, только если это действительно нужно.</value>
+  </data>
+  <data name="RiskLabel" xml:space="preserve">
+    <value>Уровень риска</value>
+  </data>
+  <data name="RiskFilterLabel" xml:space="preserve">
+    <value>Показать</value>
+  </data>
+  <data name="RiskFilterAll" xml:space="preserve">
+    <value>Все твики</value>
+  </data>
+  <data name="RiskFilterRecommended" xml:space="preserve">
+    <value>Рекомендуемые</value>
+  </data>
+  <data name="RiskFilterCount" xml:space="preserve">
+    <value>Твиков: {0}</value>
+  </data>
 </root>

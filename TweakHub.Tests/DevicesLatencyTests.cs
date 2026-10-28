@@ -41,6 +41,49 @@ public class DevicesLatencyTests
     }
 
     [Test]
+    public async Task InventoryUsesDevicePropertiesWhenCimFieldsAreMissing()
+    {
+        const string mocks = """
+            function Get-PnpDevice { [pscustomobject]@{ InstanceId = 'USB\TEST\1'; FriendlyName = 'Hub'; Class = 'USB'; Status = 'Error' } }
+            function Get-PnpDeviceProperty {
+                param([Parameter(ValueFromPipeline=$true)]$Device, $KeyName)
+                process {
+                    [pscustomobject]@{ InstanceId = $Device.InstanceId; KeyName = 'DEVPKEY_Device_IsPresent'; Data = $true }
+                    [pscustomobject]@{ InstanceId = $Device.InstanceId; KeyName = 'DEVPKEY_Device_ProblemCode'; Data = 22 }
+                }
+            }
+            """;
+        var result = await PowerShellService.Instance.ExecuteScriptAsync(mocks + "\n" + DeviceService.InventoryScript);
+        Assert.That(result.Success, Is.True, result.Error);
+        var device = DeviceService.ParseDevices(result.Output, []).Single();
+        Assert.Multiple(() =>
+        {
+            Assert.That(device.Present, Is.True);
+            Assert.That(device.Problem, Is.EqualTo(22));
+            Assert.That(device.Category, Is.EqualTo(DeviceCategory.Disabled));
+        });
+    }
+
+    [Test]
+    public void AbsentDevicesAreNotSuggestedAndHubsHaveExplicitSafetyAdvice()
+    {
+        var devices = DeviceService.ParseDevices("""
+            [{"Id":"ROOT\\KDNIC\\old","Name":"Kernel Debug Network Adapter","Present":false,"Problem":45},
+             {"Id":"USB\\VID_174C&PID_2074\\1","Name":"Hub USB generico","Class":"USB","Service":"USBHUB3","Present":true,"Status":"OK"}]
+            """, []);
+        var absent = devices.Single(device => !device.Present);
+        var hub = devices.Single(device => device.Present);
+        Assert.Multiple(() =>
+        {
+            Assert.That(absent.CanToggle, Is.False);
+            Assert.That(absent.IsSuggestion, Is.False);
+            Assert.That(hub.Rule?.Id, Is.EqualTo("UsbHub"));
+            Assert.That(hub.Rule?.Advice, Is.EqualTo(DeviceAdvice.Avoid));
+            Assert.That(hub.HighRisk, Is.True);
+        });
+    }
+
+    [Test]
     public void IdleBusNeedsZeroChildrenAndABusName()
     {
         var devices = DeviceService.ParseDevices("""[{"Id":"ROOT\\COMPOSITEBUS\\0000","Name":"Composite Bus Enumerator","Class":"System","Status":"OK","Present":true,"Problem":0}]""", []);
@@ -90,7 +133,10 @@ public class DevicesLatencyTests
             Assert.That(changes[2].Value, Is.EqualTo(4));
             Assert.That(changes[3].Value, Is.EqualTo(BitConverter.GetBytes(2UL)));
             Assert.That(changes[3].Kind, Is.EqualTo(RegistryValueKind.Binary));
-            Assert.That(InterruptService.BuildChanges(device, null, null, 0), Is.Empty, "An empty mask is never written");
+            Assert.That(InterruptService.BuildChanges(device, null, null, null), Is.Empty, "No affinity request leaves it unchanged");
+            var automatic = InterruptService.BuildChanges(device, null, null, 0);
+            Assert.That(automatic.Select(change => change.ValueName), Is.EqualTo(new[] { "DevicePolicy", "AssignmentSetOverride" }));
+            Assert.That(automatic.All(change => change.Value is null), Is.True, "Automatic deletes overrides, never writes an empty mask");
         });
     }
 

@@ -107,6 +107,9 @@ namespace TweakHub.Services
             }
         }
 
+        // A group write takes seconds; never wait forever on a stuck elevated script.
+        private static readonly TimeSpan ScriptTimeout = TimeSpan.FromMinutes(2);
+
         public async Task<bool> ApplyValuesWithBackupAsync(IReadOnlyCollection<RegistryValueChange> changes)
         {
             try
@@ -123,7 +126,7 @@ namespace TweakHub.Services
                 }
 
                 var result = await PowerShellService.Instance.ExecuteScriptAsync(
-                    BuildRegScript(changes), requireAdministrator: changes.Any(change => RequiresElevation(change.KeyPath)));
+                    BuildRegScript(changes), requireAdministrator: changes.Any(change => RequiresElevation(change.KeyPath)), ScriptTimeout);
                 var success = result.Success && changes.All(change => change.Value is null
                     ? !RegistryValueExists(change.KeyPath, change.ValueName)
                     : ValuesEqual(GetRegistryValue(change.KeyPath, change.ValueName), Normalize(change.Value)));
@@ -150,7 +153,7 @@ namespace TweakHub.Services
             var result = restoreChanges.Count == 0
                 ? new PowerShellResult { Success = true }
                 : await PowerShellService.Instance.ExecuteScriptAsync(
-                    BuildRegScript(restoreChanges), requireAdministrator: restoreChanges.Any(change => RequiresElevation(change.KeyPath)));
+                    BuildRegScript(restoreChanges), requireAdministrator: restoreChanges.Any(change => RequiresElevation(change.KeyPath)), ScriptTimeout);
             var success = result.Success && backups.All(backup => IsOriginal(backup!));
             foreach (var backup in backups)
                 Log("restore", backup!.KeyPath, backup.ValueName, success, success ? null : result.Error);
@@ -169,23 +172,52 @@ namespace TweakHub.Services
             ? ValuesEqual(GetRegistryValue(backup.KeyPath, backup.ValueName), Decode(backup))
             : !RegistryValueExists(backup.KeyPath, backup.ValueName);
 
-        private static string BuildRegScript(IEnumerable<RegistryValueChange> changes)
+        /// <summary>
+        /// Writes through the .NET registry API: Windows PowerShell 5.1 splits native arguments that hold quotes or end in a
+        /// backslash, so reg.exe rejected such data or lost /f and waited for an overwrite confirmation.
+        /// </summary>
+        internal static string BuildRegScript(IEnumerable<RegistryValueChange> changes)
         {
             static string Quote(string value) => PowerShellService.Literal(value);
-            // A skipped delete leaves $LASTEXITCODE untouched, so start from a known success value.
-            var script = new System.Text.StringBuilder("$ErrorActionPreference = 'Stop'\n$global:LASTEXITCODE = 0\n");
+            var script = new System.Text.StringBuilder("$ErrorActionPreference = 'Stop'\n");
             foreach (var change in changes)
             {
-                var keyPath = ForScript(change.KeyPath);
-                // reg.exe fails when the value is already gone, which is the state we want, so delete only what exists.
-                if (change.Value is null)
-                    script.AppendLine($"if ($null -ne (Get-ItemProperty -LiteralPath {Quote("Registry::" + keyPath)} -Name {Quote(change.ValueName)} -ErrorAction SilentlyContinue)) {{ & reg.exe delete {Quote(keyPath)} /v {Quote(change.ValueName)} /f }}");
-                else
-                    script.AppendLine($"& reg.exe add {Quote(keyPath)} /v {Quote(change.ValueName)} /t {RegType(change.Kind)} /d {Quote(FormatRegData(change.Value, change.Kind))} /f");
-                script.AppendLine("if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }");
+                var (hive, subKey) = ScriptHive(ForScript(change.KeyPath));
+                var root = $"[Microsoft.Win32.RegistryKey]::OpenBaseKey({Quote(hive)}, 'Registry64')";
+                // A value that is already gone is the state we want.
+                script.AppendLine(change.Value is null
+                    ? $"$key = {root}.OpenSubKey({Quote(subKey)}, $true); if ($key) {{ $key.DeleteValue({Quote(change.ValueName)}, $false); $key.Close() }}"
+                    : $"$key = {root}.CreateSubKey({Quote(subKey)}); $key.SetValue({Quote(change.ValueName)}, {ScriptValue(change.Value, change.Kind)}, {Quote(ScriptKind(change.Kind).ToString())}); $key.Close()");
             }
             return script.ToString();
         }
+
+        private static (string Hive, string SubKey) ScriptHive(string keyPath)
+        {
+            var parts = keyPath.Split('\\', 2);
+            return (parts[0].ToUpperInvariant() switch
+            {
+                "HKEY_LOCAL_MACHINE" or "HKLM" => "LocalMachine",
+                "HKEY_USERS" or "HKU" => "Users",
+                "HKEY_CLASSES_ROOT" or "HKCR" => "ClassesRoot",
+                "HKEY_CURRENT_CONFIG" or "HKCC" => "CurrentConfig",
+                _ => throw new ArgumentException(L.Format("UI:RegistryRootUnsupported", parts[0]), nameof(keyPath))
+            }, parts.Length > 1 ? parts[1] : string.Empty);
+        }
+
+        // shortcut: REG_NONE and other rare kinds are written as REG_BINARY with the same bytes; keep them if one ever matters.
+        private static RegistryValueKind ScriptKind(RegistryValueKind kind) => kind is RegistryValueKind.String or RegistryValueKind.ExpandString
+            or RegistryValueKind.DWord or RegistryValueKind.QWord or RegistryValueKind.MultiString ? kind : RegistryValueKind.Binary;
+
+        /// <summary>A PowerShell literal of the exact .NET type SetValue needs for the kind; text only ever as a quoted literal.</summary>
+        private static string ScriptValue(object value, RegistryValueKind kind) => ScriptKind(kind) switch
+        {
+            RegistryValueKind.DWord => $"[int]{unchecked((int)Convert.ToInt64(value, CultureInfo.InvariantCulture)).ToString(CultureInfo.InvariantCulture)}",
+            RegistryValueKind.QWord => $"[long]{Convert.ToInt64(value, CultureInfo.InvariantCulture).ToString(CultureInfo.InvariantCulture)}",
+            RegistryValueKind.MultiString => $"[string[]]@({string.Join(", ", ((IEnumerable<string>)value).Select(PowerShellService.Literal))})",
+            RegistryValueKind.Binary => $"[byte[]][Convert]::FromBase64String('{Convert.ToBase64String((byte[])value)}')",
+            _ => PowerShellService.Literal(Convert.ToString(value, CultureInfo.InvariantCulture) ?? string.Empty)
+        };
 
         private static string RegType(RegistryValueKind kind) => kind switch
         {
@@ -391,7 +423,7 @@ namespace TweakHub.Services
             {
                 var startInfo = new ProcessStartInfo
                 {
-                    FileName = "reg.exe",
+                    FileName = SystemTools.System32("reg.exe"),
                     UseShellExecute = true,
                     Verb = "runas",
                     WindowStyle = ProcessWindowStyle.Hidden
@@ -437,7 +469,8 @@ namespace TweakHub.Services
                 corrupt = true;
                 Log("load-backup", string.Empty, string.Empty, false, message);
             });
-            foreach (var backup in backups)
+            // A hand-edited or truncated file can hold nulls: skip those entries instead of failing at startup.
+            foreach (var backup in backups.Where(backup => backup is { KeyPath: not null, ValueName: not null }))
                 _backups[BackupKey(backup.KeyPath, backup.ValueName)] = backup;
             if (!corrupt) LastBackupCreatedAt = File.GetLastWriteTime(_backupFile);
         }
@@ -534,7 +567,7 @@ namespace TweakHub.Services
         }
 
         // HKLM\ and HKEY_LOCAL_MACHINE\ name the same value, so they must share one backup.
-        private static string BackupKey(string keyPath, string valueName)
+        internal static string BackupKey(string keyPath, string valueName)
         {
             var path = keyPath.Trim();
             var separator = path.IndexOf('\\');
@@ -581,8 +614,8 @@ namespace TweakHub.Services
 
         private static string? Encode(object? value, RegistryValueKind kind) => kind switch
         {
-            RegistryValueKind.Binary => Convert.ToBase64String((byte[])(value ?? Array.Empty<byte>())),
             RegistryValueKind.MultiString => JsonSerializer.Serialize((string[])(value ?? Array.Empty<string>())),
+            _ when ScriptKind(kind) == RegistryValueKind.Binary => Convert.ToBase64String(value as byte[] ?? []),
             _ => Convert.ToString(value, CultureInfo.InvariantCulture)
         };
 
@@ -590,8 +623,8 @@ namespace TweakHub.Services
         {
             RegistryValueKind.DWord => int.Parse(backup.Data ?? "0", CultureInfo.InvariantCulture),
             RegistryValueKind.QWord => long.Parse(backup.Data ?? "0", CultureInfo.InvariantCulture),
-            RegistryValueKind.Binary => Convert.FromBase64String(backup.Data ?? string.Empty),
             RegistryValueKind.MultiString => JsonSerializer.Deserialize<string[]>(backup.Data ?? "[]") ?? [],
+            _ when ScriptKind(backup.Kind) == RegistryValueKind.Binary => Convert.FromBase64String(backup.Data ?? string.Empty),
             _ => backup.Data ?? string.Empty
         };
 
@@ -608,7 +641,13 @@ namespace TweakHub.Services
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
-    public sealed record RegistryValueChange(string KeyPath, string ValueName, object? Value, RegistryValueKind Kind = RegistryValueKind.DWord);
+    public sealed record RegistryValueChange(string KeyPath, string ValueName, object? Value, RegistryValueKind Kind = RegistryValueKind.DWord)
+    {
+        /// <summary>The equivalent reg.exe command, shown in previews so every change is visible before it runs.</summary>
+        public string ToRegCommand() => Value is null
+            ? $"reg delete \"{KeyPath}\" /v \"{ValueName}\" /f"
+            : $"reg add \"{KeyPath}\" /v \"{ValueName}\" /t {(Kind == RegistryValueKind.String ? "REG_SZ" : "REG_DWORD")} /d {Value} /f";
+    }
 
     internal sealed class RegistryBackup
     {

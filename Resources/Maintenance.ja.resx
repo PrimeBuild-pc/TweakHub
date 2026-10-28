@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader><resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader><resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="DisablePowerThrottlingName" xml:space="preserve"><value>全体の Power Throttling を無効化</value></data>
+  <data name="DisablePowerThrottlingDescription" xml:space="preserve"><value>バックグラウンドアプリの Power Throttling を無効にします。電源プランの最小 CPU 状態とは別で、熱保護は無効にしません。自動推奨ではありません。消費電力と温度が上昇する可能性があり、ゲーム性能向上は保証されません。再起動が必要。復元で元のレジストリ値に戻します。</value></data>
+  <data name="DisableHibernationName" xml:space="preserve"><value>休止状態を無効化</value></data>
+  <data name="DisableHibernationDescription" xml:space="preserve"><value>powercfg で休止ファイルを削除し空き容量を確保します。FPS 向上ではありません。高速スタートアップとハイブリッドスリープも使えなくなります。元の種類とサイズを保存します。管理者権限が必要。終了後も変更は残るため、復元用に portable 版の Data フォルダーを保管してください。</value></data>
+  <data name="HibernationUnavailable" xml:space="preserve"><value>休止状態が既に無効で TweakHub バックアップがないか、元の種類/サイズを安全に読み取れません。Windows 設定を使ってください。推測した構成は書き込みません。</value></data>
+  <data name="ServicesTitle" xml:space="preserve"><value>任意のサービス</value></data>
+  <data name="ServicesDescription" xml:space="preserve"><value>使わない機能のサービスだけ変更してください。「手動」は要求/トリガー起動を許可し、「無効」は阻止します。自動選択や変更はありません。SysMain とテレメトリは既存の設定で管理し、エラー報告は診断用に維持します。FPS 向上を約束しません。</value></data>
+  <data name="ServicesNoStop" xml:space="preserve"><value>起動構成のみ変更し、実行中のサービスは停止しません。依存関係とトリガーも維持します。Windows 再起動が必要な場合があります。復元用にこのコピーの Data を保管してください。</value></data>
+  <data name="ServiceConfirm" xml:space="preserve"><value>{0} の起動構成を {2} に変更しますか？
+
+{1}
+
+管理者権限が必要です。今すぐサービスは停止しません。変更前に元の構成を保存するため、復元用にバックアップを保管してください。</value></data>
+  <data name="ServiceFailed" xml:space="preserve"><value>サービス構成を確認できませんでした。バックアップは保持しています。更新して必要なら元の構成を復元してください。</value></data>
+  <data name="ServiceManagedElsewhere" xml:space="preserve"><value>別の TweakHub セクションにこのサービスのバックアップがあります。競合を避けるため、先に元のセクションで復元してください。</value></data>
+  <data name="ServiceSysMain" xml:space="preserve"><value>アプリの先読みとキャッシュ。SSD でも不要とは限りません。特定の問題を診断するとき以外は維持してください。既にレジストリ設定に専用項目があります。</value></data>
+  <data name="ServiceMapsBroker" xml:space="preserve"><value>ダウンロード/オフライン地図用。使わない場合のみ変更を検討してください。停止済みサービスは CPU 作業を実行していません。</value></data>
+  <data name="ServiceRetailDemo" xml:space="preserve"><value>店頭展示 PC のデモモード。個人 PC では通常不要ですが、展示機では変更しないでください。</value></data>
+  <data name="ServiceDiagTrack" xml:space="preserve"><value>ユーザーエクスペリエンスとテレメトリ。既存設定で管理しています。診断データが減る可能性があり、ここには重複操作を設けません。</value></data>
+  <data name="Servicedmwappushservice" xml:space="preserve"><value>デバイス管理の WAP プッシュ経路で、単なるテレメトリではありません。組織/MDM 管理 PC では維持してください。管理メッセージが届かなくなる場合があります。</value></data>
+  <data name="ServiceWbioSrvc" xml:space="preserve"><value>Windows 生体認証。指紋や顔認証を使う場合は無効にしないでください。これらのサインインが使えなくなる可能性があります。</value></data>
+  <data name="ServiceWerSvc" xml:space="preserve"><value>Windows エラー報告はクラッシュ診断に役立ちます。維持し、性能改善設定としては提供しません。</value></data>
+  <data name="ServicePcaSvc" xml:space="preserve"><value>プログラム互換性アシスタント。古いアプリやインストーラーに必要な場合があり、無効化すると支援を失います。</value></data>
+  <data name="Missing" xml:space="preserve"><value>未インストール</value></data>
+  <data name="DelayedAuto" xml:space="preserve"><value>自動（遅延開始）</value></data>
+  <data name="Automatic" xml:space="preserve"><value>自動</value></data>
+  <data name="Manual" xml:space="preserve"><value>手動</value></data>
+  <data name="Disabled" xml:space="preserve"><value>無効</value></data>
+  <data name="Unknown" xml:space="preserve"><value>不明</value></data>
+  <data name="TronDescription" xml:space="preserve"><value>サードパーティの高度な清掃・駆除ツールで、読み取り専用スキャンではありません。完全パッケージの SHA-256 を確認し、明示的な確認後に展開/実行します。ファイルやアプリの削除、Windows 変更を伴い、TweakHub で全ては戻せません。数時間かかる場合があるため先に独自のバックアップを作成してください。</value></data>
+  <data name="TronDownload" xml:space="preserve"><value>1. パッケージをダウンロード</value></data>
+  <data name="TronExtract" xml:space="preserve"><value>2. 検証済みパッケージを展開</value></data>
+  <data name="TronRun" xml:space="preserve"><value>3. Tron を実行</value></data>
+  <data name="TronSource" xml:space="preserve"><value>公式ドキュメント</value></data>
+  <data name="TronDownloadConfirm" xml:space="preserve"><value>bmrf.org から完全な自己展開パッケージ（数百 MB）を Data/Tools/Tron に保存しますか？発行元の HTTPS 一覧でサイズと SHA-256 を照合します。これは完全性確認であり独立認証ではありません。この段階ではダウンロードしたコードを実行しません。</value></data>
+  <data name="TronExtractConfirm" xml:space="preserve"><value>検証済み自己展開プログラムを追加の昇格を要求せず実行します（TweakHub の現在の権限を継承します）。古い展開済みコピーは置換され、ローカル変更は失われます。実行前にパッケージと展開ファイルを検証します。この段階では Tron の清掃は開始しません。</value></data>
+  <data name="TronRunConfirm" xml:space="preserve"><value>ファイルをバックアップし、保留中の更新を完了するため再起動しましたか？Tron はソフト/ファイルの削除や設定変更を行い、数時間かかる場合があります。中断すると Windows が部分的に変更された状態になります。互換性は保証されません。OS チェックを回避しないでください。
+
+昇格した別コンソールで Tron の免責表示とともに起動します。-p -spr -m -sor -se -scs は電源、ページファイル設定、標準アプリ、OneDrive、イベントログを維持し、独自スクリプトを省略します。他の清掃/修復は実行されます。EULA 自動承認、再起動、メール、ログ送信は有効にしません。TweakHub バックアップでは Tron を取り消せません。続行しますか？</value></data>
+  <data name="TronReady" xml:space="preserve"><value>展開ファイルを検証しました。実行前にドキュメントを確認してください。</value></data>
+  <data name="TronStarted" xml:space="preserve"><value>Tron を昇格した別コンソールで起動しました。指示に従ってください。TweakHub を閉じても停止しません。清掃成功を意味する表示ではありません。</value></data>
+  <data name="Working" xml:space="preserve"><value>処理中…お待ちください。</value></data>
+  <data name="AffinityTitle" xml:space="preserve"><value>CPU アフィニティ</value></data>
+  <data name="AffinityDescription" xml:space="preserve"><value>アプリのプロセスではなく PCI デバイスの割り込みを論理 CPU に割り当てます。USB/HID は通常ホストコントローラーの割り込みを共有します。同じコア番号は SMT スレッドを表します。ドライバーが無視する場合があり、不適切な設定は遅延や安定性を悪化させます。再起動が必要で、自動最適化はしません。</value></data>
+  <data name="AutomaticAffinity" xml:space="preserve"><value>Windows による自動割り当て</value></data>
+  <data name="AffinityHint" xml:space="preserve"><value>論理 CPU を選択するか自動割り当てを使用します。コア表示は SMT スレッドをまとめます。元に戻す操作はアフィニティのみ変更し、MSI や優先度には影響しません。</value></data>
+  <data name="AffinityUnsupported" xml:space="preserve"><value>手動設定は利用不可：トポロジーを読めないか、複数のプロセッサグループがあります。64 ビットマスクの推測や切り捨ては行いません。自動割り当てとバックアップ復元は利用できます。</value></data>
+  <data name="AffinitySelectionRequired" xml:space="preserve"><value>対応 CPU を一つ以上選択するか、Windows の自動割り当てを使ってください。</value></data>
+  <data name="CpuLabel" xml:space="preserve"><value>CPU {0} · コア {1}</value></data>
+  <data name="NoAutoSleepName" xml:space="preserve"><value>電源接続時に自動スリープしない</value></data>
+  <data name="NoAutoSleepDescription" xml:space="preserve"><value>Windows の電源ポリシー（グループ ポリシー → 電源の管理）を設定し、電源接続時に PC が自動でスリープや休止状態にならず、ハイブリッド スリープをオフにし、ディスクの電源を切らず、省電力が自動でオンになったり常時オンに固定されたりしないようにします。すべての電源プランに適用され、バッテリー駆動時は変更されません。手動でのスリープは引き続き可能です。値はレジストリに直接書き込まれるため、グループ ポリシー エディターでは「未構成」と表示されたままです。復元すると元の値に戻ります。 再起動が必要です。</value></data>
+  <data name="DisableSleepName" xml:space="preserve"><value>電源接続時にスリープを完全に無効化</value></data>
+  <data name="DisableSleepDescription" xml:space="preserve"><value>電源接続時に Windows はスタンバイ状態 (S1–S3) を使用しなくなり、スリープ キーは何もせず、スタートの電源メニューから「スリープ」が非表示になります。この PC を一切スリープさせない場合のみ使用してください。任意設定で、推奨には含まれません。Modern Standby の PC は S1–S3 を使用しないため、独自のスリープが残ります。復元すると元の値に戻ります。 再起動が必要です。</value></data>
+  <data name="TronBlockedByAntivirus" xml:space="preserve"><value>Microsoft Defender（またはお使いのウイルス対策）が Tron パッケージを望ましくない可能性のあるソフトウェアとしてブロックし、削除しました。TweakHub がウイルス対策の除外を追加することはありません。Tron を信頼する場合は、このコピーの Data\Tools\Tron フォルダーと C:\ProgramData\TweakHub-Tron-* をご自身で除外に追加してから、もう一度お試しください。</value></data>
+</root>

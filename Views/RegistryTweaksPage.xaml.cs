@@ -12,6 +12,7 @@ namespace TweakHub.Views
     public partial class RegistryTweaksPage : Page
     {
         private readonly TweakService _tweakService;
+        private bool _filterQueued;
         private readonly RegistryService _registryService;
         private readonly UserDataService _userData = UserDataService.Instance;
         private readonly WindowsUpdatePresetService _windowsUpdatePresets = WindowsUpdatePresetService.Instance;
@@ -31,6 +32,14 @@ namespace TweakHub.Views
             CustomTweaksList.ItemsSource = _customTweaks;
             FavoriteBuiltInTweaksList.ItemsSource = _favoriteBuiltInTweaks;
             FavoriteCustomTweaksList.ItemsSource = _favoriteCustomTweaks;
+            // The list shows a filtered copy: rebuild it when the catalogue is reloaded.
+            // LoadTweaks clears and adds every category: rebuild once per reload, not once per change.
+            _tweakService.TweakCategories.CollectionChanged += (_, _) =>
+            {
+                if (_filterQueued) return;
+                _filterQueued = true;
+                Dispatcher.InvokeAsync(() => { _filterQueued = false; if (IsLoaded) ApplyRiskFilter(); });
+            };
 
             Loaded += RegistryTweaksPage_Loaded;
             _tweakService.PropertyChanged += TweakService_PropertyChanged;
@@ -96,11 +105,40 @@ namespace TweakHub.Views
         private async Task LoadTweaksAsync()
         {
             await Preload.Get(Preload.TweakStates, _tweakService.LoadWithStatesAsync);
-            TweakCategoriesControl.ItemsSource = _tweakService.TweakCategories;
+            ApplyRiskFilter();
 
             // Update sidebar badge immediately after initial state refresh
             NotifyMainWindowBadgeUpdate();
         }
+
+        private void RiskFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (IsLoaded) ApplyRiskFilter();
+        }
+
+        /// <summary>Shows the categories with only the tweaks that match the filter; the cards are the same objects, so toggles keep working.</summary>
+        private void ApplyRiskFilter()
+        {
+            var filter = (RiskFilterBox.SelectedItem as ComboBoxItem)?.Tag as string ?? "All";
+            var categories = FilterByRisk(_tweakService.TweakCategories, filter);
+            TweakCategoriesControl.ItemsSource = categories;
+            RiskFilterCount.Text = filter == "All" ? string.Empty
+                : L.Format("Tweaks:RiskFilterCount", categories.Sum(category => category.Tweaks.Count));
+        }
+
+        internal static List<TweakCategory> FilterByRisk(IEnumerable<TweakCategory> categories, string filter) => categories
+            .Select(category => new TweakCategory
+            {
+                Name = category.Name, Description = category.Description, Icon = category.Icon,
+                Tweaks = new(category.Tweaks.Where(tweak => filter switch
+                {
+                    "All" => true,
+                    "Recommended" => TweakService.IsRecommended(tweak),
+                    _ => tweak.RiskClass == filter
+                }))
+            })
+            .Where(category => category.Tweaks.Count > 0)
+            .ToList();
 
         private async Task RefreshWindowsUpdatePresetAsync(bool initial = false)
         {
@@ -201,6 +239,48 @@ namespace TweakHub.Views
             {
                 // Ignore errors in badge update
             }
+            UpdateRevertedBanner();
+        }
+
+        private void UpdateRevertedBanner()
+        {
+            var reverted = _tweakService.RevertedTweaks();
+            RevertedTweaksBanner.Visibility = reverted.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+            RevertedTweaksText.Text = L.Format("Tweaks:RevertedTweaksMessage", string.Join(", ", reverted.Select(tweak => tweak.Name)));
+        }
+
+        private async void ReapplyReverted_Click(object sender, RoutedEventArgs e)
+        {
+            var reverted = _tweakService.RevertedTweaks();
+            if (reverted.Count == 0 || await RestartElevatedForBulkAsync(reverted.Count)) return;
+            ReapplyRevertedButton.IsEnabled = false;
+            try
+            {
+                var failed = new List<string>();
+                foreach (var tweak in reverted)
+                {
+                    try { if (!await _tweakService.ApplyTweakAsync(tweak, true)) failed.Add(tweak.Name); }
+                    catch { failed.Add(tweak.Name); }
+                }
+                await _tweakService.RefreshTweakStatesAsync();
+                var message = L.Format("Tweaks:AppliedCount", reverted.Count - failed.Count);
+                if (failed.Count > 0) message += "\n" + L.Format("Tweaks:FailedCount", failed.Count) + ": " + string.Join(", ", failed);
+                await AppDialog.ShowAsync(Window.GetWindow(this), L.Get("Tweaks:RevertedTweaksTitle"), message);
+                if (reverted.Any(tweak => tweak.RequiresRestart) && !_tweakService.RestartNoticeShownThisSession)
+                {
+                    _tweakService.RestartNoticeShownThisSession = true;
+                    await AppDialog.ShowRestartRequiredAsync(Window.GetWindow(this), L.Get("Tweaks:SomeChangesRequireRestart"));
+                }
+            }
+            catch (Exception ex)
+            {
+                await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Tweaks:TweakError"), L.Format("Tweaks:TweakErrorMessage", ex.Message));
+            }
+            finally
+            {
+                ReapplyRevertedButton.IsEnabled = true;
+                NotifyMainWindowBadgeUpdate();
+            }
         }
 
         private void LoadCustomTweaks()
@@ -236,6 +316,8 @@ namespace TweakHub.Views
         private void FavoriteTweak_Click(object sender, RoutedEventArgs e)
         {
             if (sender is not Button button) return;
+            // Tweak Check favorites live in the same file: start from what is on disk, not from the copy loaded with the page.
+            _favoriteTweakKeys = _userData.LoadFavoriteTweaks();
             var key = button.DataContext switch
             {
                 PerformanceTweak tweak => ToggleFavorite(tweak, FavoriteKey(tweak)),
@@ -330,6 +412,7 @@ namespace TweakHub.Views
                 || !await AppDialog.ConfirmAsync(Window.GetWindow(this), L.Get("Tweaks:Confirm"), L.Format("Tweaks:DeleteTweakMessage", tweak.Name))) return;
 
             _customTweaks.Remove(tweak);
+            _favoriteTweakKeys = _userData.LoadFavoriteTweaks();
             _favoriteTweakKeys.Remove(FavoriteKey(tweak));
             _userData.SaveCustomTweaks(_customTweaks);
             _userData.SaveFavoriteTweaks(_favoriteTweakKeys);
@@ -358,6 +441,7 @@ namespace TweakHub.Views
                 existing.RegistryKey = result.RegistryKey;
                 existing.ValueType = result.ValueType;
                 existing.Data = result.Data;
+                existing.RiskClass = result.RiskClass;
             }
             foreach (var tweak in _customTweaks) RefreshCustomTweakState(tweak);
             _userData.SaveCustomTweaks(_customTweaks);
@@ -399,7 +483,7 @@ namespace TweakHub.Views
                         Window.GetWindow(this),
                         L.Get("Tweaks:TweakApplicationFailed"),
                         L.Format("Tweaks:TweakApplicationFailedMessage", tweak.Name));
-                    RevertToggle(toggle, tweak, !targetState);
+                    RevertToggle(toggle, tweak, tweak.Id == "disable_hibernation" ? HibernationService.Instance.IsDisabled : !targetState);
                 }
                 else
                 {
@@ -418,7 +502,7 @@ namespace TweakHub.Views
                     Window.GetWindow(this),
                     L.Get("Tweaks:TweakError"),
                     L.Format("Tweaks:TweakErrorMessage", ex.Message));
-                RevertToggle(toggle, tweak, !targetState);
+                RevertToggle(toggle, tweak, tweak.Id == "disable_hibernation" ? HibernationService.Instance.IsDisabled : !targetState);
             }
             finally
             {
@@ -486,9 +570,7 @@ namespace TweakHub.Views
                 : TweakService.GetCompositeRegistryChanges(tweak.Id);
             if (changes.Count > 0)
             {
-                var commands = changes.Select(change => change.Value is null
-                    ? $"reg delete \"{change.KeyPath}\" /v \"{change.ValueName}\" /f"
-                    : $"reg add \"{change.KeyPath}\" /v \"{change.ValueName}\" /t {change.Kind switch { Microsoft.Win32.RegistryValueKind.String => "REG_SZ", _ => "REG_DWORD" }} /d {change.Value} /f");
+                var commands = changes.Select(change => change.ToRegCommand());
                 return L.Format("Tweaks:CompositePreview", tweak.Name, tweak.RiskLevel, string.Join("\n", commands));
             }
 
@@ -497,6 +579,7 @@ namespace TweakHub.Views
                 "disable_cpu_throttling" => "powercfg /setacvalueindex SCHEME_CURRENT SUB_PROCESSOR PROCTHROTTLEMIN 100",
                 "disable_core_parking" => "powercfg /setacvalueindex SCHEME_CURRENT SUB_PROCESSOR CPMINCORES 100",
                 "high_performance_power_plan" => "powercfg /setactive SCHEME_MIN",
+                "disable_hibernation" => HibernationService.BuildScript(null),
                 "disable_sysmain" => "Set-Service -Name SysMain -StartupType Disabled\nStop-Service -Name SysMain -Force",
                 _ => $"reg add \"{tweak.RegistryPath}\" /v \"{tweak.RegistryKey}\" /t {(tweak.EnabledValue is int ? "REG_DWORD" : tweak.EnabledValue is long ? "REG_QWORD" : "REG_SZ")} /d {(Equals(tweak.EnabledValue, -1) ? "0xffffffff" : tweak.EnabledValue)} /f"
             };

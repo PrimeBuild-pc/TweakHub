@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader><resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader><resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="DisablePowerThrottlingName" xml:space="preserve"><value>禁用全局 Power Throttling</value></data>
+  <data name="DisablePowerThrottlingDescription" xml:space="preserve"><value>关闭后台应用的 Windows Power Throttling。不同于电源计划的最低 CPU 状态，不会关闭过热保护。此项可选，不会自动推荐：可能增加功耗和温度，不保证提升游戏性能。需要重启；恢复会还原原始注册表值。</value></data>
+  <data name="DisableHibernationName" xml:space="preserve"><value>禁用休眠</value></data>
+  <data name="DisableHibernationDescription" xml:space="preserve"><value>使用 powercfg 删除休眠文件以释放磁盘空间，而非提高 FPS。快速启动和混合睡眠也将不可用。保存原始文件类型和大小以便恢复。需要管理员权限。关闭便携应用后更改仍存在：请保留 Data 文件夹以便撤销。</value></data>
+  <data name="HibernationUnavailable" xml:space="preserve"><value>休眠已禁用且无 TweakHub 备份，或无法安全读取原始类型/大小。请使用 Windows 电源设置；不会写入猜测值。</value></data>
+  <data name="ServicesTitle" xml:space="preserve"><value>可选服务</value></data>
+  <data name="ServicesDescription" xml:space="preserve"><value>仅修改你不用的功能所对应的服务。“手动”允许按需或触发启动；“禁用”则阻止启动。不会自动选择或修改。SysMain 和遥测沿用现有选项；保留错误报告以便诊断。不承诺提高 FPS。</value></data>
+  <data name="ServicesNoStop" xml:space="preserve"><value>仅更改启动配置：不停止正在运行的服务，不修改依赖项或触发器。可能需要重启 Windows。保留本副本的 Data 文件夹以恢复原始配置。</value></data>
+  <data name="ServiceConfirm" xml:space="preserve"><value>更改 {0} 的启动配置为 {2}？
+
+{1}
+
+需要管理员权限。不会立即停止服务。更改前会保存备份，请保留以便恢复。</value></data>
+  <data name="ServiceFailed" xml:space="preserve"><value>无法验证服务配置，备份已保留。请刷新，必要时恢复原始配置。</value></data>
+  <data name="ServiceManagedElsewhere" xml:space="preserve"><value>TweakHub 的其他区域已备份此服务。请先在原区域恢复，避免备份冲突。</value></data>
+  <data name="ServiceSysMain" xml:space="preserve"><value>应用预加载和缓存。使用 SSD 不代表服务无用。除非诊断特定问题，否则保持启用；注册表调整中已有对应选项。</value></data>
+  <data name="ServiceMapsBroker" xml:space="preserve"><value>下载/离线地图。仅在不用地图时考虑更改。已停止的服务不会执行消耗 CPU 的任务。</value></data>
+  <data name="ServiceRetailDemo" xml:space="preserve"><value>商店展示电脑的零售演示模式。个人电脑通常不需要；不要修改演示机器。</value></data>
+  <data name="ServiceDiagTrack" xml:space="preserve"><value>连接用户体验和遥测。已有遥测选项；修改可能减少诊断数据，此处不提供重复控制。</value></data>
+  <data name="Servicedmwappushservice" xml:space="preserve"><value>设备管理 WAP 推送路由，并非单纯遥测。在企业/MDM 管理设备上保持启用；禁用可能中断管理消息。</value></data>
+  <data name="ServiceWbioSrvc" xml:space="preserve"><value>Windows 生物识别。使用指纹或面部登录时不要禁用，否则这些登录方式可能失效。</value></data>
+  <data name="ServiceWerSvc" xml:space="preserve"><value>Windows 错误报告用于崩溃诊断。保留此服务，不作为性能调整。</value></data>
+  <data name="ServicePcaSvc" xml:space="preserve"><value>程序兼容性助手。旧程序或安装程序可能需要；禁用将失去相关兼容性帮助。</value></data>
+  <data name="Missing" xml:space="preserve"><value>未安装</value></data>
+  <data name="DelayedAuto" xml:space="preserve"><value>自动（延迟启动）</value></data>
+  <data name="Automatic" xml:space="preserve"><value>自动</value></data>
+  <data name="Manual" xml:space="preserve"><value>手动</value></data>
+  <data name="Disabled" xml:space="preserve"><value>禁用</value></data>
+  <data name="Unknown" xml:space="preserve"><value>未知</value></data>
+  <data name="TronDescription" xml:space="preserve"><value>第三方高级清理与消毒工具，并非只读扫描。下载完整软件包、验证 SHA-256，然后明确确认才能解压和运行。可能删除文件/应用并修改 Windows；TweakHub 无法撤销全部操作。可能需要数小时，请先自行备份。</value></data>
+  <data name="TronDownload" xml:space="preserve"><value>1. 下载软件包</value></data>
+  <data name="TronExtract" xml:space="preserve"><value>2. 解压已验证的软件包</value></data>
+  <data name="TronRun" xml:space="preserve"><value>3. 运行 Tron</value></data>
+  <data name="TronSource" xml:space="preserve"><value>官方文档</value></data>
+  <data name="TronDownloadConfirm" xml:space="preserve"><value>从 bmrf.org 下载完整自解压包（数百 MB）到 Data/Tools/Tron？将按发布者的 HTTPS 清单验证大小和 SHA-256。这是完整性检查，并非独立认证。本步骤不会运行下载的代码。</value></data>
+  <data name="TronExtractConfirm" xml:space="preserve"><value>运行已验证的自解压程序，不额外请求提权（继承 TweakHub 当前权限）。旧的解压副本将被替换，本地更改会丢失。运行前验证软件包及解压文件。本步骤不会启动 Tron 清理。</value></data>
+  <data name="TronRunConfirm" xml:space="preserve"><value>是否已备份文件并重启以完成待处理的 Windows 更新？Tron 可删除软件/文件、更改设置并运行数小时；中断可能使 Windows 处于部分修改状态。不保证兼容当前系统版本，请勿绕过其操作系统检查。
+
+将在单独的管理员控制台显示 Tron 自己的免责声明。参数 -p -spr -m -sor -se -scs 保留电源、分页文件配置、默认应用、OneDrive、事件日志并跳过自定义脚本。其他清理/修复仍会执行。不启用自动接受 EULA、重启、邮件或日志上传。TweakHub 备份无法撤销 Tron。继续？</value></data>
+  <data name="TronReady" xml:space="preserve"><value>解压文件验证通过。运行前请阅读文档。</value></data>
+  <data name="TronStarted" xml:space="preserve"><value>已在单独的管理员控制台启动 Tron。请按其提示操作。关闭 TweakHub 不会停止 Tron；此状态不代表清理成功。</value></data>
+  <data name="Working" xml:space="preserve"><value>处理中…请稍候。</value></data>
+  <data name="AffinityTitle" xml:space="preserve"><value>CPU 亲和性</value></data>
+  <data name="AffinityDescription" xml:space="preserve"><value>将 PCI 设备中断分配给逻辑 CPU，而非应用进程。USB/HID 通常共享主机控制器的中断。相同核心编号标识 SMT 线程。驱动可能忽略策略；错误选择会损害延迟或稳定性。需要重启，不自动优化。</value></data>
+  <data name="AutomaticAffinity" xml:space="preserve"><value>由 Windows 自动分配</value></data>
+  <data name="AffinityHint" xml:space="preserve"><value>选择一个或多个逻辑 CPU，或使用自动分配。核心标签将 SMT 线程分组。恢复原始设置只影响亲和性，不改变 MSI 或优先级。</value></data>
+  <data name="AffinityUnsupported" xml:space="preserve"><value>无法手动设置亲和性：无法读取拓扑或此电脑有多个处理器组。不会猜测或截断 64 位掩码。仍可自动分配或恢复备份。</value></data>
+  <data name="AffinitySelectionRequired" xml:space="preserve"><value>请至少选择一个支持的 CPU，或使用自动分配。</value></data>
+  <data name="CpuLabel" xml:space="preserve"><value>CPU {0} · 核心 {1}</value></data>
+  <data name="NoAutoSleepName" xml:space="preserve"><value>接通电源时从不自动睡眠</value></data>
+  <data name="NoAutoSleepDescription" xml:space="preserve"><value>设置 Windows 电源策略（组策略 → 电源管理），使电脑接通电源时从不自动睡眠或休眠，关闭混合睡眠，硬盘从不关闭，节能模式不会自动开启也不会被强制始终开启。适用于所有电源计划；使用电池时不做任何更改。仍可手动让电脑睡眠。由于数值直接写入注册表，组策略编辑器仍显示“未配置”。还原会恢复原始值。 需要重启。</value></data>
+  <data name="DisableSleepName" xml:space="preserve"><value>接通电源时完全关闭睡眠</value></data>
+  <data name="DisableSleepDescription" xml:space="preserve"><value>接通电源时，Windows 不再允许待机状态 (S1–S3)，睡眠键不执行任何操作，并从“开始”的电源菜单中隐藏“睡眠”。仅在从不让这台电脑睡眠时使用。可选，不包含在推荐项中。使用现代待机 (Modern Standby) 的电脑不使用 S1–S3，保留其自身的睡眠功能。还原会恢复原始值。 需要重启。</value></data>
+  <data name="TronBlockedByAntivirus" xml:space="preserve"><value>Microsoft Defender（或你的杀毒软件）将 Tron 软件包识别为可能不需要的软件并已将其删除。TweakHub 从不添加杀毒软件排除项。如果你信任 Tron，请自行为此副本的 Data\Tools\Tron 文件夹和 C:\ProgramData\TweakHub-Tron-* 添加排除项，然后重试。</value></data>
+</root>

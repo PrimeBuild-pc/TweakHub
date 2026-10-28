@@ -21,7 +21,7 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel VerticalAlignment="Center">
-                    <TextBlock Text="{loc:Loc Devices:InterruptsDescription}" Style="{StaticResource DescriptionTextStyle}"/>
+                    <TextBlock x:Name="DescriptionText" Text="{loc:Loc Devices:InterruptsDescription}" Style="{StaticResource DescriptionTextStyle}"/>
                     <TextBlock x:Name="StatusText" Style="{StaticResource DescriptionTextStyle}" FontSize="11" Margin="0,2,0,0"/>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="16,0,0,0">
@@ -36,7 +36,7 @@
 
             <TextBlock x:Name="ErrorText" Foreground="{DynamicResource DangerBrush}" TextWrapping="Wrap" Margin="4,0,4,8" Visibility="Collapsed"/>
 
-            <UniformGrid Columns="3">
+            <UniformGrid x:Name="SummaryGrid" Columns="3">
                 <Border Style="{StaticResource CardStyle}">
                     <StackPanel>
                         <TextBlock Text="&#xE964;" Style="{StaticResource IconTextStyle}" FontSize="20" HorizontalAlignment="Left" Margin="0,0,0,8"
@@ -45,7 +45,7 @@
                         <TextBlock x:Name="DeviceCountValue" Text="–" Style="{StaticResource TileValueStyle}"/>
                     </StackPanel>
                 </Border>
-                <Border Style="{StaticResource CardStyle}">
+                <Border x:Name="MsiTile" Style="{StaticResource CardStyle}">
                     <StackPanel>
                         <TextBlock Text="&#xE945;" Style="{StaticResource IconTextStyle}" FontSize="20" HorizontalAlignment="Left" Margin="0,0,0,8"
                                    Foreground="{DynamicResource SuccessBrush}"/>
@@ -65,12 +65,14 @@
 
             <Border Style="{StaticResource CardStyle}">
                 <StackPanel>
+                    <StackPanel x:Name="MsiChartPanel">
                     <TextBlock Text="{loc:Loc Devices:InterruptModeByClass}" Style="{StaticResource SectionTitleStyle}"/>
                     <UniformGrid x:Name="ClassChart" Columns="2"/>
                     <WrapPanel Margin="0,0,0,12">
                         <ContentControl x:Name="LegendMsi"/>
                     </WrapPanel>
 
+                    </StackPanel>
                     <DataGrid x:Name="DevicesGrid" Style="{StaticResource TriageGridStyle}" MaxHeight="360" SelectionChanged="Device_SelectionChanged">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="{loc:Loc Security:ColumnName}" Binding="{Binding Name}" Width="3*"/>
@@ -98,15 +100,16 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <TextBlock Text="{loc:Loc Devices:ColumnMode}" Style="{StaticResource LabelTextStyle}" Margin="0,0,0,10"/>
+                        <TextBlock x:Name="ModeLabel" Text="{loc:Loc Devices:ColumnMode}" Style="{StaticResource LabelTextStyle}" Margin="0,0,0,10"/>
                         <CheckBox x:Name="MsiCheckBox" Grid.Column="1" Content="{loc:Loc Devices:UseMsi}" Margin="0,0,0,10"/>
-                        <TextBlock Grid.Row="1" Text="{loc:Loc Devices:ColumnPriority}" Style="{StaticResource LabelTextStyle}" Margin="0,0,0,10"/>
+                        <TextBlock x:Name="PriorityLabel" Grid.Row="1" Text="{loc:Loc Devices:ColumnPriority}" Style="{StaticResource LabelTextStyle}" Margin="0,0,0,10"/>
                         <ComboBox x:Name="PriorityBox" Grid.Row="1" Grid.Column="1" Width="200" HorizontalAlignment="Left" Margin="0,0,0,10"
                                   AutomationProperties.Name="{loc:Loc Devices:ColumnPriority}"/>
-                        <TextBlock Grid.Row="2" Text="{loc:Loc Devices:ColumnAffinity}" Style="{StaticResource LabelTextStyle}" VerticalAlignment="Top" Margin="0,6,0,0"/>
-                        <StackPanel Grid.Row="2" Grid.Column="1">
+                        <TextBlock x:Name="AffinityLabel" Grid.Row="2" Text="{loc:Loc Devices:ColumnAffinity}" Style="{StaticResource LabelTextStyle}" VerticalAlignment="Top" Margin="0,6,0,0"/>
+                        <StackPanel x:Name="AffinityEditor" Grid.Row="2" Grid.Column="1">
+                            <CheckBox x:Name="AutomaticAffinity" Content="{loc:Loc Maintenance:AutomaticAffinity}" Checked="AffinityMode_Changed" Unchecked="AffinityMode_Changed" Margin="0,0,0,8"/>
                             <WrapPanel x:Name="CpuPanel"/>
-                            <TextBlock Text="{loc:Loc Devices:AffinityHint}" Style="{StaticResource DescriptionTextStyle}" FontSize="11" Margin="0,4,0,0"/>
+                            <TextBlock x:Name="AffinityHelp" Text="{loc:Loc Maintenance:AffinityHint}" Style="{StaticResource DescriptionTextStyle}" FontSize="11" Margin="0,4,0,0"/>
                         </StackPanel>
                     </Grid>
                     <WrapPanel Margin="0,14,0,0">

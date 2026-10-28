@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.IO;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using TweakHub.Localization;
@@ -94,6 +95,15 @@ namespace TweakHub.Services
                 RiskLevel = 3
             });
 
+            category.Tweaks.Add(new PerformanceTweak
+            {
+                Id = "disable_power_throttling",
+                Name = L.Get("Maintenance:DisablePowerThrottlingName"),
+                Description = L.Get("Maintenance:DisablePowerThrottlingDescription"),
+                Type = TweakType.Registry,
+                RegistryPath = @"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\PowerThrottling",
+                RegistryKey = "PowerThrottlingOff", EnabledValue = 1, RiskLevel = 3, RequiresRestart = true
+            });
             TweakCategories.Add(category);
         }
 
@@ -478,6 +488,31 @@ namespace TweakHub.Services
 
             category.Tweaks.Add(new PerformanceTweak
             {
+                Id = "disable_hibernation",
+                Name = L.Get("Maintenance:DisableHibernationName"),
+                Description = L.Get("Maintenance:DisableHibernationDescription"),
+                Type = TweakType.Power, RiskLevel = 3
+            });
+
+            category.Tweaks.Add(new PerformanceTweak
+            {
+                Id = "power_policy_no_auto_sleep",
+                Name = L.Get("Maintenance:NoAutoSleepName"),
+                Description = L.Get("Maintenance:NoAutoSleepDescription"),
+                // Windows reads power policies at boot: a policy refresh (gpupdate) does not apply them (checked in a VM).
+                Type = TweakType.Registry, RiskLevel = 2, RequiresRestart = true
+            });
+
+            category.Tweaks.Add(new PerformanceTweak
+            {
+                Id = "power_policy_disable_sleep",
+                Name = L.Get("Maintenance:DisableSleepName"),
+                Description = L.Get("Maintenance:DisableSleepDescription"),
+                Type = TweakType.Registry, RiskLevel = 3, RequiresRestart = true
+            });
+
+            category.Tweaks.Add(new PerformanceTweak
+            {
                 Id = "detailed_bsod",
                 Name = L.Get("Tweaks:CategoryOrTweakNameDetailedBsod"),
                 Description = L.Get("Tweaks:CategoryOrTweakDescriptionDetailedBsod"),
@@ -620,8 +655,30 @@ namespace TweakHub.Services
             new(@"HKEY_CURRENT_USER\Control Panel\Mouse", "MouseThreshold2", "0", Microsoft.Win32.RegistryValueKind.String)
         ];
 
+        // Group Policy → Power Management, from Windows' Power.admx. AC (plugged in) only: battery keeps the Windows behaviour.
+        private const string PowerPolicies = @"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Power\PowerSettings\";
+
+        private static readonly RegistryValueChange[] NoAutoSleepPolicies =
+        [
+            new(PowerPolicies + "29F6C1DB-86DA-48C5-9FDB-F2B67B1F44DA", "ACSettingIndex", 0), // system sleep timeout: never
+            new(PowerPolicies + "9D7815A6-7EE4-497E-8888-515A05F02364", "ACSettingIndex", 0), // system hibernate timeout: never
+            new(PowerPolicies + "94ac6d29-73ce-41a6-809f-6363ba21b47e", "ACSettingIndex", 0), // turn off hybrid sleep
+            new(PowerPolicies + "6738E2C4-E8A5-4A42-B16A-E040E769756E", "ACSettingIndex", 0), // turn off the hard disk: never
+            new(PowerPolicies + "E69653CA-CF7F-4F05-AA73-CB833FA90AD4", "ACSettingIndex", 0), // Energy Saver threshold: never automatic
+            new(@"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Power\EnergySaver", "EnableEnergySaver", 0) // Energy Saver not forced always on
+        ];
+
+        private static readonly RegistryValueChange[] DisableSleepPolicies =
+        [
+            new(PowerPolicies + "abfc2519-3608-4c2a-94ea-171b0ed546ab", "ACSettingIndex", 0), // standby states S1-S3 not allowed
+            new(PowerPolicies + "96996BC0-AD50-47EC-923B-6F41874DD9EB", "ACSettingIndex", 0), // sleep button: do nothing
+            new(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FlyoutMenuSettings", "ShowSleepOption", 0)
+        ];
+
         internal static IReadOnlyList<RegistryValueChange> GetCompositeRegistryChanges(string id) => id switch
         {
+            "power_policy_no_auto_sleep" => NoAutoSleepPolicies,
+            "power_policy_disable_sleep" => DisableSleepPolicies,
             "disable_mouse_acceleration" => MouseAccelerationOff,
             "windows_update_security_preset" => SecurityUpdatePreset,
             "disable_windows_ai_policies" => WindowsAiPolicies,
@@ -686,8 +743,10 @@ namespace TweakHub.Services
         public async Task<bool> ApplyTweakAsync(PerformanceTweak tweak, bool targetEnabled)
         {
             var result = await ApplyCoreAsync(tweak, targetEnabled);
+            RefreshBackupState(); // Failed or cancelled mutations can still leave a recovery backup.
             if (result)
             {
+                MarkApplied(tweak.Id, targetEnabled);
                 tweak.IsEnabled = targetEnabled;
                 tweak.IsPartiallyApplied = false;
                 if (tweak.RequiresRestart)
@@ -695,7 +754,6 @@ namespace TweakHub.Services
                     tweak.IsRestartPending = true;
                     RestartVerificationService.Instance.TrackTweak(tweak.Id, targetEnabled);
                 }
-                RefreshBackupState();
             }
             return result;
         }
@@ -721,6 +779,7 @@ namespace TweakHub.Services
                 "high_performance_power_plan" => enable
                     ? PowerService.Instance.ApplyPerformancePlanAsync(null)
                     : PowerService.Instance.RestorePowerPlanAsync(),
+                "disable_hibernation" => HibernationService.Instance.SetDisabledAsync(enable),
                 "disable_sysmain" => ApplyServiceTweakAsync(tweak, "SysMain", enable),
                 "disable_windows_search" => ApplyServiceTweakAsync(tweak, "WSearch", enable),
                 "optimize_network_for_gaming" => enable
@@ -802,6 +861,7 @@ namespace TweakHub.Services
             {
                 if (await ApplyCoreAsync(tweak, false))
                 {
+                    MarkApplied(tweak.Id, false);
                     restored++;
                     if (tweak.RequiresRestart)
                     {
@@ -834,9 +894,41 @@ namespace TweakHub.Services
             {
                 "disable_cpu_throttling" or "disable_core_parking" or "high_performance_power_plan" =>
                     PowerService.Instance.HasBackup(tweak.Id),
+                "disable_hibernation" => HibernationService.Instance.HasBackup,
                 "optimize_network_for_gaming" => NetworkAdapterService.BackedUpChanges().Count > 0,
                 _ => RegistryService.Instance.HasBackup(tweak.RegistryPath, tweak.RegistryKey)
             };
+        }
+
+        /// <summary>
+        /// Tweaks TweakHub applied (their undo backup is still there) that are no longer in effect: a Windows update or
+        /// another tool put the values back. Reapplying keeps the first backup, so restoring still returns the original.
+        /// </summary>
+        public List<PerformanceTweak> RevertedTweaks()
+        {
+            var applied = JsonStore.Load<HashSet<string>>(AppliedTweaksPath);
+            return TweakCategories.SelectMany(category => category.Tweaks)
+                .Where(tweak => IsReverted(tweak, applied.Contains(tweak.Id), HasBackup)).ToList();
+        }
+
+        // A backup alone is not proof: the Backup button and cancelled applies create one too, so the user's own
+        // successful apply is recorded. Half-applied groups already show their own warning.
+        internal static bool IsReverted(PerformanceTweak tweak, bool appliedByUser, Func<PerformanceTweak, bool> hasBackup) =>
+            appliedByUser && tweak.IsAvailable && !tweak.IsEnabled && !tweak.IsPartiallyApplied && hasBackup(tweak);
+
+        internal static string AppliedTweaksPath { get; set; } = Path.Combine(AppDataPath.BasePath, "applied-tweaks.json");
+
+        internal static void MarkApplied(string id, bool applied)
+        {
+            try
+            {
+                var ids = JsonStore.Load<HashSet<string>>(AppliedTweaksPath);
+                if (applied ? ids.Add(id) : ids.Remove(id)) JsonStore.Save(AppliedTweaksPath, ids);
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+            {
+                // Only the reverted-tweaks banner depends on this file; the change itself already succeeded.
+            }
         }
 
         public async Task LoadWithStatesAsync()
@@ -851,6 +943,13 @@ namespace TweakHub.Services
             var stopped = await GetStoppedServicesAsync("SysMain", "WSearch");
             foreach (var tweak in TweakCategories.SelectMany(category => category.Tweaks))
             {
+                if (tweak.Id == "disable_hibernation")
+                {
+                    tweak.UnavailableReason = HibernationService.Instance.UnavailableReason;
+                    tweak.IsEnabled = HibernationService.Instance.IsDisabled;
+                    tweak.IsPartiallyApplied = false;
+                    continue;
+                }
                 if (tweak.Type == TweakType.NetworkAdapter)
                 {
                     RefreshNetworkPreset(tweak);
@@ -902,10 +1001,11 @@ namespace TweakHub.Services
 
         // Disabling fullscreen optimizations blocks independent flip on Windows 11; the network preset trades CPU and power for latency.
         public static bool IsRecommended(PerformanceTweak tweak) =>
-            tweak.Id is not ("disable_sysmain" or "disable_prefetch" or "disable_fullscreen_optimizations" or "optimize_network_for_gaming");
+            tweak.Id is not ("disable_sysmain" or "disable_prefetch" or "disable_fullscreen_optimizations" or "optimize_network_for_gaming"
+                or "disable_hibernation" or "disable_power_throttling" or "power_policy_disable_sleep");
 
         public void RefreshBackupState() => HasAppliedTweaksThisSession =
-            RegistryService.Instance.BackupCount > 0 || PowerService.Instance.HasAnyBackup || WindowsUpdatePresetService.Instance.HasBackup;
+            RegistryService.Instance.BackupCount > 0 || PowerService.Instance.HasAnyBackup || HibernationService.Instance.HasBackup || WindowsUpdatePresetService.Instance.HasBackup;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {

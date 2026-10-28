@@ -13,7 +13,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="MainWindowTweakHubWindows11TweakUtility" xml:space="preserve">
-    <value>TweakHub - Windows 11 调整实用程序</value>
+    <value>TweakHub by Prime Build</value>
   </data>
   <data name="MainWindowWindows11PerformanceControls" xml:space="preserve">
     <value>Windows 11 性能控制</value>

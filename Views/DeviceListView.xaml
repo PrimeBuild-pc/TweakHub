@@ -49,6 +49,13 @@
                             <TextBlock Text="{loc:Loc Devices:Scan}"/>
                         </StackPanel>
                     </Button>
+                    <Button x:Name="DisableUnusedButton" Click="DisableUnused_Click" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0"
+                            ToolTip="{loc:Loc Devices:DisableUnusedHint}" IsEnabled="False">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE7E8;" Style="{StaticResource IconTextStyle}" Margin="0,0,6,0"/>
+                            <TextBlock Text="{loc:Loc Devices:DisableUnused}"/>
+                        </StackPanel>
+                    </Button>
                     <Button x:Name="EnableAllButton" Click="EnableAll_Click" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0"
                             ToolTip="{loc:Loc Devices:EnableAllHint}">
                         <StackPanel Orientation="Horizontal">
@@ -135,7 +142,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <Button Click="Toggle_Click" Content="{Binding ToggleText}" Style="{StaticResource SecondaryButtonStyle}"
-                                                MinHeight="28" Padding="10,2" AutomationProperties.Name="{Binding ToggleText}"/>
+                                                MinHeight="28" Padding="10,2" IsEnabled="{Binding CanToggle}" AutomationProperties.Name="{Binding ToggleText}"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
@@ -144,15 +151,6 @@
                             <DataTemplate>
                                 <StackPanel Margin="32,4,12,10">
                                     <StackPanel>
-                                        <StackPanel.Style>
-                                            <Style TargetType="StackPanel">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Rule}" Value="{x:Null}">
-                                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </StackPanel.Style>
                                         <TextBlock Text="{Binding ReasonText}" Style="{StaticResource DescriptionTextStyle}" Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
                                         <TextBlock Style="{StaticResource DescriptionTextStyle}" Margin="0,2,0,0">
                                             <Run Text="{loc:Loc Devices:Breaks}" FontWeight="SemiBold"/>
@@ -160,6 +158,12 @@
                                         </TextBlock>
                                     </StackPanel>
                                     <TextBlock Text="{Binding CategoryHintText}" Style="{StaticResource DescriptionTextStyle}" Margin="0,4,0,0"/>
+                                    <TextBlock Style="{StaticResource DescriptionTextStyle}" Margin="0,4,0,0">
+                                        <Run Text="PnP:"/>
+                                        <Run Text="{Binding Status, Mode=OneWay}"/>
+                                        <Run Text=" · "/>
+                                        <Run Text="{Binding Problem, Mode=OneWay}"/>
+                                    </TextBlock>
                                     <TextBlock Text="{Binding Id}" FontSize="11" FontFamily="Cascadia Mono, Consolas" Margin="0,6,0,0"
                                                Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" TextWrapping="Wrap"/>
                                 </StackPanel>

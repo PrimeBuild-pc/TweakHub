@@ -603,7 +603,7 @@ Registro: {2}</value>
     <value>Aplicación (winget)</value>
   </data>
   <data name="PlaybookTypeScript" xml:space="preserve">
-    <value>Script personalizado</value>
+    <value>Script</value>
   </data>
   <data name="PlaybookTypeDevice" xml:space="preserve">
     <value>Dispositivo</value>
@@ -661,5 +661,89 @@ Registro: {2}</value>
   </data>
   <data name="temp_cleanup_Confirmation" xml:space="preserve">
     <value>Esto elimina los archivos temporales con más de un día y la caché de Optimización de distribución. ¿Continuar?</value>
+  </data>
+  <data name="shader_cache_cleanup_Name" xml:space="preserve">
+    <value>Limpieza de la caché de sombreadores de la GPU</value>
+  </data>
+  <data name="shader_cache_cleanup_Description" xml:space="preserve">
+    <value>Elimina las cachés de sombreadores de DirectX, AMD, NVIDIA e Intel del usuario actual. El controlador las vuelve a crear, así que el primer inicio de cada juego puede tener algún tirón. Útil tras actualizar el controlador o cuando un juego muestra fallos gráficos.</value>
+  </data>
+  <data name="shader_cache_cleanup_Confirmation" xml:space="preserve">
+    <value>Cierra antes los juegos abiertos: los archivos en uso se conservan. Las cachés se vuelven a crear solas, así que el próximo inicio de cada juego puede tardar más. ¿Continuar?</value>
+  </data>
+  <data name="driver_backup_Name" xml:space="preserve">
+    <value>Copia de seguridad de controladores</value>
+  </data>
+  <data name="driver_backup_Description" xml:space="preserve">
+    <value>Exporta con pnputil todos los paquetes de controladores de terceros instalados en este PC, listos para una instalación limpia de Windows. La versión portátil los guarda en Data\Drivers junto a TweakHub; la instalada, en Documentos\TweakHub\Drivers. La copia puede ocupar varios GB.</value>
+  </data>
+  <data name="driver_backup_Confirmation" xml:space="preserve">
+    <value>Se exportarán todos los controladores de terceros instalados a la carpeta Drivers de TweakHub. No se modifica nada en este PC. ¿Continuar?</value>
+  </data>
+  <data name="driver_backup_CompletionNote" xml:space="preserve">
+    <value>Para reinstalarlos tras una instalación limpia, ejecuta como administrador: pnputil /add-driver "&lt;carpeta de la copia&gt;\*.inf" /subdirs /install</value>
+  </data>
+  <data name="PlaybookTypeTweakCheck" xml:space="preserve">
+    <value>Reparación de Tweak Check</value>
+  </data>
+  <data name="PlaybookTypeSecurityFix" xml:space="preserve">
+    <value>Corrección de seguridad</value>
+  </data>
+  <data name="PlaybookTypeWindowsUpdate" xml:space="preserve">
+    <value>Ajuste de Windows Update</value>
+  </data>
+  <data name="PlaybookTypeService" xml:space="preserve">
+    <value>Servicio opcional</value>
+  </data>
+  <data name="PlaybookTypeDns" xml:space="preserve">
+    <value>Servidores DNS</value>
+  </data>
+  <data name="PlaybookTweakCheckSummary" xml:space="preserve">
+    <value>Tweak Check, reparar si se cambió: {0}</value>
+  </data>
+  <data name="PlaybookSecurityFixSummary" xml:space="preserve">
+    <value>Seguridad, corregir si hace falta: {0}</value>
+  </data>
+  <data name="PlaybookWindowsUpdateSummary" xml:space="preserve">
+    <value>Ajuste de Windows Update: {0}</value>
+  </data>
+  <data name="PlaybookServiceSummary" xml:space="preserve">
+    <value>Servicio {0}: {1}</value>
+  </data>
+  <data name="PlaybookDnsSummary" xml:space="preserve">
+    <value>DNS {0}: {1}</value>
+  </data>
+  <data name="PlaybookAlreadyDone" xml:space="preserve">
+    <value>Omitido: ya es correcto en este PC.</value>
+  </data>
+  <data name="PlaybookDnsInvalid" xml:space="preserve">
+    <value>Elige un ajuste DNS o escribe hasta 8 direcciones IP separadas por comas.</value>
+  </data>
+  <data name="driver_restore_Name" xml:space="preserve">
+    <value>Restaurar controladores desde la copia</value>
+  </data>
+  <data name="driver_restore_Description" xml:space="preserve">
+    <value>Instala con pnputil los paquetes de controladores de una carpeta de copia (por ejemplo la creada por Copia de controladores): útil justo después de una instalación limpia de Windows. Tú eliges la carpeta.</value>
+  </data>
+  <data name="driver_restore_Execute" xml:space="preserve">
+    <value>Elegir carpeta</value>
+  </data>
+  <data name="driver_restore_Confirmation" xml:space="preserve">
+    <value>Windows añade cada paquete a su almacén de controladores y lo instala en los dispositivos correspondientes. Los paquetes para hardware que no está en este PC solo se almacenan. Windows puede rechazar controladores sin firmar o más antiguos.</value>
+  </data>
+  <data name="driver_restore_CompletionNote" xml:space="preserve">
+    <value>Revisa el Administrador de dispositivos; reinicia Windows si un controlador lo pide.</value>
+  </data>
+  <data name="driver_restore_NoPackages" xml:space="preserve">
+    <value>No se encontró ningún paquete de controlador (archivo .inf) en {0}. Elige la carpeta creada por Copia de controladores.</value>
+  </data>
+  <data name="driver_restore_ConfirmFolder" xml:space="preserve">
+    <value>Se instalarán {0} paquetes de controladores desde:
+{1}</value>
+  </data>
+  <data name="PlaybookImportReview" xml:space="preserve">
+    <value>"{0}" añade este código a TweakHub. Se ejecuta al ejecutar el playbook, con derechos de administrador si así se indica. Impórtalo solo si confías en el origen del archivo.
+
+{1}</value>
   </data>
 </root>

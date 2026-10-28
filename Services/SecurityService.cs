@@ -56,6 +56,9 @@ public sealed class SecurityService
     public static SecurityService Instance { get; } = new();
     private SecurityService() { }
 
+    /// <summary>Checks that come with a fix script; playbook steps may only name these.</summary>
+    internal static readonly string[] FixableIds = ["Antivirus", "Signatures", "Firewall", "Uac", "Smb1", "RemoteDesktop"];
+
     // Everything here is readable without elevation; fixes run elevated separately.
     private const string StatusScript = """
         $ErrorActionPreference = 'SilentlyContinue'

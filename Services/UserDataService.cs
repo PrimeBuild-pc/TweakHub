@@ -28,7 +28,8 @@ public sealed class UserDataService
     // Undo data and choices that only the copy holding them can restore.
     private static readonly string[] UndoDataFiles =
         ["registry-backup.json", "power-backup.json", "windows-update-backup.json", "dns-backup.json",
-         "disabled-devices.json", "disabled-services.json", "third-party-consent.json", "network-adapters.json"];
+         "disabled-devices.json", "disabled-services.json", "third-party-consent.json", "network-adapters.json",
+         "hibernation-backup.json", "optional-services.json", "applied-tweaks.json"];
 
     private const int ProfileVersion = 2;
     private static readonly JsonSerializerOptions JsonOptions = new() { WriteIndented = true };
@@ -174,6 +175,18 @@ public sealed class UserDataService
             undoFiles++;
         }
 
+        // Per-user startup backups: one file per deleted entry, so only names this copy lacks are added.
+        var startupBackups = Path.Combine(sourceDirectory, "startup-backups");
+        if (Directory.Exists(startupBackups))
+            foreach (var file in Directory.EnumerateFiles(startupBackups, "*.json"))
+            {
+                var target = Path.Combine(DataDirectory, "startup-backups", Path.GetFileName(file));
+                if (File.Exists(target)) continue;
+                Directory.CreateDirectory(Path.GetDirectoryName(target)!);
+                File.Copy(file, target);
+                undoFiles++;
+            }
+
         // Portable programs live beside the old executable; never overwrite ones this copy already has.
         var root = Path.GetDirectoryName(Path.GetFullPath(sourceDirectory).TrimEnd(Path.DirectorySeparatorChar))!;
         var appsSource = Path.Combine(root, "Apps");
@@ -210,6 +223,7 @@ public sealed class UserDataService
 
     public static void ValidateCustomTool(ExternalTool tool)
     {
+        if (tool is null) throw new InvalidDataException(L.Get("UI:ProfileInvalid"));
         tool.Name = (tool.Name ?? string.Empty).Trim();
         tool.Description = (tool.Description ?? string.Empty).Trim();
         tool.Category = (tool.Category ?? string.Empty).Trim();
@@ -231,6 +245,7 @@ public sealed class UserDataService
 
     public static void ValidateCustomScript(CustomScript script)
     {
+        if (script is null) throw new InvalidDataException(L.Get("UI:ProfileInvalid"));
         script.Id = (script.Id ?? string.Empty).Trim();
         script.Name = (script.Name ?? string.Empty).Trim();
         script.Content ??= string.Empty;
@@ -244,8 +259,11 @@ public sealed class UserDataService
             throw new InvalidDataException(L.Get("UI:WingetIdInvalid"));
     }
 
+    public static readonly string[] CustomRiskClasses = ["Safe", "Cosmetic", "Moderate", "Caution"];
+
     public static void ValidateCustomTweak(CustomRegistryTweak tweak)
     {
+        if (tweak is null) throw new InvalidDataException(L.Get("UI:ProfileInvalid"));
         tweak.Id = (tweak.Id ?? string.Empty).Trim();
         tweak.Name = (tweak.Name ?? string.Empty).Trim();
         tweak.Description = (tweak.Description ?? string.Empty).Trim();
@@ -253,10 +271,21 @@ public sealed class UserDataService
         tweak.RegistryKey = (tweak.RegistryKey ?? string.Empty).Trim();
         tweak.ValueType = (tweak.ValueType ?? string.Empty).Trim().ToUpperInvariant();
         tweak.Data ??= string.Empty;
+        tweak.RiskClass = string.IsNullOrWhiteSpace(tweak.RiskClass) ? "Moderate"
+            : CustomRiskClasses.FirstOrDefault(risk => risk.Equals(tweak.RiskClass.Trim(), StringComparison.OrdinalIgnoreCase))
+              ?? throw new InvalidDataException(L.Get("UI:ProfileInvalid"));
         if (!IsStableId(tweak.Id) || tweak.Name.Length is < 1 or > 100 || tweak.Description.Length > 500)
             throw new InvalidDataException(L.Get("UI:ProfileInvalid"));
-        RegistryService.ValidateLocation(tweak.RegistryPath, tweak.RegistryKey);
-        _ = RegistryService.ParseData(tweak.ValueType, tweak.Data, out _);
+        try
+        {
+            RegistryService.ValidateLocation(tweak.RegistryPath, tweak.RegistryKey);
+            _ = RegistryService.ParseData(tweak.ValueType, tweak.Data, out _);
+        }
+        // Imports only expect InvalidDataException; anything else would reach the crash handler.
+        catch (Exception ex) when (ex is ArgumentException or FormatException or OverflowException)
+        {
+            throw new InvalidDataException(ex.Message, ex);
+        }
     }
 
     private static void Normalize(UserProfile profile)
@@ -269,6 +298,7 @@ public sealed class UserDataService
         profile.FavoriteTweaks ??= [];
         profile.FavoriteScripts ??= [];
         profile.Appearance ??= new();
+        profile.Appearance.AccentColor ??= string.Empty;
         profile.FavoriteTools = profile.FavoriteTools.ToHashSet(StringComparer.OrdinalIgnoreCase);
         profile.FavoriteTweaks = profile.FavoriteTweaks.ToHashSet(StringComparer.OrdinalIgnoreCase);
         profile.FavoriteScripts = profile.FavoriteScripts.ToHashSet(StringComparer.OrdinalIgnoreCase);
@@ -305,6 +335,7 @@ public sealed class UserDataService
 
     public static void ValidatePlaybook(Playbook playbook)
     {
+        if (playbook is null) throw new InvalidDataException(L.Get("Scripts:PlaybookInvalid"));
         playbook.Id = (playbook.Id ?? string.Empty).Trim();
         playbook.Name = (playbook.Name ?? string.Empty).Trim();
         playbook.Description = (playbook.Description ?? string.Empty).Trim();
@@ -313,6 +344,7 @@ public sealed class UserDataService
             throw new InvalidDataException(L.Get("Scripts:PlaybookInvalid"));
         foreach (var step in playbook.Steps)
         {
+            if (step is null) throw new InvalidDataException(L.Get("Scripts:PlaybookInvalid"));
             step.Id = (step.Id ?? string.Empty).Trim();
             step.ReferenceId = (step.ReferenceId ?? string.Empty).Trim();
             step.Name = (step.Name ?? string.Empty).Trim();

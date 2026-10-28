@@ -855,4 +855,52 @@ TweakHub は記録した元の値を復元します。</value>
   <data name="NetworkAdapterConnected" xml:space="preserve">
     <value>接続中</value>
   </data>
+  <data name="RevertedTweaksTitle" xml:space="preserve">
+    <value>Windows によって元に戻された調整</value>
+  </data>
+  <data name="RevertedTweaksMessage" xml:space="preserve">
+    <value>TweakHub はこれらの調整を適用しましたが、通常は Windows Update の後に設定が以前の値に戻っています: {0}。再適用しても元のバックアップは保持されるため、[復元] で引き続き元の値に戻せます。</value>
+  </data>
+  <data name="RevertedTweaksReapply" xml:space="preserve">
+    <value>再適用</value>
+  </data>
+  <data name="RiskSafe" xml:space="preserve">
+    <value>安全</value>
+  </data>
+  <data name="RiskCosmetic" xml:space="preserve">
+    <value>見た目</value>
+  </data>
+  <data name="RiskModerate" xml:space="preserve">
+    <value>中程度</value>
+  </data>
+  <data name="RiskCaution" xml:space="preserve">
+    <value>注意</value>
+  </data>
+  <data name="RiskSafeHint" xml:space="preserve">
+    <value>低リスク: 簡単に元に戻せ、安定性への影響はありません。</value>
+  </data>
+  <data name="RiskCosmeticHint" xml:space="preserve">
+    <value>Windows の見た目や視覚的な反応だけを変更します。</value>
+  </data>
+  <data name="RiskModerateHint" xml:space="preserve">
+    <value>システムの動作を変更します。説明を読み、バックアップを残してください。</value>
+  </data>
+  <data name="RiskCautionHint" xml:space="preserve">
+    <value>Windows の機能や保護を無効にすることがあります。必要な場合にのみ適用してください。</value>
+  </data>
+  <data name="RiskLabel" xml:space="preserve">
+    <value>リスクレベル</value>
+  </data>
+  <data name="RiskFilterLabel" xml:space="preserve">
+    <value>表示</value>
+  </data>
+  <data name="RiskFilterAll" xml:space="preserve">
+    <value>すべての調整</value>
+  </data>
+  <data name="RiskFilterRecommended" xml:space="preserve">
+    <value>推奨</value>
+  </data>
+  <data name="RiskFilterCount" xml:space="preserve">
+    <value>{0} 件の調整</value>
+  </data>
 </root>

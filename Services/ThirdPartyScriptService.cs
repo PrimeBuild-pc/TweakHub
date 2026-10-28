@@ -50,18 +50,21 @@ public static class ThirdPartyScriptService
         JsonStore.Save(ConsentPath, accepted);
     }
 
-    // The copy is read and deleted before it runs, like irm | iex; -NoExit keeps the window open for the script's menus and results.
-    internal static string BuildArguments(ThirdPartyScript script, string path) =>
+    // The copy is read once and deleted before it runs, like irm | iex; -NoExit keeps the window open for the script's
+    // menus and results. The approved hash travels on the command line: a copy replaced after the UAC prompt never runs.
+    internal static string BuildArguments(ThirdPartyScript script, string path, string hash) =>
         $"-NoExit -NoProfile -ExecutionPolicy Bypass -Command \"$Host.UI.RawUI.WindowTitle = '{script.Name} (Marius Heier)'; " +
-        $"$code = Get-Content -LiteralPath {PowerShellService.Literal(path)} -Raw -Encoding UTF8; " +
-        $"Remove-Item -LiteralPath {PowerShellService.Literal(path)}; iex $code\"";
+        $"$bytes = [IO.File]::ReadAllBytes({PowerShellService.Literal(path)}); Remove-Item -LiteralPath {PowerShellService.Literal(path)}; " +
+        "if ([BitConverter]::ToString([Security.Cryptography.SHA256]::Create().ComputeHash($bytes)).Replace('-', '') -ne " +
+        $"'{hash}') {{ Write-Host 'The script changed after it was approved; nothing was run.' -ForegroundColor Red }} " +
+        "else { iex ([Text.Encoding]::UTF8.GetString($bytes).TrimStart([char]0xFEFF)) }\"";
 
     /// <summary>Opens the elevated window on the downloaded copy; false when the user declines UAC.</summary>
-    public static bool Run(ThirdPartyScript script, string path)
+    public static bool Run(ThirdPartyScript script, string path, string hash)
     {
         try
         {
-            Process.Start(new ProcessStartInfo("powershell.exe", BuildArguments(script, path)) { UseShellExecute = true, Verb = "runas" });
+            Process.Start(new ProcessStartInfo(SystemTools.PowerShell, BuildArguments(script, path, hash)) { UseShellExecute = true, Verb = "runas" });
             return true;
         }
         catch (Win32Exception)

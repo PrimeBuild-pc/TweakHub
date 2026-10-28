@@ -16,6 +16,9 @@ public partial class App : Application
     /// <summary>Playbook to run once the elevated restart has opened the main window.</summary>
     public static string? StartupPlaybookId { get; set; }
 
+    /// <summary>Fingerprint of the playbook the user confirmed before the restart; a different one is confirmed again.</summary>
+    public static string? StartupPlaybookFingerprint { get; set; }
+
     /// <summary>Starts TweakHub again as administrator and closes this instance; false when UAC is declined.</summary>
     public static bool RestartElevated(string arguments)
     {
@@ -34,7 +37,8 @@ public partial class App : Application
     protected override void OnStartup(StartupEventArgs e)
     {
         L.Initialize(UserDataService.Instance.LoadAppearance().Language);
-        if (e.Args is ["--run-playbook", var playbookId]) StartupPlaybookId = playbookId;
+        if (e.Args is ["--run-playbook", var playbookId, var fingerprint])
+            (StartupPlaybookId, StartupPlaybookFingerprint) = (playbookId, fingerprint);
         try { AppDataPath.EnsureAppsDirectory(); } catch { }
 
         if (Environment.OSVersion.Version.Build < 22000)

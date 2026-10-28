@@ -58,7 +58,9 @@ public sealed class UpdateService
             progressWindow.UpdateStatus(L.Get("UI:DownloadingVerifiedUpdate"));
             progressWindow.Show();
             var progress = new Progress<double>(progressWindow.UpdateProgress);
-            var packagePath = await DownloadAndVerifyAsync(package, checksum, progress, cancellationToken);
+            // Held open (read sharing only) until the installer runs: nobody can replace the verified file in between.
+            await using var verified = await DownloadAndVerifyAsync(package, checksum, progress, cancellationToken);
+            var packagePath = verified.Name;
             progressWindow.Close();
             progressWindow = null;
 
@@ -91,7 +93,7 @@ public sealed class UpdateService
         return release == null ? null : new AvailableUpdate(release.TagName.TrimStart('v'), release.Assets);
     }
 
-    private static async Task<string> DownloadAndVerifyAsync(
+    private static async Task<FileStream> DownloadAndVerifyAsync(
         GitHubAsset package, GitHubAsset checksum, IProgress<double> progress, CancellationToken cancellationToken)
     {
         ValidateGitHubAsset(package);
@@ -120,12 +122,15 @@ public sealed class UpdateService
             await output.FlushAsync(cancellationToken);
             if (package.Size > 0 && downloaded != package.Size) throw new InvalidDataException(L.Get("UI:DownloadIncomplete"));
 
-            await using var file = File.OpenRead(path);
+            var file = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
             var actualHash = Convert.ToHexString(await SHA256.HashDataAsync(file, cancellationToken));
             if (!actualHash.Equals(expectedHash, StringComparison.OrdinalIgnoreCase))
+            {
+                await file.DisposeAsync();
                 throw new InvalidDataException(L.Get("UI:ChecksumMismatch"));
+            }
             progress.Report(100);
-            return path;
+            return file;
         }
         catch
         {
@@ -147,7 +152,7 @@ public sealed class UpdateService
         var scriptPath = Path.Combine(root, "update.ps1");
         // BOM: Windows PowerShell reads BOM-less scripts as ANSI and would mangle non-ASCII install paths.
         File.WriteAllText(scriptPath, CreatePortableUpdateScript(source, target, root, zipPath, Environment.ProcessId), new System.Text.UTF8Encoding(true));
-        Process.Start(new ProcessStartInfo("powershell.exe")
+        Process.Start(new ProcessStartInfo(SystemTools.PowerShell)
         {
             UseShellExecute = false,
             CreateNoWindow = true,

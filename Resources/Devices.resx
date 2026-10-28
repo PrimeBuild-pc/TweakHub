@@ -331,7 +331,7 @@
     <value>Not present</value>
   </data>
   <data name="CategoryNotPresentHint" xml:space="preserve">
-    <value>Remembered by Windows but not connected now. Not a reason to remove it.</value>
+    <value>Remembered by Windows but not connected now (usually code 45): for example an old USB port, monitor or virtual device. Not a fault or a latency issue; disabling it has no benefit.</value>
   </data>
   <data name="CategoryDisabled" xml:space="preserve">
     <value>Disabled</value>
@@ -747,5 +747,130 @@ TweakHub cannot check what the script does, and the author can change it at any 
   </data>
   <data name="HintWiderM2" xml:space="preserve">
     <value>M.2 slots with x{0} lanes on this motherboard: {1}.</value>
+  </data>
+  <data name="AdviceUnknown" xml:space="preserve">
+    <value>Not assessed — leave enabled</value>
+  </data>
+  <data name="RuleUnknown" xml:space="preserve">
+    <value>No verified disable recommendation for this device. A working device or a bus without children is not evidence of wasted CPU time; leave enabled unless you know its function.</value>
+  </data>
+  <data name="RuleUnknownBreaks" xml:space="preserve">
+    <value>The device and any dependent functions. The exact impact is unknown; check its driver and connected devices first.</value>
+  </data>
+  <data name="RuleUsbHub" xml:space="preserve">
+    <value>USB hub, including internal motherboard hubs. Leave enabled: an internal USB connection may serve RGB, fan controllers, Bluetooth or case ports.</value>
+  </data>
+  <data name="RuleUsbHubBreaks" xml:space="preserve">
+    <value>All devices below this hub, possibly including mouse/keyboard, lighting control, cooling control or internal peripherals. Do not disable to reduce latency.</value>
+  </data>
+  <data name="LinkUsbHub" xml:space="preserve">
+    <value>USB hub (possibly internal). USB 3 hubs also expose a USB 2 companion: 480 Mb/s alone does not prove a slow connection. The hub name does not identify RGB/fan devices downstream.</value>
+  </data>
+  <data name="CheckPreviewReads" xml:space="preserve">
+    <value>Reads</value>
+  </data>
+  <data name="CheckPreviewRepair" xml:space="preserve">
+    <value>Repair runs</value>
+  </data>
+  <data name="CheckPreviewTooltip" xml:space="preserve">
+    <value>Show what this check reads and what Repair changes</value>
+  </data>
+  <data name="DisableUnused" xml:space="preserve">
+    <value>Disable unused</value>
+  </data>
+  <data name="DisableUnusedHint" xml:space="preserve">
+    <value>Finds devices this PC does not use and disables the ones you tick, with one administrator prompt. "Re-enable all" turns them back on.</value>
+  </data>
+  <data name="UnusedNone" xml:space="preserve">
+    <value>No unused devices found: nothing to disable.</value>
+  </data>
+  <data name="UnusedMessage" xml:space="preserve">
+    <value>These devices are not used on this PC. Untick any you want to keep. They can be turned back on at any time with "Re-enable all". Network cards are not ticked: tick one only if you never use it (for example Wi-Fi on a desktop always on cable).</value>
+  </data>
+  <data name="UnusedFailed" xml:space="preserve">
+    <value>These devices could not be disabled:
+{0}</value>
+  </data>
+  <data name="UnusedAlways" xml:space="preserve">
+    <value>never needed on a normal PC</value>
+  </data>
+  <data name="UnusedTunnel" xml:space="preserve">
+    <value>old IPv6 tunnel, rarely used</value>
+  </data>
+  <data name="UnusedRemoteDesktop" xml:space="preserve">
+    <value>Remote Desktop is turned off</value>
+  </data>
+  <data name="UnusedVpn" xml:space="preserve">
+    <value>no Windows VPN or PPPoE connection is set up</value>
+  </data>
+  <data name="UnusedNic" xml:space="preserve">
+    <value>network card without a link; another card is connected</value>
+  </data>
+  <data name="TabDrivers" xml:space="preserve">
+    <value>Drivers</value>
+  </data>
+  <data name="DriversTitle" xml:space="preserve">
+    <value>Old driver versions</value>
+  </data>
+  <data name="DriversDescription" xml:space="preserve">
+    <value>Like Driver Store Explorer's "Select old drivers": finds older versions of third-party drivers that a newer version replaces and no device uses. Each package is exported to a backup before Windows removes it, and can be restored below. Drivers in use, VPN, virtual machine and filter drivers are never proposed. The scan needs administrator rights.</value>
+  </data>
+  <data name="DriversScan" xml:space="preserve">
+    <value>Scan driver store</value>
+  </data>
+  <data name="DriversScanning" xml:space="preserve">
+    <value>Reading the driver store…</value>
+  </data>
+  <data name="DriversScanned" xml:space="preserve">
+    <value>{0} third-party packages, {1} old versions that can be removed.</value>
+  </data>
+  <data name="DriversNone" xml:space="preserve">
+    <value>{0} third-party packages: no old versions to remove.</value>
+  </data>
+  <data name="DriversRemove" xml:space="preserve">
+    <value>Remove old versions</value>
+  </data>
+  <data name="DriversRemoveMessage" xml:space="preserve">
+    <value>Untick any package you want to keep. Each one is backed up first; Windows refuses to remove a package that a device still uses.</value>
+  </data>
+  <data name="DriversRemoving" xml:space="preserve">
+    <value>Backing up and removing…</value>
+  </data>
+  <data name="DriversRemoved" xml:space="preserve">
+    <value>{0} packages removed. Their backups are listed below.</value>
+  </data>
+  <data name="DriversFailed" xml:space="preserve">
+    <value>These packages were kept:
+{0}</value>
+  </data>
+  <data name="DriversBackups" xml:space="preserve">
+    <value>Removed driver backups</value>
+  </data>
+  <data name="DriversNoBackups" xml:space="preserve">
+    <value>No removed drivers.</value>
+  </data>
+  <data name="DriversRestore" xml:space="preserve">
+    <value>Restore</value>
+  </data>
+  <data name="DriversRestoreConfirm" xml:space="preserve">
+    <value>Add {0} back to the Windows driver store? The backup is deleted after it is restored.</value>
+  </data>
+  <data name="DriversColumnProvider" xml:space="preserve">
+    <value>Provider</value>
+  </data>
+  <data name="DriversColumnVersion" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="DriversColumnNewer" xml:space="preserve">
+    <value>Newer version</value>
+  </data>
+  <data name="DriversColumnDate" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="UnusedVpnOtherUser" xml:space="preserve">
+    <value>no VPN or PPPoE connection for you, but another user has one ({0}): leave it on if they use it</value>
+  </data>
+  <data name="UnusedVpnUnchecked" xml:space="preserve">
+    <value>no VPN or PPPoE connection for you; the connections of {0} could not be checked (start TweakHub as administrator to read them)</value>
   </data>
 </root>

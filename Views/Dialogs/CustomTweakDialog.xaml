@@ -40,7 +40,16 @@
             </ComboBox>
 
             <TextBlock Text="{loc:Loc Tweaks:Value}" Margin="0,0,0,4"/>
-            <TextBox x:Name="DataTextBox" FontFamily="Consolas"/>
+            <TextBox x:Name="DataTextBox" FontFamily="Consolas" Margin="0,0,0,12"/>
+
+            <TextBlock Text="{loc:Loc Tweaks:RiskLabel}" Margin="0,0,0,4"/>
+            <ComboBox x:Name="RiskComboBox" SelectedValuePath="Tag" HorizontalAlignment="Stretch"
+                      AutomationProperties.Name="{loc:Loc Tweaks:RiskLabel}">
+                <ComboBoxItem Content="{loc:Loc Tweaks:RiskSafe}" ToolTip="{loc:Loc Tweaks:RiskSafeHint}" Tag="Safe"/>
+                <ComboBoxItem Content="{loc:Loc Tweaks:RiskCosmetic}" ToolTip="{loc:Loc Tweaks:RiskCosmeticHint}" Tag="Cosmetic"/>
+                <ComboBoxItem Content="{loc:Loc Tweaks:RiskModerate}" ToolTip="{loc:Loc Tweaks:RiskModerateHint}" Tag="Moderate"/>
+                <ComboBoxItem Content="{loc:Loc Tweaks:RiskCaution}" ToolTip="{loc:Loc Tweaks:RiskCautionHint}" Tag="Caution"/>
+            </ComboBox>
 
             <TextBlock x:Name="ValidationText" Margin="0,12,0,0" TextWrapping="Wrap" Foreground="{DynamicResource DangerBrush}"/>
         </StackPanel>

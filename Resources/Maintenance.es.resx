@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader><resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader><resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="DisablePowerThrottlingName" xml:space="preserve"><value>Desactivar Power Throttling global</value></data>
+  <data name="DisablePowerThrottlingDescription" xml:space="preserve"><value>Desactiva Power Throttling para aplicaciones en segundo plano. Es distinto del estado mínimo de CPU del plan y no desactiva la protección térmica. Opcional, no recomendado automáticamente: puede aumentar consumo y temperatura sin mejoras garantizadas en juegos. Requiere reinicio. Restaurar recupera el valor original.</value></data>
+  <data name="DisableHibernationName" xml:space="preserve"><value>Desactivar hibernación</value></data>
+  <data name="DisableHibernationDescription" xml:space="preserve"><value>Usa powercfg para eliminar el archivo de hibernación y recuperar espacio, no aumentar FPS. También impide el inicio rápido y la suspensión híbrida. Guarda tipo y tamaño originales. Requiere administrador. El cambio persiste al cerrar la app portable: conserva Data para restaurarlo.</value></data>
+  <data name="HibernationUnavailable" xml:space="preserve"><value>La hibernación ya está desactivada sin copia de TweakHub, o no se puede leer su tipo/tamaño con seguridad. Usa la configuración de Windows; no se escribirán valores supuestos.</value></data>
+  <data name="ServicesTitle" xml:space="preserve"><value>Servicios opcionales</value></data>
+  <data name="ServicesDescription" xml:space="preserve"><value>Cambia solo servicios de funciones que no usas. Manual permite el inicio bajo demanda o por desencadenador; Deshabilitado lo impide. Sin selección ni cambios automáticos. SysMain y telemetría mantienen sus ajustes existentes; se conserva el informe de errores para diagnóstico. Sin promesas de más FPS.</value></data>
+  <data name="ServicesNoStop" xml:space="preserve"><value>Solo configuración de inicio: no se detienen servicios activos ni se cambian dependencias o desencadenadores. Puede requerir reiniciar Windows. Conserva Data para restaurar la configuración original.</value></data>
+  <data name="ServiceConfirm" xml:space="preserve"><value>¿Cambiar la configuración de inicio de {0}: {2}?
+
+{1}
+
+Requiere administrador. No detiene el servicio ahora. Se guarda una copia antes del cambio; consérvala para restaurar.</value></data>
+  <data name="ServiceFailed" xml:space="preserve"><value>No se pudo verificar la configuración. Se conservan las copias. Actualiza y restaura la configuración original si es necesario.</value></data>
+  <data name="ServiceManagedElsewhere" xml:space="preserve"><value>Otra sección de TweakHub tiene una copia de este servicio. Restáuralo allí primero para evitar conflictos.</value></data>
+  <data name="ServiceSysMain" xml:space="preserve"><value>Precarga de apps y caché. Un SSD no lo vuelve inútil. Mantener activo salvo diagnóstico específico; su ajuste ya está en los ajustes del Registro.</value></data>
+  <data name="ServiceMapsBroker" xml:space="preserve"><value>Mapas descargados/sin conexión. Cambiar solo si no los usas. Un servicio detenido ya no ejecuta trabajo que consuma CPU.</value></data>
+  <data name="ServiceRetailDemo" xml:space="preserve"><value>Modo de demostración para PC de exposición. Normalmente innecesario en un PC personal; no cambiar en equipos de demostración.</value></data>
+  <data name="ServiceDiagTrack" xml:space="preserve"><value>Experiencias de usuario y telemetría. Ya cubierto por su ajuste; puede reducir datos diagnósticos. Sin control duplicado aquí.</value></data>
+  <data name="Servicedmwappushservice" xml:space="preserve"><value>Enrutamiento WAP push para gestión de dispositivos, no solo telemetría. Mantener activo en equipos administrados/MDM; desactivarlo puede interrumpir mensajes de gestión.</value></data>
+  <data name="ServiceWbioSrvc" xml:space="preserve"><value>Biometría de Windows. No desactivar si usas huella o reconocimiento facial: esos métodos de acceso pueden dejar de funcionar.</value></data>
+  <data name="ServiceWerSvc" xml:space="preserve"><value>Informe de errores de Windows para diagnosticar fallos. Se conserva; no es un ajuste de rendimiento.</value></data>
+  <data name="ServicePcaSvc" xml:space="preserve"><value>Asistente de compatibilidad. Puede ayudar a programas e instaladores antiguos; desactivarlo elimina esa asistencia.</value></data>
+  <data name="Missing" xml:space="preserve"><value>No instalado</value></data>
+  <data name="DelayedAuto" xml:space="preserve"><value>Automático (retrasado)</value></data>
+  <data name="Automatic" xml:space="preserve"><value>Automático</value></data>
+  <data name="Manual" xml:space="preserve"><value>Manual</value></data>
+  <data name="Disabled" xml:space="preserve"><value>Deshabilitado</value></data>
+  <data name="Unknown" xml:space="preserve"><value>Desconocido</value></data>
+  <data name="TronDescription" xml:space="preserve"><value>Limpieza y desinfección avanzada de terceros, no análisis de solo lectura. Descarga el paquete completo, verifica SHA-256, extrae y ejecuta solo con confirmación. Puede borrar archivos/apps y cambiar Windows; TweakHub no puede deshacerlo todo. Puede tardar horas: crea tu propia copia primero.</value></data>
+  <data name="TronDownload" xml:space="preserve"><value>1. Descargar paquete</value></data>
+  <data name="TronExtract" xml:space="preserve"><value>2. Extraer paquete verificado</value></data>
+  <data name="TronRun" xml:space="preserve"><value>3. Ejecutar Tron</value></data>
+  <data name="TronSource" xml:space="preserve"><value>Documentación oficial</value></data>
+  <data name="TronDownloadConfirm" xml:space="preserve"><value>¿Descargar el paquete autoextraíble completo desde bmrf.org (cientos de MB) a Data/Tools/Tron? Se verifican tamaño y SHA-256 contra el manifiesto HTTPS del editor: comprueba integridad, no es certificación independiente. Este paso no ejecuta código descargado.</value></data>
+  <data name="TronExtractConfirm" xml:space="preserve"><value>Ejecuta el autoextraíble verificado sin pedir elevación adicional (hereda los privilegios actuales de TweakHub). Sustituye la extracción anterior y pierde sus cambios locales. Se verifican paquete y archivos extraídos antes del inicio. Este paso no ejecuta la limpieza.</value></data>
+  <data name="TronRunConfirm" xml:space="preserve"><value>¿Tienes copia de tus archivos y has reiniciado para completar actualizaciones pendientes? Tron puede eliminar software/archivos, cambiar ajustes y tardar horas; interrumpirlo puede dejar Windows parcialmente modificado. No se garantiza compatibilidad: no eludas sus controles de SO.
+
+Se abre una consola elevada con su aviso. -p -spr -m -sor -se -scs conservan energía, pagefile, apps predeterminadas, OneDrive y registros de eventos, y omiten scripts personalizados. Otras limpiezas/reparaciones siguen activas. Sin aceptación automática de EULA, reinicio, correo ni envío de logs. Las copias TweakHub no deshacen Tron. ¿Continuar?</value></data>
+  <data name="TronReady" xml:space="preserve"><value>Archivos extraídos verificados. Lee la documentación antes de ejecutar.</value></data>
+  <data name="TronStarted" xml:space="preserve"><value>Tron iniciado en otra consola elevada. Sigue sus avisos. Cerrar TweakHub no lo detiene; esto no confirma una limpieza correcta.</value></data>
+  <data name="Working" xml:space="preserve"><value>Procesando… espera.</value></data>
+  <data name="AffinityTitle" xml:space="preserve"><value>Afinidad</value></data>
+  <data name="AffinityDescription" xml:space="preserve"><value>Asigna interrupciones PCI a CPU lógicas, no a procesos. USB/HID suele compartir las del controlador host. Las etiquetas del mismo núcleo identifican hilos SMT. Los controladores pueden ignorar la política; una mala selección perjudica latencia o estabilidad. Requiere reinicio, sin optimización automática.</value></data>
+  <data name="AutomaticAffinity" xml:space="preserve"><value>Asignación automática de Windows</value></data>
+  <data name="AffinityHint" xml:space="preserve"><value>Elige una o más CPU o la asignación automática. Las etiquetas de núcleo agrupan hilos SMT. Restaurar solo afecta afinidad, no MSI ni prioridad.</value></data>
+  <data name="AffinityUnsupported" xml:space="preserve"><value>Afinidad manual no disponible: topología ilegible o varios grupos de procesadores. No se inventa ni trunca una máscara de 64 bits. Puedes usar asignación automática o restaurar una copia.</value></data>
+  <data name="AffinitySelectionRequired" xml:space="preserve"><value>Elige al menos una CPU compatible o la asignación automática.</value></data>
+  <data name="CpuLabel" xml:space="preserve"><value>CPU {0} · Núcleo {1}</value></data>
+  <data name="NoAutoSleepName" xml:space="preserve"><value>No suspender nunca automáticamente con corriente</value></data>
+  <data name="NoAutoSleepDescription" xml:space="preserve"><value>Configura las directivas de energía de Windows (Directiva de grupo → Administración de energía) para que, con el equipo enchufado, nunca se suspenda ni hiberne solo, la suspensión híbrida esté desactivada, los discos no se apaguen nunca y el Ahorro de energía no se active automáticamente ni quede forzado. Se aplica a todos los planes de energía; con batería no cambia nada. Puedes seguir suspendiendo el equipo manualmente. El Editor de directivas de grupo sigue mostrando "No configurada" porque los valores se escriben directamente en el registro. Restaurar devuelve los valores originales. Requiere reinicio.</value></data>
+  <data name="DisableSleepName" xml:space="preserve"><value>Desactivar por completo la suspensión con corriente</value></data>
+  <data name="DisableSleepDescription" xml:space="preserve"><value>Con el equipo enchufado, Windows ya no permite los estados de espera (S1–S3), la tecla de suspensión no hace nada y Suspender desaparece del menú de apagado de Inicio. Úsalo solo si nunca suspendes este equipo. Opcional, no se aplica entre los recomendados. Los equipos con Modern Standby no usan S1–S3 y conservan su propia suspensión. Restaurar devuelve los valores originales. Requiere reinicio.</value></data>
+  <data name="TronBlockedByAntivirus" xml:space="preserve"><value>Microsoft Defender (o tu antivirus) bloqueó el paquete de Tron como software potencialmente no deseado y lo eliminó. TweakHub nunca añade exclusiones al antivirus. Si confías en Tron, añade tú las exclusiones para la carpeta Data\Tools\Tron de esta copia y para C:\ProgramData\TweakHub-Tron-*, y vuelve a intentarlo.</value></data>
+</root>

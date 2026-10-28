@@ -11,7 +11,8 @@ namespace TweakHub.Views.Dialogs;
 /// <summary>Creates or edits a playbook: steps detected from this PC, plus tweaks, apps and scripts added by hand.</summary>
 public partial class PlaybookDialog : Window
 {
-    private sealed record AddChoice(string Name, string ReferenceId, string WingetId)
+    /// <param name="StepName">Name saved in the step when it differs from the list entry (services: the entry also shows the mode).</param>
+    private sealed record AddChoice(string Name, string ReferenceId, string WingetId, string Data = "", string? StepName = null)
     {
         public override string ToString() => Name;
     }
@@ -35,7 +36,11 @@ public partial class PlaybookDialog : Window
         StepsList.ItemsSource = _steps;
         UpdateEmpty();
 
-        foreach (var kind in new[] { PlaybookStepType.Tweak, PlaybookStepType.Winget, PlaybookStepType.Script })
+        foreach (var kind in new[]
+                 {
+                     PlaybookStepType.Tweak, PlaybookStepType.Winget, PlaybookStepType.Script, PlaybookStepType.TweakCheck,
+                     PlaybookStepType.SecurityFix, PlaybookStepType.WindowsUpdate, PlaybookStepType.Service, PlaybookStepType.Dns
+                 })
             AddKindBox.Items.Add(new ComboBoxItem { Content = L.Get($"Scripts:PlaybookType{kind}"), Tag = kind });
         AddKindBox.SelectedIndex = 0;
         if (detect) Loaded += async (_, _) => await DetectAsync();
@@ -83,7 +88,17 @@ public partial class PlaybookDialog : Window
         {
             PlaybookStepType.Tweak => TweakChoices(),
             PlaybookStepType.Winget => ApplicationChoices(),
+            PlaybookStepType.TweakCheck => TweakCheckService.Ids.Select(id => new AddChoice(L.Get($"Devices:Check{id}"), id, string.Empty)).ToList(),
+            PlaybookStepType.SecurityFix => SecurityService.FixableIds.Select(id => new AddChoice(L.Get($"Security:Check{id}"), id, string.Empty)).ToList(),
+            PlaybookStepType.WindowsUpdate => PlaybookService.WindowsUpdatePresets
+                .Select(preset => new AddChoice(L.Get($"Tweaks:WindowsUpdatePreset{preset}"), preset, string.Empty)).ToList(),
+            PlaybookStepType.Service => OptionalServicesService.Names.Where(OptionalServicesService.CanManage)
+                .SelectMany(name => new[] { ("3", "Maintenance:Manual"), ("4", "Maintenance:Disabled") }
+                    .Select(mode => new AddChoice($"{name} — {L.Get(mode.Item2)}", name, string.Empty, mode.Item1, name))).ToList(),
+            PlaybookStepType.Dns => PrivacyService.DnsPresets.Select(preset => PlaybookService.DnsStep(preset.Servers))
+                .Select(step => new AddChoice(step.Name, step.ReferenceId, string.Empty, step.Data)).ToList(),
             _ => UserDataService.Instance.LoadCustomScripts().Select(script => new AddChoice(script.Name, script.Id, string.Empty))
+                .Concat(BuiltInScripts.PlaybookIds.Select(id => new AddChoice(PlaybookService.BuiltInScriptName(id), $"builtin:{id}", string.Empty)))
                 .OrderBy(choice => choice.Name).ToList()
         };
     }
@@ -120,13 +135,26 @@ public partial class PlaybookDialog : Window
             }
             choice = new AddChoice(typed, string.Empty, typed);
         }
+        // DNS servers not in the presets: the typed text is taken as an address list.
+        if (choice is null && kind == PlaybookStepType.Dns && AddItemBox.Text.Trim() is { Length: > 0 } addresses)
+        {
+            if (!PrivacyService.TryParseServers(addresses, out var servers, max: 8))
+            {
+                await AppDialog.ShowWarningAsync(this, L.Get("Scripts:PlaybookInvalid"), L.Get("Scripts:PlaybookDnsInvalid"));
+                return;
+            }
+            var step = PlaybookService.DnsStep(servers);
+            choice = new AddChoice(step.Name, step.ReferenceId, string.Empty, step.Data);
+        }
         if (choice is null) return;
+        var name = choice.StepName ?? choice.Name;
         _steps.Add(new PlaybookStep
         {
             Type = kind,
-            Name = choice.Name.Length > 100 ? choice.Name[..100] : choice.Name,
+            Name = name.Length > 100 ? name[..100] : name,
             ReferenceId = choice.ReferenceId,
             WingetId = choice.WingetId,
+            Data = choice.Data,
             TargetEnabled = kind != PlaybookStepType.Tweak || AddEnabledBox.IsChecked == true
         });
         StepsList.ScrollIntoView(_steps[^1]);

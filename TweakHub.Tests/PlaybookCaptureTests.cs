@@ -71,9 +71,10 @@ public class PlaybookCaptureTests
     public void ThirdPartyScriptsRunTheDownloadedCopyInAWindowThatStaysOpen()
     {
         var script = ThirdPartyScriptService.MariusHeier.Single(item => item.Id == "CpuDirect");
-        var arguments = ThirdPartyScriptService.BuildArguments(script, @"C:\Temp\O'Brien\cpudirect.ps1");
+        var arguments = ThirdPartyScriptService.BuildArguments(script, @"C:\Temp\O'Brien\cpudirect.ps1", "AB12");
         Assert.That(arguments, Does.StartWith("-NoExit -NoProfile"));
-        Assert.That(arguments, Does.Contain(@"Get-Content -LiteralPath 'C:\Temp\O''Brien\cpudirect.ps1' -Raw").And.EndWith("iex $code\""));
+        Assert.That(arguments, Does.Contain(@"[IO.File]::ReadAllBytes('C:\Temp\O''Brien\cpudirect.ps1')"));
+        Assert.That(arguments, Does.Contain("-ne 'AB12'").And.Contain("iex ([Text.Encoding]::UTF8.GetString($bytes)"));
         Assert.That(ThirdPartyScriptService.MariusHeier.All(item => item.ScriptUrl.StartsWith("https://tools.mariusheier.com/")), Is.True);
     }
 

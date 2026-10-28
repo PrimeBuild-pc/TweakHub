@@ -748,4 +748,129 @@ TweakHub не может проверить, что делает скрипт, �
   <data name="HintWiderM2" xml:space="preserve">
     <value>Слоты M.2 с x{0} линиями на этой материнской плате: {1}.</value>
   </data>
+  <data name="AdviceUnknown" xml:space="preserve">
+    <value>Не оценено — оставить включённым</value>
+  </data>
+  <data name="RuleUnknown" xml:space="preserve">
+    <value>Нет проверенной рекомендации по отключению. Исправное устройство или шина без дочерних устройств не означает лишнюю нагрузку на CPU; оставьте включённым, если не знаете его назначения.</value>
+  </data>
+  <data name="RuleUnknownBreaks" xml:space="preserve">
+    <value>Устройство и зависимые функции. Точные последствия неизвестны; сначала проверьте драйвер и подключённые устройства.</value>
+  </data>
+  <data name="RuleUsbHub" xml:space="preserve">
+    <value>USB-концентратор, в том числе внутренний на плате. Оставьте включённым: внутренний USB может обслуживать RGB, контроллеры вентиляторов, Bluetooth или порты корпуса.</value>
+  </data>
+  <data name="RuleUsbHubBreaks" xml:space="preserve">
+    <value>Все устройства за концентратором, включая мышь/клавиатуру, управление подсветкой, охлаждением или внутреннюю периферию. Не отключайте ради снижения задержки.</value>
+  </data>
+  <data name="LinkUsbHub" xml:space="preserve">
+    <value>USB-концентратор (возможно внутренний). USB 3 также предоставляет ветвь USB 2: сами по себе 480 Мбит/с не доказывают медленное подключение. Имя концентратора не определяет подключённые RGB-устройства/вентиляторы.</value>
+  </data>
+  <data name="CheckPreviewReads" xml:space="preserve">
+    <value>Читает</value>
+  </data>
+  <data name="CheckPreviewRepair" xml:space="preserve">
+    <value>Исправление выполняет</value>
+  </data>
+  <data name="CheckPreviewTooltip" xml:space="preserve">
+    <value>Показать, что читает эта проверка и что меняет исправление</value>
+  </data>
+  <data name="DisableUnused" xml:space="preserve">
+    <value>Отключить неиспользуемые</value>
+  </data>
+  <data name="DisableUnusedHint" xml:space="preserve">
+    <value>Находит устройства, которые этот ПК не использует, и отключает отмеченные одним запросом администратора. «Включить все» возвращает их.</value>
+  </data>
+  <data name="UnusedNone" xml:space="preserve">
+    <value>Неиспользуемых устройств не найдено: отключать нечего.</value>
+  </data>
+  <data name="UnusedMessage" xml:space="preserve">
+    <value>Эти устройства не используются на этом ПК. Снимите отметку с тех, что хотите оставить. Их можно в любой момент включить кнопкой «Включить все». Сетевые карты не отмечены: отмечайте только ту, которой никогда не пользуетесь (например, Wi-Fi на настольном ПК, всегда подключённом кабелем).</value>
+  </data>
+  <data name="UnusedFailed" xml:space="preserve">
+    <value>Не удалось отключить эти устройства:
+{0}</value>
+  </data>
+  <data name="UnusedAlways" xml:space="preserve">
+    <value>не нужно на обычном ПК</value>
+  </data>
+  <data name="UnusedTunnel" xml:space="preserve">
+    <value>старый туннель IPv6, используется редко</value>
+  </data>
+  <data name="UnusedRemoteDesktop" xml:space="preserve">
+    <value>удалённый рабочий стол выключен</value>
+  </data>
+  <data name="UnusedVpn" xml:space="preserve">
+    <value>не настроено ни одного VPN- или PPPoE-подключения Windows</value>
+  </data>
+  <data name="UnusedNic" xml:space="preserve">
+    <value>сетевая карта без подключения; другая карта подключена</value>
+  </data>
+  <data name="TabDrivers" xml:space="preserve">
+    <value>Драйверы</value>
+  </data>
+  <data name="DriversTitle" xml:space="preserve">
+    <value>Старые версии драйверов</value>
+  </data>
+  <data name="DriversDescription" xml:space="preserve">
+    <value>Как «Select old drivers» в Driver Store Explorer: находит старые версии сторонних драйверов, которые заменены более новой версией и не используются ни одним устройством. Перед удалением Windows каждый пакет экспортируется в резервную копию, его можно восстановить ниже. Используемые драйверы, драйверы VPN, виртуальных машин и фильтров никогда не предлагаются. Для проверки нужны права администратора.</value>
+  </data>
+  <data name="DriversScan" xml:space="preserve">
+    <value>Проверить хранилище драйверов</value>
+  </data>
+  <data name="DriversScanning" xml:space="preserve">
+    <value>Чтение хранилища драйверов…</value>
+  </data>
+  <data name="DriversScanned" xml:space="preserve">
+    <value>Сторонних пакетов: {0}, старых версий для удаления: {1}.</value>
+  </data>
+  <data name="DriversNone" xml:space="preserve">
+    <value>Сторонних пакетов: {0}; старых версий для удаления нет.</value>
+  </data>
+  <data name="DriversRemove" xml:space="preserve">
+    <value>Удалить старые версии</value>
+  </data>
+  <data name="DriversRemoveMessage" xml:space="preserve">
+    <value>Снимите отметку с пакетов, которые хотите оставить. Каждый сначала сохраняется; Windows не удаляет пакет, который ещё использует устройство.</value>
+  </data>
+  <data name="DriversRemoving" xml:space="preserve">
+    <value>Резервное копирование и удаление…</value>
+  </data>
+  <data name="DriversRemoved" xml:space="preserve">
+    <value>Удалено пакетов: {0}. Их резервные копии перечислены ниже.</value>
+  </data>
+  <data name="DriversFailed" xml:space="preserve">
+    <value>Эти пакеты оставлены:
+{0}</value>
+  </data>
+  <data name="DriversBackups" xml:space="preserve">
+    <value>Резервные копии удалённых драйверов</value>
+  </data>
+  <data name="DriversNoBackups" xml:space="preserve">
+    <value>Удалённых драйверов нет.</value>
+  </data>
+  <data name="DriversRestore" xml:space="preserve">
+    <value>Восстановить</value>
+  </data>
+  <data name="DriversRestoreConfirm" xml:space="preserve">
+    <value>Вернуть {0} в хранилище драйверов Windows? После восстановления резервная копия удаляется.</value>
+  </data>
+  <data name="DriversColumnProvider" xml:space="preserve">
+    <value>Поставщик</value>
+  </data>
+  <data name="DriversColumnVersion" xml:space="preserve">
+    <value>Версия</value>
+  </data>
+  <data name="DriversColumnNewer" xml:space="preserve">
+    <value>Новая версия</value>
+  </data>
+  <data name="DriversColumnDate" xml:space="preserve">
+    <value>Дата</value>
+  </data>
+  <data name="UnusedVpnOtherUser" xml:space="preserve">
+    <value>у вас нет VPN- или PPPoE-подключений, но они есть у другого пользователя ({0}): оставьте включённым, если он ими пользуется</value>
+  </data>
+  <data name="UnusedVpnUnchecked" xml:space="preserve">
+    <value>у вас нет VPN- или PPPoE-подключений; подключения {0} проверить не удалось (запустите TweakHub от имени администратора)</value>
+  </data>
 </root>

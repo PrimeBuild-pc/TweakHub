@@ -748,4 +748,129 @@ TweakHub no puede comprobar lo que hace el script y el autor puede cambiarlo en 
   <data name="HintWiderM2" xml:space="preserve">
     <value>Ranuras M.2 con x{0} líneas en esta placa base: {1}.</value>
   </data>
+  <data name="AdviceUnknown" xml:space="preserve">
+    <value>No evaluado — dejar activado</value>
+  </data>
+  <data name="RuleUnknown" xml:space="preserve">
+    <value>No hay una recomendación verificada para desactivar este dispositivo. Un dispositivo funcional o un bus sin hijos no implica un desperdicio de CPU; déjalo activado si no conoces su función.</value>
+  </data>
+  <data name="RuleUnknownBreaks" xml:space="preserve">
+    <value>El dispositivo y las funciones dependientes. Se desconoce el impacto exacto; comprueba primero el controlador y los dispositivos conectados.</value>
+  </data>
+  <data name="RuleUsbHub" xml:space="preserve">
+    <value>Hub USB, incluidos los internos de la placa base. Déjalo activado: una conexión USB interna puede servir a RGB, controladores de ventiladores, Bluetooth o puertos de la caja.</value>
+  </data>
+  <data name="RuleUsbHubBreaks" xml:space="preserve">
+    <value>Todos los dispositivos conectados al hub, posiblemente ratón/teclado, control de iluminación, refrigeración o periféricos internos. No lo desactives para reducir la latencia.</value>
+  </data>
+  <data name="LinkUsbHub" xml:space="preserve">
+    <value>Hub USB (puede ser interno). Los hubs USB 3 también exponen una rama USB 2: 480 Mb/s por sí solos no prueban una conexión lenta. El nombre del hub no identifica los dispositivos RGB/ventiladores conectados.</value>
+  </data>
+  <data name="CheckPreviewReads" xml:space="preserve">
+    <value>Lee</value>
+  </data>
+  <data name="CheckPreviewRepair" xml:space="preserve">
+    <value>Reparar ejecuta</value>
+  </data>
+  <data name="CheckPreviewTooltip" xml:space="preserve">
+    <value>Muestra qué lee esta comprobación y qué cambia Reparar</value>
+  </data>
+  <data name="DisableUnused" xml:space="preserve">
+    <value>Desactivar los no usados</value>
+  </data>
+  <data name="DisableUnusedHint" xml:space="preserve">
+    <value>Busca los dispositivos que este equipo no usa y desactiva los que marques, con una sola solicitud de administrador. "Reactivar todos" los vuelve a encender.</value>
+  </data>
+  <data name="UnusedNone" xml:space="preserve">
+    <value>No se encontraron dispositivos sin usar: nada que desactivar.</value>
+  </data>
+  <data name="UnusedMessage" xml:space="preserve">
+    <value>Estos dispositivos no se usan en este equipo. Desmarca los que quieras conservar. Puedes volver a activarlos en cualquier momento con "Reactivar todos". Las tarjetas de red no están marcadas: marca una solo si no la usas nunca (por ejemplo, el Wi-Fi de un sobremesa siempre por cable).</value>
+  </data>
+  <data name="UnusedFailed" xml:space="preserve">
+    <value>No se pudieron desactivar estos dispositivos:
+{0}</value>
+  </data>
+  <data name="UnusedAlways" xml:space="preserve">
+    <value>nunca necesario en un equipo normal</value>
+  </data>
+  <data name="UnusedTunnel" xml:space="preserve">
+    <value>túnel IPv6 antiguo, rara vez usado</value>
+  </data>
+  <data name="UnusedRemoteDesktop" xml:space="preserve">
+    <value>Escritorio remoto está desactivado</value>
+  </data>
+  <data name="UnusedVpn" xml:space="preserve">
+    <value>no hay ninguna conexión VPN o PPPoE de Windows configurada</value>
+  </data>
+  <data name="UnusedNic" xml:space="preserve">
+    <value>tarjeta de red sin enlace; otra tarjeta está conectada</value>
+  </data>
+  <data name="TabDrivers" xml:space="preserve">
+    <value>Controladores</value>
+  </data>
+  <data name="DriversTitle" xml:space="preserve">
+    <value>Versiones antiguas de controladores</value>
+  </data>
+  <data name="DriversDescription" xml:space="preserve">
+    <value>Como "Select old drivers" de Driver Store Explorer: busca versiones antiguas de controladores de terceros que una versión más nueva reemplaza y que ningún dispositivo usa. Cada paquete se exporta a una copia de seguridad antes de que Windows lo elimine y se puede restaurar abajo. Nunca se proponen controladores en uso, de VPN, de máquinas virtuales ni de filtro. El análisis requiere derechos de administrador.</value>
+  </data>
+  <data name="DriversScan" xml:space="preserve">
+    <value>Analizar almacén de controladores</value>
+  </data>
+  <data name="DriversScanning" xml:space="preserve">
+    <value>Leyendo el almacén de controladores…</value>
+  </data>
+  <data name="DriversScanned" xml:space="preserve">
+    <value>{0} paquetes de terceros, {1} versiones antiguas que se pueden eliminar.</value>
+  </data>
+  <data name="DriversNone" xml:space="preserve">
+    <value>{0} paquetes de terceros: no hay versiones antiguas que eliminar.</value>
+  </data>
+  <data name="DriversRemove" xml:space="preserve">
+    <value>Eliminar versiones antiguas</value>
+  </data>
+  <data name="DriversRemoveMessage" xml:space="preserve">
+    <value>Desmarca los paquetes que quieras conservar. Cada uno se guarda antes; Windows se niega a eliminar un paquete que un dispositivo todavía usa.</value>
+  </data>
+  <data name="DriversRemoving" xml:space="preserve">
+    <value>Guardando y eliminando…</value>
+  </data>
+  <data name="DriversRemoved" xml:space="preserve">
+    <value>{0} paquetes eliminados. Sus copias de seguridad aparecen abajo.</value>
+  </data>
+  <data name="DriversFailed" xml:space="preserve">
+    <value>Se conservaron estos paquetes:
+{0}</value>
+  </data>
+  <data name="DriversBackups" xml:space="preserve">
+    <value>Copias de controladores eliminados</value>
+  </data>
+  <data name="DriversNoBackups" xml:space="preserve">
+    <value>No hay controladores eliminados.</value>
+  </data>
+  <data name="DriversRestore" xml:space="preserve">
+    <value>Restaurar</value>
+  </data>
+  <data name="DriversRestoreConfirm" xml:space="preserve">
+    <value>¿Volver a añadir {0} al almacén de controladores de Windows? La copia de seguridad se elimina después de restaurarla.</value>
+  </data>
+  <data name="DriversColumnProvider" xml:space="preserve">
+    <value>Proveedor</value>
+  </data>
+  <data name="DriversColumnVersion" xml:space="preserve">
+    <value>Versión</value>
+  </data>
+  <data name="DriversColumnNewer" xml:space="preserve">
+    <value>Versión más nueva</value>
+  </data>
+  <data name="DriversColumnDate" xml:space="preserve">
+    <value>Fecha</value>
+  </data>
+  <data name="UnusedVpnOtherUser" xml:space="preserve">
+    <value>no tienes conexiones VPN ni PPPoE, pero otro usuario sí ({0}): déjalo activo si la usa</value>
+  </data>
+  <data name="UnusedVpnUnchecked" xml:space="preserve">
+    <value>no tienes conexiones VPN ni PPPoE; no se pudieron comprobar las de {0} (inicia TweakHub como administrador para leerlas)</value>
+  </data>
 </root>

@@ -24,11 +24,27 @@ internal static class JsonStore
         }
     }
 
+    private static readonly System.Collections.Concurrent.ConcurrentDictionary<string, object> Locks = new(StringComparer.OrdinalIgnoreCase);
+
     public static void Save<T>(string path, T data)
     {
+        // Replacing a file another save is replacing at the same moment fails: one writer per file at a time.
+        lock (Locks.GetOrAdd(Path.GetFullPath(path), _ => new object())) SaveUnlocked(path, data);
+    }
+
+    private static void SaveUnlocked<T>(string path, T data)
+    {
         Directory.CreateDirectory(Path.GetDirectoryName(path)!);
-        var temp = path + ".tmp";
-        File.WriteAllText(temp, JsonSerializer.Serialize(data, Indented));
-        File.Move(temp, path, true);
+        // A unique temp name: two saves of the same file never write or move each other's temp file.
+        var temp = $"{path}.{Guid.NewGuid():N}.tmp";
+        try
+        {
+            File.WriteAllText(temp, JsonSerializer.Serialize(data, Indented));
+            File.Move(temp, path, true);
+        }
+        finally
+        {
+            if (File.Exists(temp)) File.Delete(temp);
+        }
     }
 }

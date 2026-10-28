@@ -44,6 +44,38 @@ public partial class SecurityPage : Page
         };
     }
 
+    private async void Tron_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button { Tag: string action }) return;
+        if (!await AppDialog.ConfirmAsync(Window.GetWindow(this), "Tron",
+                L.Get($"Maintenance:Tron{action}Confirm"), L.Get($"Maintenance:Tron{action}"), L.Get("UI:Cancel"),
+                DialogKind.Warning, topmost: true)) return;
+        TronPanel.IsEnabled = false;
+        TronProgress.Visibility = Visibility.Visible;
+        TronStatus.Text = L.Get("Maintenance:Working");
+        try
+        {
+            switch (action)
+            {
+                case "Download": TronStatus.Text = await TronService.Instance.DownloadAsync(); break;
+                case "Extract":
+                    await TronService.Instance.ExtractAsync();
+                    TronStatus.Text = L.Get("Maintenance:TronReady");
+                    break;
+                case "Run":
+                    await TronService.Instance.RunAsync();
+                    TronStatus.Text = L.Get("Maintenance:TronStarted");
+                    break;
+            }
+        }
+        catch (Exception ex)
+        {
+            TronStatus.Text = ex.Message;
+            await AppDialog.ShowErrorAsync(Window.GetWindow(this), "Tron", ex.Message);
+        }
+        finally { TronPanel.IsEnabled = true; TronProgress.Visibility = Visibility.Collapsed; }
+    }
+
     private async void Refresh_Click(object sender, RoutedEventArgs e) => await RefreshAsync();
 
     private async Task RefreshAsync(bool initial = false)
@@ -459,7 +491,10 @@ public partial class SecurityPage : Page
         }));
     }
 
-    private async void SystemView_AnalyzeFileRequested(string path)
+    private async void SystemView_AnalyzeFileRequested(string path) => await AnalyzeFileAsync(path);
+
+    /// <summary>Also used by the Startup page: hash, signature and the MalwareBazaar lookup.</summary>
+    public async Task AnalyzeFileAsync(string path)
     {
         Tabs.SelectedItem = FileTab;
         await AnalyzeAsync(path);

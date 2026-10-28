@@ -1,8 +1,5 @@
-using System.IO;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using Microsoft.Win32;
 using TweakHub.Localization;
 using TweakHub.Services;
 using TweakHub.Views.Dialogs;
@@ -44,12 +41,12 @@ public partial class DeviceListView : UserControl
         {
             Loading.Hide();
             ScanButton.IsEnabled = true;
-            ExportButton.IsEnabled = _devices.Count > 0;
+            ExportButton.IsEnabled = DisableUnusedButton.IsEnabled = _devices.Count > 0;
             EnableAllButton.IsEnabled = DeviceService.HasDisabledDevices;
         }
     }
 
-    private static bool IsSuggestion(PnpDeviceInfo device) => device.Rule is { Advice: not DeviceAdvice.Avoid } && !device.IsDisabled;
+    private static bool IsSuggestion(PnpDeviceInfo device) => device.IsSuggestion;
 
     private void Render()
     {
@@ -107,12 +104,12 @@ public partial class DeviceListView : UserControl
 
     private async void Toggle_Click(object sender, RoutedEventArgs e)
     {
-        if (sender is not Button { DataContext: PnpDeviceInfo device } button) return;
-        var enable = device.IsDisabled;
+        if (sender is not Button { DataContext: PnpDeviceInfo device } button || !device.CanToggle) return;
+        var enable = device.NeedsEnable;
         if (!enable)
         {
             var message = L.Format("Devices:DisableConfirmMessage", device.DisplayName);
-            if (device.Rule is not null) message += "\n\n" + device.ReasonText + "\n" + L.Get("Devices:Breaks") + " " + device.BreaksText;
+            message += "\n\n" + device.ReasonText + "\n" + L.Get("Devices:Breaks") + " " + device.BreaksText;
             if (device.Rule?.Advice == DeviceAdvice.Avoid) message += "\n\n" + L.Get("Devices:AvoidWarning");
             else if (device.HighRisk) message += "\n\n" + L.Get("Devices:HighRiskWarning");
             if (!await AppDialog.ConfirmAsync(Window.GetWindow(this), L.Get("Devices:DisableConfirmTitle"), message,
@@ -142,17 +139,38 @@ public partial class DeviceListView : UserControl
         await ScanAsync();
     }
 
-    private async void Export_Click(object sender, RoutedEventArgs e)
+    private async void DisableUnused_Click(object sender, RoutedEventArgs e)
     {
-        var dialog = new SaveFileDialog { FileName = $"TweakHub-devices-{DateTime.Now:yyyyMMdd-HHmm}.csv", Filter = "CSV (*.csv)|*.csv" };
-        if (dialog.ShowDialog(Window.GetWindow(this)) != true) return;
+        DisableUnusedButton.IsEnabled = false;
         try
         {
-            await File.WriteAllTextAsync(dialog.FileName, DeviceService.ToCsv(_devices), new UTF8Encoding(true));
+            var context = await DeviceService.Instance.GetUsageContextAsync();
+            var unused = _devices.Select(device => (Device: device, Reason: DeviceService.UnusedReason(device, context)))
+                .Where(item => item.Reason is not null).ToList();
+            if (unused.Count == 0)
+            {
+                await AppDialog.ShowAsync(Window.GetWindow(this), L.Get("Devices:DisableUnused"), L.Get("Devices:UnusedNone"));
+                return;
+            }
+            var chosen = await AppDialog.ChooseAsync(Window.GetWindow(this), L.Get("Devices:DisableUnused"), L.Get("Devices:UnusedMessage"),
+                unused.Select(item => ($"{item.Device.DisplayName} — {DeviceService.UnusedText(item.Reason!, context)}", DeviceService.TickedByDefault(item.Reason!))));
+            if (chosen is null) return;
+            var failed = await DeviceService.Instance.DisableManyAsync(chosen.Select(index => unused[index].Device).ToList());
+            if (failed.Count > 0)
+                await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Devices:ToggleFailedTitle"),
+                    L.Format("Devices:UnusedFailed", string.Join("\n", failed)));
+            await ScanAsync();
         }
-        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        catch (Exception ex) when (ex is InvalidOperationException or System.Text.Json.JsonException or System.IO.IOException or UnauthorizedAccessException)
         {
-            await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Security:ExportFailedTitle"), ex.Message);
+            await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Devices:ToggleFailedTitle"), ex.Message);
+        }
+        finally
+        {
+            DisableUnusedButton.IsEnabled = _devices.Count > 0;
         }
     }
+
+    private async void Export_Click(object sender, RoutedEventArgs e) =>
+        await CsvExport.SaveAsync(this, $"TweakHub-devices-{DateTime.Now:yyyyMMdd-HHmm}.csv", DeviceService.ToCsv(_devices));
 }

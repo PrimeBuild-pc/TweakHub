@@ -276,8 +276,11 @@ public static class LinkService
             for (var hops = 0; hops < 16 && byId.TryGetValue(current.Parent, out var parent) && !IsPci(parent); hops++, current = parent)
                 if (UsbService.IsHub(parent)) hubs++;
             var controller = byId.GetValueOrDefault(current.Parent) is { } pci && IsPci(pci) ? pci : null;
-            return (Device: device, Name: device.BusName.Length > 0 ? device.BusName : device.DisplayName, Kind: UsbKindOf(device, children),
-                Controller: controller, Hubs: hubs, Speed: usbSpeeds.GetValueOrDefault((device.Parent, device.Address)));
+            var speed = usbSpeeds.GetValueOrDefault((device.Parent, device.Address));
+            var name = speed?.Product is { Length: > 0 } product ? product : device.BusName.Length > 0 ? device.BusName : device.DisplayName;
+            if (speed?.Manufacturer is { Length: > 0 } manufacturer && !name.Contains(manufacturer, StringComparison.OrdinalIgnoreCase))
+                name = $"{manufacturer} · {name}";
+            return (Device: device, Name: name, Kind: UsbKindOf(device, children), Controller: controller, Hubs: hubs, Speed: speed);
         }).ToList();
 
         // xHCI gives every root port its own bandwidth; an external hub has one uplink for everything behind it.
@@ -288,6 +291,9 @@ public static class LinkService
             UsbCheck Result(LinkStatus status, string advice, params object[] args) =>
                 new(item.Device, item.Name, item.Kind, item.Controller, attach, item.Speed, item.Hubs, status, advice, args);
 
+            // shortcut: hub speed alone cannot prove a slow uplink; add warnings only after correlating USB 2/3 companions.
+            if (item.Kind == UsbKind.Hub)
+                return Result(item.Speed is null ? LinkStatus.Unknown : LinkStatus.Ok, "UsbHub");
             if (item.Speed is { SuperSpeedCapable: true, Speed: < 3 })
                 return Result(item.Kind is UsbKind.Storage or UsbKind.Video ? LinkStatus.Bad : LinkStatus.Check, "UsbSlowPort");
             if (item.Kind == UsbKind.Input && item.Hubs > 0) return Result(LinkStatus.Check, "UsbInputHub", item.Hubs);

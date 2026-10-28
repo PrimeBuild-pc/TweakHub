@@ -23,6 +23,12 @@ public partial class MainWindow : Window
         // Cached pages need no journal: drop it so visited pages are not held twice.
         MainFrame.Navigated += (_, _) => { while (MainFrame.CanGoBack) MainFrame.RemoveBackEntry(); };
         ContentRendered += MainWindow_ContentRendered;
+        // With a custom chrome a maximized window overhangs the screen by its frame: pad it back in.
+        // shortcut: frame metrics come from the primary monitor (verified on two same-DPI monitors); compute per monitor if a mixed-DPI setup overhangs.
+        StateChanged += (_, _) => RootGrid.Margin = WindowState == WindowState.Maximized
+            ? new Thickness(SystemParameters.WindowNonClientFrameThickness.Left, SystemParameters.WindowNonClientFrameThickness.Left,
+                SystemParameters.WindowNonClientFrameThickness.Right, SystemParameters.WindowNonClientFrameThickness.Bottom)
+            : new Thickness(0);
     }
 
     private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -53,6 +59,7 @@ public partial class MainWindow : Window
             {
                 "tools" => new ExternalToolsPage(),
                 "security" => new SecurityPage(),
+                "startup" => new StartupPage(),
                 "devices" => new DevicesPage(),
                 "power" => new PowerPlanPage(),
                 "scripts" => new AutomatedScriptsPage(),
@@ -63,6 +70,14 @@ public partial class MainWindow : Window
         }
         MainFrame.Navigate(page);
         if (destination == "registry") UpdateRegistryTweaksBadge();
+    }
+
+    /// <summary>Selects a section from inside another one, e.g. Security → System opening Startup.</summary>
+    public System.Windows.Controls.Page ShowSection(string destination)
+    {
+        Navigation.SelectedItem = Navigation.MenuItems.OfType<NavigationViewItem>().First(item => (string)item.Tag == destination);
+        Navigate(destination);
+        return _pages[destination];
     }
 
     /// <summary>After a profile import every other section must re-read its lists.</summary>

@@ -28,6 +28,31 @@ public sealed class PlaybookService
     private PlaybookService() { }
 
     private const string SkippedMarker = "SKIPPED";
+    private const string AlreadyDoneMarker = "ALREADY";
+
+    /// <summary>Hash of everything a playbook will do, to check after the elevated restart that it is what the user confirmed.</summary>
+    internal static string Fingerprint(Playbook playbook, UserDataService? data = null)
+    {
+        data ??= UserDataService.Instance;
+        var references = playbook.Steps.Select(step => step.ReferenceId).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        // The custom scripts and tweaks it points to are part of what runs.
+        var content = new
+        {
+            playbook,
+            scripts = data.LoadCustomScripts().Where(script => references.Contains(script.Id))
+                .Select(script => new { script.Id, script.Language, script.RequiresAdministrator, script.Content }),
+            tweaks = data.LoadCustomTweaks().Where(tweak => references.Contains($"custom:{tweak.Id}"))
+                .Select(tweak => new { tweak.Id, tweak.RegistryPath, tweak.RegistryKey, tweak.ValueType, tweak.Data })
+        };
+        return Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(JsonSerializer.SerializeToUtf8Bytes(content)));
+    }
+
+    internal static string BuiltInScriptName(string id) => L.Get($"Scripts:{id.Replace('-', '_')}_Name");
+
+    private static bool IsBuiltInScript(PlaybookStep step) => step.ReferenceId.StartsWith("builtin:", StringComparison.OrdinalIgnoreCase);
+
+    internal static readonly string[] WindowsUpdatePresets =
+        [nameof(WindowsUpdatePreset.Default), nameof(WindowsUpdatePreset.Disabled), nameof(WindowsUpdatePreset.Security)];
 
     // Registry steps may only carry the per-device values TweakHub itself writes (interrupt policy and USB power saving).
     private static readonly Regex AllowedRegistryKey = new(
@@ -77,13 +102,16 @@ public sealed class PlaybookService
                     try { UserDataService.ValidateWingetId(step.WingetId); }
                     catch { errors.Add(L.Format("Scripts:PlaybookInvalidWinget", step.WingetId)); }
                     break;
+                case PlaybookStepType.Script when IsBuiltInScript(step):
+                    if (BuiltInScripts.All.GetValueOrDefault(step.ReferenceId[8..]).Administrator) notes.Add(L.Get("Scripts:Administrator"));
+                    break;
                 case PlaybookStepType.Script:
                     var script = scripts.GetValueOrDefault(step.ReferenceId);
                     if (script?.RequiresAdministrator == true) notes.Add(L.Get("Scripts:Administrator"));
                     if (script == null) errors.Add(L.Format("Scripts:PlaybookMissingReference", step.Name));
                     break;
-                case PlaybookStepType.Device:
-                case PlaybookStepType.Registry:
+                case PlaybookStepType.Device or PlaybookStepType.Registry or PlaybookStepType.TweakCheck or PlaybookStepType.SecurityFix
+                    or PlaybookStepType.WindowsUpdate or PlaybookStepType.Service or PlaybookStepType.Dns:
                     notes.Add(L.Get("Scripts:Administrator"));
                     break;
             }
@@ -112,6 +140,24 @@ public sealed class PlaybookService
                 break;
             case PlaybookStepType.PowerPlan:
                 if (!Guid.TryParse(step.ReferenceId, out _) || ParsePowerData(step.Data).Count is 0 or > 2000) throw Invalid();
+                break;
+            case PlaybookStepType.Script when IsBuiltInScript(step):
+                if (!BuiltInScripts.All.GetValueOrDefault(step.ReferenceId[8..]).Playbook) throw Invalid();
+                break;
+            case PlaybookStepType.TweakCheck:
+                if (!TweakCheckService.Ids.Contains(step.ReferenceId, StringComparer.Ordinal)) throw Invalid();
+                break;
+            case PlaybookStepType.SecurityFix:
+                if (!SecurityService.FixableIds.Contains(step.ReferenceId, StringComparer.Ordinal)) throw Invalid();
+                break;
+            case PlaybookStepType.WindowsUpdate:
+                if (!WindowsUpdatePresets.Contains(step.ReferenceId, StringComparer.Ordinal)) throw Invalid();
+                break;
+            case PlaybookStepType.Service:
+                if (!OptionalServicesService.CanManage(step.ReferenceId) || step.Data is not ("3" or "4")) throw Invalid();
+                break;
+            case PlaybookStepType.Dns:
+                if (step.Data.Length > 400 || !PrivacyService.TryParseServers(step.Data, out _, max: 8)) throw Invalid();
                 break;
         }
     }
@@ -145,7 +191,7 @@ public sealed class PlaybookService
                 _ => null
             };
         }
-        catch (FormatException)
+        catch (Exception ex) when (ex is FormatException or OverflowException)
         {
             return null;
         }
@@ -171,7 +217,7 @@ public sealed class PlaybookService
         // (or switch to High performance), and the step already carries every setting they touch.
         var hasPlan = steps.Count > 0;
         steps.AddRange(TweakService.Instance.TweakCategories.SelectMany(category => category.Tweaks)
-            .Where(tweak => tweak.IsEnabled && !(hasPlan && tweak.Type == TweakType.Power))
+            .Where(tweak => tweak.IsEnabled && !(hasPlan && tweak.Type == TweakType.Power && tweak.Id != "disable_hibernation"))
             .Select(tweak => new PlaybookStep { Type = PlaybookStepType.Tweak, ReferenceId = $"builtin:{tweak.Id}", Name = Trim(tweak.Name) }));
         steps.AddRange(UserDataService.Instance.LoadCustomTweaks().Where(IsApplied)
             .Select(tweak => new PlaybookStep { Type = PlaybookStepType.Tweak, ReferenceId = $"custom:{tweak.Id}", Name = Trim(tweak.Name) }));
@@ -198,12 +244,59 @@ public sealed class PlaybookService
                 TargetEnabled = false, IsIncluded = device.Class != "Net" && device.Rule?.Advice != DeviceAdvice.Avoid
             }));
 
+        steps.AddRange(await CaptureSystemStepsAsync());
+
         steps.AddRange(ShortcutService.Instance.ExternalTools.Where(tool => tool.IsFavorite && tool.WingetId.Length > 0)
             .Select(tool => new PlaybookStep { Type = PlaybookStepType.Winget, Name = Trim(tool.Name), WingetId = tool.WingetId, IsIncluded = false }));
         return steps;
     }
 
     private static string Trim(string name) => name.Length > 100 ? name[..100] : name;
+
+    /// <summary>
+    /// Settings TweakHub changed on this PC outside the registry tweaks: Tweak Check repairs it can undo, optional services
+    /// it switched, the Windows Update preset and DNS servers. A source that cannot be read is left out, not failed.
+    /// </summary>
+    private static async Task<List<PlaybookStep>> CaptureSystemStepsAsync()
+    {
+        var steps = new List<PlaybookStep>();
+        static async Task Try(Func<Task> capture)
+        {
+            try { await capture(); }
+            catch (Exception ex) when (ex is InvalidOperationException or IOException or JsonException) { }
+        }
+
+        await Try(async () => steps.AddRange((await TweakCheckService.Instance.ScanAsync(elevated: false)).Where(check => check.CanUndo)
+            .Select(check => new PlaybookStep { Type = PlaybookStepType.TweakCheck, ReferenceId = check.Id, Name = Trim(check.Title) })));
+        await Try(async () => steps.AddRange((await OptionalServicesService.Instance.ScanAsync())
+            .Where(service => service.Managed && service.CanChange && service.Start is 3 or 4)
+            .Select(service => new PlaybookStep
+            {
+                Type = PlaybookStepType.Service, ReferenceId = service.Name, Name = service.Name,
+                Data = service.Start.ToString(System.Globalization.CultureInfo.InvariantCulture)
+            })));
+        // Default is what Windows does anyway; only a chosen restriction is worth carrying to another PC.
+        if (await WindowsUpdatePresetService.Instance.DetectAsync() is var preset and (WindowsUpdatePreset.Disabled or WindowsUpdatePreset.Security))
+            steps.Add(new PlaybookStep { Type = PlaybookStepType.WindowsUpdate, ReferenceId = preset.ToString(), Name = Trim(L.Get($"Tweaks:WindowsUpdatePreset{preset}")) });
+        if (PrivacyService.HasDnsBackup)
+            await Try(async () =>
+            {
+                var adapter = (await PrivacyService.Instance.GetDnsAdaptersAsync()).FirstOrDefault(adapter => adapter.StaticServers.Length > 0);
+                if (adapter is not null && PrivacyService.TryParseServers($"{adapter.StaticServers},{adapter.StaticServers6}", out var servers, max: 8))
+                    steps.Add(DnsStep(servers));
+            });
+        return steps;
+    }
+
+    /// <summary>A DNS step named after the preset it matches, or after the servers themselves.</summary>
+    internal static PlaybookStep DnsStep(string[] servers)
+    {
+        var preset = PrivacyService.DnsPresets.FirstOrDefault(preset => preset.Servers.ToHashSet().SetEquals(servers))?.Id ?? "Custom";
+        return new PlaybookStep
+        {
+            Type = PlaybookStepType.Dns, ReferenceId = preset, Name = Trim(L.Get($"Security:Dns{preset}")), Data = string.Join(",", servers)
+        };
+    }
 
     private static bool IsApplied(CustomRegistryTweak tweak)
     {
@@ -235,8 +328,8 @@ public sealed class PlaybookService
         });
     }
 
-    /// <summary>Validates everything first, then adds the playbook and only the custom tweaks and scripts this PC does not have.</summary>
-    public PlaybookImportResult Import(string path, UserDataService? data = null)
+    /// <summary>Reads and validates a package without saving anything, so its code can be reviewed before importing.</summary>
+    public PlaybookPackage Inspect(string path)
     {
         var file = new FileInfo(path);
         if (!file.Exists || file.Length > 10 * 1024 * 1024) throw new InvalidDataException(L.Get("Scripts:PlaybookInvalid"));
@@ -249,7 +342,35 @@ public sealed class PlaybookService
         UserDataService.ValidatePlaybook(package.Playbook);
         foreach (var tweak in package.CustomTweaks) UserDataService.ValidateCustomTweak(tweak);
         foreach (var script in package.CustomScripts) UserDataService.ValidateCustomScript(script);
+        return package;
+    }
 
+    /// <summary>
+    /// The code a package would add to this PC (custom scripts and registry tweaks it does not have yet), as text to show
+    /// before importing; empty when the package adds none. Imported scripts run with the playbook, so they must be seen.
+    /// </summary>
+    public static string DescribeNewCode(PlaybookPackage package, UserDataService? data = null)
+    {
+        data ??= UserDataService.Instance;
+        var tweaks = data.LoadCustomTweaks().Select(tweak => tweak.Id).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var scripts = data.LoadCustomScripts().Select(script => script.Id).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var text = new System.Text.StringBuilder();
+        foreach (var script in package.CustomScripts.Where(script => !scripts.Contains(script.Id)))
+        {
+            text.AppendLine($"■ {script.Name} ({script.Language}{(script.RequiresAdministrator ? ", " + L.Get("Scripts:Administrator") : string.Empty)})");
+            foreach (var line in script.Content.Split('\n')) text.AppendLine("    " + line.TrimEnd('\r'));
+        }
+        foreach (var tweak in package.CustomTweaks.Where(tweak => !tweaks.Contains(tweak.Id)))
+            text.AppendLine($"■ {tweak.Name}: {tweak.RegistryPath}\\{tweak.RegistryKey} = {tweak.Data} ({tweak.ValueType})");
+        return text.ToString().TrimEnd();
+    }
+
+    /// <summary>Validates everything first, then adds the playbook and only the custom tweaks and scripts this PC does not have.</summary>
+    public PlaybookImportResult Import(string path, UserDataService? data = null) => Import(Inspect(path), data);
+
+    /// <summary>Imports the package the user reviewed, not the file again: it can change on disk while the review is open.</summary>
+    public PlaybookImportResult Import(PlaybookPackage package, UserDataService? data = null)
+    {
         data ??= UserDataService.Instance;
         var tweaks = data.LoadCustomTweaks();
         var newTweaks = package.CustomTweaks.Where(tweak => tweaks.All(existing => !existing.Id.Equals(tweak.Id, StringComparison.OrdinalIgnoreCase))).ToList();
@@ -275,6 +396,8 @@ public sealed class PlaybookService
         if (!preflight.CanRun) return new(false, 0, string.Join(Environment.NewLine, preflight.Errors), string.Empty);
 
         var (builtIn, custom, scripts) = LoadReferences();
+        Task<IReadOnlyList<TweakCheck>>? tweakChecks = null;
+        Task<SecuritySnapshot>? security = null;
         var lines = new List<string> { $"{DateTimeOffset.Now:O} — {playbook.Name}" };
         var completed = await RunSequentiallyAsync(playbook.Steps, async step =>
         {
@@ -291,10 +414,16 @@ public sealed class PlaybookService
                         Name = step.Name,
                         WingetId = step.WingetId
                     }),
+                    PlaybookStepType.Script when IsBuiltInScript(step) => await ExecuteBuiltInScript(step, value => details = value),
                     PlaybookStepType.Script => await ExecuteScript(step, scripts, value => details = value),
                     PlaybookStepType.Device => await ExecuteDevice(step, value => details = value),
                     PlaybookStepType.Registry => await ExecuteRegistry(step, value => details = value),
                     PlaybookStepType.PowerPlan => await ExecutePowerPlan(step, value => details = value),
+                    PlaybookStepType.TweakCheck => await ExecuteTweakCheck(step, tweakChecks ??= TweakCheckService.Instance.ScanAsync(elevated: true), value => details = value),
+                    PlaybookStepType.SecurityFix => await ExecuteSecurityFix(step, security ??= SecurityService.Instance.GetSnapshotAsync(), value => details = value),
+                    PlaybookStepType.WindowsUpdate => await ExecuteWindowsUpdate(step, value => details = value),
+                    PlaybookStepType.Service => await ExecuteService(step, value => details = value),
+                    PlaybookStepType.Dns => await ExecuteDns(step, value => details = value),
                     _ => false
                 };
             }
@@ -303,8 +432,9 @@ public sealed class PlaybookService
                 success = false;
                 details = ex.Message;
             }
-            var status = !success ? "FAILED" : details == SkippedMarker ? "SKIPPED" : "OK";
+            var status = !success ? "FAILED" : details is SkippedMarker or AlreadyDoneMarker ? "SKIPPED" : "OK";
             if (details == SkippedMarker) details = L.Get("Scripts:PlaybookSkipped");
+            else if (details == AlreadyDoneMarker) details = L.Get("Scripts:PlaybookAlreadyDone");
             lines.Add($"[{status}] {step.Summary}{(details.Length > 0 ? Environment.NewLine + details : string.Empty)}");
             return success;
         });
@@ -372,6 +502,81 @@ public sealed class PlaybookService
         return result.Success;
     }
 
+    private static async Task<bool> ExecuteBuiltInScript(PlaybookStep step, Action<string> setDetails)
+    {
+        var id = step.ReferenceId[8..];
+        var (administrator, minutes, _) = BuiltInScripts.All[id];
+        var result = await PowerShellService.Instance.ExecuteScriptAsync(BuiltInScripts.Body(id), administrator, TimeSpan.FromMinutes(minutes));
+        setDetails(string.Join(Environment.NewLine, new[] { result.Output.Trim(), result.Error.Trim() }.Where(value => value.Length > 0)));
+        return result.Success;
+    }
+
+    /// <summary>Repairs only what this PC actually has: a check already at the Windows default is skipped.</summary>
+    private static async Task<bool> ExecuteTweakCheck(PlaybookStep step, Task<IReadOnlyList<TweakCheck>> scan, Action<string> setDetails)
+    {
+        var check = (await scan).Single(check => check.Id == step.ReferenceId);
+        if (check.Status == TweakCheckStatus.NeedsAdministrator)
+        {
+            setDetails(check.StatusText);
+            return false;
+        }
+        if (!check.CanRepair)
+        {
+            setDetails(AlreadyDoneMarker);
+            return true;
+        }
+        var result = await TweakCheckService.Instance.RepairAsync(check);
+        setDetails(result.Error.Trim());
+        return result.Success;
+    }
+
+    private static async Task<bool> ExecuteSecurityFix(PlaybookStep step, Task<SecuritySnapshot> snapshot, Action<string> setDetails)
+    {
+        var check = (await snapshot).Checks.Single(check => check.Id == step.ReferenceId);
+        if (!check.CanFix)
+        {
+            // A failed check without a fix (e.g. a third-party antivirus TweakHub cannot switch on) is reported, not called correct.
+            setDetails(check.Status == CheckStatus.Passed ? AlreadyDoneMarker : check.Detail);
+            return check.Status == CheckStatus.Passed;
+        }
+        var result = await SecurityService.Instance.RunElevatedAsync(check.FixScript!);
+        setDetails(result.Error.Trim());
+        return result.Success;
+    }
+
+    private static async Task<bool> ExecuteWindowsUpdate(PlaybookStep step, Action<string> setDetails)
+    {
+        var result = await WindowsUpdatePresetService.Instance.ApplyAsync(Enum.Parse<WindowsUpdatePreset>(step.ReferenceId));
+        setDetails(result.Error.Trim());
+        return result.Success;
+    }
+
+    private static async Task<bool> ExecuteService(PlaybookStep step, Action<string> setDetails)
+    {
+        var service = (await OptionalServicesService.Instance.ScanAsync()).FirstOrDefault(service => service.Name == step.ReferenceId);
+        if (service is not { Exists: true })
+        {
+            setDetails(SkippedMarker);
+            return true;
+        }
+        var success = await OptionalServicesService.Instance.SetModeAsync(service, int.Parse(step.Data, System.Globalization.CultureInfo.InvariantCulture));
+        if (!success) setDetails(service.Explanation);
+        return success;
+    }
+
+    private static async Task<bool> ExecuteDns(PlaybookStep step, Action<string> setDetails)
+    {
+        var adapters = await PrivacyService.Instance.GetDnsAdaptersAsync();
+        if (adapters.Count == 0 || !PrivacyService.TryParseServers(step.Data, out var servers, max: 8))
+        {
+            setDetails(SkippedMarker);
+            return true;
+        }
+        var result = await PrivacyService.Instance.ApplyDnsAsync(adapters, servers);
+        setDetails(result.Error.Trim());
+        return result.Success;
+    }
+
     // A device that is not on this PC is skipped, not failed: playbooks move between machines.
     private static async Task<bool> ExecuteDevice(PlaybookStep step, Action<string> setDetails)
     {
@@ -390,6 +595,16 @@ public sealed class PlaybookService
             return true;
         }
         var changes = ParseRegistryData(step.Data).Select(value => ToChange(value)!).ToList();
+        foreach (var change in changes.Where(change => change.ValueName == "AssignmentSetOverride"))
+        {
+            var bytes = ((byte[])change.Value!).ToArray();
+            Array.Resize(ref bytes, 8);
+            if (!InterruptService.CanAssign(BitConverter.ToUInt64(bytes)))
+            {
+                setDetails(L.Get("Maintenance:AffinitySelectionRequired"));
+                return false;
+            }
+        }
         return await RegistryService.Instance.ApplyValuesWithBackupAsync(changes);
     }
 

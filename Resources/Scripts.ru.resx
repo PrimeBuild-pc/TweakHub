@@ -603,7 +603,7 @@
     <value>Приложение (winget)</value>
   </data>
   <data name="PlaybookTypeScript" xml:space="preserve">
-    <value>Пользовательский скрипт</value>
+    <value>Скрипт</value>
   </data>
   <data name="PlaybookTypeDevice" xml:space="preserve">
     <value>Устройство</value>
@@ -661,5 +661,89 @@
   </data>
   <data name="temp_cleanup_Confirmation" xml:space="preserve">
     <value>Будут удалены временные файлы старше одного дня и кэш оптимизации доставки. Продолжить?</value>
+  </data>
+  <data name="shader_cache_cleanup_Name" xml:space="preserve">
+    <value>Очистка кэша шейдеров GPU</value>
+  </data>
+  <data name="shader_cache_cleanup_Description" xml:space="preserve">
+    <value>Удаляет кэши шейдеров DirectX, AMD, NVIDIA и Intel текущего пользователя. Драйвер создаёт их заново, поэтому при первом запуске каждой игры возможны кратковременные подтормаживания. Полезно после обновления драйвера или при графических артефактах в игре.</value>
+  </data>
+  <data name="shader_cache_cleanup_Confirmation" xml:space="preserve">
+    <value>Сначала закройте запущенные игры: используемые файлы сохраняются. Кэши создаются заново автоматически, поэтому следующий запуск каждой игры может занять больше времени. Продолжить?</value>
+  </data>
+  <data name="driver_backup_Name" xml:space="preserve">
+    <value>Резервная копия драйверов</value>
+  </data>
+  <data name="driver_backup_Description" xml:space="preserve">
+    <value>Экспортирует с помощью pnputil все установленные на этом ПК пакеты сторонних драйверов для чистой установки Windows. Портативная версия сохраняет их в Data\Drivers рядом с TweakHub, установленная — в Документы\TweakHub\Drivers. Копия может занимать несколько ГБ.</value>
+  </data>
+  <data name="driver_backup_Confirmation" xml:space="preserve">
+    <value>Все установленные сторонние драйверы будут экспортированы в папку Drivers программы TweakHub. На этом ПК ничего не изменяется. Продолжить?</value>
+  </data>
+  <data name="driver_backup_CompletionNote" xml:space="preserve">
+    <value>Чтобы установить их после чистой установки, выполните от имени администратора: pnputil /add-driver "&lt;папка копии&gt;\*.inf" /subdirs /install</value>
+  </data>
+  <data name="PlaybookTypeTweakCheck" xml:space="preserve">
+    <value>Исправление Tweak Check</value>
+  </data>
+  <data name="PlaybookTypeSecurityFix" xml:space="preserve">
+    <value>Исправление безопасности</value>
+  </data>
+  <data name="PlaybookTypeWindowsUpdate" xml:space="preserve">
+    <value>Режим Центра обновления Windows</value>
+  </data>
+  <data name="PlaybookTypeService" xml:space="preserve">
+    <value>Необязательная служба</value>
+  </data>
+  <data name="PlaybookTypeDns" xml:space="preserve">
+    <value>DNS-серверы</value>
+  </data>
+  <data name="PlaybookTweakCheckSummary" xml:space="preserve">
+    <value>Tweak Check, исправить при изменении: {0}</value>
+  </data>
+  <data name="PlaybookSecurityFixSummary" xml:space="preserve">
+    <value>Безопасность, исправить при необходимости: {0}</value>
+  </data>
+  <data name="PlaybookWindowsUpdateSummary" xml:space="preserve">
+    <value>Режим Центра обновления Windows: {0}</value>
+  </data>
+  <data name="PlaybookServiceSummary" xml:space="preserve">
+    <value>Служба {0}: {1}</value>
+  </data>
+  <data name="PlaybookDnsSummary" xml:space="preserve">
+    <value>DNS {0}: {1}</value>
+  </data>
+  <data name="PlaybookAlreadyDone" xml:space="preserve">
+    <value>Пропущено: на этом ПК уже всё верно.</value>
+  </data>
+  <data name="PlaybookDnsInvalid" xml:space="preserve">
+    <value>Выберите набор DNS или введите до 8 IP-адресов через запятую.</value>
+  </data>
+  <data name="driver_restore_Name" xml:space="preserve">
+    <value>Восстановить драйверы из копии</value>
+  </data>
+  <data name="driver_restore_Description" xml:space="preserve">
+    <value>Устанавливает с помощью pnputil пакеты драйверов из папки резервной копии (например, созданной функцией «Резервная копия драйверов»): удобно сразу после чистой установки Windows. Папку выбираете вы.</value>
+  </data>
+  <data name="driver_restore_Execute" xml:space="preserve">
+    <value>Выбрать папку</value>
+  </data>
+  <data name="driver_restore_Confirmation" xml:space="preserve">
+    <value>Windows добавит каждый пакет в хранилище драйверов и установит его на подходящие устройства. Пакеты для оборудования, которого нет в этом ПК, только сохраняются. Неподписанные или более старые драйверы Windows может отклонить.</value>
+  </data>
+  <data name="driver_restore_CompletionNote" xml:space="preserve">
+    <value>Проверьте диспетчер устройств; перезагрузите Windows, если драйвер этого требует.</value>
+  </data>
+  <data name="driver_restore_NoPackages" xml:space="preserve">
+    <value>В {0} не найдено ни одного пакета драйверов (файла .inf). Выберите папку, созданную функцией «Резервная копия драйверов».</value>
+  </data>
+  <data name="driver_restore_ConfirmFolder" xml:space="preserve">
+    <value>Будет установлено пакетов драйверов: {0}, из папки:
+{1}</value>
+  </data>
+  <data name="PlaybookImportReview" xml:space="preserve">
+    <value>«{0}» добавляет этот код в TweakHub. Он выполняется при запуске сценария, с правами администратора, если это указано. Импортируйте его, только если доверяете источнику файла.
+
+{1}</value>
   </data>
 </root>

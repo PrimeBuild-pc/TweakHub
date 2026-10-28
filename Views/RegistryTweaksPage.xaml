@@ -22,6 +22,26 @@
             <Setter Property="Margin" Value="0,0,0,8"/>
         </Style>
 
+        <!-- Outlined pill; the text takes the border color. -->
+        <Style x:Key="RiskBadgeStyle" TargetType="Border">
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="8,1"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource SuccessBrush}"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding RiskClass}" Value="Cosmetic">
+                    <Setter Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding RiskClass}" Value="Moderate">
+                    <Setter Property="BorderBrush" Value="{DynamicResource WarningBrush}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding RiskClass}" Value="Caution">
+                    <Setter Property="BorderBrush" Value="{DynamicResource DangerBrush}"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
         <DataTemplate x:Key="FavoriteStarTemplate">
             <TextBlock FontSize="18">
                 <TextBlock.Style>
@@ -48,7 +68,13 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <StackPanel VerticalAlignment="Center">
-                            <TextBlock Text="{Binding Name}" FontSize="15" FontWeight="SemiBold"/>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Name}" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                <Border Style="{StaticResource RiskBadgeStyle}" ToolTip="{Binding RiskHint}" Margin="10,0,0,0">
+                                    <TextBlock Text="{Binding RiskText}" FontSize="11" FontWeight="SemiBold"
+                                               Foreground="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType=Border}}"/>
+                                </Border>
+                            </StackPanel>
                             <TextBlock Text="{Binding Description}" FontSize="12"
                                        Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
                                        Margin="0,4,0,0" TextWrapping="Wrap"/>
@@ -108,6 +134,10 @@
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
                                 <TextBlock Text="&#xE8B7;" FontFamily="Segoe Fluent Icons" FontSize="16" Margin="0,0,8,0"/>
                                 <TextBlock Text="{Binding Name}" FontSize="16" FontWeight="Medium"/>
+                                <Border Style="{StaticResource RiskBadgeStyle}" ToolTip="{Binding RiskHint}" Margin="10,0,0,0">
+                                    <TextBlock Text="{Binding RiskText}" FontSize="11" FontWeight="SemiBold"
+                                               Foreground="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType=Border}}"/>
+                                </Border>
                                 <TextBlock Text="&#xE73E;" FontFamily="Segoe Fluent Icons" FontSize="14" Margin="8,0,0,0"
                                            Foreground="{DynamicResource SuccessBrush}"
                                            Visibility="{Binding IsApplied, Converter={StaticResource BoolToVis}}"
@@ -259,6 +289,25 @@
                 <TabItem Header="{loc:Loc Tweaks:RegistryTweaksPageRecommended}">
                     <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="0,8,16,0">
                         <StackPanel>
+                            <Border x:Name="RevertedTweaksBanner" Style="{StaticResource CardStyle}" Margin="0,0,0,20"
+                                    BorderBrush="{DynamicResource WarningBrush}" Visibility="Collapsed">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="&#xE7BA;" FontFamily="Segoe Fluent Icons" FontSize="18" Margin="0,2,10,0"
+                                               Foreground="{DynamicResource WarningBrush}" VerticalAlignment="Top"/>
+                                    <StackPanel Grid.Column="1">
+                                        <TextBlock Text="{loc:Loc Tweaks:RevertedTweaksTitle}" FontSize="15" FontWeight="SemiBold"/>
+                                        <TextBlock x:Name="RevertedTweaksText" Style="{StaticResource DescriptionTextStyle}" Margin="0,4,0,0"/>
+                                    </StackPanel>
+                                    <Button x:Name="ReapplyRevertedButton" Grid.Column="2" Style="{StaticResource ModernButtonStyle}"
+                                            Margin="12,0,0,0" VerticalAlignment="Center"
+                                            Content="{loc:Loc Tweaks:RevertedTweaksReapply}" Click="ReapplyReverted_Click"/>
+                                </Grid>
+                            </Border>
                             <Border Style="{StaticResource CardStyle}" Margin="0,0,0,20">
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
@@ -294,6 +343,21 @@
                                     </Border>
                                 </StackPanel>
                             </Border>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+                                <TextBlock Text="{loc:Loc Tweaks:RiskFilterLabel}" VerticalAlignment="Center" Margin="0,0,10,0"
+                                           Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+                                <ComboBox x:Name="RiskFilterBox" Width="220" SelectedIndex="0" SelectionChanged="RiskFilter_SelectionChanged"
+                                          AutomationProperties.Name="{loc:Loc Tweaks:RiskFilterLabel}">
+                                    <ComboBoxItem Content="{loc:Loc Tweaks:RiskFilterAll}" Tag="All"/>
+                                    <ComboBoxItem Content="{loc:Loc Tweaks:RiskFilterRecommended}" Tag="Recommended"/>
+                                    <ComboBoxItem Content="{loc:Loc Tweaks:RiskSafe}" Tag="Safe"/>
+                                    <ComboBoxItem Content="{loc:Loc Tweaks:RiskCosmetic}" Tag="Cosmetic"/>
+                                    <ComboBoxItem Content="{loc:Loc Tweaks:RiskModerate}" Tag="Moderate"/>
+                                    <ComboBoxItem Content="{loc:Loc Tweaks:RiskCaution}" Tag="Caution"/>
+                                </ComboBox>
+                                <TextBlock x:Name="RiskFilterCount" VerticalAlignment="Center" Margin="12,0,0,0" FontSize="12"
+                                           Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+                            </StackPanel>
                             <ItemsControl x:Name="TweakCategoriesControl">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>

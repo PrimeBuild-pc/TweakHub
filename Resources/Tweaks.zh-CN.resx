@@ -799,4 +799,52 @@ TweakHub 会恢复捕获的原始值。</value>
   <data name="NetworkAdapterConnected" xml:space="preserve">
     <value>已连接</value>
   </data>
+  <data name="RevertedTweaksTitle" xml:space="preserve">
+    <value>被 Windows 撤销的调整</value>
+  </data>
+  <data name="RevertedTweaksMessage" xml:space="preserve">
+    <value>TweakHub 已应用这些调整，但其设置已恢复为之前的值，通常是在 Windows 更新之后：{0}。重新应用会保留原始备份，因此“还原”仍会恢复原始值。</value>
+  </data>
+  <data name="RevertedTweaksReapply" xml:space="preserve">
+    <value>重新应用</value>
+  </data>
+  <data name="RiskSafe" xml:space="preserve">
+    <value>安全</value>
+  </data>
+  <data name="RiskCosmetic" xml:space="preserve">
+    <value>外观</value>
+  </data>
+  <data name="RiskModerate" xml:space="preserve">
+    <value>中等</value>
+  </data>
+  <data name="RiskCaution" xml:space="preserve">
+    <value>谨慎</value>
+  </data>
+  <data name="RiskSafeHint" xml:space="preserve">
+    <value>风险低：易于撤销，不影响稳定性。</value>
+  </data>
+  <data name="RiskCosmeticHint" xml:space="preserve">
+    <value>只改变 Windows 的外观或视觉响应。</value>
+  </data>
+  <data name="RiskModerateHint" xml:space="preserve">
+    <value>会改变系统行为：请阅读说明并保留备份。</value>
+  </data>
+  <data name="RiskCautionHint" xml:space="preserve">
+    <value>可能关闭 Windows 功能或保护：仅在确定需要时应用。</value>
+  </data>
+  <data name="RiskLabel" xml:space="preserve">
+    <value>风险等级</value>
+  </data>
+  <data name="RiskFilterLabel" xml:space="preserve">
+    <value>显示</value>
+  </data>
+  <data name="RiskFilterAll" xml:space="preserve">
+    <value>全部调整</value>
+  </data>
+  <data name="RiskFilterRecommended" xml:space="preserve">
+    <value>推荐</value>
+  </data>
+  <data name="RiskFilterCount" xml:space="preserve">
+    <value>{0} 项调整</value>
+  </data>
 </root>

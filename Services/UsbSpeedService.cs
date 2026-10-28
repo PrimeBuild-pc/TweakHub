@@ -1,17 +1,22 @@
 using System.Runtime.InteropServices;
+using System.Text;
 using Microsoft.Win32.SafeHandles;
 
 namespace TweakHub.Services;
 
 /// <summary>Negotiated USB speed of one hub port, as the hub driver reports it.</summary>
 /// <param name="Speed">0 = low (1.5 Mb/s), 1 = full (12 Mb/s), 2 = high (480 Mb/s), 3 = SuperSpeed (5 Gb/s or more).</param>
-public sealed record UsbPortSpeed(int Speed, bool SuperSpeedCapable, bool SuperSpeedPlus);
+public sealed record UsbPortSpeed(int Speed, bool SuperSpeedCapable, bool SuperSpeedPlus)
+{
+    public string Manufacturer { get; init; } = string.Empty;
+    public string Product { get; init; } = string.Empty;
+}
 
 /// <summary>Reads negotiated speeds with the hub IOCTLs USBView uses; hubs open without administrator rights.</summary>
 internal static class UsbSpeedService
 {
     private static readonly Guid HubInterface = new("f18a0e88-c30c-11d0-8815-00a0c906bed8");
-    private const uint IoctlConnectionInfoEx = 0x220448, IoctlConnectionInfoExV2 = 0x22045C;
+    private const uint IoctlConnectionInfoEx = 0x220448, IoctlConnectionInfoExV2 = 0x22045C, IoctlDescriptor = 0x220410;
 
     [DllImport("CfgMgr32.dll", CharSet = CharSet.Unicode)]
     private static extern int CM_Get_Device_Interface_List_SizeW(out int length, in Guid interfaceGuid, string deviceId, int flags);
@@ -35,7 +40,30 @@ internal static class UsbSpeedService
         return path.Length > 0 ? path : null;
     }
 
-    /// <summary>(hub instance id, port) → speed; ports that cannot be read are left out.</summary>
+    // USB_DESCRIPTOR_REQUEST: 4-byte port index, 8-byte setup packet, then the USB string descriptor.
+    private static byte[] ReadDescriptor(SafeFileHandle handle, int port, byte index, ushort language)
+    {
+        var request = new byte[12 + 255];
+        BitConverter.GetBytes(port).CopyTo(request, 0);
+        request[4] = 0x80;
+        request[5] = 6; // GET_DESCRIPTOR
+        request[6] = index;
+        request[7] = 3; // STRING
+        BitConverter.GetBytes(language).CopyTo(request, 8);
+        BitConverter.GetBytes((ushort)255).CopyTo(request, 10);
+        return DeviceIoControl(handle, IoctlDescriptor, request, request.Length, request, request.Length, out var returned, IntPtr.Zero)
+            ? DescriptorData(request, returned) : [];
+    }
+
+    internal static byte[] DescriptorData(byte[] response, int returned)
+    {
+        if (returned < 14 || returned > response.Length || response[13] != 3) return [];
+        var length = response[12];
+        if (length < 2 || length % 2 != 0 || length > returned - 12) return [];
+        return response.AsSpan(14, length - 2).ToArray();
+    }
+
+    /// <summary>(hub instance id, port) → speed and USB identity; ports that cannot be read are left out.</summary>
     public static Dictionary<(string Hub, int Port), UsbPortSpeed> Read(IEnumerable<(string Hub, int Port)> ports)
     {
         var speeds = new Dictionary<(string Hub, int Port), UsbPortSpeed>();
@@ -50,16 +78,24 @@ internal static class UsbSpeedService
                 // USB_NODE_CONNECTION_INFORMATION_EX (packed): index at 0, Speed at 23 after the 18-byte device descriptor.
                 var info = new byte[64];
                 BitConverter.GetBytes(port).CopyTo(info, 0);
-                if (!DeviceIoControl(handle, IoctlConnectionInfoEx, info, info.Length, info, info.Length, out _, IntPtr.Zero)) continue;
+                if (!DeviceIoControl(handle, IoctlConnectionInfoEx, info, info.Length, info, info.Length, out var infoLength, IntPtr.Zero) || infoLength < 24) continue;
                 // USB_NODE_CONNECTION_INFORMATION_EX_V2: index, length, protocols to ask about (USB 3), flags.
                 var v2 = new byte[16];
                 BitConverter.GetBytes(port).CopyTo(v2, 0);
                 BitConverter.GetBytes(16).CopyTo(v2, 4);
                 BitConverter.GetBytes(4).CopyTo(v2, 8);
-                var flags = DeviceIoControl(handle, IoctlConnectionInfoExV2, v2, v2.Length, v2, v2.Length, out _, IntPtr.Zero)
+                var flags = DeviceIoControl(handle, IoctlConnectionInfoExV2, v2, v2.Length, v2, v2.Length, out var v2Length, IntPtr.Zero) && v2Length >= 16
                     ? BitConverter.ToInt32(v2, 12) : 0;
                 // Flags: 1 operating at SuperSpeed, 2 SuperSpeed capable, 4 operating at SuperSpeedPlus.
-                speeds[(hub.Key, port)] = new UsbPortSpeed(info[23], (flags & 2) != 0, (flags & 4) != 0);
+                // iManufacturer/iProduct belong to the device descriptor at offset 4, not the Windows driver provider.
+                var languages = info[18] != 0 || info[19] != 0 ? ReadDescriptor(handle, port, 0, 0) : [];
+                var language = languages.Length >= 2 ? BitConverter.ToUInt16(languages, 0) : (ushort)0;
+                string Text(byte index) => index == 0 || language == 0 ? string.Empty
+                    : Encoding.Unicode.GetString(ReadDescriptor(handle, port, index, language)).Trim('\0', ' ');
+                speeds[(hub.Key, port)] = new UsbPortSpeed(info[23], (flags & 2) != 0, (flags & 4) != 0)
+                {
+                    Manufacturer = Text(info[18]), Product = Text(info[19])
+                };
             }
         }
         return speeds;

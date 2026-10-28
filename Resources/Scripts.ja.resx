@@ -603,7 +603,7 @@
     <value>アプリ (winget)</value>
   </data>
   <data name="PlaybookTypeScript" xml:space="preserve">
-    <value>カスタムスクリプト</value>
+    <value>スクリプト</value>
   </data>
   <data name="PlaybookTypeDevice" xml:space="preserve">
     <value>デバイス</value>
@@ -661,5 +661,89 @@
   </data>
   <data name="temp_cleanup_Confirmation" xml:space="preserve">
     <value>1 日以上前の一時ファイルと配信の最適化キャッシュを削除します。続行しますか?</value>
+  </data>
+  <data name="shader_cache_cleanup_Name" xml:space="preserve">
+    <value>GPU シェーダー キャッシュのクリーンアップ</value>
+  </data>
+  <data name="shader_cache_cleanup_Description" xml:space="preserve">
+    <value>現在のユーザーの DirectX、AMD、NVIDIA、Intel のシェーダー キャッシュを削除します。ドライバーが再作成するため、各ゲームの初回起動時に一時的にカクつくことがあります。ドライバー更新後やゲームに描画の不具合がある場合に役立ちます。</value>
+  </data>
+  <data name="shader_cache_cleanup_Confirmation" xml:space="preserve">
+    <value>先に実行中のゲームを終了してください。使用中のファイルは残ります。キャッシュは自動的に再作成されるため、各ゲームの次回起動に時間がかかることがあります。続行しますか?</value>
+  </data>
+  <data name="driver_backup_Name" xml:space="preserve">
+    <value>ドライバーのバックアップ</value>
+  </data>
+  <data name="driver_backup_Description" xml:space="preserve">
+    <value>この PC にインストールされているすべてのサードパーティ製ドライバー パッケージを pnputil でエクスポートし、Windows のクリーン インストールに備えます。ポータブル版は TweakHub の横の Data\Drivers に、インストール版は ドキュメント\TweakHub\Drivers に保存します。バックアップは数 GB になることがあります。</value>
+  </data>
+  <data name="driver_backup_Confirmation" xml:space="preserve">
+    <value>インストール済みのすべてのサードパーティ製ドライバーを TweakHub の Drivers フォルダーにエクスポートします。この PC では何も変更されません。続行しますか?</value>
+  </data>
+  <data name="driver_backup_CompletionNote" xml:space="preserve">
+    <value>クリーン インストール後に再インストールするには、管理者として次を実行します: pnputil /add-driver "&lt;バックアップ フォルダー&gt;\*.inf" /subdirs /install</value>
+  </data>
+  <data name="PlaybookTypeTweakCheck" xml:space="preserve">
+    <value>Tweak Check の修復</value>
+  </data>
+  <data name="PlaybookTypeSecurityFix" xml:space="preserve">
+    <value>セキュリティ修正</value>
+  </data>
+  <data name="PlaybookTypeWindowsUpdate" xml:space="preserve">
+    <value>Windows Update プリセット</value>
+  </data>
+  <data name="PlaybookTypeService" xml:space="preserve">
+    <value>オプションのサービス</value>
+  </data>
+  <data name="PlaybookTypeDns" xml:space="preserve">
+    <value>DNS サーバー</value>
+  </data>
+  <data name="PlaybookTweakCheckSummary" xml:space="preserve">
+    <value>Tweak Check、変更されていれば修復: {0}</value>
+  </data>
+  <data name="PlaybookSecurityFixSummary" xml:space="preserve">
+    <value>セキュリティ、必要なら修正: {0}</value>
+  </data>
+  <data name="PlaybookWindowsUpdateSummary" xml:space="preserve">
+    <value>Windows Update プリセット: {0}</value>
+  </data>
+  <data name="PlaybookServiceSummary" xml:space="preserve">
+    <value>サービス {0}: {1}</value>
+  </data>
+  <data name="PlaybookDnsSummary" xml:space="preserve">
+    <value>DNS {0}: {1}</value>
+  </data>
+  <data name="PlaybookAlreadyDone" xml:space="preserve">
+    <value>スキップ: この PC では既に正しい状態です。</value>
+  </data>
+  <data name="PlaybookDnsInvalid" xml:space="preserve">
+    <value>DNS プリセットを選ぶか、IP アドレスをカンマ区切りで最大 8 個入力してください。</value>
+  </data>
+  <data name="driver_restore_Name" xml:space="preserve">
+    <value>バックアップからドライバーを復元</value>
+  </data>
+  <data name="driver_restore_Description" xml:space="preserve">
+    <value>バックアップ フォルダー (「ドライバーのバックアップ」で作成したものなど) のドライバー パッケージを pnputil でインストールします。Windows のクリーン インストール直後に便利です。フォルダーは自分で選びます。</value>
+  </data>
+  <data name="driver_restore_Execute" xml:space="preserve">
+    <value>フォルダーを選択</value>
+  </data>
+  <data name="driver_restore_Confirmation" xml:space="preserve">
+    <value>Windows は各パッケージをドライバー ストアに追加し、対応するデバイスにインストールします。この PC にないハードウェア用のパッケージは保存のみされます。署名のないドライバーや古いドライバーは Windows に拒否されることがあります。</value>
+  </data>
+  <data name="driver_restore_CompletionNote" xml:space="preserve">
+    <value>デバイス マネージャーを確認し、ドライバーが求める場合は Windows を再起動してください。</value>
+  </data>
+  <data name="driver_restore_NoPackages" xml:space="preserve">
+    <value>{0} にドライバー パッケージ (.inf ファイル) が見つかりません。「ドライバーのバックアップ」で作成したフォルダーを選んでください。</value>
+  </data>
+  <data name="driver_restore_ConfirmFolder" xml:space="preserve">
+    <value>次の場所から {0} 個のドライバー パッケージをインストールします:
+{1}</value>
+  </data>
+  <data name="PlaybookImportReview" xml:space="preserve">
+    <value>「{0}」は次のコードを TweakHub に追加します。プレイブックを実行するとこのコードも実行され、指定がある場合は管理者権限で実行されます。ファイルの入手元を信頼できる場合にのみインポートしてください。
+
+{1}</value>
   </data>
 </root>

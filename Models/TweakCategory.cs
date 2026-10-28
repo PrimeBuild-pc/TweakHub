@@ -61,6 +61,15 @@ namespace TweakHub.Models
         public object? EnabledValue { get; set; }
         public int RiskLevel { get; set; } = 1; // 1-5 scale
 
+        // Tweaks that only change how Windows looks or behaves visually.
+        private static readonly HashSet<string> CosmeticIds =
+            ["disable_animations", "disable_transparency", "optimize_visual_effects", "reduce_menu_delay", "enable_taskbar_end_task", "detailed_bsod"];
+
+        /// <summary>Badge shown on the card: Safe (risk 1-2), Cosmetic, Moderate (3) or Caution (4-5).</summary>
+        public string RiskClass => CosmeticIds.Contains(Id) ? "Cosmetic" : RiskLevel <= 2 ? "Safe" : RiskLevel == 3 ? "Moderate" : "Caution";
+        public string RiskText => TweakHub.Localization.L.Get($"Tweaks:Risk{RiskClass}");
+        public string RiskHint => TweakHub.Localization.L.Get($"Tweaks:Risk{RiskClass}Hint");
+
         /// <summary>Why this PC cannot use the tweak; empty when it can.</summary>
         public string UnavailableReason
         {
@@ -144,6 +153,12 @@ namespace TweakHub.Models
         public string RegistryKey { get; set; } = string.Empty;
         public string ValueType { get; set; } = "REG_SZ"; // REG_DWORD, REG_QWORD, REG_SZ
         public string Data { get; set; } = string.Empty;
+        /// <summary>Badge the user picked: Safe, Cosmetic, Moderate or Caution. Moderate when unknown (older files).</summary>
+        public string RiskClass { get; set; } = "Moderate";
+        [System.Text.Json.Serialization.JsonIgnore]
+        public string RiskText => TweakHub.Localization.L.Get($"Tweaks:Risk{RiskClass}");
+        [System.Text.Json.Serialization.JsonIgnore]
+        public string RiskHint => TweakHub.Localization.L.Get($"Tweaks:Risk{RiskClass}Hint");
         [System.Text.Json.Serialization.JsonIgnore]
         public bool IsApplied
         {

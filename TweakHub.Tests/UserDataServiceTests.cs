@@ -43,11 +43,12 @@ public class UserDataServiceTests
                 Steps =
                 [
                     new() { Id = "app", Type = PlaybookStepType.Winget, Name = "PowerToys", WingetId = "Microsoft.PowerToys" },
-                    new() { Id = "script", Type = PlaybookStepType.Script, Name = script.Name, ReferenceId = script.Id }
+                    new() { Id = "script", Type = PlaybookStepType.Script, Name = script.Name, ReferenceId = script.Id },
+                    new() { Id = "service", Type = PlaybookStepType.Service, Name = "MapsBroker", ReferenceId = "MapsBroker", Data = "4" }
                 ]
             }]);
             source.SaveFavoriteTools(["custom:custom-tool"]);
-            source.SaveFavoriteTweaks(["builtin:disable_game_bar", "custom:registry-tool"]);
+            source.SaveFavoriteTweaks(["builtin:disable_game_bar", "custom:registry-tool", "check:Mpo"]);
             source.SaveFavoriteScripts(["builtin:dism-sfc-chkdsk", "custom:script-1"]);
             source.SaveAppearance(new AppearanceSettings { Theme = "Dark", AccentColor = "#336699", Transparency = false, Language = "it" });
             source.ExportProfile(profilePath);
@@ -62,7 +63,8 @@ public class UserDataServiceTests
                 Assert.That(destination.LoadPlaybooks().Single().Steps.Single(step => step.Type == PlaybookStepType.Winget).WingetId,
                     Is.EqualTo("Microsoft.PowerToys"));
                 Assert.That(destination.LoadFavoriteTools(), Does.Contain("custom:custom-tool"));
-                Assert.That(destination.LoadFavoriteTweaks(), Is.EquivalentTo(new[] { "builtin:disable_game_bar", "custom:registry-tool" }));
+                Assert.That(destination.LoadFavoriteTweaks(), Is.EquivalentTo(new[] { "builtin:disable_game_bar", "custom:registry-tool", "check:Mpo" }));
+                Assert.That(destination.LoadPlaybooks().Single().Steps.Single(step => step.Type == PlaybookStepType.Service).Data, Is.EqualTo("4"));
                 Assert.That(destination.LoadFavoriteScripts(), Is.EquivalentTo(new[] { "builtin:dism-sfc-chkdsk", "custom:script-1" }));
                 Assert.That(result.Appearance.AccentColor, Is.EqualTo("#336699"));
                 Assert.That(result.Appearance.Transparency, Is.False);

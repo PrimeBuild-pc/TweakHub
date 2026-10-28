@@ -29,17 +29,17 @@ $taskPaths = @(
     '\Microsoft\WindowsUpdate\*'
 )
 
+# One read of all tasks: every wildcard -TaskPath call enumerates them again (about 0.8 s each).
 function Get-UpdateTasks {
-    $seen = @{}
-    foreach ($path in $taskPaths) {
-        foreach ($task in @(Get-ScheduledTask -TaskPath $path -ErrorAction SilentlyContinue)) {
-            $key = $task.TaskPath + $task.TaskName
-            if (-not $seen.ContainsKey($key)) {
-                $seen[$key] = $true
-                $task
-            }
-        }
-    }
+    @(Get-ScheduledTask -ErrorAction SilentlyContinue) | Where-Object { $path = $_.TaskPath; @($taskPaths | Where-Object { $path -like $_ }).Count -gt 0 }
+}
+
+# One CIM query for all services instead of one per name.
+function Get-UpdateServices {
+    $found = @{}
+    Get-CimInstance Win32_Service -Filter (($serviceNames | ForEach-Object { "Name='$_'" }) -join ' OR ') -ErrorAction SilentlyContinue |
+        ForEach-Object { $found[$_.Name] = $_ }
+    $found
 }
 
 function Get-RegistryValue([string]$Path, [string]$Name) {
@@ -56,8 +56,9 @@ function Test-RegistryValueAbsent([string]$Path, [string]$Name) {
 function Save-Backup {
     if (Test-Path -LiteralPath $BackupPath) { return }
 
+    $found = Get-UpdateServices
     $services = foreach ($name in $serviceNames) {
-        $service = Get-CimInstance Win32_Service -Filter "Name='$name'" -ErrorAction SilentlyContinue
+        $service = $found[$name]
         if ($service) { [pscustomobject]@{ Name = $name; StartMode = $service.StartMode; State = $service.State } }
     }
     $tasks = foreach ($task in @(Get-UpdateTasks)) {
@@ -118,11 +119,9 @@ function Set-UpdateAvailability {
 }
 
 function Get-DetectedPreset {
+    $found = Get-UpdateServices
     $services = @{}
-    foreach ($name in $serviceNames) {
-        $service = Get-CimInstance Win32_Service -Filter "Name='$name'" -ErrorAction SilentlyContinue
-        $services[$name] = $service.StartMode
-    }
+    foreach ($name in $serviceNames) { $services[$name] = $found[$name].StartMode }
     $tasks = @(Get-UpdateTasks)
     $allTasksDisabled = $tasks.Count -eq 0 -or @($tasks | Where-Object { $_.Settings.Enabled }).Count -eq 0
     $availabilityIsDefault = $services.BITS -eq 'Manual' -and $services.wuauserv -eq 'Manual' -and $services.UsoSvc -eq 'Auto'

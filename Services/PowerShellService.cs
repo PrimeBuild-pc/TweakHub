@@ -19,10 +19,13 @@ namespace TweakHub.Services
             CancellationToken cancellationToken = default)
         {
             var id = Guid.NewGuid().ToString("N");
-            var scriptPath = Path.Combine(Path.GetTempPath(), $"TweakHub-{id}.ps1");
+            // Already elevated: the script is run by path, so keep it where unelevated processes cannot rewrite it.
+            var scriptFolder = Elevation.IsAdministrator
+                ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Temp")
+                : Path.GetTempPath();
+            var scriptPath = Path.Combine(scriptFolder, $"TweakHub-{id}.ps1");
             var outputPath = Path.Combine(Path.GetTempPath(), $"TweakHub-{id}.out");
             var errorPath = Path.Combine(Path.GetTempPath(), $"TweakHub-{id}.err");
-            var wrapperPath = Path.Combine(Path.GetTempPath(), $"TweakHub-{id}-elevated.ps1");
             var stopwatch = Stopwatch.StartNew();
 
             using var timeoutSource = timeout is null ? null : new CancellationTokenSource(timeout.Value);
@@ -33,10 +36,12 @@ namespace TweakHub.Services
             try
             {
                 // Windows PowerShell 5.1 reads BOM-less scripts as ANSI, which mangles non-ASCII paths and text.
-                await File.WriteAllTextAsync(scriptPath, BuildScriptContext(script), new UTF8Encoding(true), linkedSource.Token);
+                var encoding = new UTF8Encoding(true);
+                var scriptBytes = encoding.GetPreamble().Concat(encoding.GetBytes(BuildScriptContext(script))).ToArray();
+                await File.WriteAllBytesAsync(scriptPath, scriptBytes, linkedSource.Token);
                 var elevated = requireAdministrator && !Elevation.IsAdministrator;
                 var startInfo = elevated
-                    ? await CreateElevatedStartInfo(scriptPath, wrapperPath, outputPath, errorPath, linkedSource.Token)
+                    ? CreateElevatedStartInfo(scriptPath, scriptBytes, outputPath, errorPath)
                     : CreateStartInfo(scriptPath);
 
                 using var process = new Process { StartInfo = startInfo };
@@ -89,7 +94,7 @@ namespace TweakHub.Services
             }
             finally
             {
-                foreach (var path in new[] { scriptPath, wrapperPath, outputPath, errorPath })
+                foreach (var path in new[] { scriptPath, outputPath, errorPath })
                     try { File.Delete(path); } catch { }
             }
         }
@@ -101,22 +106,23 @@ namespace TweakHub.Services
                 return await ExecuteScriptAsync(script.Content, script.RequiresAdministrator,
                     TimeSpan.FromMinutes(15), cancellationToken);
 
-            var path = Path.Combine(Path.GetTempPath(), $"TweakHub-{Guid.NewGuid():N}.cmd");
-            try
-            {
-                // cmd.exe reads batch files in the console code page; switch it to UTF-8 so non-ASCII paths survive.
-                await File.WriteAllTextAsync(path, "@chcp 65001 >nul\r\n" + script.Content, new UTF8Encoding(false), cancellationToken);
-                return await ExecuteScriptAsync(
-                    $"& cmd.exe /d /c {Literal(path)}\nexit $LASTEXITCODE",
-                    script.RequiresAdministrator,
-                    TimeSpan.FromMinutes(15),
-                    cancellationToken);
-            }
-            finally
-            {
-                try { File.Delete(path); } catch { }
-            }
+            return await ExecuteScriptAsync(BuildBatchRunner(script.Content), script.RequiresAdministrator,
+                TimeSpan.FromMinutes(15), cancellationToken);
         }
+
+        /// <summary>
+        /// The batch file is written by the (hash-checked) PowerShell script itself; elevated, it goes to the Windows
+        /// temp folder, where the unelevated user cannot replace it between writing and running.
+        /// cmd.exe reads batch files in the console code page: chcp 65001 makes non-ASCII paths survive.
+        /// </summary>
+        internal static string BuildBatchRunner(string content) => $$"""
+            $administrator = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+            $folder = if ($administrator) { Join-Path $env:windir 'Temp' } else { [IO.Path]::GetTempPath() }
+            $batch = Join-Path $folder ('TweakHub-' + [guid]::NewGuid().ToString('N') + '.cmd')
+            [IO.File]::WriteAllText($batch, "@chcp 65001 >nul`r`n" + {{Literal(content)}}, [Text.UTF8Encoding]::new($false))
+            try { & cmd.exe /d /c $batch; $code = $LASTEXITCODE } finally { Remove-Item -LiteralPath $batch -Force -ErrorAction SilentlyContinue }
+            exit $code
+            """;
 
         // Appended to ConvertTo-Json: escapes non-ASCII so console code pages cannot corrupt the JSON on stdout.
         public const string AsciiJson = @" | ForEach-Object { [regex]::Replace($_, '[^\x00-\x7F]', { param($m) '\u{0:x4}' -f [int][char]$m.Value }) }";
@@ -140,7 +146,7 @@ namespace TweakHub.Services
         {
             var startInfo = new ProcessStartInfo
             {
-                FileName = "powershell.exe",
+                FileName = SystemTools.PowerShell,
                 WorkingDirectory = AppDataPath.RootPath,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
@@ -153,34 +159,43 @@ namespace TweakHub.Services
             return startInfo;
         }
 
-        private static async Task<ProcessStartInfo> CreateElevatedStartInfo(
-            string scriptPath,
-            string wrapperPath,
-            string outputPath,
-            string errorPath,
-            CancellationToken cancellationToken)
-        {
-            var wrapper = $$"""
-                $ErrorActionPreference = 'Stop'
-                try {
-                    & {{Literal(scriptPath)}} *> {{Literal(outputPath)}}
-                    if (-not $?) { exit 1 }
-                    exit 0
-                } catch {
-                    $_ | Out-String | Set-Content -LiteralPath {{Literal(errorPath)}}
-                    exit 1
+        /// <summary>
+        /// The temp files can be replaced by any process of the user after the UAC prompt; the command line cannot.
+        /// So the wrapper travels on the command line with the hash of the script it was approved for, reads the file
+        /// once and runs those exact bytes: a script swapped after approval is refused, never run.
+        /// </summary>
+        internal static string BuildElevatedWrapper(string scriptPath, byte[] scriptBytes, string outputPath, string errorPath) => $$"""
+            $ErrorActionPreference = 'Stop'
+            try {
+                $bytes = [IO.File]::ReadAllBytes({{Literal(scriptPath)}})
+                $hash = [BitConverter]::ToString([Security.Cryptography.SHA256]::Create().ComputeHash($bytes)).Replace('-', '')
+                if ($hash -ne '{{Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(scriptBytes))}}') {
+                    throw 'The script changed after it was approved; nothing was run.'
                 }
-                """;
-            await File.WriteAllTextAsync(wrapperPath, wrapper, new UTF8Encoding(true), cancellationToken);
+                $script = [scriptblock]::Create([Text.Encoding]::UTF8.GetString($bytes).TrimStart([char]0xFEFF))
+                & $script *> {{Literal(outputPath)}}
+                if (-not $?) { exit 1 }
+                exit 0
+            } catch {
+                $_ | Out-String | Set-Content -LiteralPath {{Literal(errorPath)}}
+                exit 1
+            }
+            """;
+
+        private static ProcessStartInfo CreateElevatedStartInfo(string scriptPath, byte[] scriptBytes, string outputPath, string errorPath)
+        {
             var startInfo = new ProcessStartInfo
             {
-                FileName = "powershell.exe",
+                FileName = SystemTools.PowerShell,
                 WorkingDirectory = AppDataPath.RootPath,
                 UseShellExecute = true,
                 Verb = "runas",
                 WindowStyle = ProcessWindowStyle.Hidden
             };
-            AddPowerShellArguments(startInfo, wrapperPath);
+            foreach (var argument in new[] { "-WindowStyle", "Hidden", "-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-EncodedCommand" })
+                startInfo.ArgumentList.Add(argument);
+            startInfo.ArgumentList.Add(Convert.ToBase64String(Encoding.Unicode.GetBytes(
+                BuildElevatedWrapper(scriptPath, scriptBytes, outputPath, errorPath))));
             return startInfo;
         }
 
