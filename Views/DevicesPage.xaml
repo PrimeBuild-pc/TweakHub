@@ -27,8 +27,14 @@
             <TabItem x:Name="DevicesTab" Header="{loc:Loc Devices:TabDevices}">
                 <local:DeviceListView x:Name="DeviceList"/>
             </TabItem>
+            <TabItem x:Name="DriversTab" Header="{loc:Loc Devices:TabDrivers}">
+                <local:DriverStoreView x:Name="Drivers"/>
+            </TabItem>
             <TabItem x:Name="InterruptsTab" Header="{loc:Loc Devices:TabInterrupts}">
                 <local:InterruptView x:Name="Interrupts"/>
+            </TabItem>
+            <TabItem x:Name="AffinityTab" Header="{loc:Loc Maintenance:AffinityTitle}">
+                <local:InterruptView x:Name="Affinity" AffinityOnly="True"/>
             </TabItem>
             <TabItem x:Name="UsbTab" Header="{loc:Loc Devices:TabUsb}">
                 <local:UsbInputView x:Name="Usb"/>

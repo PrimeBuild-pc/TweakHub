@@ -252,10 +252,19 @@ namespace TweakHub.Views
             }
         }
 
+        // Rebuilding every card takes tens of milliseconds: a held Backspace queued one rebuild per repeat and froze the window.
+        private System.Windows.Threading.DispatcherTimer? _searchTimer;
+
         private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             _searchQuery = (sender as TextBox)?.Text ?? string.Empty;
-            LoadExternalTools();
+            if (_searchTimer is null)
+            {
+                _searchTimer = new System.Windows.Threading.DispatcherTimer { Interval = TimeSpan.FromMilliseconds(200) };
+                _searchTimer.Tick += (_, _) => { _searchTimer.Stop(); LoadExternalTools(); };
+            }
+            _searchTimer.Stop();
+            _searchTimer.Start();
         }
 
         private void FavoritesFilter_Changed(object sender, RoutedEventArgs e)

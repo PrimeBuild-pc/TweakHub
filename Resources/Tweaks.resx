@@ -843,4 +843,52 @@ Creating it may take a minute and requires administrator privileges.</value>
   <data name="NetworkAdapterConnected" xml:space="preserve">
     <value>connected</value>
   </data>
+  <data name="RevertedTweaksTitle" xml:space="preserve">
+    <value>Tweaks reverted by Windows</value>
+  </data>
+  <data name="RevertedTweaksMessage" xml:space="preserve">
+    <value>TweakHub applied these tweaks, but their settings are back to the previous values, usually after a Windows update: {0}. Reapplying keeps your original backup, so Restore still returns the original values.</value>
+  </data>
+  <data name="RevertedTweaksReapply" xml:space="preserve">
+    <value>Reapply</value>
+  </data>
+  <data name="RiskSafe" xml:space="preserve">
+    <value>Safe</value>
+  </data>
+  <data name="RiskCosmetic" xml:space="preserve">
+    <value>Cosmetic</value>
+  </data>
+  <data name="RiskModerate" xml:space="preserve">
+    <value>Moderate</value>
+  </data>
+  <data name="RiskCaution" xml:space="preserve">
+    <value>Caution</value>
+  </data>
+  <data name="RiskSafeHint" xml:space="preserve">
+    <value>Low risk: easy to undo and no side effects on stability.</value>
+  </data>
+  <data name="RiskCosmeticHint" xml:space="preserve">
+    <value>Only changes how Windows looks or reacts visually.</value>
+  </data>
+  <data name="RiskModerateHint" xml:space="preserve">
+    <value>Changes system behavior: read the description and keep the backup.</value>
+  </data>
+  <data name="RiskCautionHint" xml:space="preserve">
+    <value>Can disable Windows features or protections: apply only if you know you need it.</value>
+  </data>
+  <data name="RiskLabel" xml:space="preserve">
+    <value>Risk level</value>
+  </data>
+  <data name="RiskFilterLabel" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="RiskFilterAll" xml:space="preserve">
+    <value>All tweaks</value>
+  </data>
+  <data name="RiskFilterRecommended" xml:space="preserve">
+    <value>Recommended</value>
+  </data>
+  <data name="RiskFilterCount" xml:space="preserve">
+    <value>{0} tweaks</value>
+  </data>
 </root>

@@ -299,6 +299,14 @@
                 <local:SecuritySystemView x:Name="SystemView" AnalyzeFileRequested="SystemView_AnalyzeFileRequested"/>
             </TabItem>
 
+            <TabItem Header="{loc:Loc Maintenance:ServicesTitle}">
+                <local:OptionalServicesView/>
+            </TabItem>
+
+            <TabItem Header="{loc:Loc Security:TabPolicies}">
+                <local:PolicyView/>
+            </TabItem>
+
             <!-- File analysis -->
             <TabItem x:Name="FileTab" Header="{loc:Loc Security:TabFileAnalysis}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="0,8,12,0">
@@ -402,7 +410,24 @@
 
             <!-- Tools and resources -->
             <TabItem x:Name="ToolsTab" Header="{loc:Loc Security:TabTools}">
-                <Frame x:Name="ToolsFrame" NavigationUIVisibility="Hidden" Margin="0,8,0,0"/>
+                <Grid>
+                    <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+                    <Border Style="{StaticResource CardStyle}" Margin="4,8,16,8">
+                        <StackPanel x:Name="TronPanel">
+                            <TextBlock Text="Tron" Style="{StaticResource SectionTitleStyle}"/>
+                            <TextBlock Text="{loc:Loc Maintenance:TronDescription}" Style="{StaticResource DescriptionTextStyle}"/>
+                            <WrapPanel Margin="0,12,0,0">
+                                <Button Content="{loc:Loc Maintenance:TronDownload}" Tag="Download" Click="Tron_Click" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,6"/>
+                                <Button Content="{loc:Loc Maintenance:TronExtract}" Tag="Extract" Click="Tron_Click" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,6"/>
+                                <Button Content="{loc:Loc Maintenance:TronRun}" Tag="Run" Click="Tron_Click" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,6"/>
+                                <Button Content="{loc:Loc Maintenance:TronSource}" Tag="https://github.com/bmrf/tron" Click="OpenUri_Click" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,0,6"/>
+                            </WrapPanel>
+                            <ProgressBar x:Name="TronProgress" Height="4" IsIndeterminate="True" Visibility="Collapsed" Margin="0,8,0,0"/>
+                            <TextBlock x:Name="TronStatus" Style="{StaticResource DescriptionTextStyle}" Margin="0,8,0,0"/>
+                        </StackPanel>
+                    </Border>
+                    <Frame x:Name="ToolsFrame" Grid.Row="1" NavigationUIVisibility="Hidden" Margin="0,8,0,0"/>
+                </Grid>
             </TabItem>
         </TabControl>
     </Grid>

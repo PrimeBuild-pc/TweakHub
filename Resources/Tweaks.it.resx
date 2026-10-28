@@ -843,4 +843,52 @@ La creazione potrebbe richiedere un minuto e necessita dei privilegi di amminist
   <data name="NetworkAdapterConnected" xml:space="preserve">
     <value>connessa</value>
   </data>
+  <data name="RevertedTweaksTitle" xml:space="preserve">
+    <value>Tweak annullati da Windows</value>
+  </data>
+  <data name="RevertedTweaksMessage" xml:space="preserve">
+    <value>TweakHub ha applicato questi tweak, ma le loro impostazioni sono tornate ai valori precedenti, di solito dopo un aggiornamento di Windows: {0}. Riapplicandoli il backup originale resta lo stesso, quindi Ripristina riporta comunque i valori originali.</value>
+  </data>
+  <data name="RevertedTweaksReapply" xml:space="preserve">
+    <value>Riapplica</value>
+  </data>
+  <data name="RiskSafe" xml:space="preserve">
+    <value>Sicuro</value>
+  </data>
+  <data name="RiskCosmetic" xml:space="preserve">
+    <value>Estetico</value>
+  </data>
+  <data name="RiskModerate" xml:space="preserve">
+    <value>Moderato</value>
+  </data>
+  <data name="RiskCaution" xml:space="preserve">
+    <value>Attenzione</value>
+  </data>
+  <data name="RiskSafeHint" xml:space="preserve">
+    <value>Rischio basso: facile da annullare e senza effetti sulla stabilità.</value>
+  </data>
+  <data name="RiskCosmeticHint" xml:space="preserve">
+    <value>Cambia solo l'aspetto o la risposta visiva di Windows.</value>
+  </data>
+  <data name="RiskModerateHint" xml:space="preserve">
+    <value>Cambia il comportamento del sistema: leggi la descrizione e tieni il backup.</value>
+  </data>
+  <data name="RiskCautionHint" xml:space="preserve">
+    <value>Può disattivare funzioni o protezioni di Windows: applicalo solo se sai che ti serve.</value>
+  </data>
+  <data name="RiskLabel" xml:space="preserve">
+    <value>Livello di rischio</value>
+  </data>
+  <data name="RiskFilterLabel" xml:space="preserve">
+    <value>Mostra</value>
+  </data>
+  <data name="RiskFilterAll" xml:space="preserve">
+    <value>Tutti i tweak</value>
+  </data>
+  <data name="RiskFilterRecommended" xml:space="preserve">
+    <value>Consigliati</value>
+  </data>
+  <data name="RiskFilterCount" xml:space="preserve">
+    <value>{0} tweak</value>
+  </data>
 </root>

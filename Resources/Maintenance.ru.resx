@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader><resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader><resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="DisablePowerThrottlingName" xml:space="preserve"><value>Отключить глобальный Power Throttling</value></data>
+  <data name="DisablePowerThrottlingDescription" xml:space="preserve"><value>Отключает Power Throttling для фоновых приложений. Не меняет минимальное состояние CPU в плане и не отключает тепловую защиту. Не применяется автоматически: возможен рост энергопотребления и температуры без гарантии пользы в играх. Нужна перезагрузка. Восстановление возвращает исходное значение реестра.</value></data>
+  <data name="DisableHibernationName" xml:space="preserve"><value>Отключить гибернацию</value></data>
+  <data name="DisableHibernationDescription" xml:space="preserve"><value>Удаляет файл гибернации через powercfg для освобождения места, не для роста FPS. Также отключает быстрый запуск и гибридный сон. Сохраняет исходные тип и размер. Нужны права администратора. Изменение остаётся после закрытия portable-приложения: сохраните Data для отмены.</value></data>
+  <data name="HibernationUnavailable" xml:space="preserve"><value>Гибернация уже отключена без копии TweakHub либо тип/размер нельзя безопасно прочитать. Используйте настройки Windows; предположительные значения не записываются.</value></data>
+  <data name="ServicesTitle" xml:space="preserve"><value>Необязательные службы</value></data>
+  <data name="ServicesDescription" xml:space="preserve"><value>Меняйте только службы неиспользуемых функций. Вручную разрешает запуск по запросу/триггеру; Отключено запрещает его. Автоматического выбора нет. SysMain и телеметрия остаются в существующих настройках; отчёты об ошибках сохраняются для диагностики. Без обещаний роста FPS.</value></data>
+  <data name="ServicesNoStop" xml:space="preserve"><value>Только тип запуска: работающие службы не останавливаются, зависимости и триггеры сохраняются. Может понадобиться перезагрузка Windows. Сохраните Data этой копии для восстановления.</value></data>
+  <data name="ServiceConfirm" xml:space="preserve"><value>Изменить запуск службы {0}: {2}?
+
+{1}
+
+Нужны права администратора. Служба сейчас не останавливается. Исходная конфигурация сохраняется перед изменением; не удаляйте резервную копию.</value></data>
+  <data name="ServiceFailed" xml:space="preserve"><value>Не удалось проверить конфигурацию. Копии сохранены. Обновите список и при необходимости восстановите исходное состояние.</value></data>
+  <data name="ServiceManagedElsewhere" xml:space="preserve"><value>Копия этой службы есть в другом разделе TweakHub. Сначала восстановите её там, чтобы избежать конфликта.</value></data>
+  <data name="ServiceSysMain" xml:space="preserve"><value>Предзагрузка приложений и кэш. SSD не делает службу бесполезной. Оставьте включённой, кроме диагностики конкретной проблемы; настройка уже есть в разделе реестра.</value></data>
+  <data name="ServiceMapsBroker" xml:space="preserve"><value>Загруженные/автономные карты. Меняйте только если не используете их. Остановленная служба уже не выполняет работу CPU.</value></data>
+  <data name="ServiceRetailDemo" xml:space="preserve"><value>Демонстрационный режим магазинных ПК. Обычно не нужен дома; не меняйте на демонстрационной машине.</value></data>
+  <data name="ServiceDiagTrack" xml:space="preserve"><value>Взаимодействие с пользователем и телеметрия. Уже охвачено настройкой телеметрии; может уменьшить диагностические данные. Без дублирования.</value></data>
+  <data name="Servicedmwappushservice" xml:space="preserve"><value>Маршрутизация WAP push для управления устройством, не просто телеметрия. Оставьте на корпоративных/MDM-устройствах: отключение может нарушить сообщения управления.</value></data>
+  <data name="ServiceWbioSrvc" xml:space="preserve"><value>Биометрия Windows. Не отключайте при входе по отпечатку или лицу: эти способы могут перестать работать.</value></data>
+  <data name="ServiceWerSvc" xml:space="preserve"><value>Отчёты об ошибках Windows помогают диагностировать сбои. Служба сохраняется, это не настройка производительности.</value></data>
+  <data name="ServicePcaSvc" xml:space="preserve"><value>Помощник совместимости программ. Нужен некоторым старым приложениям и установщикам; отключение убирает эту помощь.</value></data>
+  <data name="Missing" xml:space="preserve"><value>Не установлена</value></data>
+  <data name="DelayedAuto" xml:space="preserve"><value>Автоматически (отложенный)</value></data>
+  <data name="Automatic" xml:space="preserve"><value>Автоматически</value></data>
+  <data name="Manual" xml:space="preserve"><value>Вручную</value></data>
+  <data name="Disabled" xml:space="preserve"><value>Отключено</value></data>
+  <data name="Unknown" xml:space="preserve"><value>Неизвестно</value></data>
+  <data name="TronDescription" xml:space="preserve"><value>Сторонняя глубокая очистка и лечение, не проверка только для чтения. Полный пакет проверяется по SHA-256; распаковка и запуск требуют подтверждения. Возможны удаление файлов/программ и изменения Windows, которые TweakHub не отменит. Работа длится часами: сначала создайте свою копию данных.</value></data>
+  <data name="TronDownload" xml:space="preserve"><value>1. Скачать пакет</value></data>
+  <data name="TronExtract" xml:space="preserve"><value>2. Распаковать проверенный пакет</value></data>
+  <data name="TronRun" xml:space="preserve"><value>3. Запустить Tron</value></data>
+  <data name="TronSource" xml:space="preserve"><value>Официальная документация</value></data>
+  <data name="TronDownloadConfirm" xml:space="preserve"><value>Скачать полный самораспаковывающийся пакет с bmrf.org (сотни МБ) в Data/Tools/Tron? Размер и SHA-256 сверяются с HTTPS-манифестом издателя. Это контроль целостности, не независимая сертификация. На этом шаге код не запускается.</value></data>
+  <data name="TronExtractConfirm" xml:space="preserve"><value>Запускается проверенный распаковщик без дополнительного повышения прав (наследует текущие права TweakHub). Предыдущая распаковка заменяется, локальные изменения теряются. Пакет и файлы проверяются до запуска. Очистка Tron на этом шаге не выполняется.</value></data>
+  <data name="TronRunConfirm" xml:space="preserve"><value>Сохранили файлы и перезагрузили ПК для завершения обновлений? Tron может удалять программы/файлы, менять настройки и работать часами; прерывание может оставить Windows частично изменённой. Совместимость не гарантируется: не обходите проверку ОС.
+
+Запуск в отдельной повышенной консоли с предупреждением Tron. -p -spr -m -sor -se -scs сохраняют питание, pagefile, стандартные приложения, OneDrive, журналы и пропускают пользовательские скрипты. Остальная очистка/ремонт остаются. Нет автоматического принятия EULA, перезагрузки, почты или отправки логов. Копии TweakHub не отменяют Tron. Продолжить?</value></data>
+  <data name="TronReady" xml:space="preserve"><value>Распакованные файлы проверены. Перед запуском прочитайте документацию.</value></data>
+  <data name="TronStarted" xml:space="preserve"><value>Tron запущен в отдельной повышенной консоли. Следуйте его запросам. Закрытие TweakHub не остановит Tron; это не подтверждение успешной очистки.</value></data>
+  <data name="Working" xml:space="preserve"><value>Выполняется… подождите.</value></data>
+  <data name="AffinityTitle" xml:space="preserve"><value>Привязка CPU</value></data>
+  <data name="AffinityDescription" xml:space="preserve"><value>Назначает прерывания PCI логическим CPU, не процессам. USB/HID обычно делят прерывания хост-контроллера. Одинаковый номер ядра означает потоки SMT. Драйвер может игнорировать политику; ошибка ухудшает задержку или стабильность. Нужна перезагрузка; автоматической оптимизации нет.</value></data>
+  <data name="AutomaticAffinity" xml:space="preserve"><value>Автоматическое назначение Windows</value></data>
+  <data name="AffinityHint" xml:space="preserve"><value>Выберите CPU или автоматическое назначение. Метки ядер объединяют потоки SMT. Восстановление меняет только привязку, не MSI или приоритет.</value></data>
+  <data name="AffinityUnsupported" xml:space="preserve"><value>Ручная привязка недоступна: топология не прочитана или есть несколько групп процессоров. 64-битная маска не угадывается и не обрезается. Доступны автоматическое назначение и восстановление копии.</value></data>
+  <data name="AffinitySelectionRequired" xml:space="preserve"><value>Выберите хотя бы один поддерживаемый CPU или автоматическое назначение.</value></data>
+  <data name="CpuLabel" xml:space="preserve"><value>CPU {0} · Ядро {1}</value></data>
+  <data name="NoAutoSleepName" xml:space="preserve"><value>Не переходить в сон автоматически от сети</value></data>
+  <data name="NoAutoSleepDescription" xml:space="preserve"><value>Настраивает политики электропитания Windows (Групповая политика → Управление электропитанием), чтобы при питании от сети ПК никогда сам не переходил в сон или гибернацию, гибридный сон был отключён, диски не отключались, а режим экономии энергии не включался автоматически и не был принудительно включён. Действует для всех схем электропитания; от батареи ничего не меняется. Перевести ПК в сон вручную по-прежнему можно. Редактор групповой политики продолжает показывать «Не задано», так как значения записываются прямо в реестр. Восстановление возвращает исходные значения. Требуется перезагрузка.</value></data>
+  <data name="DisableSleepName" xml:space="preserve"><value>Полностью отключить сон от сети</value></data>
+  <data name="DisableSleepDescription" xml:space="preserve"><value>При питании от сети Windows больше не разрешает ждущие режимы (S1–S3), клавиша сна ничего не делает, а пункт «Спящий режим» скрыт из меню завершения работы в «Пуске». Используйте, только если никогда не переводите этот ПК в сон. Необязательно, не входит в рекомендуемые. ПК с Modern Standby не используют S1–S3 и сохраняют свой режим сна. Восстановление возвращает исходные значения. Требуется перезагрузка.</value></data>
+  <data name="TronBlockedByAntivirus" xml:space="preserve"><value>Microsoft Defender (или ваш антивирус) заблокировал пакет Tron как потенциально нежелательное ПО и удалил его. TweakHub никогда не добавляет исключения в антивирус. Если вы доверяете Tron, сами добавьте исключения для папки Data\Tools\Tron этой копии и для C:\ProgramData\TweakHub-Tron-*, затем повторите попытку.</value></data>
+</root>

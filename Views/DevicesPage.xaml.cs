@@ -24,7 +24,9 @@ public partial class DevicesPage : Page
     private async void Tabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (!ReferenceEquals(e.OriginalSource, Tabs)) return;
-        if (Tabs.SelectedItem == InterruptsTab && !Interrupts.HasScanned) await Interrupts.ScanAsync(initial: true);
+        if (Tabs.SelectedItem == DriversTab) Drivers.LoadBackups();
+        else if (Tabs.SelectedItem == InterruptsTab) await Interrupts.ScanAsync(initial: !Interrupts.HasScanned);
+        else if (Tabs.SelectedItem == AffinityTab) await Affinity.ScanAsync(initial: !Affinity.HasScanned);
         else if (Tabs.SelectedItem == UsbTab && !Usb.HasScanned) await Usb.ScanAsync(initial: true);
         else if (Tabs.SelectedItem == LinksTab && !Links.HasScanned) await Links.ScanAsync(initial: true);
         else if (Tabs.SelectedItem == ChecksTab && !Checks.HasScanned) await Checks.ScanAsync(elevated: false, initial: true);
@@ -56,7 +58,7 @@ public partial class DevicesPage : Page
             }
             ThirdPartyScriptService.SaveConsent(script, hash);
         }
-        ThirdPartyScriptService.Run(script, path);
+        ThirdPartyScriptService.Run(script, path, hash);
     }
 
     private void ScriptPage_Click(object sender, RoutedEventArgs e)

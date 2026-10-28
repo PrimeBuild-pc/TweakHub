@@ -415,7 +415,7 @@ TweakHub は次のコマンドを管理者として実行します:
     <value>プライバシーとアカウント</value>
   </data>
   <data name="SystemDescription" xml:space="preserve">
-    <value>プロセスごとのネットワーク接続と自動起動するプログラムを、各ファイルのデジタル署名とともに表示します。</value>
+    <value>プロセスごとのネットワーク接続と、各プログラムのデジタル署名。</value>
   </data>
   <data name="SystemScan" xml:space="preserve">
     <value>スキャン</value>
@@ -449,9 +449,6 @@ TweakHub は次のコマンドを管理者として実行します:
   </data>
   <data name="TileListening" xml:space="preserve">
     <value>待ち受けポート</value>
-  </data>
-  <data name="TileStartup" xml:space="preserve">
-    <value>スタートアップ項目</value>
   </data>
   <data name="TileReview" xml:space="preserve">
     <value>要確認</value>
@@ -516,9 +513,6 @@ TweakHub は次のコマンドを管理者として実行します:
   <data name="StateEstablished" xml:space="preserve">
     <value>確立</value>
   </data>
-  <data name="LegendSigned" xml:space="preserve">
-    <value>署名済み</value>
-  </data>
   <data name="TrustUnsigned" xml:space="preserve">
     <value>署名なし</value>
   </data>
@@ -537,17 +531,11 @@ TweakHub は次のコマンドを管理者として実行します:
   <data name="AnalyzeFile" xml:space="preserve">
     <value>ファイルを分析</value>
   </data>
-  <data name="ManageInWindows" xml:space="preserve">
-    <value>Windows で管理</value>
-  </data>
   <data name="PathUnavailable" xml:space="preserve">
     <value>ファイル パスを取得できません。管理者としてスキャンしてください。</value>
   </data>
   <data name="StartupTitle" xml:space="preserve">
     <value>自動起動と永続化</value>
-  </data>
-  <data name="StartupDescription" xml:space="preserve">
-    <value>Run キー、スタートアップ フォルダー、Microsoft 以外のスケジュール タスク、Windows フォルダー外の自動サービス、Winlogon の変更。署名のないファイルとスクリプト ホストが先頭に表示されます。</value>
   </data>
   <data name="StartupRun" xml:space="preserve">
     <value>レジストリ Run</value>
@@ -779,5 +767,238 @@ TweakHub は次のコマンドを管理者として実行します:
   </data>
   <data name="CheckRemoteAddress" xml:space="preserve">
     <value>AbuseIPDB でリモート IP の評価を確認 (IP だけを付けてブラウザーを開きます)</value>
+  </data>
+  <data name="TabPolicies" xml:space="preserve">
+    <value>ポリシー</value>
+  </data>
+  <data name="PoliciesTitle" xml:space="preserve">
+    <value>強制されたグループ ポリシー</value>
+  </data>
+  <data name="PoliciesDescription" xml:space="preserve">
+    <value>HKLM と HKCU\SOFTWARE\Policies の値は Windows の設定より優先され、他の調整ツールの使用後に残ることがよくあります。領域をリセットすると Windows に制御が戻ります。TweakHub は値を削除してバックアップを保持し、元に戻せます。</value>
+  </data>
+  <data name="PoliciesManagedWarning" xml:space="preserve">
+    <value>この PC はドメインに参加しているか、組織 (MDM) に管理されています。ポリシーは次の同期で戻ります。管理者の許可なくリセットしないでください。</value>
+  </data>
+  <data name="PoliciesCategorySummary" xml:space="preserve">
+    <value>{0} 個の値 · {1} 個をリセット可能 · {2} 個を元に戻せます</value>
+  </data>
+  <data name="PoliciesAllReset" xml:space="preserve">
+    <value>この領域に値は残っていません。</value>
+  </data>
+  <data name="PoliciesNone" xml:space="preserve">
+    <value>強制されたポリシーはありません。Windows は独自の設定を使用しています。</value>
+  </data>
+  <data name="PoliciesSummary" xml:space="preserve">
+    <value>{1} 領域に {0} 個の値。うち {2} 個は TweakHub が設定したものではありません。</value>
+  </data>
+  <data name="PoliciesReset" xml:space="preserve">
+    <value>リセット</value>
+  </data>
+  <data name="PoliciesResetTitle" xml:space="preserve">
+    <value>ポリシーのリセット</value>
+  </data>
+  <data name="PoliciesResetConfirm" xml:space="preserve">
+    <value>{0}: Windows が既定値を使うよう、次の {1} 個の値を削除します。バックアップが残り、[元に戻す] で復元できます。
+
+{2}</value>
+  </data>
+  <data name="PoliciesFailed" xml:space="preserve">
+    <value>一部の値を変更できませんでした (管理者の確認を拒否しましたか?)。途中の状態は残っていません。変更された値は元に戻しました。</value>
+  </data>
+  <data name="PoliciesOwnedNote" xml:space="preserve">
+    <value>[TweakHub] と表示された値は TweakHub の調整に属し、ここではリセットされません。Registry Tweaks で元に戻してください。</value>
+  </data>
+  <data name="PoliciesShowValues" xml:space="preserve">
+    <value>この領域の値を表示</value>
+  </data>
+  <data name="StartupPageTitle" xml:space="preserve">
+    <value>スタートアップ</value>
+  </data>
+  <data name="StartupPageDescription" xml:space="preserve">
+    <value>Windows の起動時やサインイン時に開始されるすべての項目: Run キー、スタートアップ フォルダー、タスク スケジューラ、サービス、ドライバー、エクスプローラー拡張、ハイジャック ポイント、WMI サブスクリプション。削除する前にバックアップが保存され、復元できます。</value>
+  </data>
+  <data name="StartupMovedDescription" xml:space="preserve">
+    <value>スタートアップ項目、タスク、サービスは専用ページで無効化、削除、復元できます。</value>
+  </data>
+  <data name="StartupOpenPage" xml:space="preserve">
+    <value>スタートアップを開く</value>
+  </data>
+  <data name="StartupScanElevatedHint" xml:space="preserve">
+    <value>管理者だけが読み取れるタスク、サブスクリプション、キーも表示します。</value>
+  </data>
+  <data name="StartupScannedPartial" xml:space="preserve">
+    <value>{0} にスキャンしました。一部のタスクと WMI サブスクリプションには管理者としてのスキャンが必要です。</value>
+  </data>
+  <data name="StartupPolicyRun" xml:space="preserve">
+    <value>Run (ポリシー)</value>
+  </data>
+  <data name="StartupActiveSetup" xml:space="preserve">
+    <value>Active Setup</value>
+  </data>
+  <data name="StartupDriver" xml:space="preserve">
+    <value>ドライバー</value>
+  </data>
+  <data name="StartupShellEx" xml:space="preserve">
+    <value>エクスプローラー拡張</value>
+  </data>
+  <data name="StartupIfeo" xml:space="preserve">
+    <value>デバッガー (IFEO)</value>
+  </data>
+  <data name="StartupAppInit" xml:space="preserve">
+    <value>AppInit DLL</value>
+  </data>
+  <data name="StartupWmi" xml:space="preserve">
+    <value>WMI サブスクリプション</value>
+  </data>
+  <data name="StartupCategoryAll" xml:space="preserve">
+    <value>すべて</value>
+  </data>
+  <data name="StartupCategoryLogon" xml:space="preserve">
+    <value>ログオン</value>
+  </data>
+  <data name="StartupCategoryTasks" xml:space="preserve">
+    <value>タスク</value>
+  </data>
+  <data name="StartupCategoryServices" xml:space="preserve">
+    <value>サービス</value>
+  </data>
+  <data name="StartupCategoryDrivers" xml:space="preserve">
+    <value>ドライバー</value>
+  </data>
+  <data name="StartupCategoryExplorer" xml:space="preserve">
+    <value>エクスプローラー</value>
+  </data>
+  <data name="StartupCategoryHijacks" xml:space="preserve">
+    <value>ハイジャック</value>
+  </data>
+  <data name="StartupCategoryWmi" xml:space="preserve">
+    <value>WMI</value>
+  </data>
+  <data name="TriggerEvent" xml:space="preserve">
+    <value>イベント</value>
+  </data>
+  <data name="TriggerTime" xml:space="preserve">
+    <value>1 回</value>
+  </data>
+  <data name="TriggerDaily" xml:space="preserve">
+    <value>毎日</value>
+  </data>
+  <data name="TriggerWeekly" xml:space="preserve">
+    <value>毎週</value>
+  </data>
+  <data name="TriggerMonthly" xml:space="preserve">
+    <value>毎月</value>
+  </data>
+  <data name="TriggerIdle" xml:space="preserve">
+    <value>アイドル時</value>
+  </data>
+  <data name="TriggerRegistration" xml:space="preserve">
+    <value>作成時</value>
+  </data>
+  <data name="TriggerBoot" xml:space="preserve">
+    <value>起動時</value>
+  </data>
+  <data name="TriggerLogon" xml:space="preserve">
+    <value>ログオン時</value>
+  </data>
+  <data name="TriggerSessionState" xml:space="preserve">
+    <value>ロック/ロック解除</value>
+  </data>
+  <data name="TriggerOther" xml:space="preserve">
+    <value>その他</value>
+  </data>
+  <data name="ColumnCategory" xml:space="preserve">
+    <value>カテゴリ</value>
+  </data>
+  <data name="ColumnImage" xml:space="preserve">
+    <value>イメージ パス</value>
+  </data>
+  <data name="ColumnLocation" xml:space="preserve">
+    <value>場所</value>
+  </data>
+  <data name="ColumnTrigger" xml:space="preserve">
+    <value>トリガー</value>
+  </data>
+  <data name="ColumnUser" xml:space="preserve">
+    <value>ユーザー</value>
+  </data>
+  <data name="ColumnLastRun" xml:space="preserve">
+    <value>前回の実行</value>
+  </data>
+  <data name="ColumnNextRun" xml:space="preserve">
+    <value>次回の実行</value>
+  </data>
+  <data name="ColumnFileDate" xml:space="preserve">
+    <value>ファイルの日付</value>
+  </data>
+  <data name="ColumnDeleted" xml:space="preserve">
+    <value>削除日時</value>
+  </data>
+  <data name="StartupHideMicrosoft" xml:space="preserve">
+    <value>Microsoft と Windows の項目を隠す</value>
+  </data>
+  <data name="StartupUnsignedOnly" xml:space="preserve">
+    <value>未署名のみ</value>
+  </data>
+  <data name="StartupMissingOnly" xml:space="preserve">
+    <value>見つからないファイルのみ</value>
+  </data>
+  <data name="StartupFileMissing" xml:space="preserve">
+    <value>ファイルなし</value>
+  </data>
+  <data name="StartupFileMissingHint" xml:space="preserve">
+    <value>プログラムが存在しません。孤立した項目なので安全に削除できます。</value>
+  </data>
+  <data name="StartupDelete" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="StartupDeleteTitle" xml:space="preserve">
+    <value>スタートアップ項目の削除</value>
+  </data>
+  <data name="StartupDeleteConfirm" xml:space="preserve">
+    <value>"{0}" を削除しますか? 先にバックアップが保存され、[削除した項目] から復元できます。</value>
+  </data>
+  <data name="StartupDeleteServiceConfirm" xml:space="preserve">
+    <value>サービス "{0}" を削除しますか? 通常は無効化で十分です。先にレジストリ キーのバックアップが保存されます。サービスは再起動後に消え、復元した場合も再起動後に戻ります。</value>
+  </data>
+  <data name="StartupDeleteFailedTitle" xml:space="preserve">
+    <value>項目は削除されませんでした</value>
+  </data>
+  <data name="StartupDeleted" xml:space="preserve">
+    <value>"{0}" を削除しました。バックアップは [削除した項目] にあります。</value>
+  </data>
+  <data name="StartupBackupsTitle" xml:space="preserve">
+    <value>削除した項目 ({0})</value>
+  </data>
+  <data name="StartupRestore" xml:space="preserve">
+    <value>復元</value>
+  </data>
+  <data name="StartupRestoreFailedTitle" xml:space="preserve">
+    <value>項目は復元されませんでした</value>
+  </data>
+  <data name="StartupRestored" xml:space="preserve">
+    <value>"{0}" を復元しました。一覧に表示するには再スキャンしてください。</value>
+  </data>
+  <data name="StartupRestoredService" xml:space="preserve">
+    <value>"{0}" を復元しました。サービスは再起動後に戻ります。再スキャンで確認してください。</value>
+  </data>
+  <data name="StartupJumpToEntry" xml:space="preserve">
+    <value>場所を開く (レジストリ、フォルダー、タスク スケジューラ)</value>
+  </data>
+  <data name="StartupFileProperties" xml:space="preserve">
+    <value>ファイルのプロパティ</value>
+  </data>
+  <data name="StartupProtectedDriver" xml:space="preserve">
+    <value>ドライバーはここでは読み取り専用です。</value>
+  </data>
+  <data name="StartupProtectedWinlogon" xml:space="preserve">
+    <value>ログオン シェルを削除すると Windows がデスクトップなしになる場合があります。レジストリ エディターで値を修正してください。</value>
+  </data>
+  <data name="StartupProtectedWindows" xml:space="preserve">
+    <value>Windows の一部のため削除できません。</value>
+  </data>
+  <data name="StartupProtectedWindowsService" xml:space="preserve">
+    <value>Windows のサービスです。オプションのサービスは [セキュリティ] → [サービス] で管理します。</value>
   </data>
 </root>

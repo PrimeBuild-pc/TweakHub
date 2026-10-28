@@ -27,6 +27,7 @@ public partial class CustomTweakDialog : Window
         TypeComboBox.SelectedValue = existing?.ValueType.ToUpperInvariant() ?? "REG_SZ";
         if (TypeComboBox.SelectedIndex < 0) TypeComboBox.SelectedIndex = 0;
         DataTextBox.Text = existing?.Data ?? string.Empty;
+        RiskComboBox.SelectedValue = existing?.RiskClass ?? "Moderate";
     }
 
     private void Save_Click(object sender, RoutedEventArgs e)
@@ -39,7 +40,8 @@ public partial class CustomTweakDialog : Window
             RegistryPath = PathTextBox.Text,
             RegistryKey = ValueNameTextBox.Text,
             ValueType = TypeComboBox.SelectedValue as string ?? "REG_SZ",
-            Data = DataTextBox.Text
+            Data = DataTextBox.Text,
+            RiskClass = RiskComboBox.SelectedValue as string ?? "Moderate"
         };
         try
         {

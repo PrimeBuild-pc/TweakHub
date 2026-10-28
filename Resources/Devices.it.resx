@@ -331,7 +331,7 @@
     <value>Non presenti</value>
   </data>
   <data name="CategoryNotPresentHint" xml:space="preserve">
-    <value>Ricordato da Windows ma non collegato ora. Non è un motivo per rimuoverlo.</value>
+    <value>Ricordato da Windows ma non collegato ora (di solito codice 45): ad esempio una vecchia porta USB, un monitor o un dispositivo virtuale. Non è un guasto né un problema di latenza: disattivarlo non dà vantaggi.</value>
   </data>
   <data name="CategoryDisabled" xml:space="preserve">
     <value>Disattivati</value>
@@ -747,5 +747,130 @@ TweakHub non può controllare cosa fa lo script e l'autore può modificarlo in q
   </data>
   <data name="HintWiderM2" xml:space="preserve">
     <value>Slot M.2 con x{0} linee su questa scheda madre: {1}.</value>
+  </data>
+  <data name="AdviceUnknown" xml:space="preserve">
+    <value>Non valutato — lascia attivo</value>
+  </data>
+  <data name="RuleUnknown" xml:space="preserve">
+    <value>Nessuna raccomandazione verificata per disattivare questo dispositivo. Un dispositivo funzionante o un bus senza figli non indica uno spreco di CPU: lascialo attivo se non ne conosci la funzione.</value>
+  </data>
+  <data name="RuleUnknownBreaks" xml:space="preserve">
+    <value>Il dispositivo e le funzioni che ne dipendono. L'impatto preciso non è noto: controlla prima driver e dispositivi collegati.</value>
+  </data>
+  <data name="RuleUsbHub" xml:space="preserve">
+    <value>Hub USB, anche interno alla scheda madre. Lascialo attivo: una connessione USB interna può servire RGB, controller ventole, Bluetooth o porte del case.</value>
+  </data>
+  <data name="RuleUsbHubBreaks" xml:space="preserve">
+    <value>Tutti i dispositivi a valle dell'hub, inclusi eventualmente mouse/tastiera, controllo illuminazione, controllo raffreddamento o periferiche interne. Non disattivarlo per ridurre la latenza.</value>
+  </data>
+  <data name="LinkUsbHub" xml:space="preserve">
+    <value>Hub USB (anche interno). Gli hub USB 3 espongono anche un ramo USB 2: 480 Mb/s da soli non provano un collegamento lento. Il nome dell'hub non identifica i dispositivi RGB/ventole a valle.</value>
+  </data>
+  <data name="CheckPreviewReads" xml:space="preserve">
+    <value>Legge</value>
+  </data>
+  <data name="CheckPreviewRepair" xml:space="preserve">
+    <value>Ripara esegue</value>
+  </data>
+  <data name="CheckPreviewTooltip" xml:space="preserve">
+    <value>Mostra cosa legge questo controllo e cosa cambia Ripara</value>
+  </data>
+  <data name="DisableUnused" xml:space="preserve">
+    <value>Disattiva i non usati</value>
+  </data>
+  <data name="DisableUnusedHint" xml:space="preserve">
+    <value>Trova i dispositivi che questo PC non usa e disattiva quelli che spunti, con una sola richiesta di amministratore. "Riattiva tutti" li rimette accesi.</value>
+  </data>
+  <data name="UnusedNone" xml:space="preserve">
+    <value>Nessun dispositivo inutilizzato: niente da disattivare.</value>
+  </data>
+  <data name="UnusedMessage" xml:space="preserve">
+    <value>Questi dispositivi non sono usati su questo PC. Togli la spunta a quelli che vuoi tenere. Puoi riattivarli in qualsiasi momento con "Riattiva tutti". Le schede di rete non sono spuntate: spuntane una solo se non la usi mai (per esempio il Wi-Fi di un fisso sempre via cavo).</value>
+  </data>
+  <data name="UnusedFailed" xml:space="preserve">
+    <value>Questi dispositivi non sono stati disattivati:
+{0}</value>
+  </data>
+  <data name="UnusedAlways" xml:space="preserve">
+    <value>mai necessario su un PC normale</value>
+  </data>
+  <data name="UnusedTunnel" xml:space="preserve">
+    <value>vecchio tunnel IPv6, usato di rado</value>
+  </data>
+  <data name="UnusedRemoteDesktop" xml:space="preserve">
+    <value>Desktop remoto è disattivato</value>
+  </data>
+  <data name="UnusedVpn" xml:space="preserve">
+    <value>nessuna connessione VPN o PPPoE di Windows configurata</value>
+  </data>
+  <data name="UnusedNic" xml:space="preserve">
+    <value>scheda di rete senza collegamento; un'altra scheda è connessa</value>
+  </data>
+  <data name="TabDrivers" xml:space="preserve">
+    <value>Driver</value>
+  </data>
+  <data name="DriversTitle" xml:space="preserve">
+    <value>Versioni vecchie dei driver</value>
+  </data>
+  <data name="DriversDescription" xml:space="preserve">
+    <value>Come "Select old drivers" di Driver Store Explorer: trova le versioni vecchie dei driver di terze parti sostituite da una versione più nuova e non usate da nessun dispositivo. Ogni pacchetto viene esportato in un backup prima che Windows lo rimuova e si può ripristinare qui sotto. Non vengono mai proposti driver in uso, VPN, macchine virtuali o driver filtro. L'analisi richiede i diritti di amministratore.</value>
+  </data>
+  <data name="DriversScan" xml:space="preserve">
+    <value>Analizza archivio driver</value>
+  </data>
+  <data name="DriversScanning" xml:space="preserve">
+    <value>Lettura dell'archivio driver…</value>
+  </data>
+  <data name="DriversScanned" xml:space="preserve">
+    <value>{0} pacchetti di terze parti, {1} versioni vecchie rimovibili.</value>
+  </data>
+  <data name="DriversNone" xml:space="preserve">
+    <value>{0} pacchetti di terze parti: nessuna versione vecchia da rimuovere.</value>
+  </data>
+  <data name="DriversRemove" xml:space="preserve">
+    <value>Rimuovi versioni vecchie</value>
+  </data>
+  <data name="DriversRemoveMessage" xml:space="preserve">
+    <value>Togli la spunta ai pacchetti che vuoi tenere. Ognuno viene salvato prima; Windows rifiuta di rimuovere un pacchetto ancora usato da un dispositivo.</value>
+  </data>
+  <data name="DriversRemoving" xml:space="preserve">
+    <value>Backup e rimozione in corso…</value>
+  </data>
+  <data name="DriversRemoved" xml:space="preserve">
+    <value>{0} pacchetti rimossi. I loro backup sono elencati qui sotto.</value>
+  </data>
+  <data name="DriversFailed" xml:space="preserve">
+    <value>Questi pacchetti sono stati mantenuti:
+{0}</value>
+  </data>
+  <data name="DriversBackups" xml:space="preserve">
+    <value>Backup dei driver rimossi</value>
+  </data>
+  <data name="DriversNoBackups" xml:space="preserve">
+    <value>Nessun driver rimosso.</value>
+  </data>
+  <data name="DriversRestore" xml:space="preserve">
+    <value>Ripristina</value>
+  </data>
+  <data name="DriversRestoreConfirm" xml:space="preserve">
+    <value>Rimettere {0} nell'archivio driver di Windows? Il backup viene eliminato dopo il ripristino.</value>
+  </data>
+  <data name="DriversColumnProvider" xml:space="preserve">
+    <value>Produttore</value>
+  </data>
+  <data name="DriversColumnVersion" xml:space="preserve">
+    <value>Versione</value>
+  </data>
+  <data name="DriversColumnNewer" xml:space="preserve">
+    <value>Versione più nuova</value>
+  </data>
+  <data name="DriversColumnDate" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="UnusedVpnOtherUser" xml:space="preserve">
+    <value>nessuna connessione VPN o PPPoE per te, ma un altro utente ne ha una ({0}): lascialo attivo se la usa</value>
+  </data>
+  <data name="UnusedVpnUnchecked" xml:space="preserve">
+    <value>nessuna connessione VPN o PPPoE per te; non è stato possibile controllare quelle di {0} (avvia TweakHub come amministratore per leggerle)</value>
   </data>
 </root>

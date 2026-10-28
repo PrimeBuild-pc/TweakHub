@@ -415,7 +415,7 @@ TweakHub 将以管理员身份运行此命令：
     <value>隐私与帐户</value>
   </data>
   <data name="SystemDescription" xml:space="preserve">
-    <value>按进程显示网络连接和自动启动的程序，以及每个文件的数字签名。</value>
+    <value>按进程列出的网络连接，以及每个程序的数字签名。</value>
   </data>
   <data name="SystemScan" xml:space="preserve">
     <value>扫描</value>
@@ -449,9 +449,6 @@ TweakHub 将以管理员身份运行此命令：
   </data>
   <data name="TileListening" xml:space="preserve">
     <value>监听端口</value>
-  </data>
-  <data name="TileStartup" xml:space="preserve">
-    <value>启动项</value>
   </data>
   <data name="TileReview" xml:space="preserve">
     <value>待检查</value>
@@ -516,9 +513,6 @@ TweakHub 将以管理员身份运行此命令：
   <data name="StateEstablished" xml:space="preserve">
     <value>已建立</value>
   </data>
-  <data name="LegendSigned" xml:space="preserve">
-    <value>已签名</value>
-  </data>
   <data name="TrustUnsigned" xml:space="preserve">
     <value>未签名</value>
   </data>
@@ -537,17 +531,11 @@ TweakHub 将以管理员身份运行此命令：
   <data name="AnalyzeFile" xml:space="preserve">
     <value>分析文件</value>
   </data>
-  <data name="ManageInWindows" xml:space="preserve">
-    <value>在 Windows 中管理</value>
-  </data>
   <data name="PathUnavailable" xml:space="preserve">
     <value>无法获取文件路径。请尝试以管理员身份扫描。</value>
   </data>
   <data name="StartupTitle" xml:space="preserve">
     <value>自动启动与持久化</value>
-  </data>
-  <data name="StartupDescription" xml:space="preserve">
-    <value>Run 注册表项、启动文件夹、非 Microsoft 计划任务、Windows 文件夹外的自动服务以及 Winlogon 更改。未签名文件和脚本宿主排在最前。</value>
   </data>
   <data name="StartupRun" xml:space="preserve">
     <value>注册表 Run</value>
@@ -779,5 +767,238 @@ TweakHub 将以管理员身份运行此命令：
   </data>
   <data name="CheckRemoteAddress" xml:space="preserve">
     <value>在 AbuseIPDB 上检查远程 IP 的信誉（仅携带 IP 打开浏览器）</value>
+  </data>
+  <data name="TabPolicies" xml:space="preserve">
+    <value>策略</value>
+  </data>
+  <data name="PoliciesTitle" xml:space="preserve">
+    <value>强制组策略</value>
+  </data>
+  <data name="PoliciesDescription" xml:space="preserve">
+    <value>HKLM 和 HKCU\SOFTWARE\Policies 下的值会覆盖 Windows 设置，常在使用其他优化工具后残留。重置某个区域即可把控制权还给 Windows：TweakHub 删除这些值、保留备份并可撤销。</value>
+  </data>
+  <data name="PoliciesManagedWarning" xml:space="preserve">
+    <value>此电脑已加入域或由组织管理 (MDM)：其策略会在下次同步时恢复。未经管理员同意请勿重置。</value>
+  </data>
+  <data name="PoliciesCategorySummary" xml:space="preserve">
+    <value>{0} 个值 · {1} 个可重置 · {2} 个可撤销</value>
+  </data>
+  <data name="PoliciesAllReset" xml:space="preserve">
+    <value>此区域已没有值。</value>
+  </data>
+  <data name="PoliciesNone" xml:space="preserve">
+    <value>未发现强制策略：Windows 使用自身设置。</value>
+  </data>
+  <data name="PoliciesSummary" xml:space="preserve">
+    <value>{1} 个区域中共 {0} 个值；其中 {2} 个不是 TweakHub 设置的。</value>
+  </data>
+  <data name="PoliciesReset" xml:space="preserve">
+    <value>重置</value>
+  </data>
+  <data name="PoliciesResetTitle" xml:space="preserve">
+    <value>重置策略</value>
+  </data>
+  <data name="PoliciesResetConfirm" xml:space="preserve">
+    <value>{0}：将删除这 {1} 个值，使 Windows 使用默认设置。会保留备份，“撤销”可恢复。
+
+{2}</value>
+  </data>
+  <data name="PoliciesFailed" xml:space="preserve">
+    <value>并非所有值都已更改（是否拒绝了管理员提示？）。没有留下半途的修改：已更改的值已恢复。</value>
+  </data>
+  <data name="PoliciesOwnedNote" xml:space="preserve">
+    <value>标记为 [TweakHub] 的值属于 TweakHub 调整，不在此处重置：请在 Registry Tweaks 中撤销。</value>
+  </data>
+  <data name="PoliciesShowValues" xml:space="preserve">
+    <value>显示此区域的值</value>
+  </data>
+  <data name="StartupPageTitle" xml:space="preserve">
+    <value>启动项</value>
+  </data>
+  <data name="StartupPageDescription" xml:space="preserve">
+    <value>随 Windows 或登录时启动的所有内容：Run 键、启动文件夹、计划任务、服务、驱动程序、资源管理器扩展、劫持点和 WMI 订阅。删除条目前会先备份，之后可以还原。</value>
+  </data>
+  <data name="StartupMovedDescription" xml:space="preserve">
+    <value>启动项、计划任务和服务有单独的页面，可禁用、删除和还原。</value>
+  </data>
+  <data name="StartupOpenPage" xml:space="preserve">
+    <value>打开启动项</value>
+  </data>
+  <data name="StartupScanElevatedHint" xml:space="preserve">
+    <value>同时列出仅管理员可读取的任务、订阅和注册表项。</value>
+  </data>
+  <data name="StartupScannedPartial" xml:space="preserve">
+    <value>扫描于 {0}。部分任务和 WMI 订阅需要以管理员身份扫描。</value>
+  </data>
+  <data name="StartupPolicyRun" xml:space="preserve">
+    <value>Run（策略）</value>
+  </data>
+  <data name="StartupActiveSetup" xml:space="preserve">
+    <value>Active Setup</value>
+  </data>
+  <data name="StartupDriver" xml:space="preserve">
+    <value>驱动程序</value>
+  </data>
+  <data name="StartupShellEx" xml:space="preserve">
+    <value>资源管理器扩展</value>
+  </data>
+  <data name="StartupIfeo" xml:space="preserve">
+    <value>调试器 (IFEO)</value>
+  </data>
+  <data name="StartupAppInit" xml:space="preserve">
+    <value>AppInit DLL</value>
+  </data>
+  <data name="StartupWmi" xml:space="preserve">
+    <value>WMI 订阅</value>
+  </data>
+  <data name="StartupCategoryAll" xml:space="preserve">
+    <value>全部</value>
+  </data>
+  <data name="StartupCategoryLogon" xml:space="preserve">
+    <value>登录</value>
+  </data>
+  <data name="StartupCategoryTasks" xml:space="preserve">
+    <value>计划任务</value>
+  </data>
+  <data name="StartupCategoryServices" xml:space="preserve">
+    <value>服务</value>
+  </data>
+  <data name="StartupCategoryDrivers" xml:space="preserve">
+    <value>驱动程序</value>
+  </data>
+  <data name="StartupCategoryExplorer" xml:space="preserve">
+    <value>资源管理器</value>
+  </data>
+  <data name="StartupCategoryHijacks" xml:space="preserve">
+    <value>劫持</value>
+  </data>
+  <data name="StartupCategoryWmi" xml:space="preserve">
+    <value>WMI</value>
+  </data>
+  <data name="TriggerEvent" xml:space="preserve">
+    <value>事件</value>
+  </data>
+  <data name="TriggerTime" xml:space="preserve">
+    <value>一次</value>
+  </data>
+  <data name="TriggerDaily" xml:space="preserve">
+    <value>每天</value>
+  </data>
+  <data name="TriggerWeekly" xml:space="preserve">
+    <value>每周</value>
+  </data>
+  <data name="TriggerMonthly" xml:space="preserve">
+    <value>每月</value>
+  </data>
+  <data name="TriggerIdle" xml:space="preserve">
+    <value>空闲时</value>
+  </data>
+  <data name="TriggerRegistration" xml:space="preserve">
+    <value>创建时</value>
+  </data>
+  <data name="TriggerBoot" xml:space="preserve">
+    <value>启动时</value>
+  </data>
+  <data name="TriggerLogon" xml:space="preserve">
+    <value>登录时</value>
+  </data>
+  <data name="TriggerSessionState" xml:space="preserve">
+    <value>锁定/解锁</value>
+  </data>
+  <data name="TriggerOther" xml:space="preserve">
+    <value>其他</value>
+  </data>
+  <data name="ColumnCategory" xml:space="preserve">
+    <value>类别</value>
+  </data>
+  <data name="ColumnImage" xml:space="preserve">
+    <value>映像路径</value>
+  </data>
+  <data name="ColumnLocation" xml:space="preserve">
+    <value>位置</value>
+  </data>
+  <data name="ColumnTrigger" xml:space="preserve">
+    <value>触发器</value>
+  </data>
+  <data name="ColumnUser" xml:space="preserve">
+    <value>用户</value>
+  </data>
+  <data name="ColumnLastRun" xml:space="preserve">
+    <value>上次运行</value>
+  </data>
+  <data name="ColumnNextRun" xml:space="preserve">
+    <value>下次运行</value>
+  </data>
+  <data name="ColumnFileDate" xml:space="preserve">
+    <value>文件日期</value>
+  </data>
+  <data name="ColumnDeleted" xml:space="preserve">
+    <value>删除时间</value>
+  </data>
+  <data name="StartupHideMicrosoft" xml:space="preserve">
+    <value>隐藏 Microsoft 和 Windows 条目</value>
+  </data>
+  <data name="StartupUnsignedOnly" xml:space="preserve">
+    <value>仅未签名</value>
+  </data>
+  <data name="StartupMissingOnly" xml:space="preserve">
+    <value>仅缺失文件</value>
+  </data>
+  <data name="StartupFileMissing" xml:space="preserve">
+    <value>文件缺失</value>
+  </data>
+  <data name="StartupFileMissingHint" xml:space="preserve">
+    <value>程序已不存在：该条目已失效，可以放心删除。</value>
+  </data>
+  <data name="StartupDelete" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="StartupDeleteTitle" xml:space="preserve">
+    <value>删除启动项</value>
+  </data>
+  <data name="StartupDeleteConfirm" xml:space="preserve">
+    <value>删除“{0}”？会先保存备份，可在“已删除的条目”中还原。</value>
+  </data>
+  <data name="StartupDeleteServiceConfirm" xml:space="preserve">
+    <value>删除服务“{0}”？通常禁用即可。会先备份其注册表项；服务在重启后消失，还原后也需重启才会恢复。</value>
+  </data>
+  <data name="StartupDeleteFailedTitle" xml:space="preserve">
+    <value>未删除条目</value>
+  </data>
+  <data name="StartupDeleted" xml:space="preserve">
+    <value>已删除“{0}”。备份位于“已删除的条目”。</value>
+  </data>
+  <data name="StartupBackupsTitle" xml:space="preserve">
+    <value>已删除的条目 ({0})</value>
+  </data>
+  <data name="StartupRestore" xml:space="preserve">
+    <value>还原</value>
+  </data>
+  <data name="StartupRestoreFailedTitle" xml:space="preserve">
+    <value>未还原条目</value>
+  </data>
+  <data name="StartupRestored" xml:space="preserve">
+    <value>已还原“{0}”。请重新扫描以在列表中查看。</value>
+  </data>
+  <data name="StartupRestoredService" xml:space="preserve">
+    <value>已还原“{0}”。服务将在重启后恢复；请重新扫描查看。</value>
+  </data>
+  <data name="StartupJumpToEntry" xml:space="preserve">
+    <value>打开位置（注册表、文件夹或任务计划程序）</value>
+  </data>
+  <data name="StartupFileProperties" xml:space="preserve">
+    <value>文件属性</value>
+  </data>
+  <data name="StartupProtectedDriver" xml:space="preserve">
+    <value>此处驱动程序为只读。</value>
+  </data>
+  <data name="StartupProtectedWinlogon" xml:space="preserve">
+    <value>删除登录 shell 可能导致 Windows 没有桌面：请在注册表编辑器中修正该值。</value>
+  </data>
+  <data name="StartupProtectedWindows" xml:space="preserve">
+    <value>Windows 组件：无法删除。</value>
+  </data>
+  <data name="StartupProtectedWindowsService" xml:space="preserve">
+    <value>Windows 服务：可选服务请在“安全”→“服务”中管理。</value>
   </data>
 </root>

@@ -415,7 +415,7 @@ TweakHub eseguirà questo comando come amministratore:
     <value>Privacy e account</value>
   </data>
   <data name="SystemDescription" xml:space="preserve">
-    <value>Connessioni di rete per processo e programmi ad avvio automatico, con la firma digitale di ogni file.</value>
+    <value>Connessioni di rete per processo, con la firma digitale di ogni programma.</value>
   </data>
   <data name="SystemScan" xml:space="preserve">
     <value>Analizza</value>
@@ -449,9 +449,6 @@ TweakHub eseguirà questo comando come amministratore:
   </data>
   <data name="TileListening" xml:space="preserve">
     <value>Porte in ascolto</value>
-  </data>
-  <data name="TileStartup" xml:space="preserve">
-    <value>Elementi di avvio</value>
   </data>
   <data name="TileReview" xml:space="preserve">
     <value>Da verificare</value>
@@ -516,9 +513,6 @@ TweakHub eseguirà questo comando come amministratore:
   <data name="StateEstablished" xml:space="preserve">
     <value>Stabilita</value>
   </data>
-  <data name="LegendSigned" xml:space="preserve">
-    <value>Firmato</value>
-  </data>
   <data name="TrustUnsigned" xml:space="preserve">
     <value>Non firmato</value>
   </data>
@@ -537,17 +531,11 @@ TweakHub eseguirà questo comando come amministratore:
   <data name="AnalyzeFile" xml:space="preserve">
     <value>Analizza file</value>
   </data>
-  <data name="ManageInWindows" xml:space="preserve">
-    <value>Gestisci in Windows</value>
-  </data>
   <data name="PathUnavailable" xml:space="preserve">
     <value>Il percorso del file non è disponibile. Prova l'analisi come amministratore.</value>
   </data>
   <data name="StartupTitle" xml:space="preserve">
     <value>Avvio automatico e persistenza</value>
-  </data>
-  <data name="StartupDescription" xml:space="preserve">
-    <value>Chiavi Run, cartelle Esecuzione automatica, attività pianificate non Microsoft, servizi automatici fuori dalla cartella di Windows e modifiche a Winlogon. File non firmati e host di script sono in cima.</value>
   </data>
   <data name="StartupRun" xml:space="preserve">
     <value>Registro Run</value>
@@ -779,5 +767,238 @@ La configurazione attuale viene salvata la prima volta per poterla ripristinare.
   </data>
   <data name="CheckRemoteAddress" xml:space="preserve">
     <value>Controlla la reputazione dell'IP remoto su AbuseIPDB (apre il browser con il solo IP)</value>
+  </data>
+  <data name="TabPolicies" xml:space="preserve">
+    <value>Criteri</value>
+  </data>
+  <data name="PoliciesTitle" xml:space="preserve">
+    <value>Criteri di gruppo forzati</value>
+  </data>
+  <data name="PoliciesDescription" xml:space="preserve">
+    <value>I valori in HKLM e HKCU\SOFTWARE\Policies scavalcano le impostazioni di Windows e spesso restano dopo altri tool di tweak. Ripristina un'area per ridare il controllo a Windows: TweakHub cancella i valori, tiene un backup e può annullare.</value>
+  </data>
+  <data name="PoliciesManagedWarning" xml:space="preserve">
+    <value>Questo PC è in un dominio o gestito da un'organizzazione (MDM): i suoi criteri tornano alla prossima sincronizzazione. Non ripristinarli senza l'amministratore.</value>
+  </data>
+  <data name="PoliciesCategorySummary" xml:space="preserve">
+    <value>{0} valori · {1} ripristinabili · {2} annullabili</value>
+  </data>
+  <data name="PoliciesAllReset" xml:space="preserve">
+    <value>Non restano valori in quest'area.</value>
+  </data>
+  <data name="PoliciesNone" xml:space="preserve">
+    <value>Nessun criterio forzato: Windows usa le sue impostazioni.</value>
+  </data>
+  <data name="PoliciesSummary" xml:space="preserve">
+    <value>{0} valori in {1} aree; {2} non impostati da TweakHub.</value>
+  </data>
+  <data name="PoliciesReset" xml:space="preserve">
+    <value>Ripristina</value>
+  </data>
+  <data name="PoliciesResetTitle" xml:space="preserve">
+    <value>Ripristina criteri</value>
+  </data>
+  <data name="PoliciesResetConfirm" xml:space="preserve">
+    <value>{0}: questi {1} valori verranno cancellati perché Windows usi il suo default. Resta un backup e Annulla li rimette.
+
+{2}</value>
+  </data>
+  <data name="PoliciesFailed" xml:space="preserve">
+    <value>Non tutti i valori sono stati cambiati (hai rifiutato la richiesta di amministratore?). Niente è rimasto a metà: i valori cambiati sono stati rimessi.</value>
+  </data>
+  <data name="PoliciesOwnedNote" xml:space="preserve">
+    <value>I valori segnati [TweakHub] appartengono ai tweak di TweakHub e qui non vengono ripristinati: annullali da Registry Tweaks.</value>
+  </data>
+  <data name="PoliciesShowValues" xml:space="preserve">
+    <value>Mostra i valori di quest'area</value>
+  </data>
+  <data name="StartupPageTitle" xml:space="preserve">
+    <value>Avvio</value>
+  </data>
+  <data name="StartupPageDescription" xml:space="preserve">
+    <value>Tutto ciò che parte con Windows o all'accesso: chiavi Run, cartelle di avvio, attività pianificate, servizi, driver, estensioni di Esplora file, punti di hijack e sottoscrizioni WMI. Prima di eliminare una voce ne viene salvato un backup, che si può ripristinare.</value>
+  </data>
+  <data name="StartupMovedDescription" xml:space="preserve">
+    <value>Voci di avvio, attività pianificate e servizi hanno una pagina dedicata, con disattiva, elimina e ripristina.</value>
+  </data>
+  <data name="StartupOpenPage" xml:space="preserve">
+    <value>Apri Avvio</value>
+  </data>
+  <data name="StartupScanElevatedHint" xml:space="preserve">
+    <value>Elenca anche attività, sottoscrizioni e chiavi leggibili solo dagli amministratori.</value>
+  </data>
+  <data name="StartupScannedPartial" xml:space="preserve">
+    <value>Scansione delle {0}. Alcune attività e sottoscrizioni WMI richiedono la scansione come amministratore.</value>
+  </data>
+  <data name="StartupPolicyRun" xml:space="preserve">
+    <value>Run (criteri)</value>
+  </data>
+  <data name="StartupActiveSetup" xml:space="preserve">
+    <value>Active Setup</value>
+  </data>
+  <data name="StartupDriver" xml:space="preserve">
+    <value>Driver</value>
+  </data>
+  <data name="StartupShellEx" xml:space="preserve">
+    <value>Estensione di Esplora file</value>
+  </data>
+  <data name="StartupIfeo" xml:space="preserve">
+    <value>Debugger (IFEO)</value>
+  </data>
+  <data name="StartupAppInit" xml:space="preserve">
+    <value>DLL AppInit</value>
+  </data>
+  <data name="StartupWmi" xml:space="preserve">
+    <value>Sottoscrizione WMI</value>
+  </data>
+  <data name="StartupCategoryAll" xml:space="preserve">
+    <value>Tutte</value>
+  </data>
+  <data name="StartupCategoryLogon" xml:space="preserve">
+    <value>Accesso</value>
+  </data>
+  <data name="StartupCategoryTasks" xml:space="preserve">
+    <value>Attività pianificate</value>
+  </data>
+  <data name="StartupCategoryServices" xml:space="preserve">
+    <value>Servizi</value>
+  </data>
+  <data name="StartupCategoryDrivers" xml:space="preserve">
+    <value>Driver</value>
+  </data>
+  <data name="StartupCategoryExplorer" xml:space="preserve">
+    <value>Esplora file</value>
+  </data>
+  <data name="StartupCategoryHijacks" xml:space="preserve">
+    <value>Punti di hijack</value>
+  </data>
+  <data name="StartupCategoryWmi" xml:space="preserve">
+    <value>WMI</value>
+  </data>
+  <data name="TriggerEvent" xml:space="preserve">
+    <value>Evento</value>
+  </data>
+  <data name="TriggerTime" xml:space="preserve">
+    <value>Una volta</value>
+  </data>
+  <data name="TriggerDaily" xml:space="preserve">
+    <value>Ogni giorno</value>
+  </data>
+  <data name="TriggerWeekly" xml:space="preserve">
+    <value>Ogni settimana</value>
+  </data>
+  <data name="TriggerMonthly" xml:space="preserve">
+    <value>Ogni mese</value>
+  </data>
+  <data name="TriggerIdle" xml:space="preserve">
+    <value>Inattività</value>
+  </data>
+  <data name="TriggerRegistration" xml:space="preserve">
+    <value>Alla creazione</value>
+  </data>
+  <data name="TriggerBoot" xml:space="preserve">
+    <value>All'avvio</value>
+  </data>
+  <data name="TriggerLogon" xml:space="preserve">
+    <value>All'accesso</value>
+  </data>
+  <data name="TriggerSessionState" xml:space="preserve">
+    <value>Blocco/sblocco</value>
+  </data>
+  <data name="TriggerOther" xml:space="preserve">
+    <value>Altro</value>
+  </data>
+  <data name="ColumnCategory" xml:space="preserve">
+    <value>Categoria</value>
+  </data>
+  <data name="ColumnImage" xml:space="preserve">
+    <value>Percorso immagine</value>
+  </data>
+  <data name="ColumnLocation" xml:space="preserve">
+    <value>Posizione</value>
+  </data>
+  <data name="ColumnTrigger" xml:space="preserve">
+    <value>Trigger</value>
+  </data>
+  <data name="ColumnUser" xml:space="preserve">
+    <value>Utente</value>
+  </data>
+  <data name="ColumnLastRun" xml:space="preserve">
+    <value>Ultimo avvio</value>
+  </data>
+  <data name="ColumnNextRun" xml:space="preserve">
+    <value>Prossimo avvio</value>
+  </data>
+  <data name="ColumnFileDate" xml:space="preserve">
+    <value>Data del file</value>
+  </data>
+  <data name="ColumnDeleted" xml:space="preserve">
+    <value>Eliminata</value>
+  </data>
+  <data name="StartupHideMicrosoft" xml:space="preserve">
+    <value>Nascondi voci Microsoft/Windows firmate</value>
+  </data>
+  <data name="StartupUnsignedOnly" xml:space="preserve">
+    <value>Solo non firmate</value>
+  </data>
+  <data name="StartupMissingOnly" xml:space="preserve">
+    <value>Solo file mancanti</value>
+  </data>
+  <data name="StartupFileMissing" xml:space="preserve">
+    <value>File mancante</value>
+  </data>
+  <data name="StartupFileMissingHint" xml:space="preserve">
+    <value>Il programma non esiste più: la voce è orfana e si può eliminare senza rischi.</value>
+  </data>
+  <data name="StartupDelete" xml:space="preserve">
+    <value>Elimina</value>
+  </data>
+  <data name="StartupDeleteTitle" xml:space="preserve">
+    <value>Elimina voce di avvio</value>
+  </data>
+  <data name="StartupDeleteConfirm" xml:space="preserve">
+    <value>Eliminare "{0}"? Prima viene salvato un backup, ripristinabile da Voci eliminate.</value>
+  </data>
+  <data name="StartupDeleteServiceConfirm" xml:space="preserve">
+    <value>Eliminare il servizio "{0}"? Di solito basta disattivarlo. Prima viene salvato un backup della sua chiave di registro; il servizio sparisce dopo un riavvio e, se ripristinato, torna dopo un riavvio.</value>
+  </data>
+  <data name="StartupDeleteFailedTitle" xml:space="preserve">
+    <value>Voce non eliminata</value>
+  </data>
+  <data name="StartupDeleted" xml:space="preserve">
+    <value>"{0}" eliminata. Il backup è in Voci eliminate.</value>
+  </data>
+  <data name="StartupBackupsTitle" xml:space="preserve">
+    <value>Voci eliminate ({0})</value>
+  </data>
+  <data name="StartupRestore" xml:space="preserve">
+    <value>Ripristina</value>
+  </data>
+  <data name="StartupRestoreFailedTitle" xml:space="preserve">
+    <value>Voce non ripristinata</value>
+  </data>
+  <data name="StartupRestored" xml:space="preserve">
+    <value>"{0}" ripristinata. Ripeti la scansione per vederla nell'elenco.</value>
+  </data>
+  <data name="StartupRestoredService" xml:space="preserve">
+    <value>"{0}" ripristinata. Il servizio torna dopo un riavvio; ripeti la scansione per vederlo.</value>
+  </data>
+  <data name="StartupJumpToEntry" xml:space="preserve">
+    <value>Apri posizione (registro, cartella o Utilità di pianificazione)</value>
+  </data>
+  <data name="StartupFileProperties" xml:space="preserve">
+    <value>Proprietà file</value>
+  </data>
+  <data name="StartupProtectedDriver" xml:space="preserve">
+    <value>I driver qui sono in sola lettura.</value>
+  </data>
+  <data name="StartupProtectedWinlogon" xml:space="preserve">
+    <value>Rimuovere la shell di accesso può lasciare Windows senza desktop: correggi il valore nell'Editor del Registro.</value>
+  </data>
+  <data name="StartupProtectedWindows" xml:space="preserve">
+    <value>Fa parte di Windows: non si può eliminare.</value>
+  </data>
+  <data name="StartupProtectedWindowsService" xml:space="preserve">
+    <value>Servizio di Windows: quelli facoltativi si gestiscono in Sicurezza → Servizi.</value>
   </data>
 </root>

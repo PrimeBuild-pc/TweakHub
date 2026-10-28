@@ -14,52 +14,106 @@ public class AutomatedScriptsPageTests
     {
         Assert.Multiple(() =>
         {
-            Assert.That(AutomatedScriptsPage.GetBuiltInScript("ctt-winutil"),
+            Assert.That(BuiltInScripts.Body("ctt-winutil"),
                 Is.EqualTo("irm christitus.com/win | iex"));
-            Assert.That(AutomatedScriptsPage.GetBuiltInScript("gaming-runtimes"),
+            Assert.That(BuiltInScripts.Body("gaming-runtimes"),
                 Does.Contain("Microsoft.VCRedist.2015+.x64").And.Contain("Microsoft.DirectX")
                     .And.Contain("CreativeTechnology.OpenAL").And.Contain("Nvidia.PhysX").And.Contain("Microsoft.XNARedist"));
-            Assert.That(AutomatedScriptsPage.GetBuiltInScript("dotnet-developer-setup"),
+            Assert.That(BuiltInScripts.Body("dotnet-developer-setup"),
                 Does.Contain("Microsoft.DotNet.SDK.10").And.Contain("Microsoft.VisualStudio.2022.Community")
                     .And.Contain("Microsoft.VisualStudio.Workload.ManagedDesktop").And.Contain("Git.Git"));
-            Assert.That(AutomatedScriptsPage.GetBuiltInScript("change-local-password"),
+            Assert.That(BuiltInScripts.Body("change-local-password"),
                 Does.Contain("Get-LocalUser").And.Contain("net.exe user").And.Contain("Read-Host"));
             var interactive = AutomatedScriptsPage.CreateInteractivePowerShellStartInfo("Write-Output ok", true);
             Assert.That(interactive.UseShellExecute, Is.True);
             Assert.That(interactive.Verb, Is.EqualTo("runas"));
             Assert.That(interactive.WindowStyle, Is.EqualTo(ProcessWindowStyle.Normal));
             Assert.That(interactive.Arguments, Does.Not.Contain("-WindowStyle Hidden").And.Not.Contain("-NonInteractive"));
-            Assert.That(AutomatedScriptsPage.GetBuiltInScript("dism-sfc-chkdsk"),
+            Assert.That(BuiltInScripts.Body("dism-sfc-chkdsk"),
                 Does.Contain("RestoreHealth").And.Contain("sfc.exe").And.Contain("chkdsk.exe"));
-            Assert.That(AutomatedScriptsPage.GetBuiltInScript("component-cleanup"),
+            Assert.That(BuiltInScripts.Body("component-cleanup"),
                 Does.Contain("StartComponentCleanup"));
-            Assert.That(AutomatedScriptsPage.GetBuiltInScript("temp-cleanup"),
+            Assert.That(BuiltInScripts.Body("temp-cleanup"),
                 Does.Contain("ReparsePoint").And.Contain("AddDays(-1)").And.Contain("Delete-DeliveryOptimizationCache")
                     .And.StartWith($"$userTemp = '{Path.GetTempPath()}'"), "The elevated script cleans the caller's temp folder");
-            Assert.That(AutomatedScriptsPage.GetBuiltInScript("network-reset"),
+            Assert.That(BuiltInScripts.Body("network-reset"),
                 Does.Contain("winsock reset").And.Contain("int ip reset"));
-            Assert.That(AutomatedScriptsPage.GetBuiltInScript("windows-update-reset"),
+            Assert.That(BuiltInScripts.Body("windows-update-reset"),
                 Does.Contain("SoftwareDistribution").And.Contain("catroot2"));
-            Assert.That(AutomatedScriptsPage.GetBuiltInScript("winget"),
+            Assert.That(BuiltInScripts.Body("winget"),
                 Does.Contain("Repair-WinGetPackageManager").And.Contain("VERIFIED:"));
-            Assert.That(AutomatedScriptsPage.GetBuiltInScript("microsoft-store-repair"),
+            Assert.That(BuiltInScripts.Body("microsoft-store-repair"),
                 Does.Contain("Reset-AppxPackage").And.Contain("VERIFIED:").And.Contain("Source:"));
-            Assert.That(AutomatedScriptsPage.GetBuiltInScript("gaming-services-repair"),
+            Assert.That(BuiltInScripts.Body("gaming-services-repair"),
                 Does.Contain("https://aka.ms/GamingRepairTool").And.Contain("Get-AuthenticodeSignature")
                     .And.Contain("VERIFIED:").And.Contain("Source:"));
-            Assert.That(AutomatedScriptsPage.GetBuiltInScript("print-spooler-repair"),
+            Assert.That(BuiltInScripts.Body("print-spooler-repair"),
                 Does.Contain("Spooler").And.Contain("PRINTERS").And.Contain("VERIFIED:"));
-            Assert.That(AutomatedScriptsPage.GetBuiltInScript("onedrive-repair"),
+            Assert.That(BuiltInScripts.Body("onedrive-repair"),
                 Does.Contain("/reset").And.Contain("VERIFIED:"));
-            Assert.That(AutomatedScriptsPage.GetBuiltInScript("wsl-setup"),
+            Assert.That(BuiltInScripts.Body("wsl-setup"),
                 Does.Contain("VirtualMachinePlatform").And.Contain("Ubuntu").And.Contain("VERIFIED:"));
-            Assert.That(AutomatedScriptsPage.GetBuiltInScript("empty-standby-list"),
+            Assert.That(BuiltInScripts.Body("empty-standby-list"),
                 Does.Contain("RAMMap").And.Contain("-Et"));
-            Assert.That(AutomatedScriptsPage.GetBuiltInScript("adobe-hosts-block"),
+            Assert.That(BuiltInScripts.Body("adobe-hosts-block"),
                 Does.Contain("TweakHub Adobe block START"));
-            Assert.That(AutomatedScriptsPage.GetBuiltInScript("adobe-hosts-unblock"),
+            Assert.That(BuiltInScripts.Body("adobe-hosts-unblock"),
                 Does.Contain("TweakHub Adobe block START"));
+            Assert.That(BuiltInScripts.Body("shader-cache-cleanup"),
+                Does.Contain("D3DSCache").And.Contain(@"AMD\DxcCache").And.Contain(@"NVIDIA\DXCache").And.Contain("ReparsePoint")
+                    .And.Not.Contain("Prefetch").And.Not.Contain("SoftwareDistribution"));
+            Assert.That(BuiltInScripts.Body("driver-backup"),
+                Does.StartWith($"$destination = '{BuiltInScripts.DriverBackupPath}'")
+                    .And.Contain("/export-driver *").And.Contain("VERIFIED:"), "The backup goes to the caller's data folder");
         });
+    }
+
+    [Test]
+    public async Task NewMaintenanceScriptsParseWithoutExecutingThem()
+    {
+        foreach (var id in new[] { "shader-cache-cleanup", "driver-backup", "driver-restore" })
+        {
+            var parseOnly = "$tokens = $null; $errors = $null; [System.Management.Automation.Language.Parser]::ParseInput("
+                + PowerShellService.Literal(BuiltInScripts.Body(id)) + ", [ref]$tokens, [ref]$errors) | Out-Null; if ($errors.Count) { $errors | Out-String | Write-Error; exit 1 }";
+            var result = await PowerShellService.Instance.ExecuteScriptAsync(parseOnly);
+            Assert.That(result.Success, Is.True, $"{id}: {result.Error}");
+        }
+    }
+
+    [Test]
+    public void OnlyFullyRevertedTweaksTheUserAppliedAreOfferedForReapply()
+    {
+        PerformanceTweak Tweak(bool enabled, bool partial = false, string unavailable = "") =>
+            new() { IsEnabled = enabled, IsPartiallyApplied = partial, UnavailableReason = unavailable };
+        Assert.Multiple(() =>
+        {
+            Assert.That(TweakService.IsReverted(Tweak(false), true, _ => true), Is.True, "applied by the user, now off");
+            Assert.That(TweakService.IsReverted(Tweak(false), false, _ => true), Is.False, "backup from the Backup button only");
+            Assert.That(TweakService.IsReverted(Tweak(true), true, _ => true), Is.False, "still in effect");
+            Assert.That(TweakService.IsReverted(Tweak(false), true, _ => false), Is.False, "already restored");
+            Assert.That(TweakService.IsReverted(Tweak(false, partial: true), true, _ => true), Is.False, "half applied keeps its own warning");
+            Assert.That(TweakService.IsReverted(Tweak(false, unavailable: "no adapter"), true, _ => true), Is.False, "cannot be reapplied here");
+        });
+    }
+
+    [Test]
+    public void AppliedMarkerIsAddedAndRemovedPerTweak()
+    {
+        var original = TweakService.AppliedTweaksPath;
+        var directory = Path.Combine(Path.GetTempPath(), $"TweakHubTests-{Guid.NewGuid():N}");
+        TweakService.AppliedTweaksPath = Path.Combine(directory, "applied-tweaks.json");
+        try
+        {
+            TweakService.MarkApplied("a", true);
+            TweakService.MarkApplied("b", true);
+            TweakService.MarkApplied("a", false);
+            Assert.That(File.ReadAllText(TweakService.AppliedTweaksPath), Does.Contain("\"b\"").And.Not.Contain("\"a\""));
+        }
+        finally
+        {
+            TweakService.AppliedTweaksPath = original;
+            if (Directory.Exists(directory)) Directory.Delete(directory, true);
+        }
     }
 
     [Test]
@@ -173,7 +227,7 @@ public class AutomatedScriptsPageTests
             var path = Path.Combine(Path.GetTempPath(), $"TweakHub-{Guid.NewGuid():N}.ps1");
             try
             {
-                File.WriteAllText(path, AutomatedScriptsPage.GetBuiltInScript(id));
+                File.WriteAllText(path, BuiltInScripts.Body(id));
                 using var process = Process.Start(new ProcessStartInfo
                 {
                     FileName = "powershell.exe",

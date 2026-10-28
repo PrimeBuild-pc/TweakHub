@@ -40,12 +40,16 @@ public sealed record PnpDeviceInfo(string Id, string Name, string Class, string 
         && (DeviceService.CriticalClasses.Contains(Class) || Regex.IsMatch(Id, @"^(?i:ACPI|PCI|ROOT)\\"));
 
     public bool IsDisabled => Category == DeviceCategory.Disabled;
+    /// <summary>Enable is the action: disabled now, or disabled by TweakHub and unplugged (Enable-PnpDevice works on it too).</summary>
+    public bool NeedsEnable => IsDisabled || !Present && DisabledByTweakHub;
+    public bool CanToggle => Present || DisabledByTweakHub;
+    public bool IsSuggestion => Present && Rule is { Advice: not DeviceAdvice.Avoid } && !IsDisabled;
     public string DisplayName => Name.Length > 0 ? Name : Id;
     public string CategoryText => L.Get($"Devices:Category{Category}");
-    public string AdviceText => Rule is null ? string.Empty : L.Get($"Devices:Advice{Rule.Advice}");
-    public string ReasonText => Rule is null ? string.Empty : L.Get($"Devices:Rule{Rule.Id}");
-    public string BreaksText => Rule is null ? string.Empty : L.Get($"Devices:Rule{Rule.Id}Breaks");
-    public string ToggleText => L.Get(IsDisabled ? "Devices:Enable" : "Devices:Disable");
+    public string AdviceText => !Present ? CategoryText : L.Get(Rule is null ? "Devices:AdviceUnknown" : $"Devices:Advice{Rule.Advice}");
+    public string ReasonText => L.Get(Rule is null ? "Devices:RuleUnknown" : $"Devices:Rule{Rule.Id}");
+    public string BreaksText => L.Get(Rule is null ? "Devices:RuleUnknownBreaks" : $"Devices:Rule{Rule.Id}Breaks");
+    public string ToggleText => L.Get(NeedsEnable ? "Devices:Enable" : "Devices:Disable");
     public string CategoryHintText => L.Get($"Devices:Category{Category}Hint");
 }
 
@@ -80,14 +84,19 @@ public sealed class DeviceService
         new("VirtualPrinter", DeviceAdvice.Situational, new(@"(?i)^SWD\\PRINTENUM\\.*\|(Microsoft Print to PDF|Microsoft XPS Document Writer|Fax|OneNote)"))
     ];
 
-    internal static DeviceRule? MatchRule(string id, string name) => Rules.FirstOrDefault(rule => rule.Match.IsMatch($"{id}|{name}"));
+    private static readonly DeviceRule HubRule = new("UsbHub", DeviceAdvice.Avoid, new("^USB\\\\", RegexOptions.IgnoreCase));
 
-    private const string InventoryScript = """
+    internal static DeviceRule? MatchRule(string id, string name, string service = "") =>
+        Rules.FirstOrDefault(rule => rule.Match.IsMatch($"{id}|{name}"))
+        ?? (service.Equals("USBHUB3", StringComparison.OrdinalIgnoreCase) || service.Equals("USBHUB", StringComparison.OrdinalIgnoreCase) ? HubRule : null);
+
+    internal const string InventoryScript = """
         $ErrorActionPreference = 'SilentlyContinue'
         $devices = @(Get-PnpDevice)
         $props = @{}
         # One pipeline for every device: about 25 ms per device instead of one process each.
         $devices | Get-PnpDeviceProperty -KeyName DEVPKEY_Device_Parent, DEVPKEY_Device_Service, DEVPKEY_Device_DriverInfPath, DEVPKEY_Device_BusReportedDeviceDesc,
+            DEVPKEY_Device_IsPresent, DEVPKEY_Device_ProblemCode,
             DEVPKEY_Device_BusNumber, DEVPKEY_Device_Address, DEVPKEY_PciDevice_CurrentLinkSpeed, DEVPKEY_PciDevice_CurrentLinkWidth,
             DEVPKEY_PciDevice_MaxLinkSpeed, DEVPKEY_PciDevice_MaxLinkWidth | ForEach-Object {
             if (-not $props.ContainsKey($_.InstanceId)) { $props[$_.InstanceId] = @{} }
@@ -96,8 +105,12 @@ public sealed class DeviceService
         @($devices | ForEach-Object {
             $p = $props[$_.InstanceId]
             if (-not $p) { $p = @{} }
+            $present = $p['DEVPKEY_Device_IsPresent']
+            if ($null -eq $present) { $present = $_.Present }
+            $problem = $p['DEVPKEY_Device_ProblemCode']
+            if ($null -eq $problem) { $problem = $_.ConfigManagerErrorCode }
             [pscustomobject]@{ Id = [string]$_.InstanceId; Name = [string]$_.FriendlyName; Class = [string]$_.Class; Status = [string]$_.Status
-                Present = [bool]$_.Present; Problem = [int]$_.ConfigManagerErrorCode; Parent = [string]$p['DEVPKEY_Device_Parent']
+                Present = [bool]$present; Problem = [int]$problem; Parent = [string]$p['DEVPKEY_Device_Parent']
                 Service = [string]$p['DEVPKEY_Device_Service']; Inf = [string]$p['DEVPKEY_Device_DriverInfPath']
                 BusName = [string]$p['DEVPKEY_Device_BusReportedDeviceDesc']
                 BusNumber = $p['DEVPKEY_Device_BusNumber']; Address = $p['DEVPKEY_Device_Address']
@@ -138,7 +151,7 @@ public sealed class DeviceService
         return raw.Select(device => device with
             {
                 Children = children.GetValueOrDefault(device.Id),
-                Rule = MatchRule(device.Id, device.Name),
+                Rule = MatchRule(device.Id, device.Name, device.Service),
                 DisabledByTweakHub = tracked.Contains(device.Id)
             })
             .OrderBy(device => device.Category).ThenBy(device => device.DisplayName, StringComparer.CurrentCultureIgnoreCase)
@@ -201,6 +214,113 @@ public sealed class DeviceService
         var result = await PowerShellService.Instance.ExecuteScriptAsync(BuildToggleScript(disabled.Keys, enable: true), requireAdministrator: true, TimeSpan.FromMinutes(5));
         if (result.Success) JsonStore.Save(DisabledPath, new Dictionary<string, string>());
         return result;
+    }
+
+    /// <summary>
+    /// What this PC shows it does not use: Remote Desktop off, no VPN/PPPoE entries for this user or all users, physical
+    /// network cards without a link. Other accounts keep their own VPN list: the ones that have entries, and the ones whose
+    /// profile this process cannot read, are named.
+    /// </summary>
+    public sealed record UsageContext(bool RemoteDesktopOff, bool NoDialUpEntries, IReadOnlySet<string> DisconnectedNics, bool AnyNicConnected)
+    {
+        public IReadOnlyList<string> OtherVpnUsers { get; init; } = [];
+        public IReadOnlyList<string> UncheckedUsers { get; init; } = [];
+    }
+
+    internal const string UsageScript = """
+        $ErrorActionPreference = 'SilentlyContinue'
+        $rdp = (Get-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server').fDenyTSConnections
+        # Windows VPN and PPPoE (dial-up) connections live in these phone books, one [section] per entry.
+        $entries = @(@("$env:APPDATA\Microsoft\Network\Connections\Pbk\rasphone.pbk", "$env:ProgramData\Microsoft\Network\Connections\Pbk\rasphone.pbk") |
+            Where-Object { Test-Path -LiteralPath $_ } | ForEach-Object { Select-String -LiteralPath $_ -Pattern '^\[' }).Count
+        # Other people's accounts (not service profiles): -1 when this process may not read their profile.
+        $me = [Security.Principal.WindowsIdentity]::GetCurrent().User.Value
+        $others = @(Get-CimInstance Win32_UserProfile | Where-Object { $_.SID -ne $me -and $_.SID -match '^S-1-(5-21|12-1)-' } | ForEach-Object {
+            $name = try { ([Security.Principal.SecurityIdentifier]$_.SID).Translate([Security.Principal.NTAccount]).Value } catch { Split-Path -Leaf $_.LocalPath }
+            $roaming = Join-Path $_.LocalPath 'AppData\Roaming'
+            $count = try {
+                [void][IO.Directory]::GetDirectories($roaming)
+                $pbk = Join-Path $roaming 'Microsoft\Network\Connections\Pbk\rasphone.pbk'
+                if (Test-Path -LiteralPath $pbk) { @(Select-String -LiteralPath $pbk -Pattern '^\[').Count } else { 0 }
+            } catch [UnauthorizedAccessException] { -1 } catch { 0 }
+            [pscustomobject]@{ User = [string]$name; Entries = [int]$count } })
+        $nics = @(Get-NetAdapter -Physical | ForEach-Object { [pscustomobject]@{ Id = [string]$_.PnPDeviceID; Connected = [int]$_.MediaConnectionState -eq 1 } })
+        [pscustomobject]@{ RemoteDesktopOff = $rdp -eq 1; DialUpEntries = $entries; Others = $others; Nics = $nics } | ConvertTo-Json -Compress -Depth 3
+        """ + PowerShellService.AsciiJson;
+
+    public async Task<UsageContext> GetUsageContextAsync()
+    {
+        var result = await PowerShellService.Instance.ExecuteScriptAsync(UsageScript, timeout: TimeSpan.FromMinutes(1));
+        if (!result.Success) throw new InvalidOperationException(string.IsNullOrWhiteSpace(result.Error) ? result.ExitCode.ToString() : result.Error);
+        return ParseUsageContext(result.Output);
+    }
+
+    internal static UsageContext ParseUsageContext(string json)
+    {
+        using var document = JsonDocument.Parse(json);
+        var root = document.RootElement;
+        var nics = root.TryGetProperty("Nics", out var list) ? JsonRead.Items(list).ToList() : [];
+        var others = root.TryGetProperty("Others", out var users) ? JsonRead.Items(users).ToList() : [];
+        List<string> Users(Func<int, bool> entries) => others.Where(user => entries(JsonRead.Int(user, "Entries") ?? -1))
+            .Select(user => JsonRead.Text(user, "User")).Where(name => name.Length > 0).ToList();
+        return new(JsonRead.Bool(root, "RemoteDesktopOff"), (JsonRead.Int(root, "DialUpEntries") ?? 1) == 0,
+            nics.Where(nic => !JsonRead.Bool(nic, "Connected")).Select(nic => JsonRead.Text(nic, "Id")).Where(id => id.Length > 0)
+                .ToHashSet(StringComparer.OrdinalIgnoreCase),
+            nics.Any(nic => JsonRead.Bool(nic, "Connected")))
+        {
+            OtherVpnUsers = Users(entries => entries > 0),
+            UncheckedUsers = Users(entries => entries < 0)
+        };
+    }
+
+    // The VPN and PPPoE miniports; IP, IPv6 and Network Monitor serve other RAS features and are left alone.
+    private static readonly Regex DialUpMiniport = new(@"(?i)^SWD\\MSRRAS\\MS_(SSTP|PPTP|L2TP|AGILEVPN|PPPOE)MINIPORT$");
+
+    /// <summary>Why this device counts as unused here (a Devices:Unused* key), or null. Never a device already off or not present.</summary>
+    internal static string? UnusedReason(PnpDeviceInfo device, UsageContext context)
+    {
+        if (!device.Present || device.IsDisabled) return null;
+        if (device.Rule?.Advice == DeviceAdvice.Common) return "Devices:UnusedAlways";
+        if (device.Rule?.Id == "Teredo") return "Devices:UnusedTunnel";
+        if (device.Rule?.Id == "RdpBus" && context.RemoteDesktopOff) return "Devices:UnusedRemoteDesktop";
+        if (DialUpMiniport.IsMatch(device.Id) && context.NoDialUpEntries)
+            return context.OtherVpnUsers.Count > 0 ? "Devices:UnusedVpnOtherUser"
+                : context.UncheckedUsers.Count > 0 ? "Devices:UnusedVpnUnchecked" : "Devices:UnusedVpn";
+        // Never the last way online: only when another physical card has a link.
+        if (context.DisconnectedNics.Contains(device.Id) && context.AnyNicConnected) return "Devices:UnusedNic";
+        return null;
+    }
+
+    /// <summary>The reason shown in the list; for other accounts it names them.</summary>
+    public static string UnusedText(string reason, UsageContext context) => reason switch
+    {
+        "Devices:UnusedVpnOtherUser" => L.Format(reason, string.Join(", ", context.OtherVpnUsers)),
+        "Devices:UnusedVpnUnchecked" => L.Format(reason, string.Join(", ", context.UncheckedUsers)),
+        _ => L.Get(reason)
+    };
+
+    /// <summary>Ticked in the list unless it may still be needed: a card without a link today, another account's VPN.</summary>
+    public static bool TickedByDefault(string reason) =>
+        reason is not ("Devices:UnusedNic" or "Devices:UnusedVpnOtherUser" or "Devices:UnusedVpnUnchecked");
+
+    /// <summary>One elevated script for the whole list; each line reports OK|id or FAIL|id|reason so partial runs stay tracked.</summary>
+    internal static string BuildDisableManyScript(IEnumerable<string> instanceIds) =>
+        $"foreach ($id in @({string.Join(", ", instanceIds.Select(PowerShellService.Literal))})) {{\n" +
+        "    try { Disable-PnpDevice -InstanceId $id -Confirm:$false -ErrorAction Stop; \"OK|$id\" } catch { \"FAIL|$id|$($_.Exception.Message)\" }\n}";
+
+    /// <summary>Disables every device given; returns the names that failed. Disabled ones are tracked for "Enable all".</summary>
+    public async Task<IReadOnlyList<string>> DisableManyAsync(IReadOnlyList<PnpDeviceInfo> devices)
+    {
+        var result = await PowerShellService.Instance.ExecuteScriptAsync(BuildDisableManyScript(devices.Select(device => device.Id)),
+            requireAdministrator: true, TimeSpan.FromMinutes(5));
+        // Declined UAC: no device line at all, and the reason is in the error.
+        if (!result.Output.Contains('|')) throw new InvalidOperationException(string.IsNullOrWhiteSpace(result.Error) ? result.ExitCode.ToString() : result.Error.Trim());
+        var lines = result.Output.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        var done = lines.Where(line => line.StartsWith("OK|", StringComparison.Ordinal)).Select(line => line[3..]).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var disabled = LoadDisabled();
+        foreach (var device in devices.Where(device => done.Contains(device.Id))) disabled[device.Id] = device.DisplayName;
+        JsonStore.Save(DisabledPath, disabled);
+        return devices.Where(device => !done.Contains(device.Id)).Select(device => device.DisplayName).ToList();
     }
 
     public static string ToCsv(IEnumerable<PnpDeviceInfo> devices)

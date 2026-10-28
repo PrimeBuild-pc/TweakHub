@@ -81,7 +81,7 @@ namespace TweakHub.Services
                 {
                     StartInfo = new ProcessStartInfo
                     {
-                        FileName = "winget",
+                        FileName = SystemTools.Winget,
                         Arguments = arguments,
                         UseShellExecute = false,
                         RedirectStandardOutput = true,

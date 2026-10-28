@@ -60,7 +60,7 @@
 
 TweakHub is built to live on a USB drive. Extract it once, add your preferred tools, scripts, Registry tweaks, favorites and appearance settings, then carry the complete folder between PCs. Your portable configuration stays with the app instead of being scattered across every machine you maintain.
 
-It runs as the current user and requests administrator privileges only when an operation requires them. Every change is previewed first, backed up, and can be undone.
+It runs as the current user and requests administrator privileges only when an operation requires them. Supported tweaks provide previews, backups and restoration. External tools and destructive maintenance scripts can make changes that TweakHub cannot undo.
 
 ## Features
 
@@ -106,6 +106,14 @@ It runs as the current user and requests administrator privileges only when an o
     </td>
   </tr>
 </table>
+
+New in 1.6.0:
+- **Startup:** an Autoruns-style view of everything that starts with Windows (Run keys, startup folders, scheduled tasks, services, drivers, Explorer extensions, Winlogon, IFEO, WMI) with signatures and missing-file badges. Entries can be disabled or deleted with a backup and restored later; Windows-critical entries are protected.
+- **Registry tweaks:** Group Policy power settings that stop automatic sleep, hibernation, disk spin-down and Energy Saver when plugged in, plus an optional tweak that turns sleep off completely. Also optional global Power Throttling control and hibernation management through `powercfg`. Risk badges and a risk filter on every tweak.
+- **Devices:** "Disable unused" finds devices this PC does not use (for example the kernel debug adapter, or VPN miniports when no VPN is set up for any user) and disables the ones you tick in one step. A new **Drivers** tab removes old driver versions that a newer version replaces and no device uses, like Driver Store Explorer's "Select old drivers", with a backup of every package and one-click restore. **Affinity** places PCI interrupts on chosen logical CPUs, labelled by physical core and SMT thread.
+- **Security:** optional services with individual startup-mode changes and restoration, a Policies tab that lists policies forced by other tools and resets them with a backup, and **Tron** with separate confirmed download, extraction and launch. Tron runs from a folder only administrators can change, after its SHA-256 is checked against the publisher's list. It can make irreversible changes: back up your files first. Microsoft Defender may block the Tron package; TweakHub never adds antivirus exclusions.
+
+Portable does not mean system changes disappear when the app closes: keep the copy's `Data` directory to retain restoration data.
 
 TweakHub supports **Windows 11 build 22000 or newer**.
 
@@ -261,6 +269,10 @@ SysMain and Prefetch should normally remain enabled. Disable them only after mea
 The device-metadata and Windows Update driver policies affect different content: preventing device companion apps does not block every driver, while the driver exclusion policy omits packages Windows Update classifies as drivers. The Windows Update selector offers Default, Disabled and Security modes from a script bundled with TweakHub; Security keeps quality/security updates on their normal schedule while deferring feature updates for 365 days. High-risk AI removal and third-party hosts-list scripts always require explicit confirmation.
 
 </details>
+
+## Hardware reports
+
+To help improve device detection and motherboard support, run the standalone [`Collect-TweakHub-Hardware.cmd`](Scripts/Collect-TweakHub-Hardware.cmd). It creates a local JSON report on the Desktop after consent, without changing settings or uploading anything. TweakHub and ThreadPilot do not need to be installed or running. See [collection instructions, privacy, limitations and Discord message](docs/hardware-reports.md) before sharing a report.
 
 ## Build from source
 

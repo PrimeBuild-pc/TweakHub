@@ -16,7 +16,8 @@ public sealed record InterruptDevice(string Id, string Name, string Class, bool 
     public string PriorityText => L.Get($"Devices:Priority{Priority}");
     public string AffinityText => HasAffinity ? InterruptService.FormatMask(AffinityMask) : L.Get("Devices:AffinityAuto");
     public string LimitText => MessageLimit?.ToString(L.Culture) ?? "–";
-    public bool HasTweakHubChanges => InterruptService.ManagedValues(Id).Any(change => RegistryService.Instance.HasBackup(change.KeyPath, change.ValueName));
+    public bool HasTweakHubChanges => InterruptService.ManagedValues(Id).Take(2).Any(change => RegistryService.Instance.HasBackup(change.KeyPath, change.ValueName));
+    public bool HasAffinityChanges => InterruptService.ManagedValues(Id).Skip(2).Any(change => RegistryService.Instance.HasBackup(change.KeyPath, change.ValueName));
 }
 
 public sealed class InterruptService
@@ -85,20 +86,25 @@ public sealed class InterruptService
         var changes = new List<RegistryValueChange>();
         if (msi is { } enableMsi) changes.Add(new(MsiKey(device.Id), "MSISupported", enableMsi ? 1 : 0));
         if (priority is { } level) changes.Add(new(AffinityKey(device.Id), "DevicePriority", (int)level));
-        if (affinityMask is { } mask and not 0)
+        if (affinityMask is { } mask)
         {
-            changes.Add(new(AffinityKey(device.Id), "DevicePolicy", InterruptDevice.SpecifiedProcessorsPolicy));
-            changes.Add(new(AffinityKey(device.Id), "AssignmentSetOverride", BitConverter.GetBytes(mask), RegistryValueKind.Binary));
+            // An explicit zero resets only the affinity policy, not MSI or interrupt priority.
+            changes.Add(new(AffinityKey(device.Id), "DevicePolicy", mask == 0 ? null : InterruptDevice.SpecifiedProcessorsPolicy));
+            changes.Add(new(AffinityKey(device.Id), "AssignmentSetOverride", mask == 0 ? null : BitConverter.GetBytes(mask), RegistryValueKind.Binary));
         }
         return changes;
     }
 
-    public Task<bool> ApplyAsync(InterruptDevice device, bool? msi, InterruptPriority? priority, ulong? affinityMask) =>
-        RegistryService.Instance.ApplyValuesWithBackupAsync(BuildChanges(device, msi, priority, affinityMask));
+    internal static bool CanAssign(ulong mask) => mask != 0 && CpuTopology.Supported && (mask & ~CpuTopology.AllowedMask) == 0;
 
-    /// <summary>Puts back every value TweakHub changed on this device (deleting the ones that did not exist before).</summary>
-    public Task<bool> RestoreAsync(InterruptDevice device) =>
-        RegistryService.Instance.RestoreValuesAsync(ManagedValues(device.Id)
+    public Task<bool> ApplyAsync(InterruptDevice device, bool? msi, InterruptPriority? priority, ulong? affinityMask) =>
+        affinityMask is > 0 && !CanAssign(affinityMask.Value)
+            ? Task.FromResult(false)
+            : RegistryService.Instance.ApplyValuesWithBackupAsync(BuildChanges(device, msi, priority, affinityMask));
+
+    /// <summary>Restores only the editor's own values; MSI and affinity do not undo each other's changes.</summary>
+    public Task<bool> RestoreAsync(InterruptDevice device, bool affinityOnly = false) =>
+        RegistryService.Instance.RestoreValuesAsync(ManagedValues(device.Id).Skip(affinityOnly ? 2 : 0).Take(2)
             .Where(change => RegistryService.Instance.HasBackup(change.KeyPath, change.ValueName)).ToList());
 
     internal static string FormatMask(ulong mask) => string.Join(", ",

@@ -1,3 +1,4 @@
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using TweakHub.Localization;
@@ -30,7 +31,9 @@ public partial class TweakCheckView : UserControl
             var checks = await (initial && !elevated
                 ? Preload.Get(Preload.TweakChecks, () => TweakCheckService.Instance.ScanAsync(elevated: false))
                 : TweakCheckService.Instance.ScanAsync(elevated));
-            ChecksList.ItemsSource = checks;
+            var favorites = UserDataService.Instance.LoadFavoriteTweaks();
+            foreach (var check in checks) check.IsFavorite = favorites.Contains(FavoriteKey(check));
+            ChecksList.ItemsSource = checks.OrderByDescending(check => check.IsFavorite).ToList();
             SummaryText.Text = L.Format("Devices:ChecksSummary", checks.Count, checks.Count(check => check.Status == TweakCheckStatus.Flagged));
         }
         catch (Exception ex) when (ex is InvalidOperationException or System.Text.Json.JsonException)
@@ -43,6 +46,30 @@ public partial class TweakCheckView : UserControl
             Loading.Hide();
             ScanButton.IsEnabled = ElevatedScanButton.IsEnabled = true;
         }
+    }
+
+    // Shares favorite-tweaks.json with Registry tweaks, so profiles export it; reloaded so neither page overwrites the other.
+    internal static string FavoriteKey(TweakCheck check) => $"check:{check.Id}";
+
+    private async void Favorite_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button { DataContext: TweakCheck check }) return;
+        var favorites = UserDataService.Instance.LoadFavoriteTweaks();
+        if (!check.IsFavorite) favorites.Add(FavoriteKey(check)); else favorites.Remove(FavoriteKey(check));
+        try
+        {
+            UserDataService.Instance.SaveFavoriteTweaks(favorites);
+            check.IsFavorite = !check.IsFavorite;
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Devices:ApplyFailedTitle"), ex.Message);
+        }
+    }
+
+    private void Preview_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is Button { DataContext: TweakCheck check }) check.IsPreviewVisible = !check.IsPreviewVisible;
     }
 
     private async void Repair_Click(object sender, RoutedEventArgs e)

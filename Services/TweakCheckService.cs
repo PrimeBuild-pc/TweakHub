@@ -6,7 +6,7 @@ namespace TweakHub.Services;
 public enum TweakCheckStatus { Ok, Flagged, NeedsAdministrator }
 
 public sealed record TweakCheck(string Id, TweakCheckStatus Status, string Current, IReadOnlyList<RegistryValueChange> Repair,
-    string? RepairScript = null, bool RequiresRestart = false)
+    string? RepairScript = null, bool RequiresRestart = false) : System.ComponentModel.INotifyPropertyChanged
 {
     public string Title => L.Get($"Devices:Check{Id}");
     public string Explanation => L.Get($"Devices:Check{Id}Explain");
@@ -16,6 +16,34 @@ public sealed record TweakCheck(string Id, TweakCheckStatus Status, string Curre
     public IReadOnlyList<RegistryValueChange> Managed { get; init; } = [];
     /// <summary>Registry repairs keep a backup, so they can be undone; command repairs (bcdedit, netsh) cannot.</summary>
     public bool CanUndo => Managed.Any(change => RegistryService.Instance.HasBackup(change.KeyPath, change.ValueName));
+
+    /// <summary>What the check reads and, when flagged, exactly what Repair runs.</summary>
+    public string Preview => string.Join("\n", new[] { "# " + L.Get("Devices:CheckPreviewReads") }
+        .Concat(Id switch
+        {
+            "BcdTimers" => ["bcdedit /enum {current}"],
+            "AutoTuning" => ["Get-NetTCPSetting -SettingName Internet"],
+            _ => Managed.Select(change => $"reg query \"{change.KeyPath}\" /v \"{change.ValueName}\"")
+        })
+        .Append(string.Empty)
+        .Concat(CanRepair
+            ? Repair.Select(change => change.ToRegCommand()).Prepend("# " + L.Get("Devices:CheckPreviewRepair"))
+                .Concat(RepairScript?.Split('\n') ?? [])
+            : ["# " + StatusText]));
+
+    private bool _isFavorite;
+    private bool _isPreviewVisible;
+    public event System.ComponentModel.PropertyChangedEventHandler? PropertyChanged;
+    public bool IsFavorite
+    {
+        get => _isFavorite;
+        set { _isFavorite = value; PropertyChanged?.Invoke(this, new(nameof(IsFavorite))); }
+    }
+    public bool IsPreviewVisible
+    {
+        get => _isPreviewVisible;
+        set { _isPreviewVisible = value; PropertyChanged?.Invoke(this, new(nameof(IsPreviewVisible))); }
+    }
 }
 
 /// <summary>Finds popular tweaks that hurt stability or security (the RepairBadTweaks list) and puts Windows defaults back.</summary>
@@ -23,6 +51,13 @@ public sealed class TweakCheckService
 {
     public static TweakCheckService Instance { get; } = new();
     private TweakCheckService() { }
+
+    /// <summary>Every check Evaluate returns, in order; playbook steps may only name these.</summary>
+    internal static readonly string[] Ids =
+    [
+        "BcdTimers", "Mitigations", "AutoTuning", "SvcHostSplit", "ThreadDpc", "ErrorReporting", "InputQueues",
+        "CsrssPriority", "Mpo", "MemoryManagement", "RawMouseThrottle", "GlobalTimer", "ProcessorStateRange"
+    ];
 
     private const string Control = @"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control";
     private const string Kernel = Control + @"\Session Manager\kernel";

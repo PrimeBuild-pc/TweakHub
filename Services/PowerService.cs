@@ -212,7 +212,7 @@ public class PowerService
         {
             var startInfo = new ProcessStartInfo
             {
-                FileName = "powercfg.exe",
+                FileName = SystemTools.System32("powercfg.exe"),
                 UseShellExecute = true,
                 Verb = "runas"
             };
@@ -236,7 +236,7 @@ public class PowerService
             {
                 StartInfo = new ProcessStartInfo
                 {
-                    FileName = "powercfg.exe",
+                    FileName = SystemTools.System32("powercfg.exe"),
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,

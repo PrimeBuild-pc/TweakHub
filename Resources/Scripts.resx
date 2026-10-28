@@ -603,7 +603,7 @@ Log: {2}</value>
     <value>App (winget)</value>
   </data>
   <data name="PlaybookTypeScript" xml:space="preserve">
-    <value>Custom script</value>
+    <value>Script</value>
   </data>
   <data name="PlaybookTypeDevice" xml:space="preserve">
     <value>Device</value>
@@ -661,5 +661,89 @@ Log: {2}</value>
   </data>
   <data name="temp_cleanup_Confirmation" xml:space="preserve">
     <value>This deletes temporary files older than one day and the Delivery Optimization cache. Continue?</value>
+  </data>
+  <data name="shader_cache_cleanup_Name" xml:space="preserve">
+    <value>GPU shader cache cleanup</value>
+  </data>
+  <data name="shader_cache_cleanup_Description" xml:space="preserve">
+    <value>Deletes the DirectX, AMD, NVIDIA and Intel shader caches of the current user. The driver rebuilds them, so the first launch of each game can stutter briefly. Useful after a driver update or when a game shows graphical glitches.</value>
+  </data>
+  <data name="shader_cache_cleanup_Confirmation" xml:space="preserve">
+    <value>Close running games first: files in use are kept. The caches are rebuilt automatically, so the next launch of each game can take longer. Continue?</value>
+  </data>
+  <data name="driver_backup_Name" xml:space="preserve">
+    <value>Driver backup</value>
+  </data>
+  <data name="driver_backup_Description" xml:space="preserve">
+    <value>Exports every third-party driver package installed on this PC with pnputil, ready for a clean Windows installation. Portable builds save it in Data\Drivers beside TweakHub; installed builds in Documents\TweakHub\Drivers. The backup can take a few GB.</value>
+  </data>
+  <data name="driver_backup_Confirmation" xml:space="preserve">
+    <value>This exports all installed third-party drivers to the Drivers folder of TweakHub. Nothing is changed on this PC. Continue?</value>
+  </data>
+  <data name="driver_backup_CompletionNote" xml:space="preserve">
+    <value>To reinstall them after a clean installation, run as administrator: pnputil /add-driver "&lt;backup folder&gt;\*.inf" /subdirs /install</value>
+  </data>
+  <data name="PlaybookTypeTweakCheck" xml:space="preserve">
+    <value>Tweak Check repair</value>
+  </data>
+  <data name="PlaybookTypeSecurityFix" xml:space="preserve">
+    <value>Security fix</value>
+  </data>
+  <data name="PlaybookTypeWindowsUpdate" xml:space="preserve">
+    <value>Windows Update preset</value>
+  </data>
+  <data name="PlaybookTypeService" xml:space="preserve">
+    <value>Optional service</value>
+  </data>
+  <data name="PlaybookTypeDns" xml:space="preserve">
+    <value>DNS servers</value>
+  </data>
+  <data name="PlaybookTweakCheckSummary" xml:space="preserve">
+    <value>Tweak Check, repair if changed: {0}</value>
+  </data>
+  <data name="PlaybookSecurityFixSummary" xml:space="preserve">
+    <value>Security, fix if needed: {0}</value>
+  </data>
+  <data name="PlaybookWindowsUpdateSummary" xml:space="preserve">
+    <value>Windows Update preset: {0}</value>
+  </data>
+  <data name="PlaybookServiceSummary" xml:space="preserve">
+    <value>Service {0}: {1}</value>
+  </data>
+  <data name="PlaybookDnsSummary" xml:space="preserve">
+    <value>DNS {0}: {1}</value>
+  </data>
+  <data name="PlaybookAlreadyDone" xml:space="preserve">
+    <value>Skipped: already correct on this PC.</value>
+  </data>
+  <data name="PlaybookDnsInvalid" xml:space="preserve">
+    <value>Pick a DNS preset or type up to 8 IP addresses separated by commas.</value>
+  </data>
+  <data name="driver_restore_Name" xml:space="preserve">
+    <value>Restore drivers from backup</value>
+  </data>
+  <data name="driver_restore_Description" xml:space="preserve">
+    <value>Installs the driver packages of a backup folder (for example one made by Backup drivers) with pnputil: useful right after a clean Windows installation. You choose the folder.</value>
+  </data>
+  <data name="driver_restore_Execute" xml:space="preserve">
+    <value>Choose folder</value>
+  </data>
+  <data name="driver_restore_Confirmation" xml:space="preserve">
+    <value>Windows adds each package to its driver store and installs it on the matching devices. Packages for hardware that is not in this PC are only stored. Unsigned or older drivers may be refused by Windows.</value>
+  </data>
+  <data name="driver_restore_CompletionNote" xml:space="preserve">
+    <value>Check Device Manager; restart Windows if a driver asks for it.</value>
+  </data>
+  <data name="driver_restore_NoPackages" xml:space="preserve">
+    <value>No driver package (.inf file) was found in {0}. Pick the folder created by Backup drivers.</value>
+  </data>
+  <data name="driver_restore_ConfirmFolder" xml:space="preserve">
+    <value>{0} driver packages will be installed from:
+{1}</value>
+  </data>
+  <data name="PlaybookImportReview" xml:space="preserve">
+    <value>"{0}" adds this code to TweakHub. It runs when you run the playbook, with administrator rights if marked. Import it only if you trust where the file comes from.
+
+{1}</value>
   </data>
 </root>

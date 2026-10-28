@@ -151,6 +151,46 @@ public class LinkServiceTests
     private static PnpDeviceInfo Usb(string id, string parent, int port, string cls = "USB", string busName = "", string service = "") =>
         new(id, "", cls, "OK", true, 0, parent, service, "") { Address = port, BusName = busName };
 
+    [TestCase("ASMedia", "ASM107x", "ASMedia · ASM107x")]
+    [TestCase("ASMedia", "ASMedia Hub", "ASMedia Hub")]
+    [TestCase("", "", "ASM107x")]
+    public void UsbNamesUseManufacturerAndProductDescriptorsWithPnpFallback(string manufacturer, string product, string expected)
+    {
+        const string root = @"USB\ROOT_HUB30\test";
+        List<PnpDeviceInfo> devices =
+        [
+            Pci(@"PCI\VEN_1022\xhci", RootComplex, "USB"),
+            Usb(root, @"PCI\VEN_1022\xhci", 0),
+            Usb(@"USB\VID_174C&PID_2074\test", root, 1, busName: "ASM107x", service: "USBHUB3")
+        ];
+        var speed = new UsbPortSpeed(2, true, false) { Manufacturer = manufacturer, Product = product };
+        var check = LinkService.Evaluate(devices, new Dictionary<string, (int, int)>(),
+            new Dictionary<(string, int), UsbPortSpeed> { [(root, 1)] = speed }, "", "").Usb.Single();
+        Assert.That(check.Name, Is.EqualTo(expected));
+    }
+
+    [Test]
+    public void Usb2CompanionHubIsNotReportedAsASlowPeripheral()
+    {
+        const string root = @"USB\ROOT_HUB30\test";
+        const string hub = @"USB\VID_174C&PID_2074\test";
+        List<PnpDeviceInfo> devices =
+        [
+            Pci(@"PCI\VEN_1022\xhci", RootComplex, "USB"),
+            Usb(root, @"PCI\VEN_1022\xhci", 0),
+            Usb(hub, root, 1, busName: "ASM107x", service: "USBHUB3")
+        ];
+        var check = LinkService.Evaluate(devices, new Dictionary<string, (int, int)>(),
+            new Dictionary<(string, int), UsbPortSpeed> { [(root, 1)] = new(2, true, false) }, "", "").Usb.Single();
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(check.Kind, Is.EqualTo(UsbKind.Hub));
+            Assert.That(check.Status, Is.EqualTo(LinkStatus.Ok));
+            Assert.That(check.Advice, Is.EqualTo("UsbHub"), "A USB 3 hub also exposes a USB 2 hub; speed alone cannot prove a bad connection");
+        });
+    }
+
     [Test]
     public void UsbFlagsSlowPortsInputBehindHubsAndSharedControllers()
     {

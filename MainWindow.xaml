@@ -15,7 +15,28 @@
         TextOptions.TextFormattingMode="Display"
         Background="{DynamicResource WindowBackgroundBrush}">
 
-    <ui:NavigationView x:Name="Navigation"
+    <!-- The title is drawn by TweakHub (the system caption cannot show italics); Windows still draws the caption buttons,
+         so snap layouts, the system menu and dark mode keep working. -->
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="32" GlassFrameThickness="-1" UseAeroCaptionButtons="True"
+                      ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}"/>
+    </WindowChrome.WindowChrome>
+
+    <Grid x:Name="RootGrid">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="32"/>
+        <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,0,0" Background="Transparent">
+        <Image Source="ico.ico" Width="16" Height="16" Margin="0,0,10,0" VerticalAlignment="Center"/>
+        <TextBlock FontSize="12" VerticalAlignment="Center" Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"
+                   AutomationProperties.Name="{Binding Title, RelativeSource={RelativeSource AncestorType=Window}}">
+            <Run Text="TweakHub"/>
+            <Run Text="by Prime Build" FontStyle="Italic" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+        </TextBlock>
+    </StackPanel>
+
+    <ui:NavigationView x:Name="Navigation" Grid.Row="1"
                        PaneDisplayMode="Left"
                        IsPaneOpen="True"
                        IsPaneToggleButtonVisible="False"
@@ -66,6 +87,10 @@
             <ui:NavigationViewItem x:Name="SecurityItem" Content="{loc:Loc Tools:SecurityTitle}" Tag="security"
                                    AutomationProperties.Name="{loc:Loc Tools:SecurityTitle}">
                 <ui:NavigationViewItem.Icon><ui:FontIcon Glyph="&#xE72E;"/></ui:NavigationViewItem.Icon>
+            </ui:NavigationViewItem>
+            <ui:NavigationViewItem x:Name="StartupItem" Content="{loc:Loc Security:StartupPageTitle}" Tag="startup"
+                                   AutomationProperties.Name="{loc:Loc Security:StartupPageTitle}">
+                <ui:NavigationViewItem.Icon><ui:FontIcon Glyph="&#xE7B5;"/></ui:NavigationViewItem.Icon>
             </ui:NavigationViewItem>
             <ui:NavigationViewItem x:Name="DevicesItem" Content="{loc:Loc Devices:Title}" Tag="devices"
                                    AutomationProperties.Name="{loc:Loc Devices:Title}">
@@ -118,4 +143,5 @@
 
         <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Background="Transparent"/>
     </ui:NavigationView>
+    </Grid>
 </Window>

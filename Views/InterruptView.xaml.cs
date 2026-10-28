@@ -13,20 +13,40 @@ public partial class InterruptView : UserControl
     private IReadOnlyList<InterruptDevice> _devices = [];
     private string? _classFilter;
     private readonly List<ToggleButton> _cpuButtons = [];
+    private readonly bool _canSetAffinity;
+    private bool _affinityOnly;
+    public bool AffinityOnly
+    {
+        get => _affinityOnly;
+        set
+        {
+            _affinityOnly = value;
+            DescriptionText.Text = L.Get(value ? "Maintenance:AffinityDescription" : "Devices:InterruptsDescription");
+            SummaryGrid.Columns = value ? 2 : 3;
+            MsiTile.Visibility = value ? Visibility.Collapsed : Visibility.Visible;
+            ModeLabel.Visibility = MsiCheckBox.Visibility = PriorityLabel.Visibility = PriorityBox.Visibility = MsiChartPanel.Visibility = value ? Visibility.Collapsed : Visibility.Visible;
+            AffinityLabel.Visibility = AffinityEditor.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
+            foreach (var index in new[] { 2, 3, 4 }) DevicesGrid.Columns[index].Visibility = value ? Visibility.Collapsed : Visibility.Visible;
+        }
+    }
 
     public InterruptView()
     {
         InitializeComponent();
         foreach (var priority in Enum.GetValues<InterruptPriority>())
             PriorityBox.Items.Add(new ComboBoxItem { Content = L.Get($"Devices:Priority{priority}"), Tag = priority });
-        // Affinity masks are 64 bits wide; larger machines use processor groups that this editor does not handle.
-        for (var cpu = 0; cpu < Math.Min(Environment.ProcessorCount, 64); cpu++)
+        var topology = CpuTopology.Read();
+        _canSetAffinity = CpuTopology.Supported && topology.Count == CpuTopology.Count && topology.Count > 0;
+        AffinityHelp.Text = L.Get(_canSetAffinity ? "Maintenance:AffinityHint" : "Maintenance:AffinityUnsupported");
+        foreach (var cpu in topology)
         {
-            var button = new ToggleButton { Content = $"CPU {cpu}", Margin = new Thickness(0, 0, 6, 6), MinWidth = 64, Tag = cpu };
-            AutomationProperties.SetName(button, $"CPU {cpu}");
+            var label = L.Format("Maintenance:CpuLabel", cpu.Index, cpu.Core);
+            var button = new ToggleButton { Content = label, Margin = new Thickness(0, 0, 6, 6), MinWidth = 96, Tag = cpu.Index };
+            AutomationProperties.SetName(button, label);
             _cpuButtons.Add(button);
             CpuPanel.Children.Add(button);
         }
+        AffinityOnly = false;
         LegendMsi.Content = new WrapPanel
         {
             Children =
@@ -112,38 +132,63 @@ public partial class InterruptView : UserControl
         PriorityBox.SelectedIndex = (int)device.Priority;
         foreach (var button in _cpuButtons)
             button.IsChecked = device.HasAffinity && (device.AffinityMask >> (int)button.Tag & 1) == 1;
-        RestoreButton.IsEnabled = device.HasTweakHubChanges;
+        AutomaticAffinity.IsChecked = !device.HasAffinity;
+        CpuPanel.IsEnabled = _canSetAffinity && AutomaticAffinity.IsChecked != true;
+        RestoreButton.IsEnabled = AffinityOnly ? device.HasAffinityChanges : device.HasTweakHubChanges;
+    }
+
+    private void AffinityMode_Changed(object sender, RoutedEventArgs e)
+    {
+        if (CpuPanel is not null) CpuPanel.IsEnabled = _canSetAffinity && AutomaticAffinity.IsChecked != true;
     }
 
     private async void Apply_Click(object sender, RoutedEventArgs e)
     {
         if (DevicesGrid.SelectedItem is not InterruptDevice device) return;
         var mask = _cpuButtons.Where(button => button.IsChecked == true).Aggregate(0UL, (value, button) => value | 1UL << (int)button.Tag);
-        bool? msi = device.MsiCapable && MsiCheckBox.IsChecked != device.MsiEnabled ? MsiCheckBox.IsChecked == true : null;
-        InterruptPriority? priority = (PriorityBox.SelectedItem as ComboBoxItem)?.Tag is InterruptPriority level && level != device.Priority ? level : null;
-        ulong? affinity = mask != 0 && mask != device.AffinityMask ? mask : null;
+        bool? msi = !AffinityOnly && device.MsiCapable && MsiCheckBox.IsChecked != device.MsiEnabled ? MsiCheckBox.IsChecked == true : null;
+        InterruptPriority? priority = !AffinityOnly && (PriorityBox.SelectedItem as ComboBoxItem)?.Tag is InterruptPriority level && level != device.Priority ? level : null;
+        if (AffinityOnly && AutomaticAffinity.IsChecked != true && (!_canSetAffinity || mask == 0))
+        {
+            await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Devices:ApplyFailedTitle"), L.Get("Maintenance:AffinitySelectionRequired"));
+            return;
+        }
+        ulong? affinity = !AffinityOnly ? null : AutomaticAffinity.IsChecked == true
+            ? device.Policy == InterruptDevice.SpecifiedProcessorsPolicy ? 0UL : null
+            : !device.HasAffinity || mask != device.AffinityMask ? mask : null;
         if (msi is null && priority is null && affinity is null) return;
 
         if (!await AppDialog.ConfirmAsync(Window.GetWindow(this), L.Get("Devices:ApplyConfirmTitle"),
-                L.Format("Devices:ApplyConfirmMessage", device.Name), L.Get("Devices:Apply"), L.Get("Tools:Cancel"))) return;
-        ApplyButton.IsEnabled = false;
-        var success = await InterruptService.Instance.ApplyAsync(device, msi, priority, affinity);
-        ApplyButton.IsEnabled = true;
-        if (!success)
-            await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Devices:ApplyFailedTitle"), L.Get("Devices:ApplyFailedMessage"));
-        else
-            await AppDialog.ShowRestartRequiredAsync(Window.GetWindow(this), device.Name);
-        await ScanAsync();
+                L.Format("Devices:ApplyConfirmMessage", device.Name)
+                    + (AffinityOnly ? "\n\n" + (affinity == 0 ? L.Get("Maintenance:AutomaticAffinity") : InterruptService.FormatMask(mask)) : string.Empty),
+                L.Get("Devices:Apply"), L.Get("Tools:Cancel"))) return;
+        EditorCard.IsEnabled = false;
+        try
+        {
+            var success = await InterruptService.Instance.ApplyAsync(device, msi, priority, affinity);
+            if (!success)
+                await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Devices:ApplyFailedTitle"), L.Get("Devices:ApplyFailedMessage"));
+            else
+                await AppDialog.ShowRestartRequiredAsync(Window.GetWindow(this), device.Name);
+            await ScanAsync();
+        }
+        catch (Exception ex) { await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Devices:ApplyFailedTitle"), ex.Message); }
+        finally { EditorCard.IsEnabled = true; }
     }
 
     private async void Restore_Click(object sender, RoutedEventArgs e)
     {
         if (DevicesGrid.SelectedItem is not InterruptDevice device) return;
-        RestoreButton.IsEnabled = false;
-        if (!await InterruptService.Instance.RestoreAsync(device))
-            await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Devices:ApplyFailedTitle"), L.Get("Devices:ApplyFailedMessage"));
-        else
-            await AppDialog.ShowRestartRequiredAsync(Window.GetWindow(this), device.Name);
-        await ScanAsync();
+        EditorCard.IsEnabled = false;
+        try
+        {
+            if (!await InterruptService.Instance.RestoreAsync(device, affinityOnly: AffinityOnly))
+                await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Devices:ApplyFailedTitle"), L.Get("Devices:ApplyFailedMessage"));
+            else
+                await AppDialog.ShowRestartRequiredAsync(Window.GetWindow(this), device.Name);
+            await ScanAsync();
+        }
+        catch (Exception ex) { await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Devices:ApplyFailedTitle"), ex.Message); }
+        finally { EditorCard.IsEnabled = true; }
     }
 }

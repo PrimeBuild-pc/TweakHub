@@ -603,7 +603,7 @@ Log: {2}</value>
     <value>App (winget)</value>
   </data>
   <data name="PlaybookTypeScript" xml:space="preserve">
-    <value>Script personalizzato</value>
+    <value>Script</value>
   </data>
   <data name="PlaybookTypeDevice" xml:space="preserve">
     <value>Dispositivo</value>
@@ -661,5 +661,89 @@ Log: {2}</value>
   </data>
   <data name="temp_cleanup_Confirmation" xml:space="preserve">
     <value>Questo elimina i file temporanei più vecchi di un giorno e la cache di Ottimizzazione recapito. Continuare?</value>
+  </data>
+  <data name="shader_cache_cleanup_Name" xml:space="preserve">
+    <value>Pulizia della cache shader GPU</value>
+  </data>
+  <data name="shader_cache_cleanup_Description" xml:space="preserve">
+    <value>Elimina le cache shader DirectX, AMD, NVIDIA e Intel dell'utente corrente. Il driver le ricrea, quindi il primo avvio di ogni gioco può avere qualche scatto. Utile dopo un aggiornamento dei driver o quando un gioco mostra difetti grafici.</value>
+  </data>
+  <data name="shader_cache_cleanup_Confirmation" xml:space="preserve">
+    <value>Chiudi prima i giochi aperti: i file in uso vengono mantenuti. Le cache si ricreano da sole, quindi il prossimo avvio di ogni gioco può richiedere più tempo. Continuare?</value>
+  </data>
+  <data name="driver_backup_Name" xml:space="preserve">
+    <value>Backup dei driver</value>
+  </data>
+  <data name="driver_backup_Description" xml:space="preserve">
+    <value>Esporta con pnputil tutti i pacchetti driver di terze parti installati su questo PC, pronti per un'installazione pulita di Windows. La versione portabile li salva in Data\Drivers accanto a TweakHub, quella installata in Documenti\TweakHub\Drivers. Il backup può occupare qualche GB.</value>
+  </data>
+  <data name="driver_backup_Confirmation" xml:space="preserve">
+    <value>Vengono esportati tutti i driver di terze parti installati nella cartella Drivers di TweakHub. Su questo PC non viene modificato nulla. Continuare?</value>
+  </data>
+  <data name="driver_backup_CompletionNote" xml:space="preserve">
+    <value>Per reinstallarli dopo un'installazione pulita, esegui come amministratore: pnputil /add-driver "&lt;cartella del backup&gt;\*.inf" /subdirs /install</value>
+  </data>
+  <data name="PlaybookTypeTweakCheck" xml:space="preserve">
+    <value>Riparazione Tweak Check</value>
+  </data>
+  <data name="PlaybookTypeSecurityFix" xml:space="preserve">
+    <value>Correzione di sicurezza</value>
+  </data>
+  <data name="PlaybookTypeWindowsUpdate" xml:space="preserve">
+    <value>Preset Windows Update</value>
+  </data>
+  <data name="PlaybookTypeService" xml:space="preserve">
+    <value>Servizio opzionale</value>
+  </data>
+  <data name="PlaybookTypeDns" xml:space="preserve">
+    <value>Server DNS</value>
+  </data>
+  <data name="PlaybookTweakCheckSummary" xml:space="preserve">
+    <value>Tweak Check, ripara se modificato: {0}</value>
+  </data>
+  <data name="PlaybookSecurityFixSummary" xml:space="preserve">
+    <value>Sicurezza, correggi se serve: {0}</value>
+  </data>
+  <data name="PlaybookWindowsUpdateSummary" xml:space="preserve">
+    <value>Preset Windows Update: {0}</value>
+  </data>
+  <data name="PlaybookServiceSummary" xml:space="preserve">
+    <value>Servizio {0}: {1}</value>
+  </data>
+  <data name="PlaybookDnsSummary" xml:space="preserve">
+    <value>DNS {0}: {1}</value>
+  </data>
+  <data name="PlaybookAlreadyDone" xml:space="preserve">
+    <value>Saltato: già corretto su questo PC.</value>
+  </data>
+  <data name="PlaybookDnsInvalid" xml:space="preserve">
+    <value>Scegli un preset DNS o scrivi fino a 8 indirizzi IP separati da virgole.</value>
+  </data>
+  <data name="driver_restore_Name" xml:space="preserve">
+    <value>Ripristina driver dal backup</value>
+  </data>
+  <data name="driver_restore_Description" xml:space="preserve">
+    <value>Installa con pnputil i pacchetti driver di una cartella di backup (per esempio quella creata da Backup dei driver): utile subito dopo un'installazione pulita di Windows. La cartella la scegli tu.</value>
+  </data>
+  <data name="driver_restore_Execute" xml:space="preserve">
+    <value>Scegli cartella</value>
+  </data>
+  <data name="driver_restore_Confirmation" xml:space="preserve">
+    <value>Windows aggiunge ogni pacchetto al proprio archivio driver e lo installa sui dispositivi corrispondenti. I pacchetti per hardware non presente in questo PC vengono solo archiviati. Driver non firmati o più vecchi possono essere rifiutati da Windows.</value>
+  </data>
+  <data name="driver_restore_CompletionNote" xml:space="preserve">
+    <value>Controlla Gestione dispositivi; riavvia Windows se un driver lo richiede.</value>
+  </data>
+  <data name="driver_restore_NoPackages" xml:space="preserve">
+    <value>In {0} non c'è nessun pacchetto driver (file .inf). Scegli la cartella creata da Backup dei driver.</value>
+  </data>
+  <data name="driver_restore_ConfirmFolder" xml:space="preserve">
+    <value>Verranno installati {0} pacchetti driver da:
+{1}</value>
+  </data>
+  <data name="PlaybookImportReview" xml:space="preserve">
+    <value>"{0}" aggiunge questo codice a TweakHub. Viene eseguito quando avvii il playbook, con diritti di amministratore se indicato. Importalo solo se ti fidi della provenienza del file.
+
+{1}</value>
   </data>
 </root>

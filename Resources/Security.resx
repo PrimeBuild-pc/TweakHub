@@ -415,7 +415,7 @@ TweakHub will run this command as administrator:
     <value>Privacy and accounts</value>
   </data>
   <data name="SystemDescription" xml:space="preserve">
-    <value>Network connections per process and programs that start automatically, with the digital signature of each file.</value>
+    <value>Network connections per process, with the digital signature of each program.</value>
   </data>
   <data name="SystemScan" xml:space="preserve">
     <value>Scan</value>
@@ -449,9 +449,6 @@ TweakHub will run this command as administrator:
   </data>
   <data name="TileListening" xml:space="preserve">
     <value>Listening ports</value>
-  </data>
-  <data name="TileStartup" xml:space="preserve">
-    <value>Startup entries</value>
   </data>
   <data name="TileReview" xml:space="preserve">
     <value>To review</value>
@@ -516,9 +513,6 @@ TweakHub will run this command as administrator:
   <data name="StateEstablished" xml:space="preserve">
     <value>Established</value>
   </data>
-  <data name="LegendSigned" xml:space="preserve">
-    <value>Signed</value>
-  </data>
   <data name="TrustUnsigned" xml:space="preserve">
     <value>Not signed</value>
   </data>
@@ -537,17 +531,11 @@ TweakHub will run this command as administrator:
   <data name="AnalyzeFile" xml:space="preserve">
     <value>Analyze file</value>
   </data>
-  <data name="ManageInWindows" xml:space="preserve">
-    <value>Manage in Windows</value>
-  </data>
   <data name="PathUnavailable" xml:space="preserve">
     <value>The file path is not available. Try a scan as administrator.</value>
   </data>
   <data name="StartupTitle" xml:space="preserve">
     <value>Startup and persistence</value>
-  </data>
-  <data name="StartupDescription" xml:space="preserve">
-    <value>Run keys, Startup folders, non-Microsoft scheduled tasks, automatic services outside the Windows folder and Winlogon changes. Unsigned files and script hosts are listed first.</value>
   </data>
   <data name="StartupRun" xml:space="preserve">
     <value>Registry Run</value>
@@ -779,5 +767,238 @@ The current configuration is saved the first time so you can restore it.</value>
   </data>
   <data name="CheckRemoteAddress" xml:space="preserve">
     <value>Check the remote IP reputation on AbuseIPDB (opens the browser with the IP only)</value>
+  </data>
+  <data name="TabPolicies" xml:space="preserve">
+    <value>Policies</value>
+  </data>
+  <data name="PoliciesTitle" xml:space="preserve">
+    <value>Forced Group Policies</value>
+  </data>
+  <data name="PoliciesDescription" xml:space="preserve">
+    <value>Values under HKLM and HKCU\SOFTWARE\Policies override Windows settings and often stay behind after other tweak tools. Reset an area to put Windows back in control: TweakHub deletes the values, keeps a backup and can undo it.</value>
+  </data>
+  <data name="PoliciesManagedWarning" xml:space="preserve">
+    <value>This PC is joined to a domain or managed by an organization (MDM): its policies come back at the next sync. Do not reset them without your administrator.</value>
+  </data>
+  <data name="PoliciesCategorySummary" xml:space="preserve">
+    <value>{0} values · {1} can be reset · {2} can be undone</value>
+  </data>
+  <data name="PoliciesAllReset" xml:space="preserve">
+    <value>No values left in this area.</value>
+  </data>
+  <data name="PoliciesNone" xml:space="preserve">
+    <value>No forced policies found: Windows uses its own settings.</value>
+  </data>
+  <data name="PoliciesSummary" xml:space="preserve">
+    <value>{0} values in {1} areas; {2} were not set by TweakHub.</value>
+  </data>
+  <data name="PoliciesReset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="PoliciesResetTitle" xml:space="preserve">
+    <value>Reset policies</value>
+  </data>
+  <data name="PoliciesResetConfirm" xml:space="preserve">
+    <value>{0}: these {1} values will be deleted so that Windows uses its default. A backup is kept and Undo puts them back.
+
+{2}</value>
+  </data>
+  <data name="PoliciesFailed" xml:space="preserve">
+    <value>Not every value could be changed (was the administrator prompt declined?). Nothing was left half-done: the values that changed were put back.</value>
+  </data>
+  <data name="PoliciesOwnedNote" xml:space="preserve">
+    <value>Values marked [TweakHub] belong to TweakHub tweaks and are not reset here: undo them in Registry Tweaks.</value>
+  </data>
+  <data name="PoliciesShowValues" xml:space="preserve">
+    <value>Show the values in this area</value>
+  </data>
+  <data name="StartupPageTitle" xml:space="preserve">
+    <value>Startup</value>
+  </data>
+  <data name="StartupPageDescription" xml:space="preserve">
+    <value>Everything that starts with Windows or at sign-in: Run keys, startup folders, scheduled tasks, services, drivers, Explorer extensions, hijack points and WMI subscriptions. Deleted entries are backed up first and can be restored.</value>
+  </data>
+  <data name="StartupMovedDescription" xml:space="preserve">
+    <value>Startup entries, scheduled tasks and services have their own page, with disable, delete and restore.</value>
+  </data>
+  <data name="StartupOpenPage" xml:space="preserve">
+    <value>Open Startup</value>
+  </data>
+  <data name="StartupScanElevatedHint" xml:space="preserve">
+    <value>Also lists the tasks, consumers and keys only administrators can read.</value>
+  </data>
+  <data name="StartupScannedPartial" xml:space="preserve">
+    <value>Scanned at {0}. Some tasks and WMI subscriptions need a scan as administrator.</value>
+  </data>
+  <data name="StartupPolicyRun" xml:space="preserve">
+    <value>Run (policy)</value>
+  </data>
+  <data name="StartupActiveSetup" xml:space="preserve">
+    <value>Active Setup</value>
+  </data>
+  <data name="StartupDriver" xml:space="preserve">
+    <value>Driver</value>
+  </data>
+  <data name="StartupShellEx" xml:space="preserve">
+    <value>Explorer extension</value>
+  </data>
+  <data name="StartupIfeo" xml:space="preserve">
+    <value>Debugger (IFEO)</value>
+  </data>
+  <data name="StartupAppInit" xml:space="preserve">
+    <value>AppInit DLL</value>
+  </data>
+  <data name="StartupWmi" xml:space="preserve">
+    <value>WMI subscription</value>
+  </data>
+  <data name="StartupCategoryAll" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="StartupCategoryLogon" xml:space="preserve">
+    <value>Logon</value>
+  </data>
+  <data name="StartupCategoryTasks" xml:space="preserve">
+    <value>Scheduled tasks</value>
+  </data>
+  <data name="StartupCategoryServices" xml:space="preserve">
+    <value>Services</value>
+  </data>
+  <data name="StartupCategoryDrivers" xml:space="preserve">
+    <value>Drivers</value>
+  </data>
+  <data name="StartupCategoryExplorer" xml:space="preserve">
+    <value>Explorer</value>
+  </data>
+  <data name="StartupCategoryHijacks" xml:space="preserve">
+    <value>Hijacks</value>
+  </data>
+  <data name="StartupCategoryWmi" xml:space="preserve">
+    <value>WMI</value>
+  </data>
+  <data name="TriggerEvent" xml:space="preserve">
+    <value>Event</value>
+  </data>
+  <data name="TriggerTime" xml:space="preserve">
+    <value>One time</value>
+  </data>
+  <data name="TriggerDaily" xml:space="preserve">
+    <value>Daily</value>
+  </data>
+  <data name="TriggerWeekly" xml:space="preserve">
+    <value>Weekly</value>
+  </data>
+  <data name="TriggerMonthly" xml:space="preserve">
+    <value>Monthly</value>
+  </data>
+  <data name="TriggerIdle" xml:space="preserve">
+    <value>Idle</value>
+  </data>
+  <data name="TriggerRegistration" xml:space="preserve">
+    <value>On creation</value>
+  </data>
+  <data name="TriggerBoot" xml:space="preserve">
+    <value>At startup</value>
+  </data>
+  <data name="TriggerLogon" xml:space="preserve">
+    <value>At logon</value>
+  </data>
+  <data name="TriggerSessionState" xml:space="preserve">
+    <value>Lock/unlock</value>
+  </data>
+  <data name="TriggerOther" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="ColumnCategory" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="ColumnImage" xml:space="preserve">
+    <value>Image path</value>
+  </data>
+  <data name="ColumnLocation" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="ColumnTrigger" xml:space="preserve">
+    <value>Trigger</value>
+  </data>
+  <data name="ColumnUser" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="ColumnLastRun" xml:space="preserve">
+    <value>Last run</value>
+  </data>
+  <data name="ColumnNextRun" xml:space="preserve">
+    <value>Next run</value>
+  </data>
+  <data name="ColumnFileDate" xml:space="preserve">
+    <value>File date</value>
+  </data>
+  <data name="ColumnDeleted" xml:space="preserve">
+    <value>Deleted</value>
+  </data>
+  <data name="StartupHideMicrosoft" xml:space="preserve">
+    <value>Hide Microsoft and Windows entries</value>
+  </data>
+  <data name="StartupUnsignedOnly" xml:space="preserve">
+    <value>Unsigned only</value>
+  </data>
+  <data name="StartupMissingOnly" xml:space="preserve">
+    <value>Missing files only</value>
+  </data>
+  <data name="StartupFileMissing" xml:space="preserve">
+    <value>File missing</value>
+  </data>
+  <data name="StartupFileMissingHint" xml:space="preserve">
+    <value>The program no longer exists: the entry is an orphan and safe to delete.</value>
+  </data>
+  <data name="StartupDelete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="StartupDeleteTitle" xml:space="preserve">
+    <value>Delete startup entry</value>
+  </data>
+  <data name="StartupDeleteConfirm" xml:space="preserve">
+    <value>Delete "{0}"? A backup is saved first and can be restored from Deleted entries.</value>
+  </data>
+  <data name="StartupDeleteServiceConfirm" xml:space="preserve">
+    <value>Delete the service "{0}"? Disabling it is usually enough. A backup of its registry key is saved first; the service disappears after a restart, and a restored one comes back after a restart.</value>
+  </data>
+  <data name="StartupDeleteFailedTitle" xml:space="preserve">
+    <value>Entry not deleted</value>
+  </data>
+  <data name="StartupDeleted" xml:space="preserve">
+    <value>Deleted "{0}". The backup is under Deleted entries.</value>
+  </data>
+  <data name="StartupBackupsTitle" xml:space="preserve">
+    <value>Deleted entries ({0})</value>
+  </data>
+  <data name="StartupRestore" xml:space="preserve">
+    <value>Restore</value>
+  </data>
+  <data name="StartupRestoreFailedTitle" xml:space="preserve">
+    <value>Entry not restored</value>
+  </data>
+  <data name="StartupRestored" xml:space="preserve">
+    <value>Restored "{0}". Scan again to see it in the list.</value>
+  </data>
+  <data name="StartupRestoredService" xml:space="preserve">
+    <value>Restored "{0}". The service comes back after a restart; scan again to see it.</value>
+  </data>
+  <data name="StartupJumpToEntry" xml:space="preserve">
+    <value>Open location (registry, folder or Task Scheduler)</value>
+  </data>
+  <data name="StartupFileProperties" xml:space="preserve">
+    <value>File properties</value>
+  </data>
+  <data name="StartupProtectedDriver" xml:space="preserve">
+    <value>Drivers are read-only here.</value>
+  </data>
+  <data name="StartupProtectedWinlogon" xml:space="preserve">
+    <value>Removing the logon shell can leave Windows without a desktop: fix the value in the registry editor.</value>
+  </data>
+  <data name="StartupProtectedWindows" xml:space="preserve">
+    <value>Part of Windows: it cannot be deleted.</value>
+  </data>
+  <data name="StartupProtectedWindowsService" xml:space="preserve">
+    <value>Windows service: manage the optional ones in Security → Services.</value>
   </data>
 </root>

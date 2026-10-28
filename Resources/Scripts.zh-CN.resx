@@ -603,7 +603,7 @@
     <value>应用 (winget)</value>
   </data>
   <data name="PlaybookTypeScript" xml:space="preserve">
-    <value>自定义脚本</value>
+    <value>脚本</value>
   </data>
   <data name="PlaybookTypeDevice" xml:space="preserve">
     <value>设备</value>
@@ -661,5 +661,89 @@
   </data>
   <data name="temp_cleanup_Confirmation" xml:space="preserve">
     <value>这将删除超过一天的临时文件和传递优化缓存。是否继续？</value>
+  </data>
+  <data name="shader_cache_cleanup_Name" xml:space="preserve">
+    <value>清理 GPU 着色器缓存</value>
+  </data>
+  <data name="shader_cache_cleanup_Description" xml:space="preserve">
+    <value>删除当前用户的 DirectX、AMD、NVIDIA 和 Intel 着色器缓存。驱动程序会重新生成它们，因此每个游戏首次启动时可能会短暂卡顿。适用于更新驱动后或游戏出现图形异常时。</value>
+  </data>
+  <data name="shader_cache_cleanup_Confirmation" xml:space="preserve">
+    <value>请先关闭正在运行的游戏：正在使用的文件会被保留。缓存会自动重建，因此每个游戏下次启动可能需要更长时间。是否继续？</value>
+  </data>
+  <data name="driver_backup_Name" xml:space="preserve">
+    <value>驱动程序备份</value>
+  </data>
+  <data name="driver_backup_Description" xml:space="preserve">
+    <value>使用 pnputil 导出此电脑上安装的所有第三方驱动程序包，便于全新安装 Windows 后使用。便携版保存在 TweakHub 旁边的 Data\Drivers，安装版保存在 文档\TweakHub\Drivers。备份可能占用数 GB。</value>
+  </data>
+  <data name="driver_backup_Confirmation" xml:space="preserve">
+    <value>将把所有已安装的第三方驱动程序导出到 TweakHub 的 Drivers 文件夹。不会更改此电脑上的任何内容。是否继续？</value>
+  </data>
+  <data name="driver_backup_CompletionNote" xml:space="preserve">
+    <value>全新安装后要重新安装它们，请以管理员身份运行：pnputil /add-driver "&lt;备份文件夹&gt;\*.inf" /subdirs /install</value>
+  </data>
+  <data name="PlaybookTypeTweakCheck" xml:space="preserve">
+    <value>Tweak Check 修复</value>
+  </data>
+  <data name="PlaybookTypeSecurityFix" xml:space="preserve">
+    <value>安全修复</value>
+  </data>
+  <data name="PlaybookTypeWindowsUpdate" xml:space="preserve">
+    <value>Windows 更新预设</value>
+  </data>
+  <data name="PlaybookTypeService" xml:space="preserve">
+    <value>可选服务</value>
+  </data>
+  <data name="PlaybookTypeDns" xml:space="preserve">
+    <value>DNS 服务器</value>
+  </data>
+  <data name="PlaybookTweakCheckSummary" xml:space="preserve">
+    <value>Tweak Check，如被修改则修复：{0}</value>
+  </data>
+  <data name="PlaybookSecurityFixSummary" xml:space="preserve">
+    <value>安全，如有需要则修复：{0}</value>
+  </data>
+  <data name="PlaybookWindowsUpdateSummary" xml:space="preserve">
+    <value>Windows 更新预设：{0}</value>
+  </data>
+  <data name="PlaybookServiceSummary" xml:space="preserve">
+    <value>服务 {0}：{1}</value>
+  </data>
+  <data name="PlaybookDnsSummary" xml:space="preserve">
+    <value>DNS {0}：{1}</value>
+  </data>
+  <data name="PlaybookAlreadyDone" xml:space="preserve">
+    <value>已跳过：此电脑上已正确。</value>
+  </data>
+  <data name="PlaybookDnsInvalid" xml:space="preserve">
+    <value>请选择 DNS 预设，或输入最多 8 个用逗号分隔的 IP 地址。</value>
+  </data>
+  <data name="driver_restore_Name" xml:space="preserve">
+    <value>从备份还原驱动程序</value>
+  </data>
+  <data name="driver_restore_Description" xml:space="preserve">
+    <value>使用 pnputil 安装备份文件夹中的驱动程序包（例如“备份驱动程序”创建的文件夹）：适合在全新安装 Windows 后立即使用。文件夹由你选择。</value>
+  </data>
+  <data name="driver_restore_Execute" xml:space="preserve">
+    <value>选择文件夹</value>
+  </data>
+  <data name="driver_restore_Confirmation" xml:space="preserve">
+    <value>Windows 会将每个包添加到驱动程序存储，并安装到匹配的设备上。此电脑中不存在的硬件的驱动包只会被存储。未签名或较旧的驱动程序可能会被 Windows 拒绝。</value>
+  </data>
+  <data name="driver_restore_CompletionNote" xml:space="preserve">
+    <value>请检查设备管理器；如有驱动程序要求，请重启 Windows。</value>
+  </data>
+  <data name="driver_restore_NoPackages" xml:space="preserve">
+    <value>在 {0} 中未找到驱动程序包（.inf 文件）。请选择“备份驱动程序”创建的文件夹。</value>
+  </data>
+  <data name="driver_restore_ConfirmFolder" xml:space="preserve">
+    <value>将从以下位置安装 {0} 个驱动程序包：
+{1}</value>
+  </data>
+  <data name="PlaybookImportReview" xml:space="preserve">
+    <value>“{0}”会向 TweakHub 添加以下代码。运行该方案时会执行这些代码，如有标记则以管理员权限运行。仅在信任文件来源时导入。
+
+{1}</value>
   </data>
 </root>

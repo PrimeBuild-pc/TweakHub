@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="DisablePowerThrottlingName" xml:space="preserve"><value>Disable global Power Throttling</value></data>
+  <data name="DisablePowerThrottlingDescription" xml:space="preserve"><value>Turns off Windows Power Throttling for background applications. Separate from the power plan's minimum CPU state; does not disable thermal protection. Optional, not recommended automatically: may increase power consumption and temperatures, with no guaranteed gaming benefit. Restart required. Restore returns the original registry value.</value></data>
+  <data name="DisableHibernationName" xml:space="preserve"><value>Disable hibernation</value></data>
+  <data name="DisableHibernationDescription" xml:space="preserve"><value>Uses powercfg to remove the hibernation file and reclaim disk space, not increase FPS. Also makes Fast Startup and hybrid sleep unavailable. Saves the original hibernation type and size for restoration. Administrator rights required. Changes persist after closing the portable app: keep its Data folder to retain undo information.</value></data>
+  <data name="HibernationUnavailable" xml:space="preserve"><value>Hibernation is already disabled without a TweakHub backup, or its original type/size cannot be read safely. Use Windows power settings; no guessed configuration will be written.</value></data>
+  <data name="ServicesTitle" xml:space="preserve"><value>Optional services</value></data>
+  <data name="ServicesDescription" xml:space="preserve"><value>Change only services whose features you do not use. Manual allows on-demand/triggered starts; Disabled prevents them. Nothing is selected or changed automatically. SysMain and telemetry use their existing tweaks; error reporting is retained for diagnostics. No generic FPS promises.</value></data>
+  <data name="ServicesNoStop" xml:space="preserve"><value>Startup configuration only: running services are not stopped, dependencies and triggers are preserved. Effects may require restarting Windows. Keep this copy's Data folder to restore the original configuration.</value></data>
+  <data name="ServiceConfirm" xml:space="preserve"><value>Change startup configuration for {0}: {2}?
+
+{1}
+
+Administrator rights required. This does not stop the service now. A backup is saved before applying changes; keep it for restoration.</value></data>
+  <data name="ServiceFailed" xml:space="preserve"><value>The service configuration could not be verified. No backup was discarded. Refresh, then restore the original configuration if necessary.</value></data>
+  <data name="ServiceManagedElsewhere" xml:space="preserve"><value>This service has a backup in another TweakHub section. Restore it from that section first to avoid conflicting backups.</value></data>
+  <data name="ServiceSysMain" xml:space="preserve"><value>App preloading and caching. An SSD does not make this service useless. Leave enabled unless diagnosing a specific issue; its optional tweak already exists in Registry tweaks.</value></data>
+  <data name="ServiceMapsBroker" xml:space="preserve"><value>Downloaded/offline maps. Consider changing only if you do not use them. A stopped service already consumes no CPU for running work.</value></data>
+  <data name="ServiceRetailDemo" xml:space="preserve"><value>Retail demonstration mode for display PCs. Usually unnecessary on a personal PC; do not change on a retail demonstration machine.</value></data>
+  <data name="ServiceDiagTrack" xml:space="preserve"><value>Connected user experiences and telemetry. Already covered by the telemetry tweak; changing it can reduce diagnostic data. No duplicate control here.</value></data>
+  <data name="Servicedmwappushservice" xml:space="preserve"><value>Device-management WAP push routing, not simply telemetry. Leave enabled on organization/MDM-managed devices. Disabling may interrupt management messages.</value></data>
+  <data name="ServiceWbioSrvc" xml:space="preserve"><value>Windows biometrics. Do not disable if you use fingerprint or facial recognition; those sign-in features may stop working.</value></data>
+  <data name="ServiceWerSvc" xml:space="preserve"><value>Windows Error Reporting supports crash diagnostics. Retained, not offered as a performance tweak.</value></data>
+  <data name="ServicePcaSvc" xml:space="preserve"><value>Program Compatibility Assistant. May help older applications and installers; disabling can remove compatibility assistance.</value></data>
+  <data name="Missing" xml:space="preserve"><value>Not installed</value></data>
+  <data name="DelayedAuto" xml:space="preserve"><value>Automatic (delayed)</value></data>
+  <data name="Automatic" xml:space="preserve"><value>Automatic</value></data>
+  <data name="Manual" xml:space="preserve"><value>Manual</value></data>
+  <data name="Disabled" xml:space="preserve"><value>Disabled</value></data>
+  <data name="Unknown" xml:space="preserve"><value>Unknown</value></data>
+  <data name="TronDescription" xml:space="preserve"><value>Advanced third-party cleanup and disinfection, not a read-only scan. Download the full publisher package, verify SHA-256, then extract and run only on explicit confirmation. Can delete files/apps and change Windows; TweakHub cannot undo all its actions. Allow hours and make your own backup first.</value></data>
+  <data name="TronDownload" xml:space="preserve"><value>1. Download package</value></data>
+  <data name="TronExtract" xml:space="preserve"><value>2. Extract verified package</value></data>
+  <data name="TronRun" xml:space="preserve"><value>3. Run Tron</value></data>
+  <data name="TronSource" xml:space="preserve"><value>Official documentation</value></data>
+  <data name="TronDownloadConfirm" xml:space="preserve"><value>Download the complete Tron self-extracting package from bmrf.org (hundreds of MB) into this copy's Data/Tools/Tron folder? Size and SHA-256 are checked against the publisher's HTTPS manifest. This is an integrity check, not independent certification. No downloaded code runs in this step.</value></data>
+  <data name="TronExtractConfirm" xml:space="preserve"><value>This runs the verified publisher self-extractor without requesting additional elevation (it inherits TweakHub's current privileges). An older extracted copy will be replaced; its local changes will be lost. The package and extracted files are checked before launch. Tron cleanup itself is not started in this step.</value></data>
+  <data name="TronRunConfirm" xml:space="preserve"><value>Have you backed up your files and rebooted to finish pending Windows updates? Tron can remove software/files, change settings and run for hours; interruption can leave Windows partially modified. Compatibility with your build is not guaranteed: do not override Tron's OS checks.
+
+Launch elevated in a visible console with its own disclaimer. Arguments: -p -spr -m -sor -se -scs preserve power settings, pagefile configuration, default apps, OneDrive and event logs, and skip custom scripts. Other cleanup/repair operations still run. No automatic EULA acceptance, reboot, email or log upload is enabled. TweakHub's backups cannot undo Tron. Continue?</value></data>
+  <data name="TronReady" xml:space="preserve"><value>Extracted files verified. Review the documentation before running Tron.</value></data>
+  <data name="TronStarted" xml:space="preserve"><value>Tron was launched in a separate elevated console. Follow its prompts. Closing TweakHub does not stop it; this is not a report of successful cleanup.</value></data>
+  <data name="Working" xml:space="preserve"><value>Working… please wait.</value></data>
+  <data name="AffinityTitle" xml:space="preserve"><value>Affinity</value></data>
+  <data name="AffinityDescription" xml:space="preserve"><value>Assign PCI device interrupts to logical CPUs, not application processes. USB/HID devices normally share their host controller's interrupts. Same-core CPU labels identify SMT siblings. Drivers may ignore the policy; wrong settings can hurt latency or stability. Restart required, no automatic optimization.</value></data>
+  <data name="AutomaticAffinity" xml:space="preserve"><value>Windows automatic placement</value></data>
+  <data name="AffinityHint" xml:space="preserve"><value>Select one or more logical CPUs, or choose Windows automatic placement. Physical-core labels group SMT siblings. Restore original affects affinity only, not MSI or priority.</value></data>
+  <data name="AffinityUnsupported" xml:space="preserve"><value>Manual affinity is unavailable: topology could not be read or this PC uses multiple processor groups. No 64-bit mask is guessed or truncated. Automatic placement and restoring an existing backup remain available.</value></data>
+  <data name="AffinitySelectionRequired" xml:space="preserve"><value>Select at least one supported CPU or use Windows automatic placement.</value></data>
+  <data name="CpuLabel" xml:space="preserve"><value>CPU {0} · Core {1}</value></data>
+  <data name="NoAutoSleepName" xml:space="preserve"><value>Never sleep automatically when plugged in</value></data>
+  <data name="NoAutoSleepDescription" xml:space="preserve"><value>Sets the Windows power policies (Group Policy → Power Management) so that, when plugged in, the PC never goes to sleep or hibernates on its own, hybrid sleep is off, disks never spin down and Energy Saver never turns on automatically or stays forced on. Applies to every power plan; nothing changes on battery. You can still put the PC to sleep manually. The Group Policy editor keeps showing "Not configured" because the values are written directly to the registry. Restore puts back the original values. Restart required.</value></data>
+  <data name="DisableSleepName" xml:space="preserve"><value>Turn off sleep completely when plugged in</value></data>
+  <data name="DisableSleepDescription" xml:space="preserve"><value>When plugged in, Windows no longer allows standby (S1–S3), the sleep key does nothing and Sleep is hidden from the Start power menu. Use it only if you never put this PC to sleep. Optional, not recommended automatically. PCs with Modern Standby do not use S1–S3 and keep their own sleep. Restore puts back the original values. Restart required.</value></data>
+  <data name="TronBlockedByAntivirus" xml:space="preserve"><value>Microsoft Defender (or your antivirus) blocked the Tron package as potentially unwanted software and removed it. TweakHub never adds antivirus exclusions. If you trust Tron, add exclusions yourself for this copy's Data\Tools\Tron folder and for C:\ProgramData\TweakHub-Tron-*, then try again.</value></data>
+</root>
