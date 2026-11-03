@@ -76,4 +76,15 @@
   <data name="LayoutGpuAudio" xml:space="preserve"><value>{0}：显卡的 HDMI/DisplayPort 音频，不移动（它不是游戏音频）。</value></data>
   <data name="LayoutAudioUnused" xml:space="preserve"><value>{0}：其后没有可用的音频设备（已禁用或不存在），不移动。</value></data>
   <data name="LayoutAudioUsb" xml:space="preserve"><value>未使用板载声卡：USB 音频（耳机、DAC、音频接口）跟随其所连接 USB 控制器的核心。</value></data>
+  <data name="LayoutUsbController" xml:space="preserve"><value>USB {0}：{1}</value></data>
+  <data name="LayoutUsbMouse" xml:space="preserve"><value>鼠标</value></data>
+  <data name="LayoutUsbKeyboard" xml:space="preserve"><value>键盘</value></data>
+  <data name="LayoutUsbCamera" xml:space="preserve"><value>摄像头</value></data>
+  <data name="LayoutUsbAudio" xml:space="preserve"><value>音频：{0}</value></data>
+  <data name="LayoutUsbNothing" xml:space="preserve"><value>没有鼠标、键盘、摄像头或默认音频设备</value></data>
+  <data name="LayoutUsbAudioShared" xml:space="preserve"><value>{0} 与鼠标或键盘共用 USB 控制器，因此留在 USB 核心上。若要为它分配独立核心，请将其插入没有鼠标和键盘的控制器端口（见上面的列表），然后重新打开此布局。</value></data>
+  <data name="LayoutFrontJack" xml:space="preserve"><value>{0} 插在机箱前面板的插孔上：该线缆经过机箱内部，容易受到干扰。玩游戏时请使用主板背面的插孔。</value></data>
+  <data name="LayoutLoadTitle" xml:space="preserve"><value>当前测量 2 秒的负载（游戏运行时会不同）：</value></data>
+  <data name="LayoutLoadCpu" xml:space="preserve"><value>CPU {0}：占用 {1:0}%，中断和 DPC {2:0.0}%，每秒 {3:0} 次中断</value></data>
+  <data name="LayoutLoadBusy" xml:space="preserve"><value>CPU {0} 当前已占用 {1:0}%：有程序正在使用它。应用前请检查任务管理器。</value></data>
 </root>

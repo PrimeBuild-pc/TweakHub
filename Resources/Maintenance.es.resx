@@ -76,4 +76,15 @@ Se abre una consola elevada con su aviso. -p -spr -m -sor -se -scs conservan ene
   <data name="LayoutGpuAudio" xml:space="preserve"><value>{0}: audio HDMI/DisplayPort de la tarjeta gráfica, no se mueve (no es el audio para jugar).</value></data>
   <data name="LayoutAudioUnused" xml:space="preserve"><value>{0}: ningún dispositivo de audio activo detrás (desactivado o ausente), no se mueve.</value></data>
   <data name="LayoutAudioUsb" xml:space="preserve"><value>No hay tarjeta de sonido integrada en uso: el audio USB (auriculares, DAC, interfaces de audio) sigue el núcleo del controlador USB al que está conectado.</value></data>
+  <data name="LayoutUsbController" xml:space="preserve"><value>USB {0}: {1}</value></data>
+  <data name="LayoutUsbMouse" xml:space="preserve"><value>ratón</value></data>
+  <data name="LayoutUsbKeyboard" xml:space="preserve"><value>teclado</value></data>
+  <data name="LayoutUsbCamera" xml:space="preserve"><value>cámara</value></data>
+  <data name="LayoutUsbAudio" xml:space="preserve"><value>audio: {0}</value></data>
+  <data name="LayoutUsbNothing" xml:space="preserve"><value>sin ratón, teclado, cámara ni dispositivo de audio predeterminado</value></data>
+  <data name="LayoutUsbAudioShared" xml:space="preserve"><value>{0} comparte el controlador USB con el ratón o el teclado, así que se queda en el núcleo USB. Para darle su propio núcleo, conéctalo a un puerto de un controlador sin ratón ni teclado (mira la lista de arriba) y vuelve a abrir este diseño.</value></data>
+  <data name="LayoutFrontJack" xml:space="preserve"><value>{0} está conectado a un conector frontal de la caja: ese cable pasa por dentro de la caja y suele captar ruido. Para jugar, usa el conector trasero de la placa base.</value></data>
+  <data name="LayoutLoadTitle" xml:space="preserve"><value>Carga medida ahora durante 2 segundos (con un juego en marcha es distinta):</value></data>
+  <data name="LayoutLoadCpu" xml:space="preserve"><value>CPU {0}: {1:0}% ocupada, {2:0.0}% interrupciones y DPC, {3:0} interrupciones/s</value></data>
+  <data name="LayoutLoadBusy" xml:space="preserve"><value>La CPU {0} ya está ocupada al {1:0}%: un programa la está usando. Revisa el Administrador de tareas antes de aplicar.</value></data>
 </root>

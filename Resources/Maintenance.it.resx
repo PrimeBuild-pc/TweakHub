@@ -76,4 +76,15 @@ Avvio elevato in una console visibile, con il disclaimer di Tron. Argomenti: -p 
   <data name="LayoutGpuAudio" xml:space="preserve"><value>{0}: audio HDMI/DisplayPort della scheda video, non spostato (non è l'audio per giocare).</value></data>
   <data name="LayoutAudioUnused" xml:space="preserve"><value>{0}: nessun dispositivo audio attivo dietro di esso (disattivato o assente), non spostato.</value></data>
   <data name="LayoutAudioUsb" xml:space="preserve"><value>Nessuna scheda audio integrata in uso: l'audio USB (cuffie, DAC, schede audio esterne) segue il core del controller USB a cui è collegato.</value></data>
+  <data name="LayoutUsbController" xml:space="preserve"><value>USB {0}: {1}</value></data>
+  <data name="LayoutUsbMouse" xml:space="preserve"><value>mouse</value></data>
+  <data name="LayoutUsbKeyboard" xml:space="preserve"><value>tastiera</value></data>
+  <data name="LayoutUsbCamera" xml:space="preserve"><value>webcam</value></data>
+  <data name="LayoutUsbAudio" xml:space="preserve"><value>audio: {0}</value></data>
+  <data name="LayoutUsbNothing" xml:space="preserve"><value>nessun mouse, tastiera, webcam o dispositivo audio predefinito</value></data>
+  <data name="LayoutUsbAudioShared" xml:space="preserve"><value>{0} condivide il controller USB con il mouse o la tastiera, quindi resta sul core USB. Per dargli un core tutto suo, collegalo a una porta di un controller senza mouse e tastiera (vedi l'elenco sopra), poi riapri questo layout.</value></data>
+  <data name="LayoutFrontJack" xml:space="preserve"><value>{0} è collegato a un jack frontale del case: quel cavo passa dentro il case e prende spesso disturbi. Per giocare usa il jack sul retro della scheda madre.</value></data>
+  <data name="LayoutLoadTitle" xml:space="preserve"><value>Carico misurato ora per 2 secondi (mentre gira un gioco è diverso):</value></data>
+  <data name="LayoutLoadCpu" xml:space="preserve"><value>CPU {0}: occupata al {1:0}%, {2:0.0}% interrupt e DPC, {3:0} interrupt/s</value></data>
+  <data name="LayoutLoadBusy" xml:space="preserve"><value>La CPU {0} è già occupata al {1:0}%: un programma la sta usando. Controlla Gestione attività prima di applicare.</value></data>
 </root>

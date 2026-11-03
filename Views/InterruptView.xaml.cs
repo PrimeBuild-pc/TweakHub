@@ -177,6 +177,9 @@ public partial class InterruptView : UserControl
         finally { EditorCard.IsEnabled = true; }
     }
 
+    // shortcut: a fixed threshold on a 2-second idle sample; the load during a game is different, so it only warns.
+    private const double BusyCpuPercent = 30;
+
     /// <summary>Suggested one-core-per-role affinity, previewed with a checkbox per device before anything is written.</summary>
     private async void Layout_Click(object sender, RoutedEventArgs e)
     {
@@ -188,13 +191,63 @@ public partial class InterruptView : UserControl
             return;
         }
         string Role(InterruptRole role) => L.Get($"Maintenance:LayoutRole{role}");
-        var rows = InterruptLayoutPlanner.Rows(layout, _devices);
+        IReadOnlyList<DeviceNode> nodes;
+        IReadOnlyList<AudioEndpoint> endpoints;
+        IReadOnlyList<CpuLoadSample> load;
+        LayoutButton.IsEnabled = false;
+        try
+        {
+            // Device tree, default audio devices and two seconds of per-core load, all read-only.
+            var sample = CpuLoad.SampleAsync(TimeSpan.FromSeconds(2));
+            (nodes, endpoints) = await Task.Run(() => (DeviceTree.Read(), AudioEndpoints.ReadDefaults()));
+            load = await sample;
+        }
+        finally { LayoutButton.IsEnabled = true; }
+        var usb = InterruptLayoutPlanner.UsbUse(nodes, endpoints.Select(endpoint => endpoint.Id));
+        var rows = InterruptLayoutPlanner.Rows(layout, _devices, usb);
         var todo = rows.Where(row => !row.AlreadySet && row.Skip is null).ToList();
         var audio = InterruptLayoutPlanner.HasAudio(rows);
+        var usbNumbers = rows.Where(row => row.Device.Class == "USB").Select((row, index) => (row.Device.Id, index + 1))
+            .ToDictionary(item => item.Id, item => item.Item2, StringComparer.OrdinalIgnoreCase);
+        string Name(InterruptLayoutRow row) => row.Device.Name
+            + (usbNumbers.TryGetValue(row.Device.Id, out var number) ? $" (USB {number})" : string.Empty)
+            + (row.AudioDevice is { } device ? $" – {device}" : string.Empty);
         var lines = new List<string> { L.Get("Maintenance:LayoutIntro"), string.Empty };
         lines.AddRange(layout.CpuByRole.Where(entry => audio || entry.Key != InterruptRole.Audio)
             .Select(entry => $"{Role(entry.Key)}: CPU {entry.Value}"));
         if (!audio) lines.Add(L.Get("Maintenance:LayoutAudioUsb"));
+
+        lines.Add(string.Empty);
+        foreach (var (id, number) in usbNumbers)
+        {
+            var use = usb.GetValueOrDefault(id);
+            var parts = new List<string>();
+            if (use?.Mouse == true) parts.Add(L.Get("Maintenance:LayoutUsbMouse"));
+            if (use?.Keyboard == true) parts.Add(L.Get("Maintenance:LayoutUsbKeyboard"));
+            if (use?.Camera == true) parts.Add(L.Get("Maintenance:LayoutUsbCamera"));
+            if (use is { Audio.Count: > 0 }) parts.Add(L.Format("Maintenance:LayoutUsbAudio", string.Join(", ", use.Audio)));
+            lines.Add(L.Format("Maintenance:LayoutUsbController", number,
+                parts.Count > 0 ? string.Join(", ", parts) : L.Get("Maintenance:LayoutUsbNothing")));
+        }
+        var sharedAudio = usbNumbers.Keys.Select(id => usb.GetValueOrDefault(id)).Where(use => use is { Audio.Count: > 0, HasInput: true }).ToList();
+        if (sharedAudio.Count > 0 && usbNumbers.Keys.Any(id => usb.GetValueOrDefault(id) is not { HasInput: true }))
+            lines.Add(L.Format("Maintenance:LayoutUsbAudioShared", string.Join(", ", sharedAudio.SelectMany(use => use!.Audio))));
+        var names = nodes.DistinctBy(node => node.Id, StringComparer.OrdinalIgnoreCase)
+            .ToDictionary(node => node.Id, node => node.Name, StringComparer.OrdinalIgnoreCase);
+        foreach (var endpoint in endpoints.Where(endpoint => endpoint.FrontJack))
+            lines.Add(L.Format("Maintenance:LayoutFrontJack", names.GetValueOrDefault(@"SWD\MMDEVAPI\" + endpoint.Id) ?? endpoint.Id));
+
+        if (load.Count > 0)
+        {
+            lines.Add(string.Empty);
+            lines.Add(L.Get("Maintenance:LayoutLoadTitle"));
+            foreach (var cpu in layout.CpuByRole.Values.Prepend(0).Distinct().Where(cpu => cpu < load.Count))
+            {
+                var sample = load[cpu];
+                lines.Add(L.Format("Maintenance:LayoutLoadCpu", cpu, sample.BusyPercent, sample.InterruptDpcPercent, sample.InterruptsPerSecond));
+                if (cpu != 0 && sample.BusyPercent >= BusyCpuPercent) lines.Add(L.Format("Maintenance:LayoutLoadBusy", cpu, sample.BusyPercent));
+            }
+        }
         if (layout.HybridPerformanceOnly) lines.Add(L.Get("Maintenance:LayoutNoteHybrid"));
         if (layout.CacheGroupChosen) lines.Add(L.Get("Maintenance:LayoutNoteCache"));
         if (layout.SharedNetworkAudio) lines.Add(L.Get("Maintenance:LayoutNoteShared"));
@@ -209,7 +262,7 @@ public partial class InterruptView : UserControl
             return;
         }
         var chosen = await AppDialog.ChooseAsync(owner, L.Get("Maintenance:LayoutTitle"), string.Join("\n", lines),
-            todo.Select(row => (L.Format("Maintenance:LayoutChoice", Role(row.Role), row.Cpu, row.Device.Name)
+            todo.Select(row => (L.Format("Maintenance:LayoutChoice", Role(row.Role), row.Cpu, Name(row))
                 + (row.Device.MsiCapable && !row.Device.MsiEnabled ? $" ({L.Get("Maintenance:LayoutMsiOff")})" : string.Empty), true)));
         if (chosen is not { Count: > 0 }) return;
         EditorCard.IsEnabled = LayoutButton.IsEnabled = false;

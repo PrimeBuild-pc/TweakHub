@@ -76,4 +76,15 @@
   <data name="LayoutGpuAudio" xml:space="preserve"><value>{0}: звук HDMI/DisplayPort видеокарты, не переносится (это не игровой звук).</value></data>
   <data name="LayoutAudioUnused" xml:space="preserve"><value>{0}: за ним нет работающего аудиоустройства (отключено или отсутствует), не переносится.</value></data>
   <data name="LayoutAudioUsb" xml:space="preserve"><value>Встроенная звуковая карта не используется: USB-звук (гарнитуры, ЦАП, аудиоинтерфейсы) работает на ядре того USB-контроллера, к которому подключён.</value></data>
+  <data name="LayoutUsbController" xml:space="preserve"><value>USB {0}: {1}</value></data>
+  <data name="LayoutUsbMouse" xml:space="preserve"><value>мышь</value></data>
+  <data name="LayoutUsbKeyboard" xml:space="preserve"><value>клавиатура</value></data>
+  <data name="LayoutUsbCamera" xml:space="preserve"><value>камера</value></data>
+  <data name="LayoutUsbAudio" xml:space="preserve"><value>звук: {0}</value></data>
+  <data name="LayoutUsbNothing" xml:space="preserve"><value>нет мыши, клавиатуры, камеры или аудиоустройства по умолчанию</value></data>
+  <data name="LayoutUsbAudioShared" xml:space="preserve"><value>{0} делит USB-контроллер с мышью или клавиатурой, поэтому остаётся на ядре USB. Чтобы дать ему своё ядро, подключите его к порту контроллера без мыши и клавиатуры (см. список выше) и снова откройте эту раскладку.</value></data>
+  <data name="LayoutFrontJack" xml:space="preserve"><value>{0} подключено к переднему разъёму корпуса: этот кабель проходит внутри корпуса и часто ловит помехи. Для игр используйте разъём на задней панели материнской платы.</value></data>
+  <data name="LayoutLoadTitle" xml:space="preserve"><value>Нагрузка, измеренная сейчас за 2 секунды (во время игры она другая):</value></data>
+  <data name="LayoutLoadCpu" xml:space="preserve"><value>CPU {0}: занят на {1:0}%, прерывания и DPC {2:0.0}%, {3:0} прерываний/с</value></data>
+  <data name="LayoutLoadBusy" xml:space="preserve"><value>CPU {0} уже занят на {1:0}%: его использует программа. Проверьте диспетчер задач перед применением.</value></data>
 </root>

@@ -76,4 +76,15 @@
   <data name="LayoutGpuAudio" xml:space="preserve"><value>{0}: グラフィックカードの HDMI/DisplayPort オーディオのため移動しません（ゲーム用の音声ではありません）。</value></data>
   <data name="LayoutAudioUnused" xml:space="preserve"><value>{0}: この背後に動作中のオーディオデバイスがありません（無効または存在しない）。移動しません。</value></data>
   <data name="LayoutAudioUsb" xml:space="preserve"><value>オンボードのサウンドカードは使用されていません。USB オーディオ（ヘッドセット、DAC、オーディオインターフェイス）は接続先 USB コントローラーのコアに従います。</value></data>
+  <data name="LayoutUsbController" xml:space="preserve"><value>USB {0}: {1}</value></data>
+  <data name="LayoutUsbMouse" xml:space="preserve"><value>マウス</value></data>
+  <data name="LayoutUsbKeyboard" xml:space="preserve"><value>キーボード</value></data>
+  <data name="LayoutUsbCamera" xml:space="preserve"><value>カメラ</value></data>
+  <data name="LayoutUsbAudio" xml:space="preserve"><value>オーディオ: {0}</value></data>
+  <data name="LayoutUsbNothing" xml:space="preserve"><value>マウス、キーボード、カメラ、既定のオーディオデバイスなし</value></data>
+  <data name="LayoutUsbAudioShared" xml:space="preserve"><value>{0} はマウスまたはキーボードと USB コントローラーを共有しているため、USB のコアのままです。専用のコアにするには、マウスとキーボードのないコントローラーのポート（上の一覧を参照）に接続し、このレイアウトを開き直してください。</value></data>
+  <data name="LayoutFrontJack" xml:space="preserve"><value>{0} はケース前面のジャックに接続されています。そのケーブルはケース内部を通るためノイズを拾いやすいです。ゲームではマザーボード背面のジャックを使ってください。</value></data>
+  <data name="LayoutLoadTitle" xml:space="preserve"><value>現在 2 秒間測定した負荷（ゲーム実行中は異なります）:</value></data>
+  <data name="LayoutLoadCpu" xml:space="preserve"><value>CPU {0}: 使用率 {1:0}%、割り込みと DPC {2:0.0}%、割り込み {3:0} 回/秒</value></data>
+  <data name="LayoutLoadBusy" xml:space="preserve"><value>CPU {0} はすでに {1:0}% 使用されています。プログラムが使用中です。適用する前にタスク マネージャーを確認してください。</value></data>
 </root>

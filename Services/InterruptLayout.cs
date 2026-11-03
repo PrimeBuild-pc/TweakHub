@@ -15,7 +15,13 @@ public enum LayoutSkip { GpuAudio, AudioUnused }
 
 /// <summary>A device of the layout and whether its affinity is already the suggested one.</summary>
 internal sealed record InterruptLayoutRow(InterruptDevice Device, InterruptRole Role, int Cpu, ulong Mask, bool AlreadySet,
-    LayoutSkip? Skip = null);
+    LayoutSkip? Skip = null, string? AudioDevice = null);
+
+/// <summary>What is plugged into one USB controller: input devices, a camera and the default audio devices.</summary>
+internal sealed record UsbControllerUse(bool Mouse, bool Keyboard, bool Camera, IReadOnlyList<string> Audio)
+{
+    public bool HasInput => Mouse || Keyboard;
+}
 
 internal static class InterruptLayoutPlanner
 {
@@ -69,20 +75,85 @@ internal static class InterruptLayoutPlanner
         }, hybrid, cacheChosen, shared);
     }
 
-    public static IReadOnlyList<InterruptLayoutRow> Rows(InterruptLayout layout, IEnumerable<InterruptDevice> devices)
+    /// <summary>
+    /// Rows of the layout. A USB controller that carries the default playback or recording device and no mouse or keyboard
+    /// gets the audio core, so the audio interface or DAC is not interrupted by input polling.
+    /// </summary>
+    public static IReadOnlyList<InterruptLayoutRow> Rows(InterruptLayout layout, IEnumerable<InterruptDevice> devices,
+        IReadOnlyDictionary<string, UsbControllerUse>? usb = null)
     {
         var all = devices.ToList();
         return all.Select(device => (Device: device, Role: RoleOf(device)))
             .Where(item => item.Role is { } role && layout.CpuByRole.ContainsKey(role))
             .Select(item =>
             {
-                var cpu = layout.CpuByRole[item.Role!.Value];
+                var role = item.Role!.Value;
+                string? audioDevice = null;
+                if (role == InterruptRole.Usb && usb?.GetValueOrDefault(item.Device.Id) is { Audio.Count: > 0, HasInput: false } use)
+                {
+                    role = InterruptRole.Audio;
+                    audioDevice = string.Join(", ", use.Audio);
+                }
+                var cpu = layout.CpuByRole[role];
                 var mask = 1UL << cpu;
-                var skip = item.Role == InterruptRole.Audio ? AudioSkip(item.Device, all) : null;
-                return new InterruptLayoutRow(item.Device, item.Role.Value, cpu, mask,
-                    skip is null && item.Device.HasAffinity && item.Device.AffinityMask == mask, skip);
+                var skip = role == InterruptRole.Audio && audioDevice is null ? AudioSkip(item.Device, all) : null;
+                return new InterruptLayoutRow(item.Device, role, cpu, mask,
+                    skip is null && item.Device.HasAffinity && item.Device.AffinityMask == mask, skip, audioDevice);
             })
             .ToList();
+    }
+
+    private static readonly Guid RootContainer = new("00000000-0000-0000-ffff-ffffffffffff");
+    private static readonly Guid MouseClass = new("4d36e96f-e325-11ce-bfc1-08002be10318");
+    private static readonly Guid KeyboardClass = new("4d36e96b-e325-11ce-bfc1-08002be10318");
+    private static readonly Guid ImageClass = new("6bdd1fc6-810f-11d0-bec7-08002be2092f");
+    private static readonly Guid CameraClass = new("ca3e7ab9-b4c3-4ae6-8251-579ef933890f");
+
+    /// <summary>
+    /// For each PCI USB controller (by instance ID), what hangs below it. Default audio endpoints are matched to their USB
+    /// device through the container ID; a headset's own media-key "keyboard" belongs to the audio device, not to input.
+    /// </summary>
+    public static IReadOnlyDictionary<string, UsbControllerUse> UsbUse(IReadOnlyList<DeviceNode> nodes, IEnumerable<string> defaultAudioIds)
+    {
+        var byId = new Dictionary<string, DeviceNode>(StringComparer.OrdinalIgnoreCase);
+        foreach (var node in nodes) byId.TryAdd(node.Id, node);
+        var audio = new Dictionary<Guid, List<string>>();
+        foreach (var id in defaultAudioIds)
+            if (byId.GetValueOrDefault(@"SWD\MMDEVAPI\" + id) is { Container: { } container } endpoint && container != RootContainer && container != Guid.Empty)
+            {
+                var names = audio.TryGetValue(container, out var list) ? list : audio[container] = [];
+                if (!names.Contains(endpoint.Name)) names.Add(endpoint.Name);
+            }
+
+        string? Controller(DeviceNode node)
+        {
+            for (DeviceNode? current = node; current is not null; current = current.Parent is { } parent ? byId.GetValueOrDefault(parent) : null)
+                if (current.Id.StartsWith(@"PCI\", StringComparison.OrdinalIgnoreCase)) return current == node ? null : current.Id;
+            return null;
+        }
+
+        var uses = new Dictionary<string, UseBuilder>(StringComparer.OrdinalIgnoreCase);
+        foreach (var node in nodes.Where(node => node.Id.StartsWith(@"USB\", StringComparison.OrdinalIgnoreCase) || node.Id.StartsWith(@"HID\", StringComparison.OrdinalIgnoreCase)))
+        {
+            if (Controller(node) is not { } controller) continue;
+            if (!uses.TryGetValue(controller, out var use)) uses[controller] = use = new UseBuilder();
+            if (node.Container is { } container && audio.TryGetValue(container, out var names))
+                use.Audio.AddRange(names.Where(name => !use.Audio.Contains(name)));
+            else
+            {
+                use.Mouse |= node.ClassGuid == MouseClass;
+                use.Keyboard |= node.ClassGuid == KeyboardClass;
+                use.Camera |= node.ClassGuid == ImageClass || node.ClassGuid == CameraClass;
+            }
+        }
+        return uses.ToDictionary(entry => entry.Key, entry => new UsbControllerUse(entry.Value.Mouse, entry.Value.Keyboard, entry.Value.Camera, entry.Value.Audio),
+            StringComparer.OrdinalIgnoreCase);
+    }
+
+    private sealed class UseBuilder
+    {
+        public bool Mouse, Keyboard, Camera;
+        public List<string> Audio { get; } = [];
     }
 
     /// <summary>True when some audio device will actually get the audio core.</summary>

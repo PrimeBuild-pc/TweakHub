@@ -78,4 +78,15 @@ Launch elevated in a visible console with its own disclaimer. Arguments: -p -spr
   <data name="LayoutGpuAudio" xml:space="preserve"><value>{0}: HDMI/DisplayPort audio of the graphics card, not moved (it is not the gaming audio).</value></data>
   <data name="LayoutAudioUnused" xml:space="preserve"><value>{0}: no working audio device behind it (disabled or missing), not moved.</value></data>
   <data name="LayoutAudioUsb" xml:space="preserve"><value>No built-in sound card in use: USB audio (headsets, DACs, audio interfaces) follows the core of the USB controller it is plugged into.</value></data>
+  <data name="LayoutUsbController" xml:space="preserve"><value>USB {0}: {1}</value></data>
+  <data name="LayoutUsbMouse" xml:space="preserve"><value>mouse</value></data>
+  <data name="LayoutUsbKeyboard" xml:space="preserve"><value>keyboard</value></data>
+  <data name="LayoutUsbCamera" xml:space="preserve"><value>camera</value></data>
+  <data name="LayoutUsbAudio" xml:space="preserve"><value>audio: {0}</value></data>
+  <data name="LayoutUsbNothing" xml:space="preserve"><value>no mouse, keyboard, camera or default audio device</value></data>
+  <data name="LayoutUsbAudioShared" xml:space="preserve"><value>{0} shares its USB controller with the mouse or keyboard, so it stays on the USB core. To give it its own core, plug it into a port of a controller without mouse and keyboard (see the list above), then open this layout again.</value></data>
+  <data name="LayoutFrontJack" xml:space="preserve"><value>{0} is plugged into a front-panel jack of the case: that cable runs inside the case and often picks up noise. For gaming, use the jack on the back of the motherboard.</value></data>
+  <data name="LayoutLoadTitle" xml:space="preserve"><value>Load measured now over 2 seconds (it is different while a game runs):</value></data>
+  <data name="LayoutLoadCpu" xml:space="preserve"><value>CPU {0}: {1:0}% busy, {2:0.0}% interrupts and DPC, {3:0} interrupts/s</value></data>
+  <data name="LayoutLoadBusy" xml:space="preserve"><value>CPU {0} is already {1:0}% busy now: a program is using it. Check Task Manager before applying.</value></data>
 </root>

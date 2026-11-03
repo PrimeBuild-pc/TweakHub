@@ -48,7 +48,7 @@ public class LocalizationTests
         "UI:MainWindowTweakHubWindows11TweakUtility", "Scripts:PowerShellFilter", "Scripts:ctt_winutil_Name", "Scripts:CmdBatch",
         "Security:SafetyScannerTitle", "Security:StartupActiveSetup", "Security:StartupAppInit", "Security:StartupWinlogon",
         "Security:TabDefender", "Security:CheckUpdates", "Security:CheckAntivirus", "Security:CheckFirewall", "Devices:LinkKindNvme",
-        "Devices:ChipsetLabel", "Devices:SourceChipset", "Devices:UsbKindAudio", "Tools:CategoryAudio", "Maintenance:LayoutRoleAudio", "Tools:HttpsUrl",
+        "Devices:ChipsetLabel", "Devices:SourceChipset", "Devices:UsbKindAudio", "Tools:CategoryAudio", "Maintenance:LayoutRoleAudio", "Maintenance:LayoutUsbAudio", "Maintenance:LayoutUsbMouse", "Tools:HttpsUrl",
         "es/Scripts:ImportFilter", "es/Scripts:PlaybookTypeScript", "es/Scripts:Playbooks", "es/Devices:PriorityNormal", "es/Maintenance:Manual",
         "it/Devices:ControllerMode", "it/Devices:InputController", "it/Devices:InputMouse", "it/Devices:UsbKindInput", "it/Maintenance:CpuLabel",
         "it/Scripts:PlaybookTypeScript", "it/Scripts:PlaybookTypeTweak", "it/Scripts:PlaybookTypeWinget", "it/Scripts:adobe_hosts_block_Category",
