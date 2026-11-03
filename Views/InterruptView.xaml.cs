@@ -231,23 +231,11 @@ public partial class InterruptView : UserControl
         }
         var sharedAudio = usbNumbers.Keys.Select(id => usb.GetValueOrDefault(id)).Where(use => use is { Audio.Count: > 0, HasInput: true }).ToList();
         if (sharedAudio.Count > 0 && usbNumbers.Keys.Any(id => usb.GetValueOrDefault(id) is not { HasInput: true }))
-            lines.Add(L.Format("Maintenance:LayoutUsbAudioShared", string.Join(", ", sharedAudio.SelectMany(use => use!.Audio))));
+            lines.AddRange(sharedAudio.SelectMany(use => use!.Audio).Distinct().Select(device => L.Format("Maintenance:LayoutUsbAudioShared", device)));
         var names = nodes.DistinctBy(node => node.Id, StringComparer.OrdinalIgnoreCase)
             .ToDictionary(node => node.Id, node => node.Name, StringComparer.OrdinalIgnoreCase);
         foreach (var endpoint in endpoints.Where(endpoint => endpoint.FrontJack))
             lines.Add(L.Format("Maintenance:LayoutFrontJack", names.GetValueOrDefault(@"SWD\MMDEVAPI\" + endpoint.Id) ?? endpoint.Id));
-
-        if (load.Count > 0)
-        {
-            lines.Add(string.Empty);
-            lines.Add(L.Get("Maintenance:LayoutLoadTitle"));
-            foreach (var cpu in layout.CpuByRole.Values.Prepend(0).Distinct().Where(cpu => cpu < load.Count))
-            {
-                var sample = load[cpu];
-                lines.Add(L.Format("Maintenance:LayoutLoadCpu", cpu, sample.BusyPercent, sample.InterruptDpcPercent, sample.InterruptsPerSecond));
-                if (cpu != 0 && sample.BusyPercent >= BusyCpuPercent) lines.Add(L.Format("Maintenance:LayoutLoadBusy", cpu, sample.BusyPercent));
-            }
-        }
         if (layout.HybridPerformanceOnly) lines.Add(L.Get("Maintenance:LayoutNoteHybrid"));
         if (layout.CacheGroupChosen) lines.Add(L.Get("Maintenance:LayoutNoteCache"));
         if (layout.SharedNetworkAudio) lines.Add(L.Get("Maintenance:LayoutNoteShared"));
@@ -259,6 +247,20 @@ public partial class InterruptView : UserControl
         lines.AddRange(rows.Where(row => row.Skip is not null).Select(row => L.Format($"Maintenance:Layout{row.Skip}", Name(row))));
         lines.AddRange(InterruptLayoutPlanner.PinnedStorage(_devices).Select(device =>
             L.Format("Maintenance:LayoutStoragePinned", device.Name, InterruptService.FormatMask(device.AffinityMask))));
+
+        if (load.Count > 0)
+        {
+            lines.Add(string.Empty);
+            lines.Add(L.Get("Maintenance:LayoutLoadTitle"));
+            // CPU 0 for comparison, then only the cores some device will really get.
+            var used = rows.Where(row => row.Skip is null).Select(row => row.Cpu);
+            foreach (var cpu in used.Prepend(0).Distinct().Where(cpu => cpu < load.Count))
+            {
+                var sample = load[cpu];
+                lines.Add(L.Format("Maintenance:LayoutLoadCpu", cpu, sample.BusyPercent, sample.InterruptDpcPercent, sample.InterruptsPerSecond));
+                if (cpu != 0 && sample.BusyPercent >= BusyCpuPercent) lines.Add(L.Format("Maintenance:LayoutLoadBusy", cpu, sample.BusyPercent));
+            }
+        }
         var msi = InterruptLayoutPlanner.MsiCandidates(rows);
         if (todo.Count == 0 && msi.Count == 0)
         {
