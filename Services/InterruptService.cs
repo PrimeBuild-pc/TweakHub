@@ -7,7 +7,7 @@ namespace TweakHub.Services;
 public enum InterruptPriority { Undefined = 0, Low = 1, Normal = 2, High = 3 }
 
 public sealed record InterruptDevice(string Id, string Name, string Class, bool MsiCapable, bool MsiEnabled, int? MessageLimit,
-    InterruptPriority Priority, int Policy, ulong AffinityMask)
+    InterruptPriority Priority, int Policy, ulong AffinityMask, bool IsHdAudio = false)
 {
     // IrqPolicySpecifiedProcessors: the device only interrupts the CPUs in AssignmentSetOverride.
     public const int SpecifiedProcessorsPolicy = 4;
@@ -32,6 +32,7 @@ public sealed class InterruptService
             $msi = Get-ItemProperty -LiteralPath "$base\MessageSignaledInterruptProperties"
             $affinity = Get-ItemProperty -LiteralPath "$base\Affinity Policy"
             [pscustomobject]@{ Id = [string]$_.InstanceId; Name = [string]$_.FriendlyName; Class = [string]$_.Class
+                HdAudio = [bool](@($_.CompatibleID) -match '&CC_0403')
                 MsiCapable = [bool]$msi; Msi = $msi.MSISupported; Limit = $msi.MessageNumberLimit
                 Priority = $affinity.DevicePriority; Policy = $affinity.DevicePolicy
                 Mask = $(if ($affinity.AssignmentSetOverride) { [Convert]::ToBase64String([byte[]]$affinity.AssignmentSetOverride) }) }
@@ -58,7 +59,7 @@ public sealed class InterruptService
                 JsonRead.Text(item, "Id"), JsonRead.Text(item, "Name"), JsonRead.Text(item, "Class"),
                 JsonRead.Bool(item, "MsiCapable"), JsonRead.Int(item, "Msi") == 1, JsonRead.Int(item, "Limit"),
                 (InterruptPriority)Math.Clamp(JsonRead.Int(item, "Priority") ?? 0, 0, 3), JsonRead.Int(item, "Policy") ?? 0,
-                BitConverter.ToUInt64(bytes));
+                BitConverter.ToUInt64(bytes), JsonRead.Bool(item, "HdAudio"));
         })
         // Bridges and root ports have no driver-level interrupt settings worth changing.
         .Where(device => device.Id.Length > 0 && (device.MsiCapable || device.Class is not "System"))
@@ -106,6 +107,13 @@ public sealed class InterruptService
     public Task<bool> RestoreAsync(InterruptDevice device, bool affinityOnly = false) =>
         RegistryService.Instance.RestoreValuesAsync(ManagedValues(device.Id).Skip(affinityOnly ? 2 : 0).Take(2)
             .Where(change => RegistryService.Instance.HasBackup(change.KeyPath, change.ValueName)).ToList());
+
+    /// <summary>Writes several affinities with one backup and one elevation; MSI and priority are not touched.</summary>
+    public Task<bool> ApplyAffinitiesAsync(IReadOnlyCollection<(InterruptDevice Device, ulong Mask)> items) =>
+        items.Count == 0 || items.Any(item => !CanAssign(item.Mask))
+            ? Task.FromResult(false)
+            : RegistryService.Instance.ApplyValuesWithBackupAsync(
+                items.SelectMany(item => BuildChanges(item.Device, null, null, item.Mask)).ToList());
 
     internal static string FormatMask(ulong mask) => string.Join(", ",
         Enumerable.Range(0, 64).Where(cpu => (mask >> cpu & 1) == 1).Select(cpu => $"CPU {cpu}"));

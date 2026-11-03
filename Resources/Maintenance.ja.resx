@@ -56,4 +56,21 @@
   <data name="DisableSleepName" xml:space="preserve"><value>電源接続時にスリープを完全に無効化</value></data>
   <data name="DisableSleepDescription" xml:space="preserve"><value>電源接続時に Windows はスタンバイ状態 (S1–S3) を使用しなくなり、スリープ キーは何もせず、スタートの電源メニューから「スリープ」が非表示になります。この PC を一切スリープさせない場合のみ使用してください。任意設定で、推奨には含まれません。Modern Standby の PC は S1–S3 を使用しないため、独自のスリープが残ります。復元すると元の値に戻ります。再起動が必要です。</value></data>
   <data name="TronBlockedByAntivirus" xml:space="preserve"><value>Microsoft Defender（またはお使いのウイルス対策）が Tron パッケージを望ましくない可能性のあるソフトウェアとしてブロックし、削除しました。TweakHub がウイルス対策の除外を追加することはありません。Tron を信頼する場合は、このコピーの Data\Tools\Tron フォルダーと C:\ProgramData\TweakHub-Tron-* をご自身で除外に追加してから、もう一度お試しください。</value></data>
+  <data name="LayoutButton" xml:space="preserve"><value>役割別の推奨レイアウト</value></data>
+  <data name="LayoutTitle" xml:space="preserve"><value>推奨される割り込みレイアウト</value></data>
+  <data name="LayoutIntro" xml:space="preserve"><value>グラフィックス、USB、ネットワーク、オーディオにそれぞれ物理コアを 1 つずつ、コア 0 以外からこの CPU のトポロジーに基づいて割り当てます。効果は実証されていないため、測定して確認するための推奨レイアウトです。変更するのはアフィニティのみで、MSI と優先度はそのままです。変更しないデバイスのチェックを外してください。</value></data>
+  <data name="LayoutRoleGpu" xml:space="preserve"><value>グラフィックス</value></data>
+  <data name="LayoutRoleUsb" xml:space="preserve"><value>USB</value></data>
+  <data name="LayoutRoleNetwork" xml:space="preserve"><value>ネットワーク</value></data>
+  <data name="LayoutRoleAudio" xml:space="preserve"><value>オーディオ</value></data>
+  <data name="LayoutNoteHybrid" xml:space="preserve"><value>ハイブリッド CPU：P コアのみを使用します。</value></data>
+  <data name="LayoutNoteCache" xml:space="preserve"><value>複数の L3 キャッシュ（CCD）を持つ CPU：デバイスは 3D V-Cache のない CCD に、キャッシュが同じ場合は CPU 0 を含まない CCD に割り当てます。</value></data>
+  <data name="LayoutNoteShared" xml:space="preserve"><value>この CPU のコアは 6 個以下のため、ネットワークとオーディオで 1 つのコアを共有します。</value></data>
+  <data name="LayoutAlreadySet" xml:space="preserve"><value>設定済み：{0}</value></data>
+  <data name="LayoutMsiOff" xml:space="preserve"><value>MSI オフ</value></data>
+  <data name="LayoutRss" xml:space="preserve"><value>ネットワークの RSS は変更しません。開始位置を動かすと Windows がキューとプロセッサの数も変更し、正確に元に戻せないためです。</value></data>
+  <data name="LayoutUnavailable" xml:space="preserve"><value>この PC では推奨レイアウトを作成できません（複数のプロセッサ グループ、コア不足、またはトポロジーを読み取れません）。</value></data>
+  <data name="LayoutNothingToDo" xml:space="preserve"><value>すべてのデバイスが既に推奨アフィニティになっています。</value></data>
+  <data name="LayoutReminder" xml:space="preserve"><value>「シャットダウン」ではなく「再起動」を使ってください（高速スタートアップは以前の状態を保持します）。GPU ドライバーを更新するたびに再確認してください。これらの値がリセットされる場合があります。平均 FPS だけでなく、1% と 0.1% low のフレームタイムを比較してください。各デバイスの復元ボタンで元に戻せます。</value></data>
+  <data name="LayoutChoice" xml:space="preserve"><value>{0}：CPU {1} – {2}</value></data>
 </root>

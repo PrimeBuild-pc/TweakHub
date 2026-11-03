@@ -992,4 +992,7 @@ This may be due to insufficient permissions or the target application not being 
   <data name="DescriptionNuclei" xml:space="preserve">
     <value>Template-based vulnerability scanner from ProjectDiscovery for your own servers and web apps. Command-line tool; use it only on systems you are authorized to test. Opens only the official repository.</value>
   </data>
+  <data name="DescriptionVixEditor" xml:space="preserve">
+    <value>Offline NVIDIA VBIOS editor (Blackwell; Ada, Ampere and Turing mostly read-only). Saves a new ROM plus a manifest and never flashes: edited ROMs load through the Vix loaders or mVolt+. Edited ROMs fail the original signature, so never flash them with nvflash. Raising power, current or voltage can damage hardware; many fields are experimental, laptops included. Unsigned binaries (SmartScreen may warn). Opens the official repository only.</value>
+  </data>
 </root>

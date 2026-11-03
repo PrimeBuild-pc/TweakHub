@@ -992,4 +992,7 @@
   <data name="DescriptionNuclei" xml:space="preserve">
     <value>ProjectDiscovery による、自分のサーバーや Web アプリ向けのテンプレート ベースの脆弱性スキャナーです。コマンドライン ツールです。テストを許可されたシステムでのみ使用してください。公式リポジトリのみを開きます。</value>
   </data>
+  <data name="DescriptionVixEditor" xml:space="preserve">
+    <value>オフラインの NVIDIA VBIOS エディター（Blackwell 対応。Ada、Ampere、Turing はほぼ読み取り専用）。新しい ROM とマニフェストを保存し、書き込みは行いません。編集した ROM は Vix ローダーまたは mVolt+ で読み込みます。編集した ROM は元の署名と一致しないため、nvflash で書き込まないでください。電力、電流、電圧を上げるとハードウェアが損傷する場合があります。多くの項目はノート PC を含め実験的です。バイナリは未署名です（SmartScreen の警告が出る場合があります）。公式リポジトリのみを開きます。</value>
+  </data>
 </root>

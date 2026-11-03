@@ -56,4 +56,21 @@
   <data name="DisableSleepName" xml:space="preserve"><value>接通电源时完全关闭睡眠</value></data>
   <data name="DisableSleepDescription" xml:space="preserve"><value>接通电源时，Windows 不再允许待机状态 (S1–S3)，睡眠键不执行任何操作，并从“开始”的电源菜单中隐藏“睡眠”。仅在从不让这台电脑睡眠时使用。可选，不包含在推荐项中。使用现代待机 (Modern Standby) 的电脑不使用 S1–S3，保留其自身的睡眠功能。还原会恢复原始值。需要重启。</value></data>
   <data name="TronBlockedByAntivirus" xml:space="preserve"><value>Microsoft Defender（或你的杀毒软件）将 Tron 软件包识别为可能不需要的软件并已将其删除。TweakHub 从不添加杀毒软件排除项。如果你信任 Tron，请自行为此副本的 Data\Tools\Tron 文件夹和 C:\ProgramData\TweakHub-Tron-* 添加排除项，然后重试。</value></data>
+  <data name="LayoutButton" xml:space="preserve"><value>按用途的建议布局</value></data>
+  <data name="LayoutTitle" xml:space="preserve"><value>建议的中断布局</value></data>
+  <data name="LayoutIntro" xml:space="preserve"><value>根据此 CPU 的拓扑，为显卡、USB、网络和音频各分配一个物理核心，避开核心 0。这是需要实测的建议布局：效果尚未得到证实。只更改关联性，MSI 和优先级保持不变。取消勾选不想更改的设备。</value></data>
+  <data name="LayoutRoleGpu" xml:space="preserve"><value>显卡</value></data>
+  <data name="LayoutRoleUsb" xml:space="preserve"><value>USB</value></data>
+  <data name="LayoutRoleNetwork" xml:space="preserve"><value>网络</value></data>
+  <data name="LayoutRoleAudio" xml:space="preserve"><value>音频</value></data>
+  <data name="LayoutNoteHybrid" xml:space="preserve"><value>混合架构 CPU：只使用 P 核。</value></data>
+  <data name="LayoutNoteCache" xml:space="preserve"><value>具有多个 L3 缓存（CCD）的 CPU：设备分配到没有 3D V-Cache 的 CCD；缓存相同时，分配到不含 CPU 0 的 CCD。</value></data>
+  <data name="LayoutNoteShared" xml:space="preserve"><value>此 CPU 只有 6 个或更少核心：网络和音频共用一个核心。</value></data>
+  <data name="LayoutAlreadySet" xml:space="preserve"><value>已设置：{0}</value></data>
+  <data name="LayoutMsiOff" xml:space="preserve"><value>MSI 未启用</value></data>
+  <data name="LayoutRss" xml:space="preserve"><value>不会更改网络 RSS：移动其起始位置会让 Windows 同时更改队列和处理器，无法精确还原。</value></data>
+  <data name="LayoutUnavailable" xml:space="preserve"><value>无法在此电脑上建议布局：存在多个处理器组、核心太少或无法读取拓扑。</value></data>
+  <data name="LayoutNothingToDo" xml:space="preserve"><value>所有设备都已是建议的关联性。</value></data>
+  <data name="LayoutReminder" xml:space="preserve"><value>请使用“重启”而不是“关机”（快速启动会保留旧状态）。每次更新 GPU 驱动后请重新检查，驱动可能会重置这些值。请比较 1% 和 0.1% low 帧时间，而不只是平均 FPS。每个设备的还原按钮可撤销此更改。</value></data>
+  <data name="LayoutChoice" xml:space="preserve"><value>{0}：CPU {1} – {2}</value></data>
 </root>

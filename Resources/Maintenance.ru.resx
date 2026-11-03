@@ -56,4 +56,21 @@
   <data name="DisableSleepName" xml:space="preserve"><value>Полностью отключить сон от сети</value></data>
   <data name="DisableSleepDescription" xml:space="preserve"><value>При питании от сети Windows больше не разрешает ждущие режимы (S1–S3), клавиша сна ничего не делает, а пункт «Спящий режим» скрыт из меню завершения работы в «Пуске». Используйте, только если никогда не переводите этот ПК в сон. Необязательно, не входит в рекомендуемые. ПК с Modern Standby не используют S1–S3 и сохраняют свой режим сна. Восстановление возвращает исходные значения. Требуется перезагрузка.</value></data>
   <data name="TronBlockedByAntivirus" xml:space="preserve"><value>Microsoft Defender (или ваш антивирус) заблокировал пакет Tron как потенциально нежелательное ПО и удалил его. TweakHub никогда не добавляет исключения в антивирус. Если вы доверяете Tron, сами добавьте исключения для папки Data\Tools\Tron этой копии и для C:\ProgramData\TweakHub-Tron-*, затем повторите попытку.</value></data>
+  <data name="LayoutButton" xml:space="preserve"><value>Рекомендуемая раскладка по ролям</value></data>
+  <data name="LayoutTitle" xml:space="preserve"><value>Рекомендуемая раскладка прерываний</value></data>
+  <data name="LayoutIntro" xml:space="preserve"><value>По одному физическому ядру для графики, USB, сети и звука, вне ядра 0, по топологии этого процессора. Это рекомендуемая раскладка для измерения: польза не доказана. Меняется только привязка; MSI и приоритет остаются как есть. Снимите отметку с устройств, которые не нужно менять.</value></data>
+  <data name="LayoutRoleGpu" xml:space="preserve"><value>Графика</value></data>
+  <data name="LayoutRoleUsb" xml:space="preserve"><value>USB</value></data>
+  <data name="LayoutRoleNetwork" xml:space="preserve"><value>Сеть</value></data>
+  <data name="LayoutRoleAudio" xml:space="preserve"><value>Звук</value></data>
+  <data name="LayoutNoteHybrid" xml:space="preserve"><value>Гибридный процессор: используются только P-ядра.</value></data>
+  <data name="LayoutNoteCache" xml:space="preserve"><value>Процессор с несколькими кэшами L3 (CCD): устройства назначаются на CCD без 3D V-Cache или, при равных кэшах, на CCD без CPU 0.</value></data>
+  <data name="LayoutNoteShared" xml:space="preserve"><value>У этого процессора 6 ядер или меньше: сеть и звук делят одно ядро.</value></data>
+  <data name="LayoutAlreadySet" xml:space="preserve"><value>Уже настроено: {0}</value></data>
+  <data name="LayoutMsiOff" xml:space="preserve"><value>MSI выключен</value></data>
+  <data name="LayoutRss" xml:space="preserve"><value>RSS сети не меняется: при переносе начала Windows меняет и очереди, и процессоры, а точно вернуть это нельзя.</value></data>
+  <data name="LayoutUnavailable" xml:space="preserve"><value>На этом ПК нельзя предложить раскладку: несколько групп процессоров, слишком мало ядер или нечитаемая топология.</value></data>
+  <data name="LayoutNothingToDo" xml:space="preserve"><value>У всех устройств уже установлена рекомендуемая привязка.</value></data>
+  <data name="LayoutReminder" xml:space="preserve"><value>Перезагрузите через «Перезагрузка», а не «Завершение работы» (быстрый запуск сохраняет старое состояние). Проверяйте снова после каждого обновления драйвера GPU — он может сбросить эти значения. Сравнивайте 1% и 0,1% low frame time, а не только средний FPS. Кнопка восстановления у каждого устройства отменяет изменение.</value></data>
+  <data name="LayoutChoice" xml:space="preserve"><value>{0}: CPU {1} – {2}</value></data>
 </root>

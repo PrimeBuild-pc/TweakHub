@@ -56,4 +56,21 @@ Avvio elevato in una console visibile, con il disclaimer di Tron. Argomenti: -p 
   <data name="DisableSleepName" xml:space="preserve"><value>Disattiva del tutto la sospensione alla presa</value></data>
   <data name="DisableSleepDescription" xml:space="preserve"><value>Con il PC collegato alla corrente Windows non consente più gli stati di standby (S1–S3), il tasto di sospensione non fa nulla e la voce Sospendi sparisce dal menu di arresto di Start. Usalo solo se non sospendi mai questo PC. Opzionale, non applicato tra i consigliati. I PC con Modern Standby non usano S1–S3 e mantengono la propria sospensione. Il ripristino rimette i valori originali. Richiede riavvio.</value></data>
   <data name="TronBlockedByAntivirus" xml:space="preserve"><value>Microsoft Defender (o il tuo antivirus) ha bloccato il pacchetto Tron come software potenzialmente indesiderato e lo ha rimosso. TweakHub non aggiunge mai esclusioni all'antivirus. Se ti fidi di Tron, aggiungi tu le esclusioni per la cartella Data\Tools\Tron di questa copia e per C:\ProgramData\TweakHub-Tron-*, poi riprova.</value></data>
+  <data name="LayoutButton" xml:space="preserve"><value>Layout suggerito per ruolo</value></data>
+  <data name="LayoutTitle" xml:space="preserve"><value>Layout degli interrupt suggerito</value></data>
+  <data name="LayoutIntro" xml:space="preserve"><value>Un core fisico ciascuno per grafica, USB, rete e audio, fuori dal core 0, scelto dalla topologia di questa CPU. È un layout suggerito da misurare: il beneficio non è dimostrato. Cambia solo l'affinità; MSI e priorità restano come sono. Togli la spunta ai dispositivi che vuoi lasciare invariati.</value></data>
+  <data name="LayoutRoleGpu" xml:space="preserve"><value>Grafica</value></data>
+  <data name="LayoutRoleUsb" xml:space="preserve"><value>USB</value></data>
+  <data name="LayoutRoleNetwork" xml:space="preserve"><value>Rete</value></data>
+  <data name="LayoutRoleAudio" xml:space="preserve"><value>Audio</value></data>
+  <data name="LayoutNoteHybrid" xml:space="preserve"><value>CPU ibrida: si usano solo i P-core.</value></data>
+  <data name="LayoutNoteCache" xml:space="preserve"><value>CPU con più cache L3 (CCD): i dispositivi vanno sul CCD senza 3D V-Cache, o su quello senza la CPU 0 se le cache sono uguali.</value></data>
+  <data name="LayoutNoteShared" xml:space="preserve"><value>Questa CPU ha 6 core o meno: rete e audio condividono un core.</value></data>
+  <data name="LayoutAlreadySet" xml:space="preserve"><value>Già a posto: {0}</value></data>
+  <data name="LayoutMsiOff" xml:space="preserve"><value>MSI disattivato</value></data>
+  <data name="LayoutRss" xml:space="preserve"><value>L'RSS di rete non viene modificato: spostarne l'inizio fa cambiare a Windows anche code e processori, e non si potrebbe ripristinare esattamente.</value></data>
+  <data name="LayoutUnavailable" xml:space="preserve"><value>Su questo PC non si può suggerire un layout: più gruppi di processori, troppo pochi core o topologia non leggibile.</value></data>
+  <data name="LayoutNothingToDo" xml:space="preserve"><value>Tutti i dispositivi hanno già l'affinità suggerita.</value></data>
+  <data name="LayoutReminder" xml:space="preserve"><value>Riavvia con Riavvia, non con Arresta (l'Avvio rapido conserva lo stato precedente). Ricontrolla dopo ogni aggiornamento del driver della GPU, che può azzerare questi valori. Confronta i frame time 1% e 0,1% low, non solo gli FPS medi. Il pulsante di ripristino di ogni dispositivo annulla la modifica.</value></data>
+  <data name="LayoutChoice" xml:space="preserve"><value>{0}: CPU {1} – {2}</value></data>
 </root>

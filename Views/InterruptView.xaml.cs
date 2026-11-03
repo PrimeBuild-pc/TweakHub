@@ -26,6 +26,7 @@ public partial class InterruptView : UserControl
             MsiTile.Visibility = value ? Visibility.Collapsed : Visibility.Visible;
             ModeLabel.Visibility = MsiCheckBox.Visibility = PriorityLabel.Visibility = PriorityBox.Visibility = MsiChartPanel.Visibility = value ? Visibility.Collapsed : Visibility.Visible;
             AffinityLabel.Visibility = AffinityEditor.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
+            LayoutButton.Visibility = value && _canSetAffinity ? Visibility.Visible : Visibility.Collapsed;
             foreach (var index in new[] { 2, 3, 4 }) DevicesGrid.Columns[index].Visibility = value ? Visibility.Collapsed : Visibility.Visible;
         }
     }
@@ -174,6 +175,50 @@ public partial class InterruptView : UserControl
         }
         catch (Exception ex) { await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Devices:ApplyFailedTitle"), ex.Message); }
         finally { EditorCard.IsEnabled = true; }
+    }
+
+    /// <summary>Suggested one-core-per-role affinity, previewed with a checkbox per device before anything is written.</summary>
+    private async void Layout_Click(object sender, RoutedEventArgs e)
+    {
+        var owner = Window.GetWindow(this);
+        var layout = InterruptLayoutPlanner.Plan(CpuTopology.Read(), CpuTopology.ReadL3());
+        if (layout.Unavailable)
+        {
+            await AppDialog.ShowWarningAsync(owner, L.Get("Maintenance:LayoutTitle"), L.Get("Maintenance:LayoutUnavailable"));
+            return;
+        }
+        string Role(InterruptRole role) => L.Get($"Maintenance:LayoutRole{role}");
+        var rows = InterruptLayoutPlanner.Rows(layout, _devices);
+        var todo = rows.Where(row => !row.AlreadySet).ToList();
+        var lines = new List<string> { L.Get("Maintenance:LayoutIntro"), string.Empty };
+        lines.AddRange(layout.CpuByRole.Select(entry => $"{Role(entry.Key)}: CPU {entry.Value}"));
+        if (layout.HybridPerformanceOnly) lines.Add(L.Get("Maintenance:LayoutNoteHybrid"));
+        if (layout.CacheGroupChosen) lines.Add(L.Get("Maintenance:LayoutNoteCache"));
+        if (layout.SharedNetworkAudio) lines.Add(L.Get("Maintenance:LayoutNoteShared"));
+        if (rows.Any(row => row.Role == InterruptRole.Network)) lines.Add(L.Get("Maintenance:LayoutRss"));
+        lines.AddRange(rows.Where(row => row.AlreadySet).Select(row => L.Format("Maintenance:LayoutAlreadySet", row.Device.Name)));
+        if (todo.Count == 0)
+        {
+            lines.Add(string.Empty);
+            lines.Add(L.Get("Maintenance:LayoutNothingToDo"));
+            await AppDialog.ShowAsync(owner, L.Get("Maintenance:LayoutTitle"), string.Join("\n", lines));
+            return;
+        }
+        var chosen = await AppDialog.ChooseAsync(owner, L.Get("Maintenance:LayoutTitle"), string.Join("\n", lines),
+            todo.Select(row => (L.Format("Maintenance:LayoutChoice", Role(row.Role), row.Cpu, row.Device.Name)
+                + (row.Device.MsiCapable && !row.Device.MsiEnabled ? $" ({L.Get("Maintenance:LayoutMsiOff")})" : string.Empty), true)));
+        if (chosen is not { Count: > 0 }) return;
+        EditorCard.IsEnabled = LayoutButton.IsEnabled = false;
+        try
+        {
+            if (!await InterruptService.Instance.ApplyAffinitiesAsync(chosen.Select(index => (todo[index].Device, todo[index].Mask)).ToList()))
+                await AppDialog.ShowErrorAsync(owner, L.Get("Devices:ApplyFailedTitle"), L.Get("Devices:ApplyFailedMessage"));
+            else
+                await AppDialog.ShowRestartRequiredAsync(owner, L.Get("Maintenance:LayoutReminder"));
+            await ScanAsync();
+        }
+        catch (Exception ex) { await AppDialog.ShowErrorAsync(owner, L.Get("Devices:ApplyFailedTitle"), ex.Message); }
+        finally { EditorCard.IsEnabled = LayoutButton.IsEnabled = true; }
     }
 
     private async void Restore_Click(object sender, RoutedEventArgs e)
