@@ -10,8 +10,8 @@ internal sealed record InterruptLayout(
     bool SharedNetworkAudio = false,
     bool Unavailable = false);
 
-/// <summary>Why an audio controller is left alone: it is not where gaming audio plays.</summary>
-public enum LayoutSkip { GpuAudio, AudioUnused }
+/// <summary>Why a device is left out: disabled or not working, a network card without a link, or audio that is not where gaming audio plays.</summary>
+public enum LayoutSkip { GpuAudio, AudioUnused, Disabled, NetDisconnected }
 
 /// <summary>A device of the layout and whether its affinity is already the suggested one.</summary>
 internal sealed record InterruptLayoutRow(InterruptDevice Device, InterruptRole Role, int Cpu, ulong Mask, bool AlreadySet,
@@ -96,7 +96,10 @@ internal static class InterruptLayoutPlanner
                 }
                 var cpu = layout.CpuByRole[role];
                 var mask = 1UL << cpu;
-                var skip = role == InterruptRole.Audio && audioDevice is null ? AudioSkip(item.Device, all) : null;
+                // The mask is computed only for devices in use: never a disabled one or a card without a link.
+                var skip = !item.Device.Working ? LayoutSkip.Disabled
+                    : role == InterruptRole.Network && item.Device.NetConnected == false ? LayoutSkip.NetDisconnected
+                    : role == InterruptRole.Audio && audioDevice is null ? AudioSkip(item.Device, all) : null;
                 return new InterruptLayoutRow(item.Device, role, cpu, mask,
                     skip is null && item.Device.HasAffinity && item.Device.AffinityMask == mask, skip, audioDevice);
             })
@@ -156,6 +159,24 @@ internal static class InterruptLayoutPlanner
         public List<string> Audio { get; } = [];
     }
 
+    internal static string PciVendor(string instanceId) =>
+        System.Text.RegularExpressions.Regex.Match(instanceId, "VEN_([0-9A-F]{4})", System.Text.RegularExpressions.RegexOptions.IgnoreCase).Groups[1].Value.ToUpperInvariant();
+
+    /// <summary>Storage controllers tied to a single CPU: multi-queue NVMe and AHCI work best with Windows' default spread.</summary>
+    public static IReadOnlyList<InterruptDevice> PinnedStorage(IEnumerable<InterruptDevice> devices) =>
+        devices.Where(device => device.Class is "SCSIAdapter" or "HDC" && device.HasAffinity
+            && System.Numerics.BitOperations.PopCount(device.AffinityMask) == 1).ToList();
+
+    /// <summary>Layout devices that support MSI but have it off; MSI is offered, never forced.</summary>
+    public static IReadOnlyList<InterruptLayoutRow> MsiCandidates(IEnumerable<InterruptLayoutRow> rows) =>
+        rows.Where(row => row.Skip is null && row.Device.MsiCapable && !row.Device.MsiEnabled).ToList();
+
+    /// <summary>
+    /// Whether the affinity a device has in the registry is the one Windows uses now: every allocated interrupt targets
+    /// exactly the mask. Before a restart Windows still reports the old targets (0 means no specific processor).
+    /// </summary>
+    public static bool IsActive(ulong mask, IReadOnlyList<ulong> allocated) => allocated.Count > 0 && allocated.All(target => target == mask);
+
     /// <summary>True when some audio device will actually get the audio core.</summary>
     public static bool HasAudio(IEnumerable<InterruptLayoutRow> rows) => rows.Any(row => row.Role == InterruptRole.Audio && row.Skip is null);
 
@@ -165,8 +186,7 @@ internal static class InterruptLayoutPlanner
     /// </summary>
     private static LayoutSkip? AudioSkip(InterruptDevice audio, IReadOnlyList<InterruptDevice> devices)
     {
-        static string Vendor(InterruptDevice device) =>
-            System.Text.RegularExpressions.Regex.Match(device.Id, "VEN_([0-9A-F]{4})", System.Text.RegularExpressions.RegexOptions.IgnoreCase).Groups[1].Value.ToUpperInvariant();
+        static string Vendor(InterruptDevice device) => PciVendor(device.Id);
         if (audio is { Bus: { } bus, Address: { } address } && devices.Any(other => other.Class == "Display"
                 && other.Bus == bus && other.Address is { } otherAddress && otherAddress >> 16 == address >> 16
                 && Vendor(other) == Vendor(audio)))

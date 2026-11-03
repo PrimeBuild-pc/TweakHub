@@ -806,6 +806,9 @@ TweakHub no puede comprobar lo que hace el script y el autor puede cambiarlo en 
   <data name="UnusedNic" xml:space="preserve">
     <value>tarjeta de red sin enlace; otra tarjeta está conectada</value>
   </data>
+  <data name="UnusedNicSlower" xml:space="preserve"><value>Conectada, pero {0} es más rápida: con dos conexiones activas Windows puede enviar los juegos por la más lenta.</value></data>
+  <data name="UnusedGpuAudio" xml:space="preserve"><value>Audio HDMI/DisplayPort de la tarjeta gráfica, no es tu dispositivo predeterminado de reproducción ni de grabación. Consérvalo si usas los altavoces del monitor.</value></data>
+  <data name="UnusedOnboardAudio" xml:space="preserve"><value>Tarjeta de sonido integrada que no es tu dispositivo predeterminado de reproducción ni de grabación. Consérvala si conectas algo a los conectores de audio del PC.</value></data>
   <data name="TabDrivers" xml:space="preserve">
     <value>Controladores</value>
   </data>

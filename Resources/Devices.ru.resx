@@ -806,6 +806,9 @@ TweakHub не может проверить, что делает скрипт, �
   <data name="UnusedNic" xml:space="preserve">
     <value>сетевая карта без подключения; другая карта подключена</value>
   </data>
+  <data name="UnusedNicSlower" xml:space="preserve"><value>Подключена, но {0} быстрее: при двух активных подключениях Windows может пустить игры через более медленное.</value></data>
+  <data name="UnusedGpuAudio" xml:space="preserve"><value>Звук HDMI/DisplayPort видеокарты, не ваше устройство воспроизведения или записи по умолчанию. Оставьте, если пользуетесь динамиками монитора.</value></data>
+  <data name="UnusedOnboardAudio" xml:space="preserve"><value>Встроенная звуковая карта, которая не является устройством воспроизведения или записи по умолчанию. Оставьте, если подключаете что-то к аудиоразъёмам ПК.</value></data>
   <data name="TabDrivers" xml:space="preserve">
     <value>Драйверы</value>
   </data>

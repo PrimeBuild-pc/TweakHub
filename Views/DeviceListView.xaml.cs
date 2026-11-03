@@ -144,7 +144,9 @@ public partial class DeviceListView : UserControl
         DisableUnusedButton.IsEnabled = false;
         try
         {
-            var context = await DeviceService.Instance.GetUsageContextAsync();
+            var endpoints = await Task.Run(AudioEndpoints.ReadDefaults);
+            var context = DeviceService.WithAudio(await DeviceService.Instance.GetUsageContextAsync(), _devices,
+                endpoints.Select(endpoint => endpoint.Id).ToList());
             var unused = _devices.Select(device => (Device: device, Reason: DeviceService.UnusedReason(device, context)))
                 .Where(item => item.Reason is not null).ToList();
             if (unused.Count == 0)

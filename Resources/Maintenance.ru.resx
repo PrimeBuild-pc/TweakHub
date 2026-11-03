@@ -66,8 +66,6 @@
   <data name="LayoutNoteHybrid" xml:space="preserve"><value>Гибридный процессор: используются только P-ядра.</value></data>
   <data name="LayoutNoteCache" xml:space="preserve"><value>Процессор с несколькими кэшами L3 (CCD): устройства назначаются на CCD без 3D V-Cache или, при равных кэшах, на CCD без CPU 0.</value></data>
   <data name="LayoutNoteShared" xml:space="preserve"><value>У этого процессора 6 ядер или меньше: сеть и звук делят одно ядро.</value></data>
-  <data name="LayoutAlreadySet" xml:space="preserve"><value>Уже настроено: {0}</value></data>
-  <data name="LayoutMsiOff" xml:space="preserve"><value>MSI выключен</value></data>
   <data name="LayoutRss" xml:space="preserve"><value>RSS сети не меняется: при переносе начала Windows меняет и очереди, и процессоры, а точно вернуть это нельзя.</value></data>
   <data name="LayoutUnavailable" xml:space="preserve"><value>На этом ПК нельзя предложить раскладку: несколько групп процессоров, слишком мало ядер или нечитаемая топология.</value></data>
   <data name="LayoutNothingToDo" xml:space="preserve"><value>У всех устройств уже установлена рекомендуемая привязка.</value></data>
@@ -87,4 +85,15 @@
   <data name="LayoutLoadTitle" xml:space="preserve"><value>Нагрузка, измеренная сейчас за 2 секунды (во время игры она другая):</value></data>
   <data name="LayoutLoadCpu" xml:space="preserve"><value>CPU {0}: занят на {1:0}%, прерывания и DPC {2:0.0}%, {3:0} прерываний/с</value></data>
   <data name="LayoutLoadBusy" xml:space="preserve"><value>CPU {0} уже занят на {1:0}%: его использует программа. Проверьте диспетчер задач перед применением.</value></data>
+  <data name="LayoutDisabled" xml:space="preserve"><value>{0}: отключено или не работает, исключено из раскладки.</value></data>
+  <data name="LayoutNetDisconnected" xml:space="preserve"><value>{0}: нет сетевого подключения, исключено из раскладки.</value></data>
+  <data name="LayoutMsiChoice" xml:space="preserve"><value>Включить MSI для {0} (драйвер поддерживает, сейчас выключено)</value></data>
+  <data name="LayoutStoragePinned" xml:space="preserve"><value>{0} привязан только к {1}: контроллеры накопителей с несколькими очередями работают быстрее со стандартным распределением Windows. Сбросьте его привязку кнопкой восстановления или в редакторе.</value></data>
+  <data name="LayoutActive" xml:space="preserve"><value>Действует сейчас: {0}</value></data>
+  <data name="LayoutPendingRestart" xml:space="preserve"><value>Задано, но до перезагрузки Windows использует прежние ядра: {0}</value></data>
+  <data name="LayoutResetTitle" xml:space="preserve"><value>Раскладка прерываний сброшена</value></data>
+  <data name="LayoutResetMessage" xml:space="preserve"><value>Предложенная привязка прерываний исчезла на этих устройствах, обычно после обновления драйвера:
+{0}
+
+Откройте «Устройства» → «Привязка» и снова примените предложенную раскладку.</value></data>
 </root>

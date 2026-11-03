@@ -66,8 +66,6 @@ Se abre una consola elevada con su aviso. -p -spr -m -sor -se -scs conservan ene
   <data name="LayoutNoteHybrid" xml:space="preserve"><value>CPU híbrida: solo se usan núcleos P.</value></data>
   <data name="LayoutNoteCache" xml:space="preserve"><value>CPU con varias cachés L3 (CCD): los dispositivos van al CCD sin 3D V-Cache, o al que no tiene la CPU 0 si las cachés son iguales.</value></data>
   <data name="LayoutNoteShared" xml:space="preserve"><value>Esta CPU tiene 6 núcleos o menos: red y audio comparten un núcleo.</value></data>
-  <data name="LayoutAlreadySet" xml:space="preserve"><value>Ya configurado: {0}</value></data>
-  <data name="LayoutMsiOff" xml:space="preserve"><value>MSI desactivado</value></data>
   <data name="LayoutRss" xml:space="preserve"><value>El RSS de red no se modifica: mover su inicio hace que Windows cambie también las colas y los procesadores, y no se puede restaurar con exactitud.</value></data>
   <data name="LayoutUnavailable" xml:space="preserve"><value>No se puede sugerir una distribución en este PC: varios grupos de procesadores, muy pocos núcleos o topología ilegible.</value></data>
   <data name="LayoutNothingToDo" xml:space="preserve"><value>Todos los dispositivos ya tienen la afinidad sugerida.</value></data>
@@ -87,4 +85,15 @@ Se abre una consola elevada con su aviso. -p -spr -m -sor -se -scs conservan ene
   <data name="LayoutLoadTitle" xml:space="preserve"><value>Carga medida ahora durante 2 segundos (con un juego en marcha es distinta):</value></data>
   <data name="LayoutLoadCpu" xml:space="preserve"><value>CPU {0}: {1:0}% ocupada, {2:0.0}% interrupciones y DPC, {3:0} interrupciones/s</value></data>
   <data name="LayoutLoadBusy" xml:space="preserve"><value>La CPU {0} ya está ocupada al {1:0}%: un programa la está usando. Revisa el Administrador de tareas antes de aplicar.</value></data>
+  <data name="LayoutDisabled" xml:space="preserve"><value>{0}: desactivado o sin funcionar, fuera del diseño.</value></data>
+  <data name="LayoutNetDisconnected" xml:space="preserve"><value>{0}: sin conexión de red, fuera del diseño.</value></data>
+  <data name="LayoutMsiChoice" xml:space="preserve"><value>Activar MSI para {0} (su controlador lo admite, ahora está desactivado)</value></data>
+  <data name="LayoutStoragePinned" xml:space="preserve"><value>{0} está ligado solo a {1}: los controladores de almacenamiento con varias colas van mejor con el reparto predeterminado de Windows. Usa el botón de restaurar o el editor para quitar su afinidad.</value></data>
+  <data name="LayoutActive" xml:space="preserve"><value>Activo ahora: {0}</value></data>
+  <data name="LayoutPendingRestart" xml:space="preserve"><value>Configurado, pero Windows usa los núcleos anteriores hasta reiniciar: {0}</value></data>
+  <data name="LayoutResetTitle" xml:space="preserve"><value>Diseño de interrupciones restablecido</value></data>
+  <data name="LayoutResetMessage" xml:space="preserve"><value>La afinidad de interrupciones sugerida ya no está en estos dispositivos, normalmente tras actualizar un controlador:
+{0}
+
+Abre Dispositivos → Afinidad y vuelve a aplicar el diseño sugerido.</value></data>
 </root>

@@ -252,23 +252,32 @@ public partial class InterruptView : UserControl
         if (layout.CacheGroupChosen) lines.Add(L.Get("Maintenance:LayoutNoteCache"));
         if (layout.SharedNetworkAudio) lines.Add(L.Get("Maintenance:LayoutNoteShared"));
         if (rows.Any(row => row.Role == InterruptRole.Network)) lines.Add(L.Get("Maintenance:LayoutRss"));
-        lines.AddRange(rows.Where(row => row.AlreadySet).Select(row => L.Format("Maintenance:LayoutAlreadySet", row.Device.Name)));
-        lines.AddRange(rows.Where(row => row.Skip is not null).Select(row => L.Format($"Maintenance:Layout{row.Skip}", row.Device.Name)));
-        if (todo.Count == 0)
+        // Set in the registry is not the same as in use: the interrupts Windows allocated in this boot tell.
+        lines.AddRange(rows.Where(row => row.AlreadySet).Select(row => L.Format(
+            InterruptLayoutPlanner.IsActive(row.Mask, DeviceTree.AllocatedInterruptAffinities(row.Device.Id)) ? "Maintenance:LayoutActive" : "Maintenance:LayoutPendingRestart",
+            Name(row))));
+        lines.AddRange(rows.Where(row => row.Skip is not null).Select(row => L.Format($"Maintenance:Layout{row.Skip}", Name(row))));
+        lines.AddRange(InterruptLayoutPlanner.PinnedStorage(_devices).Select(device =>
+            L.Format("Maintenance:LayoutStoragePinned", device.Name, InterruptService.FormatMask(device.AffinityMask))));
+        var msi = InterruptLayoutPlanner.MsiCandidates(rows);
+        if (todo.Count == 0 && msi.Count == 0)
         {
             lines.Add(string.Empty);
             lines.Add(L.Get("Maintenance:LayoutNothingToDo"));
             await AppDialog.ShowAsync(owner, L.Get("Maintenance:LayoutTitle"), string.Join("\n", lines));
             return;
         }
+        // MSI boxes come after the affinity ones and start unticked: MSI is a driver change the user opts into.
         var chosen = await AppDialog.ChooseAsync(owner, L.Get("Maintenance:LayoutTitle"), string.Join("\n", lines),
-            todo.Select(row => (L.Format("Maintenance:LayoutChoice", Role(row.Role), row.Cpu, Name(row))
-                + (row.Device.MsiCapable && !row.Device.MsiEnabled ? $" ({L.Get("Maintenance:LayoutMsiOff")})" : string.Empty), true)));
+            todo.Select(row => (L.Format("Maintenance:LayoutChoice", Role(row.Role), row.Cpu, Name(row)), true))
+                .Concat(msi.Select(row => (L.Format("Maintenance:LayoutMsiChoice", Name(row)), false))));
         if (chosen is not { Count: > 0 }) return;
         EditorCard.IsEnabled = LayoutButton.IsEnabled = false;
         try
         {
-            if (!await InterruptService.Instance.ApplyAffinitiesAsync(chosen.Select(index => (todo[index].Device, todo[index].Mask)).ToList()))
+            if (!await InterruptService.Instance.ApplyAffinitiesAsync(
+                    chosen.Where(index => index < todo.Count).Select(index => (todo[index].Device, todo[index].Mask)).ToList(),
+                    chosen.Where(index => index >= todo.Count).Select(index => msi[index - todo.Count].Device).ToList()))
                 await AppDialog.ShowErrorAsync(owner, L.Get("Devices:ApplyFailedTitle"), L.Get("Devices:ApplyFailedMessage"));
             else
                 await AppDialog.ShowRestartRequiredAsync(owner, L.Get("Maintenance:LayoutReminder"));

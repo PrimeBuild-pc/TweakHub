@@ -66,8 +66,6 @@
   <data name="LayoutNoteHybrid" xml:space="preserve"><value>混合架构 CPU：只使用 P 核。</value></data>
   <data name="LayoutNoteCache" xml:space="preserve"><value>具有多个 L3 缓存（CCD）的 CPU：设备分配到没有 3D V-Cache 的 CCD；缓存相同时，分配到不含 CPU 0 的 CCD。</value></data>
   <data name="LayoutNoteShared" xml:space="preserve"><value>此 CPU 只有 6 个或更少核心：网络和音频共用一个核心。</value></data>
-  <data name="LayoutAlreadySet" xml:space="preserve"><value>已设置：{0}</value></data>
-  <data name="LayoutMsiOff" xml:space="preserve"><value>MSI 未启用</value></data>
   <data name="LayoutRss" xml:space="preserve"><value>不会更改网络 RSS：移动其起始位置会让 Windows 同时更改队列和处理器，无法精确还原。</value></data>
   <data name="LayoutUnavailable" xml:space="preserve"><value>无法在此电脑上建议布局：存在多个处理器组、核心太少或无法读取拓扑。</value></data>
   <data name="LayoutNothingToDo" xml:space="preserve"><value>所有设备都已是建议的关联性。</value></data>
@@ -87,4 +85,15 @@
   <data name="LayoutLoadTitle" xml:space="preserve"><value>当前测量 2 秒的负载（游戏运行时会不同）：</value></data>
   <data name="LayoutLoadCpu" xml:space="preserve"><value>CPU {0}：占用 {1:0}%，中断和 DPC {2:0.0}%，每秒 {3:0} 次中断</value></data>
   <data name="LayoutLoadBusy" xml:space="preserve"><value>CPU {0} 当前已占用 {1:0}%：有程序正在使用它。应用前请检查任务管理器。</value></data>
+  <data name="LayoutDisabled" xml:space="preserve"><value>{0}：已禁用或无法工作，不参与布局。</value></data>
+  <data name="LayoutNetDisconnected" xml:space="preserve"><value>{0}：没有网络连接，不参与布局。</value></data>
+  <data name="LayoutMsiChoice" xml:space="preserve"><value>为 {0} 开启 MSI（驱动支持，当前关闭）</value></data>
+  <data name="LayoutStoragePinned" xml:space="preserve"><value>{0} 仅绑定到 {1}：多队列存储控制器使用 Windows 默认分布更快。请用还原按钮或编辑器重置其亲和性。</value></data>
+  <data name="LayoutActive" xml:space="preserve"><value>当前生效：{0}</value></data>
+  <data name="LayoutPendingRestart" xml:space="preserve"><value>已设置，但重启前 Windows 仍使用之前的核心：{0}</value></data>
+  <data name="LayoutResetTitle" xml:space="preserve"><value>中断布局已被重置</value></data>
+  <data name="LayoutResetMessage" xml:space="preserve"><value>这些设备上建议的中断亲和性已消失，通常是在驱动更新之后：
+{0}
+
+请打开“设备”→“亲和性”，再次应用建议的布局。</value></data>
 </root>

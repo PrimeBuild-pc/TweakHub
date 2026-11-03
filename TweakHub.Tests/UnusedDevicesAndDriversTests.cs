@@ -39,6 +39,49 @@ public class UnusedDevicesAndDriversTests
     }
 
     [Test]
+    public void TheSlowerOfTwoLiveConnectionsIsSuggestedUnticked()
+    {
+        var context = DeviceService.ParseUsageContext("""
+            {"RemoteDesktopOff":false,"DialUpEntries":1,"Nics":[
+              {"Id":"PCI\\WIFI","Name":"Wi-Fi 6E","Connected":true,"Wireless":true,"Speed":2400000000},
+              {"Id":"PCI\\ETH1","Name":"Ethernet 1G","Connected":true,"Wireless":false,"Speed":1000000000},
+              {"Id":"PCI\\ETH25","Name":"Ethernet 2.5G","Connected":true,"Wireless":false,"Speed":2500000000}]}
+            """);
+        // Wired beats a faster Wi-Fi link; among wired cards the fastest stays.
+        Assert.That(context.BestNic?.Id, Is.EqualTo(@"PCI\ETH25"));
+        Assert.That(DeviceService.UnusedReason(Device(@"PCI\WIFI", "Wi-Fi 6E"), context), Is.EqualTo("Devices:UnusedNicSlower"));
+        Assert.That(DeviceService.UnusedReason(Device(@"PCI\ETH1", "Ethernet 1G"), context), Is.EqualTo("Devices:UnusedNicSlower"));
+        Assert.That(DeviceService.UnusedReason(Device(@"PCI\ETH25", "Ethernet 2.5G"), context), Is.Null);
+        Assert.That(DeviceService.TickedByDefault("Devices:UnusedNicSlower"), Is.False);
+    }
+
+    [Test]
+    public void AudioFunctionsNobodyListensToAreSuggested()
+    {
+        PnpDeviceInfo Pci(string id, string cls, int bus, int address) => Device(id, id, cls) with { BusNumber = bus, Address = address };
+        PnpDeviceInfo Child(string id, string parent, int problem = 0) =>
+            new(id, id, "MEDIA", problem == 0 ? "OK" : "Error", true, problem, parent, "", "");
+        var devices = new List<PnpDeviceInfo>
+        {
+            Pci(@"PCI\VEN_1002&DEV_73A5\GPU", "Display", 48, 0),
+            Pci(@"PCI\VEN_1002&DEV_AB28\HDMI", "System", 48, 1),
+            Child(@"HDAUDIO\FUNC_01&VEN_1002\HDMI", @"PCI\VEN_1002&DEV_AB28\HDMI"),
+            Pci(@"PCI\VEN_1022&DEV_1487\HDA", "System", 10, 0x10003),
+            Child(@"HDAUDIO\FUNC_01&VEN_10EC\REALTEK", @"PCI\VEN_1022&DEV_1487\HDA"),
+            Child(@"USB\VID_06CB\DAC", @"USB\ROOT"),
+            Child(@"SWD\MMDEVAPI\{0.0.0.00000000}.{dac}", @"USB\VID_06CB\DAC"),
+        };
+        var context = DeviceService.WithAudio(Unused, devices, ["{0.0.0.00000000}.{dac}"]);
+        Assert.That(DeviceService.UnusedReason(devices[2], context), Is.EqualTo("Devices:UnusedGpuAudio"));
+        Assert.That(DeviceService.UnusedReason(devices[4], context), Is.EqualTo("Devices:UnusedOnboardAudio"));
+        // The Realtek plays the default output: it stays.
+        var realtek = devices.Append(Child(@"SWD\MMDEVAPI\{0.0.0.00000000}.{spk}", @"HDAUDIO\FUNC_01&VEN_10EC\REALTEK")).ToList();
+        Assert.That(DeviceService.UnusedReason(devices[4], DeviceService.WithAudio(Unused, realtek, ["{0.0.0.00000000}.{spk}"])), Is.Null);
+        // No default audio device known: nothing is suggested.
+        Assert.That(DeviceService.WithAudio(Unused, devices, []).SpareOnboardAudio, Is.Empty);
+    }
+
+    [Test]
     public void UsageContextReadsTheScriptOutput()
     {
         var context = DeviceService.ParseUsageContext("""

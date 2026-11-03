@@ -33,7 +33,45 @@ internal static class DeviceTree
     [DllImport("cfgmgr32.dll", CharSet = CharSet.Unicode)]
     private static extern int CM_Get_DevNode_PropertyW(int devInst, in DevPropKey key, out int type, byte[]? buffer, ref int size, int flags);
 
+    [DllImport("cfgmgr32.dll")]
+    private static extern int CM_Get_First_Log_Conf(out IntPtr logConf, int devInst, int flags);
+    [DllImport("cfgmgr32.dll")]
+    private static extern int CM_Get_Next_Res_Des(out IntPtr resDes, IntPtr current, int forResource, out int resourceId, int flags);
+    [DllImport("cfgmgr32.dll")]
+    private static extern int CM_Get_Res_Des_Data_Size(out int size, IntPtr resDes, int flags);
+    [DllImport("cfgmgr32.dll")]
+    private static extern int CM_Get_Res_Des_Data(IntPtr resDes, byte[] buffer, int size, int flags);
+    [DllImport("cfgmgr32.dll")]
+    private static extern int CM_Free_Res_Des_Handle(IntPtr resDes);
+    [DllImport("cfgmgr32.dll")]
+    private static extern int CM_Free_Log_Conf_Handle(IntPtr logConf);
+
     private const int FilterPresent = 0x100; // CM_GETIDLIST_FILTER_PRESENT
+
+    /// <summary>
+    /// Processor masks of the interrupts Windows allocated to a device in this boot (one per message; 0 means no specific
+    /// processor). They show the affinity Windows really uses, which changes only after a restart.
+    /// </summary>
+    public static IReadOnlyList<ulong> AllocatedInterruptAffinities(string id)
+    {
+        var masks = new List<ulong>();
+        // ALLOC_LOG_CONF = 2, ResType_IRQ = 4; IRQ_DES_64 keeps IRQD_Affinity at offset 16.
+        if (CM_Locate_DevNodeW(out var node, id, 0) != 0 || CM_Get_First_Log_Conf(out var conf, node, 2) != 0) return masks;
+        var current = conf;
+        while (CM_Get_Next_Res_Des(out var descriptor, current, 4, out _, 0) == 0)
+        {
+            if (CM_Get_Res_Des_Data_Size(out var size, descriptor, 0) == 0 && size >= 24)
+            {
+                var buffer = new byte[size];
+                if (CM_Get_Res_Des_Data(descriptor, buffer, size, 0) == 0) masks.Add(BitConverter.ToUInt64(buffer, 16));
+            }
+            if (current != conf) CM_Free_Res_Des_Handle(current);
+            current = descriptor;
+        }
+        if (current != conf) CM_Free_Res_Des_Handle(current);
+        CM_Free_Log_Conf_Handle(conf);
+        return masks;
+    }
 
     public static IReadOnlyList<DeviceNode> Read()
     {

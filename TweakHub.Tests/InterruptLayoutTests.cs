@@ -171,6 +171,45 @@ public class InterruptLayoutTests
     }
 
     [Test]
+    public void DisabledDevicesAndCardsWithoutALinkGetNoMask()
+    {
+        static InterruptDevice Nic(string id, bool working = true, bool? link = true) =>
+            new(id, id, "Net", true, true, 4, InterruptPriority.Undefined, 0, 0, Working: working, NetConnected: link);
+        var layout = InterruptLayoutPlanner.Plan(Cpus(8), []);
+        var rows = InterruptLayoutPlanner.Rows(layout, [Nic(@"PCI\ETH2"), Nic(@"PCI\ETH1", working: false, link: null), Nic(@"PCI\WIFI", link: false),
+            new InterruptDevice(@"PCI\USB", "USB", "USB", true, true, 8, InterruptPriority.Undefined, 0, 0, Working: false)]);
+        Assert.That(rows.Select(row => row.Skip), Is.EqualTo(new LayoutSkip?[] { null, LayoutSkip.Disabled, LayoutSkip.NetDisconnected, LayoutSkip.Disabled }));
+        Assert.That(rows.Count(row => row.Skip is null && !row.AlreadySet), Is.EqualTo(1));
+    }
+
+    [Test]
+    public void MsiStoragePinsAndActiveAffinity()
+    {
+        static InterruptDevice Device(string cls, bool msi, int policy = 0, ulong mask = 0) =>
+            new($@"PCI\{cls}", cls, cls, true, msi, 4, InterruptPriority.Undefined, policy, mask);
+        var layout = InterruptLayoutPlanner.Plan(Cpus(8), []);
+        var rows = InterruptLayoutPlanner.Rows(layout, [Device("Net", msi: false), Device("Display", msi: true)]);
+        Assert.That(InterruptLayoutPlanner.MsiCandidates(rows).Select(row => row.Device.Class), Is.EqualTo(new[] { "Net" }));
+
+        Assert.That(InterruptLayoutPlanner.PinnedStorage([Device("SCSIAdapter", true, 4, 1UL << 3), Device("SCSIAdapter", true, 5),
+            Device("HDC", true, 4, 0b1100), Device("Net", true, 4, 1)]).Count, Is.EqualTo(1));
+
+        // Windows reports the allocated targets; before a restart they are still the old ones (0 = no specific CPU).
+        Assert.That(InterruptLayoutPlanner.IsActive(1UL << 14, [1UL << 14, 1UL << 14]), Is.True);
+        Assert.That(InterruptLayoutPlanner.IsActive(1UL << 14, [0]), Is.False);
+        Assert.That(InterruptLayoutPlanner.IsActive(1UL << 14, []), Is.False);
+    }
+
+    [Test]
+    public void ResetCheckFindsTheDeviceOfAnAffinityKey()
+    {
+        Assert.That(InterruptService.AffinityKeyDevice(
+            @"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\PCI\VEN_1002&DEV_73A5&SUBSYS_05041043&REV_C0\6&e5c6fd0&0&00000019\Device Parameters\Interrupt Management\Affinity Policy"),
+            Is.EqualTo(@"PCI\VEN_1002&DEV_73A5&SUBSYS_05041043&REV_C0\6&e5c6fd0&0&00000019"));
+        Assert.That(InterruptService.AffinityKeyDevice(@"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\X"), Is.Null);
+    }
+
+    [Test]
     public void FrontPanelMeansAPluggedJackOnTheFrontOfTheCase()
     {
         static AudioEndpoints.KsJackDescription Jack(int geo, int gen, int connected) => new() { GeoLocation = geo, GenLocation = gen, IsConnected = connected };
