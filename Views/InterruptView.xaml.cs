@@ -189,14 +189,18 @@ public partial class InterruptView : UserControl
         }
         string Role(InterruptRole role) => L.Get($"Maintenance:LayoutRole{role}");
         var rows = InterruptLayoutPlanner.Rows(layout, _devices);
-        var todo = rows.Where(row => !row.AlreadySet).ToList();
+        var todo = rows.Where(row => !row.AlreadySet && row.Skip is null).ToList();
+        var audio = InterruptLayoutPlanner.HasAudio(rows);
         var lines = new List<string> { L.Get("Maintenance:LayoutIntro"), string.Empty };
-        lines.AddRange(layout.CpuByRole.Select(entry => $"{Role(entry.Key)}: CPU {entry.Value}"));
+        lines.AddRange(layout.CpuByRole.Where(entry => audio || entry.Key != InterruptRole.Audio)
+            .Select(entry => $"{Role(entry.Key)}: CPU {entry.Value}"));
+        if (!audio) lines.Add(L.Get("Maintenance:LayoutAudioUsb"));
         if (layout.HybridPerformanceOnly) lines.Add(L.Get("Maintenance:LayoutNoteHybrid"));
         if (layout.CacheGroupChosen) lines.Add(L.Get("Maintenance:LayoutNoteCache"));
         if (layout.SharedNetworkAudio) lines.Add(L.Get("Maintenance:LayoutNoteShared"));
         if (rows.Any(row => row.Role == InterruptRole.Network)) lines.Add(L.Get("Maintenance:LayoutRss"));
         lines.AddRange(rows.Where(row => row.AlreadySet).Select(row => L.Format("Maintenance:LayoutAlreadySet", row.Device.Name)));
+        lines.AddRange(rows.Where(row => row.Skip is not null).Select(row => L.Format($"Maintenance:Layout{row.Skip}", row.Device.Name)));
         if (todo.Count == 0)
         {
             lines.Add(string.Empty);

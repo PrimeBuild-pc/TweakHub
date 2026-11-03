@@ -96,6 +96,33 @@ public class InterruptLayoutTests
             [{"Id":"PCI\\VEN_1002&DEV_AB30\\4&1","Name":"HD Audio","Class":"System","HdAudio":true,"MsiCapable":true,"Msi":1}]
             """).Single();
         Assert.That(device.IsHdAudio, Is.True);
+        Assert.That(device.AudioInUse, Is.True, "older scans without the field keep the device");
+    }
+
+    [Test]
+    public void AudioCoreSkipsGpuAudioAndUnusedControllers()
+    {
+        static InterruptDevice Audio(string id, int address, bool inUse = true) =>
+            new(id, id, "System", true, true, null, InterruptPriority.Undefined, 0, 0, true, 48, address, inUse);
+        var gpu = new InterruptDevice(@"PCI\VEN_1002&DEV_73A5\1", "GPU", "Display", true, true, 1, InterruptPriority.Undefined, 0, 0,
+            Bus: 48, Address: 0);
+        var layout = InterruptLayoutPlanner.Plan(Cpus(8), []);
+        IReadOnlyList<InterruptLayoutRow> Rows(InterruptDevice audio) => InterruptLayoutPlanner.Rows(layout, [gpu, audio]);
+
+        // Radeon HDMI/DP audio: function 1 of the GPU slot, same vendor.
+        var hdmi = Rows(Audio(@"PCI\VEN_1002&DEV_AB28\2", 1));
+        Assert.That(hdmi[1].Skip, Is.EqualTo(LayoutSkip.GpuAudio));
+        Assert.That(InterruptLayoutPlanner.HasAudio(hdmi), Is.False);
+
+        // APU: onboard HD Audio shares the slot but not the vendor.
+        var onboard = Rows(Audio(@"PCI\VEN_1022&DEV_15E3\3", 6));
+        Assert.That(onboard[1].Skip, Is.Null);
+        Assert.That(InterruptLayoutPlanner.HasAudio(onboard), Is.True);
+
+        // Realtek disabled by a user who plays with a USB DAC.
+        var unused = Rows(Audio(@"PCI\VEN_1022&DEV_1487\4", 0x10003, inUse: false));
+        Assert.That(unused[1].Skip, Is.EqualTo(LayoutSkip.AudioUnused));
+        Assert.That(unused[1].AlreadySet, Is.False);
     }
 
     [Test]

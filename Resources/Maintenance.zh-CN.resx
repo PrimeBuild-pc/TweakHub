@@ -73,4 +73,7 @@
   <data name="LayoutNothingToDo" xml:space="preserve"><value>所有设备都已是建议的关联性。</value></data>
   <data name="LayoutReminder" xml:space="preserve"><value>请使用“重启”而不是“关机”（快速启动会保留旧状态）。每次更新 GPU 驱动后请重新检查，驱动可能会重置这些值。请比较 1% 和 0.1% low 帧时间，而不只是平均 FPS。每个设备的还原按钮可撤销此更改。</value></data>
   <data name="LayoutChoice" xml:space="preserve"><value>{0}：CPU {1} – {2}</value></data>
+  <data name="LayoutGpuAudio" xml:space="preserve"><value>{0}：显卡的 HDMI/DisplayPort 音频，不移动（它不是游戏音频）。</value></data>
+  <data name="LayoutAudioUnused" xml:space="preserve"><value>{0}：其后没有可用的音频设备（已禁用或不存在），不移动。</value></data>
+  <data name="LayoutAudioUsb" xml:space="preserve"><value>未使用板载声卡：USB 音频（耳机、DAC、音频接口）跟随其所连接 USB 控制器的核心。</value></data>
 </root>

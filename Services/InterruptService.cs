@@ -7,7 +7,8 @@ namespace TweakHub.Services;
 public enum InterruptPriority { Undefined = 0, Low = 1, Normal = 2, High = 3 }
 
 public sealed record InterruptDevice(string Id, string Name, string Class, bool MsiCapable, bool MsiEnabled, int? MessageLimit,
-    InterruptPriority Priority, int Policy, ulong AffinityMask, bool IsHdAudio = false)
+    InterruptPriority Priority, int Policy, ulong AffinityMask, bool IsHdAudio = false,
+    int? Bus = null, int? Address = null, bool AudioInUse = true)
 {
     // IrqPolicySpecifiedProcessors: the device only interrupts the CPUs in AssignmentSetOverride.
     public const int SpecifiedProcessorsPolicy = 4;
@@ -27,12 +28,20 @@ public sealed class InterruptService
 
     private const string ScanScript = """
         $ErrorActionPreference = 'SilentlyContinue'
-        @(Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -like 'PCI\*' } | ForEach-Object {
+        $present = @(Get-PnpDevice -PresentOnly)
+        # Controllers with at least one working HD Audio function behind them.
+        $working = @($present | Where-Object { $_.InstanceId -like 'HDAUDIO\*' -and $_.Status -eq 'OK' } | ForEach-Object {
+            ([string](Get-PnpDeviceProperty -InstanceId $_.InstanceId -KeyName DEVPKEY_Device_Parent).Data).ToUpperInvariant() })
+        @($present | Where-Object { $_.InstanceId -like 'PCI\*' } | ForEach-Object {
             $base = "HKLM:\SYSTEM\CurrentControlSet\Enum\$($_.InstanceId)\Device Parameters\Interrupt Management"
             $msi = Get-ItemProperty -LiteralPath "$base\MessageSignaledInterruptProperties"
             $affinity = Get-ItemProperty -LiteralPath "$base\Affinity Policy"
+            $hd = [bool](@($_.CompatibleID) -match '&CC_0403')
+            $slot = @($null, $null)
+            if ($hd -or $_.Class -eq 'Display') { $slot = @(Get-PnpDeviceProperty -InstanceId $_.InstanceId -KeyName DEVPKEY_Device_BusNumber, DEVPKEY_Device_Address) }
             [pscustomobject]@{ Id = [string]$_.InstanceId; Name = [string]$_.FriendlyName; Class = [string]$_.Class
-                HdAudio = [bool](@($_.CompatibleID) -match '&CC_0403')
+                HdAudio = $hd; Bus = $slot[0].Data; Address = $slot[1].Data
+                AudioInUse = (-not $hd) -or ($working -contains $_.InstanceId.ToUpperInvariant())
                 MsiCapable = [bool]$msi; Msi = $msi.MSISupported; Limit = $msi.MessageNumberLimit
                 Priority = $affinity.DevicePriority; Policy = $affinity.DevicePolicy
                 Mask = $(if ($affinity.AssignmentSetOverride) { [Convert]::ToBase64String([byte[]]$affinity.AssignmentSetOverride) }) }
@@ -59,7 +68,8 @@ public sealed class InterruptService
                 JsonRead.Text(item, "Id"), JsonRead.Text(item, "Name"), JsonRead.Text(item, "Class"),
                 JsonRead.Bool(item, "MsiCapable"), JsonRead.Int(item, "Msi") == 1, JsonRead.Int(item, "Limit"),
                 (InterruptPriority)Math.Clamp(JsonRead.Int(item, "Priority") ?? 0, 0, 3), JsonRead.Int(item, "Policy") ?? 0,
-                BitConverter.ToUInt64(bytes), JsonRead.Bool(item, "HdAudio"));
+                BitConverter.ToUInt64(bytes), JsonRead.Bool(item, "HdAudio"),
+                JsonRead.Int(item, "Bus"), JsonRead.Int(item, "Address"), JsonRead.Bool(item, "AudioInUse", fallback: true));
         })
         // Bridges and root ports have no driver-level interrupt settings worth changing.
         .Where(device => device.Id.Length > 0 && (device.MsiCapable || device.Class is not "System"))

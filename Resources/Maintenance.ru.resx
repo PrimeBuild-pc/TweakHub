@@ -73,4 +73,7 @@
   <data name="LayoutNothingToDo" xml:space="preserve"><value>У всех устройств уже установлена рекомендуемая привязка.</value></data>
   <data name="LayoutReminder" xml:space="preserve"><value>Перезагрузите через «Перезагрузка», а не «Завершение работы» (быстрый запуск сохраняет старое состояние). Проверяйте снова после каждого обновления драйвера GPU — он может сбросить эти значения. Сравнивайте 1% и 0,1% low frame time, а не только средний FPS. Кнопка восстановления у каждого устройства отменяет изменение.</value></data>
   <data name="LayoutChoice" xml:space="preserve"><value>{0}: CPU {1} – {2}</value></data>
+  <data name="LayoutGpuAudio" xml:space="preserve"><value>{0}: звук HDMI/DisplayPort видеокарты, не переносится (это не игровой звук).</value></data>
+  <data name="LayoutAudioUnused" xml:space="preserve"><value>{0}: за ним нет работающего аудиоустройства (отключено или отсутствует), не переносится.</value></data>
+  <data name="LayoutAudioUsb" xml:space="preserve"><value>Встроенная звуковая карта не используется: USB-звук (гарнитуры, ЦАП, аудиоинтерфейсы) работает на ядре того USB-контроллера, к которому подключён.</value></data>
 </root>

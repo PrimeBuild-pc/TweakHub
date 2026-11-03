@@ -10,8 +10,12 @@ internal sealed record InterruptLayout(
     bool SharedNetworkAudio = false,
     bool Unavailable = false);
 
+/// <summary>Why an audio controller is left alone: it is not where gaming audio plays.</summary>
+public enum LayoutSkip { GpuAudio, AudioUnused }
+
 /// <summary>A device of the layout and whether its affinity is already the suggested one.</summary>
-internal sealed record InterruptLayoutRow(InterruptDevice Device, InterruptRole Role, int Cpu, ulong Mask, bool AlreadySet);
+internal sealed record InterruptLayoutRow(InterruptDevice Device, InterruptRole Role, int Cpu, ulong Mask, bool AlreadySet,
+    LayoutSkip? Skip = null);
 
 internal static class InterruptLayoutPlanner
 {
@@ -65,15 +69,37 @@ internal static class InterruptLayoutPlanner
         }, hybrid, cacheChosen, shared);
     }
 
-    public static IReadOnlyList<InterruptLayoutRow> Rows(InterruptLayout layout, IEnumerable<InterruptDevice> devices) =>
-        devices.Select(device => (Device: device, Role: RoleOf(device)))
+    public static IReadOnlyList<InterruptLayoutRow> Rows(InterruptLayout layout, IEnumerable<InterruptDevice> devices)
+    {
+        var all = devices.ToList();
+        return all.Select(device => (Device: device, Role: RoleOf(device)))
             .Where(item => item.Role is { } role && layout.CpuByRole.ContainsKey(role))
             .Select(item =>
             {
                 var cpu = layout.CpuByRole[item.Role!.Value];
                 var mask = 1UL << cpu;
+                var skip = item.Role == InterruptRole.Audio ? AudioSkip(item.Device, all) : null;
                 return new InterruptLayoutRow(item.Device, item.Role.Value, cpu, mask,
-                    item.Device.HasAffinity && item.Device.AffinityMask == mask);
+                    skip is null && item.Device.HasAffinity && item.Device.AffinityMask == mask, skip);
             })
             .ToList();
+    }
+
+    /// <summary>True when some audio device will actually get the audio core.</summary>
+    public static bool HasAudio(IEnumerable<InterruptLayoutRow> rows) => rows.Any(row => row.Role == InterruptRole.Audio && row.Skip is null);
+
+    /// <summary>
+    /// The HDMI/DP audio of a graphics card (same PCI slot and vendor as a display device) or a controller with no
+    /// working audio device behind it is not the gaming audio, which is then USB or elsewhere.
+    /// </summary>
+    private static LayoutSkip? AudioSkip(InterruptDevice audio, IReadOnlyList<InterruptDevice> devices)
+    {
+        static string Vendor(InterruptDevice device) =>
+            System.Text.RegularExpressions.Regex.Match(device.Id, "VEN_([0-9A-F]{4})", System.Text.RegularExpressions.RegexOptions.IgnoreCase).Groups[1].Value.ToUpperInvariant();
+        if (audio is { Bus: { } bus, Address: { } address } && devices.Any(other => other.Class == "Display"
+                && other.Bus == bus && other.Address is { } otherAddress && otherAddress >> 16 == address >> 16
+                && Vendor(other) == Vendor(audio)))
+            return LayoutSkip.GpuAudio;
+        return audio.AudioInUse ? null : LayoutSkip.AudioUnused;
+    }
 }

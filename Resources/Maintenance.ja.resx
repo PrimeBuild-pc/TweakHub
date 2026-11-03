@@ -73,4 +73,7 @@
   <data name="LayoutNothingToDo" xml:space="preserve"><value>すべてのデバイスが既に推奨アフィニティになっています。</value></data>
   <data name="LayoutReminder" xml:space="preserve"><value>「シャットダウン」ではなく「再起動」を使ってください（高速スタートアップは以前の状態を保持します）。GPU ドライバーを更新するたびに再確認してください。これらの値がリセットされる場合があります。平均 FPS だけでなく、1% と 0.1% low のフレームタイムを比較してください。各デバイスの復元ボタンで元に戻せます。</value></data>
   <data name="LayoutChoice" xml:space="preserve"><value>{0}：CPU {1} – {2}</value></data>
+  <data name="LayoutGpuAudio" xml:space="preserve"><value>{0}: グラフィックカードの HDMI/DisplayPort オーディオのため移動しません（ゲーム用の音声ではありません）。</value></data>
+  <data name="LayoutAudioUnused" xml:space="preserve"><value>{0}: この背後に動作中のオーディオデバイスがありません（無効または存在しない）。移動しません。</value></data>
+  <data name="LayoutAudioUsb" xml:space="preserve"><value>オンボードのサウンドカードは使用されていません。USB オーディオ（ヘッドセット、DAC、オーディオインターフェイス）は接続先 USB コントローラーのコアに従います。</value></data>
 </root>

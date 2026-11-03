@@ -73,4 +73,7 @@ Se abre una consola elevada con su aviso. -p -spr -m -sor -se -scs conservan ene
   <data name="LayoutNothingToDo" xml:space="preserve"><value>Todos los dispositivos ya tienen la afinidad sugerida.</value></data>
   <data name="LayoutReminder" xml:space="preserve"><value>Reinicia con Reiniciar, no con Apagar (el inicio rápido conserva el estado anterior). Vuelve a comprobarlo tras cada actualización del controlador de la GPU, que puede restablecer estos valores. Compara los frame times 1% y 0,1% low, no solo los FPS medios. El botón de restaurar de cada dispositivo lo deshace.</value></data>
   <data name="LayoutChoice" xml:space="preserve"><value>{0}: CPU {1} – {2}</value></data>
+  <data name="LayoutGpuAudio" xml:space="preserve"><value>{0}: audio HDMI/DisplayPort de la tarjeta gráfica, no se mueve (no es el audio para jugar).</value></data>
+  <data name="LayoutAudioUnused" xml:space="preserve"><value>{0}: ningún dispositivo de audio activo detrás (desactivado o ausente), no se mueve.</value></data>
+  <data name="LayoutAudioUsb" xml:space="preserve"><value>No hay tarjeta de sonido integrada en uso: el audio USB (auriculares, DAC, interfaces de audio) sigue el núcleo del controlador USB al que está conectado.</value></data>
 </root>

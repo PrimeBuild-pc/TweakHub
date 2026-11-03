@@ -75,4 +75,7 @@ Launch elevated in a visible console with its own disclaimer. Arguments: -p -spr
   <data name="LayoutNothingToDo" xml:space="preserve"><value>Every device already has the suggested affinity.</value></data>
   <data name="LayoutReminder" xml:space="preserve"><value>Restart with Restart, not Shut down (Fast Startup keeps the old state). Check again after every GPU driver update, which can reset these values. Compare 1% and 0.1% low frame times, not only average FPS. The restore button of each device undoes it.</value></data>
   <data name="LayoutChoice" xml:space="preserve"><value>{0}: CPU {1} – {2}</value></data>
+  <data name="LayoutGpuAudio" xml:space="preserve"><value>{0}: HDMI/DisplayPort audio of the graphics card, not moved (it is not the gaming audio).</value></data>
+  <data name="LayoutAudioUnused" xml:space="preserve"><value>{0}: no working audio device behind it (disabled or missing), not moved.</value></data>
+  <data name="LayoutAudioUsb" xml:space="preserve"><value>No built-in sound card in use: USB audio (headsets, DACs, audio interfaces) follows the core of the USB controller it is plugged into.</value></data>
 </root>

@@ -73,4 +73,7 @@ Avvio elevato in una console visibile, con il disclaimer di Tron. Argomenti: -p 
   <data name="LayoutNothingToDo" xml:space="preserve"><value>Tutti i dispositivi hanno già l'affinità suggerita.</value></data>
   <data name="LayoutReminder" xml:space="preserve"><value>Riavvia con Riavvia, non con Arresta (l'Avvio rapido conserva lo stato precedente). Ricontrolla dopo ogni aggiornamento del driver della GPU, che può azzerare questi valori. Confronta i frame time 1% e 0,1% low, non solo gli FPS medi. Il pulsante di ripristino di ogni dispositivo annulla la modifica.</value></data>
   <data name="LayoutChoice" xml:space="preserve"><value>{0}: CPU {1} – {2}</value></data>
+  <data name="LayoutGpuAudio" xml:space="preserve"><value>{0}: audio HDMI/DisplayPort della scheda video, non spostato (non è l'audio per giocare).</value></data>
+  <data name="LayoutAudioUnused" xml:space="preserve"><value>{0}: nessun dispositivo audio attivo dietro di esso (disattivato o assente), non spostato.</value></data>
+  <data name="LayoutAudioUsb" xml:space="preserve"><value>Nessuna scheda audio integrata in uso: l'audio USB (cuffie, DAC, schede audio esterne) segue il core del controller USB a cui è collegato.</value></data>
 </root>
