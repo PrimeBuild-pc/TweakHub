@@ -120,6 +120,7 @@ public sealed class ShortcutService
 
             // GPU and display
             new ExternalTool { Name = "mVolt", Description = L.Get("Tools:DescriptionMVolt"), Category = "GPU & Display", DownloadUrl = "https://github.com/b00nz/mVolt" },
+            new ExternalTool { Name = "NVIDIA VBIOS Vix Editor", Description = L.Get("Tools:DescriptionVixEditor"), Category = "GPU & Display", DownloadUrl = "https://github.com/Panchovix/nvidia-vbios-vix-editor" },
             new ExternalTool { Name = "GPU-Z", Description = L.Get("Tools:DescriptionGPUInformationSensorsAndValidation"), Category = "GPU & Display", WingetId = "TechPowerUp.GPU-Z" },
             new ExternalTool { Name = "MSI Afterburner", Description = L.Get("Tools:DescriptionGPUMonitoringFanCurvesAndOverclockingControls"), Category = "GPU & Display", WingetId = "Guru3D.Afterburner" },
             new ExternalTool { Name = "RivaTuner Statistics Server", Description = L.Get("Tools:DescriptionFrameRateLimitingAndInGamePerformance"), Category = "GPU & Display", WingetId = "Guru3D.RTSS" },

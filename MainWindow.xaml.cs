@@ -1,6 +1,7 @@
 using System.Windows;
 using System.Windows.Input;
 using ModernWpf.Controls;
+using TweakHub.Localization;
 using TweakHub.Services;
 using TweakHub.Views;
 
@@ -44,6 +45,11 @@ public partial class MainWindow : Window
         while (!TweakService.Instance.RegistryDisclaimerShown) await Task.Delay(500);
         await Task.Delay(1000);
         await UpdateService.Instance.CheckAndPromptAsync(this, showNoUpdate: false);
+        // A driver update (often the GPU one) recreates the device key and drops the suggested layout without a word.
+        var reset = await Task.Run(() => InterruptService.ResetAffinityDevices(DeviceTree.Read()));
+        if (reset.Count > 0)
+            await Views.Dialogs.AppDialog.ShowWarningAsync(this, L.Get("Maintenance:LayoutResetTitle"),
+                L.Format("Maintenance:LayoutResetMessage", string.Join("\n", reset)));
     }
 
     private void Navigation_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)

@@ -56,4 +56,44 @@ Avvio elevato in una console visibile, con il disclaimer di Tron. Argomenti: -p 
   <data name="DisableSleepName" xml:space="preserve"><value>Disattiva del tutto la sospensione alla presa</value></data>
   <data name="DisableSleepDescription" xml:space="preserve"><value>Con il PC collegato alla corrente Windows non consente più gli stati di standby (S1–S3), il tasto di sospensione non fa nulla e la voce Sospendi sparisce dal menu di arresto di Start. Usalo solo se non sospendi mai questo PC. Opzionale, non applicato tra i consigliati. I PC con Modern Standby non usano S1–S3 e mantengono la propria sospensione. Il ripristino rimette i valori originali. Richiede riavvio.</value></data>
   <data name="TronBlockedByAntivirus" xml:space="preserve"><value>Microsoft Defender (o il tuo antivirus) ha bloccato il pacchetto Tron come software potenzialmente indesiderato e lo ha rimosso. TweakHub non aggiunge mai esclusioni all'antivirus. Se ti fidi di Tron, aggiungi tu le esclusioni per la cartella Data\Tools\Tron di questa copia e per C:\ProgramData\TweakHub-Tron-*, poi riprova.</value></data>
+  <data name="LayoutButton" xml:space="preserve"><value>Layout suggerito per ruolo</value></data>
+  <data name="LayoutTitle" xml:space="preserve"><value>Layout degli interrupt suggerito</value></data>
+  <data name="LayoutIntro" xml:space="preserve"><value>Un core fisico ciascuno per grafica, USB, rete e audio, fuori dal core 0, scelto dalla topologia di questa CPU. È un layout suggerito da misurare: il beneficio non è dimostrato. Cambia solo l'affinità; MSI e priorità restano come sono. Togli la spunta ai dispositivi che vuoi lasciare invariati.</value></data>
+  <data name="LayoutRoleGpu" xml:space="preserve"><value>Grafica</value></data>
+  <data name="LayoutRoleUsb" xml:space="preserve"><value>USB</value></data>
+  <data name="LayoutRoleNetwork" xml:space="preserve"><value>Rete</value></data>
+  <data name="LayoutRoleAudio" xml:space="preserve"><value>Audio</value></data>
+  <data name="LayoutNoteHybrid" xml:space="preserve"><value>CPU ibrida: si usano solo i P-core.</value></data>
+  <data name="LayoutNoteCache" xml:space="preserve"><value>CPU con più cache L3 (CCD): i dispositivi vanno sul CCD senza 3D V-Cache, o su quello senza la CPU 0 se le cache sono uguali.</value></data>
+  <data name="LayoutNoteShared" xml:space="preserve"><value>Questa CPU ha 6 core o meno: rete e audio condividono un core.</value></data>
+  <data name="LayoutRss" xml:space="preserve"><value>L'RSS di rete non viene modificato: spostarne l'inizio fa cambiare a Windows anche code e processori, e non si potrebbe ripristinare esattamente.</value></data>
+  <data name="LayoutUnavailable" xml:space="preserve"><value>Su questo PC non si può suggerire un layout: più gruppi di processori, troppo pochi core o topologia non leggibile.</value></data>
+  <data name="LayoutNothingToDo" xml:space="preserve"><value>Tutti i dispositivi hanno già l'affinità suggerita.</value></data>
+  <data name="LayoutReminder" xml:space="preserve"><value>Riavvia con Riavvia, non con Arresta (l'Avvio rapido conserva lo stato precedente). Ricontrolla dopo ogni aggiornamento del driver della GPU, che può azzerare questi valori. Confronta i frame time 1% e 0,1% low, non solo gli FPS medi. Il pulsante di ripristino di ogni dispositivo annulla la modifica.</value></data>
+  <data name="LayoutChoice" xml:space="preserve"><value>{0}: CPU {1} – {2}</value></data>
+  <data name="LayoutGpuAudio" xml:space="preserve"><value>{0}: audio HDMI/DisplayPort della scheda video, non spostato (non è l'audio per giocare).</value></data>
+  <data name="LayoutAudioUnused" xml:space="preserve"><value>{0}: nessun dispositivo audio attivo dietro di esso (disattivato o assente), non spostato.</value></data>
+  <data name="LayoutAudioUsb" xml:space="preserve"><value>Nessuna scheda audio integrata in uso: l'audio USB (cuffie, DAC, schede audio esterne) segue il core del controller USB a cui è collegato.</value></data>
+  <data name="LayoutUsbController" xml:space="preserve"><value>USB {0}: {1}</value></data>
+  <data name="LayoutUsbMouse" xml:space="preserve"><value>mouse</value></data>
+  <data name="LayoutUsbKeyboard" xml:space="preserve"><value>tastiera</value></data>
+  <data name="LayoutUsbCamera" xml:space="preserve"><value>webcam</value></data>
+  <data name="LayoutUsbAudio" xml:space="preserve"><value>audio: {0}</value></data>
+  <data name="LayoutUsbNothing" xml:space="preserve"><value>nessun mouse, tastiera, webcam o dispositivo audio predefinito</value></data>
+  <data name="LayoutUsbAudioShared" xml:space="preserve"><value>{0} condivide il controller USB con il mouse o la tastiera, quindi resta sul core USB. Per dargli un core tutto suo, collegalo a una porta di un controller senza mouse e tastiera (vedi l'elenco sopra), poi riapri questo layout.</value></data>
+  <data name="LayoutFrontJack" xml:space="preserve"><value>{0} è collegato a un jack frontale del case: quel cavo passa dentro il case e prende spesso disturbi. Per giocare usa il jack sul retro della scheda madre.</value></data>
+  <data name="LayoutLoadTitle" xml:space="preserve"><value>Carico misurato ora per 2 secondi (mentre gira un gioco è diverso):</value></data>
+  <data name="LayoutLoadCpu" xml:space="preserve"><value>CPU {0}: occupata al {1:0}%, {2:0.0}% interrupt e DPC, {3:0} interrupt/s</value></data>
+  <data name="LayoutLoadBusy" xml:space="preserve"><value>La CPU {0} è già occupata al {1:0}%: un programma la sta usando. Controlla Gestione attività prima di applicare.</value></data>
+  <data name="LayoutDisabled" xml:space="preserve"><value>{0}: disattivato o non funzionante, escluso dal layout.</value></data>
+  <data name="LayoutNetDisconnected" xml:space="preserve"><value>{0}: nessun collegamento di rete, escluso dal layout.</value></data>
+  <data name="LayoutMsiChoice" xml:space="preserve"><value>Attiva MSI per {0} (supportato dal driver, ora spento)</value></data>
+  <data name="LayoutStoragePinned" xml:space="preserve"><value>{0} è legato solo a {1}: i controller di archiviazione con più code vanno meglio con la distribuzione predefinita di Windows. Usa il pulsante di ripristino o l'editor per azzerare la sua affinità.</value></data>
+  <data name="LayoutActive" xml:space="preserve"><value>Attivo ora: {0}</value></data>
+  <data name="LayoutPendingRestart" xml:space="preserve"><value>Impostato, ma Windows usa i core precedenti fino al riavvio: {0}</value></data>
+  <data name="LayoutResetTitle" xml:space="preserve"><value>Layout degli interrupt azzerato</value></data>
+  <data name="LayoutResetMessage" xml:space="preserve"><value>L'affinità degli interrupt suggerita non c'è più su questi dispositivi, di solito dopo un aggiornamento dei driver:
+{0}
+
+Apri Dispositivi → Affinità e applica di nuovo il layout suggerito.</value></data>
 </root>

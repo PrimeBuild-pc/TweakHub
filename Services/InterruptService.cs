@@ -7,7 +7,8 @@ namespace TweakHub.Services;
 public enum InterruptPriority { Undefined = 0, Low = 1, Normal = 2, High = 3 }
 
 public sealed record InterruptDevice(string Id, string Name, string Class, bool MsiCapable, bool MsiEnabled, int? MessageLimit,
-    InterruptPriority Priority, int Policy, ulong AffinityMask)
+    InterruptPriority Priority, int Policy, ulong AffinityMask, bool IsHdAudio = false,
+    int? Bus = null, int? Address = null, bool AudioInUse = true, bool Working = true, bool? NetConnected = null)
 {
     // IrqPolicySpecifiedProcessors: the device only interrupts the CPUs in AssignmentSetOverride.
     public const int SpecifiedProcessorsPolicy = 4;
@@ -27,11 +28,23 @@ public sealed class InterruptService
 
     private const string ScanScript = """
         $ErrorActionPreference = 'SilentlyContinue'
-        @(Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -like 'PCI\*' } | ForEach-Object {
+        $present = @(Get-PnpDevice -PresentOnly)
+        $links = @{}
+        Get-NetAdapter -Physical | ForEach-Object { $links[([string]$_.PnPDeviceID).ToUpperInvariant()] = [int]$_.MediaConnectionState -eq 1 }
+        # Controllers with at least one working HD Audio function behind them.
+        $working = @($present | Where-Object { $_.InstanceId -like 'HDAUDIO\*' -and $_.Status -eq 'OK' } | ForEach-Object {
+            ([string](Get-PnpDeviceProperty -InstanceId $_.InstanceId -KeyName DEVPKEY_Device_Parent).Data).ToUpperInvariant() })
+        @($present | Where-Object { $_.InstanceId -like 'PCI\*' } | ForEach-Object {
             $base = "HKLM:\SYSTEM\CurrentControlSet\Enum\$($_.InstanceId)\Device Parameters\Interrupt Management"
             $msi = Get-ItemProperty -LiteralPath "$base\MessageSignaledInterruptProperties"
             $affinity = Get-ItemProperty -LiteralPath "$base\Affinity Policy"
+            $hd = [bool](@($_.CompatibleID) -match '&CC_0403')
+            $slot = @($null, $null)
+            if ($hd -or $_.Class -eq 'Display') { $slot = @(Get-PnpDeviceProperty -InstanceId $_.InstanceId -KeyName DEVPKEY_Device_BusNumber, DEVPKEY_Device_Address) }
             [pscustomobject]@{ Id = [string]$_.InstanceId; Name = [string]$_.FriendlyName; Class = [string]$_.Class
+                HdAudio = $hd; Bus = $slot[0].Data; Address = $slot[1].Data
+                AudioInUse = (-not $hd) -or ($working -contains $_.InstanceId.ToUpperInvariant())
+                Working = $_.Status -eq 'OK'; NetConnected = $links[$_.InstanceId.ToUpperInvariant()]
                 MsiCapable = [bool]$msi; Msi = $msi.MSISupported; Limit = $msi.MessageNumberLimit
                 Priority = $affinity.DevicePriority; Policy = $affinity.DevicePolicy
                 Mask = $(if ($affinity.AssignmentSetOverride) { [Convert]::ToBase64String([byte[]]$affinity.AssignmentSetOverride) }) }
@@ -58,7 +71,10 @@ public sealed class InterruptService
                 JsonRead.Text(item, "Id"), JsonRead.Text(item, "Name"), JsonRead.Text(item, "Class"),
                 JsonRead.Bool(item, "MsiCapable"), JsonRead.Int(item, "Msi") == 1, JsonRead.Int(item, "Limit"),
                 (InterruptPriority)Math.Clamp(JsonRead.Int(item, "Priority") ?? 0, 0, 3), JsonRead.Int(item, "Policy") ?? 0,
-                BitConverter.ToUInt64(bytes));
+                BitConverter.ToUInt64(bytes), JsonRead.Bool(item, "HdAudio"),
+                JsonRead.Int(item, "Bus"), JsonRead.Int(item, "Address"), JsonRead.Bool(item, "AudioInUse", fallback: true),
+                JsonRead.Bool(item, "Working", fallback: true),
+                item.TryGetProperty("NetConnected", out var link) && link.ValueKind is JsonValueKind.True or JsonValueKind.False ? link.GetBoolean() : null);
         })
         // Bridges and root ports have no driver-level interrupt settings worth changing.
         .Where(device => device.Id.Length > 0 && (device.MsiCapable || device.Class is not "System"))
@@ -106,6 +122,39 @@ public sealed class InterruptService
     public Task<bool> RestoreAsync(InterruptDevice device, bool affinityOnly = false) =>
         RegistryService.Instance.RestoreValuesAsync(ManagedValues(device.Id).Skip(affinityOnly ? 2 : 0).Take(2)
             .Where(change => RegistryService.Instance.HasBackup(change.KeyPath, change.ValueName)).ToList());
+
+    /// <summary>Writes several affinities, and MSI on the devices given, with one backup and one elevation; priority is not touched.</summary>
+    public Task<bool> ApplyAffinitiesAsync(IReadOnlyCollection<(InterruptDevice Device, ulong Mask)> items,
+        IReadOnlyCollection<InterruptDevice>? enableMsi = null) =>
+        items.Count + (enableMsi?.Count ?? 0) == 0 || items.Any(item => !CanAssign(item.Mask))
+            ? Task.FromResult(false)
+            : RegistryService.Instance.ApplyValuesWithBackupAsync(
+                items.SelectMany(item => BuildChanges(item.Device, null, null, item.Mask))
+                    .Concat((enableMsi ?? []).Where(device => device.MsiCapable).SelectMany(device => BuildChanges(device, true, null, null))).ToList());
+
+    /// <summary>
+    /// Devices whose layout affinity is back to the original value while TweakHub's backup is still there: a driver update
+    /// (often the GPU one) recreated the device key. Only present PCI devices, by display name.
+    /// </summary>
+    internal static IReadOnlyList<string> ResetAffinityDevices(IReadOnlyList<DeviceNode> nodes)
+    {
+        var present = nodes.DistinctBy(node => node.Id, StringComparer.OrdinalIgnoreCase)
+            .ToDictionary(node => node.Id, node => node.Name, StringComparer.OrdinalIgnoreCase);
+        return RegistryService.Instance.BackedUpValues
+            .Where(value => value.ValueName == "DevicePolicy")
+            .Select(value => (value.KeyPath, Id: AffinityKeyDevice(value.KeyPath)))
+            .Where(item => item.Id is not null && present.ContainsKey(item.Id) && RegistryService.Instance.IsAtOriginal(item.KeyPath, "DevicePolicy") == true)
+            .Select(item => present[item.Id!] is { Length: > 0 } name ? name : item.Id!)
+            .ToList();
+    }
+
+    internal static string? AffinityKeyDevice(string keyPath)
+    {
+        var match = System.Text.RegularExpressions.Regex.Match(keyPath,
+            @"^HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Enum\\(PCI\\[^\\]+\\[^\\]+)\\Device Parameters\\Interrupt Management\\Affinity Policy$",
+            System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+        return match.Success ? match.Groups[1].Value : null;
+    }
 
     internal static string FormatMask(ulong mask) => string.Join(", ",
         Enumerable.Range(0, 64).Where(cpu => (mask >> cpu & 1) == 1).Select(cpu => $"CPU {cpu}"));

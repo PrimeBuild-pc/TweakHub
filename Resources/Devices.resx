@@ -806,6 +806,9 @@ TweakHub cannot check what the script does, and the author can change it at any 
   <data name="UnusedNic" xml:space="preserve">
     <value>network card without a link; another card is connected</value>
   </data>
+  <data name="UnusedNicSlower" xml:space="preserve"><value>Connected, but {0} is faster: with two live connections Windows may send games over the slower one.</value></data>
+  <data name="UnusedGpuAudio" xml:space="preserve"><value>HDMI/DisplayPort audio of the graphics card, not your default playback or recording device. Keep it if you use the monitor's speakers.</value></data>
+  <data name="UnusedOnboardAudio" xml:space="preserve"><value>Built-in sound card that is not your default playback or recording device. Keep it if you plug anything into the PC's audio jacks.</value></data>
   <data name="TabDrivers" xml:space="preserve">
     <value>Drivers</value>
   </data>

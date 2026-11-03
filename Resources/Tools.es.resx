@@ -992,4 +992,7 @@ Esto puede deberse a permisos insuficientes o a que la aplicación de destino no
   <data name="DescriptionNuclei" xml:space="preserve">
     <value>Escáner de vulnerabilidades basado en plantillas de ProjectDiscovery para tus propios servidores y aplicaciones web. Herramienta de línea de comandos: úsala solo en sistemas que estés autorizado a probar. Abre solo el repositorio oficial.</value>
   </data>
+  <data name="DescriptionVixEditor" xml:space="preserve">
+    <value>Editor offline de VBIOS NVIDIA (Blackwell; Ada, Ampere y Turing casi solo lectura). Guarda una ROM nueva con un manifiesto y nunca flashea: las ROM editadas se cargan con los cargadores Vix o mVolt+. Las ROM editadas no pasan la firma original: nunca las flashees con nvflash. Subir potencia, corriente o voltaje puede dañar el hardware; muchas funciones son experimentales, también en portátiles. Binarios sin firmar (SmartScreen puede avisar). Abre solo el repositorio oficial.</value>
+  </data>
 </root>

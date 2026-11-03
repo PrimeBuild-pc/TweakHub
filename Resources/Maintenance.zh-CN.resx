@@ -56,4 +56,44 @@
   <data name="DisableSleepName" xml:space="preserve"><value>接通电源时完全关闭睡眠</value></data>
   <data name="DisableSleepDescription" xml:space="preserve"><value>接通电源时，Windows 不再允许待机状态 (S1–S3)，睡眠键不执行任何操作，并从“开始”的电源菜单中隐藏“睡眠”。仅在从不让这台电脑睡眠时使用。可选，不包含在推荐项中。使用现代待机 (Modern Standby) 的电脑不使用 S1–S3，保留其自身的睡眠功能。还原会恢复原始值。需要重启。</value></data>
   <data name="TronBlockedByAntivirus" xml:space="preserve"><value>Microsoft Defender（或你的杀毒软件）将 Tron 软件包识别为可能不需要的软件并已将其删除。TweakHub 从不添加杀毒软件排除项。如果你信任 Tron，请自行为此副本的 Data\Tools\Tron 文件夹和 C:\ProgramData\TweakHub-Tron-* 添加排除项，然后重试。</value></data>
+  <data name="LayoutButton" xml:space="preserve"><value>按用途的建议布局</value></data>
+  <data name="LayoutTitle" xml:space="preserve"><value>建议的中断布局</value></data>
+  <data name="LayoutIntro" xml:space="preserve"><value>根据此 CPU 的拓扑，为显卡、USB、网络和音频各分配一个物理核心，避开核心 0。这是需要实测的建议布局：效果尚未得到证实。只更改关联性，MSI 和优先级保持不变。取消勾选不想更改的设备。</value></data>
+  <data name="LayoutRoleGpu" xml:space="preserve"><value>显卡</value></data>
+  <data name="LayoutRoleUsb" xml:space="preserve"><value>USB</value></data>
+  <data name="LayoutRoleNetwork" xml:space="preserve"><value>网络</value></data>
+  <data name="LayoutRoleAudio" xml:space="preserve"><value>音频</value></data>
+  <data name="LayoutNoteHybrid" xml:space="preserve"><value>混合架构 CPU：只使用 P 核。</value></data>
+  <data name="LayoutNoteCache" xml:space="preserve"><value>具有多个 L3 缓存（CCD）的 CPU：设备分配到没有 3D V-Cache 的 CCD；缓存相同时，分配到不含 CPU 0 的 CCD。</value></data>
+  <data name="LayoutNoteShared" xml:space="preserve"><value>此 CPU 只有 6 个或更少核心：网络和音频共用一个核心。</value></data>
+  <data name="LayoutRss" xml:space="preserve"><value>不会更改网络 RSS：移动其起始位置会让 Windows 同时更改队列和处理器，无法精确还原。</value></data>
+  <data name="LayoutUnavailable" xml:space="preserve"><value>无法在此电脑上建议布局：存在多个处理器组、核心太少或无法读取拓扑。</value></data>
+  <data name="LayoutNothingToDo" xml:space="preserve"><value>所有设备都已是建议的关联性。</value></data>
+  <data name="LayoutReminder" xml:space="preserve"><value>请使用“重启”而不是“关机”（快速启动会保留旧状态）。每次更新 GPU 驱动后请重新检查，驱动可能会重置这些值。请比较 1% 和 0.1% low 帧时间，而不只是平均 FPS。每个设备的还原按钮可撤销此更改。</value></data>
+  <data name="LayoutChoice" xml:space="preserve"><value>{0}：CPU {1} – {2}</value></data>
+  <data name="LayoutGpuAudio" xml:space="preserve"><value>{0}：显卡的 HDMI/DisplayPort 音频，不移动（它不是游戏音频）。</value></data>
+  <data name="LayoutAudioUnused" xml:space="preserve"><value>{0}：其后没有可用的音频设备（已禁用或不存在），不移动。</value></data>
+  <data name="LayoutAudioUsb" xml:space="preserve"><value>未使用板载声卡：USB 音频（耳机、DAC、音频接口）跟随其所连接 USB 控制器的核心。</value></data>
+  <data name="LayoutUsbController" xml:space="preserve"><value>USB {0}：{1}</value></data>
+  <data name="LayoutUsbMouse" xml:space="preserve"><value>鼠标</value></data>
+  <data name="LayoutUsbKeyboard" xml:space="preserve"><value>键盘</value></data>
+  <data name="LayoutUsbCamera" xml:space="preserve"><value>摄像头</value></data>
+  <data name="LayoutUsbAudio" xml:space="preserve"><value>音频：{0}</value></data>
+  <data name="LayoutUsbNothing" xml:space="preserve"><value>没有鼠标、键盘、摄像头或默认音频设备</value></data>
+  <data name="LayoutUsbAudioShared" xml:space="preserve"><value>{0} 与鼠标或键盘共用 USB 控制器，因此留在 USB 核心上。若要为它分配独立核心，请将其插入没有鼠标和键盘的控制器端口（见上面的列表），然后重新打开此布局。</value></data>
+  <data name="LayoutFrontJack" xml:space="preserve"><value>{0} 插在机箱前面板的插孔上：该线缆经过机箱内部，容易受到干扰。玩游戏时请使用主板背面的插孔。</value></data>
+  <data name="LayoutLoadTitle" xml:space="preserve"><value>当前测量 2 秒的负载（游戏运行时会不同）：</value></data>
+  <data name="LayoutLoadCpu" xml:space="preserve"><value>CPU {0}：占用 {1:0}%，中断和 DPC {2:0.0}%，每秒 {3:0} 次中断</value></data>
+  <data name="LayoutLoadBusy" xml:space="preserve"><value>CPU {0} 当前已占用 {1:0}%：有程序正在使用它。应用前请检查任务管理器。</value></data>
+  <data name="LayoutDisabled" xml:space="preserve"><value>{0}：已禁用或无法工作，不参与布局。</value></data>
+  <data name="LayoutNetDisconnected" xml:space="preserve"><value>{0}：没有网络连接，不参与布局。</value></data>
+  <data name="LayoutMsiChoice" xml:space="preserve"><value>为 {0} 开启 MSI（驱动支持，当前关闭）</value></data>
+  <data name="LayoutStoragePinned" xml:space="preserve"><value>{0} 仅绑定到 {1}：多队列存储控制器使用 Windows 默认分布更快。请用还原按钮或编辑器重置其亲和性。</value></data>
+  <data name="LayoutActive" xml:space="preserve"><value>当前生效：{0}</value></data>
+  <data name="LayoutPendingRestart" xml:space="preserve"><value>已设置，但重启前 Windows 仍使用之前的核心：{0}</value></data>
+  <data name="LayoutResetTitle" xml:space="preserve"><value>中断布局已被重置</value></data>
+  <data name="LayoutResetMessage" xml:space="preserve"><value>这些设备上建议的中断亲和性已消失，通常是在驱动更新之后：
+{0}
+
+请打开“设备”→“亲和性”，再次应用建议的布局。</value></data>
 </root>

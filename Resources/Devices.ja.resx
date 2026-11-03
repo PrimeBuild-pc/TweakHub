@@ -806,6 +806,9 @@ TweakHub はスクリプトの動作を確認できず、作者はいつでも�
   <data name="UnusedNic" xml:space="preserve">
     <value>リンクのないネットワーク カード（別のカードが接続中）</value>
   </data>
+  <data name="UnusedNicSlower" xml:space="preserve"><value>接続されていますが {0} のほうが高速です。接続が 2 つあると、Windows がゲームを遅いほうで通信することがあります。</value></data>
+  <data name="UnusedGpuAudio" xml:space="preserve"><value>グラフィックカードの HDMI/DisplayPort オーディオで、既定の再生・録音デバイスではありません。モニターのスピーカーを使う場合は残してください。</value></data>
+  <data name="UnusedOnboardAudio" xml:space="preserve"><value>既定の再生・録音デバイスではないオンボードのサウンドカードです。PC のオーディオ ジャックに何か接続する場合は残してください。</value></data>
   <data name="TabDrivers" xml:space="preserve">
     <value>ドライバー</value>
   </data>

@@ -168,6 +168,14 @@ namespace TweakHub.Services
             return success;
         }
 
+        /// <summary>True when a backed-up value is back to its original state, false when it differs, null without a backup.</summary>
+        internal bool? IsAtOriginal(string keyPath, string valueName)
+        {
+            RegistryBackup? backup;
+            lock (_lock) backup = _backups.GetValueOrDefault(BackupKey(keyPath, valueName));
+            return backup is null ? null : IsOriginal(backup);
+        }
+
         private bool IsOriginal(RegistryBackup backup) => backup.Existed
             ? ValuesEqual(GetRegistryValue(backup.KeyPath, backup.ValueName), Decode(backup))
             : !RegistryValueExists(backup.KeyPath, backup.ValueName);

@@ -225,6 +225,41 @@ public sealed class DeviceService
     {
         public IReadOnlyList<string> OtherVpnUsers { get; init; } = [];
         public IReadOnlyList<string> UncheckedUsers { get; init; } = [];
+        public IReadOnlyList<NicLink> Nics { get; init; } = [];
+        /// <summary>HD Audio functions of a graphics card (HDMI/DP) that no default audio device uses.</summary>
+        public IReadOnlySet<string> SpareGpuAudio { get; init; } = new HashSet<string>();
+        /// <summary>Other HD Audio functions (the built-in sound card) that no default audio device uses.</summary>
+        public IReadOnlySet<string> SpareOnboardAudio { get; init; } = new HashSet<string>();
+
+        /// <summary>The connected card to keep: wired before wireless, then the fastest link.</summary>
+        public NicLink? BestNic => Nics.Where(nic => nic.Connected).OrderBy(nic => nic.Wireless).ThenByDescending(nic => nic.Speed).FirstOrDefault();
+    }
+
+    public sealed record NicLink(string Id, string Name, bool Connected, bool Wireless, long Speed);
+
+    /// <summary>
+    /// Adds the audio functions nobody listens to: an HD Audio function is in use when a default playback or recording
+    /// endpoint hangs below it. A GPU function is the one in the slot of a display device from the same vendor.
+    /// </summary>
+    public static UsageContext WithAudio(UsageContext context, IReadOnlyList<PnpDeviceInfo> devices, IReadOnlyCollection<string> defaultEndpointIds)
+    {
+        if (defaultEndpointIds.Count == 0) return context;
+        var byId = devices.DistinctBy(device => device.Id, StringComparer.OrdinalIgnoreCase).ToDictionary(device => device.Id, StringComparer.OrdinalIgnoreCase);
+        var used = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        foreach (var id in defaultEndpointIds)
+            for (var current = byId.GetValueOrDefault(@"SWD\MMDEVAPI\" + id); current is not null && used.Add(current.Id);
+                 current = byId.GetValueOrDefault(current.Parent)) { }
+        var displays = devices.Where(device => device.Class == "Display" && device.BusNumber >= 0 && device.Address >= 0).ToList();
+        bool OnGpu(PnpDeviceInfo controller) => displays.Any(display => display.BusNumber == controller.BusNumber
+            && display.Address >> 16 == controller.Address >> 16 && InterruptLayoutPlanner.PciVendor(display.Id) == InterruptLayoutPlanner.PciVendor(controller.Id));
+        var spare = devices.Where(device => device.Id.StartsWith(@"HDAUDIO\", StringComparison.OrdinalIgnoreCase) && device.Present
+                && !device.IsDisabled && !used.Contains(device.Id))
+            .Select(device => (device.Id, Gpu: byId.GetValueOrDefault(device.Parent) is { } controller && OnGpu(controller))).ToList();
+        return context with
+        {
+            SpareGpuAudio = spare.Where(item => item.Gpu).Select(item => item.Id).ToHashSet(StringComparer.OrdinalIgnoreCase),
+            SpareOnboardAudio = spare.Where(item => !item.Gpu).Select(item => item.Id).ToHashSet(StringComparer.OrdinalIgnoreCase)
+        };
     }
 
     internal const string UsageScript = """
@@ -244,7 +279,9 @@ public sealed class DeviceService
                 if (Test-Path -LiteralPath $pbk) { @(Select-String -LiteralPath $pbk -Pattern '^\[').Count } else { 0 }
             } catch [UnauthorizedAccessException] { -1 } catch { 0 }
             [pscustomobject]@{ User = [string]$name; Entries = [int]$count } })
-        $nics = @(Get-NetAdapter -Physical | ForEach-Object { [pscustomobject]@{ Id = [string]$_.PnPDeviceID; Connected = [int]$_.MediaConnectionState -eq 1 } })
+        # NdisPhysicalMedium 9 is native 802.11 (Wi-Fi); Speed is the link in bits per second.
+        $nics = @(Get-NetAdapter -Physical | ForEach-Object { [pscustomobject]@{ Id = [string]$_.PnPDeviceID; Name = [string]$_.InterfaceDescription
+            Connected = [int]$_.MediaConnectionState -eq 1; Wireless = [int]$_.NdisPhysicalMedium -eq 9; Speed = [long]$_.Speed } })
         [pscustomobject]@{ RemoteDesktopOff = $rdp -eq 1; DialUpEntries = $entries; Others = $others; Nics = $nics } | ConvertTo-Json -Compress -Depth 3
         """ + PowerShellService.AsciiJson;
 
@@ -269,7 +306,10 @@ public sealed class DeviceService
             nics.Any(nic => JsonRead.Bool(nic, "Connected")))
         {
             OtherVpnUsers = Users(entries => entries > 0),
-            UncheckedUsers = Users(entries => entries < 0)
+            UncheckedUsers = Users(entries => entries < 0),
+            Nics = nics.Select(nic => new NicLink(JsonRead.Text(nic, "Id"), JsonRead.Text(nic, "Name"), JsonRead.Bool(nic, "Connected"),
+                JsonRead.Bool(nic, "Wireless"), nic.TryGetProperty("Speed", out var speed) && speed.TryGetInt64(out var bits) ? bits : 0))
+                .Where(nic => nic.Id.Length > 0).ToList()
         };
     }
 
@@ -288,6 +328,11 @@ public sealed class DeviceService
                 : context.UncheckedUsers.Count > 0 ? "Devices:UnusedVpnUnchecked" : "Devices:UnusedVpn";
         // Never the last way online: only when another physical card has a link.
         if (context.DisconnectedNics.Contains(device.Id) && context.AnyNicConnected) return "Devices:UnusedNic";
+        // Two live connections: Windows may route games over the worse one.
+        if (context.Nics.Any(nic => nic.Connected && nic.Id.Equals(device.Id, StringComparison.OrdinalIgnoreCase))
+            && context.BestNic is { } best && !best.Id.Equals(device.Id, StringComparison.OrdinalIgnoreCase)) return "Devices:UnusedNicSlower";
+        if (context.SpareGpuAudio.Contains(device.Id)) return "Devices:UnusedGpuAudio";
+        if (context.SpareOnboardAudio.Contains(device.Id)) return "Devices:UnusedOnboardAudio";
         return null;
     }
 
@@ -296,12 +341,14 @@ public sealed class DeviceService
     {
         "Devices:UnusedVpnOtherUser" => L.Format(reason, string.Join(", ", context.OtherVpnUsers)),
         "Devices:UnusedVpnUnchecked" => L.Format(reason, string.Join(", ", context.UncheckedUsers)),
+        "Devices:UnusedNicSlower" => L.Format(reason, context.BestNic?.Name ?? string.Empty),
         _ => L.Get(reason)
     };
 
-    /// <summary>Ticked in the list unless it may still be needed: a card without a link today, another account's VPN.</summary>
+    /// <summary>Ticked in the list unless it may still be needed: a card without a link today, another account's VPN, a second connection, audio.</summary>
     public static bool TickedByDefault(string reason) =>
-        reason is not ("Devices:UnusedNic" or "Devices:UnusedVpnOtherUser" or "Devices:UnusedVpnUnchecked");
+        reason is not ("Devices:UnusedNic" or "Devices:UnusedVpnOtherUser" or "Devices:UnusedVpnUnchecked"
+            or "Devices:UnusedNicSlower" or "Devices:UnusedGpuAudio" or "Devices:UnusedOnboardAudio");
 
     /// <summary>One elevated script for the whole list; each line reports OK|id or FAIL|id|reason so partial runs stay tracked.</summary>
     internal static string BuildDisableManyScript(IEnumerable<string> instanceIds) =>

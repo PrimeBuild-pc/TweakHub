@@ -806,6 +806,9 @@ TweakHub 无法检查脚本的行为，作者也可以随时修改它。如有�
   <data name="UnusedNic" xml:space="preserve">
     <value>网卡未连接；另一张网卡已连接</value>
   </data>
+  <data name="UnusedNicSlower" xml:space="preserve"><value>已连接，但 {0} 更快：有两个活动连接时，Windows 可能让游戏走较慢的那个。</value></data>
+  <data name="UnusedGpuAudio" xml:space="preserve"><value>显卡的 HDMI/DisplayPort 音频，不是你的默认播放或录音设备。如果使用显示器扬声器请保留。</value></data>
+  <data name="UnusedOnboardAudio" xml:space="preserve"><value>不是默认播放或录音设备的板载声卡。如果你会在电脑音频插孔上插设备请保留。</value></data>
   <data name="TabDrivers" xml:space="preserve">
     <value>驱动程序</value>
   </data>

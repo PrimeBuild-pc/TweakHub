@@ -58,4 +58,44 @@ Launch elevated in a visible console with its own disclaimer. Arguments: -p -spr
   <data name="DisableSleepName" xml:space="preserve"><value>Turn off sleep completely when plugged in</value></data>
   <data name="DisableSleepDescription" xml:space="preserve"><value>When plugged in, Windows no longer allows standby (S1–S3), the sleep key does nothing and Sleep is hidden from the Start power menu. Use it only if you never put this PC to sleep. Optional, not recommended automatically. PCs with Modern Standby do not use S1–S3 and keep their own sleep. Restore puts back the original values. Restart required.</value></data>
   <data name="TronBlockedByAntivirus" xml:space="preserve"><value>Microsoft Defender (or your antivirus) blocked the Tron package as potentially unwanted software and removed it. TweakHub never adds antivirus exclusions. If you trust Tron, add exclusions yourself for this copy's Data\Tools\Tron folder and for C:\ProgramData\TweakHub-Tron-*, then try again.</value></data>
+  <data name="LayoutButton" xml:space="preserve"><value>Suggested layout by role</value></data>
+  <data name="LayoutTitle" xml:space="preserve"><value>Suggested interrupt layout</value></data>
+  <data name="LayoutIntro" xml:space="preserve"><value>One physical core each for graphics, USB, network and audio, outside core 0, chosen from this CPU's topology. It is a suggested layout to measure: the benefit is not proven. Only the affinity changes; MSI and priority stay as they are. Untick the devices you want to leave alone.</value></data>
+  <data name="LayoutRoleGpu" xml:space="preserve"><value>Graphics</value></data>
+  <data name="LayoutRoleUsb" xml:space="preserve"><value>USB</value></data>
+  <data name="LayoutRoleNetwork" xml:space="preserve"><value>Network</value></data>
+  <data name="LayoutRoleAudio" xml:space="preserve"><value>Audio</value></data>
+  <data name="LayoutNoteHybrid" xml:space="preserve"><value>Hybrid CPU: only P-cores are used.</value></data>
+  <data name="LayoutNoteCache" xml:space="preserve"><value>CPU with several L3 caches (CCDs): devices go to the CCD without 3D V-Cache, or to the one without CPU 0 when the caches are equal.</value></data>
+  <data name="LayoutNoteShared" xml:space="preserve"><value>This CPU has 6 cores or fewer: network and audio share one core.</value></data>
+  <data name="LayoutRss" xml:space="preserve"><value>Network RSS is not changed: moving its start makes Windows also change the queues and processors, which cannot be restored exactly.</value></data>
+  <data name="LayoutUnavailable" xml:space="preserve"><value>No layout can be suggested on this PC: several processor groups, too few cores or an unreadable topology.</value></data>
+  <data name="LayoutNothingToDo" xml:space="preserve"><value>Every device already has the suggested affinity.</value></data>
+  <data name="LayoutReminder" xml:space="preserve"><value>Restart with Restart, not Shut down (Fast Startup keeps the old state). Check again after every GPU driver update, which can reset these values. Compare 1% and 0.1% low frame times, not only average FPS. The restore button of each device undoes it.</value></data>
+  <data name="LayoutChoice" xml:space="preserve"><value>{0}: CPU {1} – {2}</value></data>
+  <data name="LayoutGpuAudio" xml:space="preserve"><value>{0}: HDMI/DisplayPort audio of the graphics card, not moved (it is not the gaming audio).</value></data>
+  <data name="LayoutAudioUnused" xml:space="preserve"><value>{0}: no working audio device behind it (disabled or missing), not moved.</value></data>
+  <data name="LayoutAudioUsb" xml:space="preserve"><value>No built-in sound card in use: USB audio (headsets, DACs, audio interfaces) follows the core of the USB controller it is plugged into.</value></data>
+  <data name="LayoutUsbController" xml:space="preserve"><value>USB {0}: {1}</value></data>
+  <data name="LayoutUsbMouse" xml:space="preserve"><value>mouse</value></data>
+  <data name="LayoutUsbKeyboard" xml:space="preserve"><value>keyboard</value></data>
+  <data name="LayoutUsbCamera" xml:space="preserve"><value>camera</value></data>
+  <data name="LayoutUsbAudio" xml:space="preserve"><value>audio: {0}</value></data>
+  <data name="LayoutUsbNothing" xml:space="preserve"><value>no mouse, keyboard, camera or default audio device</value></data>
+  <data name="LayoutUsbAudioShared" xml:space="preserve"><value>{0} shares its USB controller with the mouse or keyboard, so it stays on the USB core. To give it its own core, plug it into a port of a controller without mouse and keyboard (see the list above), then open this layout again.</value></data>
+  <data name="LayoutFrontJack" xml:space="preserve"><value>{0} is plugged into a front-panel jack of the case: that cable runs inside the case and often picks up noise. For gaming, use the jack on the back of the motherboard.</value></data>
+  <data name="LayoutLoadTitle" xml:space="preserve"><value>Load measured now over 2 seconds (it is different while a game runs):</value></data>
+  <data name="LayoutLoadCpu" xml:space="preserve"><value>CPU {0}: {1:0}% busy, {2:0.0}% interrupts and DPC, {3:0} interrupts/s</value></data>
+  <data name="LayoutLoadBusy" xml:space="preserve"><value>CPU {0} is already {1:0}% busy now: a program is using it. Check Task Manager before applying.</value></data>
+  <data name="LayoutDisabled" xml:space="preserve"><value>{0}: disabled or not working, left out of the layout.</value></data>
+  <data name="LayoutNetDisconnected" xml:space="preserve"><value>{0}: no network link, left out of the layout.</value></data>
+  <data name="LayoutMsiChoice" xml:space="preserve"><value>Turn on MSI for {0} (supported by its driver, now off)</value></data>
+  <data name="LayoutStoragePinned" xml:space="preserve"><value>{0} is tied to {1} only: storage controllers with several queues are faster with Windows' default spread. Use the restore button or the editor to reset its affinity.</value></data>
+  <data name="LayoutActive" xml:space="preserve"><value>Active now: {0}</value></data>
+  <data name="LayoutPendingRestart" xml:space="preserve"><value>Set, but Windows still uses the old cores until a restart: {0}</value></data>
+  <data name="LayoutResetTitle" xml:space="preserve"><value>Interrupt layout reset</value></data>
+  <data name="LayoutResetMessage" xml:space="preserve"><value>The suggested interrupt affinity is gone on these devices, usually after a driver update:
+{0}
+
+Open Devices → Affinity and apply the suggested layout again.</value></data>
 </root>

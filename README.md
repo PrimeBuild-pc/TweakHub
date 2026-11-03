@@ -109,6 +109,12 @@ It runs as the current user and requests administrator privileges only when an o
   </tr>
 </table>
 
+New in 1.7.0:
+- **Suggested interrupt layout** (Devices → Affinity): one physical core each for graphics, USB, network and audio, outside core 0, chosen from the CPU topology (P-cores only on hybrid CPUs, the CCD without 3D V-Cache on dual-CCD Ryzen). Only devices in use count: disabled devices, network cards without a link, the graphics card's HDMI/DisplayPort audio and unused sound cards are left out. The USB controller of your DAC or audio interface gets the audio core when no mouse or keyboard shares it. The preview lists what is plugged into each USB controller, warns about headphones on a front-panel jack, shows the measured load of the chosen cores, offers MSI where the driver supports it, and tells whether Windows already uses the layout or needs a restart. One backup and one elevation; each device is undone with its restore button.
+- **Driver update check:** at startup TweakHub warns when a driver update has reset the layout on some devices.
+- **Disable unused** also suggests, unticked, the slower of two live network connections (wired before Wi-Fi, then the fastest link) and audio devices nobody listens to.
+- **External tools:** NVIDIA VBIOS Vix Editor, with its warnings in the description.
+
 New in 1.6.1:
 - **Windows Update "Security" mode:** security updates are no longer deferred, but nothing downloads, installs or restarts by itself: Windows notifies you, and you download, install and restart. Drivers stay excluded and feature updates are deferred for 365 days. A clean Windows install is now recognized as "Default". On Windows Home, TweakHub explains which parts the edition ignores.
 - **Hardening:** elevated script output goes through a private named pipe instead of temporary files, system folder variables are reset in every script, a running service is stopped before it is deleted, and elevated startup scans by another administrator read the right user.
