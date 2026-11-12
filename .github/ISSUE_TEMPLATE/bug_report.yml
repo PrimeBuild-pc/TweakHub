@@ -1,0 +1,62 @@
+name: Bug report
+description: Report a reproducible problem in TweakHub
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please fill in the environment details so the problem can be reproduced.
+        Do not paste personal data from `Data/Logs`: remove user names, paths and device serial numbers first.
+  - type: input
+    id: version
+    attributes:
+      label: TweakHub version
+      description: Shown on the About page.
+    validations:
+      required: true
+  - type: input
+    id: windows
+    attributes:
+      label: Windows 11 build
+      description: Run `winver` to see it, for example 24H2 (OS build 26100.xxxx).
+    validations:
+      required: true
+  - type: dropdown
+    id: install
+    attributes:
+      label: Portable or installed
+      options:
+        - Portable
+        - Installed
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: Page or tweak involved
+      description: For example Devices > Drivers, or the name of the tweak.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or screenshots
+      description: Only the lines that matter, and only after removing personal data.
