@@ -1,7 +1,7 @@
 <div align="center">
   <img src="assets/logo.png" alt="TweakHub wrench logo" width="128">
   <h1>TweakHub</h1>
-  <p><strong>A portable Windows 11 toolkit for power users who configure, rebuild and maintain PCs frequently.</strong></p>
+  <p><strong>A portable control center for Windows 11: add your own tweaks, scripts and favorites, carry it on a USB stick, and reach the specialist tools from one place.</strong><br>For advanced users and technicians who configure, rebuild and maintain PCs. Free and open source (MIT).</p>
   <p>
     <a href="https://github.com/PrimeBuild-pc/TweakHub/commits/main"><img alt="Last commit" src="https://img.shields.io/github/last-commit/PrimeBuild-pc/TweakHub?style=plastic&amp;logo=git&amp;logoColor=white"></a>
     <a href="https://github.com/PrimeBuild-pc/TweakHub/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/PrimeBuild-pc/TweakHub?style=plastic&amp;logo=github"></a>
@@ -19,13 +19,20 @@
   </p>
   <p>
     <a href="#features"><b>Features</b></a> ·
+    <a href="#how-it-compares"><b>How it compares</b></a> ·
     <a href="#screenshots"><b>Screenshots</b></a> ·
     <a href="#download--quick-start"><b>Download</b></a> ·
     <a href="#portable-by-design"><b>Portable data</b></a> ·
+    <a href="#faq"><b>FAQ</b></a> ·
     <a href="#in-depth"><b>In depth</b></a> ·
     <a href="#build-from-source"><b>Build</b></a>
   </p>
-  <br>
+  <p>
+    <a href="https://github.com/PrimeBuild-pc/TweakHub/releases/latest"><img alt="Download the latest release" src="https://img.shields.io/badge/Download-Latest%20release-2ea44f?style=for-the-badge&amp;logo=github"></a>
+    <a href="#download--quick-start"><img alt="Install with WinGet" src="https://img.shields.io/badge/WinGet-PrimeBuild.TweakHub-0078D4?style=for-the-badge&amp;logo=windows&amp;logoColor=white"></a>
+  </p>
+  <img src="docs/media/tweakhub-demo.gif" alt="TweakHub demo: registry tweaks, custom tweaks, the external tools catalog and the Connections check" width="860">
+  <p><sub>Real screen recording: registry tweaks, your own custom tweak, External Tools and Connections.</sub></p>
   <a id="screenshots"></a>
   <a href="assets/screenshots/security-overview.png"><img src="assets/screenshots/security-overview.png" alt="TweakHub Security overview with the security score ring" width="900"></a>
 </div>
@@ -63,6 +70,17 @@
 TweakHub is built to live on a USB drive. Extract it once, add your preferred tools, scripts, Registry tweaks, favorites and appearance settings, then carry the complete folder between PCs. Your portable configuration stays with the app instead of being scattered across every machine you maintain.
 
 It runs as the current user and requests administrator privileges only when an operation requires them. Supported tweaks provide previews, backups and restoration. External tools and destructive maintenance scripts can make changes that TweakHub cannot undo.
+
+## How it compares
+
+TweakHub does not try to replace [WinUtil](https://github.com/ChrisTitusTech/winutil), [Winaero Tweaker](https://winaero.com/winaero-tweaker/) or other tweak tools. It sits next to them.
+
+- **It is yours to extend.** Add your own Registry tweaks, PowerShell/CMD scripts, playbooks and tool cards next to the built-in ones, and keep a favorites section. You do not need to write a tool of your own.
+- **It is portable.** Settings, scripts and rollback data stay beside `TweakHub.exe`, so you can carry the whole folder on a USB stick and configure many PCs. Nothing is stored in a cloud account.
+- **It links the rest.** The External Tools catalog lists WinUtil and many single-purpose tools, including specialist ones for stability testing, overclocking, firmware and flashing (categories such as *Benchmarks & Stability* and *Firmware & Power*). Install TweakHub and reach the others from there. Cards open the tool's official page, and some also install it through WinGet.
+- **Built-in tweaks are reversible.** Each has a preview, an automatic backup, verification and rollback.
+
+What it is not: a one-click optimizer, a tool for beginners (see the warning above), or a replacement for the dedicated tools it links. Windows 11 only. Releases may be unsigned.
 
 ## Features
 
@@ -281,6 +299,44 @@ SysMain and Prefetch should normally remain enabled. Disable them only after mea
 
 The device-metadata and Windows Update driver policies affect different content: preventing device companion apps does not block every driver, while the driver exclusion policy omits packages Windows Update classifies as drivers. The Windows Update selector offers Default, Disabled and Security modes from a script bundled with TweakHub; Security keeps quality/security updates on their normal schedule while deferring feature updates for 365 days. High-risk AI removal and third-party hosts-list scripts always require explicit confirmation.
 
+</details>
+
+## FAQ
+
+<details>
+<summary><b>SmartScreen warns me when I run it. Is it safe?</b></summary>
+
+Releases may be unsigned, so Microsoft Defender SmartScreen can warn on first launch. Each release asset has a matching `.sha256` file: check it before running (`Get-FileHash .\TweakHub-Setup-<version>.exe -Algorithm SHA256`). The source is public and releases are built by CI from tagged commits.
+</details>
+
+<details>
+<summary><b>How do I undo a tweak?</b></summary>
+
+Built-in Registry tweaks keep a backup of the original values and each one can be restored; **Restore All Changes** restores everything TweakHub changed, and **Create Restore Point** takes a Windows restore point first. Do not delete the files in `Data` before restoring. External tools and destructive maintenance scripts (for example Tron) can make changes TweakHub cannot undo: back up your files first.
+</details>
+
+<details>
+<summary><b>Can it affect games or anti-cheat?</b></summary>
+
+TweakHub does not touch game processes. It changes Windows settings, like any tweak tool, and we have not tested it against specific anti-cheat systems. It does not change Secure Boot or memory integrity: the Security page only opens the matching Windows settings. Preview each change and keep the **Tweak check** tab in mind: it flags popular tweaks that hurt stability.
+</details>
+
+<details>
+<summary><b>Does it need administrator rights?</b></summary>
+
+It runs as the current user and asks for administrator privileges only for operations that need them.
+</details>
+
+<details>
+<summary><b>Does it collect data?</b></summary>
+
+The source contains no analytics or telemetry code. The update check reads the GitHub releases API, and in-app updates are confirmed by you and verified with SHA-256.
+</details>
+
+<details>
+<summary><b>Can I move it to another PC?</b></summary>
+
+Yes. Copy the complete portable folder (`TweakHub.exe`, `portable.flag` and `Data`), or export your profile under **Settings → Portable configuration**. Profiles do not include the programs under `Apps`.
 </details>
 
 ## Hardware reports
