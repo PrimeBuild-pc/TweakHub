@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Hardware report
+    url: https://github.com/PrimeBuild-pc/TweakHub/blob/main/docs/hardware-reports.md
+    about: Hardware reports use the collection script described here, not an issue.
