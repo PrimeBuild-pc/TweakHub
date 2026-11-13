@@ -27,12 +27,6 @@
     <a href="#in-depth"><b>In depth</b></a> ·
     <a href="#build-from-source"><b>Build</b></a>
   </p>
-  <p>
-    <a href="https://github.com/PrimeBuild-pc/TweakHub/releases/latest"><img alt="Download the latest release" src="https://img.shields.io/badge/Download-Latest%20release-2ea44f?style=for-the-badge&amp;logo=github"></a>
-    <a href="#download--quick-start"><img alt="Install with WinGet" src="https://img.shields.io/badge/WinGet-PrimeBuild.TweakHub-0078D4?style=for-the-badge&amp;logo=windows&amp;logoColor=white"></a>
-  </p>
-  <img src="docs/media/tweakhub-demo.gif" alt="TweakHub demo: registry tweaks, custom tweaks, the external tools catalog and the Connections check" width="860">
-  <p><sub>Real screen recording: registry tweaks, your own custom tweak, External Tools and Connections.</sub></p>
   <a id="screenshots"></a>
   <a href="assets/screenshots/security-overview.png"><img src="assets/screenshots/security-overview.png" alt="TweakHub Security overview with the security score ring" width="900"></a>
 </div>
@@ -366,7 +360,7 @@ Generated binaries belong in Releases, not in Git.
 
 If TweakHub saves you time, you can support its development here:
 
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Y6U02AIRB8) [![PayPal](https://img.shields.io/badge/Supporta%20su-PayPal-0070BA?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/PrimeBuildOfficial?country.x=IT&locale.x=it_IT)
+[![Ko-fi](https://img.shields.io/badge/Supporta%20su-Ko--fi-FF5E5B?style=plastic&logo=ko-fi&logoColor=white)](https://ko-fi.com/primebuild) [![PayPal](https://img.shields.io/badge/Supporta%20su-PayPal-0070BA?style=plastic&logo=paypal&logoColor=white)](https://paypal.me/PrimeBuildOfficial?country.x=IT&locale.x=it_IT)
 
 ## License
 
