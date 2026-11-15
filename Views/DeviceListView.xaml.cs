@@ -42,6 +42,7 @@ public partial class DeviceListView : UserControl
             Loading.Hide();
             ScanButton.IsEnabled = true;
             ExportButton.IsEnabled = DisableUnusedButton.IsEnabled = _devices.Count > 0;
+            RemoveGhostsButton.IsEnabled = DeviceService.GhostDevices(_devices).Count > 0;
             EnableAllButton.IsEnabled = DeviceService.HasDisabledDevices;
         }
     }
@@ -171,6 +172,28 @@ public partial class DeviceListView : UserControl
         {
             DisableUnusedButton.IsEnabled = _devices.Count > 0;
         }
+    }
+
+    private async void RemoveGhosts_Click(object sender, RoutedEventArgs e)
+    {
+        var ghosts = DeviceService.GhostDevices(_devices);
+        if (ghosts.Count == 0) return;
+        var chosen = await AppDialog.ChooseAsync(Window.GetWindow(this), L.Get("Devices:RemoveGhosts"), L.Format("Devices:RemoveGhostsMessage", ghosts.Count),
+            ghosts.Select(device => ($"{device.DisplayName} ({device.Class}) — {device.Id}", DeviceService.GhostTickedByDefault(device))));
+        if (chosen is null) return;
+        RemoveGhostsButton.IsEnabled = false;
+        try
+        {
+            var (removed, notRemoved) = await DeviceService.Instance.RemoveGhostsAsync(chosen.Select(index => ghosts[index]).ToList());
+            var summary = L.Format("Devices:RemoveGhostsDone", removed, chosen.Count);
+            if (notRemoved.Count > 0) summary += "\n\n" + L.Format("Devices:RemoveGhostsNotRemoved", string.Join("\n", notRemoved));
+            await AppDialog.ShowAsync(Window.GetWindow(this), L.Get("Devices:RemoveGhosts"), summary);
+        }
+        catch (InvalidOperationException ex)
+        {
+            await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Devices:RemoveGhosts"), ex.Message);
+        }
+        await ScanAsync();
     }
 
     private async void Export_Click(object sender, RoutedEventArgs e) =>

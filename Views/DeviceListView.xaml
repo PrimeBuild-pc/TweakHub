@@ -56,6 +56,13 @@
                             <TextBlock Text="{loc:Loc Devices:DisableUnused}"/>
                         </StackPanel>
                     </Button>
+                    <Button x:Name="RemoveGhostsButton" Click="RemoveGhosts_Click" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0"
+                            ToolTip="{loc:Loc Devices:RemoveGhostsHint}" IsEnabled="False">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE74D;" Style="{StaticResource IconTextStyle}" Margin="0,0,6,0"/>
+                            <TextBlock Text="{loc:Loc Devices:RemoveGhosts}"/>
+                        </StackPanel>
+                    </Button>
                     <Button x:Name="EnableAllButton" Click="EnableAll_Click" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0"
                             ToolTip="{loc:Loc Devices:EnableAllHint}">
                         <StackPanel Orientation="Horizontal">

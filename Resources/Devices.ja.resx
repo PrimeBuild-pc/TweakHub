@@ -876,4 +876,22 @@ TweakHub はスクリプトの動作を確認できず、作者はいつでも�
   <data name="UnusedVpnUnchecked" xml:space="preserve">
     <value>あなたには VPN/PPPoE 接続がありません。{0} の接続は確認できませんでした（読み取るには TweakHub を管理者として起動してください）</value>
   </data>
+  <data name="RemoveGhosts" xml:space="preserve">
+    <value>ゴースト デバイスを削除</value>
+  </data>
+  <data name="RemoveGhostsHint" xml:space="preserve">
+    <value>インストール済みでも接続されていないデバイス (存在しないと表示されるもの) を削除します。接続中のデバイスには一切触れません。</value>
+  </data>
+  <data name="RemoveGhostsMessage" xml:space="preserve">
+    <value>{0} 個のデバイスがインストール済みですが接続されていません。チェックしたものは pnputil で Windows から削除されます。ソフトウェア デバイス (ROOT、SWD、SW、UMB、HTREE) は表示されますがチェックされていません。意図的に非表示で、まだ必要なものがあるためです。
+
+削除は TweakHub から元に戻せません。削除したデバイスは、再接続したときなど Windows が再検出したときにのみ戻ります。その設定 (固定 COM ポートやネットワーク設定など) は失われる場合があります。</value>
+  </data>
+  <data name="RemoveGhostsDone" xml:space="preserve">
+    <value>{1} 個中 {0} 個のデバイスを削除しました。</value>
+  </data>
+  <data name="RemoveGhostsNotRemoved" xml:space="preserve">
+    <value>削除されなかったもの (再接続された、または Windows が拒否):
+{0}</value>
+  </data>
 </root>

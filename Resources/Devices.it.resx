@@ -876,4 +876,22 @@ TweakHub non può controllare cosa fa lo script e l'autore può modificarlo in q
   <data name="UnusedVpnUnchecked" xml:space="preserve">
     <value>nessuna connessione VPN o PPPoE per te; non è stato possibile controllare quelle di {0} (avvia TweakHub come amministratore per leggerle)</value>
   </data>
+  <data name="RemoveGhosts" xml:space="preserve">
+    <value>Rimuovi dispositivi fantasma</value>
+  </data>
+  <data name="RemoveGhostsHint" xml:space="preserve">
+    <value>Rimuove i dispositivi installati ma non più collegati (mostrati come non presenti). I dispositivi presenti non vengono mai toccati.</value>
+  </data>
+  <data name="RemoveGhostsMessage" xml:space="preserve">
+    <value>{0} dispositivi sono installati ma non collegati. Quelli spuntati verranno rimossi da Windows con pnputil. I dispositivi software (ROOT, SWD, SW, UMB, HTREE) sono elencati ma non spuntati: alcuni sono nascosti di proposito e servono ancora.
+
+La rimozione non si può annullare da TweakHub. Un dispositivo rimosso torna solo quando Windows lo rileva di nuovo, per esempio quando lo ricolleghi; le sue impostazioni (come una porta COM fissa o le impostazioni di rete) possono andare perse.</value>
+  </data>
+  <data name="RemoveGhostsDone" xml:space="preserve">
+    <value>Rimossi {0} dispositivi su {1}.</value>
+  </data>
+  <data name="RemoveGhostsNotRemoved" xml:space="preserve">
+    <value>Non rimossi (di nuovo collegati o rifiutati da Windows):
+{0}</value>
+  </data>
 </root>

@@ -876,4 +876,22 @@ TweakHub не может проверить, что делает скрипт, �
   <data name="UnusedVpnUnchecked" xml:space="preserve">
     <value>у вас нет VPN- или PPPoE-подключений; подключения {0} проверить не удалось (запустите TweakHub от имени администратора)</value>
   </data>
+  <data name="RemoveGhosts" xml:space="preserve">
+    <value>Удалить устройства-призраки</value>
+  </data>
+  <data name="RemoveGhostsHint" xml:space="preserve">
+    <value>Удаляет установленные, но больше не подключённые устройства (отмеченные как отсутствующие). Подключённые устройства не затрагиваются.</value>
+  </data>
+  <data name="RemoveGhostsMessage" xml:space="preserve">
+    <value>Установлено, но не подключено устройств: {0}. Отмеченные будут удалены из Windows с помощью pnputil. Программные устройства (ROOT, SWD, SW, UMB, HTREE) показаны, но не отмечены: некоторые скрыты намеренно и всё ещё нужны.
+
+Удаление нельзя отменить в TweakHub. Удалённое устройство вернётся, только когда Windows снова его обнаружит, например при повторном подключении; его настройки (например, закреплённый COM-порт или сетевые параметры) могут быть потеряны.</value>
+  </data>
+  <data name="RemoveGhostsDone" xml:space="preserve">
+    <value>Удалено устройств: {0} из {1}.</value>
+  </data>
+  <data name="RemoveGhostsNotRemoved" xml:space="preserve">
+    <value>Не удалены (снова подключены или Windows отказала):
+{0}</value>
+  </data>
 </root>

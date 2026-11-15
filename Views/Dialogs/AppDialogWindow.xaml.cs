@@ -58,7 +58,7 @@ public partial class AppDialogWindow : Window
     public void SetChoices(IEnumerable<(string Label, bool IsChecked)> choices)
     {
         foreach (var (label, isChecked) in choices)
-            ChoicePanel.Children.Add(new CheckBox { Content = label, IsChecked = isChecked, Margin = new Thickness(0, 0, 0, 8) });
+            ChoicePanel.Children.Add(new CheckBox { Content = new TextBlock { Text = label, TextWrapping = TextWrapping.Wrap }, IsChecked = isChecked, Margin = new Thickness(0, 0, 0, 8) });
         ChoicePanel.Visibility = Visibility.Visible;
     }
 

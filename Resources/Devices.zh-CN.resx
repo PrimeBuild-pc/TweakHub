@@ -876,4 +876,22 @@ TweakHub 无法检查脚本的行为，作者也可以随时修改它。如有�
   <data name="UnusedVpnUnchecked" xml:space="preserve">
     <value>你没有 VPN 或 PPPoE 连接；无法检查 {0} 的连接（以管理员身份启动 TweakHub 才能读取）</value>
   </data>
+  <data name="RemoveGhosts" xml:space="preserve">
+    <value>删除幽灵设备</value>
+  </data>
+  <data name="RemoveGhostsHint" xml:space="preserve">
+    <value>删除已安装但不再连接的设备（显示为不存在）。绝不会触及当前存在的设备。</value>
+  </data>
+  <data name="RemoveGhostsMessage" xml:space="preserve">
+    <value>有 {0} 个设备已安装但未连接。勾选的设备将通过 pnputil 从 Windows 中删除。软件设备（ROOT、SWD、SW、UMB、HTREE）会列出但不勾选：其中一些是有意隐藏且仍然需要的。
+
+删除无法在 TweakHub 中撤销。已删除的设备只有在 Windows 再次检测到它时（例如重新连接时）才会恢复；其设置（如固定的 COM 端口或网络设置）可能会丢失。</value>
+  </data>
+  <data name="RemoveGhostsDone" xml:space="preserve">
+    <value>已删除 {0} 个设备（共 {1} 个）。</value>
+  </data>
+  <data name="RemoveGhostsNotRemoved" xml:space="preserve">
+    <value>未删除（已重新连接或被 Windows 拒绝）：
+{0}</value>
+  </data>
 </root>

@@ -370,6 +370,43 @@ public sealed class DeviceService
         return devices.Where(device => !done.Contains(device.Id)).Select(device => device.DisplayName).ToList();
     }
 
+    // Devices created by software rather than found on a bus: some are hidden on purpose and still needed (virtual adapters,
+    // app-created devices), so they are listed but never ticked by default.
+    private static readonly string[] SoftwareEnumeratorPrefixes = [@"ROOT\", @"SWD\", @"HTREE\", @"SW\", @"UMB\", "{"];
+
+    /// <summary>Ghosts that may be removed: not present, and not one TweakHub disabled (it stays tracked for "Re-enable all").</summary>
+    public static IReadOnlyList<PnpDeviceInfo> GhostDevices(IEnumerable<PnpDeviceInfo> devices) =>
+        devices.Where(device => !device.Present && !device.DisabledByTweakHub).ToList();
+
+    public static bool GhostTickedByDefault(PnpDeviceInfo device) =>
+        !SoftwareEnumeratorPrefixes.Any(prefix => device.Id.StartsWith(prefix, StringComparison.OrdinalIgnoreCase));
+
+    /// <summary>
+    /// One elevated script; presence is read again right before each removal so a device plugged in meanwhile is skipped.
+    /// Each line reports OK|id, SKIP|id or FAIL|id|reason.
+    /// </summary>
+    internal static string BuildRemoveGhostsScript(IEnumerable<string> instanceIds) =>
+        $"foreach ($id in @({string.Join(", ", instanceIds.Select(PowerShellService.Literal))})) {{\n" + """
+                $present = (Get-PnpDeviceProperty -InstanceId $id -KeyName DEVPKEY_Device_IsPresent -ErrorAction SilentlyContinue).Data
+                if ($present -ne $false) { "SKIP|$id"; continue }
+                $out = (& pnputil.exe /remove-device $id 2>&1 | Out-String).Trim() -replace '\s+', ' '
+                if ($LASTEXITCODE -eq 0) { "OK|$id" } else { "FAIL|$id|$out" }
+            }
+            """;
+
+    /// <summary>Removes the ghosts given; returns how many were removed and the names that were skipped or failed.</summary>
+    public async Task<(int Removed, IReadOnlyList<string> NotRemoved)> RemoveGhostsAsync(IReadOnlyList<PnpDeviceInfo> devices)
+    {
+        var result = await PowerShellService.Instance.ExecuteScriptAsync(BuildRemoveGhostsScript(devices.Select(device => device.Id)),
+            requireAdministrator: true, TimeSpan.FromMinutes(10));
+        // Declined UAC: no device line at all, and the reason is in the error.
+        if (!result.Output.Contains('|')) throw new InvalidOperationException(string.IsNullOrWhiteSpace(result.Error) ? result.ExitCode.ToString() : result.Error.Trim());
+        var done = result.Output.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            .Where(line => line.StartsWith("OK|", StringComparison.Ordinal)).Select(line => line[3..]).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        return (devices.Count(device => done.Contains(device.Id)),
+            devices.Where(device => !done.Contains(device.Id)).Select(device => device.DisplayName).ToList());
+    }
+
     public static string ToCsv(IEnumerable<PnpDeviceInfo> devices)
     {
         var builder = new StringBuilder();
