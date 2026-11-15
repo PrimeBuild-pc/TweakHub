@@ -165,11 +165,33 @@ public class UnusedDevicesAndDriversTests
     }
 
     [Test]
+    public void GhostRemovalListsOnlyNotPresentDevicesAndTicksOnlyHardwareOnes()
+    {
+        var devices = new[]
+        {
+            Device(@"USB\VID_046D&PID_C52B\5&1", "Old mouse", "HIDClass", present: false),
+            Device(@"PCI\VEN_8086&DEV_125C\2", "Live NIC"),
+            Device(@"SWD\MSRRAS\MS_PPTPMINIPORT", "WAN Miniport (PPTP)", present: false),
+            Device(@"ROOT\NET\0001", "Virtual adapter", present: false),
+            Device(@"{5d624f94-8850-40c3-a3fa-a4fd2080baf3}\vwifimp_wfd\5&1", "Wi-Fi Direct", present: false),
+            Device(@"USB\VID_1234&PID_0001\1", "Disabled by TweakHub", present: false) with { DisabledByTweakHub = true }
+        };
+        var ghosts = DeviceService.GhostDevices(devices);
+        Assert.That(ghosts.Select(device => device.Name), Is.EqualTo(new[] { "Old mouse", "WAN Miniport (PPTP)", "Virtual adapter", "Wi-Fi Direct" }));
+        Assert.That(ghosts.Where(DeviceService.GhostTickedByDefault).Select(device => device.Name), Is.EqualTo(new[] { "Old mouse" }));
+        foreach (var id in new[] { @"HTREE\ROOT\0", @"SW\{x}\1", @"umb\umb\1&1" })
+            Assert.That(DeviceService.GhostTickedByDefault(Device(id, "x", present: false)), Is.False, id);
+        Assert.That(DeviceService.BuildRemoveGhostsScript([@"USB\VID_046D&PID_C52B\5&1"]),
+            Does.Contain("DEVPKEY_Device_IsPresent").And.Contain("pnputil.exe /remove-device $id").And.Contain(@"'USB\VID_046D&PID_C52B\5&1'"));
+    }
+
+    [Test]
     public async Task DeviceAndDriverScriptsParseWithoutRunningThem()
     {
         foreach (var script in new[]
         {
             DeviceService.UsageScript, DeviceService.BuildDisableManyScript([@"ROOT\KDNIC\0000", "it's"]), DriverStoreService.InventoryScript,
+            DeviceService.BuildRemoveGhostsScript([@"USB\VID_046D&PID_C52B\5&1", "it's"]),
             DriverStoreService.BuildRemoveScript([Package("oem19.inf", "amdgpio2.inf", "2.2", "2023-01-01")]),
             DriverStoreService.BuildRestoreScript(@"C:\ProgramData\TweakHub-DriverBackups\20261027-120000\oem19.inf")
         })

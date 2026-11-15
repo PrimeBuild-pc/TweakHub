@@ -876,4 +876,22 @@ TweakHub cannot check what the script does, and the author can change it at any 
   <data name="UnusedVpnUnchecked" xml:space="preserve">
     <value>no VPN or PPPoE connection for you; the connections of {0} could not be checked (start TweakHub as administrator to read them)</value>
   </data>
+  <data name="RemoveGhosts" xml:space="preserve">
+    <value>Remove ghost devices</value>
+  </data>
+  <data name="RemoveGhostsHint" xml:space="preserve">
+    <value>Removes devices that are installed but no longer connected (shown as not present). Present devices are never touched.</value>
+  </data>
+  <data name="RemoveGhostsMessage" xml:space="preserve">
+    <value>{0} devices are installed but not connected. Ticked ones will be removed from Windows with pnputil. Software devices (ROOT, SWD, SW, UMB, HTREE) are listed but not ticked: some are hidden on purpose and still needed.
+
+Removal cannot be undone from TweakHub. A removed device comes back only when Windows detects it again, for example when you reconnect it; its settings (such as a fixed COM port or network settings) may be lost.</value>
+  </data>
+  <data name="RemoveGhostsDone" xml:space="preserve">
+    <value>Removed {0} of {1} devices.</value>
+  </data>
+  <data name="RemoveGhostsNotRemoved" xml:space="preserve">
+    <value>Not removed (connected again, or Windows refused):
+{0}</value>
+  </data>
 </root>
