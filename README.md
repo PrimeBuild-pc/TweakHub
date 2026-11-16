@@ -324,7 +324,7 @@ It runs as the current user and asks for administrator privileges only for opera
 <details>
 <summary><b>Does it collect data?</b></summary>
 
-The source contains no analytics or telemetry code. The update check reads the GitHub releases API, and in-app updates are confirmed by you and verified with SHA-256.
+The source contains no analytics or telemetry code. The update check reads the GitHub releases API, and in-app updates are confirmed by you and verified with SHA-256. See the [privacy policy](docs/PRIVACY.md).
 </details>
 
 <details>
@@ -365,6 +365,13 @@ If TweakHub saves you time, you can support its development here:
 ## License
 
 [MIT](LICENSE) — provided as-is, without warranty.
+
+## Privacy, security and code signing
+
+- [Privacy policy](docs/PRIVACY.md): no telemetry; the few network requests are listed.
+- [Security policy](SECURITY.md): how to report a vulnerability privately.
+- [Code signing policy](docs/CODE_SIGNING_POLICY.md): Free code signing provided by [SignPath.io](https://about.signpath.io/), certificate by [SignPath Foundation](https://signpath.org/).
+- [Code of conduct](CODE_OF_CONDUCT.md)
 
 <div align="center">
 
