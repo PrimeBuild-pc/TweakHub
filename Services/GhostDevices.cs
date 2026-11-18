@@ -38,7 +38,7 @@ internal static class GhostDevices
     internal static DateTime? LastUsed(DateTime? arrival, DateTime? removal) => arrival > removal ? arrival : removal ?? arrival;
 
     /// <summary>Hidden by the "used in the last N days" filter. A device with no date stays visible.</summary>
-    public static bool UsedWithin(DateTime? lastUsed, int days, DateTime now) => lastUsed is { } used && used > now.AddDays(-days);
+    public static bool UsedWithin(DateTime? lastUsed, int days, DateTime now) => lastUsed is { } used && (now - used).TotalDays < days; // no AddDays: a huge N would overflow DateTime
 
     /// <summary>
     /// Locates and checks the device again right before uninstalling, so one reconnected meanwhile is never removed.

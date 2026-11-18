@@ -270,6 +270,7 @@ public class UnusedDevicesAndDriversTests
         Assert.That(GhostDevices.UsedWithin(now.AddDays(-5), 30, now), Is.True);
         Assert.That(GhostDevices.UsedWithin(now.AddDays(-45), 30, now), Is.False);
         Assert.That(GhostDevices.UsedWithin(null, 30, now), Is.False);
+        Assert.That(GhostDevices.UsedWithin(now.AddDays(-45), int.MaxValue, now), Is.True, "a huge day count must not throw");
     }
 
     // Driver Store Explorer: a UI Automation toggle skipped the check callback, so the confirm count was off by one.
