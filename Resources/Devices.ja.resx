@@ -936,4 +936,13 @@ TweakHub はスクリプトの動作を確認できず、作者はいつでも�
   <data name="GhostUnnamed" xml:space="preserve">
     <value>名前のないデバイス</value>
   </data>
+  <data name="GhostSelectAll" xml:space="preserve">
+    <value>すべて選択</value>
+  </data>
+  <data name="GhostSelectNone" xml:space="preserve">
+    <value>すべて解除</value>
+  </data>
+  <data name="GhostColumnInstalled" xml:space="preserve">
+    <value>インストール日</value>
+  </data>
 </root>

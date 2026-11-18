@@ -936,4 +936,13 @@ La rimozione non si può annullare da TweakHub. Un dispositivo rimosso torna sol
   <data name="GhostUnnamed" xml:space="preserve">
     <value>Dispositivo senza nome</value>
   </data>
+  <data name="GhostSelectAll" xml:space="preserve">
+    <value>Seleziona tutti</value>
+  </data>
+  <data name="GhostSelectNone" xml:space="preserve">
+    <value>Deseleziona tutti</value>
+  </data>
+  <data name="GhostColumnInstalled" xml:space="preserve">
+    <value>Installato</value>
+  </data>
 </root>

@@ -63,13 +63,16 @@ public partial class GhostDevicesDialog : Window
         var title = product.Length > 0 ? product : device.Name.Length > 0 ? device.Name : L.Get("Devices:GhostUnnamed");
         var grid = new Grid { Margin = new Thickness(0, 4, 0, 4) };
         grid.ColumnDefinitions.Add(new ColumnDefinition());
-        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(140) });
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = DateColumnWidth });
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = DateColumnWidth });
 
         var names = new StackPanel();
         names.Children.Add(new TextBlock { Text = title, FontSize = 14, FontWeight = FontWeights.SemiBold, TextTrimming = TextTrimming.CharacterEllipsis });
-        // The Windows name ("HID Keyboard Device") only when it adds something to the product name.
-        if (device.Name.Length > 0 && !title.Equals(device.Name, StringComparison.CurrentCultureIgnoreCase))
-            names.Children.Add(Secondary(new TextBlock { Text = device.Name, FontSize = 12, TextTrimming = TextTrimming.CharacterEllipsis }));
+        // The Windows name ("HID Keyboard Device") only when it adds something to the product name, then the manufacturer.
+        var details = string.Join(" · ", new[] { device.Name, device.Manufacturer }
+            .Where(part => part.Length > 0 && !part.Equals(title, StringComparison.CurrentCultureIgnoreCase)).Distinct(StringComparer.CurrentCultureIgnoreCase));
+        if (details.Length > 0)
+            names.Children.Add(Secondary(new TextBlock { Text = details, FontSize = 12, TextTrimming = TextTrimming.CharacterEllipsis, ToolTip = details }));
         names.Children.Add(Secondary(new TextBlock
         {
             Text = device.Id, FontSize = 11, FontFamily = new FontFamily("Cascadia Mono, Consolas"), Opacity = 0.8,
@@ -80,15 +83,23 @@ public partial class GhostDevicesDialog : Window
             Text = RelativeDate(device.LastUsed, _now), FontSize = 12, VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(12, 0, 0, 0),
             ToolTip = device.LastUsed is { } used ? used.ToLocalTime().ToString("f", L.Culture) : L.Get("Devices:GhostLastUsedUnknownHint")
         });
-        Grid.SetColumn(lastUsed, 1);
+        Grid.SetColumn(lastUsed, 2);
         grid.Children.Add(lastUsed);
+        var installed = Secondary(new TextBlock
+        {
+            Text = device.InstalledOn is { } on ? on.ToLocalTime().ToString("d", L.Culture) : L.Get("Devices:GhostLastUsedUnknown"),
+            FontSize = 12, VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(12, 0, 0, 0),
+            ToolTip = device.InstalledOn?.ToLocalTime().ToString("f", L.Culture)
+        });
+        Grid.SetColumn(installed, 1);
+        grid.Children.Add(installed);
 
         var box = new CheckBox
         {
             Content = names, IsChecked = DeviceService.GhostTickedByDefault(device), Padding = new Thickness(8, 0, 0, 0)
         };
         grid.Children.Insert(0, box);
-        AutomationProperties.SetName(box, string.Join(", ", new[] { title, device.Name, RelativeDate(device.LastUsed, _now), device.Id }
+        AutomationProperties.SetName(box, string.Join(", ", new[] { title, device.Name, device.Manufacturer, RelativeDate(device.LastUsed, _now), device.Id }
             .Where(part => part.Length > 0).Distinct(StringComparer.CurrentCultureIgnoreCase)));
         box.Checked += Row_Changed;
         box.Unchecked += Row_Changed;
@@ -108,6 +119,17 @@ public partial class GhostDevicesDialog : Window
             1 => L.Get("Devices:GhostYesterday"),
             var days => L.Format("Devices:GhostDaysAgo", days)
         };
+
+    public static readonly GridLength DateColumnWidth = new(120);
+
+    // Only rows on screen: a row hidden by the filter keeps its state and is never removed anyway.
+    private void SelectAll_Click(object sender, RoutedEventArgs e) => SetVisibleRows(true);
+    private void SelectNone_Click(object sender, RoutedEventArgs e) => SetVisibleRows(false);
+
+    private void SetVisibleRows(bool ticked)
+    {
+        foreach (var row in _rows.Where(row => row.Visibility == Visibility.Visible)) row.IsChecked = ticked;
+    }
 
     private void Filter_Changed(object sender, RoutedEventArgs e) => ApplyFilter();
 

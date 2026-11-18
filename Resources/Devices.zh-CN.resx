@@ -936,4 +936,13 @@ TweakHub 无法检查脚本的行为，作者也可以随时修改它。如有�
   <data name="GhostUnnamed" xml:space="preserve">
     <value>未命名设备</value>
   </data>
+  <data name="GhostSelectAll" xml:space="preserve">
+    <value>全选</value>
+  </data>
+  <data name="GhostSelectNone" xml:space="preserve">
+    <value>全不选</value>
+  </data>
+  <data name="GhostColumnInstalled" xml:space="preserve">
+    <value>安装日期</value>
+  </data>
 </root>

@@ -206,13 +206,21 @@ public class UnusedDevicesAndDriversTests
             return _nodes[node].Locate;
         }
         public int Status(int node) => _nodes[node].Status;
-        public DateTime? FileTime(int node, uint pid) => pid == GhostDevices.LastArrivalPid ? _nodes[node].Arrival : _nodes[node].Removal;
+        public DateTime? FileTime(int node, uint pid) => pid switch
+        {
+            GhostDevices.LastArrivalPid => _nodes[node].Arrival,
+            GhostDevices.LastRemovalPid => _nodes[node].Removal,
+            GhostDevices.FirstInstallPid => FirstInstall,
+            _ => null
+        };
         public int Uninstall(int node)
         {
             Uninstalled.Add(_nodes[node].Id);
             return UninstallResult;
         }
         public string ClassDescription(int node) => "Keyboards";
+        public string Manufacturer(int node) => "Logitech";
+        public DateTime? FirstInstall;
     }
 
     [Test]
@@ -225,9 +233,10 @@ public class UnusedDevicesAndDriversTests
             .Add("PRESENT", status: 0)
             .Add("UNKNOWN", status: 0x1F) // CR_FAILURE: an unreadable status counts as present
             .Add("GONE", locate: GhostDevices.CrNoSuchDevNode);
+        api.FirstInstall = early;
         var ghosts = GhostDevices.Scan(api);
         Assert.That(ghosts.Keys, Is.EquivalentTo(new[] { "GHOST", "GHOST-NODATE" }));
-        Assert.That(ghosts["GHOST"], Is.EqualTo(new GhostInfo(late, "Keyboards")));
+        Assert.That(ghosts["GHOST"], Is.EqualTo(new GhostInfo(late, "Keyboards", "Logitech", early)));
         Assert.That(ghosts["GHOST-NODATE"].LastUsed, Is.Null);
         Assert.That(GhostDevices.LastUsed(late, early), Is.EqualTo(late));
         Assert.That(GhostDevices.LastUsed(null, early), Is.EqualTo(early));
@@ -307,7 +316,18 @@ public class UnusedDevicesAndDriversTests
 
         ((System.Windows.Controls.CheckBox)dialog.FindName("FilterBox")).IsChecked = false;
         Assert.That(dialog.CheckedRows, Is.EqualTo(new[] { 0, 1, 2 }));
+
+        // Select none / all act on the rows on screen only; the hidden row keeps its tick but is still never returned.
+        ((System.Windows.Controls.CheckBox)dialog.FindName("FilterBox")).IsChecked = true;
+        Click(dialog, "SelectNoneButton");
+        Assert.That(dialog.CheckedRows, Is.Empty);
+        Assert.That(boxes[0].IsChecked, Is.True);
+        Click(dialog, "SelectAllButton");
+        Assert.That(dialog.CheckedRows, Is.EqualTo(new[] { 1, 2 }));
         dialog.Close();
+
+        static void Click(System.Windows.Window window, string name) => ((System.Windows.Controls.Button)window.FindName(name))
+            .RaiseEvent(new System.Windows.RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
     }
 
     [Test]

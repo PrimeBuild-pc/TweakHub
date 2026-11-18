@@ -936,4 +936,13 @@ Removal cannot be undone from TweakHub. A removed device comes back only when Wi
   <data name="GhostUnnamed" xml:space="preserve">
     <value>Unnamed device</value>
   </data>
+  <data name="GhostSelectAll" xml:space="preserve">
+    <value>Select all</value>
+  </data>
+  <data name="GhostSelectNone" xml:space="preserve">
+    <value>Select none</value>
+  </data>
+  <data name="GhostColumnInstalled" xml:space="preserve">
+    <value>Installed</value>
+  </data>
 </root>

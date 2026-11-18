@@ -32,6 +32,9 @@ public sealed record PnpDeviceInfo(string Id, string Name, string Class, string 
     public DateTime? LastUsed { get; init; }
     /// <summary>Ghosts only: the setup class as Device Manager names it ("Keyboards"); empty when unknown.</summary>
     public string TypeName { get; init; } = string.Empty;
+    /// <summary>Ghosts only: the manufacturer the driver names, and when Windows first installed the device.</summary>
+    public string Manufacturer { get; init; } = string.Empty;
+    public DateTime? InstalledOn { get; init; }
 
     public DeviceCategory Category => !Present ? DeviceCategory.NotPresent
         : Problem == 22 ? DeviceCategory.Disabled
@@ -391,7 +394,9 @@ public sealed class DeviceService
     /// </summary>
     internal static IReadOnlyList<PnpDeviceInfo> ConfirmedGhosts(IEnumerable<PnpDeviceInfo> devices, IReadOnlyDictionary<string, GhostInfo> scan) =>
         GhostDevices(devices).Where(device => scan.ContainsKey(device.Id))
-            .Select(device => device with { LastUsed = scan[device.Id].LastUsed, TypeName = scan[device.Id].Type }).ToList();
+            .Select(device => scan[device.Id] is var info
+                ? device with { LastUsed = info.LastUsed, TypeName = info.Type, Manufacturer = info.Manufacturer, InstalledOn = info.Installed } : device)
+            .ToList();
 
     private static readonly Regex VidPid = new(@"VID_[0-9A-F]{4}&PID_[0-9A-F]{4}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 

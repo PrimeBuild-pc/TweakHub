@@ -936,4 +936,13 @@ TweakHub не может проверить, что делает скрипт, �
   <data name="GhostUnnamed" xml:space="preserve">
     <value>Устройство без имени</value>
   </data>
+  <data name="GhostSelectAll" xml:space="preserve">
+    <value>Выбрать все</value>
+  </data>
+  <data name="GhostSelectNone" xml:space="preserve">
+    <value>Снять все</value>
+  </data>
+  <data name="GhostColumnInstalled" xml:space="preserve">
+    <value>Установлено</value>
+  </data>
 </root>

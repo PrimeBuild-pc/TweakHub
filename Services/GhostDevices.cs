@@ -10,22 +10,27 @@ internal interface IDevNodeApi
     int Locate(string id, out int node);
     /// <summary>CM_Get_DevNode_Status; CR_NO_SUCH_DEVNODE means the device is installed but not connected.</summary>
     int Status(int node);
-    /// <summary>A FILETIME device property in DEVPKEY_Device_LastArrivalDate's set (102 arrival, 103 removal); null when missing.</summary>
+    /// <summary>
+    /// A FILETIME device property in DEVPKEY_Device_InstallDate's set (100 install, 101 first install, 102 arrival,
+    /// 103 removal); null when missing.
+    /// </summary>
     DateTime? FileTime(int node, uint pid);
     int Uninstall(int node);
     /// <summary>The device's setup class as Device Manager shows it; empty when unknown.</summary>
     string ClassDescription(int node);
+    /// <summary>The manufacturer its driver names; empty when unknown.</summary>
+    string Manufacturer(int node);
 }
 
-/// <summary>What cfgmgr32 knows about a ghost: its last use and its type as Device Manager names it.</summary>
-internal sealed record GhostInfo(DateTime? LastUsed, string Type);
+/// <summary>What cfgmgr32 knows about a ghost: last use, type as Device Manager names it, manufacturer and first install.</summary>
+internal sealed record GhostInfo(DateTime? LastUsed, string Type, string Manufacturer = "", DateTime? Installed = null);
 
 /// <summary>Non-present devices ("ghosts"): which they are, when they were last used, and removing them safely.</summary>
 internal static class GhostDevices
 {
     internal const int CrSuccess = 0;
     internal const int CrNoSuchDevNode = 0x0D;
-    internal const uint LastArrivalPid = 102, LastRemovalPid = 103;
+    internal const uint InstallPid = 100, FirstInstallPid = 101, LastArrivalPid = 102, LastRemovalPid = 103;
 
     /// <summary>
     /// Ghost instance ids with their last use. Only CR_NO_SUCH_DEVNODE marks a ghost: any other failure is treated as present.
@@ -35,7 +40,8 @@ internal static class GhostDevices
         var ghosts = new Dictionary<string, GhostInfo>(StringComparer.OrdinalIgnoreCase);
         foreach (var id in api.DeviceIds())
             if (api.Locate(id, out var node) == CrSuccess && api.Status(node) == CrNoSuchDevNode)
-                ghosts[id] = new(LastUsed(api.FileTime(node, LastArrivalPid), api.FileTime(node, LastRemovalPid)), api.ClassDescription(node));
+                ghosts[id] = new(LastUsed(api.FileTime(node, LastArrivalPid), api.FileTime(node, LastRemovalPid)), api.ClassDescription(node),
+                    api.Manufacturer(node), api.FileTime(node, FirstInstallPid) ?? api.FileTime(node, InstallPid));
         return ghosts;
     }
 

@@ -75,6 +75,11 @@ internal static class DeviceTree
             return SetupDiGetClassDescriptionW(new Guid(bytes), buffer, buffer.Length, out _) ? new string(buffer, 0, Math.Max(0, Array.IndexOf(buffer, '\0'))) : string.Empty; // SetupAPI leaves text after the terminator
         }
 
+        /// <summary>DEVPKEY_Device_Manufacturer, from the driver ("Logitech", "(Standard system devices)").</summary>
+        public string Manufacturer(int node) =>
+            Property(node, new DevPropKey(new("a45c254e-df1c-4efd-8020-67d146a850e0"), 13)) is { } bytes
+                ? System.Text.Encoding.Unicode.GetString(bytes).Split('\0')[0] : string.Empty;
+
         public DateTime? FileTime(int node, uint pid)
         {
             var bytes = Property(node, new DevPropKey(DateSet, pid));

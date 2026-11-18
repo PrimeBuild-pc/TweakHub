@@ -936,4 +936,13 @@ La eliminación no se puede deshacer desde TweakHub. Un dispositivo quitado solo
   <data name="GhostUnnamed" xml:space="preserve">
     <value>Dispositivo sin nombre</value>
   </data>
+  <data name="GhostSelectAll" xml:space="preserve">
+    <value>Seleccionar todo</value>
+  </data>
+  <data name="GhostSelectNone" xml:space="preserve">
+    <value>No seleccionar nada</value>
+  </data>
+  <data name="GhostColumnInstalled" xml:space="preserve">
+    <value>Instalado</value>
+  </data>
 </root>
