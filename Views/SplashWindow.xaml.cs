@@ -20,6 +20,7 @@ public partial class SplashWindow : Window
         public string Icon => IsRunning ? string.Empty : Failed ? "" : "";
         public string Elapsed { get; private set; } = string.Empty;
         public event PropertyChangedEventHandler? PropertyChanged;
+        public override string ToString() => Label; // accessible name of the step row
 
         public void Finish(bool failed, TimeSpan elapsed)
         {

@@ -62,8 +62,38 @@ public partial class AppDialogWindow : Window
         ChoicePanel.Visibility = Visibility.Visible;
     }
 
+    private Func<int, int, bool>? _hiddenByFilter;
+
+    /// <summary>
+    /// A "hide ... in the last N days" filter above the choices: while it is on, choices for which
+    /// <paramref name="hidden"/>(index, days) is true are collapsed and never returned as checked.
+    /// </summary>
+    public void SetChoiceFilter(string label, string suffix, int days, Func<int, int, bool> hidden)
+    {
+        _hiddenByFilter = hidden;
+        FilterBox.Content = label;
+        FilterSuffixText.Text = suffix;
+        AutomationProperties.SetName(FilterDaysBox, $"{label} {suffix}");
+        FilterDaysBox.Text = days.ToString();
+        FilterPanel.Visibility = Visibility.Visible;
+        ApplyFilter();
+    }
+
+    private void Filter_Changed(object sender, RoutedEventArgs e) => ApplyFilter();
+
+    private void ApplyFilter()
+    {
+        if (_hiddenByFilter is null) return;
+        var days = FilterBox.IsChecked == true && int.TryParse(FilterDaysBox.Text, out var value) && value > 0 ? value : 0;
+        var boxes = ChoicePanel.Children.OfType<CheckBox>().ToList();
+        for (var index = 0; index < boxes.Count; index++)
+            boxes[index].Visibility = days > 0 && _hiddenByFilter(index, days) ? Visibility.Collapsed : Visibility.Visible;
+    }
+
+    // Read from the rows themselves when the user confirms, so what is removed is exactly what is shown ticked.
     public IReadOnlyList<int> CheckedChoices =>
-        [.. ChoicePanel.Children.OfType<CheckBox>().Select((box, index) => (box, index)).Where(item => item.box.IsChecked == true).Select(item => item.index)];
+        [.. ChoicePanel.Children.OfType<CheckBox>().Select((box, index) => (box, index))
+            .Where(item => item.box.IsChecked == true && item.box.Visibility == Visibility.Visible).Select(item => item.index)];
 
     // A click that lands after the dialog closed (queued double click, Enter, UI Automation) would throw and crash the app.
     private void Primary_Click(object sender, RoutedEventArgs e)

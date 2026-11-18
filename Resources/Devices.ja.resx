@@ -883,7 +883,7 @@ TweakHub はスクリプトの動作を確認できず、作者はいつでも�
     <value>インストール済みでも接続されていないデバイス (存在しないと表示されるもの) を削除します。接続中のデバイスには一切触れません。</value>
   </data>
   <data name="RemoveGhostsMessage" xml:space="preserve">
-    <value>{0} 個のデバイスがインストール済みですが接続されていません。チェックしたものは pnputil で Windows から削除されます。ソフトウェア デバイス (ROOT、SWD、SW、UMB、HTREE) は表示されますがチェックされていません。意図的に非表示で、まだ必要なものがあるためです。
+    <value>{0} 個のデバイスがインストール済みですが接続されていません。チェックしたものは Windows から削除されます。最近使用したデバイスは既定で非表示になり、非表示の間は削除されません。ソフトウェア デバイス (ROOT、SWD、SW、UMB、HTREE) は表示されますがチェックされていません。意図的に非表示で、まだ必要なものがあるためです。
 
 削除は TweakHub から元に戻せません。削除したデバイスは、再接続したときなど Windows が再検出したときにのみ戻ります。その設定 (固定 COM ポートやネットワーク設定など) は失われる場合があります。</value>
   </data>
@@ -893,5 +893,23 @@ TweakHub はスクリプトの動作を確認できず、作者はいつでも�
   <data name="RemoveGhostsNotRemoved" xml:space="preserve">
     <value>削除されなかったもの (再接続された、または Windows が拒否):
 {0}</value>
+  </data>
+  <data name="RemoveGhostsNone" xml:space="preserve">
+    <value>インストール済みで未接続のデバイスはありません。</value>
+  </data>
+  <data name="RemoveGhostsConfirm" xml:space="preserve">
+    <value>{0} 個のデバイスを Windows から削除しますか? TweakHub から元に戻すことはできません。</value>
+  </data>
+  <data name="GhostHideRecent" xml:space="preserve">
+    <value>次の日数以内に使用したデバイスを非表示:</value>
+  </data>
+  <data name="GhostHideRecentDays" xml:space="preserve">
+    <value>日</value>
+  </data>
+  <data name="GhostLastUsed" xml:space="preserve">
+    <value>最終使用 {0}</value>
+  </data>
+  <data name="GhostLastUsedUnknown" xml:space="preserve">
+    <value>最終使用日不明</value>
   </data>
 </root>

@@ -883,7 +883,7 @@ TweakHub не может проверить, что делает скрипт, �
     <value>Удаляет установленные, но больше не подключённые устройства (отмеченные как отсутствующие). Подключённые устройства не затрагиваются.</value>
   </data>
   <data name="RemoveGhostsMessage" xml:space="preserve">
-    <value>Установлено, но не подключено устройств: {0}. Отмеченные будут удалены из Windows с помощью pnputil. Программные устройства (ROOT, SWD, SW, UMB, HTREE) показаны, но не отмечены: некоторые скрыты намеренно и всё ещё нужны.
+    <value>Установлено, но не подключено устройств: {0}. Отмеченные будут удалены из Windows. Недавно использованные устройства по умолчанию скрыты и, пока скрыты, не удаляются. Программные устройства (ROOT, SWD, SW, UMB, HTREE) показаны, но не отмечены: некоторые скрыты намеренно и всё ещё нужны.
 
 Удаление нельзя отменить в TweakHub. Удалённое устройство вернётся, только когда Windows снова его обнаружит, например при повторном подключении; его настройки (например, закреплённый COM-порт или сетевые параметры) могут быть потеряны.</value>
   </data>
@@ -893,5 +893,23 @@ TweakHub не может проверить, что делает скрипт, �
   <data name="RemoveGhostsNotRemoved" xml:space="preserve">
     <value>Не удалены (снова подключены или Windows отказала):
 {0}</value>
+  </data>
+  <data name="RemoveGhostsNone" xml:space="preserve">
+    <value>Нет установленных, но отключённых устройств.</value>
+  </data>
+  <data name="RemoveGhostsConfirm" xml:space="preserve">
+    <value>Удалить устройства из Windows ({0})? Отменить это в TweakHub нельзя.</value>
+  </data>
+  <data name="GhostHideRecent" xml:space="preserve">
+    <value>Скрыть устройства, использованные за последние</value>
+  </data>
+  <data name="GhostHideRecentDays" xml:space="preserve">
+    <value>дн.</value>
+  </data>
+  <data name="GhostLastUsed" xml:space="preserve">
+    <value>последнее использование {0}</value>
+  </data>
+  <data name="GhostLastUsedUnknown" xml:space="preserve">
+    <value>последнее использование неизвестно</value>
   </data>
 </root>

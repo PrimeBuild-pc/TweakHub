@@ -15,6 +15,9 @@ namespace TweakHub.Models
         public string Description { get; set; } = string.Empty;
         public string Icon { get; set; } = string.Empty;
         public ObservableCollection<PerformanceTweak> Tweaks { get; set; } = new();
+
+        // List rows read their accessible name from ToString; without it screen readers announce the type name.
+        public override string ToString() => Name;
     }
 
     public class PerformanceTweak : System.ComponentModel.INotifyPropertyChanged
@@ -35,6 +38,7 @@ namespace TweakHub.Models
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public TweakType Type { get; set; }
+        public override string ToString() => Name;
         public bool IsEnabled
         {
             get => _isEnabled;

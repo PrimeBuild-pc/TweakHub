@@ -46,7 +46,32 @@ internal static class DeviceTree
     [DllImport("cfgmgr32.dll")]
     private static extern int CM_Free_Log_Conf_Handle(IntPtr logConf);
 
+    [DllImport("cfgmgr32.dll")]
+    private static extern int CM_Get_DevNode_Status(out int status, out int problem, int devInst, int flags);
+    [DllImport("cfgmgr32.dll")]
+    private static extern int CM_Uninstall_DevNode(int devInst, int flags);
+
     private const int FilterPresent = 0x100; // CM_GETIDLIST_FILTER_PRESENT
+    private const int LocatePhantom = 1; // CM_LOCATE_DEVNODE_PHANTOM
+
+    /// <summary>The real cfgmgr32 behind <see cref="GhostDevices"/>; uninstalling needs administrator rights.</summary>
+    internal sealed class Api : IDevNodeApi
+    {
+        public static Api Instance { get; } = new();
+        private static readonly Guid DateSet = new("83da6326-97a6-4088-9453-a1923f573b29");
+
+        public IReadOnlyList<string> DeviceIds() => List(0) ?? [];
+        public int Locate(string id, out int node) => CM_Locate_DevNodeW(out node, id, LocatePhantom);
+        public int Status(int node) => CM_Get_DevNode_Status(out _, out _, node, 0);
+        public int Uninstall(int node) => CM_Uninstall_DevNode(node, 0);
+
+        public DateTime? FileTime(int node, uint pid)
+        {
+            var bytes = Property(node, new DevPropKey(DateSet, pid));
+            var value = bytes is { Length: 8 } ? BitConverter.ToInt64(bytes) : 0;
+            return value > 0 ? DateTime.FromFileTimeUtc(value) : null;
+        }
+    }
 
     /// <summary>
     /// Processor masks of the interrupts Windows allocated to a device in this boot (one per message; 0 means no specific

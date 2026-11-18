@@ -883,7 +883,7 @@ TweakHub cannot check what the script does, and the author can change it at any 
     <value>Removes devices that are installed but no longer connected (shown as not present). Present devices are never touched.</value>
   </data>
   <data name="RemoveGhostsMessage" xml:space="preserve">
-    <value>{0} devices are installed but not connected. Ticked ones will be removed from Windows with pnputil. Software devices (ROOT, SWD, SW, UMB, HTREE) are listed but not ticked: some are hidden on purpose and still needed.
+    <value>{0} devices are installed but not connected. Ticked ones will be removed from Windows. Devices used recently are hidden by default and never removed while hidden. Software devices (ROOT, SWD, SW, UMB, HTREE) are listed but not ticked: some are hidden on purpose and still needed.
 
 Removal cannot be undone from TweakHub. A removed device comes back only when Windows detects it again, for example when you reconnect it; its settings (such as a fixed COM port or network settings) may be lost.</value>
   </data>
@@ -893,5 +893,23 @@ Removal cannot be undone from TweakHub. A removed device comes back only when Wi
   <data name="RemoveGhostsNotRemoved" xml:space="preserve">
     <value>Not removed (connected again, or Windows refused):
 {0}</value>
+  </data>
+  <data name="RemoveGhostsNone" xml:space="preserve">
+    <value>No device is installed but disconnected.</value>
+  </data>
+  <data name="RemoveGhostsConfirm" xml:space="preserve">
+    <value>Remove {0} devices from Windows? This cannot be undone from TweakHub.</value>
+  </data>
+  <data name="GhostHideRecent" xml:space="preserve">
+    <value>Hide devices used in the last</value>
+  </data>
+  <data name="GhostHideRecentDays" xml:space="preserve">
+    <value>days</value>
+  </data>
+  <data name="GhostLastUsed" xml:space="preserve">
+    <value>last used {0}</value>
+  </data>
+  <data name="GhostLastUsedUnknown" xml:space="preserve">
+    <value>last use unknown</value>
   </data>
 </root>

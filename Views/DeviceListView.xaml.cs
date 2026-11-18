@@ -176,11 +176,23 @@ public partial class DeviceListView : UserControl
 
     private async void RemoveGhosts_Click(object sender, RoutedEventArgs e)
     {
-        var ghosts = DeviceService.GhostDevices(_devices);
-        if (ghosts.Count == 0) return;
-        var chosen = await AppDialog.ChooseAsync(Window.GetWindow(this), L.Get("Devices:RemoveGhosts"), L.Format("Devices:RemoveGhostsMessage", ghosts.Count),
-            ghosts.Select(device => ($"{device.DisplayName} ({device.Class}) — {device.Id}", DeviceService.GhostTickedByDefault(device))));
-        if (chosen is null) return;
+        var owner = Window.GetWindow(this);
+        var title = L.Get("Devices:RemoveGhosts");
+        // cfgmgr32 must agree the device is not connected; a status it cannot read counts as present.
+        var scan = await Task.Run(() => GhostDevices.Scan(DeviceTree.Api.Instance));
+        var ghosts = DeviceService.ConfirmedGhosts(_devices, scan);
+        if (ghosts.Count == 0)
+        {
+            await AppDialog.ShowAsync(owner, title, L.Get("Devices:RemoveGhostsNone"));
+            return;
+        }
+        var now = DateTime.UtcNow;
+        var chosen = await AppDialog.ChooseAsync(owner, title, L.Format("Devices:RemoveGhostsMessage", ghosts.Count),
+            ghosts.Select(device => ($"{device.DisplayName} ({device.Class}) — {LastUsedText(device.LastUsed)}\n{device.Id}", DeviceService.GhostTickedByDefault(device))),
+            (L.Get("Devices:GhostHideRecent"), L.Get("Devices:GhostHideRecentDays"), 30,
+                (index, days) => GhostDevices.UsedWithin(ghosts[index].LastUsed, days, now)));
+        if (chosen is null
+            || !await AppDialog.ConfirmAsync(owner, title, L.Format("Devices:RemoveGhostsConfirm", chosen.Count), kind: DialogKind.Warning)) return;
         RemoveGhostsButton.IsEnabled = false;
         try
         {
@@ -195,6 +207,10 @@ public partial class DeviceListView : UserControl
         }
         await ScanAsync();
     }
+
+    private static string LastUsedText(DateTime? lastUsed) => lastUsed is { } used
+        ? L.Format("Devices:GhostLastUsed", used.ToLocalTime().ToString("d", L.Culture))
+        : L.Get("Devices:GhostLastUsedUnknown");
 
     private async void Export_Click(object sender, RoutedEventArgs e) =>
         await CsvExport.SaveAsync(this, $"TweakHub-devices-{DateTime.Now:yyyyMMdd-HHmm}.csv", DeviceService.ToCsv(_devices));

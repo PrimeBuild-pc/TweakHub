@@ -995,4 +995,7 @@
   <data name="DescriptionVixEditor" xml:space="preserve">
     <value>离线 NVIDIA VBIOS 编辑器（支持 Blackwell；Ada、Ampere 和 Turing 基本只读）。保存为新的 ROM 和清单文件，从不刷写：修改后的 ROM 通过 Vix 加载器或 mVolt+ 加载。修改后的 ROM 与原始签名不符，切勿用 nvflash 刷写。提高功耗、电流或电压可能损坏硬件；许多项目仍为实验性功能，笔记本也是如此。程序未签名（SmartScreen 可能发出警告）。仅打开官方仓库。</value>
   </data>
+  <data name="DescriptionWinaeroTweaker" xml:space="preserve">
+    <value>Winaero 出品的免费调整工具，将数百项隐藏的 Windows 设置集中在一个应用中；打开官方页面</value>
+  </data>
 </root>

@@ -28,6 +28,8 @@ public sealed record PnpDeviceInfo(string Id, string Name, string Class, string 
     public int MaxLinkWidth { get; init; }
     public DeviceRule? Rule { get; init; }
     public bool DisabledByTweakHub { get; init; }
+    /// <summary>Ghosts only: the later of the last arrival and last removal; null when Windows recorded neither.</summary>
+    public DateTime? LastUsed { get; init; }
 
     public DeviceCategory Category => !Present ? DeviceCategory.NotPresent
         : Problem == 22 ? DeviceCategory.Disabled
@@ -382,29 +384,60 @@ public sealed class DeviceService
         !SoftwareEnumeratorPrefixes.Any(prefix => device.Id.StartsWith(prefix, StringComparison.OrdinalIgnoreCase));
 
     /// <summary>
-    /// One elevated script; presence is read again right before each removal so a device plugged in meanwhile is skipped.
-    /// Each line reports OK|id, SKIP|id or FAIL|id|reason.
+    /// The ghosts from <see cref="GhostDevices(IEnumerable{PnpDeviceInfo})"/> that cfgmgr32 also reports as not present
+    /// (<paramref name="scan"/> from <see cref="Services.GhostDevices.Scan"/>), with their last use.
     /// </summary>
-    internal static string BuildRemoveGhostsScript(IEnumerable<string> instanceIds) =>
-        $"foreach ($id in @({string.Join(", ", instanceIds.Select(PowerShellService.Literal))})) {{\n" + """
-                $present = (Get-PnpDeviceProperty -InstanceId $id -KeyName DEVPKEY_Device_IsPresent -ErrorAction SilentlyContinue).Data
-                if ($present -ne $false) { "SKIP|$id"; continue }
-                $out = (& pnputil.exe /remove-device $id 2>&1 | Out-String).Trim() -replace '\s+', ' '
-                if ($LASTEXITCODE -eq 0) { "OK|$id" } else { "FAIL|$id|$out" }
-            }
-            """;
+    internal static IReadOnlyList<PnpDeviceInfo> ConfirmedGhosts(IEnumerable<PnpDeviceInfo> devices, IReadOnlyDictionary<string, DateTime?> scan) =>
+        GhostDevices(devices).Where(device => scan.ContainsKey(device.Id)).Select(device => device with { LastUsed = scan[device.Id] }).ToList();
 
-    /// <summary>Removes the ghosts given; returns how many were removed and the names that were skipped or failed.</summary>
+    /// <summary>
+    /// The elevated fallback: the same checks as <see cref="Services.GhostDevices.Uninstall"/>, run when TweakHub is not
+    /// administrator. Each line reports OK|id, SKIP|id or FAIL|id|reason.
+    /// </summary>
+    internal static string BuildRemoveGhostsScript(IEnumerable<string> instanceIds) => """
+        Add-Type -Namespace TweakHub -Name CfgMgr -MemberDefinition @'
+        [DllImport("cfgmgr32.dll", CharSet = CharSet.Unicode)] public static extern int CM_Locate_DevNodeW(out int devInst, string id, int flags);
+        [DllImport("cfgmgr32.dll")] public static extern int CM_Get_DevNode_Status(out int status, out int problem, int devInst, int flags);
+        [DllImport("cfgmgr32.dll")] public static extern int CM_Uninstall_DevNode(int devInst, int flags);
+        '@
+
+        """ + $"foreach ($id in @({string.Join(", ", instanceIds.Select(PowerShellService.Literal))})) {{\n" + """
+            $node = 0; $status = 0; $problem = 0
+            # 1 = CM_LOCATE_DEVNODE_PHANTOM; only 13 (CR_NO_SUCH_DEVNODE) means not connected, anything else counts as present.
+            $cr = [TweakHub.CfgMgr]::CM_Locate_DevNodeW([ref]$node, $id, 1)
+            if ($cr -ne 0) { "FAIL|$id|CM_Locate_DevNode $cr"; continue }
+            if ([TweakHub.CfgMgr]::CM_Get_DevNode_Status([ref]$status, [ref]$problem, $node, 0) -ne 13) { "SKIP|$id"; continue }
+            $cr = [TweakHub.CfgMgr]::CM_Uninstall_DevNode($node, 0)
+            if ($cr -eq 0) { "OK|$id" } else { "FAIL|$id|CM_Uninstall_DevNode $cr" }
+        }
+        """;
+
+    /// <summary>Removes the ghosts given; returns how many were removed and the ones that were skipped or failed, with the reason.</summary>
     public async Task<(int Removed, IReadOnlyList<string> NotRemoved)> RemoveGhostsAsync(IReadOnlyList<PnpDeviceInfo> devices)
     {
-        var result = await PowerShellService.Instance.ExecuteScriptAsync(BuildRemoveGhostsScript(devices.Select(device => device.Id)),
-            requireAdministrator: true, TimeSpan.FromMinutes(10));
-        // Declined UAC: no device line at all, and the reason is in the error.
-        if (!result.Output.Contains('|')) throw new InvalidOperationException(string.IsNullOrWhiteSpace(result.Error) ? result.ExitCode.ToString() : result.Error.Trim());
-        var done = result.Output.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-            .Where(line => line.StartsWith("OK|", StringComparison.Ordinal)).Select(line => line[3..]).ToHashSet(StringComparer.OrdinalIgnoreCase);
-        return (devices.Count(device => done.Contains(device.Id)),
-            devices.Where(device => !done.Contains(device.Id)).Select(device => device.DisplayName).ToList());
+        string output;
+        if (Elevation.IsAdministrator)
+            output = await Task.Run(() => string.Join("\n", devices.Select(device => Services.GhostDevices.Uninstall(DeviceTree.Api.Instance, device.Id))));
+        else
+        {
+            var result = await PowerShellService.Instance.ExecuteScriptAsync(BuildRemoveGhostsScript(devices.Select(device => device.Id)),
+                requireAdministrator: true, TimeSpan.FromMinutes(10));
+            // Declined UAC: no device line at all, and the reason is in the error.
+            if (!result.Output.Contains('|')) throw new InvalidOperationException(string.IsNullOrWhiteSpace(result.Error) ? result.ExitCode.ToString() : result.Error.Trim());
+            output = result.Output;
+        }
+        return ParseRemoveGhosts(output, devices);
+    }
+
+    internal static (int Removed, IReadOnlyList<string> NotRemoved) ParseRemoveGhosts(string output, IReadOnlyList<PnpDeviceInfo> devices)
+    {
+        var lines = output.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            .Select(line => line.Split('|', 3)).Where(parts => parts.Length >= 2)
+            .GroupBy(parts => parts[1], StringComparer.OrdinalIgnoreCase).ToDictionary(group => group.Key, group => group.Last(), StringComparer.OrdinalIgnoreCase);
+        var removed = devices.Count(device => lines.GetValueOrDefault(device.Id) is ["OK", ..]);
+        var notRemoved = devices.Where(device => lines.GetValueOrDefault(device.Id) is not ["OK", ..])
+            .Select(device => lines.GetValueOrDefault(device.Id) is ["FAIL", _, var reason] ? $"{device.DisplayName} ({reason})" : device.DisplayName).ToList();
+        return (removed, notRemoved);
     }
 
     public static string ToCsv(IEnumerable<PnpDeviceInfo> devices)

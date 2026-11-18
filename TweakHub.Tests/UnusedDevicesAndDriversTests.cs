@@ -182,7 +182,127 @@ public class UnusedDevicesAndDriversTests
         foreach (var id in new[] { @"HTREE\ROOT\0", @"SW\{x}\1", @"umb\umb\1&1" })
             Assert.That(DeviceService.GhostTickedByDefault(Device(id, "x", present: false)), Is.False, id);
         Assert.That(DeviceService.BuildRemoveGhostsScript([@"USB\VID_046D&PID_C52B\5&1"]),
-            Does.Contain("DEVPKEY_Device_IsPresent").And.Contain("pnputil.exe /remove-device $id").And.Contain(@"'USB\VID_046D&PID_C52B\5&1'"));
+            Does.Contain("CM_Get_DevNode_Status").And.Contain("-ne 13").And.Contain("CM_Uninstall_DevNode($node, 0)").And.Contain(@"'USB\VID_046D&PID_C52B\5&1'"));
+    }
+
+    /// <summary>In-memory cfgmgr32: each id has a locate result and a status; every uninstall is recorded.</summary>
+    private sealed class FakeDevNodes : IDevNodeApi
+    {
+        private readonly List<(string Id, int Locate, int Status, DateTime? Arrival, DateTime? Removal)> _nodes = [];
+        public int UninstallResult;
+        public readonly List<string> Uninstalled = [];
+
+        public FakeDevNodes Add(string id, int locate = 0, int status = GhostDevices.CrNoSuchDevNode, DateTime? arrival = null, DateTime? removal = null)
+        {
+            _nodes.Add((id, locate, status, arrival, removal));
+            return this;
+        }
+
+        public IReadOnlyList<string> DeviceIds() => [.. _nodes.Select(node => node.Id)];
+        public int Locate(string id, out int node)
+        {
+            node = _nodes.FindIndex(item => item.Id == id);
+            return _nodes[node].Locate;
+        }
+        public int Status(int node) => _nodes[node].Status;
+        public DateTime? FileTime(int node, uint pid) => pid == GhostDevices.LastArrivalPid ? _nodes[node].Arrival : _nodes[node].Removal;
+        public int Uninstall(int node)
+        {
+            Uninstalled.Add(_nodes[node].Id);
+            return UninstallResult;
+        }
+    }
+
+    [Test]
+    public void GhostScanCountsOnlyNoSuchDevNodeAndKeepsTheLaterDate()
+    {
+        DateTime early = new(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc), late = new(2026, 6, 1, 0, 0, 0, DateTimeKind.Utc);
+        var api = new FakeDevNodes()
+            .Add("GHOST", arrival: early, removal: late)
+            .Add("GHOST-NODATE")
+            .Add("PRESENT", status: 0)
+            .Add("UNKNOWN", status: 0x1F) // CR_FAILURE: an unreadable status counts as present
+            .Add("GONE", locate: GhostDevices.CrNoSuchDevNode);
+        var ghosts = GhostDevices.Scan(api);
+        Assert.That(ghosts.Keys, Is.EquivalentTo(new[] { "GHOST", "GHOST-NODATE" }));
+        Assert.That(ghosts["GHOST"], Is.EqualTo(late));
+        Assert.That(ghosts["GHOST-NODATE"], Is.Null);
+        Assert.That(GhostDevices.LastUsed(late, early), Is.EqualTo(late));
+        Assert.That(GhostDevices.LastUsed(null, early), Is.EqualTo(early));
+        Assert.That(GhostDevices.LastUsed(late, null), Is.EqualTo(late));
+    }
+
+    [Test]
+    public void GhostUninstallReChecksAndRemovesOnlyAbsentDevices()
+    {
+        var api = new FakeDevNodes()
+            .Add("GHOST")
+            .Add("RECONNECTED", status: 0)
+            .Add("UNKNOWN", status: 0x1F)
+            .Add("GONE", locate: GhostDevices.CrNoSuchDevNode);
+        Assert.That(GhostDevices.Uninstall(api, "GHOST"), Is.EqualTo("OK|GHOST"));
+        Assert.That(GhostDevices.Uninstall(api, "RECONNECTED"), Is.EqualTo("SKIP|RECONNECTED"));
+        Assert.That(GhostDevices.Uninstall(api, "UNKNOWN"), Is.EqualTo("SKIP|UNKNOWN"));
+        Assert.That(GhostDevices.Uninstall(api, "GONE"), Does.StartWith("FAIL|GONE|"));
+        Assert.That(api.Uninstalled, Is.EqualTo(new[] { "GHOST" }));
+
+        api.UninstallResult = 0x17; // CR_REMOVE_VETOED
+        Assert.That(GhostDevices.Uninstall(api, "GHOST"), Is.EqualTo("FAIL|GHOST|CM_Uninstall_DevNode 23"));
+    }
+
+    [Test]
+    public void GhostListNeedsInventoryAndCfgMgrToAgreeAndRecentUseHidesRows()
+    {
+        var now = new DateTime(2026, 11, 18, 0, 0, 0, DateTimeKind.Utc);
+        var devices = new[]
+        {
+            Device(@"USB\OLD\1", "Old mouse", "HIDClass", present: false),
+            Device(@"USB\STALE\1", "Present for cfgmgr32", present: false),
+            Device(@"PCI\LIVE\1", "Live NIC")
+        };
+        var ghosts = DeviceService.ConfirmedGhosts(devices, new Dictionary<string, DateTime?>
+        {
+            [@"USB\OLD\1"] = now.AddDays(-5), [@"PCI\LIVE\1"] = null
+        });
+        Assert.That(ghosts.Select(device => device.Name), Is.EqualTo(new[] { "Old mouse" }));
+        Assert.That(ghosts[0].LastUsed, Is.EqualTo(now.AddDays(-5)));
+
+        Assert.That(GhostDevices.UsedWithin(now.AddDays(-5), 30, now), Is.True);
+        Assert.That(GhostDevices.UsedWithin(now.AddDays(-45), 30, now), Is.False);
+        Assert.That(GhostDevices.UsedWithin(null, 30, now), Is.False);
+    }
+
+    // Driver Store Explorer: a UI Automation toggle skipped the check callback, so the confirm count was off by one.
+    [Test]
+    public void ChoiceDialogReturnsExactlyTheVisibleTickedRowsIncludingAutomationToggles()
+    {
+        if (System.Windows.Application.Current is null)
+        {
+            var app = new App();
+            app.InitializeComponent();
+            app.ShutdownMode = System.Windows.ShutdownMode.OnExplicitShutdown;
+        }
+        var dialog = new TweakHub.Views.Dialogs.AppDialogWindow("t", "m", "OK", "Cancel", TweakHub.Views.Dialogs.DialogKind.Info);
+        dialog.SetChoices([("recent", true), ("old", true), ("no date", false)]);
+        dialog.SetChoiceFilter("Hide used in the last", "days", 30, (index, _) => index == 0);
+        var boxes = ((System.Windows.Controls.Panel)dialog.FindName("ChoicePanel")).Children.OfType<System.Windows.Controls.CheckBox>().ToList();
+        var toggle = (System.Windows.Automation.Provider.IToggleProvider)
+            System.Windows.Automation.Peers.UIElementAutomationPeer.CreatePeerForElement(boxes[2]).GetPattern(System.Windows.Automation.Peers.PatternInterface.Toggle);
+        toggle.Toggle();
+        Assert.That(dialog.CheckedChoices, Is.EqualTo(new[] { 1, 2 }), "the hidden row is ticked but must not be returned");
+
+        ((System.Windows.Controls.CheckBox)dialog.FindName("FilterBox")).IsChecked = false;
+        Assert.That(dialog.CheckedChoices, Is.EqualTo(new[] { 0, 1, 2 }));
+        dialog.Close();
+    }
+
+    [Test]
+    public void GhostRemovalReportCountsOnlyOkLinesAndKeepsFailureReasons()
+    {
+        var devices = new[] { Device("A", "Alpha", present: false), Device("B", "Beta", present: false), Device("C", "Gamma", present: false) };
+        var (removed, notRemoved) = DeviceService.ParseRemoveGhosts("OK|A\r\nSKIP|B\r\nFAIL|C|CM_Uninstall_DevNode 23\r\n", devices);
+        Assert.That(removed, Is.EqualTo(1));
+        Assert.That(notRemoved, Is.EqualTo(new[] { "Beta", "Gamma (CM_Uninstall_DevNode 23)" }));
     }
 
     [Test]

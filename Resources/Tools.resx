@@ -995,4 +995,7 @@ This may be due to insufficient permissions or the target application not being 
   <data name="DescriptionVixEditor" xml:space="preserve">
     <value>Offline NVIDIA VBIOS editor (Blackwell; Ada, Ampere and Turing mostly read-only). Saves a new ROM plus a manifest and never flashes: edited ROMs load through the Vix loaders or mVolt+. Edited ROMs fail the original signature, so never flash them with nvflash. Raising power, current or voltage can damage hardware; many fields are experimental, laptops included. Unsigned binaries (SmartScreen may warn). Opens the official repository only.</value>
   </data>
+  <data name="DescriptionWinaeroTweaker" xml:space="preserve">
+    <value>Freeware tweaker by Winaero that gathers hundreds of hidden Windows settings in one app; opens the official page</value>
+  </data>
 </root>
