@@ -906,10 +906,34 @@ TweakHub はスクリプトの動作を確認できず、作者はいつでも�
   <data name="GhostHideRecentDays" xml:space="preserve">
     <value>日</value>
   </data>
-  <data name="GhostLastUsed" xml:space="preserve">
-    <value>最終使用 {0}</value>
-  </data>
   <data name="GhostLastUsedUnknown" xml:space="preserve">
-    <value>最終使用日不明</value>
+    <value>不明</value>
+  </data>
+  <data name="GhostLastUsedUnknownHint" xml:space="preserve">
+    <value>Windows にこのデバイスの日付が記録されていません</value>
+  </data>
+  <data name="GhostColumnDevice" xml:space="preserve">
+    <value>デバイス</value>
+  </data>
+  <data name="GhostColumnLastUsed" xml:space="preserve">
+    <value>最終使用</value>
+  </data>
+  <data name="GhostToday" xml:space="preserve">
+    <value>今日</value>
+  </data>
+  <data name="GhostYesterday" xml:space="preserve">
+    <value>昨日</value>
+  </data>
+  <data name="GhostDaysAgo" xml:space="preserve">
+    <value>{0} 日前</value>
+  </data>
+  <data name="GhostSelected" xml:space="preserve">
+    <value>{1} 件中 {0} 件を選択</value>
+  </data>
+  <data name="GhostRemoveButton" xml:space="preserve">
+    <value>{0} 件を削除</value>
+  </data>
+  <data name="GhostUnnamed" xml:space="preserve">
+    <value>名前のないデバイス</value>
   </data>
 </root>

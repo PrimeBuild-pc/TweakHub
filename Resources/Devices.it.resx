@@ -906,10 +906,34 @@ La rimozione non si può annullare da TweakHub. Un dispositivo rimosso torna sol
   <data name="GhostHideRecentDays" xml:space="preserve">
     <value>giorni</value>
   </data>
-  <data name="GhostLastUsed" xml:space="preserve">
-    <value>ultimo uso {0}</value>
-  </data>
   <data name="GhostLastUsedUnknown" xml:space="preserve">
-    <value>ultimo uso sconosciuto</value>
+    <value>Sconosciuto</value>
+  </data>
+  <data name="GhostLastUsedUnknownHint" xml:space="preserve">
+    <value>Windows non ha registrato una data per questo dispositivo</value>
+  </data>
+  <data name="GhostColumnDevice" xml:space="preserve">
+    <value>Dispositivo</value>
+  </data>
+  <data name="GhostColumnLastUsed" xml:space="preserve">
+    <value>Ultimo uso</value>
+  </data>
+  <data name="GhostToday" xml:space="preserve">
+    <value>Oggi</value>
+  </data>
+  <data name="GhostYesterday" xml:space="preserve">
+    <value>Ieri</value>
+  </data>
+  <data name="GhostDaysAgo" xml:space="preserve">
+    <value>{0} giorni fa</value>
+  </data>
+  <data name="GhostSelected" xml:space="preserve">
+    <value>{0} di {1} selezionati</value>
+  </data>
+  <data name="GhostRemoveButton" xml:space="preserve">
+    <value>Rimuovi {0}</value>
+  </data>
+  <data name="GhostUnnamed" xml:space="preserve">
+    <value>Dispositivo senza nome</value>
   </data>
 </root>

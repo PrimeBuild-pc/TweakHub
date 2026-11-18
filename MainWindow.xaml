@@ -64,7 +64,8 @@
         </ui:NavigationView.PaneHeader>
 
         <ui:NavigationView.MenuItems>
-            <ui:NavigationViewItem x:Name="RegistryTweaksItem" Tag="registry">
+            <!-- Its content is a grid (label + badge), so name it or screen readers announce "System.Windows.Controls.Grid". -->
+            <ui:NavigationViewItem x:Name="RegistryTweaksItem" Tag="registry" AutomationProperties.Name="{loc:Loc UI:MainWindowRegistryTweaks}">
                 <ui:NavigationViewItem.Icon><ui:FontIcon Glyph="&#xE945;"/></ui:NavigationViewItem.Icon>
                 <Grid Width="190">
                     <Grid.ColumnDefinitions>

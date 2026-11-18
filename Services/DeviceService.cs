@@ -30,6 +30,8 @@ public sealed record PnpDeviceInfo(string Id, string Name, string Class, string 
     public bool DisabledByTweakHub { get; init; }
     /// <summary>Ghosts only: the later of the last arrival and last removal; null when Windows recorded neither.</summary>
     public DateTime? LastUsed { get; init; }
+    /// <summary>Ghosts only: the setup class as Device Manager names it ("Keyboards"); empty when unknown.</summary>
+    public string TypeName { get; init; } = string.Empty;
 
     public DeviceCategory Category => !Present ? DeviceCategory.NotPresent
         : Problem == 22 ? DeviceCategory.Disabled
@@ -387,8 +389,25 @@ public sealed class DeviceService
     /// The ghosts from <see cref="GhostDevices(IEnumerable{PnpDeviceInfo})"/> that cfgmgr32 also reports as not present
     /// (<paramref name="scan"/> from <see cref="Services.GhostDevices.Scan"/>), with their last use.
     /// </summary>
-    internal static IReadOnlyList<PnpDeviceInfo> ConfirmedGhosts(IEnumerable<PnpDeviceInfo> devices, IReadOnlyDictionary<string, DateTime?> scan) =>
-        GhostDevices(devices).Where(device => scan.ContainsKey(device.Id)).Select(device => device with { LastUsed = scan[device.Id] }).ToList();
+    internal static IReadOnlyList<PnpDeviceInfo> ConfirmedGhosts(IEnumerable<PnpDeviceInfo> devices, IReadOnlyDictionary<string, GhostInfo> scan) =>
+        GhostDevices(devices).Where(device => scan.ContainsKey(device.Id))
+            .Select(device => device with { LastUsed = scan[device.Id].LastUsed, TypeName = scan[device.Id].Type }).ToList();
+
+    private static readonly Regex VidPid = new(@"VID_[0-9A-F]{4}&PID_[0-9A-F]{4}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+    /// <summary>
+    /// The product name the hardware reported ("Wooting 60HE+"), from the device itself or another device with the same
+    /// USB VID/PID (a "HID Keyboard Device" has none, its USB parent has); empty when no device reported one.
+    /// </summary>
+    internal static string ProductName(PnpDeviceInfo device, IEnumerable<PnpDeviceInfo> all)
+    {
+        if (device.BusName.Length > 0) return device.BusName;
+        if (VidPid.Match(device.Id) is not { Success: true } match) return string.Empty;
+        return all.Where(other => other.BusName.Length > 0 && VidPid.Match(other.Id) is { Success: true } m && m.Value.Equals(match.Value, StringComparison.OrdinalIgnoreCase))
+            // The composite parent (no MI_ interface) names the whole product; an interface may name only its part ("Mouse").
+            .OrderBy(other => other.Id.Contains("&MI_", StringComparison.OrdinalIgnoreCase))
+            .Select(other => other.BusName).FirstOrDefault() ?? string.Empty;
+    }
 
     /// <summary>
     /// The elevated fallback: the same checks as <see cref="Services.GhostDevices.Uninstall"/>, run when TweakHub is not

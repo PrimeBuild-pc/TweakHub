@@ -1,5 +1,6 @@
 using System.IO;
 using NUnit.Framework;
+using TweakHub.Localization;
 using TweakHub.Services;
 
 namespace TweakHub.Tests;
@@ -211,6 +212,7 @@ public class UnusedDevicesAndDriversTests
             Uninstalled.Add(_nodes[node].Id);
             return UninstallResult;
         }
+        public string ClassDescription(int node) => "Keyboards";
     }
 
     [Test]
@@ -225,8 +227,8 @@ public class UnusedDevicesAndDriversTests
             .Add("GONE", locate: GhostDevices.CrNoSuchDevNode);
         var ghosts = GhostDevices.Scan(api);
         Assert.That(ghosts.Keys, Is.EquivalentTo(new[] { "GHOST", "GHOST-NODATE" }));
-        Assert.That(ghosts["GHOST"], Is.EqualTo(late));
-        Assert.That(ghosts["GHOST-NODATE"], Is.Null);
+        Assert.That(ghosts["GHOST"], Is.EqualTo(new GhostInfo(late, "Keyboards")));
+        Assert.That(ghosts["GHOST-NODATE"].LastUsed, Is.Null);
         Assert.That(GhostDevices.LastUsed(late, early), Is.EqualTo(late));
         Assert.That(GhostDevices.LastUsed(null, early), Is.EqualTo(early));
         Assert.That(GhostDevices.LastUsed(late, null), Is.EqualTo(late));
@@ -260,12 +262,13 @@ public class UnusedDevicesAndDriversTests
             Device(@"USB\STALE\1", "Present for cfgmgr32", present: false),
             Device(@"PCI\LIVE\1", "Live NIC")
         };
-        var ghosts = DeviceService.ConfirmedGhosts(devices, new Dictionary<string, DateTime?>
+        var ghosts = DeviceService.ConfirmedGhosts(devices, new Dictionary<string, GhostInfo>
         {
-            [@"USB\OLD\1"] = now.AddDays(-5), [@"PCI\LIVE\1"] = null
+            [@"USB\OLD\1"] = new(now.AddDays(-5), "Mice"), [@"PCI\LIVE\1"] = new(null, "")
         });
         Assert.That(ghosts.Select(device => device.Name), Is.EqualTo(new[] { "Old mouse" }));
         Assert.That(ghosts[0].LastUsed, Is.EqualTo(now.AddDays(-5)));
+        Assert.That(ghosts[0].TypeName, Is.EqualTo("Mice"));
 
         Assert.That(GhostDevices.UsedWithin(now.AddDays(-5), 30, now), Is.True);
         Assert.That(GhostDevices.UsedWithin(now.AddDays(-45), 30, now), Is.False);
@@ -275,7 +278,7 @@ public class UnusedDevicesAndDriversTests
 
     // Driver Store Explorer: a UI Automation toggle skipped the check callback, so the confirm count was off by one.
     [Test]
-    public void ChoiceDialogReturnsExactlyTheVisibleTickedRowsIncludingAutomationToggles()
+    public void GhostDialogReturnsExactlyTheVisibleTickedRowsIncludingAutomationToggles()
     {
         if (System.Windows.Application.Current is null)
         {
@@ -283,18 +286,47 @@ public class UnusedDevicesAndDriversTests
             app.InitializeComponent();
             app.ShutdownMode = System.Windows.ShutdownMode.OnExplicitShutdown;
         }
-        var dialog = new TweakHub.Views.Dialogs.AppDialogWindow("t", "m", "OK", "Cancel", TweakHub.Views.Dialogs.DialogKind.Info);
-        dialog.SetChoices([("recent", true), ("old", true), ("no date", false)]);
-        dialog.SetChoiceFilter("Hide used in the last", "days", 30, (index, _) => index == 0);
-        var boxes = ((System.Windows.Controls.Panel)dialog.FindName("ChoicePanel")).Children.OfType<System.Windows.Controls.CheckBox>().ToList();
+        var now = new DateTime(2026, 11, 18, 12, 0, 0, DateTimeKind.Utc);
+        var ghosts = new[]
+        {
+            Device(@"USB\VID_31E3&PID_1322&MI_01\1", "HID Keyboard Device", "Keyboard", present: false) with { LastUsed = now.AddDays(-2), TypeName = "Keyboards" },
+            Device(@"USB\VID_046D&PID_C52B\2", "Old mouse", "Mouse", present: false) with { LastUsed = now.AddDays(-90), TypeName = "Mice" },
+            Device(@"SWD\WPDBUSENUM\3", @"F:\", "WPD", present: false) with { TypeName = "Portable Devices" }
+        };
+        var dialog = new TweakHub.Views.Dialogs.GhostDevicesDialog(ghosts, ghosts, now);
+        var boxes = ((System.Windows.Controls.Panel)dialog.FindName("RowsPanel")).Children.OfType<System.Windows.Controls.Grid>()
+            .Select(row => row.Children.OfType<System.Windows.Controls.CheckBox>().Single()).ToList();
+        Assert.That(boxes[0].Visibility, Is.EqualTo(System.Windows.Visibility.Collapsed), "used 2 days ago: hidden by the 30-day filter");
+        Assert.That(boxes[2].IsChecked, Is.False, "software device: not ticked by default");
+
         var toggle = (System.Windows.Automation.Provider.IToggleProvider)
             System.Windows.Automation.Peers.UIElementAutomationPeer.CreatePeerForElement(boxes[2]).GetPattern(System.Windows.Automation.Peers.PatternInterface.Toggle);
         toggle.Toggle();
-        Assert.That(dialog.CheckedChoices, Is.EqualTo(new[] { 1, 2 }), "the hidden row is ticked but must not be returned");
+        Assert.That(dialog.CheckedRows, Is.EqualTo(new[] { 1, 2 }), "the hidden row is ticked but must not be returned");
+        Assert.That(((System.Windows.Controls.Button)dialog.FindName("RemoveButton")).Content, Is.EqualTo(L.Format("Devices:GhostRemoveButton", 2)));
 
         ((System.Windows.Controls.CheckBox)dialog.FindName("FilterBox")).IsChecked = false;
-        Assert.That(dialog.CheckedChoices, Is.EqualTo(new[] { 0, 1, 2 }));
+        Assert.That(dialog.CheckedRows, Is.EqualTo(new[] { 0, 1, 2 }));
         dialog.Close();
+    }
+
+    [Test]
+    public void GhostRowsUseTheProductNameTheUsbParentReported()
+    {
+        var keyboard = Device(@"HID\VID_31E3&PID_1322&MI_01\A&1", "HID Keyboard Device", "Keyboard", present: false);
+        var all = new[]
+        {
+            keyboard,
+            Device(@"USB\VID_31E3&PID_1322&MI_02\7&1", "USB Input Device", "HIDClass", present: false) with { BusName = "Keyboard part" },
+            Device(@"USB\VID_31E3&PID_1322\SERIAL", "USB Composite Device", "USB", present: false) with { BusName = "Wooting 60HE+" }
+        };
+        Assert.That(DeviceService.ProductName(keyboard, all), Is.EqualTo("Wooting 60HE+"));
+        Assert.That(DeviceService.ProductName(all[1], all), Is.EqualTo("Keyboard part"), "its own name wins");
+        Assert.That(DeviceService.ProductName(Device(@"DISPLAY\AUS27F4\1", "Generic Monitor", "Monitor", present: false), all), Is.Empty);
+
+        var now = new DateTime(2026, 11, 18, 12, 0, 0, DateTimeKind.Utc);
+        Assert.That(TweakHub.Views.Dialogs.GhostDevicesDialog.RelativeDate(now.AddDays(-12), now), Is.EqualTo(L.Format("Devices:GhostDaysAgo", 12)));
+        Assert.That(TweakHub.Views.Dialogs.GhostDevicesDialog.RelativeDate(null, now), Is.EqualTo(L.Get("Devices:GhostLastUsedUnknown")));
     }
 
     [Test]

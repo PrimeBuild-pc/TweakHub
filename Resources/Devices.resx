@@ -906,10 +906,34 @@ Removal cannot be undone from TweakHub. A removed device comes back only when Wi
   <data name="GhostHideRecentDays" xml:space="preserve">
     <value>days</value>
   </data>
-  <data name="GhostLastUsed" xml:space="preserve">
-    <value>last used {0}</value>
-  </data>
   <data name="GhostLastUsedUnknown" xml:space="preserve">
-    <value>last use unknown</value>
+    <value>Unknown</value>
+  </data>
+  <data name="GhostLastUsedUnknownHint" xml:space="preserve">
+    <value>Windows recorded no date for this device</value>
+  </data>
+  <data name="GhostColumnDevice" xml:space="preserve">
+    <value>Device</value>
+  </data>
+  <data name="GhostColumnLastUsed" xml:space="preserve">
+    <value>Last used</value>
+  </data>
+  <data name="GhostToday" xml:space="preserve">
+    <value>Today</value>
+  </data>
+  <data name="GhostYesterday" xml:space="preserve">
+    <value>Yesterday</value>
+  </data>
+  <data name="GhostDaysAgo" xml:space="preserve">
+    <value>{0} days ago</value>
+  </data>
+  <data name="GhostSelected" xml:space="preserve">
+    <value>{0} of {1} selected</value>
+  </data>
+  <data name="GhostRemoveButton" xml:space="preserve">
+    <value>Remove {0}</value>
+  </data>
+  <data name="GhostUnnamed" xml:space="preserve">
+    <value>Unnamed device</value>
   </data>
 </root>

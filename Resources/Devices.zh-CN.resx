@@ -906,10 +906,34 @@ TweakHub 无法检查脚本的行为，作者也可以随时修改它。如有�
   <data name="GhostHideRecentDays" xml:space="preserve">
     <value>天</value>
   </data>
-  <data name="GhostLastUsed" xml:space="preserve">
-    <value>上次使用 {0}</value>
-  </data>
   <data name="GhostLastUsedUnknown" xml:space="preserve">
-    <value>上次使用时间未知</value>
+    <value>未知</value>
+  </data>
+  <data name="GhostLastUsedUnknownHint" xml:space="preserve">
+    <value>Windows 未记录此设备的日期</value>
+  </data>
+  <data name="GhostColumnDevice" xml:space="preserve">
+    <value>设备</value>
+  </data>
+  <data name="GhostColumnLastUsed" xml:space="preserve">
+    <value>上次使用</value>
+  </data>
+  <data name="GhostToday" xml:space="preserve">
+    <value>今天</value>
+  </data>
+  <data name="GhostYesterday" xml:space="preserve">
+    <value>昨天</value>
+  </data>
+  <data name="GhostDaysAgo" xml:space="preserve">
+    <value>{0} 天前</value>
+  </data>
+  <data name="GhostSelected" xml:space="preserve">
+    <value>已选择 {0}/{1}</value>
+  </data>
+  <data name="GhostRemoveButton" xml:space="preserve">
+    <value>删除 {0} 个</value>
+  </data>
+  <data name="GhostUnnamed" xml:space="preserve">
+    <value>未命名设备</value>
   </data>
 </root>

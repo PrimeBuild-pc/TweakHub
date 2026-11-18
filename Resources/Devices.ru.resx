@@ -906,10 +906,34 @@ TweakHub не может проверить, что делает скрипт, �
   <data name="GhostHideRecentDays" xml:space="preserve">
     <value>дн.</value>
   </data>
-  <data name="GhostLastUsed" xml:space="preserve">
-    <value>последнее использование {0}</value>
-  </data>
   <data name="GhostLastUsedUnknown" xml:space="preserve">
-    <value>последнее использование неизвестно</value>
+    <value>Неизвестно</value>
+  </data>
+  <data name="GhostLastUsedUnknownHint" xml:space="preserve">
+    <value>Windows не записала дату для этого устройства</value>
+  </data>
+  <data name="GhostColumnDevice" xml:space="preserve">
+    <value>Устройство</value>
+  </data>
+  <data name="GhostColumnLastUsed" xml:space="preserve">
+    <value>Последнее использование</value>
+  </data>
+  <data name="GhostToday" xml:space="preserve">
+    <value>Сегодня</value>
+  </data>
+  <data name="GhostYesterday" xml:space="preserve">
+    <value>Вчера</value>
+  </data>
+  <data name="GhostDaysAgo" xml:space="preserve">
+    <value>{0} дн. назад</value>
+  </data>
+  <data name="GhostSelected" xml:space="preserve">
+    <value>Выбрано: {0} из {1}</value>
+  </data>
+  <data name="GhostRemoveButton" xml:space="preserve">
+    <value>Удалить ({0})</value>
+  </data>
+  <data name="GhostUnnamed" xml:space="preserve">
+    <value>Устройство без имени</value>
   </data>
 </root>

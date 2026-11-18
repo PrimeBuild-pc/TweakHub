@@ -13,7 +13,12 @@ internal interface IDevNodeApi
     /// <summary>A FILETIME device property in DEVPKEY_Device_LastArrivalDate's set (102 arrival, 103 removal); null when missing.</summary>
     DateTime? FileTime(int node, uint pid);
     int Uninstall(int node);
+    /// <summary>The device's setup class as Device Manager shows it; empty when unknown.</summary>
+    string ClassDescription(int node);
 }
+
+/// <summary>What cfgmgr32 knows about a ghost: its last use and its type as Device Manager names it.</summary>
+internal sealed record GhostInfo(DateTime? LastUsed, string Type);
 
 /// <summary>Non-present devices ("ghosts"): which they are, when they were last used, and removing them safely.</summary>
 internal static class GhostDevices
@@ -25,12 +30,12 @@ internal static class GhostDevices
     /// <summary>
     /// Ghost instance ids with their last use. Only CR_NO_SUCH_DEVNODE marks a ghost: any other failure is treated as present.
     /// </summary>
-    public static Dictionary<string, DateTime?> Scan(IDevNodeApi api)
+    public static Dictionary<string, GhostInfo> Scan(IDevNodeApi api)
     {
-        var ghosts = new Dictionary<string, DateTime?>(StringComparer.OrdinalIgnoreCase);
+        var ghosts = new Dictionary<string, GhostInfo>(StringComparer.OrdinalIgnoreCase);
         foreach (var id in api.DeviceIds())
             if (api.Locate(id, out var node) == CrSuccess && api.Status(node) == CrNoSuchDevNode)
-                ghosts[id] = LastUsed(api.FileTime(node, LastArrivalPid), api.FileTime(node, LastRemovalPid));
+                ghosts[id] = new(LastUsed(api.FileTime(node, LastArrivalPid), api.FileTime(node, LastRemovalPid)), api.ClassDescription(node));
         return ghosts;
     }
 

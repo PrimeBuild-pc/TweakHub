@@ -50,6 +50,8 @@ internal static class DeviceTree
     private static extern int CM_Get_DevNode_Status(out int status, out int problem, int devInst, int flags);
     [DllImport("cfgmgr32.dll")]
     private static extern int CM_Uninstall_DevNode(int devInst, int flags);
+    [DllImport("setupapi.dll", CharSet = CharSet.Unicode)]
+    private static extern bool SetupDiGetClassDescriptionW(in Guid classGuid, char[] description, int size, out int required);
 
     private const int FilterPresent = 0x100; // CM_GETIDLIST_FILTER_PRESENT
     private const int LocatePhantom = 1; // CM_LOCATE_DEVNODE_PHANTOM
@@ -64,6 +66,14 @@ internal static class DeviceTree
         public int Locate(string id, out int node) => CM_Locate_DevNodeW(out node, id, LocatePhantom);
         public int Status(int node) => CM_Get_DevNode_Status(out _, out _, node, 0);
         public int Uninstall(int node) => CM_Uninstall_DevNode(node, 0);
+
+        /// <summary>The setup class as Device Manager names it, in the Windows language ("Keyboards", "Monitors").</summary>
+        public string ClassDescription(int node)
+        {
+            if (Property(node, ClassGuidKey) is not { Length: 16 } bytes) return string.Empty;
+            var buffer = new char[256];
+            return SetupDiGetClassDescriptionW(new Guid(bytes), buffer, buffer.Length, out _) ? new string(buffer, 0, Math.Max(0, Array.IndexOf(buffer, '\0'))) : string.Empty; // SetupAPI leaves text after the terminator
+        }
 
         public DateTime? FileTime(int node, uint pid)
         {

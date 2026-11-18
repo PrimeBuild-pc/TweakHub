@@ -42,12 +42,10 @@ public static class AppDialog
     }
 
     /// <summary>Lets the user tick one or more choices; null when cancelled or nothing is ticked.</summary>
-    public static Task<IReadOnlyList<int>?> ChooseAsync(Window? owner, string title, string message, IEnumerable<(string Label, bool IsChecked)> choices,
-        (string Label, string Suffix, int Days, Func<int, int, bool> Hidden)? filter = null)
+    public static Task<IReadOnlyList<int>?> ChooseAsync(Window? owner, string title, string message, IEnumerable<(string Label, bool IsChecked)> choices)
     {
         var dialog = new AppDialogWindow(title, message, L.Get("UI:OK"), L.Get("UI:Cancel"), DialogKind.Info);
         dialog.SetChoices(choices);
-        if (filter is { } f) dialog.SetChoiceFilter(f.Label, f.Suffix, f.Days, f.Hidden);
         return Task.FromResult<IReadOnlyList<int>?>(Show(owner, dialog) && dialog.CheckedChoices.Count > 0 ? dialog.CheckedChoices : null);
     }
 
