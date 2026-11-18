@@ -26,6 +26,7 @@ public partial class GhostDevicesDialog : Window
     {
         InitializeComponent();
         AutomationProperties.SetName(this, Title);
+        FitTo(SystemParameters.WorkArea);
         _ghosts = ghosts;
         _now = utcNow;
         MessageText.Text = L.Format("Devices:RemoveGhostsMessage", ghosts.Count);
@@ -51,6 +52,13 @@ public partial class GhostDevicesDialog : Window
         _days = days;
         FilterDaysBox.Text = days.ToString();
         ApplyFilter();
+    }
+
+    /// <summary>Keeps the dialog inside the work area (in DIPs): 1366 px at 200% leaves about 683 x 350.</summary>
+    internal void FitTo(Rect workArea)
+    {
+        Width = Math.Min(860, Math.Max(320, workArea.Width - 24));
+        MaxHeight = Math.Max(320, workArea.Height - 24);
     }
 
     internal static string GroupOf(PnpDeviceInfo device) => device.TypeName.Length > 0 ? device.TypeName : device.Class;
@@ -123,6 +131,9 @@ public partial class GhostDevicesDialog : Window
         };
 
     public static readonly GridLength DateColumnWidth = new(120);
+
+    /// <summary>The "used in the last N days" filter at confirm time; 0 when it is off.</summary>
+    public int ActiveFilterDays => FilterBox.IsChecked == true ? _days : 0;
 
     // Only rows on screen: a row hidden by the filter keeps its state and is never removed anyway.
     private void SelectAll_Click(object sender, RoutedEventArgs e) => SetVisibleRows(true);

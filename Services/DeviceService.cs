@@ -424,34 +424,54 @@ public sealed class DeviceService
     /// <summary>
     /// The elevated fallback: the same checks as <see cref="Services.GhostDevices.Uninstall"/>, run when TweakHub is not
     /// administrator. Each line reports OK|id, SKIP|id or FAIL|reason|id (id last: it may contain '|').
+    /// With <paramref name="filterDays"/> &gt; 0 a device used within that many days is skipped, as in-process.
     /// </summary>
-    internal static string BuildRemoveGhostsScript(IEnumerable<string> instanceIds) => """
+    internal static string BuildRemoveGhostsScript(IEnumerable<string> instanceIds, int filterDays = 0) => """
         Add-Type -Namespace TweakHub -Name CfgMgr -MemberDefinition @'
+        [StructLayout(LayoutKind.Sequential)] public struct Key { public Guid Set; public uint Id; }
         [DllImport("cfgmgr32.dll", CharSet = CharSet.Unicode)] public static extern int CM_Locate_DevNodeW(out int devInst, string id, int flags);
         [DllImport("cfgmgr32.dll")] public static extern int CM_Get_DevNode_Status(out int status, out int problem, int devInst, int flags);
+        [DllImport("cfgmgr32.dll")] public static extern int CM_Get_DevNode_PropertyW(int devInst, ref Key key, out uint type, out long value, ref int size, int flags);
         [DllImport("cfgmgr32.dll")] public static extern int CM_Uninstall_DevNode(int devInst, int flags);
         '@
 
-        """ + $"foreach ($id in @({string.Join(", ", instanceIds.Select(PowerShellService.Literal))})) {{\n" + """
+        # The later of DEVPKEY_Device_LastArrivalDate (102) and LastRemovalDate (103), as a FILETIME; 0 when neither is set.
+        function Get-LastUsed($node) {
+            $last = 0L
+            foreach ($p in 102, 103) {
+                $key = New-Object TweakHub.CfgMgr+Key
+                $key.Set = [Guid]'83da6326-97a6-4088-9453-a1923f573b29'; $key.Id = $p
+                $type = 0; $value = 0L; $size = 8
+                if ([TweakHub.CfgMgr]::CM_Get_DevNode_PropertyW($node, [ref]$key, [ref]$type, [ref]$value, [ref]$size, 0) -eq 0 -and $value -gt $last) { $last = $value }
+            }
+            $last
+        }
+
+        """ + $"$days = {filterDays}\nforeach ($id in @({string.Join(", ", instanceIds.Select(PowerShellService.Literal))})) {{\n" + """
             $node = 0; $status = 0; $problem = 0
             # 1 = CM_LOCATE_DEVNODE_PHANTOM; only 13 (CR_NO_SUCH_DEVNODE) means not connected, anything else counts as present.
             $cr = [TweakHub.CfgMgr]::CM_Locate_DevNodeW([ref]$node, $id, 1)
             if ($cr -ne 0) { "FAIL|CM_Locate_DevNode $cr|$id"; continue }
             if ([TweakHub.CfgMgr]::CM_Get_DevNode_Status([ref]$status, [ref]$problem, $node, 0) -ne 13) { "SKIP|$id"; continue }
+            # Used while the dialog was open: the filter that hid recent devices applies here too.
+            if ($days -gt 0) {
+                $used = Get-LastUsed $node
+                if ($used -gt 0 -and $used -le [DateTime]::MaxValue.ToFileTimeUtc() -and ([DateTime]::UtcNow - [DateTime]::FromFileTimeUtc($used)).TotalDays -lt $days) { "SKIP|$id"; continue }
+            }
             $cr = [TweakHub.CfgMgr]::CM_Uninstall_DevNode($node, 0)
             if ($cr -eq 0) { "OK|$id" } else { "FAIL|CM_Uninstall_DevNode $cr|$id" }
         }
         """;
 
     /// <summary>Removes the ghosts given; returns how many were removed and the ones that were skipped or failed, with the reason.</summary>
-    public async Task<(int Removed, IReadOnlyList<string> NotRemoved)> RemoveGhostsAsync(IReadOnlyList<PnpDeviceInfo> devices)
+    public async Task<(int Removed, IReadOnlyList<string> NotRemoved)> RemoveGhostsAsync(IReadOnlyList<PnpDeviceInfo> devices, int filterDays = 0)
     {
         string output;
         if (Elevation.IsAdministrator)
-            output = await Task.Run(() => string.Join("\n", devices.Select(device => Services.GhostDevices.Uninstall(DeviceTree.Api.Instance, device.Id))));
+            output = await Task.Run(() => string.Join("\n", devices.Select(device => Services.GhostDevices.Uninstall(DeviceTree.Api.Instance, device.Id, filterDays))));
         else
         {
-            var result = await PowerShellService.Instance.ExecuteScriptAsync(BuildRemoveGhostsScript(devices.Select(device => device.Id)),
+            var result = await PowerShellService.Instance.ExecuteScriptAsync(BuildRemoveGhostsScript(devices.Select(device => device.Id), filterDays),
                 requireAdministrator: true, TimeSpan.FromMinutes(10));
             // Declined UAC: no device line at all, and the reason is in the error.
             if (!result.Output.Contains('|')) throw new InvalidOperationException(string.IsNullOrWhiteSpace(result.Error) ? result.ExitCode.ToString() : result.Error.Trim());

@@ -10,6 +10,8 @@ public partial class DeviceListView : UserControl
 {
     private IReadOnlyList<PnpDeviceInfo> _devices = [];
     private DeviceCategory? _categoryFilter;
+    // True for the whole ghost-removal flow, so a scan that ends meanwhile does not re-enable its button.
+    private bool _removingGhosts;
 
     public DeviceListView() => InitializeComponent();
 
@@ -42,7 +44,7 @@ public partial class DeviceListView : UserControl
             Loading.Hide();
             ScanButton.IsEnabled = true;
             ExportButton.IsEnabled = DisableUnusedButton.IsEnabled = _devices.Count > 0;
-            RemoveGhostsButton.IsEnabled = DeviceService.GhostDevices(_devices).Count > 0;
+            RemoveGhostsButton.IsEnabled = !_removingGhosts && DeviceService.GhostDevices(_devices).Count > 0;
             EnableAllButton.IsEnabled = DeviceService.HasDisabledDevices;
         }
     }
@@ -176,7 +178,9 @@ public partial class DeviceListView : UserControl
 
     private async void RemoveGhosts_Click(object sender, RoutedEventArgs e)
     {
-        // Disabled for the whole flow: a second click during the scan would open a second picker.
+        // Disabled for the whole flow (also against a device scan ending meanwhile): a second click would open a second picker.
+        if (_removingGhosts) return;
+        _removingGhosts = true;
         RemoveGhostsButton.IsEnabled = false;
         var owner = Window.GetWindow(this);
         var title = L.Get("Devices:RemoveGhosts");
@@ -213,7 +217,8 @@ public partial class DeviceListView : UserControl
             attempted = true;
             try
             {
-                var (removed, notRemoved) = await DeviceService.Instance.RemoveGhostsAsync(chosen.Select(index => ghosts[index]).ToList());
+                // The filter is applied again right before each uninstall: a device used while the dialog was open is skipped.
+                var (removed, notRemoved) = await DeviceService.Instance.RemoveGhostsAsync(chosen.Select(index => ghosts[index]).ToList(), dialog.ActiveFilterDays);
                 var summary = L.Format("Devices:RemoveGhostsDone", removed, chosen.Count);
                 if (notRemoved.Count > 0) summary += "\n\n" + L.Format("Devices:RemoveGhostsNotRemoved", string.Join("\n", notRemoved));
                 await AppDialog.ShowAsync(owner, title, summary);
@@ -225,6 +230,7 @@ public partial class DeviceListView : UserControl
         }
         finally
         {
+            _removingGhosts = false;
             // A rescan re-enables the button; otherwise restore it here.
             if (attempted) await ScanAsync();
             else RemoveGhostsButton.IsEnabled = DeviceService.GhostDevices(_devices).Count > 0;

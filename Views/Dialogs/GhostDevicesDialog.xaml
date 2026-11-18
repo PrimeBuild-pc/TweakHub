@@ -12,13 +12,16 @@
         <WindowChrome CaptionHeight="0" ResizeBorderThickness="0" GlassFrameThickness="0" UseAeroCaptionButtons="False"/>
     </WindowChrome.WindowChrome>
 
+    <!-- The list takes the star row: on a small or high-DPI screen (MaxHeight set from the work area) it shrinks and
+         scrolls, so the header and the buttons stay on screen. -->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Margin="24,24,24,18" Background="Transparent" MouseLeftButtonDown="Body_MouseLeftButtonDown">
+        <StackPanel Margin="24,24,24,0" Background="Transparent" MouseLeftButtonDown="Body_MouseLeftButtonDown">
             <StackPanel Orientation="Horizontal">
                 <Border Width="36" Height="36" CornerRadius="18" Margin="0,0,14,0" Background="{DynamicResource SubtleFillBrush}">
                     <TextBlock Text="&#xE74D;" FontFamily="Segoe Fluent Icons" FontSize="17" Foreground="{DynamicResource WarningBrush}"
@@ -26,21 +29,20 @@
                 </Border>
                 <TextBlock Text="{loc:Loc Devices:RemoveGhosts}" FontSize="20" FontWeight="SemiBold" VerticalAlignment="Center"/>
             </StackPanel>
-            <TextBlock x:Name="MessageText" FontSize="13" LineHeight="19" TextWrapping="Wrap" Margin="0,12,0,0"
-                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+            <ScrollViewer MaxHeight="120" Margin="0,12,0,0" VerticalScrollBarVisibility="Auto">
+                <TextBlock x:Name="MessageText" FontSize="13" LineHeight="19" TextWrapping="Wrap"
+                           Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+            </ScrollViewer>
 
-            <Grid Margin="0,16,0,8">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <StackPanel Orientation="Horizontal">
+            <!-- Wraps on narrow windows instead of pushing the buttons off the edge. -->
+            <WrapPanel Margin="0,16,0,8">
+                <StackPanel Orientation="Horizontal" Margin="0,0,24,4">
                     <CheckBox x:Name="FilterBox" VerticalAlignment="Center" IsChecked="True" Content="{loc:Loc Devices:GhostHideRecent}"
                               Checked="Filter_Changed" Unchecked="Filter_Changed"/>
                     <TextBox x:Name="FilterDaysBox" Width="52" Margin="8,0" VerticalAlignment="Center" TextChanged="Filter_Changed"/>
                     <TextBlock Text="{loc:Loc Devices:GhostHideRecentDays}" VerticalAlignment="Center"/>
                 </StackPanel>
-                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
                     <TextBlock x:Name="SelectedText" VerticalAlignment="Center" Margin="0,0,12,0"
                                Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
                     <Button x:Name="SelectAllButton" Content="{loc:Loc Devices:GhostSelectAll}" Style="{StaticResource SecondaryButtonStyle}"
@@ -48,33 +50,33 @@
                     <Button x:Name="SelectNoneButton" Content="{loc:Loc Devices:GhostSelectNone}" Style="{StaticResource SecondaryButtonStyle}"
                             Padding="10,4" Click="SelectNone_Click"/>
                 </StackPanel>
-            </Grid>
-
-            <Border CornerRadius="8" BorderThickness="1" Background="{DynamicResource CardBrush}"
-                    BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}">
-                <DockPanel>
-                    <!-- Column headings; rows use the same widths. -->
-                    <Grid DockPanel.Dock="Top" Margin="40,12,12,6">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="{x:Static local:GhostDevicesDialog.DateColumnWidth}"/>
-                            <ColumnDefinition Width="{x:Static local:GhostDevicesDialog.DateColumnWidth}"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="{loc:Loc Devices:GhostColumnDevice}" FontSize="12" FontWeight="SemiBold"
-                                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
-                        <TextBlock Grid.Column="1" Text="{loc:Loc Devices:GhostColumnInstalled}" FontSize="12" FontWeight="SemiBold" Margin="12,0,0,0"
-                                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
-                        <TextBlock Grid.Column="2" Text="{loc:Loc Devices:GhostColumnLastUsed}" FontSize="12" FontWeight="SemiBold" Margin="12,0,0,0"
-                                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
-                    </Grid>
-                    <ScrollViewer MaxHeight="420" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                        <StackPanel x:Name="RowsPanel" Margin="12,0,12,8"/>
-                    </ScrollViewer>
-                </DockPanel>
-            </Border>
+            </WrapPanel>
         </StackPanel>
 
-        <Border Grid.Row="1" Padding="24" BorderThickness="0,1,0,0"
+        <Border Grid.Row="1" Margin="24,0,24,18" CornerRadius="8" BorderThickness="1" Background="{DynamicResource CardBrush}"
+                BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}">
+            <DockPanel>
+                <!-- Column headings; rows use the same widths. -->
+                <Grid DockPanel.Dock="Top" Margin="40,12,12,6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="{x:Static local:GhostDevicesDialog.DateColumnWidth}"/>
+                        <ColumnDefinition Width="{x:Static local:GhostDevicesDialog.DateColumnWidth}"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{loc:Loc Devices:GhostColumnDevice}" FontSize="12" FontWeight="SemiBold"
+                               Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+                    <TextBlock Grid.Column="1" Text="{loc:Loc Devices:GhostColumnInstalled}" FontSize="12" FontWeight="SemiBold" Margin="12,0,0,0"
+                               Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+                    <TextBlock Grid.Column="2" Text="{loc:Loc Devices:GhostColumnLastUsed}" FontSize="12" FontWeight="SemiBold" Margin="12,0,0,0"
+                               Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+                </Grid>
+                <ScrollViewer x:Name="RowsScroll" MaxHeight="420" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel x:Name="RowsPanel" Margin="12,0,12,8"/>
+                </ScrollViewer>
+            </DockPanel>
+        </Border>
+
+        <Border Grid.Row="2" Padding="24" BorderThickness="0,1,0,0"
                 Background="{DynamicResource SystemControlBackgroundBaseLowBrush}"
                 BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}">
             <Grid>

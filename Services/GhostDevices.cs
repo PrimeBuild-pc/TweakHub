@@ -58,21 +58,25 @@ internal static class GhostDevices
 
     /// <summary>
     /// Locates and checks the device again right before uninstalling, so one reconnected meanwhile is never removed.
-    /// Returns OK|id, SKIP|id (present again) or FAIL|reason|id, the same lines the elevated script prints.
+    /// With <paramref name="filterDays"/> &gt; 0 the dates are read again too: a device used in that window since the
+    /// list was read (plugged in and out while the dialog was open) is skipped like a present one.
+    /// Returns OK|id, SKIP|id (present again or used recently) or FAIL|reason|id, the same lines the elevated script prints.
     /// The id comes last because instance ids may contain '|'.
     /// </summary>
-    public static string Uninstall(IDevNodeApi api, string id)
+    public static string Uninstall(IDevNodeApi api, string id, int filterDays = 0, DateTime? utcNow = null)
     {
-        var line = UninstallCore(api, id);
+        var line = UninstallCore(api, id, filterDays, utcNow ?? DateTime.UtcNow);
         if (!line.StartsWith("OK|", StringComparison.Ordinal)) Debug.WriteLine($"Ghost removal: {line}");
         return line;
     }
 
-    private static string UninstallCore(IDevNodeApi api, string id)
+    private static string UninstallCore(IDevNodeApi api, string id, int filterDays, DateTime now)
     {
         var result = api.Locate(id, out var node);
         if (result != CrSuccess) return $"FAIL|CM_Locate_DevNode {result}|{id}";
         if (api.Status(node) != CrNoSuchDevNode) return $"SKIP|{id}";
+        if (filterDays > 0 && UsedWithin(LastUsed(api.FileTime(node, LastArrivalPid), api.FileTime(node, LastRemovalPid)), filterDays, now))
+            return $"SKIP|{id}";
         result = api.Uninstall(node);
         return result == CrSuccess ? $"OK|{id}" : $"FAIL|CM_Uninstall_DevNode {result}|{id}";
     }

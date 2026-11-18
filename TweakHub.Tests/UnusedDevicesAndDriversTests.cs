@@ -184,6 +184,7 @@ public class UnusedDevicesAndDriversTests
             Assert.That(DeviceService.GhostTickedByDefault(Device(id, "x", present: false)), Is.False, id);
         Assert.That(DeviceService.BuildRemoveGhostsScript([@"USB\VID_046D&PID_C52B\5&1"]),
             Does.Contain("CM_Get_DevNode_Status").And.Contain("-ne 13").And.Contain("CM_Uninstall_DevNode($node, 0)").And.Contain(@"'USB\VID_046D&PID_C52B\5&1'"));
+        Assert.That(DeviceService.BuildRemoveGhostsScript(["X"], 30), Does.Contain("$days = 30").And.Contain("Get-LastUsed $node"));
     }
 
     /// <summary>In-memory cfgmgr32: each id has a locate result and a status; every uninstall is recorded.</summary>
@@ -256,6 +257,14 @@ public class UnusedDevicesAndDriversTests
         Assert.That(GhostDevices.Uninstall(api, "UNKNOWN"), Is.EqualTo("SKIP|UNKNOWN"));
         Assert.That(GhostDevices.Uninstall(api, "GONE"), Is.EqualTo("FAIL|CM_Locate_DevNode 13|GONE"));
         Assert.That(api.Uninstalled, Is.EqualTo(new[] { "GHOST" }));
+
+        // Plugged in and out while the dialog was open: with the 30-day filter it is skipped right before the uninstall.
+        var now = new DateTime(2026, 11, 18, 12, 0, 0, DateTimeKind.Utc);
+        var reused = new FakeDevNodes().Add("REUSED", arrival: now.AddDays(-60), removal: now.AddMinutes(-1)).Add("OLD", removal: now.AddDays(-60));
+        Assert.That(GhostDevices.Uninstall(reused, "REUSED", 30, now), Is.EqualTo("SKIP|REUSED"));
+        Assert.That(GhostDevices.Uninstall(reused, "REUSED", 0, now), Is.EqualTo("OK|REUSED"), "filter off: removed");
+        Assert.That(GhostDevices.Uninstall(reused, "OLD", 30, now), Is.EqualTo("OK|OLD"));
+        Assert.That(reused.Uninstalled, Is.EqualTo(new[] { "REUSED", "OLD" }));
 
         api.UninstallResult = 0x17; // CR_REMOVE_VETOED
         Assert.That(GhostDevices.Uninstall(api, "GHOST"), Is.EqualTo("FAIL|CM_Uninstall_DevNode 23|GHOST"));
@@ -342,11 +351,42 @@ public class UnusedDevicesAndDriversTests
         }
         daysBox.Text = "1";
         Assert.That(boxes[0].Visibility, Is.EqualTo(System.Windows.Visibility.Visible), "used 2 days ago, filter 1 day");
+        Assert.That(dialog.ActiveFilterDays, Is.EqualTo(1));
+        ((System.Windows.Controls.CheckBox)dialog.FindName("FilterBox")).IsChecked = false;
+        Assert.That(dialog.ActiveFilterDays, Is.Zero);
         dialog.Close();
-
-        static void Click(System.Windows.Window window, string name) => ((System.Windows.Controls.Button)window.FindName(name))
-            .RaiseEvent(new System.Windows.RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
     }
+
+    // 1366 px at 200% leaves about 683 x 350 DIPs: the buttons must stay on screen, only the list shrinks.
+    [Test]
+    public void GhostDialogFitsASmallHighDpiWorkArea()
+    {
+        if (System.Windows.Application.Current is null)
+        {
+            var app = new App();
+            app.InitializeComponent();
+            app.ShutdownMode = System.Windows.ShutdownMode.OnExplicitShutdown;
+        }
+        var ghosts = Enumerable.Range(0, 60).Select(index =>
+            Device($@"USB\VID_046D&PID_C52B\{index}", $"Device {index}", "Mouse", present: false) with { TypeName = "Mice" }).ToArray();
+        var dialog = new TweakHub.Views.Dialogs.GhostDevicesDialog(ghosts, ghosts, DateTime.UtcNow);
+        dialog.FitTo(new System.Windows.Rect(0, 0, 683, 350));
+        dialog.WindowStartupLocation = System.Windows.WindowStartupLocation.Manual;
+        dialog.Left = dialog.Top = 0;
+        dialog.ShowActivated = false;
+        dialog.Show();
+        dialog.UpdateLayout();
+        var root = (System.Windows.FrameworkElement)dialog.Content;
+        var remove = (System.Windows.Controls.Button)dialog.FindName("RemoveButton");
+        var bottom = remove.TranslatePoint(new System.Windows.Point(0, remove.ActualHeight), root).Y;
+        Assert.That(dialog.ActualWidth, Is.LessThanOrEqualTo(683));
+        Assert.That(root.ActualHeight, Is.LessThanOrEqualTo(350));
+        Assert.That(bottom, Is.LessThanOrEqualTo(root.ActualHeight), "the Remove button is inside the window");
+        dialog.Close();
+    }
+
+    private static void Click(System.Windows.Window window, string name) => ((System.Windows.Controls.Button)window.FindName(name))
+        .RaiseEvent(new System.Windows.RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
 
     [Test]
     public void GhostRowsUseTheProductNameTheUsbParentReported()
@@ -398,7 +438,7 @@ public class UnusedDevicesAndDriversTests
         foreach (var script in new[]
         {
             DeviceService.UsageScript, DeviceService.BuildDisableManyScript([@"ROOT\KDNIC\0000", "it's"]), DriverStoreService.InventoryScript,
-            DeviceService.BuildRemoveGhostsScript([@"USB\VID_046D&PID_C52B\5&1", "it's"]),
+            DeviceService.BuildRemoveGhostsScript([@"USB\VID_046D&PID_C52B\5&1", "it's"], 30),
             DriverStoreService.BuildRemoveScript([Package("oem19.inf", "amdgpio2.inf", "2.2", "2023-01-01")]),
             DriverStoreService.BuildRestoreScript(@"C:\ProgramData\TweakHub-DriverBackups\20261027-120000\oem19.inf")
         })
