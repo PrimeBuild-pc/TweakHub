@@ -184,7 +184,23 @@ public class UnusedDevicesAndDriversTests
             Assert.That(DeviceService.GhostTickedByDefault(Device(id, "x", present: false)), Is.False, id);
         Assert.That(DeviceService.BuildRemoveGhostsScript([@"USB\VID_046D&PID_C52B\5&1"]),
             Does.Contain("CM_Get_DevNode_Status").And.Contain("-ne 13").And.Contain("CM_Uninstall_DevNode($node, 0)").And.Contain(@"'USB\VID_046D&PID_C52B\5&1'"));
-        Assert.That(DeviceService.BuildRemoveGhostsScript(["X"], 30), Does.Contain("$days = 30").And.Contain("Get-LastUsed $node"));
+        var script = DeviceService.BuildRemoveGhostsScript(["X"], 30);
+        Assert.That(script, Does.Contain("$days = 30").And.Contain("Get-LastUsed $node"));
+        Assert.That(script.IndexOf("Get-LastUsed $node", StringComparison.Ordinal),
+            Is.LessThan(script.IndexOf("CM_Get_DevNode_Status([ref]", StringComparison.Ordinal)), "presence is checked after the date reads");
+    }
+
+    // The script's date picker drops a corrupt FILETIME on its own instead of letting it hide a valid date.
+    [Test]
+    public async Task ScriptKeepsTheValidDateWhenTheOtherIsCorrupt()
+    {
+        var yesterday = DateTime.UtcNow.AddDays(-1).ToFileTimeUtc();
+        var max = DateTime.MaxValue.ToFileTimeUtc();
+        var result = await PowerShellService.Instance.ExecuteScriptAsync(DeviceService.LatestFileTimeFunction +
+            $"\nGet-LatestFileTime @({max + 1}, {yesterday})\nGet-LatestFileTime @({long.MaxValue})\nGet-LatestFileTime @()\nGet-LatestFileTime @(-5, 0)");
+        Assert.That(result.Success, Is.True, result.Error);
+        Assert.That(result.Output.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries),
+            Is.EqualTo(new[] { yesterday.ToString(), "0", "0", "0" }));
     }
 
     /// <summary>In-memory cfgmgr32: each id has a locate result and a status; every uninstall is recorded.</summary>
@@ -206,8 +222,16 @@ public class UnusedDevicesAndDriversTests
             node = _nodes.FindIndex(item => item.Id == id);
             return _nodes[node].Locate;
         }
-        public int Status(int node) => _nodes[node].Status;
-        public DateTime? FileTime(int node, uint pid) => pid switch
+        public int Status(int node) => StatusOverride ?? _nodes[node].Status;
+        /// <summary>Set to simulate a device plugged in while its dates are read.</summary>
+        public int? StatusOverride;
+        public Action? OnFileTime;
+        public DateTime? FileTime(int node, uint pid)
+        {
+            OnFileTime?.Invoke();
+            return Date(node, pid);
+        }
+        private DateTime? Date(int node, uint pid) => pid switch
         {
             GhostDevices.LastArrivalPid => _nodes[node].Arrival,
             GhostDevices.LastRemovalPid => _nodes[node].Removal,
@@ -265,6 +289,12 @@ public class UnusedDevicesAndDriversTests
         Assert.That(GhostDevices.Uninstall(reused, "REUSED", 0, now), Is.EqualTo("OK|REUSED"), "filter off: removed");
         Assert.That(GhostDevices.Uninstall(reused, "OLD", 30, now), Is.EqualTo("OK|OLD"));
         Assert.That(reused.Uninstalled, Is.EqualTo(new[] { "REUSED", "OLD" }));
+
+        // Plugged back in while its (old) dates are read: presence is checked after the reads, so it is never uninstalled.
+        var racing = new FakeDevNodes().Add("RACING", removal: now.AddDays(-60));
+        racing.OnFileTime = () => racing.StatusOverride = GhostDevices.CrSuccess;
+        Assert.That(GhostDevices.Uninstall(racing, "RACING", 30, now), Is.EqualTo("SKIP|RACING"));
+        Assert.That(racing.Uninstalled, Is.Empty);
 
         api.UninstallResult = 0x17; // CR_REMOVE_VETOED
         Assert.That(GhostDevices.Uninstall(api, "GHOST"), Is.EqualTo("FAIL|CM_Uninstall_DevNode 23|GHOST"));
@@ -370,18 +400,19 @@ public class UnusedDevicesAndDriversTests
         var ghosts = Enumerable.Range(0, 60).Select(index =>
             Device($@"USB\VID_046D&PID_C52B\{index}", $"Device {index}", "Mouse", present: false) with { TypeName = "Mice" }).ToArray();
         var dialog = new TweakHub.Views.Dialogs.GhostDevicesDialog(ghosts, ghosts, DateTime.UtcNow);
+        // The work area a 683-DIP monitor gives. The window is never shown and the dispatcher is never pumped:
+        // pumping would run the queued App startup (splash window) inside the test host.
         dialog.FitTo(new System.Windows.Rect(0, 0, 683, 350));
-        dialog.WindowStartupLocation = System.Windows.WindowStartupLocation.Manual;
-        dialog.Left = dialog.Top = 0;
-        dialog.ShowActivated = false;
-        dialog.Show();
-        dialog.UpdateLayout();
+        Assert.That(dialog.Width, Is.LessThanOrEqualTo(683));
+        Assert.That(dialog.MaxHeight, Is.LessThanOrEqualTo(350));
+
         var root = (System.Windows.FrameworkElement)dialog.Content;
+        root.Measure(new System.Windows.Size(dialog.Width, dialog.MaxHeight));
+        root.Arrange(new System.Windows.Rect(0, 0, dialog.Width, Math.Min(root.DesiredSize.Height, dialog.MaxHeight)));
         var remove = (System.Windows.Controls.Button)dialog.FindName("RemoveButton");
         var bottom = remove.TranslatePoint(new System.Windows.Point(0, remove.ActualHeight), root).Y;
-        Assert.That(dialog.ActualWidth, Is.LessThanOrEqualTo(683));
         Assert.That(root.ActualHeight, Is.LessThanOrEqualTo(350));
-        Assert.That(bottom, Is.LessThanOrEqualTo(root.ActualHeight), "the Remove button is inside the window");
+        Assert.That(bottom, Is.GreaterThan(0).And.LessThanOrEqualTo(root.ActualHeight), "the Remove button is inside the window");
         dialog.Close();
     }
 

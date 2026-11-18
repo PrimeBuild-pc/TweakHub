@@ -74,9 +74,10 @@ internal static class GhostDevices
     {
         var result = api.Locate(id, out var node);
         if (result != CrSuccess) return $"FAIL|CM_Locate_DevNode {result}|{id}";
-        if (api.Status(node) != CrNoSuchDevNode) return $"SKIP|{id}";
         if (filterDays > 0 && UsedWithin(LastUsed(api.FileTime(node, LastArrivalPid), api.FileTime(node, LastRemovalPid)), filterDays, now))
             return $"SKIP|{id}";
+        // Presence is the last check before the uninstall, so a device plugged in during the reads above is still caught.
+        if (api.Status(node) != CrNoSuchDevNode) return $"SKIP|{id}";
         result = api.Uninstall(node);
         return result == CrSuccess ? $"OK|{id}" : $"FAIL|CM_Uninstall_DevNode {result}|{id}";
     }

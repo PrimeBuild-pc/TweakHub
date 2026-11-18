@@ -422,6 +422,19 @@ public sealed class DeviceService
         devices.GroupBy(device => device.Id, StringComparer.OrdinalIgnoreCase).ToDictionary(group => group.Key, group => group.First(), StringComparer.OrdinalIgnoreCase);
 
     /// <summary>
+    /// PowerShell twin of <see cref="Services.GhostDevices.FileTimeToUtc"/> + LastUsed: each value is checked on its own
+    /// (a corrupt one is dropped, it never hides a valid date), then the latest valid one is returned; 0 when none.
+    /// </summary>
+    internal const string LatestFileTimeFunction = """
+        function Get-LatestFileTime([long[]]$values) {
+            $max = [DateTime]::MaxValue.ToFileTimeUtc()
+            $latest = 0L
+            foreach ($value in $values) { if ($value -gt 0 -and $value -le $max -and $value -gt $latest) { $latest = $value } }
+            $latest
+        }
+        """;
+
+    /// <summary>
     /// The elevated fallback: the same checks as <see cref="Services.GhostDevices.Uninstall"/>, run when TweakHub is not
     /// administrator. Each line reports OK|id, SKIP|id or FAIL|reason|id (id last: it may contain '|').
     /// With <paramref name="filterDays"/> &gt; 0 a device used within that many days is skipped, as in-process.
@@ -437,27 +450,27 @@ public sealed class DeviceService
 
         # The later of DEVPKEY_Device_LastArrivalDate (102) and LastRemovalDate (103), as a FILETIME; 0 when neither is set.
         function Get-LastUsed($node) {
-            $last = 0L
-            foreach ($p in 102, 103) {
+            $values = foreach ($p in 102, 103) {
                 $key = New-Object TweakHub.CfgMgr+Key
                 $key.Set = [Guid]'83da6326-97a6-4088-9453-a1923f573b29'; $key.Id = $p
                 $type = 0; $value = 0L; $size = 8
-                if ([TweakHub.CfgMgr]::CM_Get_DevNode_PropertyW($node, [ref]$key, [ref]$type, [ref]$value, [ref]$size, 0) -eq 0 -and $value -gt $last) { $last = $value }
+                if ([TweakHub.CfgMgr]::CM_Get_DevNode_PropertyW($node, [ref]$key, [ref]$type, [ref]$value, [ref]$size, 0) -eq 0) { $value }
             }
-            $last
+            Get-LatestFileTime @($values)
         }
 
-        """ + $"$days = {filterDays}\nforeach ($id in @({string.Join(", ", instanceIds.Select(PowerShellService.Literal))})) {{\n" + """
+        """ + LatestFileTimeFunction + $"\n$days = {filterDays}\nforeach ($id in @({string.Join(", ", instanceIds.Select(PowerShellService.Literal))})) {{\n" + """
             $node = 0; $status = 0; $problem = 0
             # 1 = CM_LOCATE_DEVNODE_PHANTOM; only 13 (CR_NO_SUCH_DEVNODE) means not connected, anything else counts as present.
             $cr = [TweakHub.CfgMgr]::CM_Locate_DevNodeW([ref]$node, $id, 1)
             if ($cr -ne 0) { "FAIL|CM_Locate_DevNode $cr|$id"; continue }
-            if ([TweakHub.CfgMgr]::CM_Get_DevNode_Status([ref]$status, [ref]$problem, $node, 0) -ne 13) { "SKIP|$id"; continue }
             # Used while the dialog was open: the filter that hid recent devices applies here too.
             if ($days -gt 0) {
                 $used = Get-LastUsed $node
-                if ($used -gt 0 -and $used -le [DateTime]::MaxValue.ToFileTimeUtc() -and ([DateTime]::UtcNow - [DateTime]::FromFileTimeUtc($used)).TotalDays -lt $days) { "SKIP|$id"; continue }
+                if ($used -gt 0 -and ([DateTime]::UtcNow - [DateTime]::FromFileTimeUtc($used)).TotalDays -lt $days) { "SKIP|$id"; continue }
             }
+            # Presence is the last check before the uninstall, so a device plugged in during the reads above is still caught.
+            if ([TweakHub.CfgMgr]::CM_Get_DevNode_Status([ref]$status, [ref]$problem, $node, 0) -ne 13) { "SKIP|$id"; continue }
             $cr = [TweakHub.CfgMgr]::CM_Uninstall_DevNode($node, 0)
             if ($cr -eq 0) { "OK|$id" } else { "FAIL|CM_Uninstall_DevNode $cr|$id" }
         }

@@ -1,5 +1,7 @@
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Automation;
+using System.Windows.Interop;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -52,6 +54,36 @@ public partial class GhostDevicesDialog : Window
         _days = days;
         FilterDaysBox.Text = days.ToString();
         ApplyFilter();
+    }
+
+    // SystemParameters.WorkArea is the primary monitor: once the owner is known, fit the monitor TweakHub is on.
+    protected override void OnSourceInitialized(EventArgs e)
+    {
+        base.OnSourceInitialized(e);
+        if (WorkAreaOf(Owner ?? this) is { } area) FitTo(area);
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct NativeRect { public int Left, Top, Right, Bottom; }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct MonitorInfo { public int Size; public NativeRect Monitor, Work; public uint Flags; }
+
+    [DllImport("user32.dll")]
+    private static extern IntPtr MonitorFromWindow(IntPtr window, uint flags);
+    [DllImport("user32.dll")]
+    private static extern bool GetMonitorInfoW(IntPtr monitor, ref MonitorInfo info);
+
+    /// <summary>The work area of the monitor <paramref name="window"/> is on, in its DIPs; null when Windows cannot say.</summary>
+    private static Rect? WorkAreaOf(Window window)
+    {
+        var handle = new WindowInteropHelper(window).Handle;
+        if (handle == IntPtr.Zero) return null;
+        var info = new MonitorInfo { Size = Marshal.SizeOf<MonitorInfo>() };
+        if (!GetMonitorInfoW(MonitorFromWindow(handle, 2 /* MONITOR_DEFAULTTONEAREST */), ref info)) return null;
+        var dpi = VisualTreeHelper.GetDpi(window);
+        return new Rect(info.Work.Left / dpi.DpiScaleX, info.Work.Top / dpi.DpiScaleY,
+            (info.Work.Right - info.Work.Left) / dpi.DpiScaleX, (info.Work.Bottom - info.Work.Top) / dpi.DpiScaleY);
     }
 
     /// <summary>Keeps the dialog inside the work area (in DIPs): 1366 px at 200% leaves about 683 x 350.</summary>
