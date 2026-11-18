@@ -254,11 +254,18 @@ public class UnusedDevicesAndDriversTests
         Assert.That(GhostDevices.Uninstall(api, "GHOST"), Is.EqualTo("OK|GHOST"));
         Assert.That(GhostDevices.Uninstall(api, "RECONNECTED"), Is.EqualTo("SKIP|RECONNECTED"));
         Assert.That(GhostDevices.Uninstall(api, "UNKNOWN"), Is.EqualTo("SKIP|UNKNOWN"));
-        Assert.That(GhostDevices.Uninstall(api, "GONE"), Does.StartWith("FAIL|GONE|"));
+        Assert.That(GhostDevices.Uninstall(api, "GONE"), Is.EqualTo("FAIL|CM_Locate_DevNode 13|GONE"));
         Assert.That(api.Uninstalled, Is.EqualTo(new[] { "GHOST" }));
 
         api.UninstallResult = 0x17; // CR_REMOVE_VETOED
-        Assert.That(GhostDevices.Uninstall(api, "GHOST"), Is.EqualTo("FAIL|GHOST|CM_Uninstall_DevNode 23"));
+        Assert.That(GhostDevices.Uninstall(api, "GHOST"), Is.EqualTo("FAIL|CM_Uninstall_DevNode 23|GHOST"));
+
+        // A corrupt FILETIME past DateTime.MaxValue reads as "no date" instead of throwing.
+        Assert.That(GhostDevices.FileTimeToUtc(DateTime.MaxValue.ToFileTimeUtc() + 1), Is.Null);
+        Assert.That(GhostDevices.FileTimeToUtc(long.MaxValue), Is.Null);
+        Assert.That(GhostDevices.FileTimeToUtc(0), Is.Null);
+        Assert.That(GhostDevices.FileTimeToUtc(new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToFileTimeUtc()),
+            Is.EqualTo(new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc)));
     }
 
     [Test]
@@ -324,6 +331,17 @@ public class UnusedDevicesAndDriversTests
         Assert.That(boxes[0].IsChecked, Is.True);
         Click(dialog, "SelectAllButton");
         Assert.That(dialog.CheckedRows, Is.EqualTo(new[] { 1, 2 }));
+
+        // Bad day counts never turn the filter off: the recent row stays hidden.
+        var daysBox = (System.Windows.Controls.TextBox)dialog.FindName("FilterDaysBox");
+        foreach (var text in new[] { "", "0", "-5", "abc", "2147483648", "99999999999999999999999" })
+        {
+            daysBox.Text = text;
+            Assert.That(boxes[0].Visibility, Is.EqualTo(System.Windows.Visibility.Collapsed), $"days = '{text}'");
+            Assert.That(dialog.CheckedRows, Does.Not.Contain(0), $"days = '{text}'");
+        }
+        daysBox.Text = "1";
+        Assert.That(boxes[0].Visibility, Is.EqualTo(System.Windows.Visibility.Visible), "used 2 days ago, filter 1 day");
         dialog.Close();
 
         static void Click(System.Windows.Window window, string name) => ((System.Windows.Controls.Button)window.FindName(name))
@@ -333,16 +351,24 @@ public class UnusedDevicesAndDriversTests
     [Test]
     public void GhostRowsUseTheProductNameTheUsbParentReported()
     {
-        var keyboard = Device(@"HID\VID_31E3&PID_1322&MI_01\A&1", "HID Keyboard Device", "Keyboard", present: false);
+        // Two units of the same model (same VID/PID) that report different names: each child takes its own parent's.
+        var keyboardB = Device(@"HID\VID_31E3&PID_1322&MI_01\B&1", "HID Keyboard Device", "Keyboard", present: false) with { Parent = @"USB\VID_31E3&PID_1322&MI_01\B" };
         var all = new[]
         {
-            keyboard,
-            Device(@"USB\VID_31E3&PID_1322&MI_02\7&1", "USB Input Device", "HIDClass", present: false) with { BusName = "Keyboard part" },
-            Device(@"USB\VID_31E3&PID_1322\SERIAL", "USB Composite Device", "USB", present: false) with { BusName = "Wooting 60HE+" }
+            Device(@"USB\VID_31E3&PID_1322\UNIT_A", "USB Composite Device", "USB", present: false) with { BusName = "Unit A" },
+            Device(@"USB\VID_31E3&PID_1322&MI_01\A", "USB Input Device", "HIDClass", present: false) with { BusName = "Part A", Parent = @"USB\VID_31E3&PID_1322\UNIT_A" },
+            Device(@"USB\VID_31E3&PID_1322\UNIT_B", "USB Composite Device", "USB", present: false) with { BusName = "Unit B" },
+            Device(@"USB\VID_31E3&PID_1322&MI_01\B", "USB Input Device", "HIDClass", present: false) with { BusName = "Part B", Parent = @"USB\VID_31E3&PID_1322\UNIT_B" },
+            keyboardB
         };
-        Assert.That(DeviceService.ProductName(keyboard, all), Is.EqualTo("Wooting 60HE+"));
-        Assert.That(DeviceService.ProductName(all[1], all), Is.EqualTo("Keyboard part"), "its own name wins");
-        Assert.That(DeviceService.ProductName(Device(@"DISPLAY\AUS27F4\1", "Generic Monitor", "Monitor", present: false), all), Is.Empty);
+        var byId = DeviceService.ById(all);
+        Assert.That(DeviceService.ProductName(keyboardB, byId), Is.EqualTo("Unit B"), "the composite above names the product");
+        Assert.That(DeviceService.ProductName(all[3], byId), Is.EqualTo("Part B"), "its own name wins");
+        Assert.That(DeviceService.ProductName(keyboardB with { Parent = "" }, byId), Is.Empty, "no parent: never borrow another unit's name");
+        Assert.That(DeviceService.ProductName(Device(@"DISPLAY\AUS27F4\1", "Generic Monitor", "Monitor", present: false), byId), Is.Empty);
+        // A parent loop must not hang.
+        var looped = DeviceService.ById([all[0] with { BusName = "", Parent = all[1].Id }, all[1] with { BusName = "", Parent = all[0].Id }]);
+        Assert.That(DeviceService.ProductName(keyboardB with { Parent = all[1].Id }, looped), Is.Empty);
 
         var now = new DateTime(2026, 11, 18, 12, 0, 0, DateTimeKind.Utc);
         Assert.That(TweakHub.Views.Dialogs.GhostDevicesDialog.RelativeDate(now.AddDays(-12), now), Is.EqualTo(L.Format("Devices:GhostDaysAgo", 12)));
@@ -353,9 +379,17 @@ public class UnusedDevicesAndDriversTests
     public void GhostRemovalReportCountsOnlyOkLinesAndKeepsFailureReasons()
     {
         var devices = new[] { Device("A", "Alpha", present: false), Device("B", "Beta", present: false), Device("C", "Gamma", present: false) };
-        var (removed, notRemoved) = DeviceService.ParseRemoveGhosts("OK|A\r\nSKIP|B\r\nFAIL|C|CM_Uninstall_DevNode 23\r\n", devices);
+        var (removed, notRemoved) = DeviceService.ParseRemoveGhosts("OK|A\r\nSKIP|B\r\nFAIL|CM_Uninstall_DevNode 23|C\r\n", devices);
         Assert.That(removed, Is.EqualTo(1));
         Assert.That(notRemoved, Is.EqualTo(new[] { "Beta", "Gamma (CM_Uninstall_DevNode 23)" }));
+
+        // PnP instance ids may contain '|': the id is the rest of the line.
+        var piped = new[] { Device(@"USB\X\A|B", "Pipe", present: false), Device(@"USB\Y\C|D", "Pipe 2", present: false) };
+        (removed, notRemoved) = DeviceService.ParseRemoveGhosts("OK|USB\\X\\A|B\nFAIL|CM_Uninstall_DevNode 23|USB\\Y\\C|D\n", piped);
+        Assert.That(removed, Is.EqualTo(1));
+        Assert.That(notRemoved, Is.EqualTo(new[] { "Pipe 2 (CM_Uninstall_DevNode 23)" }));
+        var api = new FakeDevNodes().Add(@"USB\X\A|B");
+        Assert.That(DeviceService.ParseRemoveGhosts(GhostDevices.Uninstall(api, @"USB\X\A|B"), piped[..1]).Removed, Is.EqualTo(1));
     }
 
     [Test]

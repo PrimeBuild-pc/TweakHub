@@ -45,6 +45,11 @@ internal static class GhostDevices
         return ghosts;
     }
 
+    private static readonly long MaxFileTime = DateTime.MaxValue.ToFileTimeUtc();
+
+    /// <summary>A FILETIME as UTC; null when zero, negative or past DateTime.MaxValue (corrupt values would throw).</summary>
+    internal static DateTime? FileTimeToUtc(long value) => value > 0 && value <= MaxFileTime ? DateTime.FromFileTimeUtc(value) : null;
+
     /// <summary>The later of last arrival and last removal; either may be missing.</summary>
     internal static DateTime? LastUsed(DateTime? arrival, DateTime? removal) => arrival > removal ? arrival : removal ?? arrival;
 
@@ -53,7 +58,8 @@ internal static class GhostDevices
 
     /// <summary>
     /// Locates and checks the device again right before uninstalling, so one reconnected meanwhile is never removed.
-    /// Returns OK|id, SKIP|id (present again) or FAIL|id|reason, the same lines the elevated script prints.
+    /// Returns OK|id, SKIP|id (present again) or FAIL|reason|id, the same lines the elevated script prints.
+    /// The id comes last because instance ids may contain '|'.
     /// </summary>
     public static string Uninstall(IDevNodeApi api, string id)
     {
@@ -65,9 +71,9 @@ internal static class GhostDevices
     private static string UninstallCore(IDevNodeApi api, string id)
     {
         var result = api.Locate(id, out var node);
-        if (result != CrSuccess) return $"FAIL|{id}|CM_Locate_DevNode {result}";
+        if (result != CrSuccess) return $"FAIL|CM_Locate_DevNode {result}|{id}";
         if (api.Status(node) != CrNoSuchDevNode) return $"SKIP|{id}";
         result = api.Uninstall(node);
-        return result == CrSuccess ? $"OK|{id}" : $"FAIL|{id}|CM_Uninstall_DevNode {result}";
+        return result == CrSuccess ? $"OK|{id}" : $"FAIL|CM_Uninstall_DevNode {result}|{id}";
     }
 }

@@ -401,22 +401,29 @@ public sealed class DeviceService
     private static readonly Regex VidPid = new(@"VID_[0-9A-F]{4}&PID_[0-9A-F]{4}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
     /// <summary>
-    /// The product name the hardware reported ("Wooting 60HE+"), from the device itself or another device with the same
-    /// USB VID/PID (a "HID Keyboard Device" has none, its USB parent has); empty when no device reported one.
+    /// The product name the hardware reported ("Wooting 60HE+"): the device's own, else the one of its highest
+    /// ancestor with the same USB VID/PID (a "HID Keyboard Device" has none; its USB interface may name only a part,
+    /// "Mouse", and the composite device above names the product). Only the device's own parent chain is used, so two
+    /// units of the same model never borrow each other's name. Empty when none reported one.
     /// </summary>
-    internal static string ProductName(PnpDeviceInfo device, IEnumerable<PnpDeviceInfo> all)
+    internal static string ProductName(PnpDeviceInfo device, IReadOnlyDictionary<string, PnpDeviceInfo> byId)
     {
         if (device.BusName.Length > 0) return device.BusName;
         if (VidPid.Match(device.Id) is not { Success: true } match) return string.Empty;
-        return all.Where(other => other.BusName.Length > 0 && VidPid.Match(other.Id) is { Success: true } m && m.Value.Equals(match.Value, StringComparison.OrdinalIgnoreCase))
-            // The composite parent (no MI_ interface) names the whole product; an interface may name only its part ("Mouse").
-            .OrderBy(other => other.Id.Contains("&MI_", StringComparison.OrdinalIgnoreCase))
-            .Select(other => other.BusName).FirstOrDefault() ?? string.Empty;
+        var name = string.Empty;
+        // Bounded: a corrupt parent loop must not hang the dialog.
+        for (var (current, depth) = (device, 0); depth < 8 && byId.TryGetValue(current.Parent, out var parent)
+            && VidPid.Match(parent.Id) is { Success: true } m && m.Value.Equals(match.Value, StringComparison.OrdinalIgnoreCase); (current, depth) = (parent, depth + 1))
+            if (parent.BusName.Length > 0) name = parent.BusName;
+        return name;
     }
+
+    internal static Dictionary<string, PnpDeviceInfo> ById(IEnumerable<PnpDeviceInfo> devices) =>
+        devices.GroupBy(device => device.Id, StringComparer.OrdinalIgnoreCase).ToDictionary(group => group.Key, group => group.First(), StringComparer.OrdinalIgnoreCase);
 
     /// <summary>
     /// The elevated fallback: the same checks as <see cref="Services.GhostDevices.Uninstall"/>, run when TweakHub is not
-    /// administrator. Each line reports OK|id, SKIP|id or FAIL|id|reason.
+    /// administrator. Each line reports OK|id, SKIP|id or FAIL|reason|id (id last: it may contain '|').
     /// </summary>
     internal static string BuildRemoveGhostsScript(IEnumerable<string> instanceIds) => """
         Add-Type -Namespace TweakHub -Name CfgMgr -MemberDefinition @'
@@ -429,10 +436,10 @@ public sealed class DeviceService
             $node = 0; $status = 0; $problem = 0
             # 1 = CM_LOCATE_DEVNODE_PHANTOM; only 13 (CR_NO_SUCH_DEVNODE) means not connected, anything else counts as present.
             $cr = [TweakHub.CfgMgr]::CM_Locate_DevNodeW([ref]$node, $id, 1)
-            if ($cr -ne 0) { "FAIL|$id|CM_Locate_DevNode $cr"; continue }
+            if ($cr -ne 0) { "FAIL|CM_Locate_DevNode $cr|$id"; continue }
             if ([TweakHub.CfgMgr]::CM_Get_DevNode_Status([ref]$status, [ref]$problem, $node, 0) -ne 13) { "SKIP|$id"; continue }
             $cr = [TweakHub.CfgMgr]::CM_Uninstall_DevNode($node, 0)
-            if ($cr -eq 0) { "OK|$id" } else { "FAIL|$id|CM_Uninstall_DevNode $cr" }
+            if ($cr -eq 0) { "OK|$id" } else { "FAIL|CM_Uninstall_DevNode $cr|$id" }
         }
         """;
 
@@ -455,12 +462,16 @@ public sealed class DeviceService
 
     internal static (int Removed, IReadOnlyList<string> NotRemoved) ParseRemoveGhosts(string output, IReadOnlyList<PnpDeviceInfo> devices)
     {
+        // OK|id, SKIP|id or FAIL|reason|id: the id is everything after the fields, so a '|' inside it is kept.
         var lines = output.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-            .Select(line => line.Split('|', 3)).Where(parts => parts.Length >= 2)
-            .GroupBy(parts => parts[1], StringComparer.OrdinalIgnoreCase).ToDictionary(group => group.Key, group => group.Last(), StringComparer.OrdinalIgnoreCase);
-        var removed = devices.Count(device => lines.GetValueOrDefault(device.Id) is ["OK", ..]);
-        var notRemoved = devices.Where(device => lines.GetValueOrDefault(device.Id) is not ["OK", ..])
-            .Select(device => lines.GetValueOrDefault(device.Id) is ["FAIL", _, var reason] ? $"{device.DisplayName} ({reason})" : device.DisplayName).ToList();
+            .Select(line => line.Split('|', 2)).Where(parts => parts.Length == 2)
+            .Select(parts => parts[0] == "FAIL" && parts[1].Split('|', 2) is [var reason, var id]
+                ? (Status: "FAIL", Id: id, Reason: reason) : (Status: parts[0], Id: parts[1], Reason: ""))
+            .GroupBy(line => line.Id, StringComparer.OrdinalIgnoreCase).ToDictionary(group => group.Key, group => group.Last(), StringComparer.OrdinalIgnoreCase);
+        var removed = devices.Count(device => lines.TryGetValue(device.Id, out var line) && line.Status == "OK");
+        var notRemoved = devices.Where(device => !(lines.TryGetValue(device.Id, out var line) && line.Status == "OK"))
+            .Select(device => lines.TryGetValue(device.Id, out var line) && line.Reason.Length > 0 ? $"{device.DisplayName} ({line.Reason})" : device.DisplayName)
+            .ToList();
         return (removed, notRemoved);
     }
 

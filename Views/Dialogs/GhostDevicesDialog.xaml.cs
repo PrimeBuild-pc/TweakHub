@@ -17,6 +17,7 @@ public partial class GhostDevicesDialog : Window
     private readonly IReadOnlyList<PnpDeviceInfo> _ghosts;
     private readonly DateTime _now;
     private readonly List<CheckBox> _rows = [];
+    private int _days;
     private readonly List<(TextBlock Header, List<CheckBox> Rows)> _groups = [];
 
     /// <param name="ghosts">Already sorted for display; <see cref="CheckedRows"/> returns indices into it.</param>
@@ -30,7 +31,7 @@ public partial class GhostDevicesDialog : Window
         MessageText.Text = L.Format("Devices:RemoveGhostsMessage", ghosts.Count);
         AutomationProperties.SetName(FilterDaysBox, $"{L.Get("Devices:GhostHideRecent")} {L.Get("Devices:GhostHideRecentDays")}");
 
-        var allDevices = all.ToList();
+        var allDevices = DeviceService.ById(all);
         string? group = null;
         for (var index = 0; index < ghosts.Count; index++)
         {
@@ -47,6 +48,7 @@ public partial class GhostDevicesDialog : Window
             _rows.Add(row);
             _groups[^1].Rows.Add(row);
         }
+        _days = days;
         FilterDaysBox.Text = days.ToString();
         ApplyFilter();
     }
@@ -136,7 +138,11 @@ public partial class GhostDevicesDialog : Window
     private void ApplyFilter()
     {
         if (_rows.Count == 0 || _rows.Count < _ghosts.Count) return; // still building (XAML fires Checked/TextChanged early)
-        var days = FilterBox.IsChecked == true && int.TryParse(FilterDaysBox.Text, out var value) && value > 0 ? value : 0;
+        // Blank, zero, negative or non-numeric text keeps the last valid value: the filter only turns off with its check box.
+        var text = FilterDaysBox.Text.Trim();
+        if (long.TryParse(text, out var value) && value > 0) _days = (int)Math.Min(value, int.MaxValue);
+        else if (text.Length > 0 && text.All(char.IsAsciiDigit) && text.Any(digit => digit != '0')) _days = int.MaxValue; // too big for long
+        var days = FilterBox.IsChecked == true ? _days : 0;
         for (var index = 0; index < _rows.Count; index++)
             _rows[index].Visibility = ((UIElement)_rows[index].Parent).Visibility =
                 days > 0 && GhostDevices.UsedWithin(_ghosts[index].LastUsed, days, _now) ? Visibility.Collapsed : Visibility.Visible;
