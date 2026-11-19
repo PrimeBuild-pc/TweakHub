@@ -43,7 +43,8 @@
                     <TextBlock x:Name="StatusText" Style="{StaticResource DescriptionTextStyle}" FontSize="11" Margin="0,2,0,0"/>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="16,0,0,0">
-                    <Button x:Name="ScanButton" Click="Scan_Click" Style="{StaticResource ModernButtonStyle}" Margin="0,0,8,0">
+                    <Button x:Name="ScanButton" Click="Scan_Click" Style="{StaticResource ModernButtonStyle}" Margin="0,0,8,0"
+                            AutomationProperties.Name="{loc:Loc Devices:Scan}">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="&#xE72C;" Style="{StaticResource IconTextStyle}" Margin="0,0,6,0"/>
                             <TextBlock Text="{loc:Loc Devices:Scan}"/>
