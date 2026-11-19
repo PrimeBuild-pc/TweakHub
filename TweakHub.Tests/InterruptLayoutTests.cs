@@ -90,13 +90,17 @@ public class InterruptLayoutTests
     }
 
     [Test]
-    public void ScanReadsTheHdAudioClassCode()
+    public void NativeScanReadsThisPcsPciDevices()
     {
-        var device = InterruptService.ParseDevices("""
-            [{"Id":"PCI\\VEN_1002&DEV_AB30\\4&1","Name":"HD Audio","Class":"System","HdAudio":true,"MsiCapable":true,"Msi":1}]
-            """).Single();
-        Assert.That(device.IsHdAudio, Is.True);
-        Assert.That(device.AudioInUse, Is.True, "older scans without the field keep the device");
+        var devices = InterruptService.ReadDevices();
+        Assert.Multiple(() =>
+        {
+            Assert.That(devices, Is.Not.Empty);
+            Assert.That(devices.Select(device => device.Id), Is.All.StartsWith(@"PCI\").And.All.Matches<string>(id => id == id.ToUpperInvariant()),
+                "Ids keep the upper case saved backups and layouts use");
+            // The layout tells GPU audio from motherboard audio by slot: every HD Audio controller and GPU needs one.
+            Assert.That(devices.Where(device => device.IsHdAudio || device.Class == "Display").Select(device => device.Bus), Is.All.Not.Null);
+        });
     }
 
     [Test]

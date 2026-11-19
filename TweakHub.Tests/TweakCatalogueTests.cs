@@ -204,8 +204,9 @@ public class TweakCatalogueTests
     }
 
     [Test]
-    public async Task MissingServiceIsNotDetectedAsStopped()
+    public void MissingServiceIsNotDetectedAsStopped()
     {
-        Assert.That(await TweakService.IsServiceStoppedAsync("TweakHub-Service-That-Does-Not-Exist"), Is.False);
+        Assert.That(TweakService.IsServiceStopped("TweakHub-Service-That-Does-Not-Exist"), Is.False);
+        Assert.That(TweakService.IsServiceStopped("EventLog"), Is.False, "A running service is not stopped");
     }
 }

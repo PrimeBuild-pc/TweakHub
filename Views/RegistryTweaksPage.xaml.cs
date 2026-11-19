@@ -32,19 +32,29 @@ namespace TweakHub.Views
             CustomTweaksList.ItemsSource = _customTweaks;
             FavoriteBuiltInTweaksList.ItemsSource = _favoriteBuiltInTweaks;
             FavoriteCustomTweaksList.ItemsSource = _favoriteCustomTweaks;
-            // The list shows a filtered copy: rebuild it when the catalogue is reloaded.
-            // LoadTweaks clears and adds every category: rebuild once per reload, not once per change.
-            _tweakService.TweakCategories.CollectionChanged += (_, _) =>
-            {
-                if (_filterQueued) return;
-                _filterQueued = true;
-                Dispatcher.InvokeAsync(() => { _filterQueued = false; if (IsLoaded) ApplyRiskFilter(); });
-            };
-
             Loaded += RegistryTweaksPage_Loaded;
+            // The service lives for the whole app: listen only while shown, so a page dropped after a profile import can be freed.
+            Unloaded += (_, _) => Listen(false);
+        }
+
+        private void Listen(bool listen)
+        {
+            _tweakService.TweakCategories.CollectionChanged -= TweakCategories_CollectionChanged;
+            _tweakService.PropertyChanged -= TweakService_PropertyChanged;
+            if (!listen) return;
+            _tweakService.TweakCategories.CollectionChanged += TweakCategories_CollectionChanged;
             _tweakService.PropertyChanged += TweakService_PropertyChanged;
-            // Backups from an earlier session are counted at startup, before this page could hear the change.
+            // Backups may have changed while the page was hidden (or come from an earlier session).
             UpdateRestoreAllButton();
+        }
+
+        // The list shows a filtered copy: rebuild it when the catalogue is reloaded.
+        // LoadTweaks clears and adds every category: rebuild once per reload, not once per change.
+        private void TweakCategories_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (_filterQueued) return;
+            _filterQueued = true;
+            Dispatcher.InvokeAsync(() => { _filterQueued = false; if (IsLoaded) ApplyRiskFilter(); });
         }
         private readonly PowerShellService _powerShellService = PowerShellService.Instance;
 
@@ -64,6 +74,7 @@ namespace TweakHub.Views
 
         private async void RegistryTweaksPage_Loaded(object sender, RoutedEventArgs e)
         {
+            Listen(true);
             // The page is kept between sections: coming back only re-reads the toggles, which other sections may have changed.
             if (_loaded)
             {

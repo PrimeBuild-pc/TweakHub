@@ -11,7 +11,8 @@ public partial class OptionalServicesView : UserControl
     public OptionalServicesView()
     {
         InitializeComponent();
-        Loaded += async (_, _) => await RefreshAsync();
+        // Loaded fires on every tab switch: scan once (again only after a failed scan); Refresh reads fresh data.
+        Loaded += async (_, _) => { if (ServicesList.ItemsSource is null) await RefreshAsync(); };
     }
 
     private async void Refresh_Click(object sender, RoutedEventArgs e) => await RefreshAsync();

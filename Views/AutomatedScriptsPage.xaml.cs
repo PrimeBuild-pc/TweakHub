@@ -168,9 +168,14 @@ namespace TweakHub.Views
                 // Started again as administrator to run this playbook with a single UAC prompt.
                 if (App.StartupPlaybookId is not { } id) return;
                 App.StartupPlaybookId = null;
-                // playbooks.json can change while UAC is open: run unasked only what the user confirmed.
-                if (_playbooks.FirstOrDefault(playbook => playbook.Id == id) is { } playbook)
-                    await RunPlaybookAsync(playbook, confirmed: PlaybookService.Fingerprint(playbook) == App.StartupPlaybookFingerprint);
+                try
+                {
+                    // playbooks.json can change while UAC is open: run unasked only what the user confirmed.
+                    if (_playbooks.FirstOrDefault(playbook => playbook.Id == id) is { } playbook)
+                        await RunPlaybookAsync(playbook, confirmed: PlaybookService.Fingerprint(playbook) == App.StartupPlaybookFingerprint);
+                }
+                finally { App.StartupPlaybookFingerprint = null; } // the main window's startup checks wait for this
+
             };
         }
 

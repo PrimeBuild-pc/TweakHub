@@ -90,59 +90,11 @@ public sealed class DeviceService
         Rules.FirstOrDefault(rule => rule.Match.IsMatch($"{id}|{name}"))
         ?? (service.Equals("USBHUB3", StringComparison.OrdinalIgnoreCase) || service.Equals("USBHUB", StringComparison.OrdinalIgnoreCase) ? HubRule : null);
 
-    internal const string InventoryScript = """
-        $ErrorActionPreference = 'SilentlyContinue'
-        $devices = @(Get-PnpDevice)
-        $props = @{}
-        # One pipeline for every device: about 25 ms per device instead of one process each.
-        $devices | Get-PnpDeviceProperty -KeyName DEVPKEY_Device_Parent, DEVPKEY_Device_Service, DEVPKEY_Device_DriverInfPath, DEVPKEY_Device_BusReportedDeviceDesc,
-            DEVPKEY_Device_IsPresent, DEVPKEY_Device_ProblemCode,
-            DEVPKEY_Device_BusNumber, DEVPKEY_Device_Address, DEVPKEY_PciDevice_CurrentLinkSpeed, DEVPKEY_PciDevice_CurrentLinkWidth,
-            DEVPKEY_PciDevice_MaxLinkSpeed, DEVPKEY_PciDevice_MaxLinkWidth | ForEach-Object {
-            if (-not $props.ContainsKey($_.InstanceId)) { $props[$_.InstanceId] = @{} }
-            $props[$_.InstanceId][$_.KeyName] = $_.Data
-        }
-        @($devices | ForEach-Object {
-            $p = $props[$_.InstanceId]
-            if (-not $p) { $p = @{} }
-            $present = $p['DEVPKEY_Device_IsPresent']
-            if ($null -eq $present) { $present = $_.Present }
-            $problem = $p['DEVPKEY_Device_ProblemCode']
-            if ($null -eq $problem) { $problem = $_.ConfigManagerErrorCode }
-            [pscustomobject]@{ Id = [string]$_.InstanceId; Name = [string]$_.FriendlyName; Class = [string]$_.Class; Status = [string]$_.Status
-                Present = [bool]$present; Problem = [int]$problem; Parent = [string]$p['DEVPKEY_Device_Parent']
-                Service = [string]$p['DEVPKEY_Device_Service']; Inf = [string]$p['DEVPKEY_Device_DriverInfPath']
-                BusName = [string]$p['DEVPKEY_Device_BusReportedDeviceDesc']
-                BusNumber = $p['DEVPKEY_Device_BusNumber']; Address = $p['DEVPKEY_Device_Address']
-                LinkGen = $p['DEVPKEY_PciDevice_CurrentLinkSpeed']; LinkWidth = $p['DEVPKEY_PciDevice_CurrentLinkWidth']
-                MaxLinkGen = $p['DEVPKEY_PciDevice_MaxLinkSpeed']; MaxLinkWidth = $p['DEVPKEY_PciDevice_MaxLinkWidth'] }
-        }) | ConvertTo-Json -Compress
-        """ + PowerShellService.AsciiJson;
+    public async Task<IReadOnlyList<PnpDeviceInfo>> GetDevicesAsync() =>
+        Classify(await Task.Run(DeviceTree.ReadInventory), LoadDisabled().Keys);
 
-    public async Task<IReadOnlyList<PnpDeviceInfo>> GetDevicesAsync()
+    internal static List<PnpDeviceInfo> Classify(IReadOnlyList<PnpDeviceInfo> raw, IEnumerable<string> disabledByTweakHub)
     {
-        var result = await PowerShellService.Instance.ExecuteScriptAsync(InventoryScript, timeout: TimeSpan.FromMinutes(3));
-        if (!result.Success) throw new InvalidOperationException(string.IsNullOrWhiteSpace(result.Error) ? result.ExitCode.ToString() : result.Error);
-        return ParseDevices(result.Output, LoadDisabled().Keys);
-    }
-
-    internal static List<PnpDeviceInfo> ParseDevices(string json, IEnumerable<string> disabledByTweakHub)
-    {
-        if (string.IsNullOrWhiteSpace(json)) return [];
-        using var document = JsonDocument.Parse(json);
-        var raw = JsonRead.Items(document.RootElement).Select(item => new PnpDeviceInfo(
-            JsonRead.Text(item, "Id"), JsonRead.Text(item, "Name"), JsonRead.Text(item, "Class"), JsonRead.Text(item, "Status"),
-            JsonRead.Bool(item, "Present", fallback: true), JsonRead.Int(item, "Problem") ?? 0,
-            JsonRead.Text(item, "Parent"), JsonRead.Text(item, "Service"), JsonRead.Text(item, "Inf"))
-            {
-                BusName = JsonRead.Text(item, "BusName"),
-                BusNumber = JsonRead.Int(item, "BusNumber") ?? -1, Address = JsonRead.Int(item, "Address") ?? -1,
-                LinkGen = JsonRead.Int(item, "LinkGen") ?? 0, LinkWidth = JsonRead.Int(item, "LinkWidth") ?? 0,
-                MaxLinkGen = JsonRead.Int(item, "MaxLinkGen") ?? 0, MaxLinkWidth = JsonRead.Int(item, "MaxLinkWidth") ?? 0
-            })
-            .Where(device => device.Id.Length > 0)
-            .ToList();
-
         // Children come from the parent links, so one property per device is enough.
         var children = raw.Where(device => device.Present && device.Parent.Length > 0)
             .GroupBy(device => device.Parent, StringComparer.OrdinalIgnoreCase)

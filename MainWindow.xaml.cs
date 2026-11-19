@@ -11,6 +11,7 @@ public partial class MainWindow : Window
 {
     private readonly ThemeService _themeService = ThemeService.Instance;
     private bool _updateCheckStarted;
+    private readonly bool _startedForPlaybook = App.StartupPlaybookId is not null;
     // Sections keep their state between visits; their data was read once by the splash screen.
     private readonly Dictionary<string, System.Windows.Controls.Page> _pages = new();
 
@@ -42,7 +43,10 @@ public partial class MainWindow : Window
     {
         if (_updateCheckStarted) return;
         _updateCheckStarted = true;
-        while (!TweakService.Instance.RegistryDisclaimerShown) await Task.Delay(500);
+        // No dialog on top of the first-run disclaimer or of the playbook an elevated restart is running
+        // (that start never shows the disclaimer, so waiting for it alone skipped these checks).
+        while (_startedForPlaybook ? App.StartupPlaybookFingerprint is not null : !TweakService.Instance.RegistryDisclaimerShown)
+            await Task.Delay(500);
         await Task.Delay(1000);
         await UpdateService.Instance.CheckAndPromptAsync(this, showNoUpdate: false);
         // A driver update (often the GPU one) recreates the device key and drops the suggested layout without a word.
