@@ -201,7 +201,7 @@
                        VerticalAlignment="Top" Margin="0,6,0,0"/>
         </Grid>
 
-        <WrapPanel Grid.Row="1" Margin="0,0,0,10">
+        <WrapPanel x:Name="RegistryActions" Grid.Row="1" Margin="0,0,0,10">
             <Button x:Name="RefreshButton" Style="{StaticResource SecondaryButtonStyle}"
                     AutomationProperties.Name="{loc:Loc Tweaks:RegistryTweaksPageRefreshStatus}"
                     Click="RefreshButton_Click" Margin="0,0,8,6">
@@ -275,7 +275,7 @@
                                                    Foreground="{DynamicResource IconBrush}"/>
                                         <TextBlock Text="{loc:Loc Tweaks:WindowsUpdatePresets}" FontSize="14" FontWeight="SemiBold"/>
                                     </StackPanel>
-                                    <WrapPanel Margin="26,0,0,4">
+                                    <WrapPanel x:Name="WindowsUpdatePresetActions" Margin="26,0,0,4" IsEnabled="False">
                                         <ComboBox x:Name="WindowsUpdatePresetComboBox" Width="308" MinHeight="32" SelectedValuePath="Tag"
                                                   Margin="0,0,8,4" Style="{StaticResource FluentDropDownStyle}"
                                                   ui:ControlHelper.PlaceholderText="{loc:Loc Tweaks:WindowsUpdatePresetCustom}"
@@ -293,6 +293,7 @@
                                                 ToolTip="{loc:Loc Tweaks:RegistryTweaksPagePreviewRegistryChanges}"/>
                                     </WrapPanel>
                                     <TextBlock x:Name="WindowsUpdatePresetStatusText" Margin="26,0,0,0" FontWeight="Normal"
+                                               Text="{loc:Loc UI:LoadingWindowsUpdateStatus}"
                                                TextWrapping="Wrap"/>
                                     <StackPanel x:Name="WindowsUpdatePresetPreview" Visibility="Collapsed" Margin="26,8,0,0">
                                         <TextBlock x:Name="WindowsUpdatePresetDescriptionText" Style="{StaticResource TweakDescriptionStyle}"/>
@@ -384,5 +385,6 @@
                 </TabItem>
             </TabControl>
         </Grid>
+        <controls:LoadingOverlay x:Name="InitialLoading" Grid.RowSpan="3"/>
     </Grid>
 </Page>

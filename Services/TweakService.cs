@@ -959,14 +959,16 @@ namespace TweakHub.Services
 
         public async Task LoadWithStatesAsync()
         {
-            LoadTweaks();
+            if (TweakCategories.Count == 0) LoadTweaks();
             await RefreshTweakStatesAsync();
         }
 
         public async Task RefreshTweakStatesAsync()
         {
-            var power = PowerService.Instance.GetTweakStates();
-            var stopped = await Task.Run(() => new[] { "SysMain", "WSearch" }.Where(IsServiceStopped).ToHashSet());
+            var (power, stopped, adapters) = await Task.Run(() =>
+                (PowerService.Instance.GetTweakStates(),
+                    new[] { "SysMain", "WSearch" }.Where(IsServiceStopped).ToHashSet(),
+                    NetworkAdapterService.GetAdapters()));
             foreach (var tweak in TweakCategories.SelectMany(category => category.Tweaks))
             {
                 if (tweak.Id == "disable_hibernation")
@@ -978,7 +980,7 @@ namespace TweakHub.Services
                 }
                 if (tweak.Type == TweakType.NetworkAdapter)
                 {
-                    RefreshNetworkPreset(tweak);
+                    RefreshNetworkPreset(tweak, adapters);
                     continue;
                 }
 
@@ -1007,16 +1009,16 @@ namespace TweakHub.Services
             }
         }
 
-        private static void RefreshNetworkPreset(PerformanceTweak tweak)
+        private static void RefreshNetworkPreset(PerformanceTweak tweak, IReadOnlyList<NetworkAdapter> adapters)
         {
-            var adapters = NetworkAdapterService.GetAdapters();
             var changes = NetworkAdapterService.Selected(adapters).SelectMany(adapter => adapter.Changes).ToList();
             var matches = changes.Count(change =>
                 Equals(RegistryService.Instance.GetRegistryValue(change.KeyPath, change.ValueName), change.Value));
+            var hasBackups = NetworkAdapterService.BackedUpChanges().Count > 0;
             tweak.IsEnabled = changes.Count > 0 && matches == changes.Count;
-            tweak.IsPartiallyApplied = matches > 0 && matches < changes.Count && NetworkAdapterService.BackedUpChanges().Count > 0;
+            tweak.IsPartiallyApplied = matches > 0 && matches < changes.Count && hasBackups;
             // Values changed on an adapter that is gone or no longer supported must stay restorable.
-            tweak.UnavailableReason = changes.Count > 0 || NetworkAdapterService.BackedUpChanges().Count > 0
+            tweak.UnavailableReason = changes.Count > 0 || hasBackups
                 ? string.Empty
                 : L.Format("Tweaks:NetworkPresetUnavailable", adapters.Count == 0
                     ? L.Get("Tweaks:NetworkPresetNoAdapters")

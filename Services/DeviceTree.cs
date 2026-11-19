@@ -45,7 +45,7 @@ internal static class DeviceTree
     [DllImport("cfgmgr32.dll")]
     private static extern int CM_Get_DevNode_Status(out int status, out int problem, int devInst, int flags);
     [DllImport("cfgmgr32.dll", CharSet = CharSet.Unicode)]
-    private static extern int CM_Get_DevNode_PropertyW(int devInst, in DevPropKey key, out int type, byte[]? buffer, ref int size, int flags);
+    private static extern unsafe int CM_Get_DevNode_PropertyW(int devInst, in DevPropKey key, out int type, byte* buffer, ref int size, int flags);
 
     [DllImport("cfgmgr32.dll")]
     private static extern int CM_Get_First_Log_Conf(out IntPtr logConf, int devInst, int flags);
@@ -61,6 +61,7 @@ internal static class DeviceTree
     private static extern int CM_Free_Log_Conf_Handle(IntPtr logConf);
 
     private const int FilterPresent = 0x100; // CM_GETIDLIST_FILTER_PRESENT
+    private const int BufferSmall = 0x1A; // CR_BUFFER_SMALL
 
     /// <summary>
     /// Processor masks of the interrupts Windows allocated to a device in this boot (one per message; 0 means no specific
@@ -91,6 +92,7 @@ internal static class DeviceTree
     {
         var ids = List(FilterPresent) ?? List(0) ?? [];
         var nodes = new List<DeviceNode>(ids.Length);
+        Span<byte> guidBuffer = stackalloc byte[16];
         foreach (var id in ids)
         {
             // Locating with the normal flag fails for devices that are not present.
@@ -101,13 +103,12 @@ internal static class DeviceTree
                 var buffer = new char[512];
                 if (CM_Get_Device_IDW(parentNode, buffer, buffer.Length, 0) == 0) parent = new string(buffer).TrimEnd('\0');
             }
-            var classBytes = Property(node, ClassGuidKey);
-            var containerBytes = Property(node, ContainerKey);
-            var nameBytes = Property(node, FriendlyNameKey) ?? Property(node, DescriptionKey);
-            nodes.Add(new DeviceNode(id, parent,
-                classBytes is { Length: 16 } ? new Guid(classBytes) : Guid.Empty,
-                containerBytes is { Length: 16 } ? new Guid(containerBytes) : null,
-                nameBytes is null ? string.Empty : System.Text.Encoding.Unicode.GetString(nameBytes).TrimEnd('\0')));
+            var classBytes = Property(node, ClassGuidKey, guidBuffer);
+            var classGuid = classBytes.Length == 16 ? new Guid(classBytes) : Guid.Empty;
+            var containerBytes = Property(node, ContainerKey, guidBuffer);
+            nodes.Add(new DeviceNode(id, parent, classGuid,
+                containerBytes.Length == 16 ? new Guid(containerBytes) : null,
+                Text(node, FriendlyNameKey) ?? Text(node, DescriptionKey) ?? string.Empty));
         }
         return nodes;
     }
@@ -120,11 +121,12 @@ internal static class DeviceTree
     {
         var ids = List(0) ?? [];
         var devices = new List<PnpDeviceInfo>(ids.Length);
+        Span<byte> presentFlag = stackalloc byte[1];
         foreach (var id in ids)
         {
             // CM_LOCATE_DEVNODE_PHANTOM: devices that are not plugged in are found too.
             if (CM_Locate_DevNodeW(out var node, id, 1) != 0) continue;
-            var present = Property(node, IsPresentKey) is not [0, ..];
+            var present = Property(node, IsPresentKey, presentFlag) is not [0, ..];
             // The live status is the only source for disabled devices (22); unplugged ones have none and Windows reports 45 (CM_PROB_PHANTOM).
             var problem = CM_Get_DevNode_Status(out _, out var live, node, 0) == 0 ? live : Number(node, ProblemCodeKey) ?? (present ? 0 : 45);
             // Upper case like Get-PnpDevice: these ids are saved in backups, playbooks and the disabled-devices list.
@@ -150,11 +152,19 @@ internal static class DeviceTree
         CM_Locate_DevNodeW(out var node, id, 0) == 0 && Text(node, CompatibleIdsKey) is { } list
             ? list.Split('\0', StringSplitOptions.RemoveEmptyEntries) : [];
 
-    private static string? Text(int node, DevPropKey key) =>
-        Property(node, key) is { } bytes ? System.Text.Encoding.Unicode.GetString(bytes).TrimEnd('\0') : null;
+    private static string? Text(int node, DevPropKey key)
+    {
+        Span<byte> buffer = stackalloc byte[512];
+        var bytes = Property(node, key, buffer);
+        return bytes.IsEmpty ? null : System.Text.Encoding.Unicode.GetString(bytes).TrimEnd('\0');
+    }
 
-    private static int? Number(int node, DevPropKey key) =>
-        Property(node, key) is { Length: 4 } bytes ? BitConverter.ToInt32(bytes) : null;
+    private static int? Number(int node, DevPropKey key)
+    {
+        Span<byte> buffer = stackalloc byte[sizeof(int)];
+        var bytes = Property(node, key, buffer);
+        return bytes.Length == sizeof(int) ? BitConverter.ToInt32(bytes) : null;
+    }
 
     private static string[]? List(int flags)
     {
@@ -164,12 +174,18 @@ internal static class DeviceTree
         return new string(buffer).Split('\0', StringSplitOptions.RemoveEmptyEntries);
     }
 
-    private static byte[]? Property(int node, DevPropKey key)
+    private static unsafe ReadOnlySpan<byte> Property(int node, DevPropKey key, Span<byte> buffer)
     {
-        var size = 0;
-        CM_Get_DevNode_PropertyW(node, key, out _, null, ref size, 0);
-        if (size <= 0) return null;
-        var buffer = new byte[size];
-        return CM_Get_DevNode_PropertyW(node, key, out _, buffer, ref size, 0) == 0 ? buffer : null;
+        // Most values fit on the first call. Larger driver strings still get their full buffer.
+        var size = buffer.Length;
+        int result;
+        fixed (byte* data = buffer)
+            result = CM_Get_DevNode_PropertyW(node, key, out _, data, ref size, 0);
+        if (result == 0) return buffer[..size];
+        if (result != BufferSmall || size <= buffer.Length) return [];
+
+        var expanded = new byte[size];
+        fixed (byte* data = expanded)
+            return CM_Get_DevNode_PropertyW(node, key, out _, data, ref size, 0) == 0 ? expanded.AsSpan(0, size) : [];
     }
 }

@@ -174,8 +174,8 @@ namespace TweakHub.Views
                     if (_playbooks.FirstOrDefault(playbook => playbook.Id == id) is { } playbook)
                         await RunPlaybookAsync(playbook, confirmed: PlaybookService.Fingerprint(playbook) == App.StartupPlaybookFingerprint);
                 }
-                finally { App.StartupPlaybookFingerprint = null; } // the main window's startup checks wait for this
-
+                finally { App.StartupPlaybookFingerprint = null; }
+                if (Application.Current.MainWindow is MainWindow main) await main.RunDeferredStartupChecksAsync();
             };
         }
 

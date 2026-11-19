@@ -25,7 +25,8 @@ public sealed class InterruptService
     public static InterruptService Instance { get; } = new();
     private InterruptService() { }
 
-    public async Task<IReadOnlyList<InterruptDevice>> GetDevicesAsync() => Visible(await Task.Run(ReadDevices));
+    public Task<IReadOnlyList<InterruptDevice>> GetDevicesAsync() =>
+        Task.Run<IReadOnlyList<InterruptDevice>>(() => Visible(ReadDevices()));
 
     /// <summary>
     /// Present PCI devices with their interrupt settings, read from cfgmgr32 and the registry directly
@@ -134,14 +135,19 @@ public sealed class InterruptService
     /// Devices whose layout affinity is back to the original value while TweakHub's backup is still there: a driver update
     /// (often the GPU one) recreated the device key. Only present PCI devices, by display name.
     /// </summary>
-    internal static IReadOnlyList<string> ResetAffinityDevices(IReadOnlyList<DeviceNode> nodes)
+    internal static IReadOnlyList<string> ResetAffinityDevices()
     {
-        var present = nodes.DistinctBy(node => node.Id, StringComparer.OrdinalIgnoreCase)
-            .ToDictionary(node => node.Id, node => node.Name, StringComparer.OrdinalIgnoreCase);
-        return RegistryService.Instance.BackedUpValues
+        var backedUp = RegistryService.Instance.BackedUpValues
             .Where(value => value.ValueName == "DevicePolicy")
             .Select(value => (value.KeyPath, Id: AffinityKeyDevice(value.KeyPath)))
-            .Where(item => item.Id is not null && present.ContainsKey(item.Id) && RegistryService.Instance.IsAtOriginal(item.KeyPath, "DevicePolicy") == true)
+            .Where(item => item.Id is not null)
+            .ToList();
+        if (backedUp.Count == 0) return [];
+
+        var present = DeviceTree.Read().DistinctBy(node => node.Id, StringComparer.OrdinalIgnoreCase)
+            .ToDictionary(node => node.Id, node => node.Name, StringComparer.OrdinalIgnoreCase);
+        return backedUp
+            .Where(item => present.ContainsKey(item.Id!) && RegistryService.Instance.IsAtOriginal(item.KeyPath, "DevicePolicy") == true)
             .Select(item => present[item.Id!] is { Length: > 0 } name ? name : item.Id!)
             .ToList();
     }

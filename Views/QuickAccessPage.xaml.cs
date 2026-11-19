@@ -28,8 +28,9 @@ namespace TweakHub.Views
             try
             {
                 if (_shortcutService.SystemShortcuts.Count == 0)
-                    _shortcutService.Initialize();
+                    _shortcutService.LoadSystemShortcuts();
                 LoadShortcuts();
+                Loaded -= QuickAccessPage_Loaded;
             }
             catch (Exception ex)
             {

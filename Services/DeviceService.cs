@@ -86,12 +86,17 @@ public sealed class DeviceService
 
     private static readonly DeviceRule HubRule = new("UsbHub", DeviceAdvice.Avoid, new("^USB\\\\", RegexOptions.IgnoreCase));
 
-    internal static DeviceRule? MatchRule(string id, string name, string service = "") =>
-        Rules.FirstOrDefault(rule => rule.Match.IsMatch($"{id}|{name}"))
-        ?? (service.Equals("USBHUB3", StringComparison.OrdinalIgnoreCase) || service.Equals("USBHUB", StringComparison.OrdinalIgnoreCase) ? HubRule : null);
+    internal static DeviceRule? MatchRule(string id, string name, string service = "")
+    {
+        var input = $"{id}|{name}";
+        foreach (var rule in Rules)
+            if (rule.Match.IsMatch(input)) return rule;
+        return service.Equals("USBHUB3", StringComparison.OrdinalIgnoreCase) || service.Equals("USBHUB", StringComparison.OrdinalIgnoreCase)
+            ? HubRule : null;
+    }
 
-    public async Task<IReadOnlyList<PnpDeviceInfo>> GetDevicesAsync() =>
-        Classify(await Task.Run(DeviceTree.ReadInventory), LoadDisabled().Keys);
+    public Task<IReadOnlyList<PnpDeviceInfo>> GetDevicesAsync() =>
+        Task.Run<IReadOnlyList<PnpDeviceInfo>>(() => Classify(DeviceTree.ReadInventory(), LoadDisabled().Keys));
 
     internal static List<PnpDeviceInfo> Classify(IReadOnlyList<PnpDeviceInfo> raw, IEnumerable<string> disabledByTweakHub)
     {

@@ -27,24 +27,12 @@
             <TabItem x:Name="DevicesTab" Header="{loc:Loc Devices:TabDevices}">
                 <local:DeviceListView x:Name="DeviceList"/>
             </TabItem>
-            <TabItem x:Name="DriversTab" Header="{loc:Loc Devices:TabDrivers}">
-                <local:DriverStoreView x:Name="Drivers"/>
-            </TabItem>
-            <TabItem x:Name="InterruptsTab" Header="{loc:Loc Devices:TabInterrupts}">
-                <local:InterruptView x:Name="Interrupts"/>
-            </TabItem>
-            <TabItem x:Name="AffinityTab" Header="{loc:Loc Maintenance:AffinityTitle}">
-                <local:InterruptView x:Name="Affinity" AffinityOnly="True"/>
-            </TabItem>
-            <TabItem x:Name="UsbTab" Header="{loc:Loc Devices:TabUsb}">
-                <local:UsbInputView x:Name="Usb"/>
-            </TabItem>
-            <TabItem x:Name="LinksTab" Header="{loc:Loc Devices:TabLinks}">
-                <local:LinkCheckView x:Name="Links"/>
-            </TabItem>
-            <TabItem x:Name="ChecksTab" Header="{loc:Loc Devices:TabChecks}">
-                <local:TweakCheckView x:Name="Checks"/>
-            </TabItem>
+            <TabItem x:Name="DriversTab" Header="{loc:Loc Devices:TabDrivers}"/>
+            <TabItem x:Name="InterruptsTab" Header="{loc:Loc Devices:TabInterrupts}"/>
+            <TabItem x:Name="AffinityTab" Header="{loc:Loc Maintenance:AffinityTitle}"/>
+            <TabItem x:Name="UsbTab" Header="{loc:Loc Devices:TabUsb}"/>
+            <TabItem x:Name="LinksTab" Header="{loc:Loc Devices:TabLinks}"/>
+            <TabItem x:Name="ChecksTab" Header="{loc:Loc Devices:TabChecks}"/>
             <TabItem x:Name="ToolsTab" Header="{loc:Loc Devices:TabTools}">
                 <Grid Margin="0,8,0,0">
                     <Grid.RowDefinitions>

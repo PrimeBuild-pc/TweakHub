@@ -101,7 +101,7 @@ public partial class PowerPlanPage : Page
         {
             if (_loaded) return;
             _loaded = true;
-            await Preload.Get(Preload.PowerSchemes, () => Task.Run(PowerPlanService.LoadDefinitions));
+            await Task.Run(PowerPlanService.LoadDefinitions);
             RefreshPlans();
             RefreshPerformancePlan();
         };

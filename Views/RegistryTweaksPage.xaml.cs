@@ -23,7 +23,9 @@ namespace TweakHub.Views
         private readonly ObservableCollection<CustomRegistryTweak> _favoriteCustomTweaks = new();
         private HashSet<string> _favoriteTweakKeys = [];
         private bool _ignoreToggleEvent;
+        private bool _initializing;
         private bool _loaded;
+        private int _windowsUpdateStatusRequest;
         public RegistryTweaksPage()
         {
             InitializeComponent();
@@ -54,7 +56,7 @@ namespace TweakHub.Views
         // LoadTweaks clears and adds every category: rebuild once per reload, not once per change.
         private void TweakCategories_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            if (_filterQueued) return;
+            if (_initializing || _filterQueued) return;
             _filterQueued = true;
             Dispatcher.InvokeAsync(() => { _filterQueued = false; if (IsLoaded) ApplyRiskFilter(); });
         }
@@ -77,6 +79,7 @@ namespace TweakHub.Views
         private async void RegistryTweaksPage_Loaded(object sender, RoutedEventArgs e)
         {
             Listen(true);
+            if (_initializing) return;
             // The page is kept between sections: coming back only re-reads the toggles, which other sections may have changed.
             if (_loaded)
             {
@@ -86,25 +89,38 @@ namespace TweakHub.Views
                 NotifyMainWindowBadgeUpdate();
                 return;
             }
-            _loaded = true;
-
-            // Show one-time per-session disclaimer on first visit to Registry Tweaks section
-            if (!_tweakService.RegistryDisclaimerShown)
+            _initializing = true;
+            RegistryActions.IsEnabled = RegistryTabs.IsEnabled = false;
+            try
             {
-                await AppDialog.ShowDisclaimerAsync(Window.GetWindow(this));
-                _tweakService.RegistryDisclaimerShown = true;
+                if (!_tweakService.RegistryDisclaimerShown)
+                {
+                    await AppDialog.ShowDisclaimerAsync(Window.GetWindow(this));
+                    _tweakService.RegistryDisclaimerShown = true;
+                }
+
+                InitialLoading.Show(L.Get("UI:LoadingRegistryTweaks"));
+                await _tweakService.LoadWithStatesAsync();
+                ApplyRiskFilter();
+                NotifyMainWindowBadgeUpdate();
+                LoadCustomTweaks();
+                LoadFavoriteTweaks();
+
+                var tweaks = _tweakService.TweakCategories.SelectMany(category => category.Tweaks).ToList();
+                RestartVerificationService.Instance.MigrateLegacyCurrentBoot(tweaks);
+                var pending = RestartVerificationService.Instance.CurrentBootPendingTweakIds();
+                foreach (var tweak in tweaks) tweak.IsRestartPending = pending.Contains(tweak.Id);
+                _loaded = true;
+            }
+            finally
+            {
+                RegistryActions.IsEnabled = RegistryTabs.IsEnabled = true;
+                InitialLoading.Hide();
+                _initializing = false;
             }
 
-            await LoadTweaksAsync();
-            LoadCustomTweaks();
-            LoadFavoriteTweaks();
-            await RefreshWindowsUpdatePresetAsync(initial: true);
-
-            var tweaks = _tweakService.TweakCategories.SelectMany(category => category.Tweaks).ToList();
-            RestartVerificationService.Instance.MigrateLegacyCurrentBoot(tweaks);
-            var pending = RestartVerificationService.Instance.CurrentBootPendingTweakIds();
-            foreach (var tweak in tweaks) tweak.IsRestartPending = pending.Contains(tweak.Id);
-            await ShowRestartVerificationAsync();
+            await Task.WhenAll(RefreshWindowsUpdatePresetAsync(), ShowRestartVerificationAsync());
+            if (Application.Current.MainWindow is MainWindow main) await main.RunDeferredStartupChecksAsync();
         }
 
         private async Task ShowRestartVerificationAsync()
@@ -113,15 +129,6 @@ namespace TweakHub.Views
             if (results.Count == 0) return;
 
             new RestartVerificationDialog(results) { Owner = Window.GetWindow(this) }.ShowDialog();
-        }
-
-        private async Task LoadTweaksAsync()
-        {
-            await Preload.Get(Preload.TweakStates, _tweakService.LoadWithStatesAsync);
-            ApplyRiskFilter();
-
-            // Update sidebar badge immediately after initial state refresh
-            NotifyMainWindowBadgeUpdate();
         }
 
         private void RiskFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -153,12 +160,15 @@ namespace TweakHub.Views
             .Where(category => category.Tweaks.Count > 0)
             .ToList();
 
-        private async Task RefreshWindowsUpdatePresetAsync(bool initial = false)
+        private async Task RefreshWindowsUpdatePresetAsync()
         {
-            var preset = await (initial ? Preload.Get(Preload.WindowsUpdate, _windowsUpdatePresets.DetectAsync) : _windowsUpdatePresets.DetectAsync());
+            var request = ++_windowsUpdateStatusRequest;
+            var preset = await _windowsUpdatePresets.DetectAsync();
+            if (request != _windowsUpdateStatusRequest) return;
             WindowsUpdatePresetComboBox.SelectedValue = preset == WindowsUpdatePreset.Custom ? null : preset.ToString();
             WindowsUpdatePresetStatusText.Text = L.Format("Tweaks:WindowsUpdateCurrentMode", L.Get($"Tweaks:WindowsUpdatePreset{preset}"));
             UpdateWindowsUpdatePresetDescription();
+            WindowsUpdatePresetActions.IsEnabled = true;
         }
 
         private void WindowsUpdatePreset_SelectionChanged(object sender, SelectionChangedEventArgs e) =>

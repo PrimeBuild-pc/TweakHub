@@ -328,7 +328,7 @@
                         </Grid>
 
                         <StackPanel x:Name="FileProgressPanel" Orientation="Horizontal" Margin="8,12" Visibility="Collapsed">
-                            <ui:ProgressRing IsActive="True" Width="20" Height="20" Margin="0,0,10,0"/>
+                            <ui:ProgressRing Style="{StaticResource VisibleProgressRingStyle}" Width="20" Height="20" Margin="0,0,10,0"/>
                             <TextBlock Text="{loc:Loc Security:FileAnalyzing}" Style="{StaticResource LabelTextStyle}"/>
                         </StackPanel>
                         <TextBlock x:Name="FileErrorText" Foreground="{DynamicResource DangerBrush}" TextWrapping="Wrap" Margin="8"

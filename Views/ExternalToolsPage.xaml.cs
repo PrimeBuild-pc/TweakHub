@@ -57,7 +57,7 @@ namespace TweakHub.Views
         {
             try
             {
-                _shortcutService.Initialize();
+                _shortcutService.LoadExternalTools();
                 LoadExternalTools();
             }
             catch (Exception ex)
@@ -100,10 +100,7 @@ namespace TweakHub.Views
                     ShortcutService.LocalizeCategory(group.Key),
                     ShortcutService.CategoryIcon(group.Key),
                     L.Format("Tools:ToolCount", group.Count()),
-                    group.OrderByDescending(tool => tool.IsFavorite)
-                        .ThenBy(tool => tool.Name)
-                        .Select(CreateToolItem)
-                        .ToList())));
+                        group.Select(CreateToolItem).ToList())));
 
             return groups;
         }

@@ -21,7 +21,7 @@ public sealed class ShortcutService
         LoadExternalTools();
     }
 
-    private void LoadSystemShortcuts()
+    internal void LoadSystemShortcuts()
     {
         SystemShortcuts.Clear();
         foreach (var shortcut in new[]
@@ -54,7 +54,7 @@ public sealed class ShortcutService
         }) SystemShortcuts.Add(shortcut);
     }
 
-    private void LoadExternalTools()
+    internal void LoadExternalTools()
     {
         ExternalTools.Clear();
         foreach (var tool in new[]

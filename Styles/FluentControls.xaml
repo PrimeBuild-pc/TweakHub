@@ -8,6 +8,15 @@
     <SolidColorBrush x:Key="NeutralActionHoverBrush" Color="#F4F4F4"/>
     <SolidColorBrush x:Key="NeutralActionPressedBrush" Color="#EDEDED"/>
 
+    <Style x:Key="VisibleProgressRingStyle" TargetType="ui:ProgressRing">
+        <Setter Property="IsActive" Value="{DynamicResource {x:Static SystemParameters.ClientAreaAnimationKey}}"/>
+        <Style.Triggers>
+            <Trigger Property="IsVisible" Value="False">
+                <Setter Property="IsActive" Value="False"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
     <Style x:Key="PageHeadingTextStyle" TargetType="TextBlock">
         <Setter Property="FontSize" Value="26"/>
         <Setter Property="FontWeight" Value="SemiBold"/>

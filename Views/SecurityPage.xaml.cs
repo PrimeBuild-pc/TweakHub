@@ -40,7 +40,7 @@ public partial class SecurityPage : Page
         InitializeComponent();
         Loaded += async (_, _) =>
         {
-            if (_snapshot is null) await RefreshAsync(initial: true);
+            if (_snapshot is null) await RefreshAsync();
         };
     }
 
@@ -78,16 +78,16 @@ public partial class SecurityPage : Page
 
     private async void Refresh_Click(object sender, RoutedEventArgs e) => await RefreshAsync();
 
-    private async Task RefreshAsync(bool initial = false)
+    private async Task RefreshAsync()
     {
+        if (!RefreshButton.IsEnabled) return;
         RefreshButton.IsEnabled = false;
         LoadingRing.IsActive = true;
         ScoreText.Visibility = ScoreLabel.Visibility = Visibility.Hidden;
         LoadErrorText.Visibility = Visibility.Collapsed;
         try
         {
-            if (!initial) Preload.Invalidate(Preload.Security);
-            _snapshot = await Preload.Get(Preload.Security, SecurityService.Instance.GetSnapshotAsync);
+            _snapshot = await SecurityService.Instance.GetSnapshotAsync();
             ChecksList.ItemsSource = _snapshot.Checks;
             DrawScoreRing(_snapshot);
             ShowDefender(_snapshot.Defender);

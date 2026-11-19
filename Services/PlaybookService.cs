@@ -212,7 +212,7 @@ public sealed class PlaybookService
             steps.Add(new PlaybookStep { Type = PlaybookStepType.PowerPlan, ReferenceId = plan.Id.ToString(), Name = Trim(plan.Name), Data = JsonSerializer.Serialize(values) });
         }
 
-        await Preload.Get(Preload.TweakStates, TweakService.Instance.LoadWithStatesAsync);
+        await TweakService.Instance.LoadWithStatesAsync();
         // Power tweaks change the active plan: after the PowerPlan step they would overwrite the captured values
         // (or switch to High performance), and the step already carries every setting they touch.
         var hasPlan = steps.Count > 0;
@@ -223,7 +223,7 @@ public sealed class PlaybookService
             .Select(tweak => new PlaybookStep { Type = PlaybookStepType.Tweak, ReferenceId = $"custom:{tweak.Id}", Name = Trim(tweak.Name) }));
 
         IReadOnlyList<PnpDeviceInfo> devices;
-        try { devices = await Preload.Get(Preload.Devices, DeviceService.Instance.GetDevicesAsync); }
+        try { devices = await DeviceService.Instance.GetDevicesAsync(); }
         catch (Exception ex) when (ex is InvalidOperationException or JsonException) { devices = []; }
         var names = devices.GroupBy(device => device.Id, StringComparer.OrdinalIgnoreCase)
             .ToDictionary(group => group.Key, group => group.First().DisplayName, StringComparer.OrdinalIgnoreCase);
@@ -246,6 +246,7 @@ public sealed class PlaybookService
 
         steps.AddRange(await CaptureSystemStepsAsync());
 
+        if (ShortcutService.Instance.ExternalTools.Count == 0) ShortcutService.Instance.LoadExternalTools();
         steps.AddRange(ShortcutService.Instance.ExternalTools.Where(tool => tool.IsFavorite && tool.WingetId.Length > 0)
             .Select(tool => new PlaybookStep { Type = PlaybookStepType.Winget, Name = Trim(tool.Name), WingetId = tool.WingetId, IsIncluded = false }));
         return steps;
@@ -582,7 +583,6 @@ public sealed class PlaybookService
     {
         var (success, skipped, error) = await DeviceService.Instance.SetEnabledMatchingAsync(step.ReferenceId, step.Name, step.Data, step.TargetEnabled);
         setDetails(skipped ? SkippedMarker : error);
-        if (success && !skipped) Preload.Invalidate(Preload.Devices);
         return success;
     }
 
