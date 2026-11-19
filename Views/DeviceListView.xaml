@@ -51,27 +51,28 @@
                         </StackPanel>
                     </Button>
                     <Button x:Name="DisableUnusedButton" Click="DisableUnused_Click" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0"
-                            ToolTip="{loc:Loc Devices:DisableUnusedHint}" IsEnabled="False">
+                            ToolTip="{loc:Loc Devices:DisableUnusedHint}" IsEnabled="False" AutomationProperties.Name="{loc:Loc Devices:DisableUnused}">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="&#xE7E8;" Style="{StaticResource IconTextStyle}" Margin="0,0,6,0"/>
                             <TextBlock Text="{loc:Loc Devices:DisableUnused}"/>
                         </StackPanel>
                     </Button>
                     <Button x:Name="RemoveGhostsButton" Click="RemoveGhosts_Click" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0"
-                            ToolTip="{loc:Loc Devices:RemoveGhostsHint}" IsEnabled="False">
+                            ToolTip="{loc:Loc Devices:RemoveGhostsHint}" IsEnabled="False" AutomationProperties.Name="{loc:Loc Devices:RemoveGhosts}">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="&#xE74D;" Style="{StaticResource IconTextStyle}" Margin="0,0,6,0"/>
                             <TextBlock Text="{loc:Loc Devices:RemoveGhosts}"/>
                         </StackPanel>
                     </Button>
                     <Button x:Name="EnableAllButton" Click="EnableAll_Click" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0"
-                            ToolTip="{loc:Loc Devices:EnableAllHint}">
+                            ToolTip="{loc:Loc Devices:EnableAllHint}" AutomationProperties.Name="{loc:Loc Devices:EnableAll}">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="&#xE7A7;" Style="{StaticResource IconTextStyle}" Margin="0,0,6,0"/>
                             <TextBlock Text="{loc:Loc Devices:EnableAll}"/>
                         </StackPanel>
                     </Button>
-                    <Button x:Name="ExportButton" Click="Export_Click" Style="{StaticResource SecondaryButtonStyle}" IsEnabled="False">
+                    <Button x:Name="ExportButton" Click="Export_Click" Style="{StaticResource SecondaryButtonStyle}" IsEnabled="False"
+                            AutomationProperties.Name="{loc:Loc Devices:Export}">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="&#xEDE1;" Style="{StaticResource IconTextStyle}" Margin="0,0,6,0"/>
                             <TextBlock Text="{loc:Loc Devices:Export}"/>
