@@ -129,7 +129,7 @@ public sealed class PrivacyService
         new("AdGuard", ["94.140.14.14", "94.140.15.15", "2a10:50c0::ad1:ff", "2a10:50c0::ad2:ff"])
     ];
 
-    private static string DnsBackupPath => Path.Combine(AppDataPath.BasePath, "dns-backup.json");
+    private static string DnsBackupPath => Path.Combine(AppDataPath.UndoPath, "dns-backup.json");
     public static bool HasDnsBackup => File.Exists(DnsBackupPath);
 
     public async Task<IReadOnlyList<DnsAdapter>> GetDnsAdaptersAsync()

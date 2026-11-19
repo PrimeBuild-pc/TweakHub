@@ -478,7 +478,7 @@ public sealed class SystemTriageService
         return result;
     }
 
-    private static string DisabledServicesPath => System.IO.Path.Combine(AppDataPath.BasePath, "disabled-services.json");
+    private static string DisabledServicesPath => System.IO.Path.Combine(AppDataPath.UndoPath, "disabled-services.json");
 
     /// <summary>Services TweakHub switched to Manual, with the start mode to restore ("auto" or "delayed-auto").</summary>
     private static Dictionary<string, string> LoadDisabledServices() => JsonStore.Load<Dictionary<string, string>>(DisabledServicesPath);
@@ -779,7 +779,7 @@ public sealed class SystemTriageService
         }
     }
 
-    private static string BackupFolder => System.IO.Path.Combine(AppDataPath.BasePath, "startup-backups");
+    private static string BackupFolder => System.IO.Path.Combine(AppDataPath.UndoPath, "startup-backups");
 
     /// <summary>User entries from the user's backup files, machine-wide ones from the administrator store in HKLM.</summary>
     public static IReadOnlyList<StartupBackup> LoadBackups()

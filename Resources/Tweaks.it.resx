@@ -502,6 +502,9 @@ La creazione può richiedere un minuto e servono i privilegi di amministratore.<
   <data name="RestoreComplete" xml:space="preserve">
     <value>Ripristino completato</value>
   </data>
+  <data name="WindowsUpdateLegacyBackup" xml:space="preserve">
+    <value>Un vecchio backup di Windows Update richiede una verifica manuale. Conserva windows-update-backup.json e confrontalo con la configurazione di questo PC. Spostalo fuori dalla cartella Data quando vuoi tornare a usare i preset.</value>
+  </data>
   <data name="RestoreFailed" xml:space="preserve">
     <value>Ripristino fallito</value>
   </data>

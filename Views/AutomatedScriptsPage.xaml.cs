@@ -336,7 +336,7 @@ namespace TweakHub.Views
                     && await AppDialog.ConfirmAsync(Window.GetWindow(this), L.Get("Scripts:PlaybookElevateTitle"),
                         L.Format("Scripts:PlaybookElevateMessage", preflight.AdministratorSteps),
                         L.Get("Scripts:PlaybookElevateRestart"), L.Get("Scripts:PlaybookElevateContinue"), DialogKind.Shield)
-                    && App.RestartElevated($"--run-playbook {playbook.Id} {PlaybookService.Fingerprint(playbook)}"))
+                    && App.RestartElevated("--run-playbook", playbook.Id, PlaybookService.Fingerprint(playbook)))
                     return;
             }
 

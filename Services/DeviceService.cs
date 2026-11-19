@@ -111,7 +111,7 @@ public sealed class DeviceService
     }
 
     // Devices TweakHub disabled, by instance id, with their name for the restore list.
-    private static string DisabledPath => Path.Combine(AppDataPath.BasePath, "disabled-devices.json");
+    private static string DisabledPath => Path.Combine(AppDataPath.UndoPath, "disabled-devices.json");
     private static Dictionary<string, string> LoadDisabled() => JsonStore.Load<Dictionary<string, string>>(DisabledPath);
 
     public static bool HasDisabledDevices => LoadDisabled().Count > 0;

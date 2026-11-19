@@ -36,7 +36,7 @@ public static partial class NetworkAdapterService
     internal static readonly string[] ManagedKeywords =
         [.. IntelEthernet.Concat(RealtekEthernet).Concat(IntelWireless).Select(setting => setting.Keyword).Distinct()];
 
-    private static string SelectionPath => Path.Combine(AppDataPath.BasePath, "network-adapters.json");
+    private static string SelectionPath => Path.Combine(AppDataPath.UndoPath, "network-adapters.json");
 
     internal static string VendorName(string vendorId) => vendorId switch
     {

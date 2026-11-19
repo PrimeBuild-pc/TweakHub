@@ -20,6 +20,10 @@
     <Product>TweakHub</Product>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(StorePackage)' == 'true'">
+    <DefineConstants>$(DefineConstants);MSIX_STORE</DefineConstants>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>

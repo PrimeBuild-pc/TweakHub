@@ -168,16 +168,19 @@ public class UserDataServiceTests
             File.WriteAllText(Path.Combine(oldRoot, "Apps", "Tool", "tool.exe"), "old");
 
             // The new copy already restored everything once (empty list) and has power changes of its own.
-            Directory.CreateDirectory(newData);
-            File.WriteAllText(Path.Combine(newData, "registry-backup.json"), "[]");
-            File.WriteAllText(Path.Combine(newData, "power-backup.json"), """{"new":true}""");
-
             Assert.That(UserDataService.FindDataDirectory(oldRoot), Is.EqualTo(oldData));
             var service = new UserDataService(newData);
-            Assert.Throws<InvalidOperationException>(() => service.ImportPreviousData(newData, newApps));
-            var result = service.ImportPreviousData(oldData, newApps);
+            Directory.CreateDirectory(service.UndoDirectory);
+            File.WriteAllText(Path.Combine(service.UndoDirectory, "registry-backup.json"), "[]");
+            File.WriteAllText(Path.Combine(service.UndoDirectory, "power-backup.json"), """{"new":true}""");
 
-            var registry = new RegistryService(newData);
+            Assert.Throws<InvalidOperationException>(() => service.ImportPreviousData(newData, newApps));
+            var withoutConfirmation = service.ImportPreviousData(oldData, newApps);
+            Assert.That(withoutConfirmation.UndoFiles, Is.Zero);
+            Assert.That(File.ReadAllText(Path.Combine(service.UndoDirectory, "registry-backup.json")), Is.EqualTo("[]"));
+
+            var result = service.ImportPreviousData(oldData, newApps, adoptLegacy: true);
+            var registry = new RegistryService(service.UndoDirectory);
             registry.Initialize();
             Assert.Multiple(() =>
             {
@@ -188,8 +191,8 @@ public class UserDataServiceTests
                 Assert.That(registry.HasBackup(@"HKEY_CURRENT_USER\System\GameConfigStore", "GameDVR_FSEBehaviorMode"));
                 Assert.That(result.UndoFiles, Is.EqualTo(1));
                 Assert.That(result.KeptCurrent, Is.EqualTo(new[] { "power-backup.json" }));
-                Assert.That(File.ReadAllText(Path.Combine(newData, "power-backup.json")), Does.Contain("new"));
-                Assert.That(result.AppFiles, Is.EqualTo(1));
+                Assert.That(File.ReadAllText(Path.Combine(service.UndoDirectory, "power-backup.json")), Does.Contain("new"));
+                Assert.That(withoutConfirmation.AppFiles, Is.EqualTo(1));
                 Assert.That(File.ReadAllText(Path.Combine(newApps, "Tool", "tool.exe")), Is.EqualTo("old"));
                 Assert.That(File.Exists(result.Profile.RecoveryPath));
             });
@@ -197,6 +200,36 @@ public class UserDataServiceTests
         finally
         {
             if (Directory.Exists(root)) Directory.Delete(root, true);
+        }
+    }
+
+    [Test]
+    public void AdoptingLegacyUndoInPlaceKeepsTheProfileAndTheOriginalFiles()
+    {
+        var data = Directory.CreateTempSubdirectory("TweakHubUndoMigration-");
+        try
+        {
+            var service = new UserDataService(data.FullName);
+            service.SaveFavoriteTools(["example"]);
+            var legacyRegistry = Path.Combine(data.FullName, "registry-backup.json");
+            var legacyUpdate = Path.Combine(data.FullName, "windows-update-backup.json");
+            File.WriteAllText(legacyRegistry, """[{"KeyPath":"HKCU\\Software\\TweakHub","ValueName":"Test"}]""");
+            File.WriteAllText(legacyUpdate, """{"Services":[],"Tasks":[]}""");
+
+            Assert.That(File.Exists(Path.Combine(service.UndoDirectory, "registry-backup.json")), Is.False);
+            var adopted = service.AdoptLegacyUndoData();
+            Assert.Multiple(() =>
+            {
+                Assert.That(adopted.Copied, Is.EqualTo(1));
+                Assert.That(service.LoadFavoriteTools(), Does.Contain("example"));
+                Assert.That(File.ReadAllText(Path.Combine(service.UndoDirectory, "registry-backup.json")), Is.EqualTo(File.ReadAllText(legacyRegistry)));
+                Assert.That(File.Exists(legacyUpdate), Is.True);
+                Assert.That(File.Exists(Path.Combine(service.UndoDirectory, "windows-update-backup.json")), Is.False);
+            });
+        }
+        finally
+        {
+            data.Delete(recursive: true);
         }
     }
 }

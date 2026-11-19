@@ -851,18 +851,28 @@ namespace TweakHub.Services
         [System.Runtime.InteropServices.DllImport("advapi32.dll")]
         private static extern bool CloseServiceHandle(IntPtr handle);
 
-        public async Task<(int restored, int failed)> RestoreAllTweaksAsync()
+        public async Task<(int restored, int failed, string? windowsUpdateError)> RestoreAllTweaksAsync()
         {
             var restored = 0;
             var failed = 0;
+            string? windowsUpdateError = null;
             // The preset first: it shares values with single tweaks (driver updates, device metadata), and restoring
             // those first would drop the shared backups the preset needs.
             var windowsUpdate = WindowsUpdatePresetService.Instance;
             var windowsUpdateRestored = false;
-            if (windowsUpdate.HasCompleteBackup)
+            if (windowsUpdate.HasAnySnapshot)
             {
                 var result = await windowsUpdate.RestoreAsync();
-                if (result.Success) { restored++; windowsUpdateRestored = true; } else failed++;
+                if (result.Success)
+                {
+                    restored++;
+                    windowsUpdateRestored = true;
+                }
+                else
+                {
+                    failed++;
+                    windowsUpdateError = result.Error;
+                }
             }
             else
             {
@@ -897,7 +907,7 @@ namespace TweakHub.Services
 
             await RefreshTweakStatesAsync();
             RefreshBackupState();
-            return (restored, failed);
+            return (restored, failed, windowsUpdateError);
         }
 
         public static bool HasBackup(PerformanceTweak tweak)
@@ -932,7 +942,7 @@ namespace TweakHub.Services
         internal static bool IsReverted(PerformanceTweak tweak, bool appliedByUser, Func<PerformanceTweak, bool> hasBackup) =>
             appliedByUser && tweak.IsAvailable && !tweak.IsEnabled && !tweak.IsPartiallyApplied && hasBackup(tweak);
 
-        internal static string AppliedTweaksPath { get; set; } = Path.Combine(AppDataPath.BasePath, "applied-tweaks.json");
+        internal static string AppliedTweaksPath { get; set; } = Path.Combine(AppDataPath.UndoPath, "applied-tweaks.json");
 
         internal static void MarkApplied(string id, bool applied)
         {

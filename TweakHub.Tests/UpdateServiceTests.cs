@@ -1,3 +1,7 @@
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Security.Cryptography;
 using NUnit.Framework;
 using TweakHub.Services;
 
@@ -5,6 +9,85 @@ namespace TweakHub.Tests;
 
 public class UpdateServiceTests
 {
+    [TestCase(".zip")]
+    [TestCase(".exe")]
+    public async Task VerifiedDownloadCanBeReadAndStaysLockedAgainstWrites(string extension)
+    {
+        var directory = Directory.CreateTempSubdirectory("TweakHubDownload-");
+        try
+        {
+            var package = new UpdateService.GitHubAsset { Name = "fixture" + extension, DownloadUrl = PackageUrl, Size = PackageBytes.Length };
+            var checksum = new UpdateService.GitHubAsset { DownloadUrl = ChecksumUrl };
+            using var client = new HttpClient(new DownloadHandler(Convert.ToHexString(SHA256.HashData(PackageBytes))));
+            await using var verified = await UpdateService.DownloadAndVerifyAsync(client, package, checksum,
+                new DownloadProgress(), CancellationToken.None, directory.FullName);
+
+            using var bytes = new MemoryStream();
+            await verified.CopyToAsync(bytes);
+            Assert.That(bytes.ToArray(), Is.EqualTo(PackageBytes));
+            Assert.Throws<IOException>(() =>
+            {
+                using var writer = new FileStream(verified.Name, FileMode.Open, FileAccess.Write, FileShare.ReadWrite);
+            });
+        }
+        finally
+        {
+            directory.Delete(recursive: true);
+        }
+    }
+
+    [TestCase("corrupt")]
+    [TestCase("truncated")]
+    [TestCase("cancelled")]
+    public void FailedDownloadRemovesTheTemporaryFile(string failure)
+    {
+        var directory = Directory.CreateTempSubdirectory("TweakHubDownload-");
+        try
+        {
+            var size = failure == "truncated" ? PackageBytes.Length + 1 : PackageBytes.Length;
+            var hash = failure == "corrupt" ? new string('0', 64) : Convert.ToHexString(SHA256.HashData(PackageBytes));
+            using var client = new HttpClient(new DownloadHandler(hash));
+            using var cancellation = new CancellationTokenSource();
+            var package = new UpdateService.GitHubAsset { Name = "fixture.zip", DownloadUrl = PackageUrl, Size = size };
+            var checksum = new UpdateService.GitHubAsset { DownloadUrl = ChecksumUrl };
+            var progress = new DownloadProgress(failure == "cancelled" ? cancellation : null);
+
+            async Task DownloadAsync()
+            {
+                await using var file = await UpdateService.DownloadAndVerifyAsync(client, package, checksum, progress,
+                    cancellation.Token, directory.FullName);
+            }
+
+            if (failure == "cancelled") Assert.CatchAsync<OperationCanceledException>(DownloadAsync);
+            else Assert.ThrowsAsync<InvalidDataException>(DownloadAsync);
+            Assert.That(directory.EnumerateFileSystemInfos(), Is.Empty);
+        }
+        finally
+        {
+            directory.Delete(recursive: true);
+        }
+    }
+
+    private const string PackageUrl = "https://github.com/fixture/package";
+    private const string ChecksumUrl = "https://github.com/fixture/package.sha256";
+    private static readonly byte[] PackageBytes = [1, 2, 3, 4];
+
+    private sealed class DownloadHandler(string hash) : HttpMessageHandler
+    {
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken) =>
+            Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = request.RequestUri!.AbsoluteUri == ChecksumUrl
+                    ? new StringContent(hash)
+                    : new ByteArrayContent(PackageBytes)
+            });
+    }
+
+    private sealed class DownloadProgress(CancellationTokenSource? cancellation = null) : IProgress<double>
+    {
+        public void Report(double value) => cancellation?.Cancel();
+    }
+
     [Test]
     public void VersionComparisonHandlesStableAndNumericPrereleases()
     {

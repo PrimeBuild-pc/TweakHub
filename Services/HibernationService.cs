@@ -8,7 +8,7 @@ namespace TweakHub.Services;
 public sealed class HibernationService
 {
     internal const string PowerKey = @"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power";
-    public static HibernationService Instance { get; } = new(AppDataPath.BasePath);
+    public static HibernationService Instance { get; } = new(AppDataPath.UndoPath);
     private readonly string _path;
     private readonly Func<State?> _read;
     private readonly Func<string, Task<PowerShellResult>> _run;

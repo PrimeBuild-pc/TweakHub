@@ -20,3 +20,5 @@ jobs:
       - run: dotnet restore TweakHub.sln
       - run: dotnet build TweakHub.sln -c Release --no-restore
       - run: dotnet test TweakHub.Tests/TweakHub.Tests.csproj -c Release --no-build --no-restore
+      - name: Test Store-specific behavior
+        run: dotnet test TweakHub.Tests/TweakHub.Tests.csproj -c Release --no-restore -p:StorePackage=true --filter FullyQualifiedName~StorePackageTests

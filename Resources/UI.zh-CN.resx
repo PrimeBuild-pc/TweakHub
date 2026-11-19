@@ -414,10 +414,28 @@
   <data name="PreviousDataSameFolder" xml:space="preserve">
     <value>这是当前正在运行的 TweakHub 的数据文件夹。</value>
   </data>
+  <data name="DataDirectoryInUse" xml:space="preserve">
+    <value>此数据文件夹已在另一个 TweakHub 实例中打开。请先关闭该实例。</value>
+  </data>
+  <data name="DataDirectoryUnavailable" xml:space="preserve">
+    <value>TweakHub 无法打开数据文件夹，或无法识别此电脑和 Windows 帐户。</value>
+  </data>
+  <data name="LegacyUndoAvailable" xml:space="preserve">
+    <value>有旧备份。要检查它们，请使用从另一个副本导入并选择此 Data 文件夹。</value>
+  </data>
+  <data name="LegacyUndoConfirm" xml:space="preserve">
+    <value>仅当确认这些旧备份来自此电脑和此 Windows 帐户时才导入。原文件将予以保留。</value>
+  </data>
+  <data name="LegacyUndoSkip" xml:space="preserve">
+    <value>跳过旧备份</value>
+  </data>
+  <data name="LegacyUndoCopied" xml:space="preserve">
+    <value>已为此电脑和帐户复制 {0} 个旧备份文件。</value>
+  </data>
   <data name="PreviousDataConfirm" xml:space="preserve">
     <value>从 {0} 导入：
 • 配置文件：自定义脚本、调整项和工具、操作手册、收藏和外观（替换当前配置，当前配置会先保存为恢复副本）；
-• 撤销该副本所做更改的数据，以便在这里也能还原；
+• 已与此电脑和 Windows 帐户关联的还原数据；
 • 此处缺少的 Apps 中的便携程序。
 
 导入完成后 TweakHub 会重新启动。</value>

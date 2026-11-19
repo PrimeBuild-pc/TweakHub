@@ -414,10 +414,28 @@ Instalado: {1}
   <data name="PreviousDataSameFolder" xml:space="preserve">
     <value>Esta es la carpeta de datos del TweakHub que estás usando.</value>
   </data>
+  <data name="DataDirectoryInUse" xml:space="preserve">
+    <value>Esta carpeta de datos ya está abierta en TweakHub. Cierra la otra instancia antes de abrirla aquí.</value>
+  </data>
+  <data name="DataDirectoryUnavailable" xml:space="preserve">
+    <value>TweakHub no pudo abrir su carpeta de datos o identificar este PC y la cuenta de Windows.</value>
+  </data>
+  <data name="LegacyUndoAvailable" xml:space="preserve">
+    <value>Hay copias de seguridad anteriores. Para revisarlas, usa Importar desde otra copia y selecciona esta carpeta Data.</value>
+  </data>
+  <data name="LegacyUndoConfirm" xml:space="preserve">
+    <value>Importa estas copias anteriores solo si sabes que proceden de este PC y esta cuenta de Windows. Se conservarán los archivos originales.</value>
+  </data>
+  <data name="LegacyUndoSkip" xml:space="preserve">
+    <value>Omitir copias anteriores</value>
+  </data>
+  <data name="LegacyUndoCopied" xml:space="preserve">
+    <value>Se copiaron {0} archivos de respaldo anteriores para este PC y esta cuenta.</value>
+  </data>
   <data name="PreviousDataConfirm" xml:space="preserve">
     <value>Importar desde {0}:
 • perfil: scripts, ajustes y herramientas personalizados, playbooks, favoritos y apariencia (sustituye al actual, que antes se guarda como copia de recuperación);
-• datos para deshacer los cambios hechos por esa copia, para que puedas restaurarlos también aquí;
+• datos de restauración ya asociados a este PC y esta cuenta de Windows;
 • programas portables de Apps que faltan aquí.
 
 TweakHub se reinicia al terminar.</value>

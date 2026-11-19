@@ -24,7 +24,7 @@ namespace TweakHub.Services
         public event PropertyChangedEventHandler? PropertyChanged;
         public int BackupCount { get { lock (_lock) return _backups.Count; } }
 
-        private RegistryService() : this(AppDataPath.BasePath) { }
+        private RegistryService() : this(AppDataPath.UndoPath) { }
 
         internal RegistryService(string dataPath)
         {

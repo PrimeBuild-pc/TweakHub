@@ -755,7 +755,7 @@ namespace TweakHub.Views
             && await AppDialog.ConfirmAsync(Window.GetWindow(this), L.Get("Scripts:PlaybookElevateTitle"),
                 L.Format("Tweaks:BulkElevateMessage", changes), L.Get("Scripts:PlaybookElevateRestart"),
                 L.Get("Scripts:PlaybookElevateContinue"), DialogKind.Shield)
-            && App.RestartElevated(string.Empty);
+            && App.RestartElevated();
 
         private async void RestoreAllButton_Click(object sender, RoutedEventArgs e)
         {
@@ -776,7 +776,7 @@ namespace TweakHub.Views
             {
                 progress.UpdateStatus(L.Get("Tweaks:Restoring"));
                 progress.UpdateProgress(20);
-                var (restored, failed) = await _tweakService.RestoreAllTweaksAsync();
+                var (restored, failed, windowsUpdateError) = await _tweakService.RestoreAllTweaksAsync();
                 await RefreshWindowsUpdatePresetAsync();
 
                 progress.UpdateProgress(100);
@@ -784,6 +784,7 @@ namespace TweakHub.Views
 
                 var msg = L.Format("Tweaks:RestoredCount", restored);
                 if (failed > 0) msg += "\n" + L.Format("Tweaks:RestoreFailedCount", failed);
+                if (!string.IsNullOrWhiteSpace(windowsUpdateError)) msg += "\n\n" + windowsUpdateError;
                 await AppDialog.ShowAsync(Window.GetWindow(this), L.Get("Tweaks:RestoreComplete"), msg);
 
                 RestoreAllButton.Visibility = _tweakService.HasAppliedTweaksThisSession ? Visibility.Visible : Visibility.Collapsed;
