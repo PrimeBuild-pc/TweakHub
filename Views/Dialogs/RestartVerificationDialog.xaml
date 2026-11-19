@@ -4,7 +4,7 @@
         xmlns:loc="clr-namespace:TweakHub.Localization"
         Title="{loc:Loc Tweaks:RestartVerificationTitle}" Width="620" SizeToContent="Height" MaxHeight="650"
         WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
-        FontFamily="Segoe UI Variable Text" Background="{DynamicResource WindowBackgroundBrush}"
+        FontFamily="Segoe UI Variable Text" Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}"
         Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}">
     <Grid Margin="24">
         <Grid.RowDefinitions>
@@ -13,7 +13,10 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="{loc:Loc Tweaks:RestartVerificationDescription}" TextWrapping="Wrap" Margin="0,0,0,16"/>
+        <StackPanel Margin="0,0,0,16">
+            <TextBlock Text="{loc:Loc Tweaks:RestartVerificationTitle}" Style="{StaticResource DialogHeadingTextStyle}" Margin="0,0,0,6"/>
+            <TextBlock Text="{loc:Loc Tweaks:RestartVerificationDescription}" Style="{StaticResource PageSubtitleTextStyle}"/>
+        </StackPanel>
 
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <ItemsControl x:Name="ResultsList">

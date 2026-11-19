@@ -15,6 +15,8 @@ namespace TweakHub.Views;
 /// <summary>Autoruns-style view of everything that starts with Windows: disable, delete with backup, restore.</summary>
 public partial class StartupPage : Page
 {
+    private sealed record EntryDetail(string Label, string Value);
+
     private static readonly string[] Categories = ["All", "Logon", "Tasks", "Services", "Drivers", "Explorer", "Hijacks", "Wmi"];
     private SystemTriage? _triage;
 
@@ -75,6 +77,31 @@ public partial class StartupPage : Page
 
     private void Filter_Changed(object sender, RoutedEventArgs e) => ApplyFilter();
 
+    private void StartupGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (EntryDetails is null) return;
+        if (StartupGrid.SelectedItem is not StartupEntry entry)
+        {
+            EntryDetails.ItemsSource = null;
+            return;
+        }
+
+        (string Key, string Value)[] details =
+        [
+            ("ColumnSigner", entry.TrustText),
+            ("ColumnTrigger", entry.TriggerText),
+            ("ColumnUser", entry.User),
+            ("ColumnLastRun", entry.LastRunText),
+            ("ColumnNextRun", entry.NextRunText),
+            ("ColumnImage", entry.Path),
+            ("ColumnCommand", entry.Command),
+            ("ColumnLocation", entry.Location),
+            ("ColumnFileDate", entry.FileDateText)
+        ];
+        EntryDetails.ItemsSource = details.Where(detail => !string.IsNullOrWhiteSpace(detail.Value))
+            .Select(detail => new EntryDetail(L.Get($"Security:{detail.Key}"), detail.Value));
+    }
+
     private void ApplyFilter()
     {
         if (_triage is null || StartupGrid is null) return;
@@ -112,8 +139,10 @@ public partial class StartupPage : Page
         _triage = _triage with { Startup = startup };
         if (StartupGrid.ItemsSource is List<StartupEntry> rows && rows.FindIndex(item => ReferenceEquals(item, old)) is var row and >= 0)
         {
+            var wasSelected = ReferenceEquals(StartupGrid.SelectedItem, old);
             if (updated is null) rows.RemoveAt(row); else rows[row] = updated;
             StartupGrid.Items.Refresh();
+            if (wasSelected) StartupGrid.SelectedItem = updated;
         }
         RenderCategories();
     }
@@ -122,16 +151,19 @@ public partial class StartupPage : Page
     {
         if (sender is not Button { DataContext: StartupEntry entry } button) return;
         button.IsEnabled = false;
-        var result = await SystemTriageService.Instance.SetStartupEnabledAsync(entry, !entry.Enabled);
-        if (!result.Success)
+        try
         {
-            button.IsEnabled = true;
-            await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Security:StartupToggleFailedTitle"),
-                string.IsNullOrWhiteSpace(result.Error) ? result.ExitCode.ToString(L.Culture) : result.Error.Trim());
-            return;
+            var result = await SystemTriageService.Instance.SetStartupEnabledAsync(entry, !entry.Enabled);
+            if (!result.Success)
+            {
+                await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Security:StartupToggleFailedTitle"),
+                    string.IsNullOrWhiteSpace(result.Error) ? result.ExitCode.ToString(L.Culture) : result.Error.Trim());
+                return;
+            }
+            // Update in place: a full rescan takes several seconds.
+            Replace(entry, entry with { Enabled = !entry.Enabled });
         }
-        // Update in place: a full rescan takes several seconds.
-        Replace(entry, entry with { Enabled = !entry.Enabled });
+        finally { button.IsEnabled = true; }
     }
 
     private async void Delete_Click(object sender, RoutedEventArgs e)
@@ -152,9 +184,9 @@ public partial class StartupPage : Page
         }
         catch (InvalidOperationException ex)
         {
-            button.IsEnabled = true;
             await AppDialog.ShowErrorAsync(owner, L.Get("Security:StartupDeleteFailedTitle"), ex.Message);
         }
+        finally { button.IsEnabled = true; }
     }
 
     private async void Restore_Click(object sender, RoutedEventArgs e)

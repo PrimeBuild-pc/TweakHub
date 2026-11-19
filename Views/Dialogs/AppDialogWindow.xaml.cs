@@ -7,7 +7,7 @@ namespace TweakHub.Views.Dialogs;
 
 public enum DialogKind { Info, Warning, Error, Shield }
 
-/// <summary>Windows 11 style message dialog: icon, title, message, then a footer band with equal-width buttons.</summary>
+/// <summary>Modal message, confirmation, or input dialog for TweakHub.</summary>
 public partial class AppDialogWindow : Window
 {
     public AppDialogWindow(string title, string message, string primaryText, string? secondaryText, DialogKind kind, string? input = null)
@@ -71,7 +71,7 @@ public partial class AppDialogWindow : Window
         if (IsVisible) DialogResult = true;
     }
 
-    private void Body_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    private void Header_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         if (e.ButtonState == MouseButtonState.Pressed) DragMove();
     }

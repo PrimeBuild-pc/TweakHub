@@ -27,7 +27,7 @@
                 <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="16,0,0,0">
                     <Button x:Name="ScanButton" Click="Scan_Click" Style="{StaticResource ModernButtonStyle}" Margin="0,0,8,0">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="&#xE72C;" Style="{StaticResource IconTextStyle}" Margin="0,0,6,0"/>
+                            <Path Data="{StaticResource RefreshIconGeometry}" Style="{StaticResource ToolbarIconStyle}"/>
                             <TextBlock Text="{loc:Loc Security:SystemScan}"/>
                         </StackPanel>
                     </Button>
@@ -88,7 +88,7 @@
                         </StackPanel>
                         <StackPanel>
                             <WrapPanel Margin="0,0,0,8">
-                                <TextBox x:Name="ConnectionSearch" Width="220" Margin="0,0,12,4" TextChanged="ConnectionFilter_Changed"
+                                <TextBox x:Name="ConnectionSearch" Style="{StaticResource FieldInputStyle}" Width="220" Margin="0,0,12,4" TextChanged="ConnectionFilter_Changed"
                                          ui:ControlHelper.PlaceholderText="{loc:Loc Security:FilterPlaceholder}"
                                          AutomationProperties.Name="{loc:Loc Security:FilterPlaceholder}"/>
                                 <CheckBox x:Name="EstablishedOnly" Content="{loc:Loc Security:EstablishedOnly}" Margin="0,0,12,4"

@@ -17,7 +17,7 @@
                 <Image Source="/ico.ico" Width="32" Height="32"/>
             </Border>
             <StackPanel Margin="14,0,0,0" VerticalAlignment="Center">
-                <TextBlock Text="TweakHub" FontSize="26" FontWeight="SemiBold"/>
+                <TextBlock Text="TweakHub" Style="{StaticResource DialogHeadingTextStyle}"/>
                 <TextBlock x:Name="SubtitleText" FontSize="12" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
             </StackPanel>
         </StackPanel>
@@ -54,7 +54,7 @@
             </ItemsControl>
         </Border>
 
-        <ProgressBar x:Name="Progress" Height="4" Maximum="1"/>
+        <ProgressBar x:Name="Progress" Height="4" Maximum="1" Foreground="{DynamicResource FluentAccentBrush}"/>
         <TextBlock x:Name="StatusText" FontSize="12" Margin="0,8,0,0" TextTrimming="CharacterEllipsis"
                    Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
     </StackPanel>

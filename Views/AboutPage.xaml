@@ -15,43 +15,36 @@
             <Setter Property="TextDecorations" Value="{x:Null}"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Foreground" Value="{DynamicResource AccentBrush}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource FluentAccentTextBrush}"/>
                     <Setter Property="TextDecorations" Value="Underline"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
     </Page.Resources>
 
-    <Grid Margin="32">
+    <Grid Margin="32,24,24,16">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Margin="0,0,0,20">
-            <TextBlock Text="{loc:Loc UI:AboutPageAboutAmpSettings}" FontSize="28" FontWeight="Light" Margin="0,0,0,6"
-                       Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
-            <TextBlock Text="{loc:Loc UI:AboutPageApplicationInformationAppearanceAndUpdates}"
-                       FontSize="12" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+            <TextBlock Text="{loc:Loc UI:AboutPageAboutAmpSettings}" Style="{StaticResource PageHeadingTextStyle}" Margin="0,0,0,6"/>
+            <TextBlock Text="{loc:Loc UI:AboutPageApplicationInformationAppearanceAndUpdates}" Style="{StaticResource PageSubtitleTextStyle}"/>
         </StackPanel>
 
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="0,0,16,0">
             <StackPanel>
                 <Border Style="{StaticResource CardStyle}" Margin="0,0,0,12">
                     <StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
-                            <TextBlock Text="&#xE790;" FontFamily="Segoe Fluent Icons" FontSize="18" Margin="0,0,10,0"
-                                       VerticalAlignment="Center" Foreground="{DynamicResource IconBrush}"/>
-                            <TextBlock Text="{loc:Loc UI:AboutPageAppearance}" Style="{StaticResource CategoryHeaderStyle}" Margin="0"/>
-                        </StackPanel>
+                        <TextBlock Text="{loc:Loc UI:AboutPageAppearance}" Style="{StaticResource CategoryHeaderStyle}" Margin="0,0,0,6"/>
                         <TextBlock Text="{loc:Loc UI:AboutPageFollowWindowsOrChooseA}"
                                    Style="{StaticResource DescriptionTextStyle}" Margin="0,0,0,16"/>
 
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="180"/>
-                                <ColumnDefinition Width="260"/>
                                 <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="270"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -60,20 +53,20 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
 
-                            <TextBlock Text="{loc:Loc UI:AboutPageTheme}" VerticalAlignment="Center" Margin="0,0,12,12"
+                            <TextBlock x:Name="ThemeLabel" Text="{loc:Loc UI:AboutPageTheme}" VerticalAlignment="Center" Margin="0,0,12,12"
                                        Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
-                            <ComboBox x:Name="ThemeModeComboBox" Grid.Column="1" Margin="0,0,0,12" SelectedValuePath="Tag">
+                            <ComboBox x:Name="ThemeModeComboBox" AutomationProperties.LabeledBy="{Binding ElementName=ThemeLabel}" HorizontalAlignment="Stretch" Style="{StaticResource FluentDropDownStyle}" Grid.Column="1" Margin="0,0,0,12" SelectedValuePath="Tag">
                                 <ComboBoxItem Content="{loc:Loc UI:AboutPageUseWindowsSetting}" Tag="System"/>
                                 <ComboBoxItem Content="{loc:Loc UI:AboutPageLight}" Tag="Light"/>
                                 <ComboBoxItem Content="{loc:Loc UI:AboutPageDark}" Tag="Dark"/>
                             </ComboBox>
 
-                            <TextBlock Grid.Row="1" Text="{loc:Loc UI:AboutPageAccentColor}" VerticalAlignment="Center" Margin="0,0,12,12"
+                            <TextBlock x:Name="AccentColorLabel" Grid.Row="1" Text="{loc:Loc UI:AboutPageAccentColor}" VerticalAlignment="Center" Margin="0,0,12,12"
                                        Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
                             <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,0,0,12">
                                 <CheckBox x:Name="UseSystemAccentCheckBox" Content="{loc:Loc UI:AboutPageUseWindowsAccentColor}"
                                           Checked="UseSystemAccent_Changed" Unchecked="UseSystemAccent_Changed"/>
-                                <TextBox x:Name="AccentColorTextBox" Margin="0,8,0,0" MaxLength="7" ToolTip="{loc:Loc UI:AboutPageHexColorForExample0078D4}"/>
+                                <TextBox x:Name="AccentColorTextBox" AutomationProperties.LabeledBy="{Binding ElementName=AccentColorLabel}" Style="{StaticResource FieldInputStyle}" Margin="0,8,0,0" MaxLength="7" ToolTip="{loc:Loc UI:AboutPageHexColorForExample0078D4}"/>
                             </StackPanel>
 
                             <TextBlock Grid.Row="2" Text="{loc:Loc UI:AboutPageEffects}" VerticalAlignment="Center" Margin="0,0,12,12"
@@ -81,9 +74,9 @@
                             <CheckBox x:Name="TransparencyCheckBox" Grid.Row="2" Grid.Column="1" Margin="0,0,0,12"
                                       Content="{loc:Loc UI:AboutPageEnableMicaAndTransparency}"/>
 
-                            <TextBlock Grid.Row="3" Text="{loc:Loc UI:AboutPageLanguage}" VerticalAlignment="Center" Margin="0,0,12,0"
+                            <TextBlock x:Name="LanguageLabel" Grid.Row="3" Text="{loc:Loc UI:AboutPageLanguage}" VerticalAlignment="Center" Margin="0,0,12,0"
                                        Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
-                            <ComboBox x:Name="LanguageComboBox" Grid.Row="3" Grid.Column="1" SelectedValuePath="Tag">
+                            <ComboBox x:Name="LanguageComboBox" AutomationProperties.LabeledBy="{Binding ElementName=LanguageLabel}" HorizontalAlignment="Stretch" Style="{StaticResource FluentDropDownStyle}" Grid.Row="3" Grid.Column="1" SelectedValuePath="Tag">
                                 <ComboBoxItem Content="{loc:Loc UI:AboutPageUseWindowsSetting2}" Tag="System"/>
                                 <ComboBoxItem Content="English" Tag="en"/>
                                 <ComboBoxItem Content="Русский" Tag="ru"/>
@@ -105,16 +98,12 @@
 
                 <Border Style="{StaticResource CardStyle}" Margin="0,0,0,12">
                     <StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
-                            <TextBlock Text="&#xE8B7;" FontFamily="Segoe Fluent Icons" FontSize="18" Margin="0,0,10,0"
-                                       VerticalAlignment="Center" Foreground="{DynamicResource IconBrush}"/>
-                            <TextBlock Text="{loc:Loc UI:AboutPagePortableConfiguration}" Style="{StaticResource CategoryHeaderStyle}" Margin="0"/>
-                        </StackPanel>
+                        <TextBlock Text="{loc:Loc UI:AboutPagePortableConfiguration}" Style="{StaticResource CategoryHeaderStyle}" Margin="0,0,0,6"/>
                         <TextBlock Text="{loc:Loc UI:AboutPageExportOrImportCustomScripts}"
                                    Style="{StaticResource DescriptionTextStyle}" Margin="0,0,0,8"/>
                         <TextBlock x:Name="DataPathText" FontSize="11" TextWrapping="Wrap" Margin="0,0,0,14"
                                    Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
-                        <StackPanel Orientation="Horizontal">
+                        <WrapPanel>
                             <Button Content="{loc:Loc UI:AboutPageExportProfile}" Style="{StaticResource SecondaryButtonStyle}"
                                     Click="ExportProfile_Click" Margin="0,0,8,0"/>
                             <Button Content="{loc:Loc UI:AboutPageImportProfile}" Style="{StaticResource ModernButtonStyle}"
@@ -123,17 +112,13 @@
                                     Click="ImportPreviousCopy_Click" ToolTip="{loc:Loc UI:AboutPageImportPreviousCopyTip}"/>
                             <TextBlock x:Name="ProfileResultText" Margin="12,0,0,0" VerticalAlignment="Center"
                                        Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
-                        </StackPanel>
+                        </WrapPanel>
                     </StackPanel>
                 </Border>
 
                 <Border Style="{StaticResource CardStyle}" Margin="0,0,0,12">
                     <StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
-                            <TextBlock Text="&#xE895;" FontFamily="Segoe Fluent Icons" FontSize="18" Margin="0,0,10,0"
-                                       VerticalAlignment="Center" Foreground="{DynamicResource IconBrush}"/>
-                            <TextBlock Text="{loc:Loc UI:AboutPageUpdates}" Style="{StaticResource CategoryHeaderStyle}" Margin="0"/>
-                        </StackPanel>
+                        <TextBlock Text="{loc:Loc UI:AboutPageUpdates}" Style="{StaticResource CategoryHeaderStyle}" Margin="0,0,0,6"/>
                         <TextBlock Text="{loc:Loc UI:AboutPageTweakHubChecksGitHubReleasesWhen}"
                                    Style="{StaticResource DescriptionTextStyle}" Margin="0,0,0,14"/>
                         <StackPanel Orientation="Horizontal">
@@ -147,11 +132,7 @@
 
                 <Border Style="{StaticResource CardStyle}" Margin="0,0,0,4">
                     <StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="&#xE946;" FontFamily="Segoe Fluent Icons" FontSize="18" Margin="0,0,10,0"
-                                       VerticalAlignment="Center" Foreground="{DynamicResource IconBrush}"/>
-                            <TextBlock x:Name="VersionText" Style="{StaticResource CategoryHeaderStyle}" Margin="0"/>
-                        </StackPanel>
+                        <TextBlock x:Name="VersionText" Style="{StaticResource CategoryHeaderStyle}" Margin="0,0,0,6"/>
                         <TextBlock Text="© 2025–2026 Prime Build" Margin="0,4,0,14"
                                    Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
                         <TextBlock Text="{loc:Loc UI:AboutPageLicenseMITLicense}" Margin="0,0,0,6"

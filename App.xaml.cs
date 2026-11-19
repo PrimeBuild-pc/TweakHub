@@ -3,7 +3,9 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
+using System.Windows.Threading;
 using Microsoft.Win32;
+using ModernWpf;
 using TweakHub.Localization;
 using TweakHub.Services;
 
@@ -85,6 +87,7 @@ public partial class App : Application
         ThemeService.Instance.PropertyChanged += ThemeService_PropertyChanged;
         EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.LoadedEvent, new RoutedEventHandler(Window_Loaded));
         SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
+        ThemeManager.Current.ActualAccentColorChanged += SystemAccentColorChanged;
         DispatcherUnhandledException += App_DispatcherUnhandledException;
         base.OnStartup(e);
         new Views.SplashWindow().Show();
@@ -102,6 +105,7 @@ public partial class App : Application
         try
         {
             SystemEvents.UserPreferenceChanged -= SystemEvents_UserPreferenceChanged;
+            ThemeManager.Current.ActualAccentColorChanged -= SystemAccentColorChanged;
             if (_dataLock is not null) ThemeService.Instance.PropertyChanged -= ThemeService_PropertyChanged;
         }
         catch
@@ -134,6 +138,15 @@ public partial class App : Application
         foreach (Window window in Windows) ApplyWindows11Style(window);
     }
 
+    private void SystemAccentColorChanged(ThemeManager sender, object args)
+    {
+        // Let WPF update the system accent shades before rebuilding our brushes.
+        Dispatcher.InvokeAsync(() =>
+        {
+            if (ThemeService.Instance.UseSystemAccent) ThemeService.Instance.RefreshSystemThemeIfNeeded();
+        }, DispatcherPriority.Background);
+    }
+
     private static void Window_Loaded(object sender, RoutedEventArgs e)
     {
         if (sender is Window window) ApplyWindows11Style(window);
@@ -149,7 +162,8 @@ public partial class App : Application
         var backdrop = !ThemeService.Instance.TransparencyEnabled || SystemParameters.HighContrast ? 1 : window is MainWindow ? 2 : 3;
         DwmSetWindowAttribute(handle, 20, ref darkMode, sizeof(int));
         DwmSetWindowAttribute(handle, 33, ref roundedCorners, sizeof(int));
-        DwmSetWindowAttribute(handle, 38, ref backdrop, sizeof(int));
+        if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22621))
+            DwmSetWindowAttribute(handle, 38, ref backdrop, sizeof(int));
     }
 
     [DllImport("dwmapi.dll")]

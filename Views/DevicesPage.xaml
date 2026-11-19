@@ -1,6 +1,7 @@
 <Page x:Class="TweakHub.Views.DevicesPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="clr-namespace:TweakHub.Views.Controls"
       xmlns:loc="clr-namespace:TweakHub.Localization"
       xmlns:local="clr-namespace:TweakHub.Views"
       Title="{loc:Loc Devices:Title}"
@@ -10,20 +11,19 @@
         <ResourceDictionary Source="SectionStyles.xaml"/>
     </Page.Resources>
 
-    <Grid Margin="32">
+    <Grid Margin="32,24,24,16">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <StackPanel Margin="0,0,0,12">
-            <TextBlock Text="{loc:Loc Devices:Title}" FontSize="28" FontWeight="Light" Margin="0,0,0,6"
-                       Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
-            <TextBlock Text="{loc:Loc Devices:Description}" Style="{StaticResource DescriptionTextStyle}"/>
+            <controls:SectionHeading PageTitle="{loc:Loc Devices:Title}" Tabs="{Binding ElementName=Tabs}" Margin="0,0,0,6"/>
+            <TextBlock Text="{loc:Loc Devices:Description}" Style="{StaticResource PageSubtitleTextStyle}"/>
         </StackPanel>
 
         <TabControl x:Name="Tabs" Grid.Row="1" Style="{StaticResource PaddedTabControl}"
-                    ItemContainerStyle="{StaticResource ModernTabItem}" SelectionChanged="Tabs_SelectionChanged">
+                    ItemContainerStyle="{StaticResource FluentTabItemStyle}" SelectionChanged="Tabs_SelectionChanged">
             <TabItem x:Name="DevicesTab" Header="{loc:Loc Devices:TabDevices}">
                 <local:DeviceListView x:Name="DeviceList"/>
             </TabItem>

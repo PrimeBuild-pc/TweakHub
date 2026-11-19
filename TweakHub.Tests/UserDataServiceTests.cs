@@ -16,7 +16,12 @@ public class UserDataServiceTests
         try
         {
             var source = new UserDataService(root);
-            var script = new CustomScript { Id = "script-1", Name = "Launch portable tool", Content = "& $env:TWEAKHUB_APPS\\Tool\\Tool.exe" };
+            var script = new CustomScript
+            {
+                Id = "script-1", Name = "Launch portable tool",
+                RunLabel = "Launch", Description = "Opens the portable tool.",
+                Content = "& $env:TWEAKHUB_APPS\\Tool\\Tool.exe"
+            };
             var tool = new ExternalTool
             {
                 Id = "custom-tool",
@@ -57,7 +62,10 @@ public class UserDataServiceTests
             var result = destination.ImportProfile(profilePath);
             Assert.Multiple(() =>
             {
-                Assert.That(destination.LoadCustomScripts().Single().Content, Does.Contain("TWEAKHUB_APPS"));
+                var importedScript = destination.LoadCustomScripts().Single();
+                Assert.That(importedScript.Content, Does.Contain("TWEAKHUB_APPS"));
+                Assert.That(importedScript.RunButtonText, Is.EqualTo("Launch"));
+                Assert.That(importedScript.Description, Is.EqualTo("Opens the portable tool."));
                 Assert.That(destination.LoadCustomTools().Single().PowerShellCommand, Does.Contain("winget install"));
                 Assert.That(destination.LoadCustomTweaks().Single().Description, Is.EqualTo("Why this custom value exists"));
                 Assert.That(destination.LoadPlaybooks().Single().Steps.Single(step => step.Type == PlaybookStepType.Winget).WingetId,
@@ -94,7 +102,10 @@ public class UserDataServiceTests
             service.ImportProfile(profile);
             Assert.Multiple(() =>
             {
-                Assert.That(service.LoadCustomScripts().Single().Id, Is.EqualTo("legacy"));
+                var script = service.LoadCustomScripts().Single();
+                Assert.That(script.Id, Is.EqualTo("legacy"));
+                Assert.That(script.RunButtonText, Is.EqualTo(TweakHub.Localization.L.Get("Scripts:Run")));
+                Assert.That(script.Description, Is.Empty);
                 Assert.That(service.LoadPlaybooks(), Is.Empty);
             });
         }

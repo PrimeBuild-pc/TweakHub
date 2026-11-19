@@ -1,4 +1,5 @@
 using System.IO;
+using System.Text.RegularExpressions;
 using TweakHub.Localization;
 
 namespace TweakHub.Services
@@ -44,8 +45,13 @@ namespace TweakHub.Services
             var path = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Scripts", "WinGetInstall.ps1");
             return System.IO.File.Exists(path)
                 ? System.IO.File.ReadAllText(path)
-                : L.Get("Scripts:WingetScriptMissingPreview");
+                : throw new FileNotFoundException(L.Get("Scripts:WingetScriptMissingPreview"), path);
         }
+
+        // The bundled bodies use standalone comments. Keep shell directives and leave the original script untouched.
+        internal static string Preview(string id) => Regex.Replace(Body(id),
+            @"^[ \t]*#(?!requires\b)[^\r\n]*(?:\r?\n|\z)", string.Empty,
+            RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.CultureInvariant).Trim();
 
         // The caller's folders, resolved before elevation. Portable: the backup travels with TweakHub on the USB drive;
         // installed: Documents, because gigabytes of drivers do not belong in the roaming AppData profile.

@@ -6,11 +6,12 @@
     <!-- Dims what is on screen while it is being read, so stale values are never mistaken for results. -->
     <Grid>
         <Rectangle Fill="{DynamicResource WindowBackgroundBrush}" Opacity="0.8"/>
-        <Border Style="{StaticResource CardStyle}" Padding="28,22" MinWidth="300" MaxWidth="440"
+        <Border Style="{StaticResource SettingsCardStyle}" Padding="24,18" MinWidth="300" MaxWidth="440"
                 HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel>
-                <ui:ProgressRing x:Name="Ring" Width="36" Height="36" IsActive="False" HorizontalAlignment="Center"/>
-                <TextBlock x:Name="MessageText" FontSize="14" FontWeight="SemiBold" TextAlignment="Center" TextWrapping="Wrap"
+                <ui:ProgressRing x:Name="Ring" Width="28" Height="28" IsActive="False" HorizontalAlignment="Center"
+                                 Foreground="{DynamicResource FluentAccentBrush}"/>
+                <TextBlock x:Name="MessageText" FontSize="13" FontWeight="Normal" TextAlignment="Center" TextWrapping="Wrap"
                            Margin="0,14,0,0" Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
                 <TextBlock x:Name="DetailText" Style="{StaticResource DescriptionTextStyle}" TextAlignment="Center" Margin="0,4,0,0"/>
             </StackPanel>

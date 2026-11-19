@@ -8,6 +8,24 @@ namespace TweakHub.Tests;
 public class RegistryServiceTests
 {
     [Test]
+    public void CommandPreviewPreservesRegistryFormatsWithoutMetadata()
+    {
+        const string path = @"HKCU\Software\TweakHubTests";
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(RegistryService.PreviewCommand(new(path, "Flags", -1)),
+                Is.EqualTo($"reg.exe add '{path}' /v 'Flags' /t REG_DWORD /d 0xffffffff /f"));
+            Assert.That(RegistryService.PreviewCommand(new(path, "Count", 42L, RegistryValueKind.QWord)),
+                Is.EqualTo($"reg.exe add '{path}' /v 'Count' /t REG_QWORD /d 42 /f"));
+            Assert.That(RegistryService.PreviewCommand(new(path, "Names", new[] { "first", "it's #two" }, RegistryValueKind.MultiString)),
+                Does.Contain("[string[]]@('first', 'it''s #two')").And.EndWith("'MultiString')"));
+            Assert.That(RegistryService.PreviewCommand(new(path, "Old", null)),
+                Is.EqualTo($"reg.exe delete '{path}' /v 'Old' /f"));
+        });
+    }
+
+    [Test]
     public void BackupSurvivesRestartAndRestoresExistingAndMissingValues()
     {
         var id = Guid.NewGuid().ToString("N");

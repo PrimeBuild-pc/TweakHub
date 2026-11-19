@@ -227,6 +227,28 @@ namespace TweakHub.Services
             _ => PowerShellService.Literal(Convert.ToString(value, CultureInfo.InvariantCulture) ?? string.Empty)
         };
 
+        internal static string PreviewCommand(RegistryValueChange change)
+        {
+            var path = PowerShellService.Literal(change.KeyPath);
+            var name = PowerShellService.Literal(change.ValueName);
+            if (change.Value is null) return $"reg.exe delete {path} /v {name} /f";
+
+            if (change.Kind is RegistryValueKind.DWord or RegistryValueKind.QWord
+                && !change.KeyPath.Contains('"') && !change.ValueName.Contains('"')
+                && !change.ValueName.EndsWith('\\'))
+            {
+                var value = Convert.ToInt64(change.Value, CultureInfo.InvariantCulture);
+                var data = value >= 0 ? value.ToString(CultureInfo.InvariantCulture)
+                    : change.Kind == RegistryValueKind.DWord ? $"0x{unchecked((uint)value):x}" : $"0x{unchecked((ulong)value):x}";
+                return $"reg.exe add {path} /v {name} /t {RegType(change.Kind)} /d {data} /f";
+            }
+
+            // A .NET call preserves quotes, empty strings and array values under Windows PowerShell.
+            var (root, subKey) = ParsePath(change.KeyPath);
+            var fullPath = PowerShellService.Literal(root.Name + "\\" + subKey);
+            return $"[Microsoft.Win32.Registry]::SetValue({fullPath}, {name}, {ScriptValue(change.Value, change.Kind)}, '{change.Kind}')";
+        }
+
         private static string RegType(RegistryValueKind kind) => kind switch
         {
             RegistryValueKind.DWord => "REG_DWORD",

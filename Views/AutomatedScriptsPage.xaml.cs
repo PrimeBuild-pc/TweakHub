@@ -17,7 +17,7 @@ namespace TweakHub.Views
     {
 
         private sealed record BuiltInScriptCard(
-            string Id, string Icon, string Name, string Description, string Category, string ExecuteText,
+            string Id, string Name, string Description, string Category, string ExecuteText,
             string Confirmation, string CompletionNote = "")
             : System.ComponentModel.INotifyPropertyChanged
         {
@@ -25,17 +25,17 @@ namespace TweakHub.Views
             public int TimeoutMinutes => BuiltInScripts.All[Id].Minutes;
             private bool _isCompleted;
             private bool _isFavorite;
-            private string _completionToolTip = string.Empty;
+            private string _completionText = string.Empty;
             public event System.ComponentModel.PropertyChangedEventHandler? PropertyChanged;
             public bool IsCompleted
             {
                 get => _isCompleted;
                 private set { _isCompleted = value; PropertyChanged?.Invoke(this, new(nameof(IsCompleted))); }
             }
-            public string CompletionToolTip
+            public string CompletionText
             {
-                get => _completionToolTip;
-                private set { _completionToolTip = value; PropertyChanged?.Invoke(this, new(nameof(CompletionToolTip))); }
+                get => _completionText;
+                private set { _completionText = value; PropertyChanged?.Invoke(this, new(nameof(CompletionText))); }
             }
             public bool IsFavorite
             {
@@ -46,7 +46,7 @@ namespace TweakHub.Views
             public void SetCompletion(DateTimeOffset? completedAt)
             {
                 IsCompleted = completedAt.HasValue;
-                CompletionToolTip = completedAt.HasValue ? L.Format("Scripts:CompletedOnThisPc", completedAt.Value.ToLocalTime().ToString("g", L.Culture)) : string.Empty;
+                CompletionText = completedAt.HasValue ? L.Format("Scripts:CompletedOnThisPc", completedAt.Value.ToLocalTime().ToString("g", L.Culture)) : string.Empty;
             }
         }
 
@@ -58,93 +58,93 @@ namespace TweakHub.Views
         private HashSet<string> _favoriteScriptKeys = [];
         private readonly BuiltInScriptCard[] _builtInScripts =
         [
-            new("winget", "\uE7B8", L.Get("Scripts:winget_Name"),
+            new("winget", L.Get("Scripts:winget_Name"),
                 L.Get("Scripts:winget_Description"),
                 L.Get("Scripts:winget_Category"), L.Get("Scripts:winget_Execute"),
                 L.Get("Scripts:winget_Confirmation")),
-            new("gaming-runtimes", "\uE7FC", L.Get("Scripts:gaming_runtimes_Name"),
+            new("gaming-runtimes", L.Get("Scripts:gaming_runtimes_Name"),
                 L.Get("Scripts:gaming_runtimes_Description"),
                 L.Get("Scripts:gaming_runtimes_Category"), L.Get("Scripts:Install"),
                 L.Get("Scripts:gaming_runtimes_Confirmation")),
-            new("dotnet-developer-setup", "\uE943", L.Get("Scripts:dotnet_developer_setup_Name"),
+            new("dotnet-developer-setup", L.Get("Scripts:dotnet_developer_setup_Name"),
                 L.Get("Scripts:dotnet_developer_setup_Description"),
                 L.Get("Scripts:dotnet_developer_setup_Category"), L.Get("Scripts:Install"),
                 L.Get("Scripts:dotnet_developer_setup_Confirmation")),
-            new("ctt-winutil", "\uE756", L.Get("Scripts:ctt_winutil_Name"),
+            new("ctt-winutil", L.Get("Scripts:ctt_winutil_Name"),
                 L.Get("Scripts:ctt_winutil_Description"),
                 L.Get("Scripts:ctt_winutil_Category"), L.Get("Scripts:ctt_winutil_Execute"),
                 L.Get("Scripts:ctt_winutil_Confirmation")),
-            new("change-local-password", "\uE72E", L.Get("Scripts:change_local_password_Name"),
+            new("change-local-password", L.Get("Scripts:change_local_password_Name"),
                 L.Get("Scripts:change_local_password_Description"),
                 L.Get("Scripts:CurrentUser"), L.Get("Scripts:Run"),
                 L.Get("Scripts:change_local_password_Confirmation")),
-            new("dism-sfc-chkdsk", "\uE90F", L.Get("Scripts:dism_sfc_chkdsk_Name"),
+            new("dism-sfc-chkdsk", L.Get("Scripts:dism_sfc_chkdsk_Name"),
                 L.Get("Scripts:dism_sfc_chkdsk_Description"),
                 L.Get("Scripts:dism_sfc_chkdsk_Category"), L.Get("Scripts:dism_sfc_chkdsk_Execute"),
                 L.Get("Scripts:dism_sfc_chkdsk_Confirmation"),
                 L.Get("Scripts:dism_sfc_chkdsk_CompletionNote")),
-            new("component-cleanup", "\uE74D", L.Get("Scripts:component_cleanup_Name"),
+            new("component-cleanup", L.Get("Scripts:component_cleanup_Name"),
                 L.Get("Scripts:component_cleanup_Description"),
                 L.Get("Scripts:component_cleanup_Category"), L.Get("Scripts:component_cleanup_Execute"),
                 L.Get("Scripts:component_cleanup_Confirmation")),
-            new("temp-cleanup", "", L.Get("Scripts:temp_cleanup_Name"),
+            new("temp-cleanup", L.Get("Scripts:temp_cleanup_Name"),
                 L.Get("Scripts:temp_cleanup_Description"),
                 L.Get("Scripts:temp_cleanup_Category"), L.Get("Scripts:temp_cleanup_Execute"),
                 L.Get("Scripts:temp_cleanup_Confirmation")),
-            new("shader-cache-cleanup", "\uE7F4", L.Get("Scripts:shader_cache_cleanup_Name"),
+            new("shader-cache-cleanup", L.Get("Scripts:shader_cache_cleanup_Name"),
                 L.Get("Scripts:shader_cache_cleanup_Description"),
                 L.Get("Scripts:temp_cleanup_Category"), L.Get("Scripts:temp_cleanup_Execute"),
                 L.Get("Scripts:shader_cache_cleanup_Confirmation")),
-            new("driver-backup", "\uE74E", L.Get("Scripts:driver_backup_Name"),
+            new("driver-backup", L.Get("Scripts:driver_backup_Name"),
                 L.Get("Scripts:driver_backup_Description"),
                 L.Get("Scripts:temp_cleanup_Category"), L.Get("Scripts:Run"),
                 L.Get("Scripts:driver_backup_Confirmation"), L.Get("Scripts:driver_backup_CompletionNote")),
-            new("driver-restore", "", L.Get("Scripts:driver_restore_Name"),
+            new("driver-restore", L.Get("Scripts:driver_restore_Name"),
                 L.Get("Scripts:driver_restore_Description"),
                 L.Get("Scripts:temp_cleanup_Category"), L.Get("Scripts:driver_restore_Execute"),
                 L.Get("Scripts:driver_restore_Confirmation"), L.Get("Scripts:driver_restore_CompletionNote")),
-            new("network-reset", "\uE968", L.Get("Scripts:network_reset_Name"),
+            new("network-reset", L.Get("Scripts:network_reset_Name"),
                 L.Get("Scripts:network_reset_Description"),
                 L.Get("Scripts:network_reset_Category"), L.Get("Scripts:network_reset_Execute"),
                 L.Get("Scripts:network_reset_Confirmation"),
                 L.Get("Scripts:network_reset_CompletionNote")),
-            new("windows-update-reset", "\uE895", L.Get("Scripts:windows_update_reset_Name"),
+            new("windows-update-reset", L.Get("Scripts:windows_update_reset_Name"),
                 L.Get("Scripts:windows_update_reset_Description"),
                 L.Get("Scripts:windows_update_reset_Category"), L.Get("Scripts:windows_update_reset_Execute"),
                 L.Get("Scripts:windows_update_reset_Confirmation")),
-            new("microsoft-store-repair", "\uE719", L.Get("Scripts:microsoft_store_repair_Name"),
+            new("microsoft-store-repair", L.Get("Scripts:microsoft_store_repair_Name"),
                 L.Get("Scripts:microsoft_store_repair_Description"),
                 L.Get("Scripts:dism_sfc_chkdsk_Category"), L.Get("Scripts:dism_sfc_chkdsk_Execute"),
                 L.Get("Scripts:microsoft_store_repair_Confirmation")),
-            new("gaming-services-repair", "\uE7FC", L.Get("Scripts:gaming_services_repair_Name"),
+            new("gaming-services-repair", L.Get("Scripts:gaming_services_repair_Name"),
                 L.Get("Scripts:gaming_services_repair_Description"),
                 L.Get("Scripts:gaming_runtimes_Category"), L.Get("Scripts:dism_sfc_chkdsk_Execute"),
                 L.Get("Scripts:gaming_services_repair_Confirmation")),
-            new("print-spooler-repair", "\uE749", L.Get("Scripts:print_spooler_repair_Name"),
+            new("print-spooler-repair", L.Get("Scripts:print_spooler_repair_Name"),
                 L.Get("Scripts:print_spooler_repair_Description"),
                 L.Get("Scripts:dism_sfc_chkdsk_Category"), L.Get("Scripts:dism_sfc_chkdsk_Execute"),
                 L.Get("Scripts:print_spooler_repair_Confirmation")),
-            new("onedrive-repair", "\uE753", L.Get("Scripts:onedrive_repair_Name"),
+            new("onedrive-repair", L.Get("Scripts:onedrive_repair_Name"),
                 L.Get("Scripts:onedrive_repair_Description"),
                 L.Get("Scripts:dism_sfc_chkdsk_Category"), L.Get("Scripts:dism_sfc_chkdsk_Execute"),
                 L.Get("Scripts:onedrive_repair_Confirmation")),
-            new("wsl-setup", "\uE756", L.Get("Scripts:wsl_setup_Name"),
+            new("wsl-setup", L.Get("Scripts:wsl_setup_Name"),
                 L.Get("Scripts:wsl_setup_Description"),
                 L.Get("Scripts:dotnet_developer_setup_Category"), L.Get("Scripts:Install"),
                 L.Get("Scripts:wsl_setup_Confirmation"), L.Get("Scripts:wsl_setup_CompletionNote")),
-            new("empty-standby-list", "\uE950", L.Get("Scripts:empty_standby_list_Name"),
+            new("empty-standby-list", L.Get("Scripts:empty_standby_list_Name"),
                 L.Get("Scripts:empty_standby_list_Description"),
                 L.Get("Scripts:empty_standby_list_Category"), L.Get("Scripts:empty_standby_list_Execute"),
                 L.Get("Scripts:empty_standby_list_Confirmation")),
-            new("remove-windows-ai", "\uE99A", L.Get("Scripts:remove_windows_ai_Name"),
+            new("remove-windows-ai", L.Get("Scripts:remove_windows_ai_Name"),
                 L.Get("Scripts:remove_windows_ai_Description"),
                 L.Get("Scripts:remove_windows_ai_Category"), L.Get("Scripts:remove_windows_ai_Execute"),
                 L.Get("Scripts:remove_windows_ai_Confirmation")),
-            new("adobe-hosts-block", "\uE968", L.Get("Scripts:adobe_hosts_block_Name"),
+            new("adobe-hosts-block", L.Get("Scripts:adobe_hosts_block_Name"),
                 L.Get("Scripts:adobe_hosts_block_Description"),
                 L.Get("Scripts:adobe_hosts_block_Category"), L.Get("Scripts:adobe_hosts_block_Execute"),
                 L.Get("Scripts:adobe_hosts_block_Confirmation")),
-            new("adobe-hosts-unblock", "\uE777", L.Get("Scripts:adobe_hosts_unblock_Name"),
+            new("adobe-hosts-unblock", L.Get("Scripts:adobe_hosts_unblock_Name"),
                 L.Get("Scripts:adobe_hosts_unblock_Description"),
                 L.Get("Scripts:adobe_hosts_unblock_Category"), L.Get("Scripts:adobe_hosts_unblock_Execute"),
                 L.Get("Scripts:adobe_hosts_unblock_Confirmation"))
@@ -296,6 +296,7 @@ namespace TweakHub.Views
                 var result = PlaybookService.Instance.Import(package);
                 LoadPlaybooks();
                 LoadCustomScripts();
+                LoadFavoriteScripts();
                 await AppDialog.ShowAsync(Window.GetWindow(this), L.Get("Scripts:ImportPlaybook"),
                     L.Format("Scripts:PlaybookImported", result.Playbook.Name, result.Playbook.Steps.Count, result.CustomTweaks, result.CustomScripts));
             }
@@ -523,14 +524,25 @@ namespace TweakHub.Views
 
         private async void EditCustomScript(CustomScript script, bool isNew = false)
         {
-            if (new ScriptEditorDialog(script, isNew) { Owner = Window.GetWindow(this) }.ShowDialog() != true) return;
-            if (isNew) _customScripts.Add(script);
-            _userDataService.SaveCustomScripts(_customScripts);
-            CustomScriptsControl.Items.Refresh();
-            await AppDialog.ShowAsync(
-                Window.GetWindow(this),
-                L.Get(isNew ? "Scripts:ScriptCreated" : "Scripts:ScriptUpdated"),
-                L.Format(isNew ? "Scripts:ScriptCreatedMessage" : "Scripts:ScriptUpdatedMessage", script.Name));
+            var owner = Window.GetWindow(this);
+            var dialog = new ScriptEditorDialog(script, isNew) { Owner = owner };
+            if (dialog.ShowDialog() != true || dialog.Result is not { } saved) return;
+            var index = _customScripts.IndexOf(script);
+            if (!isNew && index < 0) return;
+
+            try
+            {
+                _userDataService.SaveCustomScripts(isNew ? _customScripts.Append(saved)
+                    : _customScripts.Select(item => item == script ? saved : item));
+                if (isNew) _customScripts.Add(saved);
+                else _customScripts[index] = saved;
+                await AppDialog.ShowAsync(owner, L.Get(isNew ? "Scripts:ScriptCreated" : "Scripts:ScriptUpdated"),
+                    L.Format(isNew ? "Scripts:ScriptCreatedMessage" : "Scripts:ScriptUpdatedMessage", saved.Name));
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+            {
+                await AppDialog.ShowErrorAsync(owner, saved.Name, ex.Message);
+            }
         }
 
         private async Task DeleteCustomScript(CustomScript script)
@@ -561,20 +573,32 @@ namespace TweakHub.Views
             }
         }
 
-        private void BuiltInScript_View_Click(object sender, RoutedEventArgs e)
+        private async void ViewScript_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is not Button { DataContext: BuiltInScriptCard script, Tag: Border preview }
+            if (sender is not Button { Tag: StackPanel preview } button
                 || preview.Tag is not TextBox textBox) return;
+
+            if (preview.Visibility == Visibility.Visible)
+            {
+                preview.Visibility = Visibility.Collapsed;
+                return;
+            }
 
             try
             {
-                textBox.Text = BuiltInScripts.Body(script.Id);
+                textBox.Text = button.DataContext switch
+                {
+                    BuiltInScriptCard script => BuiltInScripts.Preview(script.Id),
+                    CustomScript script => script.Content,
+                    _ => string.Empty
+                };
+                preview.Visibility = Visibility.Visible;
             }
             catch (Exception ex)
             {
-                textBox.Text = L.Format("Scripts:ScriptLoadError", ex.Message);
+                await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Scripts:AutomatedScriptsPageView"),
+                    L.Format("Scripts:ScriptLoadError", ex.Message));
             }
-            preview.Visibility = preview.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
         }
 
         private void BuiltInScript_Execute_Click(object sender, RoutedEventArgs e)
@@ -639,7 +663,7 @@ namespace TweakHub.Views
             WindowStyle = ProcessWindowStyle.Normal
         };
 
-        private void CopyBuiltInScript_Click(object sender, RoutedEventArgs e)
+        private void CopyScriptPreview_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button { Tag: TextBox textBox })
                 try { Clipboard.SetText(textBox.Text ?? string.Empty); } catch { }

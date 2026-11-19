@@ -290,8 +290,12 @@ public sealed class UserDataService
         if (script is null) throw new InvalidDataException(L.Get("UI:ProfileInvalid"));
         script.Id = (script.Id ?? string.Empty).Trim();
         script.Name = (script.Name ?? string.Empty).Trim();
+        script.RunLabel = (script.RunLabel ?? string.Empty).Trim();
+        script.Description = (script.Description ?? string.Empty).Trim();
         script.Content ??= string.Empty;
         if (!IsStableId(script.Id) || script.Name.Length is < 1 or > 100 || script.Content.Length > 1024 * 1024
+            || script.RunLabel.Length > CustomScript.MaxRunLabelLength || script.RunLabel.Any(char.IsControl)
+            || script.Description.Length > CustomScript.MaxDescriptionLength
             || !Enum.IsDefined(script.Language)) throw new InvalidDataException(L.Get("UI:ProfileInvalid"));
     }
 

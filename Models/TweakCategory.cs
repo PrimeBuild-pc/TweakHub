@@ -131,11 +131,22 @@ namespace TweakHub.Models
 
     public class CustomScript
     {
+        public const int MaxRunLabelLength = 32;
+        public const int MaxDescriptionLength = 500;
+
         public string Id { get; set; } = Guid.NewGuid().ToString();
         public string Name { get; set; } = string.Empty;
+        public string RunLabel { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
         public ScriptLanguage Language { get; set; } = ScriptLanguage.PowerShell;
         public string Content { get; set; } = string.Empty;
         public bool RequiresAdministrator { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
+        public string RunButtonText => string.IsNullOrWhiteSpace(RunLabel)
+            ? TweakHub.Localization.L.Get("Scripts:Run") : RunLabel;
+        [System.Text.Json.Serialization.JsonIgnore]
+        public string ExecutionDetails => $"{(Language == ScriptLanguage.Cmd ? "CMD" : "PowerShell")} · " +
+            TweakHub.Localization.L.Get(RequiresAdministrator ? "Scripts:Administrator" : "Scripts:CurrentUser");
         [System.Text.Json.Serialization.JsonIgnore]
         public bool IsFavorite { get; set; }
     }

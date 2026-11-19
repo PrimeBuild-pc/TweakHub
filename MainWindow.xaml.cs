@@ -1,5 +1,4 @@
 using System.Windows;
-using System.Windows.Input;
 using ModernWpf.Controls;
 using TweakHub.Localization;
 using TweakHub.Services;
@@ -97,14 +96,7 @@ public partial class MainWindow : Window
             _pages.Remove(key);
     }
 
-    private void AppearanceSettings_Click(object sender, MouseButtonEventArgs e) => NavigateToAppearance();
-
-    private void AppearanceSettings_KeyDown(object sender, KeyEventArgs e)
-    {
-        if (e.Key is not (Key.Enter or Key.Space)) return;
-        e.Handled = true;
-        NavigateToAppearance();
-    }
+    private void AppearanceSettings_Click(object sender, RoutedEventArgs e) => NavigateToAppearance();
 
     private void NavigateToAppearance()
     {

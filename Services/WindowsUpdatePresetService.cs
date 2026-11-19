@@ -125,12 +125,9 @@ internal sealed class WindowsUpdatePresetService
         return WindowsUpdatePreset.Custom;
     }
 
-    public string GetPreview(WindowsUpdatePreset preset)
-    {
-        EnsureScriptExists();
-        return $"# {L.Get("Tweaks:WindowsUpdateBundledScript")}\n# {L.Format("Tweaks:WindowsUpdateSelectedMode", L.Get($"Tweaks:WindowsUpdatePreset{preset}"))}\n\n" +
-               File.ReadAllText(_scriptPath);
-    }
+    public string GetPreview(WindowsUpdatePreset preset) => preset == WindowsUpdatePreset.Custom
+        ? string.Empty
+        : $"& {PowerShellService.Literal(_scriptPath)} -Preset '{preset}'";
 
     private Task<PowerShellResult> RunAsync(string preset, bool requireAdministrator, TimeSpan timeout)
     {

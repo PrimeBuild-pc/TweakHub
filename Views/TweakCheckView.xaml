@@ -42,7 +42,7 @@
                 <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="16,0,0,0">
                     <Button x:Name="ScanButton" Click="Scan_Click" Style="{StaticResource ModernButtonStyle}" Margin="0,0,8,0">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="&#xE72C;" Style="{StaticResource IconTextStyle}" Margin="0,0,6,0"/>
+                            <Path Data="{StaticResource RefreshIconGeometry}" Style="{StaticResource ToolbarIconStyle}"/>
                             <TextBlock Text="{loc:Loc Devices:ChecksScan}"/>
                         </StackPanel>
                     </Button>
@@ -71,7 +71,7 @@
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Style="{StaticResource CheckStatusIconStyle}" Margin="0,0,14,0" VerticalAlignment="Top" ToolTip="{Binding StatusText}"/>
                                 <StackPanel Grid.Column="1">
-                                    <TextBlock Text="{Binding Title}" FontSize="14" FontWeight="SemiBold"
+                                    <TextBlock Text="{Binding Title}" FontSize="14" FontWeight="Normal" TextWrapping="Wrap"
                                                Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
                                     <TextBlock Text="{Binding Explanation}" Style="{StaticResource DescriptionTextStyle}" Margin="0,2,0,0"/>
                                     <TextBlock Text="{Binding Current}" FontSize="11" FontFamily="Cascadia Mono, Consolas" Margin="0,4,0,0" TextWrapping="Wrap"
@@ -80,22 +80,8 @@
                                 <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,0,0">
                                     <Button Style="{StaticResource FavoriteStarButtonStyle}" Margin="0,0,8,0"
                                             Click="Favorite_Click" ToolTip="{loc:Loc Tweaks:RegistryTweaksPageAddOrRemoveFromFavorites}"
-                                            AutomationProperties.Name="{loc:Loc Tweaks:RegistryTweaksPageToggleFavorite}">
-                                        <TextBlock FontSize="18">
-                                            <TextBlock.Style>
-                                                <Style TargetType="TextBlock">
-                                                    <Setter Property="Text" Value="☆"/>
-                                                    <Setter Property="Foreground" Value="{DynamicResource IconSecondaryBrush}"/>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding IsFavorite}" Value="True">
-                                                            <Setter Property="Text" Value="★"/>
-                                                            <Setter Property="Foreground" Value="{DynamicResource AccentBrush}"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
-                                    </Button>
+                                            AutomationProperties.Name="{loc:Loc Tweaks:RegistryTweaksPageToggleFavorite}"
+                                            Content="{Binding}" ContentTemplate="{StaticResource FavoriteStarTemplate}"/>
                                     <Button Click="Repair_Click" Style="{StaticResource ModernButtonStyle}" Margin="0,0,8,0"
                                             ToolTip="{loc:Loc Security:RequiresAdministrator}">
                                         <Button.Visibility>
