@@ -54,7 +54,7 @@ public partial class PlaybookDialog : Window
     private async Task DetectAsync()
     {
         DetectButton.IsEnabled = false;
-        DetectRing.IsActive = true;
+        DetectRing.Visibility = Visibility.Visible;
         EmptyText.Text = L.Get("Scripts:PlaybookDetecting");
         try
         {
@@ -68,7 +68,7 @@ public partial class PlaybookDialog : Window
         }
         finally
         {
-            DetectRing.IsActive = false;
+            DetectRing.Visibility = Visibility.Hidden;
             DetectButton.IsEnabled = true;
             EmptyText.Text = L.Get("Scripts:PlaybookNoSteps");
             UpdateEmpty();

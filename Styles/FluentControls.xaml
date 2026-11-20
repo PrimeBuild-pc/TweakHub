@@ -8,8 +8,9 @@
     <SolidColorBrush x:Key="NeutralActionHoverBrush" Color="#F4F4F4"/>
     <SolidColorBrush x:Key="NeutralActionPressedBrush" Color="#EDEDED"/>
 
-    <Style x:Key="VisibleProgressRingStyle" TargetType="ui:ProgressRing">
-        <Setter Property="IsActive" Value="{DynamicResource {x:Static SystemParameters.ClientAreaAnimationKey}}"/>
+    <Style x:Key="LoadingProgressRingStyle" TargetType="ui:ProgressRing">
+        <Setter Property="IsActive" Value="True"/>
+        <Setter Property="Foreground" Value="{DynamicResource FluentAccentBrush}"/>
         <Style.Triggers>
             <Trigger Property="IsVisible" Value="False">
                 <Setter Property="IsActive" Value="False"/>

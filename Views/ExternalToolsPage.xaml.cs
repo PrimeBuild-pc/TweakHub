@@ -1,6 +1,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Threading;
 using TweakHub.Localization;
 using TweakHub.Models;
 using TweakHub.Services;
@@ -26,7 +27,10 @@ namespace TweakHub.Views
             string Name,
             string Icon,
             string CountText,
-            IReadOnlyList<ToolItem> Tools);
+            IReadOnlyList<ToolItem> Tools)
+        {
+            public bool IsExpanded { get; set; } = true;
+        }
 
         private readonly ShortcutService _shortcutService;
         private readonly ToolDownloadService _downloadService;
@@ -53,10 +57,14 @@ namespace TweakHub.Views
             Loaded += ExternalToolsPage_Loaded;
         }
 
-        private void ExternalToolsPage_Loaded(object sender, RoutedEventArgs e)
+        private async void ExternalToolsPage_Loaded(object sender, RoutedEventArgs e)
         {
+            if (ToolsControl.ItemsSource is null)
+                CatalogLoading.Show(L.Get("UI:ProgressWindowPleaseWait"));
             try
             {
+                await Dispatcher.Yield(DispatcherPriority.Background);
+                if (!IsLoaded) return;
                 _shortcutService.LoadExternalTools();
                 LoadExternalTools();
             }
@@ -64,6 +72,10 @@ namespace TweakHub.Views
             {
                 System.Diagnostics.Debug.WriteLine($"ExternalToolsPage load failed: {ex}");
                 ShowLoadError();
+            }
+            finally
+            {
+                CatalogLoading.Hide();
             }
         }
 

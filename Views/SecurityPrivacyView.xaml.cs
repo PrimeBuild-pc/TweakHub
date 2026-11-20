@@ -253,10 +253,10 @@ public partial class SecurityPrivacyView : UserControl
         var tool = ShortcutService.Instance.ExternalTools.FirstOrDefault(item => item.WingetId == "OliverBetz.ExifTool")
                    ?? new ExternalTool { Name = "ExifTool", WingetId = "OliverBetz.ExifTool" };
         ExifInstallButton.IsEnabled = false;
-        MetadataBusy.IsActive = true;
+        MetadataBusy.Visibility = Visibility.Visible;
         var progress = new Progress<ToolProgress>(update => MetadataStatusText.Text = update.Message);
         var installed = await ToolDownloadService.Instance.InstallWithWinget(tool, progress);
-        MetadataBusy.IsActive = false;
+        MetadataBusy.Visibility = Visibility.Hidden;
         ExifInstallButton.IsEnabled = true;
         UpdateExifToolState();
         if (!installed) MetadataStatusText.Text = L.Get("Security:MetadataInstallFailed");
@@ -273,7 +273,7 @@ public partial class SecurityPrivacyView : UserControl
     private async Task ReadMetadataAsync()
     {
         if (_metadataFile is null || PrivacyService.FindExifTool() is not { } exifTool) return;
-        MetadataBusy.IsActive = true;
+        MetadataBusy.Visibility = Visibility.Visible;
         try
         {
             var tags = await PrivacyService.ReadMetadataAsync(exifTool, _metadataFile);
@@ -290,7 +290,7 @@ public partial class SecurityPrivacyView : UserControl
         }
         finally
         {
-            MetadataBusy.IsActive = false;
+            MetadataBusy.Visibility = Visibility.Hidden;
         }
     }
 
@@ -301,17 +301,17 @@ public partial class SecurityPrivacyView : UserControl
                 L.Format("Security:MetadataRemoveMessage", Path.GetFileName(_metadataFile)), L.Get("Security:MetadataRemove"), L.Get("Tools:Cancel")))
             return;
 
-        MetadataBusy.IsActive = true;
+        MetadataBusy.Visibility = Visibility.Visible;
         try
         {
             var backup = await PrivacyService.RemoveMetadataAsync(exifTool, _metadataFile);
-            MetadataBusy.IsActive = false;
+            MetadataBusy.Visibility = Visibility.Hidden;
             await ReadMetadataAsync();
             MetadataStatusText.Text += "\n" + L.Format("Security:MetadataRemoved", backup);
         }
         catch (Exception ex) when (ex is InvalidOperationException or Win32Exception or IOException)
         {
-            MetadataBusy.IsActive = false;
+            MetadataBusy.Visibility = Visibility.Hidden;
             MetadataStatusText.Text = L.Format("Security:MetadataFailed", ex.Message);
         }
     }

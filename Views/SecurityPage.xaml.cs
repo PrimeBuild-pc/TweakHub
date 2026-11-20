@@ -82,8 +82,7 @@ public partial class SecurityPage : Page
     {
         if (!RefreshButton.IsEnabled) return;
         RefreshButton.IsEnabled = false;
-        LoadingRing.IsActive = true;
-        ScoreText.Visibility = ScoreLabel.Visibility = Visibility.Hidden;
+        OverviewLoading.Show(L.Get("UI:ProgressWindowPleaseWait"));
         LoadErrorText.Visibility = Visibility.Collapsed;
         try
         {
@@ -99,8 +98,7 @@ public partial class SecurityPage : Page
         }
         finally
         {
-            LoadingRing.IsActive = false;
-            ScoreText.Visibility = ScoreLabel.Visibility = Visibility.Visible;
+            OverviewLoading.Hide();
             RefreshButton.IsEnabled = true;
         }
     }

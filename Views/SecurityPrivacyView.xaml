@@ -207,7 +207,8 @@
                                 <TextBlock Text="{loc:Loc Security:MetadataRemove}"/>
                             </StackPanel>
                         </Button>
-                        <ui:ProgressRing x:Name="MetadataBusy" Width="20" Height="20" IsActive="False" VerticalAlignment="Top" Margin="4,6,0,0"/>
+                        <ui:ProgressRing x:Name="MetadataBusy" Style="{StaticResource LoadingProgressRingStyle}" Visibility="Hidden"
+                                         Width="20" Height="20" VerticalAlignment="Top" Margin="4,6,0,0"/>
                     </WrapPanel>
                     <TextBlock x:Name="MetadataStatusText" Style="{StaticResource DescriptionTextStyle}" Margin="0,0,0,8"/>
                     <DataGrid x:Name="MetadataGrid" Style="{StaticResource TriageGridStyle}" MaxHeight="360" Visibility="Collapsed">
