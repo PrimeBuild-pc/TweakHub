@@ -54,7 +54,7 @@
                     <Button x:Name="DetectButton" Click="Detect_Click" Style="{StaticResource SecondaryButtonStyle}"
                             ToolTip="{loc:Loc Scripts:PlaybookDetectHint}">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="&#xE9F5;" FontFamily="Segoe Fluent Icons" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="&#xE9F5;" FontFamily="{StaticResource FluentIconFont}" Margin="0,0,6,0" VerticalAlignment="Center"/>
                             <TextBlock Text="{loc:Loc Scripts:PlaybookDetect}"/>
                         </StackPanel>
                     </Button>
@@ -81,7 +81,7 @@
                                     </Grid.ColumnDefinitions>
                                     <CheckBox IsChecked="{Binding IsIncluded}" MinWidth="0" VerticalAlignment="Center"
                                               AutomationProperties.Name="{Binding Summary}"/>
-                                    <TextBlock Grid.Column="1" Text="{Binding Icon}" FontFamily="Segoe Fluent Icons" FontSize="16"
+                                    <TextBlock Grid.Column="1" Text="{Binding Icon}" FontFamily="{StaticResource FluentIconFont}" FontSize="16"
                                                VerticalAlignment="Center" Foreground="{DynamicResource AccentBrush}"/>
                                     <StackPanel Grid.Column="2" VerticalAlignment="Center">
                                         <TextBlock Text="{Binding Summary}" FontSize="13" TextTrimming="CharacterEllipsis" ToolTip="{Binding Summary}"/>
@@ -90,15 +90,15 @@
                                     <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center">
                                         <Button Click="MoveUp_Click" Style="{StaticResource PreviewIconButtonStyle}" Width="28" Height="28" MinHeight="28" Margin="2,0"
                                                 ToolTip="{loc:Loc Scripts:MoveUp}" AutomationProperties.Name="{loc:Loc Scripts:MoveUp}">
-                                            <TextBlock Text="&#xE70E;" FontFamily="Segoe Fluent Icons" FontSize="12"/>
+                                            <TextBlock Text="&#xE70E;" FontFamily="{StaticResource FluentIconFont}" FontSize="12"/>
                                         </Button>
                                         <Button Click="MoveDown_Click" Style="{StaticResource PreviewIconButtonStyle}" Width="28" Height="28" MinHeight="28" Margin="2,0"
                                                 ToolTip="{loc:Loc Scripts:MoveDown}" AutomationProperties.Name="{loc:Loc Scripts:MoveDown}">
-                                            <TextBlock Text="&#xE70D;" FontFamily="Segoe Fluent Icons" FontSize="12"/>
+                                            <TextBlock Text="&#xE70D;" FontFamily="{StaticResource FluentIconFont}" FontSize="12"/>
                                         </Button>
                                         <Button Click="Remove_Click" Style="{StaticResource PreviewIconButtonStyle}" Width="28" Height="28" MinHeight="28" Margin="2,0"
                                                 ToolTip="{loc:Loc Scripts:RemoveStep}" AutomationProperties.Name="{loc:Loc Scripts:RemoveStep}">
-                                            <TextBlock Text="&#xE74D;" FontFamily="Segoe Fluent Icons" FontSize="12"/>
+                                            <TextBlock Text="&#xE74D;" FontFamily="{StaticResource FluentIconFont}" FontSize="12"/>
                                         </Button>
                                     </StackPanel>
                                 </Grid>

@@ -44,7 +44,7 @@
 
             <StackPanel Grid.Row="2" Margin="0,0,0,12">
                 <TextBlock x:Name="DescriptionLabel" Text="{loc:Loc Scripts:ScriptDescriptionOptional}" Style="{StaticResource FieldLabelStyle}"/>
-                <TextBox x:Name="DescriptionTextBox" Style="{StaticResource FieldInputStyle}" Height="58" TextWrapping="Wrap" AcceptsReturn="True"
+                <TextBox x:Name="DescriptionTextBox" Style="{StaticResource FieldMultilineStyle}" Height="58" TextWrapping="Wrap" AcceptsReturn="True"
                          VerticalScrollBarVisibility="Auto" VerticalContentAlignment="Top"
                          MaxLength="{x:Static models:CustomScript.MaxDescriptionLength}" AutomationProperties.LabeledBy="{Binding ElementName=DescriptionLabel}"/>
             </StackPanel>
@@ -57,7 +57,7 @@
 
             <DockPanel Grid.Row="4">
                 <TextBlock x:Name="ContentLabel" Text="{loc:Loc Scripts:ScriptCode}" Style="{StaticResource FieldLabelStyle}" DockPanel.Dock="Top"/>
-                <TextBox x:Name="ContentTextBox" Style="{StaticResource FieldInputStyle}" AcceptsReturn="True" AcceptsTab="True" TextWrapping="Wrap"
+                <TextBox x:Name="ContentTextBox" Style="{StaticResource FieldMultilineStyle}" AcceptsReturn="True" AcceptsTab="True" TextWrapping="Wrap"
                          VerticalScrollBarVisibility="Auto" FontFamily="Consolas" VerticalContentAlignment="Top"
                          AutomationProperties.LabeledBy="{Binding ElementName=ContentLabel}"/>
             </DockPanel>

@@ -1,4 +1,6 @@
 using System.Diagnostics;
+using System.IO;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Windows;
 using TweakHub.Localization;
@@ -26,6 +28,60 @@ namespace TweakHub.Services
                 $"uninstall --id \"{tool.WingetId}\" --exact --accept-source-agreements",
                 "uninstall",
                 progress);
+
+        /// <summary>
+        /// Winget package ids installed on this PC, or null when winget cannot answer. `winget export` maps what is
+        /// installed (including apps installed by hand) to catalog ids in one call, instead of one `winget list` per tool.
+        /// </summary>
+        public async Task<HashSet<string>?> GetInstalledWingetIdsAsync()
+        {
+            var file = Path.Combine(Path.GetTempPath(), $"tweakhub-winget-{Guid.NewGuid():N}.json");
+            try
+            {
+                using var process = Process.Start(new ProcessStartInfo
+                {
+                    FileName = SystemTools.Winget,
+                    Arguments = $"export -o \"{file}\" --accept-source-agreements --disable-interactivity",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    CreateNoWindow = true
+                });
+                if (process is null) return null;
+                process.OutputDataReceived += (_, _) => { };
+                process.ErrorDataReceived += (_, _) => { };
+                process.BeginOutputReadLine();
+                process.BeginErrorReadLine();
+                using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(90));
+                await process.WaitForExitAsync(timeout.Token);
+                // winget exits non-zero when some packages have no catalog entry but still writes the rest.
+                return File.Exists(file) ? ParseExport(await File.ReadAllTextAsync(file)) : null;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"winget export failed: {ex.Message}");
+                return null;
+            }
+            finally
+            {
+                try { File.Delete(file); } catch (IOException) { }
+            }
+        }
+
+        internal static HashSet<string> ParseExport(string json)
+        {
+            var ids = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            using var document = JsonDocument.Parse(json);
+            if (!document.RootElement.TryGetProperty("Sources", out var sources)) return ids;
+            foreach (var source in sources.EnumerateArray())
+            {
+                if (!source.TryGetProperty("Packages", out var packages)) continue;
+                foreach (var package in packages.EnumerateArray())
+                    if (package.TryGetProperty("PackageIdentifier", out var id) && id.GetString() is { Length: > 0 } value)
+                        ids.Add(value);
+            }
+            return ids;
+        }
 
         public async Task<bool> DownloadOrOpenTool(ExternalTool tool, IProgress<ToolProgress>? progress = null)
         {
@@ -98,6 +154,8 @@ namespace TweakHub.Services
                 await process.WaitForExitAsync();
 
                 var success = process.ExitCode == 0;
+                if (!success && action == "uninstall" && process.ExitCode == WingetUserScopeWhileElevated)
+                    success = await UninstallWithoutElevationAsync(tool);
                 Complete(
                     progress,
                     tool.Name,
@@ -110,6 +168,34 @@ namespace TweakHub.Services
                 Complete(progress, tool.Name, false, ex.Message);
                 return false;
             }
+        }
+
+        // winget refuses to remove a user-scope package (every portable one) from an elevated process, and TweakHub always is.
+        private const int WingetUserScopeWhileElevated = -1978335107;
+        private static readonly Regex SafeWingetId = new(@"^[A-Za-z0-9][A-Za-z0-9._+-]*$");
+
+        /// <summary>Runs the same uninstall in a limited-rights scheduled task, then checks winget no longer lists the package.</summary>
+        private async Task<bool> UninstallWithoutElevationAsync(ExternalTool tool)
+        {
+            if (!SafeWingetId.IsMatch(tool.WingetId)) return false;
+
+            var script = $$"""
+                $name = 'TweakHub-{{Guid.NewGuid():N}}'
+                $action = New-ScheduledTaskAction -Execute '{{SystemTools.Winget}}' -Argument 'uninstall --id {{tool.WingetId}} --exact --accept-source-agreements --disable-interactivity'
+                $principal = New-ScheduledTaskPrincipal -UserId "$env:USERDOMAIN\$env:USERNAME" -LogonType Interactive -RunLevel Limited
+                try {
+                    Register-ScheduledTask -TaskName $name -Action $action -Principal $principal -Force | Out-Null
+                    Start-ScheduledTask -TaskName $name
+                    $end = (Get-Date).AddMinutes(5)
+                    do { Start-Sleep -Seconds 2 } while ((Get-ScheduledTask -TaskName $name).State -ne 'Ready' -and (Get-Date) -lt $end)
+                } finally {
+                    Unregister-ScheduledTask -TaskName $name -Confirm:$false -ErrorAction SilentlyContinue
+                }
+                """;
+            var result = await PowerShellService.Instance.ExecuteScriptAsync(script, false, TimeSpan.FromMinutes(6));
+            if (!result.Success) return false;
+            var installed = await GetInstalledWingetIdsAsync();
+            return installed is not null && !installed.Contains(tool.WingetId);
         }
 
         private static void ReportWingetOutput(IProgress<ToolProgress>? progress, string toolName, string? data)

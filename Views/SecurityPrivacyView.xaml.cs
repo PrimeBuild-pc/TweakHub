@@ -21,6 +21,7 @@ public partial class SecurityPrivacyView : UserControl
     private IReadOnlyList<AccountSite> _sites = [];
     private string? _difficultyFilter;
     private IReadOnlyList<DnsAdapter> _adapters = [];
+    private bool _dnsBusy;
     private string? _metadataFile;
     private bool _loaded;
 
@@ -32,6 +33,7 @@ public partial class SecurityPrivacyView : UserControl
             DnsPresetBox.Items.Add(new ComboBoxItem { Content = L.Get($"Security:Dns{preset.Id}"), Tag = preset.Id });
         DnsPresetBox.Items.Add(new ComboBoxItem { Content = L.Get("Security:DnsCustom"), Tag = "Custom" });
         DnsPresetBox.SelectedIndex = 1;
+        UpdateDnsButtons();
         if (PrivacyService.HasCachedAccountDirectory) AccountsLoadText.Text = L.Get("Security:AccountsUpdate");
     }
 
@@ -87,20 +89,27 @@ public partial class SecurityPrivacyView : UserControl
 
     // DNS
 
-    private async Task RefreshDnsAsync()
+    private async Task RefreshDnsAsync(bool showStatus = true)
     {
         try
         {
             _adapters = await PrivacyService.Instance.GetDnsAdaptersAsync();
-            DnsAdaptersList.ItemsSource = _adapters;
-            DnsStatusText.Text = _adapters.Count == 0 ? L.Get("Security:DnsNoAdapters") : string.Empty;
+            if (showStatus) DnsStatusText.Text = _adapters.Count == 0 ? L.Get("Security:DnsNoAdapters") : string.Empty;
         }
         catch (Exception ex) when (ex is InvalidOperationException or System.Text.Json.JsonException)
         {
-            DnsStatusText.Text = ex.Message;
+            _adapters = [];
+            if (showStatus) DnsStatusText.Text = ex.Message;
         }
-        DnsRestoreButton.IsEnabled = PrivacyService.HasDnsBackup;
-        DnsApplyButton.IsEnabled = _adapters.Count > 0;
+        DnsAdaptersList.ItemsSource = _adapters;
+        UpdateDnsButtons();
+    }
+
+    private void UpdateDnsButtons()
+    {
+        DnsTestButton.IsEnabled = !_dnsBusy;
+        DnsRestoreButton.IsEnabled = !_dnsBusy && PrivacyService.HasDnsBackup;
+        DnsApplyButton.IsEnabled = !_dnsBusy && _adapters.Count > 0;
     }
 
     private void DnsPreset_SelectionChanged(object sender, SelectionChangedEventArgs e) =>
@@ -138,40 +147,65 @@ public partial class SecurityPrivacyView : UserControl
             DnsStatusText.Text = L.Get("Security:DnsTestAutomatic");
             return;
         }
-        DnsTestButton.IsEnabled = false;
+        if (_dnsBusy) return;
+        _dnsBusy = true;
+        UpdateDnsButtons();
         DnsStatusText.Text = L.Get("Security:DnsTesting");
         var intercepted = PrivacyService.IsDnsInterceptedAsync();
         var results = await Task.WhenAll(servers.Select(async server => (server, ok: await PrivacyService.TestDnsServerAsync(server))));
         DnsStatusText.Text = await intercepted
             ? L.Get("Security:DnsIntercepted")
             : string.Join("\n", results.Select(result => L.Format(result.ok ? "Security:DnsTestOk" : "Security:DnsTestFailed", result.server)));
-        DnsTestButton.IsEnabled = true;
+        _dnsBusy = false;
+        UpdateDnsButtons();
     }
 
-    private async void ApplyDns_Click(object sender, RoutedEventArgs e)
-    {
-        if (!TryGetSelectedServers(out var servers)) return;
-        // The list is read when the page opens: an adapter connected since then would be skipped.
-        await RefreshDnsAsync();
-        if (_adapters.Count == 0) return;
-        var target = servers is null ? L.Get("Security:DnsAutomatic") : string.Join(", ", servers);
-        var message = L.Format("Security:DnsConfirmMessage", string.Join(", ", _adapters.Select(adapter => adapter.Alias)), target);
-        if (SelectedPreset == "Custom") message += "\n\n" + L.Get("Security:DnsPiholeNote");
-        if (!await AppDialog.ConfirmAsync(Window.GetWindow(this), L.Get("Security:DnsConfirmTitle"), message, L.Get("Security:DnsApply"), L.Get("Tools:Cancel")))
-            return;
+    private async void ApplyDns_Click(object sender, RoutedEventArgs e) => await ChangeDnsAsync(restore: false);
+    private async void RestoreDns_Click(object sender, RoutedEventArgs e) => await ChangeDnsAsync(restore: true);
 
-        DnsApplyButton.IsEnabled = false;
-        var result = await PrivacyService.Instance.ApplyDnsAsync(_adapters, servers);
-        DnsStatusText.Text = result.Success ? L.Get("Security:DnsApplied") : L.Format("Security:DnsFailed", result.Error.Trim());
-        await RefreshDnsAsync();
-    }
-
-    private async void RestoreDns_Click(object sender, RoutedEventArgs e)
+    private async Task ChangeDnsAsync(bool restore)
     {
-        DnsRestoreButton.IsEnabled = false;
-        var result = await PrivacyService.Instance.RestoreDnsAsync();
-        DnsStatusText.Text = result.Success ? L.Get("Security:DnsRestored") : L.Format("Security:DnsFailed", result.Error.Trim());
-        await RefreshDnsAsync();
+        if (_dnsBusy) return;
+        string[]? servers = null;
+        if (!restore && !TryGetSelectedServers(out servers)) return;
+        var custom = SelectedPreset == "Custom";
+        _dnsBusy = true;
+        UpdateDnsButtons();
+        try
+        {
+            PowerShellResult result;
+            if (restore)
+            {
+                result = await PrivacyService.Instance.RestoreDnsAsync();
+            }
+            else
+            {
+                // Include adapters connected since the page opened and confirm the exact list.
+                await RefreshDnsAsync();
+                var adapters = _adapters;
+                if (adapters.Count == 0) return;
+                var target = servers is null ? L.Get("Security:DnsAutomatic") : string.Join(", ", servers);
+                var message = L.Format("Security:DnsConfirmMessage", string.Join(", ", adapters.Select(adapter => adapter.Alias)), target);
+                if (custom) message += "\n\n" + L.Get("Security:DnsPiholeNote");
+                if (!await AppDialog.ConfirmAsync(Window.GetWindow(this), L.Get("Security:DnsConfirmTitle"), message, L.Get("Security:DnsApply"), L.Get("Tools:Cancel")))
+                    return;
+                result = await PrivacyService.Instance.ApplyDnsAsync(adapters, servers);
+            }
+
+            await RefreshDnsAsync(showStatus: false);
+            DnsStatusText.Text = !result.Success ? L.Format("Security:DnsFailed", result.Error.Trim())
+                : !restore ? L.Get("Security:DnsApplied")
+                : L.Get(PrivacyService.HasDnsBackup ? "Security:DnsRestorePartial" : "Security:DnsRestored");
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or System.Text.Json.JsonException)
+        {
+            DnsStatusText.Text = L.Format("Security:DnsFailed", ex.Message);
+        }
+        finally
+        {
+            _dnsBusy = false;
+            UpdateDnsButtons();
+        }
     }
 
     // Accounts

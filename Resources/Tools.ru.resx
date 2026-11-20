@@ -1004,4 +1004,48 @@
   <data name="NoShortcutsFound" xml:space="preserve">
     <value>Нет ярлыков, соответствующих поиску</value>
   </data>
+  <data name="Installed" xml:space="preserve">
+    <value>Установлено</value>
+  </data>
+  <data name="SelectAll" xml:space="preserve">
+    <value>Выбрать все</value>
+  </data>
+  <data name="ClearSelection" xml:space="preserve">
+    <value>Снять выделение</value>
+  </data>
+  <data name="Presets" xml:space="preserve">
+    <value>Наборы</value>
+  </data>
+  <data name="PresetDiagnostics" xml:space="preserve">
+    <value>Базовая диагностика</value>
+  </data>
+  <data name="PresetLatency" xml:space="preserve">
+    <value>Задержки и отклик</value>
+  </data>
+  <data name="PresetGpu" xml:space="preserve">
+    <value>Настройка GPU</value>
+  </data>
+  <data name="PresetUtilities" xml:space="preserve">
+    <value>Повседневные утилиты</value>
+  </data>
+  <data name="SelectToolNamed" xml:space="preserve">
+    <value>Выбрать {0}</value>
+  </data>
+  <data name="InstallSelected" xml:space="preserve">
+    <value>Установить выбранные ({0})</value>
+  </data>
+  <data name="ConfirmInstallSelected" xml:space="preserve">
+    <value>Установить выбранные инструменты</value>
+  </data>
+  <data name="ConfirmInstallSelectedMessage" xml:space="preserve">
+    <value>Установить инструменты ({0}) через winget?
+
+{1}</value>
+  </data>
+  <data name="InstallSelectedDone" xml:space="preserve">
+    <value>Установлено инструментов: {0} из {1}</value>
+  </data>
+  <data name="DescriptionWinaeroTweaker" xml:space="preserve">
+    <value>Бесплатный твикер от Winaero, собирающий сотни скрытых настроек Windows в одном приложении; открывает официальную страницу</value>
+  </data>
 </root>

@@ -642,6 +642,15 @@ TweakHub выполнит эту команду от имени админист
   <data name="DnsRestored" xml:space="preserve">
     <value>Исходная конфигурация DNS восстановлена.</value>
   </data>
+  <data name="DnsAdapterChanged" xml:space="preserve">
+    <value>Сетевой адаптер изменился. Обновите список и повторите попытку.</value>
+  </data>
+  <data name="DnsBackupUnusable" xml:space="preserve">
+    <value>Не удалось сопоставить сохранённые настройки DNS с текущими адаптерами. Резервная копия сохранена.</value>
+  </data>
+  <data name="DnsRestorePartial" xml:space="preserve">
+    <value>DNS восстановлен для доступных адаптеров. Остальные записи сохранены в резервной копии.</value>
+  </data>
   <data name="DnsFailed" xml:space="preserve">
     <value>Не удалось изменить DNS: {0}</value>
   </data>

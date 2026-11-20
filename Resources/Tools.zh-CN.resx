@@ -1004,4 +1004,48 @@
   <data name="NoShortcutsFound" xml:space="preserve">
     <value>没有与搜索匹配的快捷方式</value>
   </data>
+  <data name="Installed" xml:space="preserve">
+    <value>已安装</value>
+  </data>
+  <data name="SelectAll" xml:space="preserve">
+    <value>全选</value>
+  </data>
+  <data name="ClearSelection" xml:space="preserve">
+    <value>清除选择</value>
+  </data>
+  <data name="Presets" xml:space="preserve">
+    <value>预设</value>
+  </data>
+  <data name="PresetDiagnostics" xml:space="preserve">
+    <value>基础诊断</value>
+  </data>
+  <data name="PresetLatency" xml:space="preserve">
+    <value>延迟与响应</value>
+  </data>
+  <data name="PresetGpu" xml:space="preserve">
+    <value>GPU 调优</value>
+  </data>
+  <data name="PresetUtilities" xml:space="preserve">
+    <value>日常实用工具</value>
+  </data>
+  <data name="SelectToolNamed" xml:space="preserve">
+    <value>选择 {0}</value>
+  </data>
+  <data name="InstallSelected" xml:space="preserve">
+    <value>安装所选 ({0})</value>
+  </data>
+  <data name="ConfirmInstallSelected" xml:space="preserve">
+    <value>安装所选工具</value>
+  </data>
+  <data name="ConfirmInstallSelectedMessage" xml:space="preserve">
+    <value>使用 winget 安装 {0} 个工具？
+
+{1}</value>
+  </data>
+  <data name="InstallSelectedDone" xml:space="preserve">
+    <value>已安装 {0}/{1} 个工具</value>
+  </data>
+  <data name="DescriptionWinaeroTweaker" xml:space="preserve">
+    <value>Winaero 出品的免费调整工具，将数百项隐藏的 Windows 设置集中在一个应用中；打开官方页面</value>
+  </data>
 </root>

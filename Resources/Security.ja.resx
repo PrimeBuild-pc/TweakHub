@@ -642,6 +642,15 @@ TweakHub は次のコマンドを管理者として実行します:
   <data name="DnsRestored" xml:space="preserve">
     <value>元の DNS 構成を復元しました。</value>
   </data>
+  <data name="DnsAdapterChanged" xml:space="preserve">
+    <value>ネットワーク アダプターが変更されました。一覧を更新してから再試行してください。</value>
+  </data>
+  <data name="DnsBackupUnusable" xml:space="preserve">
+    <value>保存した DNS 設定を現在のアダプターに対応付けられませんでした。バックアップは保持されています。</value>
+  </data>
+  <data name="DnsRestorePartial" xml:space="preserve">
+    <value>利用可能なアダプターの DNS 設定を復元しました。残りの設定はバックアップに保持されています。</value>
+  </data>
   <data name="DnsFailed" xml:space="preserve">
     <value>DNS の変更に失敗しました: {0}</value>
   </data>
