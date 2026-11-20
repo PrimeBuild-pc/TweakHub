@@ -1045,4 +1045,7 @@ Questo potrebbe essere dovuto a permessi insufficienti o al fatto che l'applicaz
   <data name="InstallSelectedDone" xml:space="preserve">
     <value>{0} strumenti su {1} installati</value>
   </data>
+  <data name="DescriptionWinaeroTweaker" xml:space="preserve">
+    <value>Tweaker gratuito di Winaero che raccoglie centinaia di impostazioni nascoste di Windows in un'unica app; apre la pagina ufficiale</value>
+  </data>
 </root>

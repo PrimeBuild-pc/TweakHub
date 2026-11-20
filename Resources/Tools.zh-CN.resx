@@ -1045,4 +1045,7 @@
   <data name="InstallSelectedDone" xml:space="preserve">
     <value>已安装 {0}/{1} 个工具</value>
   </data>
+  <data name="DescriptionWinaeroTweaker" xml:space="preserve">
+    <value>Winaero 出品的免费调整工具，将数百项隐藏的 Windows 设置集中在一个应用中；打开官方页面</value>
+  </data>
 </root>

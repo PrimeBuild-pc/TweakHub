@@ -1045,4 +1045,7 @@
   <data name="InstallSelectedDone" xml:space="preserve">
     <value>{1} 個中 {0} 個のツールをインストールしました</value>
   </data>
+  <data name="DescriptionWinaeroTweaker" xml:space="preserve">
+    <value>Winaero の無料ツール。Windows の隠れた設定を数百項目まとめて変更できます（公式ページを開きます）</value>
+  </data>
 </root>
