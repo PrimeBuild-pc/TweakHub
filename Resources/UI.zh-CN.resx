@@ -363,38 +363,11 @@
   <data name="ImportProfileSummary" xml:space="preserve">
     <value>此有效配置文件包含 {0} 个脚本、{1} 个调整项、{2} 个工具和 {3} 个操作手册。导入将替换当前可传输配置并创建恢复副本。是否继续？</value>
   </data>
-  <data name="SplashSubtitle" xml:space="preserve">
-    <value>打开前正在读取系统</value>
+  <data name="LoadingRegistryTweaks" xml:space="preserve">
+    <value>正在读取：注册表调整及其状态</value>
   </data>
-  <data name="SplashTweaks" xml:space="preserve">
-    <value>注册表调整及其状态</value>
-  </data>
-  <data name="SplashWindowsUpdate" xml:space="preserve">
-    <value>Windows 更新模式</value>
-  </data>
-  <data name="SplashPower" xml:space="preserve">
-    <value>电源计划和设置</value>
-  </data>
-  <data name="SplashSecurity" xml:space="preserve">
-    <value>安全状态</value>
-  </data>
-  <data name="SplashDevices" xml:space="preserve">
-    <value>设备和驱动程序</value>
-  </data>
-  <data name="SplashInterrupts" xml:space="preserve">
-    <value>中断和 MSI</value>
-  </data>
-  <data name="SplashChecks" xml:space="preserve">
-    <value>有害调整检查</value>
-  </data>
-  <data name="SplashReading" xml:space="preserve">
-    <value>正在读取：{0}</value>
-  </data>
-  <data name="SplashSeconds" xml:space="preserve">
-    <value>{0} 秒</value>
-  </data>
-  <data name="SplashStepFailed" xml:space="preserve">
-    <value>将在该部分重试</value>
+  <data name="LoadingWindowsUpdateStatus" xml:space="preserve">
+    <value>正在读取：Windows 更新模式</value>
   </data>
   <data name="AboutPageImportPreviousCopy" xml:space="preserve">
     <value>从其他副本导入</value>
@@ -414,10 +387,28 @@
   <data name="PreviousDataSameFolder" xml:space="preserve">
     <value>这是当前正在运行的 TweakHub 的数据文件夹。</value>
   </data>
+  <data name="DataDirectoryInUse" xml:space="preserve">
+    <value>此数据文件夹已在另一个 TweakHub 实例中打开。请先关闭该实例。</value>
+  </data>
+  <data name="DataDirectoryUnavailable" xml:space="preserve">
+    <value>TweakHub 无法打开数据文件夹，或无法识别此电脑和 Windows 帐户。</value>
+  </data>
+  <data name="LegacyUndoAvailable" xml:space="preserve">
+    <value>有旧备份。要检查它们，请使用从另一个副本导入并选择此 Data 文件夹。</value>
+  </data>
+  <data name="LegacyUndoConfirm" xml:space="preserve">
+    <value>仅当确认这些旧备份来自此电脑和此 Windows 帐户时才导入。原文件将予以保留。</value>
+  </data>
+  <data name="LegacyUndoSkip" xml:space="preserve">
+    <value>跳过旧备份</value>
+  </data>
+  <data name="LegacyUndoCopied" xml:space="preserve">
+    <value>已为此电脑和帐户复制 {0} 个旧备份文件。</value>
+  </data>
   <data name="PreviousDataConfirm" xml:space="preserve">
     <value>从 {0} 导入：
 • 配置文件：自定义脚本、调整项和工具、操作手册、收藏和外观（替换当前配置，当前配置会先保存为恢复副本）；
-• 撤销该副本所做更改的数据，以便在这里也能还原；
+• 已与此电脑和 Windows 帐户关联的还原数据；
 • 此处缺少的 Apps 中的便携程序。
 
 导入完成后 TweakHub 会重新启动。</value>

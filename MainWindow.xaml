@@ -8,12 +8,13 @@
         mc:Ignorable="d"
         Title="{loc:Loc UI:MainWindowTweakHubWindows11TweakUtility}"
         Height="900" Width="1400"
-        MinHeight="700" MinWidth="1200"
+        MinHeight="520" MinWidth="500"
         WindowStartupLocation="CenterScreen"
         Icon="ico.ico"
         FontFamily="Segoe UI Variable Text"
+        UseLayoutRounding="True"
         TextOptions.TextFormattingMode="Display"
-        Background="{DynamicResource WindowBackgroundBrush}">
+        Background="{DynamicResource NavigationBrush}">
 
     <!-- The title is drawn by TweakHub (the system caption cannot show italics); Windows still draws the caption buttons,
          so snap layouts, the system menu and dark mode keep working. -->
@@ -36,113 +37,154 @@
         </TextBlock>
     </StackPanel>
 
-    <ui:NavigationView x:Name="Navigation" Grid.Row="1"
-                       PaneDisplayMode="Left"
-                       IsPaneOpen="True"
-                       IsPaneToggleButtonVisible="False"
+    <!-- Windows 11 breakpoints: expanded pane above 1008px, icons only down to 641px, hamburger below. -->
+    <ui:NavigationView x:Name="Navigation" Grid.Row="1" Margin="12,0,0,0"
+                       PaneDisplayMode="Auto"
+                       CompactModeThresholdWidth="641"
+                       ExpandedModeThresholdWidth="1008"
                        IsBackButtonVisible="Collapsed"
                        IsSettingsVisible="False"
                        AlwaysShowHeader="False"
-                       OpenPaneLength="280"
-                       Background="{DynamicResource WindowBackgroundBrush}"
+                       OpenPaneLength="252"
+                       Background="Transparent"
                        SelectionChanged="Navigation_SelectionChanged">
+        <ui:NavigationView.Style>
+            <Style TargetType="ui:NavigationView" BasedOn="{StaticResource {x:Type ui:NavigationView}}">
+                <Style.Triggers>
+                    <Trigger Property="DisplayMode" Value="Expanded">
+                        <Setter Property="IsPaneToggleButtonVisible" Value="False"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ui:NavigationView.Style>
+        <ui:NavigationView.Resources>
+            <Style x:Key="CategoryIconStyle" TargetType="ui:BitmapIcon">
+                <Setter Property="Width" Value="20"/>
+                <Setter Property="Height" Value="20"/>
+                <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                <Setter Property="RenderTransform">
+                    <Setter.Value><ScaleTransform ScaleX="1.2" ScaleY="1.2"/></Setter.Value>
+                </Setter>
+                <Setter Property="ShowAsMonochrome" Value="{DynamicResource {x:Static SystemParameters.HighContrastKey}}"/>
+            </Style>
+        </ui:NavigationView.Resources>
+        <ui:NavigationView.MenuItemContainerStyle>
+            <Style TargetType="ui:NavigationViewItem" BasedOn="{StaticResource {x:Type ui:NavigationViewItem}}">
+                <Setter Property="MinHeight" Value="36"/>
+                <Setter Property="Margin" Value="0,2,10,2"/>
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="CornerRadius" Value="4"/>
+            </Style>
+        </ui:NavigationView.MenuItemContainerStyle>
         <ui:NavigationView.PaneHeader>
-            <StackPanel Margin="12,18,12,14">
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
-                    <Border Width="36" Height="36" CornerRadius="8"
-                            Background="{DynamicResource SubtleFillBrush}"
-                            BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}" BorderThickness="1">
-                        <Image Source="ico.ico" Width="24" Height="24"/>
-                    </Border>
-                    <TextBlock Text="TweakHub" FontSize="20" FontWeight="SemiBold"
-                               Margin="12,0,0,0" VerticalAlignment="Center"
-                               Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
-                </StackPanel>
-                <TextBlock Text="{loc:Loc UI:MainWindowWindows11PerformanceControls}" Margin="48,0,0,0" FontSize="12"
-                           Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
-            </StackPanel>
+            <TextBlock Text="TweakHub" FontSize="20" FontWeight="SemiBold" Margin="12,22,12,18"
+                       Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
         </ui:NavigationView.PaneHeader>
 
         <ui:NavigationView.MenuItems>
-            <!-- Its content is a grid (label + badge), so name it or screen readers announce "System.Windows.Controls.Grid". -->
-            <ui:NavigationViewItem x:Name="RegistryTweaksItem" Tag="registry" AutomationProperties.Name="{loc:Loc UI:MainWindowRegistryTweaks}">
-                <ui:NavigationViewItem.Icon><ui:FontIcon Glyph="&#xE945;"/></ui:NavigationViewItem.Icon>
-                <Grid Width="190">
+            <ui:NavigationViewItem x:Name="RegistryTweaksItem" Tag="registry"
+                                   ToolTip="{loc:Loc UI:MainWindowRegistryTweaks}"
+                                   AutomationProperties.Name="{loc:Loc UI:MainWindowRegistryTweaks}">
+                <ui:NavigationViewItem.Icon>
+                    <ui:BitmapIcon Style="{StaticResource CategoryIconStyle}" UriSource="pack://application:,,,/Resources/Navigation/registry.png"/>
+                </ui:NavigationViewItem.Icon>
+                <Grid Width="164">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="{loc:Loc UI:MainWindowRegistryTweaks}" VerticalAlignment="Center"/>
-                    <Border x:Name="RegistryTweaksBadge" Grid.Column="1" Width="18" Height="18"
-                            CornerRadius="9" Background="{DynamicResource AccentBrush}"
+                    <TextBlock Text="{loc:Loc UI:MainWindowRegistryTweaks}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                    <Border x:Name="RegistryTweaksBadge" Grid.Column="1" MinWidth="18" Height="18" Padding="3,0"
+                            CornerRadius="9" Background="{DynamicResource FluentAccentBrush}"
                             Margin="10,0,0,0" Visibility="Collapsed">
-                        <TextBlock x:Name="RegistryTweaksBadgeText" Text="0" FontSize="10" FontWeight="Bold"
-                                   Foreground="{DynamicResource AccentForegroundBrush}"
+                        <TextBlock x:Name="RegistryTweaksBadgeText" Text="0" FontSize="10"
+                                   Foreground="{DynamicResource FluentAccentForegroundBrush}"
                                    HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
                 </Grid>
             </ui:NavigationViewItem>
             <ui:NavigationViewItem x:Name="ExternalToolsItem" Content="{loc:Loc UI:MainWindowExternalTools}" Tag="tools">
-                <ui:NavigationViewItem.Icon><ui:FontIcon Glyph="&#xE90F;"/></ui:NavigationViewItem.Icon>
+                <ui:NavigationViewItem.Icon>
+                    <ui:BitmapIcon Style="{StaticResource CategoryIconStyle}" UriSource="pack://application:,,,/Resources/Navigation/tools.png"/>
+                </ui:NavigationViewItem.Icon>
             </ui:NavigationViewItem>
             <ui:NavigationViewItem x:Name="SecurityItem" Content="{loc:Loc Tools:SecurityTitle}" Tag="security"
                                    AutomationProperties.Name="{loc:Loc Tools:SecurityTitle}">
-                <ui:NavigationViewItem.Icon><ui:FontIcon Glyph="&#xE72E;"/></ui:NavigationViewItem.Icon>
+                <ui:NavigationViewItem.Icon>
+                    <ui:BitmapIcon Style="{StaticResource CategoryIconStyle}" UriSource="pack://application:,,,/Resources/Navigation/security.png"/>
+                </ui:NavigationViewItem.Icon>
             </ui:NavigationViewItem>
             <ui:NavigationViewItem x:Name="StartupItem" Content="{loc:Loc Security:StartupPageTitle}" Tag="startup"
                                    AutomationProperties.Name="{loc:Loc Security:StartupPageTitle}">
-                <ui:NavigationViewItem.Icon><ui:FontIcon Glyph="&#xE7B5;"/></ui:NavigationViewItem.Icon>
+                <ui:NavigationViewItem.Icon>
+                    <ui:BitmapIcon Style="{StaticResource CategoryIconStyle}" UriSource="pack://application:,,,/Resources/Navigation/startup.png"/>
+                </ui:NavigationViewItem.Icon>
             </ui:NavigationViewItem>
             <ui:NavigationViewItem x:Name="DevicesItem" Content="{loc:Loc Devices:Title}" Tag="devices"
                                    AutomationProperties.Name="{loc:Loc Devices:Title}">
-                <ui:NavigationViewItem.Icon><ui:FontIcon Glyph="&#xE772;"/></ui:NavigationViewItem.Icon>
+                <ui:NavigationViewItem.Icon>
+                    <ui:BitmapIcon Style="{StaticResource CategoryIconStyle}" UriSource="pack://application:,,,/Resources/Navigation/devices.png"/>
+                </ui:NavigationViewItem.Icon>
             </ui:NavigationViewItem>
             <ui:NavigationViewItem x:Name="PowerItem" Content="{loc:Loc Tweaks:PowerSectionTitle}" Tag="power"
                                    AutomationProperties.Name="{loc:Loc Tweaks:PowerSectionTitle}">
-                <ui:NavigationViewItem.Icon><ui:FontIcon Glyph="&#xE7E8;"/></ui:NavigationViewItem.Icon>
+                <ui:NavigationViewItem.Icon>
+                    <ui:BitmapIcon Style="{StaticResource CategoryIconStyle}" UriSource="pack://application:,,,/Resources/Navigation/power.png"/>
+                </ui:NavigationViewItem.Icon>
             </ui:NavigationViewItem>
             <ui:NavigationViewItem x:Name="AutomatedScriptsItem" Content="{loc:Loc UI:MainWindowAutomatedScripts}" Tag="scripts">
-                <ui:NavigationViewItem.Icon><ui:FontIcon Glyph="&#xE756;"/></ui:NavigationViewItem.Icon>
+                <ui:NavigationViewItem.Icon>
+                    <ui:BitmapIcon Style="{StaticResource CategoryIconStyle}" UriSource="pack://application:,,,/Resources/Navigation/scripts.png"/>
+                </ui:NavigationViewItem.Icon>
             </ui:NavigationViewItem>
             <ui:NavigationViewItem x:Name="QuickAccessItem" Content="{loc:Loc UI:MainWindowQuickAccess}" Tag="quick">
-                <ui:NavigationViewItem.Icon><ui:FontIcon Glyph="&#xE8F1;"/></ui:NavigationViewItem.Icon>
+                <ui:NavigationViewItem.Icon>
+                    <ui:BitmapIcon Style="{StaticResource CategoryIconStyle}" UriSource="pack://application:,,,/Resources/Navigation/quick.png"/>
+                </ui:NavigationViewItem.Icon>
             </ui:NavigationViewItem>
             <ui:NavigationViewItem x:Name="SettingsItem" Content="{loc:Loc UI:MainWindowAbout}" Tag="settings">
-                <ui:NavigationViewItem.Icon><ui:FontIcon Glyph="&#xE713;"/></ui:NavigationViewItem.Icon>
+                <ui:NavigationViewItem.Icon>
+                    <ui:BitmapIcon Style="{StaticResource CategoryIconStyle}" UriSource="pack://application:,,,/Resources/Navigation/settings.png"/>
+                </ui:NavigationViewItem.Icon>
             </ui:NavigationViewItem>
         </ui:NavigationView.MenuItems>
 
         <ui:NavigationView.PaneFooter>
-            <Border Margin="12" Padding="12,10" CornerRadius="8"
-                    BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}" BorderThickness="1"
-                    Cursor="Hand" ToolTip="{loc:Loc UI:MainWindowOpenAppearanceSettings}"
+            <Button Margin="0,8,10,16" Padding="12,8"
+                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                    ToolTip="{loc:Loc UI:MainWindowOpenAppearanceSettings}"
                     AutomationProperties.Name="{loc:Loc UI:MainWindowAppearanceSettings}"
-                    Focusable="True" KeyboardNavigation.IsTabStop="True"
-                    MouseLeftButtonUp="AppearanceSettings_Click" KeyDown="AppearanceSettings_KeyDown">
-                <Border.Style>
-                    <Style TargetType="Border">
-                        <Setter Property="Background" Value="{DynamicResource CardBrush}"/>
+                    Click="AppearanceSettings_Click">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource SecondaryButtonStyle}">
                         <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="{DynamicResource CardHoverBrush}"/>
-                            </Trigger>
+                            <DataTrigger Binding="{Binding IsPaneOpen, ElementName=Navigation}" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
                         </Style.Triggers>
                     </Style>
-                </Border.Style>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="&#xE790;" FontFamily="Segoe Fluent Icons" FontSize="15" Margin="0,0,10,0"
-                               Foreground="{DynamicResource AccentBrush}"/>
-                    <StackPanel>
-                        <TextBlock Text="{loc:Loc UI:MainWindowAppearanceSettings2}" FontSize="12" FontWeight="SemiBold"
-                                   Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
-                        <TextBlock x:Name="AppearanceStatusText" FontSize="11" TextTrimming="CharacterEllipsis" MaxWidth="190"
+                </Button.Style>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <ui:BitmapIcon Style="{StaticResource CategoryIconStyle}" Margin="0,0,12,0" VerticalAlignment="Center"
+                                   UriSource="pack://application:,,,/Resources/Navigation/appearance.png"/>
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="{loc:Loc UI:MainWindowAppearanceSettings2}" TextWrapping="Wrap"/>
+                        <TextBlock x:Name="AppearanceStatusText" FontSize="12" TextWrapping="Wrap"
                                    Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
                     </StackPanel>
-                </StackPanel>
-            </Border>
+                </Grid>
+            </Button>
         </ui:NavigationView.PaneFooter>
 
-        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Background="Transparent"/>
+        <Border Margin="0,8,0,0" BorderThickness="1,1,0,0" CornerRadius="8,0,0,0"
+                BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}"
+                Background="{DynamicResource WindowBackgroundBrush}">
+            <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Background="Transparent"/>
+        </Border>
     </ui:NavigationView>
     </Grid>
 </Window>

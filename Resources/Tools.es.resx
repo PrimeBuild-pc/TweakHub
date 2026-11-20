@@ -995,6 +995,56 @@ Esto puede deberse a permisos insuficientes o a que la aplicación de destino no
   <data name="DescriptionVixEditor" xml:space="preserve">
     <value>Editor offline de VBIOS NVIDIA (Blackwell; Ada, Ampere y Turing casi solo lectura). Guarda una ROM nueva con un manifiesto y nunca flashea: las ROM editadas se cargan con los cargadores Vix o mVolt+. Las ROM editadas no pasan la firma original: nunca las flashees con nvflash. Subir potencia, corriente o voltaje puede dañar el hardware; muchas funciones son experimentales, también en portátiles. Binarios sin firmar (SmartScreen puede avisar). Abre solo el repositorio oficial.</value>
   </data>
+  <data name="SearchShortcuts" xml:space="preserve">
+    <value>Buscar accesos directos</value>
+  </data>
+  <data name="FrequentlyUsedShortcuts" xml:space="preserve">
+    <value>Usados con frecuencia</value>
+  </data>
+  <data name="NoShortcutsFound" xml:space="preserve">
+    <value>Ningún acceso directo coincide con la búsqueda</value>
+  </data>
+  <data name="Installed" xml:space="preserve">
+    <value>Instalado</value>
+  </data>
+  <data name="SelectAll" xml:space="preserve">
+    <value>Seleccionar todo</value>
+  </data>
+  <data name="ClearSelection" xml:space="preserve">
+    <value>Borrar selección</value>
+  </data>
+  <data name="Presets" xml:space="preserve">
+    <value>Preajustes</value>
+  </data>
+  <data name="PresetDiagnostics" xml:space="preserve">
+    <value>Diagnóstico esencial</value>
+  </data>
+  <data name="PresetLatency" xml:space="preserve">
+    <value>Latencia y capacidad de respuesta</value>
+  </data>
+  <data name="PresetGpu" xml:space="preserve">
+    <value>Ajuste de GPU</value>
+  </data>
+  <data name="PresetUtilities" xml:space="preserve">
+    <value>Utilidades cotidianas</value>
+  </data>
+  <data name="SelectToolNamed" xml:space="preserve">
+    <value>Seleccionar {0}</value>
+  </data>
+  <data name="InstallSelected" xml:space="preserve">
+    <value>Instalar seleccionadas ({0})</value>
+  </data>
+  <data name="ConfirmInstallSelected" xml:space="preserve">
+    <value>Instalar las herramientas seleccionadas</value>
+  </data>
+  <data name="ConfirmInstallSelectedMessage" xml:space="preserve">
+    <value>¿Instalar {0} herramientas con winget?
+
+{1}</value>
+  </data>
+  <data name="InstallSelectedDone" xml:space="preserve">
+    <value>{0} de {1} herramientas instaladas</value>
+  </data>
   <data name="DescriptionWinaeroTweaker" xml:space="preserve">
     <value>Tweaker gratuito de Winaero que reúne cientos de ajustes ocultos de Windows en una sola aplicación; abre la página oficial</value>
   </data>

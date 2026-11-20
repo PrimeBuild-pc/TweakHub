@@ -642,6 +642,15 @@ La configuración actual se guarda la primera vez para poder restaurarla.</value
   <data name="DnsRestored" xml:space="preserve">
     <value>Configuración DNS original restaurada.</value>
   </data>
+  <data name="DnsAdapterChanged" xml:space="preserve">
+    <value>El adaptador de red ha cambiado. Actualiza la lista y vuelve a intentarlo.</value>
+  </data>
+  <data name="DnsBackupUnusable" xml:space="preserve">
+    <value>No se pudo asociar la configuración DNS guardada a un adaptador actual. Se conservó la copia de seguridad.</value>
+  </data>
+  <data name="DnsRestorePartial" xml:space="preserve">
+    <value>Se restauró el DNS de los adaptadores disponibles. Las entradas restantes se conservaron en la copia de seguridad.</value>
+  </data>
   <data name="DnsFailed" xml:space="preserve">
     <value>Error al cambiar el DNS: {0}</value>
   </data>

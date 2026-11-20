@@ -18,7 +18,7 @@ public class PowerService
 
     public static PowerService Instance { get; } = new();
 
-    private PowerService() : this(AppDataPath.BasePath) { }
+    private PowerService() : this(AppDataPath.UndoPath) { }
 
     internal PowerService(string dataPath)
     {

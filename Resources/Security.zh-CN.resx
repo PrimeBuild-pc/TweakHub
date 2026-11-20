@@ -642,6 +642,15 @@ TweakHub 将以管理员身份运行此命令：
   <data name="DnsRestored" xml:space="preserve">
     <value>已恢复原始 DNS 配置。</value>
   </data>
+  <data name="DnsAdapterChanged" xml:space="preserve">
+    <value>网络适配器已更改。请刷新列表后重试。</value>
+  </data>
+  <data name="DnsBackupUnusable" xml:space="preserve">
+    <value>无法将已保存的 DNS 设置与当前适配器匹配。备份已保留。</value>
+  </data>
+  <data name="DnsRestorePartial" xml:space="preserve">
+    <value>已恢复可用适配器的 DNS 设置。其余记录已保留在备份中。</value>
+  </data>
   <data name="DnsFailed" xml:space="preserve">
     <value>DNS 更改失败：{0}</value>
   </data>

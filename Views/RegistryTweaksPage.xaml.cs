@@ -1,6 +1,8 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
+using Microsoft.Win32;
 using ToggleSwitch = ModernWpf.Controls.ToggleSwitch;
 using TweakHub.Localization;
 using TweakHub.Models;
@@ -21,7 +23,9 @@ namespace TweakHub.Views
         private readonly ObservableCollection<CustomRegistryTweak> _favoriteCustomTweaks = new();
         private HashSet<string> _favoriteTweakKeys = [];
         private bool _ignoreToggleEvent;
+        private bool _initializing;
         private bool _loaded;
+        private int _windowsUpdateStatusRequest;
         public RegistryTweaksPage()
         {
             InitializeComponent();
@@ -32,19 +36,29 @@ namespace TweakHub.Views
             CustomTweaksList.ItemsSource = _customTweaks;
             FavoriteBuiltInTweaksList.ItemsSource = _favoriteBuiltInTweaks;
             FavoriteCustomTweaksList.ItemsSource = _favoriteCustomTweaks;
-            // The list shows a filtered copy: rebuild it when the catalogue is reloaded.
-            // LoadTweaks clears and adds every category: rebuild once per reload, not once per change.
-            _tweakService.TweakCategories.CollectionChanged += (_, _) =>
-            {
-                if (_filterQueued) return;
-                _filterQueued = true;
-                Dispatcher.InvokeAsync(() => { _filterQueued = false; if (IsLoaded) ApplyRiskFilter(); });
-            };
-
             Loaded += RegistryTweaksPage_Loaded;
+            // The service lives for the whole app: listen only while shown, so a page dropped after a profile import can be freed.
+            Unloaded += (_, _) => Listen(false);
+        }
+
+        private void Listen(bool listen)
+        {
+            _tweakService.TweakCategories.CollectionChanged -= TweakCategories_CollectionChanged;
+            _tweakService.PropertyChanged -= TweakService_PropertyChanged;
+            if (!listen) return;
+            _tweakService.TweakCategories.CollectionChanged += TweakCategories_CollectionChanged;
             _tweakService.PropertyChanged += TweakService_PropertyChanged;
-            // Backups from an earlier session are counted at startup, before this page could hear the change.
+            // Backups may have changed while the page was hidden (or come from an earlier session).
             UpdateRestoreAllButton();
+        }
+
+        // The list shows a filtered copy: rebuild it when the catalogue is reloaded.
+        // LoadTweaks clears and adds every category: rebuild once per reload, not once per change.
+        private void TweakCategories_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (_initializing || _filterQueued) return;
+            _filterQueued = true;
+            Dispatcher.InvokeAsync(() => { _filterQueued = false; if (IsLoaded) ApplyRiskFilter(); });
         }
         private readonly PowerShellService _powerShellService = PowerShellService.Instance;
 
@@ -64,6 +78,8 @@ namespace TweakHub.Views
 
         private async void RegistryTweaksPage_Loaded(object sender, RoutedEventArgs e)
         {
+            Listen(true);
+            if (_initializing) return;
             // The page is kept between sections: coming back only re-reads the toggles, which other sections may have changed.
             if (_loaded)
             {
@@ -73,25 +89,38 @@ namespace TweakHub.Views
                 NotifyMainWindowBadgeUpdate();
                 return;
             }
-            _loaded = true;
-
-            // Show one-time per-session disclaimer on first visit to Registry Tweaks section
-            if (!_tweakService.RegistryDisclaimerShown)
+            _initializing = true;
+            RegistryActions.IsEnabled = RegistryTabs.IsEnabled = false;
+            try
             {
-                await AppDialog.ShowDisclaimerAsync(Window.GetWindow(this));
-                _tweakService.RegistryDisclaimerShown = true;
+                if (!_tweakService.RegistryDisclaimerShown)
+                {
+                    await AppDialog.ShowDisclaimerAsync(Window.GetWindow(this));
+                    _tweakService.RegistryDisclaimerShown = true;
+                }
+
+                InitialLoading.Show(L.Get("UI:LoadingRegistryTweaks"));
+                await _tweakService.LoadWithStatesAsync();
+                ApplyRiskFilter();
+                NotifyMainWindowBadgeUpdate();
+                LoadCustomTweaks();
+                LoadFavoriteTweaks();
+
+                var tweaks = _tweakService.TweakCategories.SelectMany(category => category.Tweaks).ToList();
+                RestartVerificationService.Instance.MigrateLegacyCurrentBoot(tweaks);
+                var pending = RestartVerificationService.Instance.CurrentBootPendingTweakIds();
+                foreach (var tweak in tweaks) tweak.IsRestartPending = pending.Contains(tweak.Id);
+                _loaded = true;
+            }
+            finally
+            {
+                RegistryActions.IsEnabled = RegistryTabs.IsEnabled = true;
+                InitialLoading.Hide();
+                _initializing = false;
             }
 
-            await LoadTweaksAsync();
-            LoadCustomTweaks();
-            LoadFavoriteTweaks();
-            await RefreshWindowsUpdatePresetAsync(initial: true);
-
-            var tweaks = _tweakService.TweakCategories.SelectMany(category => category.Tweaks).ToList();
-            RestartVerificationService.Instance.MigrateLegacyCurrentBoot(tweaks);
-            var pending = RestartVerificationService.Instance.CurrentBootPendingTweakIds();
-            foreach (var tweak in tweaks) tweak.IsRestartPending = pending.Contains(tweak.Id);
-            await ShowRestartVerificationAsync();
+            await Task.WhenAll(RefreshWindowsUpdatePresetAsync(), ShowRestartVerificationAsync());
+            if (Application.Current.MainWindow is MainWindow main) await main.RunDeferredStartupChecksAsync();
         }
 
         private async Task ShowRestartVerificationAsync()
@@ -100,15 +129,6 @@ namespace TweakHub.Views
             if (results.Count == 0) return;
 
             new RestartVerificationDialog(results) { Owner = Window.GetWindow(this) }.ShowDialog();
-        }
-
-        private async Task LoadTweaksAsync()
-        {
-            await Preload.Get(Preload.TweakStates, _tweakService.LoadWithStatesAsync);
-            ApplyRiskFilter();
-
-            // Update sidebar badge immediately after initial state refresh
-            NotifyMainWindowBadgeUpdate();
         }
 
         private void RiskFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -140,12 +160,15 @@ namespace TweakHub.Views
             .Where(category => category.Tweaks.Count > 0)
             .ToList();
 
-        private async Task RefreshWindowsUpdatePresetAsync(bool initial = false)
+        private async Task RefreshWindowsUpdatePresetAsync()
         {
-            var preset = await (initial ? Preload.Get(Preload.WindowsUpdate, _windowsUpdatePresets.DetectAsync) : _windowsUpdatePresets.DetectAsync());
+            var request = ++_windowsUpdateStatusRequest;
+            var preset = await _windowsUpdatePresets.DetectAsync();
+            if (request != _windowsUpdateStatusRequest) return;
             WindowsUpdatePresetComboBox.SelectedValue = preset == WindowsUpdatePreset.Custom ? null : preset.ToString();
             WindowsUpdatePresetStatusText.Text = L.Format("Tweaks:WindowsUpdateCurrentMode", L.Get($"Tweaks:WindowsUpdatePreset{preset}"));
             UpdateWindowsUpdatePresetDescription();
+            WindowsUpdatePresetActions.IsEnabled = true;
         }
 
         private void WindowsUpdatePreset_SelectionChanged(object sender, SelectionChangedEventArgs e) =>
@@ -227,6 +250,8 @@ namespace TweakHub.Views
                 WindowsUpdatePresetComboBox.SelectedValue as string, out var preset)
                 ? _windowsUpdatePresets.GetPreview(preset)
                 : string.Empty;
+            WindowsUpdatePresetCommand.Visibility = WindowsUpdatePresetPreviewText.Text.Length == 0
+                ? Visibility.Collapsed : Visibility.Visible;
         }
 
         private void NotifyMainWindowBadgeUpdate()
@@ -366,13 +391,27 @@ namespace TweakHub.Views
         private static string FavoriteKey(PerformanceTweak tweak) => $"builtin:{tweak.Id}";
         private static string FavoriteKey(CustomRegistryTweak tweak) => $"custom:{tweak.Id}";
 
-        private void ViewCustomTweak_Click(object sender, RoutedEventArgs e)
+        private async void ViewCustomTweak_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is not Button { DataContext: CustomRegistryTweak tweak, Tag: Border preview }
+            if (sender is not Button { DataContext: CustomRegistryTweak tweak, Tag: StackPanel preview }
                 || preview.Tag is not TextBox textBox) return;
 
-            textBox.Text = $"reg add \"{tweak.RegistryPath}\" /v \"{tweak.RegistryKey}\" /t {tweak.ValueType} /d {tweak.Data} /f";
-            preview.Visibility = preview.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+            if (preview.Visibility == Visibility.Visible)
+            {
+                preview.Visibility = Visibility.Collapsed;
+                return;
+            }
+
+            try
+            {
+                var value = RegistryService.ParseData(tweak.ValueType, tweak.Data, out var kind);
+                textBox.Text = RegistryService.PreviewCommand(new(tweak.RegistryPath, tweak.RegistryKey, value, kind));
+                preview.Visibility = Visibility.Visible;
+            }
+            catch (Exception ex) when (ex is ArgumentException or FormatException or OverflowException)
+            {
+                await AppDialog.ShowErrorAsync(Window.GetWindow(this), tweak.Name, ex.Message);
+            }
         }
 
         private async void ApplyCustomTweak_Click(object sender, RoutedEventArgs e)
@@ -451,6 +490,18 @@ namespace TweakHub.Views
             _userData.SaveCustomTweaks(_customTweaks);
             CustomTweaksList.Items.Refresh();
             RefreshFavoriteLists();
+        }
+
+        private async void RiskExplanation_Click(object sender, RoutedEventArgs e)
+        {
+            var risk = (sender as Hyperlink)?.DataContext switch
+            {
+                PerformanceTweak tweak => (tweak.RiskText, tweak.RiskHint),
+                CustomRegistryTweak tweak => (tweak.RiskText, tweak.RiskHint),
+                _ => default
+            };
+            if (risk.Item1 is not null && risk.Item2 is not null)
+                await AppDialog.ShowAsync(Window.GetWindow(this), risk.Item1, risk.Item2);
         }
 
         private async void TweakToggle_Toggled(object sender, RoutedEventArgs e)
@@ -559,7 +610,7 @@ namespace TweakHub.Views
 
         private void ViewTweak_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button btn && btn.Tag is PerformanceTweak tweak)
+            if (sender is Button { DataContext: PerformanceTweak tweak })
             {
                 if (!tweak.IsPreviewVisible) tweak.PreviewContent = BuildPreview(tweak);
                 tweak.IsPreviewVisible = !tweak.IsPreviewVisible;
@@ -568,27 +619,33 @@ namespace TweakHub.Views
 
         private static string BuildPreview(PerformanceTweak tweak)
         {
-            if (tweak.IsUnavailable) return tweak.UnavailableReason;
+            if (tweak.IsUnavailable) return string.Empty;
             var changes = tweak.Type == TweakType.NetworkAdapter
                 ? NetworkAdapterService.PresetChanges()
                 : TweakService.GetCompositeRegistryChanges(tweak.Id);
-            if (changes.Count > 0)
-            {
-                var commands = changes.Select(change => change.ToRegCommand());
-                return L.Format("Tweaks:CompositePreview", tweak.Name, tweak.RiskLevel, string.Join("\n", commands));
-            }
+            if (changes.Count > 0) return string.Join("\n", changes.Select(RegistryService.PreviewCommand));
 
-            var command = tweak.Id switch
+            return tweak.Id switch
             {
                 "disable_cpu_throttling" => "powercfg /setacvalueindex SCHEME_CURRENT SUB_PROCESSOR PROCTHROTTLEMIN 100",
                 "disable_core_parking" => "powercfg /setacvalueindex SCHEME_CURRENT SUB_PROCESSOR CPMINCORES 100",
-                "high_performance_power_plan" => "powercfg /setactive SCHEME_MIN",
-                "disable_hibernation" => HibernationService.BuildScript(null),
-                "disable_sysmain" => "Set-Service -Name SysMain -StartupType Disabled\nStop-Service -Name SysMain -Force",
-                _ => $"reg add \"{tweak.RegistryPath}\" /v \"{tweak.RegistryKey}\" /t {(tweak.EnabledValue is int ? "REG_DWORD" : tweak.EnabledValue is long ? "REG_QWORD" : "REG_SZ")} /d {(Equals(tweak.EnabledValue, -1) ? "0xffffffff" : tweak.EnabledValue)} /f"
+                "high_performance_power_plan" => $"powercfg /setactive {PowerService.Instance.PreferredScheme ?? PowerService.HighPerformanceScheme}",
+                "disable_hibernation" => "powercfg.exe /hibernate off",
+                "disable_sysmain" => ServicePreview("SysMain"),
+                "disable_windows_search" => ServicePreview("WSearch"),
+                _ when tweak.Type == TweakType.Registry => RegistryService.PreviewCommand(new(tweak.RegistryPath, tweak.RegistryKey,
+                    tweak.EnabledValue, tweak.EnabledValue switch
+                    {
+                        int => RegistryValueKind.DWord,
+                        long => RegistryValueKind.QWord,
+                        _ => RegistryValueKind.String
+                    })),
+                _ => string.Empty
             };
-            return L.Format("Tweaks:Preview", tweak.Name, tweak.RiskLevel, command);
         }
+
+        private static string ServicePreview(string name) =>
+            $"Set-Service -Name '{name}' -StartupType Disabled\nStop-Service -Name '{name}' -Force -ErrorAction SilentlyContinue";
 
         private async void BackupButton_Click(object sender, RoutedEventArgs e)
         {
@@ -744,7 +801,7 @@ namespace TweakHub.Views
             && await AppDialog.ConfirmAsync(Window.GetWindow(this), L.Get("Scripts:PlaybookElevateTitle"),
                 L.Format("Tweaks:BulkElevateMessage", changes), L.Get("Scripts:PlaybookElevateRestart"),
                 L.Get("Scripts:PlaybookElevateContinue"), DialogKind.Shield)
-            && App.RestartElevated(string.Empty);
+            && App.RestartElevated();
 
         private async void RestoreAllButton_Click(object sender, RoutedEventArgs e)
         {
@@ -765,7 +822,7 @@ namespace TweakHub.Views
             {
                 progress.UpdateStatus(L.Get("Tweaks:Restoring"));
                 progress.UpdateProgress(20);
-                var (restored, failed) = await _tweakService.RestoreAllTweaksAsync();
+                var (restored, failed, windowsUpdateError) = await _tweakService.RestoreAllTweaksAsync();
                 await RefreshWindowsUpdatePresetAsync();
 
                 progress.UpdateProgress(100);
@@ -773,6 +830,7 @@ namespace TweakHub.Views
 
                 var msg = L.Format("Tweaks:RestoredCount", restored);
                 if (failed > 0) msg += "\n" + L.Format("Tweaks:RestoreFailedCount", failed);
+                if (!string.IsNullOrWhiteSpace(windowsUpdateError)) msg += "\n\n" + windowsUpdateError;
                 await AppDialog.ShowAsync(Window.GetWindow(this), L.Get("Tweaks:RestoreComplete"), msg);
 
                 RestoreAllButton.Visibility = _tweakService.HasAppliedTweaksThisSession ? Visibility.Visible : Visibility.Collapsed;

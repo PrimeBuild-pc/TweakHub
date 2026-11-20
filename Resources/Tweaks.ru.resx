@@ -502,6 +502,9 @@ TweakHub восстанавливает захваченное исходное 
   <data name="RestoreComplete" xml:space="preserve">
     <value>Восстановление завершено</value>
   </data>
+  <data name="WindowsUpdateLegacyBackup" xml:space="preserve">
+    <value>Старая резервная копия Windows Update требует ручной проверки. Сохраните windows-update-backup.json и сравните его с настройками этого ПК. Когда будете готовы снова использовать предустановки, переместите файл из папки Data.</value>
+  </data>
   <data name="RestoreFailed" xml:space="preserve">
     <value>Не удалось восстановить</value>
   </data>

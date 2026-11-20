@@ -808,7 +808,7 @@ namespace TweakHub.Services
                     """, requireAdministrator: true, timeout: TimeSpan.FromMinutes(2));
                 var success = result.Success
                     && Equals(registry.GetRegistryValue(tweak.RegistryPath, tweak.RegistryKey), 4)
-                    && await IsServiceStoppedAsync(serviceName);
+                    && IsServiceStopped(serviceName);
                 if (!success) registry.RestoreRegistryValue(tweak.RegistryPath, tweak.RegistryKey);
                 return success;
             }
@@ -823,30 +823,56 @@ namespace TweakHub.Services
             return true;
         }
 
-        internal static async Task<bool> IsServiceStoppedAsync(string serviceName) =>
-            (await GetStoppedServicesAsync(serviceName)).Contains(serviceName);
-
-        private static async Task<HashSet<string>> GetStoppedServicesAsync(params string[] serviceNames)
+        /// <summary>Asks the service manager directly: a PowerShell Get-Service cost about half a second on every tweak refresh.</summary>
+        internal static bool IsServiceStopped(string serviceName)
         {
-            var result = await PowerShellService.Instance.ExecuteScriptAsync(
-                $"Get-Service -Name {string.Join(",", serviceNames.Select(PowerShellService.Literal))} -ErrorAction SilentlyContinue | Where-Object Status -eq 'Stopped' | ForEach-Object Name",
-                timeout: TimeSpan.FromSeconds(10));
-            return result.Output.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-                .ToHashSet(StringComparer.OrdinalIgnoreCase);
+            // SC_MANAGER_CONNECT and SERVICE_QUERY_STATUS need no elevation; a missing service is not "stopped".
+            var manager = OpenSCManagerW(null, null, 1);
+            if (manager == IntPtr.Zero) return false;
+            var service = OpenServiceW(manager, serviceName, 4);
+            try
+            {
+                var status = new int[7]; // SERVICE_STATUS; dwCurrentState is the second field, SERVICE_STOPPED = 1
+                return service != IntPtr.Zero && QueryServiceStatus(service, status) && status[1] == 1;
+            }
+            finally
+            {
+                if (service != IntPtr.Zero) CloseServiceHandle(service);
+                CloseServiceHandle(manager);
+            }
         }
 
-        public async Task<(int restored, int failed)> RestoreAllTweaksAsync()
+        [System.Runtime.InteropServices.DllImport("advapi32.dll", CharSet = System.Runtime.InteropServices.CharSet.Unicode)]
+        private static extern IntPtr OpenSCManagerW(string? machine, string? database, int access);
+        [System.Runtime.InteropServices.DllImport("advapi32.dll", CharSet = System.Runtime.InteropServices.CharSet.Unicode)]
+        private static extern IntPtr OpenServiceW(IntPtr manager, string name, int access);
+        [System.Runtime.InteropServices.DllImport("advapi32.dll")]
+        private static extern bool QueryServiceStatus(IntPtr service, [System.Runtime.InteropServices.Out] int[] status);
+        [System.Runtime.InteropServices.DllImport("advapi32.dll")]
+        private static extern bool CloseServiceHandle(IntPtr handle);
+
+        public async Task<(int restored, int failed, string? windowsUpdateError)> RestoreAllTweaksAsync()
         {
             var restored = 0;
             var failed = 0;
+            string? windowsUpdateError = null;
             // The preset first: it shares values with single tweaks (driver updates, device metadata), and restoring
             // those first would drop the shared backups the preset needs.
             var windowsUpdate = WindowsUpdatePresetService.Instance;
             var windowsUpdateRestored = false;
-            if (windowsUpdate.HasCompleteBackup)
+            if (windowsUpdate.HasAnySnapshot)
             {
                 var result = await windowsUpdate.RestoreAsync();
-                if (result.Success) { restored++; windowsUpdateRestored = true; } else failed++;
+                if (result.Success)
+                {
+                    restored++;
+                    windowsUpdateRestored = true;
+                }
+                else
+                {
+                    failed++;
+                    windowsUpdateError = result.Error;
+                }
             }
             else
             {
@@ -881,7 +907,7 @@ namespace TweakHub.Services
 
             await RefreshTweakStatesAsync();
             RefreshBackupState();
-            return (restored, failed);
+            return (restored, failed, windowsUpdateError);
         }
 
         public static bool HasBackup(PerformanceTweak tweak)
@@ -916,7 +942,7 @@ namespace TweakHub.Services
         internal static bool IsReverted(PerformanceTweak tweak, bool appliedByUser, Func<PerformanceTweak, bool> hasBackup) =>
             appliedByUser && tweak.IsAvailable && !tweak.IsEnabled && !tweak.IsPartiallyApplied && hasBackup(tweak);
 
-        internal static string AppliedTweaksPath { get; set; } = Path.Combine(AppDataPath.BasePath, "applied-tweaks.json");
+        internal static string AppliedTweaksPath { get; set; } = Path.Combine(AppDataPath.UndoPath, "applied-tweaks.json");
 
         internal static void MarkApplied(string id, bool applied)
         {
@@ -933,14 +959,16 @@ namespace TweakHub.Services
 
         public async Task LoadWithStatesAsync()
         {
-            LoadTweaks();
+            if (TweakCategories.Count == 0) LoadTweaks();
             await RefreshTweakStatesAsync();
         }
 
         public async Task RefreshTweakStatesAsync()
         {
-            var power = PowerService.Instance.GetTweakStates();
-            var stopped = await GetStoppedServicesAsync("SysMain", "WSearch");
+            var (power, stopped, adapters) = await Task.Run(() =>
+                (PowerService.Instance.GetTweakStates(),
+                    new[] { "SysMain", "WSearch" }.Where(IsServiceStopped).ToHashSet(),
+                    NetworkAdapterService.GetAdapters()));
             foreach (var tweak in TweakCategories.SelectMany(category => category.Tweaks))
             {
                 if (tweak.Id == "disable_hibernation")
@@ -952,7 +980,7 @@ namespace TweakHub.Services
                 }
                 if (tweak.Type == TweakType.NetworkAdapter)
                 {
-                    RefreshNetworkPreset(tweak);
+                    RefreshNetworkPreset(tweak, adapters);
                     continue;
                 }
 
@@ -981,16 +1009,16 @@ namespace TweakHub.Services
             }
         }
 
-        private static void RefreshNetworkPreset(PerformanceTweak tweak)
+        private static void RefreshNetworkPreset(PerformanceTweak tweak, IReadOnlyList<NetworkAdapter> adapters)
         {
-            var adapters = NetworkAdapterService.GetAdapters();
             var changes = NetworkAdapterService.Selected(adapters).SelectMany(adapter => adapter.Changes).ToList();
             var matches = changes.Count(change =>
                 Equals(RegistryService.Instance.GetRegistryValue(change.KeyPath, change.ValueName), change.Value));
+            var hasBackups = NetworkAdapterService.BackedUpChanges().Count > 0;
             tweak.IsEnabled = changes.Count > 0 && matches == changes.Count;
-            tweak.IsPartiallyApplied = matches > 0 && matches < changes.Count && NetworkAdapterService.BackedUpChanges().Count > 0;
+            tweak.IsPartiallyApplied = matches > 0 && matches < changes.Count && hasBackups;
             // Values changed on an adapter that is gone or no longer supported must stay restorable.
-            tweak.UnavailableReason = changes.Count > 0 || NetworkAdapterService.BackedUpChanges().Count > 0
+            tweak.UnavailableReason = changes.Count > 0 || hasBackups
                 ? string.Empty
                 : L.Format("Tweaks:NetworkPresetUnavailable", adapters.Count == 0
                     ? L.Get("Tweaks:NetworkPresetNoAdapters")

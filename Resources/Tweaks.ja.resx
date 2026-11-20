@@ -502,6 +502,9 @@ TweakHub は記録した元の値を復元します。</value>
   <data name="RestoreComplete" xml:space="preserve">
     <value>復元が完了しました</value>
   </data>
+  <data name="WindowsUpdateLegacyBackup" xml:space="preserve">
+    <value>以前の Windows Update バックアップは手動で確認する必要があります。windows-update-backup.json を保存し、この PC の設定と照合してください。プリセットを再び使うときは、ファイルを Data フォルダーの外に移動してください。</value>
+  </data>
   <data name="RestoreFailed" xml:space="preserve">
     <value>復元に失敗しました</value>
   </data>

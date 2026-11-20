@@ -1,8 +1,11 @@
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
+using System.Windows.Threading;
 using Microsoft.Win32;
+using ModernWpf;
 using TweakHub.Localization;
 using TweakHub.Services;
 
@@ -13,6 +16,9 @@ namespace TweakHub;
 /// </summary>
 public partial class App : Application
 {
+    private const string RestartArgument = "--restart";
+    private FileStream? _dataLock;
+
     /// <summary>Playbook to run once the elevated restart has opened the main window.</summary>
     public static string? StartupPlaybookId { get; set; }
 
@@ -20,27 +26,55 @@ public partial class App : Application
     public static string? StartupPlaybookFingerprint { get; set; }
 
     /// <summary>Starts TweakHub again as administrator and closes this instance; false when UAC is declined.</summary>
-    public static bool RestartElevated(string arguments)
+    public static bool RestartElevated(params string[] arguments)
     {
         try
         {
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(Environment.ProcessPath!, arguments) { UseShellExecute = true, Verb = "runas" });
+            Restart(elevated: true, arguments);
         }
         catch (System.ComponentModel.Win32Exception)
         {
             return false;
         }
-        Current.Shutdown();
         return true;
     }
 
-    protected override void OnStartup(StartupEventArgs e)
+    internal static void Restart(bool elevated = false, params string[] arguments)
     {
-        L.Initialize(UserDataService.Instance.LoadAppearance().Language);
-        if (e.Args is ["--run-playbook", var playbookId, var fingerprint])
-            (StartupPlaybookId, StartupPlaybookFingerprint) = (playbookId, fingerprint);
-        try { AppDataPath.EnsureAppsDirectory(); } catch { }
+        var start = new ProcessStartInfo(Environment.ProcessPath!) { UseShellExecute = true };
+        if (elevated) start.Verb = "runas";
+        start.ArgumentList.Add(RestartArgument);
+        foreach (var argument in arguments) start.ArgumentList.Add(argument);
+        using var process = Process.Start(start);
+        Current.Shutdown();
+    }
 
+    protected override async void OnStartup(StartupEventArgs e)
+    {
+        var restarting = e.Args is [RestartArgument, ..];
+        var arguments = restarting ? e.Args[1..] : e.Args;
+        try
+        {
+            // A launched replacement may reach startup before the old process finishes closing.
+            _dataLock = await DataDirectoryLock.AcquireAsync(AppDataPath.BasePath,
+                restarting ? TimeSpan.FromSeconds(10) : TimeSpan.Zero);
+            if (_dataLock is null)
+            {
+                ShowStartupFailure("UI:DataDirectoryInUse");
+                return;
+            }
+            L.Initialize(UserDataService.Instance.LoadAppearance().Language);
+            RegistryService.Instance.Initialize();
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidOperationException or TypeInitializationException)
+        {
+            Debug.WriteLine(ex);
+            ShowStartupFailure("UI:DataDirectoryUnavailable");
+            return;
+        }
+
+        if (arguments is ["--run-playbook", var playbookId, var fingerprint])
+            (StartupPlaybookId, StartupPlaybookFingerprint) = (playbookId, fingerprint);
         if (Environment.OSVersion.Version.Build < 22000)
         {
             MessageBox.Show(L.Get("UI:WindowsVersionMessage"), L.Get("UI:WindowsVersionTitle"), MessageBoxButton.OK, MessageBoxImage.Error);
@@ -50,26 +84,35 @@ public partial class App : Application
 
         ThemeService.Instance.PropertyChanged += ThemeService_PropertyChanged;
         EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.LoadedEvent, new RoutedEventHandler(Window_Loaded));
-        RegistryService.Instance.Initialize();
         SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
+        ThemeManager.Current.ActualAccentColorChanged += SystemAccentColorChanged;
         DispatcherUnhandledException += App_DispatcherUnhandledException;
-        Exit += App_Exit;
         base.OnStartup(e);
-        new Views.SplashWindow().Show();
+        MainWindow = new MainWindow();
+        MainWindow.Show();
     }
 
-    private void App_Exit(object sender, ExitEventArgs e)
+    private void ShowStartupFailure(string message)
+    {
+        L.Initialize(null);
+        MessageBox.Show(L.Get(message), "TweakHub", MessageBoxButton.OK, MessageBoxImage.Error);
+        Shutdown(-1);
+    }
+
+    protected override void OnExit(ExitEventArgs e)
     {
         try
         {
             SystemEvents.UserPreferenceChanged -= SystemEvents_UserPreferenceChanged;
-            ThemeService.Instance.PropertyChanged -= ThemeService_PropertyChanged;
+            ThemeManager.Current.ActualAccentColorChanged -= SystemAccentColorChanged;
+            if (_dataLock is not null) ThemeService.Instance.PropertyChanged -= ThemeService_PropertyChanged;
         }
         catch
         {
             // Ignore unhook errors
         }
-
+        try { base.OnExit(e); }
+        finally { _dataLock?.Dispose(); }
     }
 
     private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
@@ -94,6 +137,15 @@ public partial class App : Application
         foreach (Window window in Windows) ApplyWindows11Style(window);
     }
 
+    private void SystemAccentColorChanged(ThemeManager sender, object args)
+    {
+        // Let WPF update the system accent shades before rebuilding our brushes.
+        Dispatcher.InvokeAsync(() =>
+        {
+            if (ThemeService.Instance.UseSystemAccent) ThemeService.Instance.RefreshSystemThemeIfNeeded();
+        }, DispatcherPriority.Background);
+    }
+
     private static void Window_Loaded(object sender, RoutedEventArgs e)
     {
         if (sender is Window window) ApplyWindows11Style(window);
@@ -109,7 +161,8 @@ public partial class App : Application
         var backdrop = !ThemeService.Instance.TransparencyEnabled || SystemParameters.HighContrast ? 1 : window is MainWindow ? 2 : 3;
         DwmSetWindowAttribute(handle, 20, ref darkMode, sizeof(int));
         DwmSetWindowAttribute(handle, 33, ref roundedCorners, sizeof(int));
-        DwmSetWindowAttribute(handle, 38, ref backdrop, sizeof(int));
+        if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22621))
+            DwmSetWindowAttribute(handle, 38, ref backdrop, sizeof(int));
     }
 
     [DllImport("dwmapi.dll")]

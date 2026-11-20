@@ -45,25 +45,18 @@ public partial class UsbInputView : UserControl
 
     public UsbInputView() => InitializeComponent();
 
-    public bool HasScanned { get; private set; }
-
     private async void Scan_Click(object sender, RoutedEventArgs e) => await ScanAsync();
 
-    public async Task ScanAsync(bool initial = false)
+    public async Task ScanAsync()
     {
-        HasScanned = true;
         ScanButton.IsEnabled = false;
         Loading.Show(L.Get("Devices:LoadingUsb"));
         ErrorText.Visibility = Visibility.Collapsed;
         try
         {
-            if (!initial)
-            {
-                Preload.Invalidate(Preload.Devices);
-                Preload.Invalidate(Preload.Interrupts);
-            }
-            var devicesTask = Preload.Get(Preload.Devices, DeviceService.Instance.GetDevicesAsync);
-            var interruptsTask = Preload.Get(Preload.Interrupts, InterruptService.Instance.GetDevicesAsync);
+            var devicesTask = DeviceService.Instance.GetDevicesAsync();
+            var interruptsTask = InterruptService.Instance.GetDevicesAsync();
+            await Task.WhenAll(devicesTask, interruptsTask);
             var chains = UsbService.BuildChains(await devicesTask);
             var controllers = (await interruptsTask).ToDictionary(device => device.Id, StringComparer.OrdinalIgnoreCase);
             var items = chains.Select(chain => new InputItem(chain, chain.Controller is { } controller ? controllers.GetValueOrDefault(controller.Id) : null)).ToList();

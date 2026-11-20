@@ -21,7 +21,7 @@ public sealed record OptionalService(string Name, int Start, int? Delayed, strin
 /// <summary>Curated startup configuration only: never stops services or changes their triggers.</summary>
 public sealed class OptionalServicesService
 {
-    public static OptionalServicesService Instance { get; } = new(AppDataPath.BasePath);
+    public static OptionalServicesService Instance { get; } = new(AppDataPath.UndoPath);
     internal static readonly string[] Names = ["SysMain", "MapsBroker", "RetailDemo", "DiagTrack", "dmwappushservice", "WbioSrvc", "WerSvc", "PcaSvc"];
     private readonly string _path;
     private readonly Func<Task<IReadOnlyList<OptionalService>>> _scan;
@@ -40,7 +40,7 @@ public sealed class OptionalServicesService
     internal static bool CanManage(string name) => Names.Contains(name, StringComparer.Ordinal)
         && name is not ("SysMain" or "DiagTrack" or "WerSvc");
     internal static bool LegacyManaged(string name) => JsonStore.Load<Dictionary<string, string>>(
-        Path.Combine(AppDataPath.BasePath, "disabled-services.json")).ContainsKey(name);
+        Path.Combine(AppDataPath.UndoPath, "disabled-services.json")).ContainsKey(name);
 
     internal const string ScanScript = """
         $ErrorActionPreference = 'Stop'

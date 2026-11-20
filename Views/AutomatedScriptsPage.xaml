@@ -11,33 +11,63 @@
 
     <Page.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
-        <DataTemplate x:Key="FavoriteScriptStarTemplate">
-            <TextBlock FontSize="18">
-                <TextBlock.Style>
-                    <Style TargetType="TextBlock">
-                        <Setter Property="Text" Value="☆"/>
-                        <Setter Property="Foreground" Value="{DynamicResource IconSecondaryBrush}"/>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsFavorite}" Value="True">
-                                <Setter Property="Text" Value="★"/>
-                                <Setter Property="Foreground" Value="{DynamicResource AccentBrush}"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </TextBlock.Style>
-            </TextBlock>
-        </DataTemplate>
-        <Style x:Key="ScriptCardStyle" TargetType="Border">
-            <Setter Property="Background" Value="{DynamicResource CardBrush}"/>
-            <Setter Property="BorderBrush" Value="{DynamicResource SystemControlBorderBaseLowBrush}"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="CornerRadius" Value="8"/>
-            <Setter Property="Padding" Value="16,12"/>
-            <Setter Property="Margin" Value="0,0,0,12"/>
+        <Geometry x:Key="FolderIconGeometry">M 2,4.5 Q 2,3.5 3,3.5 H 6 L 7.5,5 H 13 Q 14,5 14,6 V 12 Q 14,13 13,13 H 3 Q 2,13 2,12 Z</Geometry>
+        <Geometry x:Key="ImportIconGeometry">M 8,2 V 9 M 5,6 L 8,9 11,6 M 2.5,10.5 V 12.5 Q 2.5,13.5 3.5,13.5 H 12.5 Q 13.5,13.5 13.5,12.5 V 10.5</Geometry>
+        <Geometry x:Key="CaptureIconGeometry">M 6,13.5 H 10 M 8,10.5 V 13.5 M 13,3 H 3 Q 2,3 2,4 V 9.5 Q 2,10.5 3,10.5 H 13 Q 14,10.5 14,9.5 V 4 Q 14,3 13,3 Z M 6,7 L 7.4,8.3 10,5.7</Geometry>
+
+        <Style x:Key="ScriptActionStyle" TargetType="Button" BasedOn="{StaticResource SecondaryButtonStyle}">
+            <Setter Property="Background" Value="{DynamicResource NeutralActionFillBrush}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="4" Padding="{TemplateBinding Padding}"
+                                SnapsToDevicePixels="True">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Focusable="False" RecognizesAccessKey="True"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource NeutralActionHoverBrush}"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource NeutralActionPressedBrush}"/>
+                </Trigger>
+                <Trigger Property="IsKeyboardFocused" Value="True">
+                    <Setter Property="BorderBrush" Value="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="ScriptRunButtonStyle" TargetType="Button" BasedOn="{StaticResource ScriptActionStyle}">
+            <Setter Property="MinWidth" Value="96"/>
+        </Style>
+        <Style x:Key="OptionalScriptDescriptionStyle" TargetType="TextBlock" BasedOn="{StaticResource DescriptionTextStyle}">
+            <Setter Property="Margin" Value="0,0,0,8"/>
+            <Style.Triggers>
+                <Trigger Property="Text" Value="">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="ScriptCardStyle" TargetType="Border" BasedOn="{StaticResource HoverSettingsCardStyle}">
+            <Setter Property="MinHeight" Value="68"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
+        </Style>
+        <Style x:Key="BuiltInScriptCardStyle" TargetType="Border" BasedOn="{StaticResource ScriptCardStyle}">
+            <Setter Property="MinHeight" Value="48"/>
+            <Setter Property="Padding" Value="16,7"/>
+            <Setter Property="Margin" Value="0,0,0,6"/>
         </Style>
 
         <DataTemplate x:Key="BuiltInScriptTemplate">
-            <Border Style="{StaticResource ScriptCardStyle}">
+            <Border Style="{StaticResource BuiltInScriptCardStyle}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -47,78 +77,32 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
-                            <TextBlock Text="{Binding Icon}" FontFamily="Segoe Fluent Icons" FontSize="18" Margin="0,0,8,0"
-                                       Foreground="{DynamicResource IconBrush}"/>
-                            <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="SemiBold"
-                                       Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
-                            <TextBlock Text="&#xE73E;" FontFamily="Segoe Fluent Icons" FontSize="14" Margin="8,0,0,0"
-                                       Foreground="{DynamicResource SuccessBrush}"
-                                       Visibility="{Binding IsCompleted, Converter={StaticResource BoolToVis}}"
-                                       ToolTip="{Binding CompletionToolTip}"/>
-                        </StackPanel>
-                        <TextBlock Text="{Binding Description}" Style="{StaticResource DescriptionTextStyle}" Margin="26,0,0,8"/>
-                        <StackPanel Orientation="Horizontal" Margin="26,0,0,0">
-                            <Border Background="{DynamicResource AccentBrush}" CornerRadius="8" Padding="6,2">
-                                <TextBlock Text="{Binding Category}" FontSize="10" Foreground="{DynamicResource AccentForegroundBrush}" FontWeight="Medium"/>
-                            </Border>
-                        </StackPanel>
+                    <StackPanel VerticalAlignment="Center" Margin="0,0,16,0">
+                        <TextBlock Text="{Binding Name}" FontSize="14" TextWrapping="Wrap" ToolTip="{Binding Category}"
+                                   Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                        <TextBlock Text="{Binding CompletionText}" Style="{StaticResource DescriptionTextStyle}" Margin="0,4,0,0"
+                                   Visibility="{Binding IsCompleted, Converter={StaticResource BoolToVis}}"/>
                     </StackPanel>
-                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <StackPanel x:Name="RowActions" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
                         <Button Style="{StaticResource FavoriteStarButtonStyle}" Margin="0,0,8,0"
                                 Click="FavoriteScript_Click" ToolTip="{loc:Loc Scripts:FavoriteScript}"
                                 AutomationProperties.Name="{loc:Loc Scripts:FavoriteScript}" Content="{Binding}"
-                                ContentTemplate="{StaticResource FavoriteScriptStarTemplate}"/>
-                        <Button Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,6,0"
-                                Click="BuiltInScript_View_Click" Tag="{Binding ElementName=PreviewPanel}">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="&#xE890;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0"/>
-                                <TextBlock Text="{loc:Loc Scripts:AutomatedScriptsPageView}" FontSize="12"/>
-                            </StackPanel>
-                        </Button>
-                        <Button Style="{StaticResource ExecuteButtonStyle}" Click="BuiltInScript_Execute_Click">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="&#xE768;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0"
-                                           Foreground="{DynamicResource AccentForegroundBrush}"/>
-                                <TextBlock Text="{Binding ExecuteText}" FontSize="12"/>
-                            </StackPanel>
-                        </Button>
+                                ContentTemplate="{StaticResource FavoriteStarTemplate}"/>
+                        <Button Style="{StaticResource CommandPreviewButtonStyle}" Margin="0,0,8,0" Content="{Binding}"
+                                ToolTip="{loc:Loc Scripts:AutomatedScriptsPageView}" AutomationProperties.Name="{loc:Loc Scripts:AutomatedScriptsPageView}"
+                                Click="ViewScript_Click" Tag="{Binding ElementName=PreviewPanel}"/>
+                        <Button Style="{StaticResource ScriptRunButtonStyle}" Content="{loc:Loc Scripts:Run}" Click="BuiltInScript_Execute_Click"/>
                     </StackPanel>
-                    <Border x:Name="PreviewPanel" Tag="{Binding ElementName=PreviewText}"
-                            Grid.Row="1" Grid.ColumnSpan="2" Margin="0,12,0,0" CornerRadius="8"
-                            BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}" BorderThickness="1"
-                            Background="{DynamicResource SystemControlBackgroundBaseLowBrush}" Visibility="Collapsed">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="150"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <TextBlock Text="{loc:Loc Scripts:AutomatedScriptsPageDetails}" FontWeight="SemiBold" Margin="12,8,12,4"
-                                       Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
-                            <Border Grid.Row="1" Margin="12" CornerRadius="6"
-                                    BorderBrush="{DynamicResource SystemControlBorderBaseLowBrush}" BorderThickness="1"
-                                    Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
-                                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                                    <TextBox x:Name="PreviewText" IsReadOnly="True" TextWrapping="Wrap" FontFamily="Consolas"
-                                             FontSize="13" Background="Transparent" BorderThickness="0"
-                                             Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"
-                                             SelectionBrush="{DynamicResource AccentBrush}"
-                                             SelectionTextBrush="{DynamicResource AccentForegroundBrush}"/>
-                                </ScrollViewer>
-                            </Border>
-                            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="12,0,12,12">
-                                <Button Style="{StaticResource SecondaryButtonStyle}" Padding="12,6" Click="CopyBuiltInScript_Click"
-                                        Tag="{Binding ElementName=PreviewText}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="&#xE8C8;" FontFamily="Segoe Fluent Icons" Margin="0,0,6,0"/>
-                                        <TextBlock Text="{loc:Loc Scripts:AutomatedScriptsPageCopy}"/>
-                                    </StackPanel>
-                                </Button>
-                            </StackPanel>
-                        </Grid>
-                    </Border>
+                    <StackPanel x:Name="PreviewPanel" Tag="{Binding ElementName=PreviewText}"
+                                Grid.Row="1" Grid.ColumnSpan="2" Margin="0,6,0,4" Visibility="Collapsed">
+                        <TextBlock Text="{Binding Description}" Style="{StaticResource DescriptionTextStyle}" Margin="0,0,0,8"/>
+                        <Border Style="{StaticResource CommandPreviewSurfaceStyle}">
+                            <TextBox x:Name="PreviewText" Style="{StaticResource CommandPreviewTextStyle}"
+                                     AutomationProperties.Name="{loc:Loc Scripts:AutomatedScriptsPageDetails}"/>
+                        </Border>
+                        <Button Style="{StaticResource SecondaryButtonStyle}" HorizontalAlignment="Right" Margin="0,8,0,0"
+                                Click="CopyScriptPreview_Click" Content="{loc:Loc Scripts:AutomatedScriptsPageCopy}" Tag="{Binding ElementName=PreviewText}"/>
+                    </StackPanel>
                 </Grid>
             </Border>
         </DataTemplate>
@@ -132,16 +116,14 @@
                     </Grid.ColumnDefinitions>
                     <StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
-                            <TextBlock Text="&#xE8FD;" FontFamily="Segoe Fluent Icons" FontSize="18" Margin="0,0,8,0"
-                                       Foreground="{DynamicResource IconBrush}"/>
                             <TextBlock Text="{Binding Name}" FontSize="15" FontWeight="SemiBold"/>
                         </StackPanel>
                         <TextBlock Text="{Binding Description}" Style="{StaticResource DescriptionTextStyle}" Margin="26,0,0,4"/>
                         <TextBlock Text="{Binding StepSummary}" FontSize="11" Margin="26,0,0,0"
                                    Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
                     </StackPanel>
-                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                        <Button Content="{loc:Loc Scripts:Run}" Style="{StaticResource ExecuteButtonStyle}" Margin="0,0,8,0"
+                    <StackPanel x:Name="RowActions" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Button Content="{loc:Loc Scripts:Run}" Style="{StaticResource ScriptRunButtonStyle}" Margin="0,0,8,0"
                                 AutomationProperties.Name="{loc:Loc Scripts:Run}" Click="RunPlaybook_Click"/>
                         <Button Content="{loc:Loc Scripts:AutomatedScriptsPageEdit}" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0"
                                 AutomationProperties.Name="{loc:Loc Scripts:AutomatedScriptsPageEdit}" Click="EditPlaybook_Click"/>
@@ -157,140 +139,93 @@
         <DataTemplate x:Key="CustomScriptTemplate">
             <Border Style="{StaticResource ScriptCardStyle}">
                 <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
-                            <TextBlock FontFamily="Segoe Fluent Icons" FontSize="18" Margin="0,0,8,0"
-                                       Foreground="{DynamicResource IconBrush}">
-                                <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="Text" Value="&#xE8B7;"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Language}" Value="Cmd">
-                                                <Setter Property="Text" Value="&#xE8A5;"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
-                            <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="SemiBold"
-                                       Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
-                        </StackPanel>
-                        <TextBlock Margin="26,0,0,8" Style="{StaticResource DescriptionTextStyle}">
-                            <Run>
-                                <Run.Style>
-                                    <Style TargetType="Run">
-                                        <Setter Property="Text" Value="PowerShell"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Language}" Value="Cmd">
-                                                <Setter Property="Text" Value="CMD"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Run.Style>
-                            </Run><Run Text=" • "/>
-                            <Run>
-                                <Run.Style>
-                                    <Style TargetType="Run">
-                                        <Setter Property="Text" Value="{loc:Loc Scripts:CurrentUser}"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding RequiresAdministrator}" Value="True">
-                                                <Setter Property="Text" Value="{loc:Loc Scripts:Administrator}"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Run.Style>
-                            </Run>
-                        </TextBlock>
+                    <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
+                        <TextBlock Text="{Binding Name}" FontSize="14" Margin="0,0,0,4" TextWrapping="Wrap"
+                                   Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                        <TextBlock Text="{Binding ExecutionDetails}" Style="{StaticResource DescriptionTextStyle}"/>
                     </StackPanel>
-                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <WrapPanel x:Name="RowActions" Grid.Column="1" VerticalAlignment="Center" MaxWidth="492">
                         <Button Style="{StaticResource FavoriteStarButtonStyle}" Margin="0,0,8,0"
                                 Click="FavoriteScript_Click" ToolTip="{loc:Loc Scripts:FavoriteScript}"
                                 AutomationProperties.Name="{loc:Loc Scripts:FavoriteScript}" Content="{Binding}"
-                                ContentTemplate="{StaticResource FavoriteScriptStarTemplate}"/>
-                        <Button Style="{StaticResource ExecuteButtonStyle}" Margin="0,0,8,0"
+                                ContentTemplate="{StaticResource FavoriteStarTemplate}"/>
+                        <Button Style="{StaticResource CommandPreviewButtonStyle}" Margin="0,0,8,0" Content="{Binding}"
+                                ToolTip="{loc:Loc Scripts:AutomatedScriptsPageView}" AutomationProperties.Name="{loc:Loc Scripts:AutomatedScriptsPageView}"
+                                Click="ViewScript_Click" Tag="{Binding ElementName=CustomPreviewPanel}"/>
+                        <Button Style="{StaticResource ScriptRunButtonStyle}" Margin="0,0,8,0" MaxWidth="220"
+                                ToolTip="{Binding RunButtonText}" AutomationProperties.Name="{Binding RunButtonText}"
                                 Click="ExecuteCustomScript_Click" Tag="{Binding ElementName=CancelScriptButton}">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="&#xE768;" FontFamily="Segoe Fluent Icons" FontSize="13" Margin="0,0,8,0"
-                                           Foreground="{DynamicResource AccentForegroundBrush}"/>
-                                <TextBlock>
-                                    <TextBlock.Style>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="Text" Value="{loc:Loc Scripts:Run}"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Language}" Value="Cmd">
-                                                    <Setter Property="Text" Value="{loc:Loc Scripts:Execute}"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
-                            </StackPanel>
+                            <TextBlock Text="{Binding RunButtonText}" TextTrimming="CharacterEllipsis"/>
                         </Button>
                         <Button x:Name="CancelScriptButton" Content="{loc:Loc Scripts:AutomatedScriptsPageStop}" Style="{StaticResource DangerButtonStyle}"
                                 Margin="0,0,8,0" Visibility="Collapsed" Click="CancelCustomScript_Click"/>
                         <Button Content="{loc:Loc Scripts:AutomatedScriptsPageExport}" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0"
                                 Click="ExportCustomScript_Click"/>
-                        <Button Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0" Click="EditCustomScript_Click">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="&#xE70F;" FontFamily="Segoe Fluent Icons" FontSize="13" Margin="0,0,8,0"/>
-                                <TextBlock Text="{loc:Loc Scripts:AutomatedScriptsPageEdit}"/>
-                            </StackPanel>
-                        </Button>
-                        <Button Style="{StaticResource DangerButtonStyle}" Click="DeleteCustomScript_Click">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="&#xE74D;" FontFamily="Segoe Fluent Icons" FontSize="13" Margin="0,0,8,0"/>
-                                <TextBlock Text="{loc:Loc Scripts:AutomatedScriptsPageDelete}"/>
-                            </StackPanel>
-                        </Button>
+                        <Button Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0" Click="EditCustomScript_Click"
+                                Content="{loc:Loc Scripts:AutomatedScriptsPageEdit}"/>
+                        <Button Style="{StaticResource DangerButtonStyle}" Click="DeleteCustomScript_Click"
+                                Content="{loc:Loc Scripts:AutomatedScriptsPageDelete}"/>
+                    </WrapPanel>
+                    <StackPanel x:Name="CustomPreviewPanel" Tag="{Binding ElementName=CustomPreviewText}"
+                                Grid.Row="1" Grid.ColumnSpan="2" Margin="0,8,0,0" Visibility="Collapsed">
+                        <TextBlock Text="{Binding Description, TargetNullValue=''}" Style="{StaticResource OptionalScriptDescriptionStyle}"/>
+                        <Border Style="{StaticResource CommandPreviewSurfaceStyle}">
+                            <TextBox x:Name="CustomPreviewText" Style="{StaticResource CommandPreviewTextStyle}"
+                                     AutomationProperties.Name="{loc:Loc Scripts:AutomatedScriptsPageDetails}"/>
+                        </Border>
+                        <Button Style="{StaticResource SecondaryButtonStyle}" HorizontalAlignment="Right" Margin="0,8,0,0"
+                                Click="CopyScriptPreview_Click" Content="{loc:Loc Scripts:AutomatedScriptsPageCopy}" Tag="{Binding ElementName=CustomPreviewText}"/>
                     </StackPanel>
                 </Grid>
             </Border>
         </DataTemplate>
     </Page.Resources>
 
-    <Grid Margin="32">
+    <Grid Margin="32,24,24,16">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid Margin="0,0,0,20">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
             <StackPanel>
-                <TextBlock Text="{loc:Loc Scripts:AutomatedScriptsPageAutomatedScripts2}" FontSize="28" FontWeight="Light"
-                           Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}" Margin="0,0,0,6"/>
-                <TextBlock Text="{loc:Loc Scripts:AutomatedScriptsPageRunMaintenanceCommandsAndManage}"
-                           FontSize="12" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" TextWrapping="Wrap"/>
+                <TextBlock Text="{loc:Loc Scripts:AutomatedScriptsPageAutomatedScripts2}" Style="{StaticResource PageHeadingTextStyle}" Margin="0,0,0,6"/>
+                <TextBlock Text="{loc:Loc Scripts:AutomatedScriptsPageRunMaintenanceCommandsAndManage}" Style="{StaticResource PageSubtitleTextStyle}"/>
             </StackPanel>
-            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top" Margin="0,2,0,0">
+            <WrapPanel Grid.Row="1" Margin="0,12,0,0">
                 <Button x:Name="OpenAppsFolderButton" AutomationProperties.Name="{loc:Loc Scripts:AppsFolder}"
-                        Style="{StaticResource SecondaryButtonStyle}" Click="OpenAppsFolder_Click" Padding="12,6" Margin="0,0,8,0">
+                        Style="{StaticResource ScriptActionStyle}" Click="OpenAppsFolder_Click" Margin="0,0,8,4">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="&#xE8B7;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0"/>
-                        <TextBlock Text="{loc:Loc Scripts:AppsFolder}" FontSize="12"/>
+                        <Path Data="{StaticResource FolderIconGeometry}" Style="{StaticResource ToolbarIconStyle}"/>
+                        <TextBlock Text="{loc:Loc Scripts:AppsFolder}" Style="{StaticResource ToolbarLabelStyle}"/>
                     </StackPanel>
                 </Button>
                 <Button AutomationProperties.Name="{loc:Loc Scripts:AutomatedScriptsPageImport}"
-                        Style="{StaticResource SecondaryButtonStyle}" Click="ImportScriptsButton_Click" Padding="12,6" Margin="0,0,8,0">
+                        Style="{StaticResource ScriptActionStyle}" Click="ImportScriptsButton_Click" Margin="0,0,8,4">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="&#xE896;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0"/>
-                        <TextBlock Text="{loc:Loc Scripts:AutomatedScriptsPageImport}" FontSize="12"/>
+                        <Path Data="{StaticResource ImportIconGeometry}" Style="{StaticResource ToolbarIconStyle}"/>
+                        <TextBlock Text="{loc:Loc Scripts:AutomatedScriptsPageImport}" Style="{StaticResource ToolbarLabelStyle}"/>
                     </StackPanel>
                 </Button>
-                <Button Style="{StaticResource ModernButtonStyle}" Click="NewScriptButton_Click" Padding="12,6">
+                <Button x:Name="NewScriptButton" Style="{StaticResource ScriptActionStyle}" Click="NewScriptButton_Click" Margin="0,0,0,4"
+                        AutomationProperties.Name="{loc:Loc Scripts:AutomatedScriptsPageNewScript}">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="&#xE710;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0"
-                                   Foreground="{DynamicResource AccentForegroundBrush}"/>
-                        <TextBlock Text="{loc:Loc Scripts:AutomatedScriptsPageNewScript}" FontSize="12"/>
+                        <Path Data="{StaticResource AddIconGeometry}" Style="{StaticResource ToolbarIconStyle}"/>
+                        <TextBlock Text="{loc:Loc Scripts:AutomatedScriptsPageNewScript}" Style="{StaticResource ToolbarLabelStyle}"/>
                     </StackPanel>
                 </Button>
-            </StackPanel>
+            </WrapPanel>
         </Grid>
 
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
@@ -305,27 +240,26 @@
                         <TextBlock Text="{loc:Loc Scripts:PlaybooksDescription}" Style="{StaticResource DescriptionTextStyle}"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Bottom" Margin="16,0,0,0">
-                        <Button Style="{StaticResource ModernButtonStyle}" Click="CapturePlaybook_Click" Padding="12,6" Margin="0,0,8,0"
+                        <Button Style="{StaticResource ScriptActionStyle}" Click="CapturePlaybook_Click" Margin="0,0,8,0"
                                 AutomationProperties.Name="{loc:Loc Scripts:PlaybookFromSystem}"
                                 ToolTip="{loc:Loc Scripts:PlaybookFromSystemHint}">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="&#xE9F5;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0"
-                                           Foreground="{DynamicResource AccentForegroundBrush}"/>
-                                <TextBlock Text="{loc:Loc Scripts:PlaybookFromSystem}" FontSize="12"/>
+                                <Path Data="{StaticResource CaptureIconGeometry}" Style="{StaticResource ToolbarIconStyle}"/>
+                                <TextBlock Text="{loc:Loc Scripts:PlaybookFromSystem}" Style="{StaticResource ToolbarLabelStyle}"/>
                             </StackPanel>
                         </Button>
                         <Button x:Name="NewPlaybookButton" AutomationProperties.Name="{loc:Loc Scripts:NewPlaybook}"
-                                Style="{StaticResource SecondaryButtonStyle}" Click="NewPlaybook_Click" Padding="12,6" Margin="0,0,8,0">
+                                Style="{StaticResource ScriptActionStyle}" Click="NewPlaybook_Click" Margin="0,0,8,0">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="&#xE710;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0"/>
-                                <TextBlock Text="{loc:Loc Scripts:NewPlaybook}" FontSize="12"/>
+                                <Path Data="{StaticResource AddIconGeometry}" Style="{StaticResource ToolbarIconStyle}"/>
+                                <TextBlock Text="{loc:Loc Scripts:NewPlaybook}" Style="{StaticResource ToolbarLabelStyle}"/>
                             </StackPanel>
                         </Button>
-                        <Button Style="{StaticResource SecondaryButtonStyle}" Click="ImportPlaybook_Click" Padding="12,6"
+                        <Button Style="{StaticResource ScriptActionStyle}" Click="ImportPlaybook_Click"
                                 AutomationProperties.Name="{loc:Loc Scripts:ImportPlaybook}">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="&#xE8B5;" FontFamily="Segoe Fluent Icons" FontSize="12" Margin="0,0,6,0"/>
-                                <TextBlock Text="{loc:Loc Scripts:ImportPlaybook}" FontSize="12"/>
+                                <Path Data="{StaticResource ImportIconGeometry}" Style="{StaticResource ToolbarIconStyle}"/>
+                                <TextBlock Text="{loc:Loc Scripts:ImportPlaybook}" Style="{StaticResource ToolbarLabelStyle}"/>
                             </StackPanel>
                         </Button>
                     </StackPanel>

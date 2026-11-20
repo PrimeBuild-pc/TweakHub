@@ -13,11 +13,15 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AssemblyTitle>TweakHub</AssemblyTitle>
     <AssemblyDescription>Windows 11 Performance Tweaking Application</AssemblyDescription>
-    <VersionPrefix>1.7.0</VersionPrefix>
+    <VersionPrefix>1.8.0</VersionPrefix>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     <Copyright>Copyright © 2025–2026</Copyright>
     <Company>TweakHub</Company>
     <Product>TweakHub</Product>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(StorePackage)' == 'true'">
+    <DefineConstants>$(DefineConstants);MSIX_STORE</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
@@ -31,6 +35,7 @@
 
   <ItemGroup>
     <Resource Include="ico.ico" />
+    <Resource Include="Resources\Navigation\*.png" />
     <EmbeddedResource Include="Resources\Boards.json" />
     <None Update="portable.flag" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <None Update="THIRD_PARTY_NOTICES.md" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />

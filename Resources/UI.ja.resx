@@ -363,38 +363,11 @@
   <data name="ImportProfileSummary" xml:space="preserve">
     <value>この有効なプロファイルには、スクリプト {0}、調整 {1}、ツール {2}、プレイブック {3} が含まれます。インポートすると現在の転送可能な設定が置き換えられ、復元コピーが作成されます。続行しますか？</value>
   </data>
-  <data name="SplashSubtitle" xml:space="preserve">
-    <value>起動前にシステムを読み取っています</value>
+  <data name="LoadingRegistryTweaks" xml:space="preserve">
+    <value>読み取り中: レジストリの調整とその状態</value>
   </data>
-  <data name="SplashTweaks" xml:space="preserve">
-    <value>レジストリの調整とその状態</value>
-  </data>
-  <data name="SplashWindowsUpdate" xml:space="preserve">
-    <value>Windows Update のモード</value>
-  </data>
-  <data name="SplashPower" xml:space="preserve">
-    <value>電源プランと設定</value>
-  </data>
-  <data name="SplashSecurity" xml:space="preserve">
-    <value>セキュリティの状態</value>
-  </data>
-  <data name="SplashDevices" xml:space="preserve">
-    <value>デバイスとドライバー</value>
-  </data>
-  <data name="SplashInterrupts" xml:space="preserve">
-    <value>割り込みと MSI</value>
-  </data>
-  <data name="SplashChecks" xml:space="preserve">
-    <value>有害な調整の確認</value>
-  </data>
-  <data name="SplashReading" xml:space="preserve">
-    <value>読み取り中: {0}</value>
-  </data>
-  <data name="SplashSeconds" xml:space="preserve">
-    <value>{0} 秒</value>
-  </data>
-  <data name="SplashStepFailed" xml:space="preserve">
-    <value>セクションで再試行します</value>
+  <data name="LoadingWindowsUpdateStatus" xml:space="preserve">
+    <value>読み取り中: Windows Update のモード</value>
   </data>
   <data name="AboutPageImportPreviousCopy" xml:space="preserve">
     <value>別のコピーからインポート</value>
@@ -414,10 +387,28 @@
   <data name="PreviousDataSameFolder" xml:space="preserve">
     <value>これは実行中の TweakHub のデータ フォルダーです。</value>
   </data>
+  <data name="DataDirectoryInUse" xml:space="preserve">
+    <value>このデータ フォルダーは別の TweakHub で開かれています。先にそちらを閉じてください。</value>
+  </data>
+  <data name="DataDirectoryUnavailable" xml:space="preserve">
+    <value>TweakHub がデータ フォルダーを開けないか、この PC と Windows アカウントを識別できません。</value>
+  </data>
+  <data name="LegacyUndoAvailable" xml:space="preserve">
+    <value>以前のバックアップがあります。確認するには、別のコピーからのインポートでこの Data フォルダーを選択してください。</value>
+  </data>
+  <data name="LegacyUndoConfirm" xml:space="preserve">
+    <value>この PC と Windows アカウントで作成したことが確かな場合のみ、以前のバックアップをインポートしてください。元のファイルは保持されます。</value>
+  </data>
+  <data name="LegacyUndoSkip" xml:space="preserve">
+    <value>以前のバックアップをスキップ</value>
+  </data>
+  <data name="LegacyUndoCopied" xml:space="preserve">
+    <value>この PC とアカウント用に以前のバックアップ ファイルを {0} 個コピーしました。</value>
+  </data>
   <data name="PreviousDataConfirm" xml:space="preserve">
     <value>{0} からインポートします:
 • プロファイル: カスタム スクリプト、Tweak、ツール、プレイブック、お気に入り、外観 (現在のものを置き換えます。現在のものは先に復元用コピーとして保存されます)
-• そのコピーで行った変更を元に戻すためのデータ (ここからでも復元できます)
+• この PC と Windows アカウントに関連付けられている復元データ
 • ここにない Apps のポータブル プログラム
 
 インポートが終わると TweakHub が再起動します。</value>

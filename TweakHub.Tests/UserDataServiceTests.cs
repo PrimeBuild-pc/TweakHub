@@ -16,7 +16,12 @@ public class UserDataServiceTests
         try
         {
             var source = new UserDataService(root);
-            var script = new CustomScript { Id = "script-1", Name = "Launch portable tool", Content = "& $env:TWEAKHUB_APPS\\Tool\\Tool.exe" };
+            var script = new CustomScript
+            {
+                Id = "script-1", Name = "Launch portable tool",
+                RunLabel = "Launch", Description = "Opens the portable tool.",
+                Content = "& $env:TWEAKHUB_APPS\\Tool\\Tool.exe"
+            };
             var tool = new ExternalTool
             {
                 Id = "custom-tool",
@@ -57,7 +62,10 @@ public class UserDataServiceTests
             var result = destination.ImportProfile(profilePath);
             Assert.Multiple(() =>
             {
-                Assert.That(destination.LoadCustomScripts().Single().Content, Does.Contain("TWEAKHUB_APPS"));
+                var importedScript = destination.LoadCustomScripts().Single();
+                Assert.That(importedScript.Content, Does.Contain("TWEAKHUB_APPS"));
+                Assert.That(importedScript.RunButtonText, Is.EqualTo("Launch"));
+                Assert.That(importedScript.Description, Is.EqualTo("Opens the portable tool."));
                 Assert.That(destination.LoadCustomTools().Single().PowerShellCommand, Does.Contain("winget install"));
                 Assert.That(destination.LoadCustomTweaks().Single().Description, Is.EqualTo("Why this custom value exists"));
                 Assert.That(destination.LoadPlaybooks().Single().Steps.Single(step => step.Type == PlaybookStepType.Winget).WingetId,
@@ -94,7 +102,10 @@ public class UserDataServiceTests
             service.ImportProfile(profile);
             Assert.Multiple(() =>
             {
-                Assert.That(service.LoadCustomScripts().Single().Id, Is.EqualTo("legacy"));
+                var script = service.LoadCustomScripts().Single();
+                Assert.That(script.Id, Is.EqualTo("legacy"));
+                Assert.That(script.RunButtonText, Is.EqualTo(TweakHub.Localization.L.Get("Scripts:Run")));
+                Assert.That(script.Description, Is.Empty);
                 Assert.That(service.LoadPlaybooks(), Is.Empty);
             });
         }
@@ -168,16 +179,19 @@ public class UserDataServiceTests
             File.WriteAllText(Path.Combine(oldRoot, "Apps", "Tool", "tool.exe"), "old");
 
             // The new copy already restored everything once (empty list) and has power changes of its own.
-            Directory.CreateDirectory(newData);
-            File.WriteAllText(Path.Combine(newData, "registry-backup.json"), "[]");
-            File.WriteAllText(Path.Combine(newData, "power-backup.json"), """{"new":true}""");
-
             Assert.That(UserDataService.FindDataDirectory(oldRoot), Is.EqualTo(oldData));
             var service = new UserDataService(newData);
-            Assert.Throws<InvalidOperationException>(() => service.ImportPreviousData(newData, newApps));
-            var result = service.ImportPreviousData(oldData, newApps);
+            Directory.CreateDirectory(service.UndoDirectory);
+            File.WriteAllText(Path.Combine(service.UndoDirectory, "registry-backup.json"), "[]");
+            File.WriteAllText(Path.Combine(service.UndoDirectory, "power-backup.json"), """{"new":true}""");
 
-            var registry = new RegistryService(newData);
+            Assert.Throws<InvalidOperationException>(() => service.ImportPreviousData(newData, newApps));
+            var withoutConfirmation = service.ImportPreviousData(oldData, newApps);
+            Assert.That(withoutConfirmation.UndoFiles, Is.Zero);
+            Assert.That(File.ReadAllText(Path.Combine(service.UndoDirectory, "registry-backup.json")), Is.EqualTo("[]"));
+
+            var result = service.ImportPreviousData(oldData, newApps, adoptLegacy: true);
+            var registry = new RegistryService(service.UndoDirectory);
             registry.Initialize();
             Assert.Multiple(() =>
             {
@@ -188,8 +202,8 @@ public class UserDataServiceTests
                 Assert.That(registry.HasBackup(@"HKEY_CURRENT_USER\System\GameConfigStore", "GameDVR_FSEBehaviorMode"));
                 Assert.That(result.UndoFiles, Is.EqualTo(1));
                 Assert.That(result.KeptCurrent, Is.EqualTo(new[] { "power-backup.json" }));
-                Assert.That(File.ReadAllText(Path.Combine(newData, "power-backup.json")), Does.Contain("new"));
-                Assert.That(result.AppFiles, Is.EqualTo(1));
+                Assert.That(File.ReadAllText(Path.Combine(service.UndoDirectory, "power-backup.json")), Does.Contain("new"));
+                Assert.That(withoutConfirmation.AppFiles, Is.EqualTo(1));
                 Assert.That(File.ReadAllText(Path.Combine(newApps, "Tool", "tool.exe")), Is.EqualTo("old"));
                 Assert.That(File.Exists(result.Profile.RecoveryPath));
             });
@@ -197,6 +211,36 @@ public class UserDataServiceTests
         finally
         {
             if (Directory.Exists(root)) Directory.Delete(root, true);
+        }
+    }
+
+    [Test]
+    public void AdoptingLegacyUndoInPlaceKeepsTheProfileAndTheOriginalFiles()
+    {
+        var data = Directory.CreateTempSubdirectory("TweakHubUndoMigration-");
+        try
+        {
+            var service = new UserDataService(data.FullName);
+            service.SaveFavoriteTools(["example"]);
+            var legacyRegistry = Path.Combine(data.FullName, "registry-backup.json");
+            var legacyUpdate = Path.Combine(data.FullName, "windows-update-backup.json");
+            File.WriteAllText(legacyRegistry, """[{"KeyPath":"HKCU\\Software\\TweakHub","ValueName":"Test"}]""");
+            File.WriteAllText(legacyUpdate, """{"Services":[],"Tasks":[]}""");
+
+            Assert.That(File.Exists(Path.Combine(service.UndoDirectory, "registry-backup.json")), Is.False);
+            var adopted = service.AdoptLegacyUndoData();
+            Assert.Multiple(() =>
+            {
+                Assert.That(adopted.Copied, Is.EqualTo(1));
+                Assert.That(service.LoadFavoriteTools(), Does.Contain("example"));
+                Assert.That(File.ReadAllText(Path.Combine(service.UndoDirectory, "registry-backup.json")), Is.EqualTo(File.ReadAllText(legacyRegistry)));
+                Assert.That(File.Exists(legacyUpdate), Is.True);
+                Assert.That(File.Exists(Path.Combine(service.UndoDirectory, "windows-update-backup.json")), Is.False);
+            });
+        }
+        finally
+        {
+            data.Delete(recursive: true);
         }
     }
 }

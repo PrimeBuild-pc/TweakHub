@@ -746,4 +746,13 @@
 
 {1}</value>
   </data>
+  <data name="ScriptRunLabelOptional" xml:space="preserve">
+    <value>ボタンのラベル（任意）</value>
+  </data>
+  <data name="ScriptDescriptionOptional" xml:space="preserve">
+    <value>説明（任意）</value>
+  </data>
+  <data name="ScriptCode" xml:space="preserve">
+    <value>スクリプトのコード</value>
+  </data>
 </root>

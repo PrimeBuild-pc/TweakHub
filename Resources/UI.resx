@@ -363,38 +363,11 @@ Download, verify and install it now?</value>
   <data name="ImportProfileSummary" xml:space="preserve">
     <value>This valid profile contains {0} scripts, {1} tweaks, {2} tools and {3} playbooks. Importing replaces the current transferable configuration and creates a recovery copy. Continue?</value>
   </data>
-  <data name="SplashSubtitle" xml:space="preserve">
-    <value>Reading your system before opening</value>
+  <data name="LoadingRegistryTweaks" xml:space="preserve">
+    <value>Reading: Registry tweaks and their state</value>
   </data>
-  <data name="SplashTweaks" xml:space="preserve">
-    <value>Registry tweaks and their state</value>
-  </data>
-  <data name="SplashWindowsUpdate" xml:space="preserve">
-    <value>Windows Update mode</value>
-  </data>
-  <data name="SplashPower" xml:space="preserve">
-    <value>Power plans and settings</value>
-  </data>
-  <data name="SplashSecurity" xml:space="preserve">
-    <value>Security status</value>
-  </data>
-  <data name="SplashDevices" xml:space="preserve">
-    <value>Devices and drivers</value>
-  </data>
-  <data name="SplashInterrupts" xml:space="preserve">
-    <value>Interrupts and MSI</value>
-  </data>
-  <data name="SplashChecks" xml:space="preserve">
-    <value>Harmful tweak check</value>
-  </data>
-  <data name="SplashReading" xml:space="preserve">
-    <value>Reading: {0}</value>
-  </data>
-  <data name="SplashSeconds" xml:space="preserve">
-    <value>{0} s</value>
-  </data>
-  <data name="SplashStepFailed" xml:space="preserve">
-    <value>Will retry in the section</value>
+  <data name="LoadingWindowsUpdateStatus" xml:space="preserve">
+    <value>Reading: Windows Update mode</value>
   </data>
   <data name="AboutPageImportPreviousCopy" xml:space="preserve">
     <value>Import from another copy</value>
@@ -414,10 +387,28 @@ Download, verify and install it now?</value>
   <data name="PreviousDataSameFolder" xml:space="preserve">
     <value>This is the data folder of the TweakHub you are running.</value>
   </data>
+  <data name="DataDirectoryInUse" xml:space="preserve">
+    <value>This data folder is already open in TweakHub. Close the other instance before opening it here.</value>
+  </data>
+  <data name="DataDirectoryUnavailable" xml:space="preserve">
+    <value>TweakHub could not open its data folder or identify this PC and Windows account.</value>
+  </data>
+  <data name="LegacyUndoAvailable" xml:space="preserve">
+    <value>Older backups are available. Use Import from another copy and select this Data folder to review them.</value>
+  </data>
+  <data name="LegacyUndoConfirm" xml:space="preserve">
+    <value>Import these older backups only if you know they came from this PC and Windows account. The original files will be kept.</value>
+  </data>
+  <data name="LegacyUndoSkip" xml:space="preserve">
+    <value>Skip older backups</value>
+  </data>
+  <data name="LegacyUndoCopied" xml:space="preserve">
+    <value>Copied {0} older backup files for this PC and account.</value>
+  </data>
   <data name="PreviousDataConfirm" xml:space="preserve">
     <value>Import from {0}:
 • profile: custom scripts, tweaks and tools, playbooks, favorites and appearance (replaces the current one, which is saved as a recovery copy first);
-• undo data for the changes made by that copy, so you can still restore them here;
+• undo data already linked to this PC and Windows account;
 • portable programs in Apps that are missing here.
 
 TweakHub restarts when the import is done.</value>

@@ -1,4 +1,3 @@
-using System.Text.Json;
 using Microsoft.Win32;
 using TweakHub.Localization;
 
@@ -26,61 +25,61 @@ public sealed class InterruptService
     public static InterruptService Instance { get; } = new();
     private InterruptService() { }
 
-    private const string ScanScript = """
-        $ErrorActionPreference = 'SilentlyContinue'
-        $present = @(Get-PnpDevice -PresentOnly)
-        $links = @{}
-        Get-NetAdapter -Physical | ForEach-Object { $links[([string]$_.PnPDeviceID).ToUpperInvariant()] = [int]$_.MediaConnectionState -eq 1 }
-        # Controllers with at least one working HD Audio function behind them.
-        $working = @($present | Where-Object { $_.InstanceId -like 'HDAUDIO\*' -and $_.Status -eq 'OK' } | ForEach-Object {
-            ([string](Get-PnpDeviceProperty -InstanceId $_.InstanceId -KeyName DEVPKEY_Device_Parent).Data).ToUpperInvariant() })
-        @($present | Where-Object { $_.InstanceId -like 'PCI\*' } | ForEach-Object {
-            $base = "HKLM:\SYSTEM\CurrentControlSet\Enum\$($_.InstanceId)\Device Parameters\Interrupt Management"
-            $msi = Get-ItemProperty -LiteralPath "$base\MessageSignaledInterruptProperties"
-            $affinity = Get-ItemProperty -LiteralPath "$base\Affinity Policy"
-            $hd = [bool](@($_.CompatibleID) -match '&CC_0403')
-            $slot = @($null, $null)
-            if ($hd -or $_.Class -eq 'Display') { $slot = @(Get-PnpDeviceProperty -InstanceId $_.InstanceId -KeyName DEVPKEY_Device_BusNumber, DEVPKEY_Device_Address) }
-            [pscustomobject]@{ Id = [string]$_.InstanceId; Name = [string]$_.FriendlyName; Class = [string]$_.Class
-                HdAudio = $hd; Bus = $slot[0].Data; Address = $slot[1].Data
-                AudioInUse = (-not $hd) -or ($working -contains $_.InstanceId.ToUpperInvariant())
-                Working = $_.Status -eq 'OK'; NetConnected = $links[$_.InstanceId.ToUpperInvariant()]
-                MsiCapable = [bool]$msi; Msi = $msi.MSISupported; Limit = $msi.MessageNumberLimit
-                Priority = $affinity.DevicePriority; Policy = $affinity.DevicePolicy
-                Mask = $(if ($affinity.AssignmentSetOverride) { [Convert]::ToBase64String([byte[]]$affinity.AssignmentSetOverride) }) }
-        }) | ConvertTo-Json -Compress
-        """ + PowerShellService.AsciiJson;
+    public Task<IReadOnlyList<InterruptDevice>> GetDevicesAsync() =>
+        Task.Run<IReadOnlyList<InterruptDevice>>(() => Visible(ReadDevices()));
 
-    public async Task<IReadOnlyList<InterruptDevice>> GetDevicesAsync()
+    /// <summary>
+    /// Present PCI devices with their interrupt settings, read from cfgmgr32 and the registry directly
+    /// (the same scan through PowerShell took about 3 s).
+    /// </summary>
+    internal static List<InterruptDevice> ReadDevices()
     {
-        var result = await PowerShellService.Instance.ExecuteScriptAsync(ScanScript, timeout: TimeSpan.FromMinutes(1));
-        if (!result.Success) throw new InvalidOperationException(result.Error);
-        return ParseDevices(result.Output);
+        var present = DeviceTree.ReadInventory().Where(device => device.Present).ToList();
+        // Controllers with at least one working HD Audio function behind them.
+        var working = present.Where(device => device.Id.StartsWith(@"HDAUDIO\", StringComparison.OrdinalIgnoreCase) && device.Status == "OK")
+            .Select(device => device.Parent).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var up = System.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()
+            .Where(adapter => adapter.OperationalStatus == System.Net.NetworkInformation.OperationalStatus.Up)
+            .Select(adapter => adapter.Id).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        return present.Where(device => device.Id.StartsWith(@"PCI\", StringComparison.OrdinalIgnoreCase)).Select(device =>
+        {
+            var root = $@"SYSTEM\CurrentControlSet\Enum\{device.Id}\Device Parameters\Interrupt Management";
+            using var msi = Registry.LocalMachine.OpenSubKey(root + @"\MessageSignaledInterruptProperties");
+            using var affinity = Registry.LocalMachine.OpenSubKey(root + @"\Affinity Policy");
+            var hd = DeviceTree.CompatibleIds(device.Id).Any(id => id.Contains("&CC_0403", StringComparison.OrdinalIgnoreCase));
+            var slot = hd || device.Class.Equals("Display", StringComparison.OrdinalIgnoreCase);
+            // Other tools sometimes write the mask as a QWORD instead of binary.
+            var mask = affinity?.GetValue("AssignmentSetOverride") switch
+            {
+                byte[] bytes => bytes,
+                long number => BitConverter.GetBytes(number),
+                int number => BitConverter.GetBytes(number),
+                _ => []
+            };
+            Array.Resize(ref mask, 8);
+            return new InterruptDevice(device.Id, device.Name, device.Class,
+                msi is not null, msi?.GetValue("MSISupported") is 1, msi?.GetValue("MessageNumberLimit") as int?,
+                (InterruptPriority)Math.Clamp(affinity?.GetValue("DevicePriority") as int? ?? 0, 0, 3), affinity?.GetValue("DevicePolicy") as int? ?? 0,
+                BitConverter.ToUInt64(mask), hd,
+                slot && device.BusNumber >= 0 ? device.BusNumber : null, slot && device.Address >= 0 ? device.Address : null,
+                !hd || working.Contains(device.Id), device.Status == "OK", NetConnected(device.Id, up));
+        }).ToList();
     }
 
-    internal static List<InterruptDevice> ParseDevices(string json)
+    /// <summary>Whether the network adapter on this device has a link; null when the device is not a network adapter.</summary>
+    private static bool? NetConnected(string id, HashSet<string> up)
     {
-        if (string.IsNullOrWhiteSpace(json)) return [];
-        using var document = JsonDocument.Parse(json);
-        return JsonRead.Items(document.RootElement).Select(item =>
-        {
-            var mask = JsonRead.Text(item, "Mask");
-            var bytes = mask.Length > 0 ? Convert.FromBase64String(mask) : [];
-            Array.Resize(ref bytes, 8);
-            return new InterruptDevice(
-                JsonRead.Text(item, "Id"), JsonRead.Text(item, "Name"), JsonRead.Text(item, "Class"),
-                JsonRead.Bool(item, "MsiCapable"), JsonRead.Int(item, "Msi") == 1, JsonRead.Int(item, "Limit"),
-                (InterruptPriority)Math.Clamp(JsonRead.Int(item, "Priority") ?? 0, 0, 3), JsonRead.Int(item, "Policy") ?? 0,
-                BitConverter.ToUInt64(bytes), JsonRead.Bool(item, "HdAudio"),
-                JsonRead.Int(item, "Bus"), JsonRead.Int(item, "Address"), JsonRead.Bool(item, "AudioInUse", fallback: true),
-                JsonRead.Bool(item, "Working", fallback: true),
-                item.TryGetProperty("NetConnected", out var link) && link.ValueKind is JsonValueKind.True or JsonValueKind.False ? link.GetBoolean() : null);
-        })
-        // Bridges and root ports have no driver-level interrupt settings worth changing.
+        using var device = Registry.LocalMachine.OpenSubKey($@"SYSTEM\CurrentControlSet\Enum\{id}");
+        if (device?.GetValue("Driver") is not string driver) return null;
+        using var adapter = Registry.LocalMachine.OpenSubKey($@"SYSTEM\CurrentControlSet\Control\Class\{driver}");
+        return adapter?.GetValue("NetCfgInstanceId") is string guid ? up.Contains(guid) : null;
+    }
+
+    /// <summary>Bridges and root ports have no driver-level interrupt settings worth changing.</summary>
+    internal static List<InterruptDevice> Visible(IEnumerable<InterruptDevice> devices) => devices
         .Where(device => device.Id.Length > 0 && (device.MsiCapable || device.Class is not "System"))
         .OrderByDescending(device => device.MsiCapable).ThenBy(device => device.Name, StringComparer.CurrentCultureIgnoreCase)
         .ToList();
-    }
 
     private static string MsiKey(string id) =>
         $@"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\{id}\Device Parameters\Interrupt Management\MessageSignaledInterruptProperties";
@@ -136,14 +135,19 @@ public sealed class InterruptService
     /// Devices whose layout affinity is back to the original value while TweakHub's backup is still there: a driver update
     /// (often the GPU one) recreated the device key. Only present PCI devices, by display name.
     /// </summary>
-    internal static IReadOnlyList<string> ResetAffinityDevices(IReadOnlyList<DeviceNode> nodes)
+    internal static IReadOnlyList<string> ResetAffinityDevices()
     {
-        var present = nodes.DistinctBy(node => node.Id, StringComparer.OrdinalIgnoreCase)
-            .ToDictionary(node => node.Id, node => node.Name, StringComparer.OrdinalIgnoreCase);
-        return RegistryService.Instance.BackedUpValues
+        var backedUp = RegistryService.Instance.BackedUpValues
             .Where(value => value.ValueName == "DevicePolicy")
             .Select(value => (value.KeyPath, Id: AffinityKeyDevice(value.KeyPath)))
-            .Where(item => item.Id is not null && present.ContainsKey(item.Id) && RegistryService.Instance.IsAtOriginal(item.KeyPath, "DevicePolicy") == true)
+            .Where(item => item.Id is not null)
+            .ToList();
+        if (backedUp.Count == 0) return [];
+
+        var present = DeviceTree.Read().DistinctBy(node => node.Id, StringComparer.OrdinalIgnoreCase)
+            .ToDictionary(node => node.Id, node => node.Name, StringComparer.OrdinalIgnoreCase);
+        return backedUp
+            .Where(item => present.ContainsKey(item.Id!) && RegistryService.Instance.IsAtOriginal(item.KeyPath, "DevicePolicy") == true)
             .Select(item => present[item.Id!] is { Length: > 0 } name ? name : item.Id!)
             .ToList();
     }

@@ -1,0 +1,12 @@
+{
+  "App": "TweakHub",
+  "ProductId": "9P5R2R5TRKL3",
+  "Name": "LorenzoMassafra.TweakHub",
+  "Publisher": "CN=ACD03D0F-7A52-4C93-ADF8-A07702180E72",
+  "PublisherDisplayName": "Prime Build",
+  "PackageFamilyName": "LorenzoMassafra.TweakHub_2j208vxf88tt6",
+  "DotnetSdk": "10.0.403",
+  "WindowsSdk": "10.0.26100.0",
+  "RuntimeFrameworkVersion": "10.0.14",
+  "Icon": "ico.ico"
+}

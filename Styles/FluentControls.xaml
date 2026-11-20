@@ -1,0 +1,287 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ui="http://schemas.modernwpf.com/2019">
+    <SolidColorBrush x:Key="FluentAccentBrush" Color="#005FB8"/>
+    <SolidColorBrush x:Key="FluentAccentForegroundBrush" Color="White"/>
+    <SolidColorBrush x:Key="FluentAccentTextBrush" Color="#003E92"/>
+    <SolidColorBrush x:Key="NeutralActionFillBrush" Color="#FBFBFB"/>
+    <SolidColorBrush x:Key="NeutralActionHoverBrush" Color="#F4F4F4"/>
+    <SolidColorBrush x:Key="NeutralActionPressedBrush" Color="#EDEDED"/>
+
+    <Style x:Key="LoadingProgressRingStyle" TargetType="ui:ProgressRing">
+        <Setter Property="IsActive" Value="True"/>
+        <Setter Property="Foreground" Value="{DynamicResource FluentAccentBrush}"/>
+        <Style.Triggers>
+            <Trigger Property="IsVisible" Value="False">
+                <Setter Property="IsActive" Value="False"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="PageHeadingTextStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="26"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="AutomationProperties.HeadingLevel" Value="Level1"/>
+    </Style>
+
+    <Style x:Key="PageSubtitleTextStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+    </Style>
+
+    <Style x:Key="SettingsCardStyle" TargetType="Border" BasedOn="{StaticResource CardStyle}">
+        <Setter Property="Margin" Value="0"/>
+    </Style>
+
+    <Style x:Key="HoverSettingsCardStyle" TargetType="Border" BasedOn="{StaticResource SettingsCardStyle}">
+        <Style.Triggers>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True"/>
+                    <Condition Binding="{Binding IsMouseOver, ElementName=RowActions, FallbackValue=False}" Value="False"/>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Background" Value="{DynamicResource CardHoverBrush}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource SystemControlBorderBaseMediumBrush}"/>
+            </MultiDataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="DialogHeadingTextStyle" TargetType="TextBlock" BasedOn="{StaticResource PageHeadingTextStyle}">
+        <Setter Property="FontSize" Value="20"/>
+    </Style>
+
+    <Style x:Key="DialogFooterStyle" TargetType="Border">
+        <Setter Property="Padding" Value="24,16"/>
+        <Setter Property="BorderThickness" Value="0,1,0,0"/>
+        <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundBaseLowBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource SystemControlBorderBaseLowBrush}"/>
+    </Style>
+
+    <Style x:Key="FieldLabelStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="Margin" Value="0,0,0,5"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+    </Style>
+
+    <Style x:Key="FieldInputStyle" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+        <Setter Property="FontFamily" Value="Segoe UI Variable Text"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="MinHeight" Value="32"/>
+        <Setter Property="ui:ControlHelper.CornerRadius" Value="4"/>
+    </Style>
+
+    <FontFamily x:Key="FluentIconFont">Segoe Fluent Icons, Segoe MDL2 Assets</FontFamily>
+
+    <!-- The bottom-line focus indicator is sized for 32px fields; taller fields get a plain accent outline. -->
+    <Style x:Key="FieldMultilineStyle" TargetType="TextBox" BasedOn="{StaticResource FieldInputStyle}">
+        <Style.Resources>
+            <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="{DynamicResource FluentAccentColor}"/>
+            <Thickness x:Key="TextControlBorderThemeThicknessFocused">1</Thickness>
+        </Style.Resources>
+    </Style>
+
+    <Geometry x:Key="FavoriteIconGeometry">M 8,1.5 L 9.95,5.6 14.5,6.2 11.2,9.35 12,14 8,11.8 4,14 4.8,9.35 1.5,6.2 6.05,5.6 Z</Geometry>
+    <Geometry x:Key="PreviewIconGeometry">M 4,1.5 H 9.5 L 13,5 V 13.5 Q 13,14.5 12,14.5 H 4 Q 3,14.5 3,13.5 V 2.5 Q 3,1.5 4,1.5 Z M 9.5,1.5 V 5.5 H 13 M 5.5,8.5 H 10.5 M 5.5,11 H 10.5</Geometry>
+    <Geometry x:Key="RefreshIconGeometry">M 12.8,6 A 5.2,5.2 0 1 0 13,9.5 M 12.8,2.5 V 6 H 9.3</Geometry>
+    <Geometry x:Key="AddIconGeometry">M 8,3 V 13 M 3,8 H 13</Geometry>
+    <Geometry x:Key="ChevronIconGeometry">M 6,4 L 10,8 6,12</Geometry>
+
+    <Style x:Key="LineIconStyle" TargetType="Path">
+        <Setter Property="Width" Value="16"/>
+        <Setter Property="Height" Value="16"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Stroke" Value="{Binding (TextElement.Foreground), RelativeSource={RelativeSource Self}}"/>
+        <Setter Property="StrokeThickness" Value="1.1"/>
+        <Setter Property="StrokeLineJoin" Value="Round"/>
+        <Setter Property="StrokeStartLineCap" Value="Round"/>
+        <Setter Property="StrokeEndLineCap" Value="Round"/>
+    </Style>
+
+    <Style x:Key="ToolbarIconStyle" TargetType="Path" BasedOn="{StaticResource LineIconStyle}">
+        <Setter Property="Margin" Value="0,0,6,0"/>
+    </Style>
+
+    <Style x:Key="CommandPreviewButtonStyle" TargetType="Button" BasedOn="{StaticResource FavoriteStarButtonStyle}">
+        <Setter Property="Width" Value="32"/>
+        <Setter Property="MinHeight" Value="32"/>
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Path Data="{StaticResource PreviewIconGeometry}" Style="{StaticResource LineIconStyle}"/>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="CommandPreviewSurfaceStyle" TargetType="Border">
+        <Setter Property="CornerRadius" Value="6"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource SystemControlBorderBaseLowBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundBaseLowBrush}"/>
+    </Style>
+
+    <Style x:Key="CommandPreviewTextStyle" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+        <Setter Property="IsReadOnly" Value="True"/>
+        <Setter Property="FontFamily" Value="Cascadia Mono, Consolas"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="Padding" Value="10,8"/>
+        <Setter Property="MaxHeight" Value="224"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="SelectionBrush" Value="{DynamicResource AccentBrush}"/>
+        <Setter Property="SelectionTextBrush" Value="{DynamicResource AccentForegroundBrush}"/>
+    </Style>
+
+    <Style x:Key="ToolbarLabelStyle" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <DataTemplate x:Key="FavoriteStarTemplate">
+        <Path Data="{StaticResource FavoriteIconGeometry}">
+            <Path.Style>
+                <Style TargetType="Path" BasedOn="{StaticResource LineIconStyle}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsFavorite}" Value="True">
+                            <Setter Property="Stroke" Value="{DynamicResource FluentAccentTextBrush}"/>
+                            <Setter Property="Fill" Value="{DynamicResource FluentAccentTextBrush}"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Path.Style>
+        </Path>
+    </DataTemplate>
+
+    <Style x:Key="SettingSwitchStyle" TargetType="ui:ToggleSwitch" BasedOn="{StaticResource {x:Type ui:ToggleSwitch}}">
+        <Setter Property="MinWidth" Value="0"/>
+        <Setter Property="Width" Value="52"/>
+        <Setter Property="OnContent" Value="{x:Null}"/>
+        <Setter Property="OffContent" Value="{x:Null}"/>
+    </Style>
+
+    <Style x:Key="FluentDropDownItemStyle" TargetType="ComboBoxItem" BasedOn="{StaticResource {x:Type ComboBoxItem}}">
+        <Setter Property="MinHeight" Value="34"/>
+        <Setter Property="Margin" Value="3,1"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBoxItem">
+                    <Border x:Name="ItemSurface" Background="Transparent" CornerRadius="4">
+                        <Grid>
+                            <Border x:Name="SelectedMark" Width="3" Height="16" Margin="1,0,0,0" CornerRadius="1.5"
+                                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                                    Background="{DynamicResource FluentAccentBrush}" Visibility="Collapsed"/>
+                            <ContentPresenter x:Name="ItemContent" Margin="11,6,8,6" VerticalAlignment="Center"
+                                              TextElement.Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsHighlighted" Value="True">
+                            <Setter TargetName="ItemSurface" Property="Background" Value="{DynamicResource SystemControlBackgroundListLowBrush}"/>
+                            <Setter TargetName="ItemContent" Property="TextElement.Foreground" Value="{DynamicResource SelectionForegroundBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="ItemSurface" Property="Background" Value="{DynamicResource SystemControlBackgroundListMediumBrush}"/>
+                            <Setter TargetName="ItemContent" Property="TextElement.Foreground" Value="{DynamicResource SelectionForegroundBrush}"/>
+                            <Setter TargetName="SelectedMark" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="ItemContent" Property="TextElement.Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="FluentDropDownStyle" TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+        <Style.Resources>
+            <CornerRadius x:Key="OverlayCornerRadius">8</CornerRadius>
+            <Thickness x:Key="ComboBoxDropdownBorderPadding">2,3</Thickness>
+        </Style.Resources>
+        <Setter Property="ui:ControlHelper.CornerRadius" Value="4"/>
+        <Setter Property="FontFamily" Value="Segoe UI Variable Text"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="ItemContainerStyle" Value="{StaticResource FluentDropDownItemStyle}"/>
+    </Style>
+
+    <Style x:Key="FluentListItemStyle" TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="MinHeight" Value="36"/>
+        <Setter Property="Margin" Value="0,1"/>
+        <Setter Property="Padding" Value="12,6"/>
+        <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <Border x:Name="Surface" Background="Transparent" CornerRadius="4">
+                        <Grid>
+                            <ContentPresenter Margin="{TemplateBinding Padding}" VerticalAlignment="Center"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                            <Border x:Name="Indicator" Width="3" Height="16" CornerRadius="1.5"
+                                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                                    Background="{DynamicResource FluentAccentBrush}" Visibility="Collapsed"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Surface" Property="Background" Value="{DynamicResource SystemControlBackgroundListLowBrush}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource SelectionForegroundBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="Surface" Property="Background" Value="{DynamicResource SystemControlBackgroundListMediumBrush}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource SelectionForegroundBrush}"/>
+                            <Setter TargetName="Indicator" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="FluentTabItemStyle" TargetType="TabItem" BasedOn="{StaticResource {x:Type TabItem}}">
+        <Setter Property="Padding" Value="12,7,12,9"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="FocusVisualStyle" Value="{DynamicResource {x:Static SystemParameters.FocusVisualStyleKey}}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabItem">
+                    <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter ContentSource="Header" RecognizesAccessKey="True"
+                                              Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Border x:Name="Indicator" Height="2" Width="24" CornerRadius="1"
+                                    VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                                    Background="{DynamicResource FluentAccentBrush}" Visibility="Collapsed"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="Indicator" Property="Visibility" Value="Visible"/>
+                            <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

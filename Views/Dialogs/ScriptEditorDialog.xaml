@@ -2,39 +2,76 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:loc="clr-namespace:TweakHub.Localization"
-        Width="640" Height="560" MinWidth="480" MinHeight="420"
-        WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
-        FontFamily="Segoe UI Variable Text" Background="{DynamicResource WindowBackgroundBrush}"
+        xmlns:models="clr-namespace:TweakHub.Models"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        Width="680" Height="610" MinWidth="480" MinHeight="490"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False" UseLayoutRounding="True"
+        FontFamily="Segoe UI Variable Text" Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}"
         Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}">
-    <Grid Margin="24">
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        <Grid Margin="24,18,24,16">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-        <TextBlock x:Name="HeadingText" FontSize="24" FontWeight="SemiBold" Margin="0,0,0,18"/>
+            <TextBlock x:Name="HeadingText" Style="{StaticResource DialogHeadingTextStyle}" Margin="0,0,0,18"/>
 
-        <TextBox x:Name="NameTextBox" Grid.Row="1" MaxLength="100" Margin="0,0,0,12"
-                 ToolTip="{loc:Loc Scripts:EnterScriptName}" AutomationProperties.Name="{loc:Loc Scripts:EnterScriptName}"/>
+            <Grid Grid.Row="1" Margin="0,0,0,12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Margin="0,0,12,0">
+                    <TextBlock x:Name="NameLabel" Text="{loc:Loc Tweaks:Name}" Style="{StaticResource FieldLabelStyle}"/>
+                    <TextBox x:Name="NameTextBox" Style="{StaticResource FieldInputStyle}" MaxLength="100"
+                             ToolTip="{loc:Loc Scripts:EnterScriptName}" AutomationProperties.LabeledBy="{Binding ElementName=NameLabel}"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <TextBlock x:Name="RunLabel" Text="{loc:Loc Scripts:ScriptRunLabelOptional}" Style="{StaticResource FieldLabelStyle}"/>
+                    <TextBox x:Name="RunLabelTextBox" Style="{StaticResource FieldInputStyle}" MaxLength="{x:Static models:CustomScript.MaxRunLabelLength}"
+                             ui:ControlHelper.PlaceholderText="{loc:Loc Scripts:Run}" AutomationProperties.LabeledBy="{Binding ElementName=RunLabel}"/>
+                </StackPanel>
+            </Grid>
 
-        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,0,0,12">
-            <RadioButton x:Name="PowerShellRadio" Content="PowerShell" Margin="0,0,12,0"/>
-            <RadioButton x:Name="CmdRadio" Content="{loc:Loc Scripts:CmdBatch}" Margin="0,0,20,0"/>
-            <CheckBox x:Name="AdminCheckBox" Content="{loc:Loc Scripts:RequiresAdministrator}" VerticalAlignment="Center"/>
-        </StackPanel>
+            <StackPanel Grid.Row="2" Margin="0,0,0,12">
+                <TextBlock x:Name="DescriptionLabel" Text="{loc:Loc Scripts:ScriptDescriptionOptional}" Style="{StaticResource FieldLabelStyle}"/>
+                <TextBox x:Name="DescriptionTextBox" Style="{StaticResource FieldMultilineStyle}" Height="58" TextWrapping="Wrap" AcceptsReturn="True"
+                         VerticalScrollBarVisibility="Auto" VerticalContentAlignment="Top"
+                         MaxLength="{x:Static models:CustomScript.MaxDescriptionLength}" AutomationProperties.LabeledBy="{Binding ElementName=DescriptionLabel}"/>
+            </StackPanel>
 
-        <TextBox x:Name="ContentTextBox" Grid.Row="3" AcceptsReturn="True" AcceptsTab="True" TextWrapping="Wrap"
-                 VerticalScrollBarVisibility="Auto" FontFamily="Consolas" VerticalContentAlignment="Top"/>
+            <WrapPanel Grid.Row="3" Margin="0,0,0,12">
+                <RadioButton x:Name="PowerShellRadio" Content="PowerShell" Margin="0,0,12,0"/>
+                <RadioButton x:Name="CmdRadio" Content="{loc:Loc Scripts:CmdBatch}" Margin="0,0,20,0"/>
+                <CheckBox x:Name="AdminCheckBox" Content="{loc:Loc Scripts:RequiresAdministrator}" VerticalAlignment="Center"/>
+            </WrapPanel>
 
-        <TextBlock x:Name="ValidationText" Grid.Row="4" Margin="0,12,0,0" TextWrapping="Wrap" Foreground="{DynamicResource DangerBrush}"/>
+            <DockPanel Grid.Row="4">
+                <TextBlock x:Name="ContentLabel" Text="{loc:Loc Scripts:ScriptCode}" Style="{StaticResource FieldLabelStyle}" DockPanel.Dock="Top"/>
+                <TextBox x:Name="ContentTextBox" Style="{StaticResource FieldMultilineStyle}" AcceptsReturn="True" AcceptsTab="True" TextWrapping="Wrap"
+                         VerticalScrollBarVisibility="Auto" FontFamily="Consolas" VerticalContentAlignment="Top"
+                         AutomationProperties.LabeledBy="{Binding ElementName=ContentLabel}"/>
+            </DockPanel>
 
-        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,18,0,0">
-            <Button Content="{loc:Loc Scripts:Cancel}" Style="{StaticResource SecondaryButtonStyle}" MinWidth="96" Margin="0,0,8,0" IsCancel="True"/>
-            <Button x:Name="SaveButton" Style="{StaticResource ModernButtonStyle}" MinWidth="100" Click="Save_Click"/>
-        </StackPanel>
+            <TextBlock x:Name="ValidationText" Grid.Row="5" Margin="0,12,0,0" TextWrapping="Wrap" Foreground="{DynamicResource DangerBrush}" AutomationProperties.LiveSetting="Polite"/>
+
+        </Grid>
+
+        <Border Grid.Row="1" Style="{StaticResource DialogFooterStyle}">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button x:Name="SaveButton" Style="{StaticResource ModernButtonStyle}" MinWidth="104" Click="Save_Click"/>
+                <Button Content="{loc:Loc Scripts:Cancel}" Style="{StaticResource SecondaryButtonStyle}" IsCancel="True"
+                        Margin="8,0,0,0" MinWidth="104"/>
+            </StackPanel>
+        </Border>
     </Grid>
 </Window>

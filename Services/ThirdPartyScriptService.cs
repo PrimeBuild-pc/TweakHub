@@ -25,7 +25,7 @@ public static class ThirdPartyScriptService
         new("Rig", "USB Rig Profiles", "https://tools.mariusheier.com/rig.html", "https://tools.mariusheier.com/rig.ps1")
     ];
 
-    private static string ConsentPath => Path.Combine(AppDataPath.BasePath, "third-party-consent.json");
+    private static string ConsentPath => Path.Combine(AppDataPath.UndoPath, "third-party-consent.json");
 
     private static readonly HttpClient Http = new() { Timeout = TimeSpan.FromSeconds(30) };
 

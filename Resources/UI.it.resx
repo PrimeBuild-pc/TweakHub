@@ -19,7 +19,7 @@
     <value>Prestazioni di Windows 11</value>
   </data>
   <data name="MainWindowRegistryTweaks" xml:space="preserve">
-    <value>Modifiche al Registro</value>
+    <value>Modifiche al registro</value>
   </data>
   <data name="MainWindowExternalTools" xml:space="preserve">
     <value>Strumenti esterni</value>
@@ -363,38 +363,11 @@ Scaricarlo, verificarlo e installarlo ora?</value>
   <data name="ImportProfileSummary" xml:space="preserve">
     <value>Questo profilo valido contiene {0} script, {1} tweak, {2} strumenti e {3} playbook. L’importazione sostituisce la configurazione trasferibile corrente e crea una copia di recupero. Continuare?</value>
   </data>
-  <data name="SplashSubtitle" xml:space="preserve">
-    <value>Lettura del sistema prima dell'apertura</value>
+  <data name="LoadingRegistryTweaks" xml:space="preserve">
+    <value>Lettura in corso: Tweak del registro e loro stato</value>
   </data>
-  <data name="SplashTweaks" xml:space="preserve">
-    <value>Tweak del registro e loro stato</value>
-  </data>
-  <data name="SplashWindowsUpdate" xml:space="preserve">
-    <value>Modalità di Windows Update</value>
-  </data>
-  <data name="SplashPower" xml:space="preserve">
-    <value>Piani energetici e impostazioni</value>
-  </data>
-  <data name="SplashSecurity" xml:space="preserve">
-    <value>Stato della sicurezza</value>
-  </data>
-  <data name="SplashDevices" xml:space="preserve">
-    <value>Dispositivi e driver</value>
-  </data>
-  <data name="SplashInterrupts" xml:space="preserve">
-    <value>Interrupt e MSI</value>
-  </data>
-  <data name="SplashChecks" xml:space="preserve">
-    <value>Verifica dei tweak dannosi</value>
-  </data>
-  <data name="SplashReading" xml:space="preserve">
-    <value>Lettura in corso: {0}</value>
-  </data>
-  <data name="SplashSeconds" xml:space="preserve">
-    <value>{0} s</value>
-  </data>
-  <data name="SplashStepFailed" xml:space="preserve">
-    <value>Riprova nella sezione</value>
+  <data name="LoadingWindowsUpdateStatus" xml:space="preserve">
+    <value>Lettura in corso: Modalità di Windows Update</value>
   </data>
   <data name="AboutPageImportPreviousCopy" xml:space="preserve">
     <value>Importa da un'altra copia</value>
@@ -414,10 +387,28 @@ Scaricarlo, verificarlo e installarlo ora?</value>
   <data name="PreviousDataSameFolder" xml:space="preserve">
     <value>Questa è la cartella dati del TweakHub in uso.</value>
   </data>
+  <data name="DataDirectoryInUse" xml:space="preserve">
+    <value>Questa cartella dati è già aperta in TweakHub. Chiudi l’altra istanza prima di aprirla qui.</value>
+  </data>
+  <data name="DataDirectoryUnavailable" xml:space="preserve">
+    <value>TweakHub non riesce ad aprire la cartella dati o a identificare questo PC e l’account Windows.</value>
+  </data>
+  <data name="LegacyUndoAvailable" xml:space="preserve">
+    <value>Sono disponibili vecchi backup. Per esaminarli, usa Importa da un’altra copia e seleziona questa cartella Data.</value>
+  </data>
+  <data name="LegacyUndoConfirm" xml:space="preserve">
+    <value>Importa questi vecchi backup solo se sai che provengono da questo PC e da questo account Windows. I file originali verranno conservati.</value>
+  </data>
+  <data name="LegacyUndoSkip" xml:space="preserve">
+    <value>Salta i vecchi backup</value>
+  </data>
+  <data name="LegacyUndoCopied" xml:space="preserve">
+    <value>Copiati {0} vecchi file di backup per questo PC e account.</value>
+  </data>
   <data name="PreviousDataConfirm" xml:space="preserve">
     <value>Importa da {0}:
 • profilo: script, tweak e strumenti personalizzati, playbook, preferiti e aspetto (sostituisce quello attuale, che viene prima salvato in una copia di recupero);
-• dati per annullare le modifiche fatte da quella copia, così puoi ripristinarle anche da qui;
+• dati di ripristino già associati a questo PC e account Windows;
 • programmi portabili in Apps che qui mancano.
 
 Al termine TweakHub si riavvia.</value>

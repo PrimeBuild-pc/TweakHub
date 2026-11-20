@@ -642,6 +642,15 @@ La configurazione attuale viene salvata la prima volta per poterla ripristinare.
   <data name="DnsRestored" xml:space="preserve">
     <value>Configurazione DNS originale ripristinata.</value>
   </data>
+  <data name="DnsAdapterChanged" xml:space="preserve">
+    <value>La scheda di rete è cambiata. Aggiorna l’elenco e riprova.</value>
+  </data>
+  <data name="DnsBackupUnusable" xml:space="preserve">
+    <value>Non è stato possibile associare le impostazioni DNS salvate a una scheda attuale. Il backup è stato conservato.</value>
+  </data>
+  <data name="DnsRestorePartial" xml:space="preserve">
+    <value>DNS ripristinato per le schede disponibili. Le voci rimanenti sono state conservate nel backup.</value>
+  </data>
   <data name="DnsFailed" xml:space="preserve">
     <value>Modifica DNS non riuscita: {0}</value>
   </data>

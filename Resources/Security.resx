@@ -642,6 +642,15 @@ The current configuration is saved the first time so you can restore it.</value>
   <data name="DnsRestored" xml:space="preserve">
     <value>Original DNS configuration restored.</value>
   </data>
+  <data name="DnsAdapterChanged" xml:space="preserve">
+    <value>The network adapter changed. Refresh the list and try again.</value>
+  </data>
+  <data name="DnsBackupUnusable" xml:space="preserve">
+    <value>No saved DNS settings could be matched to a current adapter. The backup was kept.</value>
+  </data>
+  <data name="DnsRestorePartial" xml:space="preserve">
+    <value>DNS was restored for the available adapters. The remaining records were kept in the backup.</value>
+  </data>
   <data name="DnsFailed" xml:space="preserve">
     <value>The DNS change failed: {0}</value>
   </data>

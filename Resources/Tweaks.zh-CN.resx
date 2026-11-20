@@ -502,6 +502,9 @@ TweakHub 会恢复捕获的原始值。</value>
   <data name="RestoreComplete" xml:space="preserve">
     <value>恢复完成</value>
   </data>
+  <data name="WindowsUpdateLegacyBackup" xml:space="preserve">
+    <value>旧的 Windows 更新备份需要手动检查。请保留 windows-update-backup.json，并将其与此电脑的配置进行比较。准备再次使用预设时，请将该文件移出 Data 文件夹。</value>
+  </data>
   <data name="RestoreFailed" xml:space="preserve">
     <value>恢复失败</value>
   </data>

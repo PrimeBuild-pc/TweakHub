@@ -27,6 +27,8 @@ public class AuditFixTests
     [Test]
     public async Task CmdScriptsKeepNonAsciiPaths()
     {
+        // The app creates this directory at startup. The test calls the script runner directly.
+        Directory.CreateDirectory(AppDataPath.RootPath);
         var directory = Directory.CreateTempSubdirectory("Città-");
         try
         {

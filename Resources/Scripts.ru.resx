@@ -746,4 +746,13 @@
 
 {1}</value>
   </data>
+  <data name="ScriptRunLabelOptional" xml:space="preserve">
+    <value>Текст кнопки (необязательно)</value>
+  </data>
+  <data name="ScriptDescriptionOptional" xml:space="preserve">
+    <value>Описание (необязательно)</value>
+  </data>
+  <data name="ScriptCode" xml:space="preserve">
+    <value>Код скрипта</value>
+  </data>
 </root>
