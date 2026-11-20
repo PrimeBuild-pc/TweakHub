@@ -1,5 +1,6 @@
 using System.IO;
 using NUnit.Framework;
+using TweakHub.Localization;
 using TweakHub.Services;
 
 namespace TweakHub.Tests;
@@ -182,7 +183,290 @@ public class UnusedDevicesAndDriversTests
         foreach (var id in new[] { @"HTREE\ROOT\0", @"SW\{x}\1", @"umb\umb\1&1" })
             Assert.That(DeviceService.GhostTickedByDefault(Device(id, "x", present: false)), Is.False, id);
         Assert.That(DeviceService.BuildRemoveGhostsScript([@"USB\VID_046D&PID_C52B\5&1"]),
-            Does.Contain("DEVPKEY_Device_IsPresent").And.Contain("pnputil.exe /remove-device $id").And.Contain(@"'USB\VID_046D&PID_C52B\5&1'"));
+            Does.Contain("CM_Get_DevNode_Status").And.Contain("-ne 13").And.Contain("CM_Uninstall_DevNode($node, 0)").And.Contain(@"'USB\VID_046D&PID_C52B\5&1'"));
+        var script = DeviceService.BuildRemoveGhostsScript(["X"], 30);
+        Assert.That(script, Does.Contain("$days = 30").And.Contain("Get-LastUsed $node"));
+        Assert.That(script.IndexOf("Get-LastUsed $node", StringComparison.Ordinal),
+            Is.LessThan(script.IndexOf("CM_Get_DevNode_Status([ref]", StringComparison.Ordinal)), "presence is checked after the date reads");
+    }
+
+    // The script's date picker drops a corrupt FILETIME on its own instead of letting it hide a valid date.
+    [Test]
+    public async Task ScriptKeepsTheValidDateWhenTheOtherIsCorrupt()
+    {
+        var yesterday = DateTime.UtcNow.AddDays(-1).ToFileTimeUtc();
+        var max = DateTime.MaxValue.ToFileTimeUtc();
+        var result = await PowerShellService.Instance.ExecuteScriptAsync(DeviceService.LatestFileTimeFunction +
+            $"\nGet-LatestFileTime @({max + 1}, {yesterday})\nGet-LatestFileTime @({long.MaxValue})\nGet-LatestFileTime @()\nGet-LatestFileTime @(-5, 0)");
+        Assert.That(result.Success, Is.True, result.Error);
+        Assert.That(result.Output.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries),
+            Is.EqualTo(new[] { yesterday.ToString(), "0", "0", "0" }));
+    }
+
+    /// <summary>In-memory cfgmgr32: each id has a locate result and a status; every uninstall is recorded.</summary>
+    private sealed class FakeDevNodes : IDevNodeApi
+    {
+        private readonly List<(string Id, int Locate, int Status, DateTime? Arrival, DateTime? Removal)> _nodes = [];
+        public int UninstallResult;
+        public readonly List<string> Uninstalled = [];
+
+        public FakeDevNodes Add(string id, int locate = 0, int status = GhostDevices.CrNoSuchDevNode, DateTime? arrival = null, DateTime? removal = null)
+        {
+            _nodes.Add((id, locate, status, arrival, removal));
+            return this;
+        }
+
+        public IReadOnlyList<string> DeviceIds() => [.. _nodes.Select(node => node.Id)];
+        public int Locate(string id, out int node)
+        {
+            node = _nodes.FindIndex(item => item.Id == id);
+            return _nodes[node].Locate;
+        }
+        public int Status(int node) => StatusOverride ?? _nodes[node].Status;
+        /// <summary>Set to simulate a device plugged in while its dates are read.</summary>
+        public int? StatusOverride;
+        public Action? OnFileTime;
+        public DateTime? FileTime(int node, uint pid)
+        {
+            OnFileTime?.Invoke();
+            return Date(node, pid);
+        }
+        private DateTime? Date(int node, uint pid) => pid switch
+        {
+            100 => LastDriverInstall,
+            GhostDevices.LastArrivalPid => _nodes[node].Arrival,
+            GhostDevices.LastRemovalPid => _nodes[node].Removal,
+            GhostDevices.FirstInstallPid => FirstInstall,
+            _ => null
+        };
+        public int Uninstall(int node)
+        {
+            Uninstalled.Add(_nodes[node].Id);
+            return UninstallResult;
+        }
+        public string ClassDescription(int node) => "Keyboards";
+        public string Manufacturer(int node) => "Logitech";
+        public DateTime? FirstInstall;
+        public DateTime? LastDriverInstall;
+    }
+
+    [Test]
+    public void GhostScanCountsOnlyNoSuchDevNodeAndKeepsTheLaterDate()
+    {
+        DateTime early = new(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc), late = new(2026, 6, 1, 0, 0, 0, DateTimeKind.Utc);
+        var api = new FakeDevNodes()
+            .Add("GHOST", arrival: early, removal: late)
+            .Add("GHOST-NODATE")
+            .Add("PRESENT", status: 0)
+            .Add("UNKNOWN", status: 0x1F) // CR_FAILURE: an unreadable status counts as present
+            .Add("GONE", locate: GhostDevices.CrNoSuchDevNode);
+        api.FirstInstall = early;
+        var ghosts = GhostDevices.Scan(api);
+        Assert.That(ghosts.Keys, Is.EquivalentTo(new[] { "GHOST", "GHOST-NODATE" }));
+        Assert.That(ghosts["GHOST"], Is.EqualTo(new GhostInfo(late, "Keyboards", "Logitech", early)));
+        Assert.That(ghosts["GHOST-NODATE"].LastUsed, Is.Null);
+        Assert.That(GhostDevices.LastUsed(late, early), Is.EqualTo(late));
+        Assert.That(GhostDevices.LastUsed(null, early), Is.EqualTo(early));
+        Assert.That(GhostDevices.LastUsed(late, null), Is.EqualTo(late));
+
+        api.FirstInstall = null;
+        api.LastDriverInstall = late;
+        Assert.That(GhostDevices.Scan(api)["GHOST"].Installed, Is.Null, "A driver update cannot tell us when the device was first installed");
+    }
+
+    [Test]
+    public void GhostUninstallReChecksAndRemovesOnlyAbsentDevices()
+    {
+        var api = new FakeDevNodes()
+            .Add("GHOST")
+            .Add("RECONNECTED", status: 0)
+            .Add("UNKNOWN", status: 0x1F)
+            .Add("GONE", locate: GhostDevices.CrNoSuchDevNode);
+        Assert.That(GhostDevices.Uninstall(api, "GHOST"), Is.EqualTo("OK|GHOST"));
+        Assert.That(GhostDevices.Uninstall(api, "RECONNECTED"), Is.EqualTo("SKIP|RECONNECTED"));
+        Assert.That(GhostDevices.Uninstall(api, "UNKNOWN"), Is.EqualTo("SKIP|UNKNOWN"));
+        Assert.That(GhostDevices.Uninstall(api, "GONE"), Is.EqualTo("FAIL|CM_Locate_DevNode 13|GONE"));
+        Assert.That(api.Uninstalled, Is.EqualTo(new[] { "GHOST" }));
+
+        // Plugged in and out while the dialog was open: with the 30-day filter it is skipped right before the uninstall.
+        var now = new DateTime(2026, 11, 18, 12, 0, 0, DateTimeKind.Utc);
+        var reused = new FakeDevNodes().Add("REUSED", arrival: now.AddDays(-60), removal: now.AddMinutes(-1)).Add("OLD", removal: now.AddDays(-60));
+        Assert.That(GhostDevices.Uninstall(reused, "REUSED", 30, now), Is.EqualTo("SKIP|REUSED"));
+        Assert.That(GhostDevices.Uninstall(reused, "REUSED", 0, now), Is.EqualTo("OK|REUSED"), "filter off: removed");
+        Assert.That(GhostDevices.Uninstall(reused, "OLD", 30, now), Is.EqualTo("OK|OLD"));
+        Assert.That(reused.Uninstalled, Is.EqualTo(new[] { "REUSED", "OLD" }));
+
+        // Plugged back in while its (old) dates are read: presence is checked after the reads, so it is never uninstalled.
+        var racing = new FakeDevNodes().Add("RACING", removal: now.AddDays(-60));
+        racing.OnFileTime = () => racing.StatusOverride = GhostDevices.CrSuccess;
+        Assert.That(GhostDevices.Uninstall(racing, "RACING", 30, now), Is.EqualTo("SKIP|RACING"));
+        Assert.That(racing.Uninstalled, Is.Empty);
+
+        api.UninstallResult = 0x17; // CR_REMOVE_VETOED
+        Assert.That(GhostDevices.Uninstall(api, "GHOST"), Is.EqualTo("FAIL|CM_Uninstall_DevNode 23|GHOST"));
+
+        // A corrupt FILETIME past DateTime.MaxValue reads as "no date" instead of throwing.
+        Assert.That(GhostDevices.FileTimeToUtc(DateTime.MaxValue.ToFileTimeUtc() + 1), Is.Null);
+        Assert.That(GhostDevices.FileTimeToUtc(long.MaxValue), Is.Null);
+        Assert.That(GhostDevices.FileTimeToUtc(0), Is.Null);
+        Assert.That(GhostDevices.FileTimeToUtc(new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToFileTimeUtc()),
+            Is.EqualTo(new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc)));
+    }
+
+    [Test]
+    public void GhostListNeedsInventoryAndCfgMgrToAgreeAndRecentUseHidesRows()
+    {
+        var now = new DateTime(2026, 11, 18, 0, 0, 0, DateTimeKind.Utc);
+        var devices = new[]
+        {
+            Device(@"USB\OLD\1", "Old mouse", "HIDClass", present: false),
+            Device(@"USB\STALE\1", "Present for cfgmgr32", present: false),
+            Device(@"PCI\LIVE\1", "Live NIC")
+        };
+        var ghosts = DeviceService.ConfirmedGhosts(devices, new Dictionary<string, GhostInfo>
+        {
+            [@"USB\OLD\1"] = new(now.AddDays(-5), "Mice"), [@"PCI\LIVE\1"] = new(null, "")
+        });
+        Assert.That(ghosts.Select(device => device.Name), Is.EqualTo(new[] { "Old mouse" }));
+        Assert.That(ghosts[0].LastUsed, Is.EqualTo(now.AddDays(-5)));
+        Assert.That(ghosts[0].TypeName, Is.EqualTo("Mice"));
+
+        Assert.That(GhostDevices.UsedWithin(now.AddDays(-5), 30, now), Is.True);
+        Assert.That(GhostDevices.UsedWithin(now.AddDays(-45), 30, now), Is.False);
+        Assert.That(GhostDevices.UsedWithin(null, 30, now), Is.False);
+        Assert.That(GhostDevices.UsedWithin(now.AddDays(-45), int.MaxValue, now), Is.True, "a huge day count must not throw");
+    }
+
+    // Driver Store Explorer: a UI Automation toggle skipped the check callback, so the confirm count was off by one.
+    [Test]
+    public void GhostDialogReturnsExactlyTheVisibleTickedRowsIncludingAutomationToggles()
+    {
+        if (System.Windows.Application.Current is null)
+        {
+            var app = new App();
+            app.InitializeComponent();
+            app.ShutdownMode = System.Windows.ShutdownMode.OnExplicitShutdown;
+        }
+        var now = new DateTime(2026, 11, 18, 12, 0, 0, DateTimeKind.Utc);
+        var ghosts = new[]
+        {
+            Device(@"USB\VID_31E3&PID_1322&MI_01\1", "HID Keyboard Device", "Keyboard", present: false) with { LastUsed = now.AddDays(-2), TypeName = "Keyboards" },
+            Device(@"USB\VID_046D&PID_C52B\2", "Old mouse", "Mouse", present: false) with { LastUsed = now.AddDays(-90), TypeName = "Mice" },
+            Device(@"SWD\WPDBUSENUM\3", @"F:\", "WPD", present: false) with { TypeName = "Portable Devices" }
+        };
+        var dialog = new TweakHub.Views.Dialogs.GhostDevicesDialog(ghosts, ghosts, now);
+        var boxes = ((System.Windows.Controls.Panel)dialog.FindName("RowsPanel")).Children.OfType<System.Windows.Controls.Grid>()
+            .Select(row => row.Children.OfType<System.Windows.Controls.CheckBox>().Single()).ToList();
+        Assert.That(boxes[0].Visibility, Is.EqualTo(System.Windows.Visibility.Collapsed), "used 2 days ago: hidden by the 30-day filter");
+        Assert.That(boxes[2].IsChecked, Is.False, "software device: not ticked by default");
+
+        var toggle = (System.Windows.Automation.Provider.IToggleProvider)
+            System.Windows.Automation.Peers.UIElementAutomationPeer.CreatePeerForElement(boxes[2]).GetPattern(System.Windows.Automation.Peers.PatternInterface.Toggle);
+        toggle.Toggle();
+        Assert.That(dialog.CheckedRows, Is.EqualTo(new[] { 1, 2 }), "the hidden row is ticked but must not be returned");
+        Assert.That(((System.Windows.Controls.Button)dialog.FindName("RemoveButton")).Content, Is.EqualTo(L.Format("Devices:GhostRemoveButton", 2)));
+
+        ((System.Windows.Controls.CheckBox)dialog.FindName("FilterBox")).IsChecked = false;
+        Assert.That(dialog.CheckedRows, Is.EqualTo(new[] { 0, 1, 2 }));
+
+        // Select none / all act on the rows on screen only; the hidden row keeps its tick but is still never returned.
+        ((System.Windows.Controls.CheckBox)dialog.FindName("FilterBox")).IsChecked = true;
+        Click(dialog, "SelectNoneButton");
+        Assert.That(dialog.CheckedRows, Is.Empty);
+        Assert.That(boxes[0].IsChecked, Is.True);
+        Click(dialog, "SelectAllButton");
+        Assert.That(dialog.CheckedRows, Is.EqualTo(new[] { 1, 2 }));
+
+        // Bad day counts never turn the filter off: the recent row stays hidden.
+        var daysBox = (System.Windows.Controls.TextBox)dialog.FindName("FilterDaysBox");
+        foreach (var text in new[] { "", "0", "-5", "abc", "2147483648", "99999999999999999999999" })
+        {
+            daysBox.Text = text;
+            Assert.That(boxes[0].Visibility, Is.EqualTo(System.Windows.Visibility.Collapsed), $"days = '{text}'");
+            Assert.That(dialog.CheckedRows, Does.Not.Contain(0), $"days = '{text}'");
+        }
+        daysBox.Text = "1";
+        Assert.That(boxes[0].Visibility, Is.EqualTo(System.Windows.Visibility.Visible), "used 2 days ago, filter 1 day");
+        Assert.That(dialog.ActiveFilterDays, Is.EqualTo(1));
+        ((System.Windows.Controls.CheckBox)dialog.FindName("FilterBox")).IsChecked = false;
+        Assert.That(dialog.ActiveFilterDays, Is.Zero);
+        dialog.Close();
+    }
+
+    // 1366 px at 200% leaves about 683 x 350 DIPs: the buttons must stay on screen, only the list shrinks.
+    [Test]
+    public void GhostDialogFitsASmallHighDpiWorkArea()
+    {
+        if (System.Windows.Application.Current is null)
+        {
+            var app = new App();
+            app.InitializeComponent();
+            app.ShutdownMode = System.Windows.ShutdownMode.OnExplicitShutdown;
+        }
+        var ghosts = Enumerable.Range(0, 60).Select(index =>
+            Device($@"USB\VID_046D&PID_C52B\{index}", $"Device {index}", "Mouse", present: false) with { TypeName = "Mice" }).ToArray();
+        var dialog = new TweakHub.Views.Dialogs.GhostDevicesDialog(ghosts, ghosts, DateTime.UtcNow);
+        // The work area a 683-DIP monitor gives. The window is never shown and the dispatcher is never pumped:
+        // pumping would run the queued App startup (splash window) inside the test host.
+        dialog.FitTo(new System.Windows.Rect(0, 0, 683, 350));
+        Assert.That(dialog.Width, Is.LessThanOrEqualTo(683));
+        Assert.That(dialog.MaxHeight, Is.LessThanOrEqualTo(350));
+
+        var root = (System.Windows.FrameworkElement)dialog.Content;
+        root.Measure(new System.Windows.Size(dialog.Width, dialog.MaxHeight));
+        root.Arrange(new System.Windows.Rect(0, 0, dialog.Width, Math.Min(root.DesiredSize.Height, dialog.MaxHeight)));
+        var remove = (System.Windows.Controls.Button)dialog.FindName("RemoveButton");
+        var bottom = remove.TranslatePoint(new System.Windows.Point(0, remove.ActualHeight), root).Y;
+        Assert.That(root.ActualHeight, Is.LessThanOrEqualTo(350));
+        Assert.That(bottom, Is.GreaterThan(0).And.LessThanOrEqualTo(root.ActualHeight), "the Remove button is inside the window");
+        dialog.Close();
+    }
+
+    private static void Click(System.Windows.Window window, string name) => ((System.Windows.Controls.Button)window.FindName(name))
+        .RaiseEvent(new System.Windows.RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
+
+    [Test]
+    public void GhostRowsUseTheProductNameTheUsbParentReported()
+    {
+        // Two units of the same model (same VID/PID) that report different names: each child takes its own parent's.
+        var keyboardB = Device(@"HID\VID_31E3&PID_1322&MI_01\B&1", "HID Keyboard Device", "Keyboard", present: false) with { Parent = @"USB\VID_31E3&PID_1322&MI_01\B" };
+        var all = new[]
+        {
+            Device(@"USB\VID_31E3&PID_1322\UNIT_A", "USB Composite Device", "USB", present: false) with { BusName = "Unit A" },
+            Device(@"USB\VID_31E3&PID_1322&MI_01\A", "USB Input Device", "HIDClass", present: false) with { BusName = "Part A", Parent = @"USB\VID_31E3&PID_1322\UNIT_A" },
+            Device(@"USB\VID_31E3&PID_1322\UNIT_B", "USB Composite Device", "USB", present: false) with { BusName = "Unit B" },
+            Device(@"USB\VID_31E3&PID_1322&MI_01\B", "USB Input Device", "HIDClass", present: false) with { BusName = "Part B", Parent = @"USB\VID_31E3&PID_1322\UNIT_B" },
+            keyboardB
+        };
+        var byId = DeviceService.ById(all);
+        Assert.That(DeviceService.ProductName(keyboardB, byId), Is.EqualTo("Unit B"), "the composite above names the product");
+        Assert.That(DeviceService.ProductName(all[3], byId), Is.EqualTo("Part B"), "its own name wins");
+        Assert.That(DeviceService.ProductName(keyboardB with { Parent = "" }, byId), Is.Empty, "no parent: never borrow another unit's name");
+        Assert.That(DeviceService.ProductName(Device(@"DISPLAY\AUS27F4\1", "Generic Monitor", "Monitor", present: false), byId), Is.Empty);
+        // A parent loop must not hang.
+        var looped = DeviceService.ById([all[0] with { BusName = "", Parent = all[1].Id }, all[1] with { BusName = "", Parent = all[0].Id }]);
+        Assert.That(DeviceService.ProductName(keyboardB with { Parent = all[1].Id }, looped), Is.Empty);
+
+        var now = new DateTime(2026, 11, 18, 12, 0, 0, DateTimeKind.Utc);
+        Assert.That(TweakHub.Views.Dialogs.GhostDevicesDialog.RelativeDate(now.AddDays(-12), now), Is.EqualTo(L.Format("Devices:GhostDaysAgo", 12)));
+        Assert.That(TweakHub.Views.Dialogs.GhostDevicesDialog.RelativeDate(null, now), Is.EqualTo(L.Get("Devices:GhostLastUsedUnknown")));
+    }
+
+    [Test]
+    public void GhostRemovalReportCountsOnlyOkLinesAndKeepsFailureReasons()
+    {
+        var devices = new[] { Device("A", "Alpha", present: false), Device("B", "Beta", present: false), Device("C", "Gamma", present: false) };
+        var (removed, notRemoved) = DeviceService.ParseRemoveGhosts("OK|A\r\nSKIP|B\r\nFAIL|CM_Uninstall_DevNode 23|C\r\n", devices);
+        Assert.That(removed, Is.EqualTo(1));
+        Assert.That(notRemoved, Is.EqualTo(new[] { "Beta", "Gamma (CM_Uninstall_DevNode 23)" }));
+
+        // PnP instance ids may contain '|': the id is the rest of the line.
+        var piped = new[] { Device(@"USB\X\A|B", "Pipe", present: false), Device(@"USB\Y\C|D", "Pipe 2", present: false) };
+        (removed, notRemoved) = DeviceService.ParseRemoveGhosts("OK|USB\\X\\A|B\nFAIL|CM_Uninstall_DevNode 23|USB\\Y\\C|D\n", piped);
+        Assert.That(removed, Is.EqualTo(1));
+        Assert.That(notRemoved, Is.EqualTo(new[] { "Pipe 2 (CM_Uninstall_DevNode 23)" }));
+        var api = new FakeDevNodes().Add(@"USB\X\A|B");
+        Assert.That(DeviceService.ParseRemoveGhosts(GhostDevices.Uninstall(api, @"USB\X\A|B"), piped[..1]).Removed, Is.EqualTo(1));
     }
 
     [Test]
@@ -191,7 +475,7 @@ public class UnusedDevicesAndDriversTests
         foreach (var script in new[]
         {
             DeviceService.UsageScript, DeviceService.BuildDisableManyScript([@"ROOT\KDNIC\0000", "it's"]), DriverStoreService.InventoryScript,
-            DeviceService.BuildRemoveGhostsScript([@"USB\VID_046D&PID_C52B\5&1", "it's"]),
+            DeviceService.BuildRemoveGhostsScript([@"USB\VID_046D&PID_C52B\5&1", "it's"], 30),
             DriverStoreService.BuildRemoveScript([Package("oem19.inf", "amdgpio2.inf", "2.2", "2023-01-01")]),
             DriverStoreService.BuildRestoreScript(@"C:\ProgramData\TweakHub-DriverBackups\20261027-120000\oem19.inf")
         })

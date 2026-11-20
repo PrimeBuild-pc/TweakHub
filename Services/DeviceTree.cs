@@ -60,8 +60,48 @@ internal static class DeviceTree
     [DllImport("cfgmgr32.dll")]
     private static extern int CM_Free_Log_Conf_Handle(IntPtr logConf);
 
+    [DllImport("cfgmgr32.dll")]
+    private static extern int CM_Uninstall_DevNode(int devInst, int flags);
+    [DllImport("setupapi.dll", CharSet = CharSet.Unicode)]
+    private static extern bool SetupDiGetClassDescriptionW(in Guid classGuid, char[] description, int size, out int required);
+
     private const int FilterPresent = 0x100; // CM_GETIDLIST_FILTER_PRESENT
     private const int BufferSmall = 0x1A; // CR_BUFFER_SMALL
+    private const int LocatePhantom = 1; // CM_LOCATE_DEVNODE_PHANTOM
+
+    /// <summary>The real cfgmgr32 behind <see cref="GhostDevices"/>; uninstalling needs administrator rights.</summary>
+    internal sealed class Api : IDevNodeApi
+    {
+        public static Api Instance { get; } = new();
+        private static readonly Guid DateSet = new("83da6326-97a6-4088-9453-a1923f573b29");
+        private static readonly DevPropKey ManufacturerKey = new(new("a45c254e-df1c-4efd-8020-67d146a850e0"), 13);
+
+        // An empty list would read as "no ghosts", so a failed read is an error instead.
+        public IReadOnlyList<string> DeviceIds() => List(0) ?? throw new InvalidOperationException("CM_Get_Device_ID_List failed.");
+        public int Locate(string id, out int node) => CM_Locate_DevNodeW(out node, id, LocatePhantom);
+        public int Status(int node) => CM_Get_DevNode_Status(out _, out _, node, 0);
+        public int Uninstall(int node) => CM_Uninstall_DevNode(node, 0);
+
+        /// <summary>The setup class as Device Manager names it, in the Windows language ("Keyboards", "Monitors").</summary>
+        public string ClassDescription(int node)
+        {
+            Span<byte> guid = stackalloc byte[16];
+            var bytes = Property(node, ClassGuidKey, guid);
+            if (bytes.Length != 16) return string.Empty;
+            var buffer = new char[256];
+            return SetupDiGetClassDescriptionW(new Guid(bytes), buffer, buffer.Length, out _) ? new string(buffer, 0, Math.Max(0, Array.IndexOf(buffer, '\0'))) : string.Empty; // SetupAPI leaves text after the terminator
+        }
+
+        /// <summary>DEVPKEY_Device_Manufacturer, from the driver ("Logitech", "(Standard system devices)").</summary>
+        public string Manufacturer(int node) => Text(node, ManufacturerKey)?.Split('\0')[0] ?? string.Empty;
+
+        public DateTime? FileTime(int node, uint pid)
+        {
+            Span<byte> buffer = stackalloc byte[8];
+            var bytes = Property(node, new DevPropKey(DateSet, pid), buffer);
+            return GhostDevices.FileTimeToUtc(bytes.Length == 8 ? BitConverter.ToInt64(bytes) : 0);
+        }
+    }
 
     /// <summary>
     /// Processor masks of the interrupts Windows allocated to a device in this boot (one per message; 0 means no specific
@@ -168,10 +208,16 @@ internal static class DeviceTree
 
     private static string[]? List(int flags)
     {
-        if (CM_Get_Device_ID_List_SizeW(out var length, null, flags) != 0 || length <= 0) return null;
-        var buffer = new char[length];
-        if (CM_Get_Device_ID_ListW(null, buffer, length, flags) != 0) return null;
-        return new string(buffer).Split('\0', StringSplitOptions.RemoveEmptyEntries);
+        // A device can appear between the size query and the read (CR_BUFFER_SMALL): ask again a few times.
+        for (var attempt = 0; attempt < 5; attempt++)
+        {
+            if (CM_Get_Device_ID_List_SizeW(out var length, null, flags) != 0 || length <= 0) return null;
+            var buffer = new char[length];
+            var result = CM_Get_Device_ID_ListW(null, buffer, length, flags);
+            if (result == 0) return new string(buffer).Split('\0', StringSplitOptions.RemoveEmptyEntries);
+            if (result != BufferSmall) return null;
+        }
+        return null;
     }
 
     private static unsafe ReadOnlySpan<byte> Property(int node, DevPropKey key, Span<byte> buffer)

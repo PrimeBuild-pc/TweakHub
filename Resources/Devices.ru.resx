@@ -883,7 +883,7 @@ TweakHub не может проверить, что делает скрипт, �
     <value>Удаляет установленные, но больше не подключённые устройства (отмеченные как отсутствующие). Подключённые устройства не затрагиваются.</value>
   </data>
   <data name="RemoveGhostsMessage" xml:space="preserve">
-    <value>Установлено, но не подключено устройств: {0}. Отмеченные будут удалены из Windows с помощью pnputil. Программные устройства (ROOT, SWD, SW, UMB, HTREE) показаны, но не отмечены: некоторые скрыты намеренно и всё ещё нужны.
+    <value>Установлено, но не подключено устройств: {0}. Отмеченные будут удалены из Windows. Недавно использованные устройства по умолчанию скрыты и, пока скрыты, не удаляются. Программные устройства (ROOT, SWD, SW, UMB, HTREE) показаны, но не отмечены: некоторые скрыты намеренно и всё ещё нужны.
 
 Удаление нельзя отменить в TweakHub. Удалённое устройство вернётся, только когда Windows снова его обнаружит, например при повторном подключении; его настройки (например, закреплённый COM-порт или сетевые параметры) могут быть потеряны.</value>
   </data>
@@ -893,5 +893,56 @@ TweakHub не может проверить, что делает скрипт, �
   <data name="RemoveGhostsNotRemoved" xml:space="preserve">
     <value>Не удалены (снова подключены или Windows отказала):
 {0}</value>
+  </data>
+  <data name="RemoveGhostsNone" xml:space="preserve">
+    <value>Нет установленных, но отключённых устройств.</value>
+  </data>
+  <data name="RemoveGhostsConfirm" xml:space="preserve">
+    <value>Удалить устройства из Windows ({0})? Отменить это в TweakHub нельзя.</value>
+  </data>
+  <data name="GhostHideRecent" xml:space="preserve">
+    <value>Скрыть устройства, использованные за последние</value>
+  </data>
+  <data name="GhostHideRecentDays" xml:space="preserve">
+    <value>дн.</value>
+  </data>
+  <data name="GhostLastUsedUnknown" xml:space="preserve">
+    <value>Неизвестно</value>
+  </data>
+  <data name="GhostLastUsedUnknownHint" xml:space="preserve">
+    <value>Windows не записала дату для этого устройства</value>
+  </data>
+  <data name="GhostColumnDevice" xml:space="preserve">
+    <value>Устройство</value>
+  </data>
+  <data name="GhostColumnLastUsed" xml:space="preserve">
+    <value>Последнее использование</value>
+  </data>
+  <data name="GhostToday" xml:space="preserve">
+    <value>Сегодня</value>
+  </data>
+  <data name="GhostYesterday" xml:space="preserve">
+    <value>Вчера</value>
+  </data>
+  <data name="GhostDaysAgo" xml:space="preserve">
+    <value>{0} дн. назад</value>
+  </data>
+  <data name="GhostSelected" xml:space="preserve">
+    <value>Выбрано: {0} из {1}</value>
+  </data>
+  <data name="GhostRemoveButton" xml:space="preserve">
+    <value>Удалить ({0})</value>
+  </data>
+  <data name="GhostUnnamed" xml:space="preserve">
+    <value>Устройство без имени</value>
+  </data>
+  <data name="GhostSelectAll" xml:space="preserve">
+    <value>Выбрать все</value>
+  </data>
+  <data name="GhostSelectNone" xml:space="preserve">
+    <value>Снять все</value>
+  </data>
+  <data name="GhostColumnInstalled" xml:space="preserve">
+    <value>Установлено</value>
   </data>
 </root>

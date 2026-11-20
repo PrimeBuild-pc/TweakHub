@@ -231,6 +231,9 @@
 
 続行すると、これらの条件を理解し同意したものとみなされます。</value>
   </data>
+  <data name="DeclineAndExit" xml:space="preserve">
+    <value>同意せずに終了</value>
+  </data>
   <data name="IUnderstand" xml:space="preserve">
     <value>理解しました</value>
   </data>

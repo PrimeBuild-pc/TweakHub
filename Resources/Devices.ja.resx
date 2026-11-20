@@ -883,7 +883,7 @@ TweakHub はスクリプトの動作を確認できず、作者はいつでも�
     <value>インストール済みでも接続されていないデバイス (存在しないと表示されるもの) を削除します。接続中のデバイスには一切触れません。</value>
   </data>
   <data name="RemoveGhostsMessage" xml:space="preserve">
-    <value>{0} 個のデバイスがインストール済みですが接続されていません。チェックしたものは pnputil で Windows から削除されます。ソフトウェア デバイス (ROOT、SWD、SW、UMB、HTREE) は表示されますがチェックされていません。意図的に非表示で、まだ必要なものがあるためです。
+    <value>{0} 個のデバイスがインストール済みですが接続されていません。チェックしたものは Windows から削除されます。最近使用したデバイスは既定で非表示になり、非表示の間は削除されません。ソフトウェア デバイス (ROOT、SWD、SW、UMB、HTREE) は表示されますがチェックされていません。意図的に非表示で、まだ必要なものがあるためです。
 
 削除は TweakHub から元に戻せません。削除したデバイスは、再接続したときなど Windows が再検出したときにのみ戻ります。その設定 (固定 COM ポートやネットワーク設定など) は失われる場合があります。</value>
   </data>
@@ -893,5 +893,56 @@ TweakHub はスクリプトの動作を確認できず、作者はいつでも�
   <data name="RemoveGhostsNotRemoved" xml:space="preserve">
     <value>削除されなかったもの (再接続された、または Windows が拒否):
 {0}</value>
+  </data>
+  <data name="RemoveGhostsNone" xml:space="preserve">
+    <value>インストール済みで未接続のデバイスはありません。</value>
+  </data>
+  <data name="RemoveGhostsConfirm" xml:space="preserve">
+    <value>{0} 個のデバイスを Windows から削除しますか? TweakHub から元に戻すことはできません。</value>
+  </data>
+  <data name="GhostHideRecent" xml:space="preserve">
+    <value>次の日数以内に使用したデバイスを非表示:</value>
+  </data>
+  <data name="GhostHideRecentDays" xml:space="preserve">
+    <value>日</value>
+  </data>
+  <data name="GhostLastUsedUnknown" xml:space="preserve">
+    <value>不明</value>
+  </data>
+  <data name="GhostLastUsedUnknownHint" xml:space="preserve">
+    <value>Windows にこのデバイスの日付が記録されていません</value>
+  </data>
+  <data name="GhostColumnDevice" xml:space="preserve">
+    <value>デバイス</value>
+  </data>
+  <data name="GhostColumnLastUsed" xml:space="preserve">
+    <value>最終使用</value>
+  </data>
+  <data name="GhostToday" xml:space="preserve">
+    <value>今日</value>
+  </data>
+  <data name="GhostYesterday" xml:space="preserve">
+    <value>昨日</value>
+  </data>
+  <data name="GhostDaysAgo" xml:space="preserve">
+    <value>{0} 日前</value>
+  </data>
+  <data name="GhostSelected" xml:space="preserve">
+    <value>{1} 件中 {0} 件を選択</value>
+  </data>
+  <data name="GhostRemoveButton" xml:space="preserve">
+    <value>{0} 件を削除</value>
+  </data>
+  <data name="GhostUnnamed" xml:space="preserve">
+    <value>名前のないデバイス</value>
+  </data>
+  <data name="GhostSelectAll" xml:space="preserve">
+    <value>すべて選択</value>
+  </data>
+  <data name="GhostSelectNone" xml:space="preserve">
+    <value>すべて解除</value>
+  </data>
+  <data name="GhostColumnInstalled" xml:space="preserve">
+    <value>インストール日</value>
   </data>
 </root>

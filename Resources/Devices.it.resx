@@ -883,7 +883,7 @@ TweakHub non può controllare cosa fa lo script e l'autore può modificarlo in q
     <value>Rimuove i dispositivi installati ma non più collegati (mostrati come non presenti). I dispositivi presenti non vengono mai toccati.</value>
   </data>
   <data name="RemoveGhostsMessage" xml:space="preserve">
-    <value>{0} dispositivi sono installati ma non collegati. Quelli spuntati verranno rimossi da Windows con pnputil. I dispositivi software (ROOT, SWD, SW, UMB, HTREE) sono elencati ma non spuntati: alcuni sono nascosti di proposito e servono ancora.
+    <value>{0} dispositivi sono installati ma non collegati. Quelli spuntati verranno rimossi da Windows. I dispositivi usati di recente sono nascosti in partenza e, finché restano nascosti, non vengono rimossi. I dispositivi software (ROOT, SWD, SW, UMB, HTREE) sono elencati ma non spuntati: alcuni sono nascosti di proposito e servono ancora.
 
 La rimozione non si può annullare da TweakHub. Un dispositivo rimosso torna solo quando Windows lo rileva di nuovo, per esempio quando lo ricolleghi; le sue impostazioni (come una porta COM fissa o le impostazioni di rete) possono andare perse.</value>
   </data>
@@ -893,5 +893,56 @@ La rimozione non si può annullare da TweakHub. Un dispositivo rimosso torna sol
   <data name="RemoveGhostsNotRemoved" xml:space="preserve">
     <value>Non rimossi (di nuovo collegati o rifiutati da Windows):
 {0}</value>
+  </data>
+  <data name="RemoveGhostsNone" xml:space="preserve">
+    <value>Nessun dispositivo installato ma scollegato.</value>
+  </data>
+  <data name="RemoveGhostsConfirm" xml:space="preserve">
+    <value>Rimuovere {0} dispositivi da Windows? Non si può annullare da TweakHub.</value>
+  </data>
+  <data name="GhostHideRecent" xml:space="preserve">
+    <value>Nascondi i dispositivi usati negli ultimi</value>
+  </data>
+  <data name="GhostHideRecentDays" xml:space="preserve">
+    <value>giorni</value>
+  </data>
+  <data name="GhostLastUsedUnknown" xml:space="preserve">
+    <value>Sconosciuto</value>
+  </data>
+  <data name="GhostLastUsedUnknownHint" xml:space="preserve">
+    <value>Windows non ha registrato una data per questo dispositivo</value>
+  </data>
+  <data name="GhostColumnDevice" xml:space="preserve">
+    <value>Dispositivo</value>
+  </data>
+  <data name="GhostColumnLastUsed" xml:space="preserve">
+    <value>Ultimo uso</value>
+  </data>
+  <data name="GhostToday" xml:space="preserve">
+    <value>Oggi</value>
+  </data>
+  <data name="GhostYesterday" xml:space="preserve">
+    <value>Ieri</value>
+  </data>
+  <data name="GhostDaysAgo" xml:space="preserve">
+    <value>{0} giorni fa</value>
+  </data>
+  <data name="GhostSelected" xml:space="preserve">
+    <value>{0} di {1} selezionati</value>
+  </data>
+  <data name="GhostRemoveButton" xml:space="preserve">
+    <value>Rimuovi {0}</value>
+  </data>
+  <data name="GhostUnnamed" xml:space="preserve">
+    <value>Dispositivo senza nome</value>
+  </data>
+  <data name="GhostSelectAll" xml:space="preserve">
+    <value>Seleziona tutti</value>
+  </data>
+  <data name="GhostSelectNone" xml:space="preserve">
+    <value>Deseleziona tutti</value>
+  </data>
+  <data name="GhostColumnInstalled" xml:space="preserve">
+    <value>Installato</value>
   </data>
 </root>

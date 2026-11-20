@@ -231,6 +231,9 @@
 
 继续操作即表示您确认并接受这些条件。</value>
   </data>
+  <data name="DeclineAndExit" xml:space="preserve">
+    <value>拒绝并退出</value>
+  </data>
   <data name="IUnderstand" xml:space="preserve">
     <value>我了解</value>
   </data>
