@@ -634,7 +634,11 @@ public sealed class PlaybookService
                 return false;
             }
         }
-        PowerPlanService.Activate(scheme);
+        if (!PowerPlanService.Activate(scheme))
+        {
+            setDetails(L.Get("Tweaks:PowerActionFailed"));
+            return false;
+        }
         setDetails(L.Format("Scripts:PlaybookPowerApplied", values.Count, ParsePowerData(step.Data).Count - values.Count));
         return true;
     }

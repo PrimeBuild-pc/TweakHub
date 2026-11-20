@@ -101,6 +101,7 @@ public static unsafe class PowerPlanService
     public static List<PowerSettingValue> WriteValues(Guid scheme, IEnumerable<PowerSettingValue> values)
     {
         var failed = new List<PowerSettingValue>();
+        values = values.ToList();
         foreach (var value in values)
         {
             var subgroup = value.Subgroup;
@@ -110,14 +111,18 @@ public static unsafe class PowerPlanService
                 failed.Add(value);
         }
         // Windows applies a plan's values when the plan is (re)activated.
-        if (ActiveScheme() == scheme) PowerSetActiveScheme(IntPtr.Zero, &scheme);
+        // If the re-apply fails the values are stored but not live: hand everything to the elevated fallback, which re-applies too.
+        if (ActiveScheme() == scheme && PowerSetActiveScheme(IntPtr.Zero, &scheme) != ErrorSuccess) return values.ToList();
         return failed;
     }
 
     /// <summary>The powercfg commands for values the API refused, run in one elevated script.</summary>
     internal static string BuildElevatedWriteScript(Guid scheme, IEnumerable<PowerSettingValue> values) => string.Join("\n", values.Select(value =>
-        $"powercfg /setacvalueindex {scheme} {value.Subgroup} {value.Setting} {value.Ac}\npowercfg /setdcvalueindex {scheme} {value.Subgroup} {value.Setting} {value.Dc}"))
-        + $"\nif ((powercfg /getactivescheme) -match '{scheme}') {{ powercfg /setactive {scheme} }}";
+        $"powercfg /setacvalueindex {scheme} {value.Subgroup} {value.Setting} {value.Ac}\n{PowercfgCheck}\npowercfg /setdcvalueindex {scheme} {value.Subgroup} {value.Setting} {value.Dc}\n{PowercfgCheck}"))
+        + $"\nif ((powercfg /getactivescheme) -match '{scheme}') {{ powercfg /setactive {scheme}\n{PowercfgCheck} }}";
+
+    // powercfg reports failure only through its exit code; without this check the script would end with success.
+    private const string PowercfgCheck = "if ($LASTEXITCODE -ne 0) { throw \"powercfg failed with exit code $LASTEXITCODE\" }";
 
     public static bool Activate(Guid scheme) => PowerSetActiveScheme(IntPtr.Zero, &scheme) == ErrorSuccess;
 

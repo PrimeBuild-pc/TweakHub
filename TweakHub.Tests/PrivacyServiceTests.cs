@@ -110,6 +110,21 @@ public class PrivacyServiceTests
     }
 
     [Test]
+    public void DnsRestoreFollowsAdapterGuidAndKeepsMissingOnes()
+    {
+        DnsAdapter Saved(int index, string guid, string servers) => new(index, "x", [], servers, "", guid);
+        var saved = new[] { Saved(3, "{A}", "1.1.1.1"), Saved(5, "{B}", "9.9.9.9"), Saved(8, "", "8.8.8.8") };
+
+        var (plan, unmatched) = PrivacyService.ResolveRestore(saved, new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase) { ["{a}"] = 11 });
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(plan.Select(step => step.Index), Is.EqualTo(new[] { 11, 8 }), "GUID wins over the old index; no GUID keeps the saved index");
+            Assert.That(unmatched.Single().Guid, Is.EqualTo("{B}"));
+        });
+    }
+
+    [Test]
     public void DnsQueryIsWellFormedAndAnswerIsValidated()
     {
         var query = PrivacyService.BuildDnsQuery(0xBEEF, "example.com");

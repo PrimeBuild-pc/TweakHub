@@ -136,8 +136,10 @@ try {
         DotnetSdk = $actualSdk; WindowsSdk = $config.WindowsSdk; RuntimeFrameworkVersion = $config.RuntimeFrameworkVersion
         Commit = (& git rev-parse HEAD); WorkingTree = @(& git status --short)
         StorePackage = $store; StoreSignature = 'Unsigned; Microsoft Store signs distributed packages'
-        TestCertificate = $certInfo; Stage = $stage; Artifacts = $artifacts
+        TestCertificate = $certInfo; Artifacts = $artifacts
     }
     $receipt | ConvertTo-Json -Depth 6 | Set-Content (Join-Path $OutputDirectory 'build-receipt.json') -Encoding UTF8
+    # Success only: a failed build throws before this line and keeps the stage for inspection.
+    Remove-Item -LiteralPath $stage -Recurse -Force
     Write-Output "MSIX artifacts: $OutputDirectory"
 } finally { Pop-Location }

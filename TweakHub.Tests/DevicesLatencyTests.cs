@@ -244,4 +244,15 @@ public class DevicesLatencyTests
             if (Directory.Exists(dataPath)) Directory.Delete(dataPath, true);
         }
     }
+
+    [Test]
+    public void FailedDisableKeepsTheRecordUnlessWindowsSaysTheDeviceIsNotDisabled()
+    {
+        Assert.Multiple(() =>
+        {
+            Assert.That(DeviceService.ParseStillDisabled(new PowerShellResult { Success = true, Output = "22\r\n" }), Is.True);
+            Assert.That(DeviceService.ParseStillDisabled(new PowerShellResult { Success = true, Output = "0" }), Is.False);
+            Assert.That(DeviceService.ParseStillDisabled(new PowerShellResult { Success = false }), Is.True, "unreadable state keeps the record");
+        });
+    }
 }
