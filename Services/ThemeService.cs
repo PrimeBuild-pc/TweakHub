@@ -111,6 +111,9 @@ public sealed class ThemeService : INotifyPropertyChanged
             SetBrush(app, "NavigationViewItemBackgroundSelected", window);
             SetBrush(app, "NavigationViewItemBackgroundSelectedPointerOver", window);
             ApplyTextInputSurface(app, window);
+            // Drop the accent focus line so the system high-contrast focus colours apply again.
+            app.Resources.Remove("TextControlBorderBrushFocused");
+            app.Resources.Remove("TextControlBorderThemeThicknessFocused");
             SetBrush(app, "SuccessBrush", highlight);
             SetBrush(app, "SuccessForegroundBrush", highlightText);
             SetBrush(app, "WarningBrush", windowText);
