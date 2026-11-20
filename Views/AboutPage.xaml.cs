@@ -36,9 +36,9 @@ public partial class AboutPage : Page
     private void LoadAppearanceControls()
     {
         ThemeModeComboBox.SelectedValue = _themeService.ThemeMode;
-        UseSystemAccentCheckBox.IsChecked = _themeService.UseSystemAccent;
+        UseSystemAccentToggle.IsOn = _themeService.UseSystemAccent;
         AccentColorTextBox.Text = _themeService.UseSystemAccent ? "#0078D4" : _themeService.CustomAccent;
-        TransparencyCheckBox.IsChecked = _themeService.TransparencyEnabled;
+        TransparencyToggle.IsOn = _themeService.TransparencyEnabled;
         LanguageComboBox.SelectedValue = L.Normalize(UserDataService.Instance.LoadAppearance().Language);
         UpdateAccentInput();
     }
@@ -48,15 +48,15 @@ public partial class AboutPage : Page
     private void UpdateAccentInput()
     {
         if (AccentColorTextBox != null)
-            AccentColorTextBox.IsEnabled = UseSystemAccentCheckBox.IsChecked != true;
+            AccentColorTextBox.IsEnabled = !UseSystemAccentToggle.IsOn;
     }
 
     private void ApplyAppearance_Click(object sender, RoutedEventArgs e)
     {
         var mode = ThemeModeComboBox.SelectedValue as string ?? "System";
         var language = LanguageComboBox.SelectedValue as string ?? "System";
-        if (_themeService.SetPreferences(mode, UseSystemAccentCheckBox.IsChecked == true,
-                AccentColorTextBox.Text, TransparencyCheckBox.IsChecked == true, language, out var error))
+        if (_themeService.SetPreferences(mode, UseSystemAccentToggle.IsOn,
+                AccentColorTextBox.Text, TransparencyToggle.IsOn, language, out var error))
         {
             AppearanceResultText.Text = L.Get(L.RequiresRestart(language) ? "UI:AppliedRestartLanguage" : "UI:Applied");
         }

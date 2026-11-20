@@ -111,6 +111,9 @@ public sealed class ThemeService : INotifyPropertyChanged
             SetBrush(app, "NavigationViewItemBackgroundSelected", window);
             SetBrush(app, "NavigationViewItemBackgroundSelectedPointerOver", window);
             ApplyTextInputSurface(app, window);
+            // Drop the accent focus line so the system high-contrast focus colours apply again.
+            app.Resources.Remove("TextControlBorderBrushFocused");
+            app.Resources.Remove("TextControlBorderThemeThicknessFocused");
             SetBrush(app, "SuccessBrush", highlight);
             SetBrush(app, "SuccessForegroundBrush", highlightText);
             SetBrush(app, "WarningBrush", windowText);
@@ -167,6 +170,7 @@ public sealed class ThemeService : INotifyPropertyChanged
             SetBrush(app, "NavigationViewItemBackgroundSelectedPointerOver", _isDark ? Blend(background, primary, 0.09) : Blend(surface, primary, 0.025));
 
             ApplyTextInputSurface(app, _isDark ? Color.FromRgb(48, 48, 48) : Colors.White);
+            ApplyTextInputFocus(app, fluentAccent, border);
             SetBrush(app, "SuccessBrush", success);
             SetBrush(app, "SuccessForegroundBrush", GetContrastingForeground(success));
             SetBrush(app, "WarningBrush", warning);
@@ -241,6 +245,24 @@ public sealed class ThemeService : INotifyPropertyChanged
         app.Resources["TextControlBackgroundFocused"] = fill;
     }
 
+    private static void ApplyTextInputFocus(Application app, Color accent, Color border)
+    {
+        // Windows 11 marks a focused field with a 2px accent line on the bottom edge only; sides and top stay subtle.
+        // Absolute mapping keeps the line 2px for the 32px field; taller fields use FieldMultilineStyle.
+        var focus = new LinearGradientBrush
+        {
+            MappingMode = BrushMappingMode.Absolute,
+            StartPoint = new Point(0, 0),
+            EndPoint = new Point(0, 32),
+        };
+        focus.GradientStops.Add(new GradientStop(border, 0));
+        focus.GradientStops.Add(new GradientStop(border, 0.93));
+        focus.GradientStops.Add(new GradientStop(accent, 0.93));
+        focus.GradientStops.Add(new GradientStop(accent, 1));
+        app.Resources["TextControlBorderBrushFocused"] = focus;
+        app.Resources["TextControlBorderThemeThicknessFocused"] = new Thickness(1, 1, 1, 2);
+    }
+
     private static void ApplyFluentAccent(Application app, Color accent, Color foreground, Color text)
     {
         // The ModernWpf templates reference the individual brushes so loaded controls update when the theme changes.
@@ -248,6 +270,7 @@ public sealed class ThemeService : INotifyPropertyChanged
         var hover = new SolidColorBrush(accent) { Opacity = 0.9 };
         var pressed = new SolidColorBrush(accent) { Opacity = 0.8 };
         var onAccent = new SolidColorBrush(foreground);
+        app.Resources["FluentAccentColor"] = accent;
         app.Resources["FluentAccentBrush"] = fill;
         app.Resources["FluentAccentForegroundBrush"] = onAccent;
         app.Resources["AccentBrush"] = fill;

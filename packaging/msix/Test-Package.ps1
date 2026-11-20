@@ -41,10 +41,8 @@ try {
         if (!$zip.GetEntry("App/$dll")) { throw "Self-contained dependency missing: $dll" }
     }
     if ($zip.GetEntry('App/portable.flag')) { throw 'Portable marker leaked into Store package' }
-    if ($config.App -eq 'TweakHub') {
-        foreach ($script in @('WinGetInstall.ps1','WindowsUpdatePreset.ps1')) {
-            if (!$zip.GetEntry("App/Scripts/$script")) { throw "Bundled script missing: $script" }
-        }
+    foreach ($script in @('WinGetInstall.ps1','WindowsUpdatePreset.ps1','Collect-TweakHub-Hardware.cmd')) {
+        if (!$zip.GetEntry("App/Scripts/$script")) { throw "Bundled script missing: $script" }
     }
     foreach ($size in @(44,50,150)) {
         $stream = $zip.GetEntry("Assets/Logo$size.png").Open()

@@ -167,9 +167,11 @@ public sealed class SystemTriageService
         $ErrorActionPreference = 'SilentlyContinue'
         $approvedBase = 'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved'
         $caller = '__CALLER_SID__'
+        $userHive = 'HKEY_CURRENT_USER'
         $userStartup = [Environment]::GetFolderPath('Startup')
         if ($caller -match '^S-1-[0-9-]+$' -and $caller -ne [Security.Principal.WindowsIdentity]::GetCurrent().User.Value) {
             # Elevated with another administrator account: list the signed-in user's entries, not that account's.
+            $userHive = 'HKEY_USERS\' + $caller
             Remove-PSDrive -Name HKCU -Scope Global -Force
             $null = New-PSDrive -Name HKCU -PSProvider Registry -Root ('HKEY_USERS\' + $caller) -Scope Global
             $callerProfile = (Get-ItemProperty -LiteralPath ('HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\' + $caller)).ProfileImagePath
@@ -184,8 +186,9 @@ public sealed class SystemTriageService
             -not ($value -and ($value[0] -band 1))
         }
         function Clsid($id) {
-            foreach ($root in 'HKCU:\SOFTWARE\Classes\CLSID\', 'HKLM:\SOFTWARE\Classes\CLSID\') {
-                $dll = (Get-ItemProperty -LiteralPath ($root + $id + '\InprocServer32')).'(default)'
+            foreach ($root in $userHive, 'HKEY_LOCAL_MACHINE') {
+                $key = $root + '\SOFTWARE\Classes\CLSID\' + $id + '\InprocServer32'
+                $dll = try { [Microsoft.Win32.Registry]::GetValue($key, '', $null) } catch { $null }
                 if ($dll) { return [string]$dll } }
             ''
         }
@@ -196,7 +199,8 @@ public sealed class SystemTriageService
             # One unreadable task or folder must not end the whole list: the elevated wrapper turns errors into stops.
             foreach ($task in @(try { $folder.GetTasks(1) } catch { })) { try {
                 $definition = $task.Definition
-                $action = @($definition.Actions) | Select-Object -First 1
+                $actions = $definition.Actions
+                $action = if ($actions.Count -gt 0) { $actions.Item(1) }
                 $image = ''; $command = ''
                 if ($action.Type -eq 0) { $command = ('"{0}" {1}' -f $action.Path, $action.Arguments).Trim(); $image = $null }
                 elseif ($action.Type -eq 5) { $command = [string]$action.ClassId; $image = Clsid $action.ClassId }

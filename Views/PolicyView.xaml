@@ -51,7 +51,7 @@
                                                 Visibility="{Binding CanUndo, Converter={StaticResource BoolToVis}}"/>
                                         <Button Style="{StaticResource PreviewIconButtonStyle}" Click="Preview_Click"
                                                 AutomationProperties.Name="{loc:Loc Security:PoliciesShowValues}" ToolTip="{loc:Loc Security:PoliciesShowValues}">
-                                            <TextBlock Text="&#xE890;" FontFamily="Segoe Fluent Icons" FontSize="13" Foreground="{DynamicResource IconBrush}"/>
+                                            <TextBlock Text="&#xE890;" FontFamily="{StaticResource FluentIconFont}" FontSize="13" Foreground="{DynamicResource IconBrush}"/>
                                         </Button>
                                     </StackPanel>
                                 </Grid>

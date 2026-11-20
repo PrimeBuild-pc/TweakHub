@@ -8,8 +8,9 @@
     <SolidColorBrush x:Key="NeutralActionHoverBrush" Color="#F4F4F4"/>
     <SolidColorBrush x:Key="NeutralActionPressedBrush" Color="#EDEDED"/>
 
-    <Style x:Key="VisibleProgressRingStyle" TargetType="ui:ProgressRing">
-        <Setter Property="IsActive" Value="{DynamicResource {x:Static SystemParameters.ClientAreaAnimationKey}}"/>
+    <Style x:Key="LoadingProgressRingStyle" TargetType="ui:ProgressRing">
+        <Setter Property="IsActive" Value="True"/>
+        <Setter Property="Foreground" Value="{DynamicResource FluentAccentBrush}"/>
         <Style.Triggers>
             <Trigger Property="IsVisible" Value="False">
                 <Setter Property="IsActive" Value="False"/>
@@ -72,6 +73,16 @@
         <Setter Property="FontSize" Value="13"/>
         <Setter Property="MinHeight" Value="32"/>
         <Setter Property="ui:ControlHelper.CornerRadius" Value="4"/>
+    </Style>
+
+    <FontFamily x:Key="FluentIconFont">Segoe Fluent Icons, Segoe MDL2 Assets</FontFamily>
+
+    <!-- The bottom-line focus indicator is sized for 32px fields; taller fields get a plain accent outline. -->
+    <Style x:Key="FieldMultilineStyle" TargetType="TextBox" BasedOn="{StaticResource FieldInputStyle}">
+        <Style.Resources>
+            <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="{DynamicResource FluentAccentColor}"/>
+            <Thickness x:Key="TextControlBorderThemeThicknessFocused">1</Thickness>
+        </Style.Resources>
     </Style>
 
     <Geometry x:Key="FavoriteIconGeometry">M 8,1.5 L 9.95,5.6 14.5,6.2 11.2,9.35 12,14 8,11.8 4,14 4.8,9.35 1.5,6.2 6.05,5.6 Z</Geometry>

@@ -103,7 +103,7 @@
                                     </Button>
                                     <Button Style="{StaticResource PreviewIconButtonStyle}" Click="Preview_Click"
                                             AutomationProperties.Name="{loc:Loc Devices:CheckPreviewTooltip}" ToolTip="{loc:Loc Devices:CheckPreviewTooltip}">
-                                        <TextBlock Text="&#xE890;" FontFamily="Segoe Fluent Icons" FontSize="13" Foreground="{DynamicResource IconBrush}"/>
+                                        <TextBlock Text="&#xE890;" FontFamily="{StaticResource FluentIconFont}" FontSize="13" Foreground="{DynamicResource IconBrush}"/>
                                     </Button>
                                 </StackPanel>
                             </Grid>

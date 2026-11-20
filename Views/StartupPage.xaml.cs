@@ -39,7 +39,7 @@ public partial class StartupPage : Page
         ErrorText.Visibility = Visibility.Collapsed;
         try
         {
-            _triage = await SystemTriageService.Instance.CollectAsync(elevated, startupOnly: true);
+            _triage = await Task.Run(() => SystemTriageService.Instance.CollectAsync(elevated, startupOnly: true));
             StatusText.Text = L.Format(_triage.Elevated ? "Security:SystemScannedElevated" : "Security:StartupScannedPartial",
                 DateTime.Now.ToString("t", L.Culture));
             RenderCategories();
