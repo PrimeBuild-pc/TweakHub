@@ -1,7 +1,7 @@
 <div align="center">
   <img src="assets/logo.png" alt="TweakHub wrench logo" width="128">
   <h1>TweakHub</h1>
-  <p><strong>A portable control center for Windows 11: add your own tweaks, scripts and favorites, carry it on a USB stick, and reach the specialist tools from one place.</strong><br>For advanced users and technicians who configure, rebuild and maintain PCs. Free and open source (MIT).</p>
+  <p><strong>Start here when setting up a Windows 11 PC. Find and install specialist tools, use built-in controls, and bring your own scripts in one portable hub.</strong><br>For advanced users and technicians who configure, rebuild and maintain PCs. Free and open source (MIT).</p>
   <p>
     <a href="https://github.com/PrimeBuild-pc/TweakHub/commits/main"><img alt="Last commit" src="https://img.shields.io/github/last-commit/PrimeBuild-pc/TweakHub?style=plastic&amp;logo=git&amp;logoColor=white"></a>
     <a href="https://github.com/PrimeBuild-pc/TweakHub/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/PrimeBuild-pc/TweakHub?style=plastic&amp;logo=github"></a>
@@ -28,7 +28,7 @@
     <a href="#build-from-source"><b>Build</b></a>
   </p>
   <a id="screenshots"></a>
-  <a href="assets/screenshots/security-overview.png"><img src="assets/screenshots/security-overview.png" alt="TweakHub Security overview with the security score ring" width="900"></a>
+  <a href="assets/screenshots/external-tools.png"><img src="assets/screenshots/external-tools.png" alt="TweakHub External Tools catalog with WinGet install and batch selection" width="900"></a>
 </div>
 
 <table>
@@ -49,6 +49,7 @@
     <td align="center"><a href="assets/screenshots/external-tools.png"><img src="assets/screenshots/external-tools.png" alt="External tools" width="440"></a><br><sub><b>External Tools</b></sub></td>
     <td align="center"><a href="assets/screenshots/quick-access.png"><img src="assets/screenshots/quick-access.png" alt="Quick access" width="440"></a><br><sub><b>Quick Access</b></sub></td>
     <td align="center"><a href="assets/screenshots/settings.png"><img src="assets/screenshots/settings.png" alt="Settings" width="440"></a><br><sub><b>Settings</b></sub></td>
+    <td align="center"><a href="assets/screenshots/startup-disclaimer.png"><img src="assets/screenshots/startup-disclaimer.png" alt="Startup notice with I understand and Decline and exit buttons" width="440"></a><br><sub><b>Startup notice</b></sub></td>
   </tr>
 </table>
 
@@ -67,14 +68,12 @@ It runs as the current user and requests administrator privileges only when an o
 
 ## How it compares
 
-TweakHub does not try to replace [WinUtil](https://github.com/ChrisTitusTech/winutil), [Winaero Tweaker](https://winaero.com/winaero-tweaker/) or other tweak tools. It sits next to them.
+Start with TweakHub when setting up, tuning or maintaining a Windows 11 PC. It brings together your tools and workflows in one place. [WinUtil](https://github.com/ChrisTitusTech/winutil), [Winaero Tweaker](https://winaero.com/winaero-tweaker/) and the other dedicated apps still handle their specialist jobs.
 
-- **It is yours to extend.** Add your own Registry tweaks, PowerShell/CMD scripts, playbooks and tool cards next to the built-in ones, and keep a favorites section. You do not need to write a tool of your own.
-- **It is portable.** Settings, scripts and rollback data stay beside `TweakHub.exe`, so you can carry the whole folder on a USB stick and configure many PCs. Nothing is stored in a cloud account.
-- **It links the rest.** The External Tools catalog lists WinUtil and many single-purpose tools, including specialist ones for stability testing, overclocking, firmware and flashing (categories such as *Benchmarks & Stability* and *Firmware & Power*). Install TweakHub and reach the others from there. Cards open the tool's official page, and some also install it through WinGet.
-- **Built-in tweaks are reversible.** Each has a preview, an automatic backup, verification and rollback.
-
-What it is not: a one-click optimizer, a tool for beginners (see the warning above), or a replacement for the dedicated tools it links. Windows 11 only. Releases may be unsigned.
+- **Build your toolkit.** Find tools for stability testing, overclocking, firmware and repair in External Tools. Install supported packages through WinGet, including in batches, or open the tool's official page.
+- **Use the advanced tools built in.** Inspect devices and interrupt settings, edit power plans, review security and startup entries, and preview and restore supported Registry tweaks.
+- **Bring your own workflow.** Import PowerShell and CMD scripts, add custom Registry tweaks and tool cards, and organize repeatable tasks into playbooks.
+- **Carry it from PC to PC.** Keep your scripts, favorites and settings in the portable folder. Rollback records are kept locally and scoped to the PC and Windows account that created them.
 
 ## Features
 
@@ -120,6 +119,14 @@ What it is not: a one-click optimizer, a tool for beginners (see the warning abo
     </td>
   </tr>
 </table>
+
+New in 1.8.1:
+- **Ghost devices:** check whether a device is disconnected before removing it, show first-install and last-used dates when available, and confirm the exact number selected. A filter can hide recently used devices.
+- **Startup notice:** choose **I understand** to continue or **Decline and exit** to close TweakHub.
+
+New in 1.8.0:
+- **Faster startup:** the main window opens sooner, secondary scans run on demand, and device inventory and interrupt scans use native Windows APIs.
+- **Updated interface:** searchable Quick Access, a collapsible sidebar, and batch installation of supported WinGet packages from External Tools.
 
 New in 1.7.0:
 - **Suggested interrupt layout** (Devices → Affinity): one physical core each for graphics, USB, network and audio, outside core 0, chosen from the CPU topology (P-cores only on hybrid CPUs, the CCD without 3D V-Cache on dual-CCD Ryzen). Only devices in use count: disabled devices, network cards without a link, the graphics card's HDMI/DisplayPort audio and unused sound cards are left out. The USB controller of your DAC or audio interface gets the audio core when no mouse or keyboard shares it. The preview lists what is plugged into each USB controller, warns about headphones on a front-panel jack, shows the measured load of the chosen cores, offers MSI where the driver supports it, and tells whether Windows already uses the layout or needs a restart. One backup and one elevation; each device is undone with its restore button.
