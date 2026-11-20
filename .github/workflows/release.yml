@@ -34,17 +34,19 @@ jobs:
       - name: Determine and validate tag
         id: tag
         shell: pwsh
+        env:
+          REQUESTED_TAG: ${{ inputs.tag }}
         run: |
-          $tag = "${{ github.event.inputs.tag }}"
-          if ([string]::IsNullOrWhiteSpace($tag) -and "${{ github.ref_type }}" -eq "tag") {
-            $tag = "${{ github.ref_name }}"
+          $tag = $env:REQUESTED_TAG
+          if ([string]::IsNullOrWhiteSpace($tag) -and $env:GITHUB_REF_TYPE -eq 'tag') {
+            $tag = $env:GITHUB_REF_NAME
           }
-          if ([string]::IsNullOrWhiteSpace($tag)) {
-            Write-Error "No release tag found."
+          if ($tag -cnotmatch '\Av\d+\.\d+\.\d+(?:-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?\z') {
+            throw 'Expected a version tag such as v1.2.3 or v1.2.3-beta.1.'
           }
           $version = dotnet msbuild ./TweakHub.csproj -getProperty:Version --nologo
-          if ($tag.TrimStart('v') -ne $version.Trim()) {
-            Write-Error "Tag $tag does not match project version $version."
+          if ($LASTEXITCODE -ne 0 -or $tag.Substring(1) -cne "$version".Trim()) {
+            throw "Tag $tag does not match project version $version."
           }
           echo "tag=$tag" >> $Env:GITHUB_OUTPUT
 

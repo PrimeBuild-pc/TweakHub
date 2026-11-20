@@ -45,6 +45,8 @@ public class PowerPlanServiceTests
         var script = PowerPlanService.BuildElevatedWriteScript(Guid.NewGuid(),
             [new PowerSettingValue(Guid.NewGuid(), Guid.NewGuid(), 1, 2)]);
 
-        Assert.That(System.Text.RegularExpressions.Regex.Matches(script, @"throw ""powercfg failed").Count, Is.EqualTo(3), "after /setacvalueindex, /setdcvalueindex and /setactive");
+        var lines = script.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+        var commands = lines.Select((line, index) => (line, index)).Where(item => item.line.Contains("powercfg /"));
+        Assert.That(commands.Select(item => lines[item.index + 1]), Has.Exactly(4).Matches<string>(line => line.StartsWith("if ($LASTEXITCODE -ne 0) { throw")));
     }
 }
