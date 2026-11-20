@@ -1,9 +1,7 @@
 param(
     [Parameter(Mandatory)]
     [ValidateSet('Default', 'Disabled', 'Security', 'Restore', 'Status')]
-    [string]$Preset,
-    [Parameter(Mandatory)]
-    [string]$BackupPath
+    [string]$Preset
 )
 
 $ErrorActionPreference = 'Stop'
@@ -20,6 +18,8 @@ $registryValues = @(
     @{ Path = 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer'; Names = @('SettingsPageVisibility') }
 )
 $serviceNames = @('BITS', 'wuauserv', 'UsoSvc')
+$backupKey = 'SOFTWARE\TweakHub\WindowsUpdate'
+$backupName = 'ServiceTaskBackup'
 $taskPaths = @(
     '\Microsoft\Windows\InstallService\*',
     '\Microsoft\Windows\UpdateOrchestrator\*',
@@ -30,14 +30,18 @@ $taskPaths = @(
 )
 
 # One read of all tasks: every wildcard -TaskPath call enumerates them again (about 0.8 s each).
+function Test-UpdateTaskPath([string]$Path) {
+    @($taskPaths | Where-Object { $Path -like $_ }).Count -gt 0
+}
+
 function Get-UpdateTasks {
-    @(Get-ScheduledTask -ErrorAction SilentlyContinue) | Where-Object { $path = $_.TaskPath; @($taskPaths | Where-Object { $path -like $_ }).Count -gt 0 }
+    Get-ScheduledTask | Where-Object { Test-UpdateTaskPath $_.TaskPath }
 }
 
 # One CIM query for all services instead of one per name.
 function Get-UpdateServices {
     $found = @{}
-    Get-CimInstance Win32_Service -Filter (($serviceNames | ForEach-Object { "Name='$_'" }) -join ' OR ') -ErrorAction SilentlyContinue |
+    Get-CimInstance Win32_Service -Filter (($serviceNames | ForEach-Object { "Name='$_'" }) -join ' OR ') |
         ForEach-Object { $found[$_.Name] = $_ }
     $found
 }
@@ -53,44 +57,88 @@ function Test-RegistryValueAbsent([string]$Path, [string]$Name) {
     } catch { return $true }
 }
 
+function Assert-UpdateBackup($Backup) {
+    if ($null -eq $Backup -or $Backup.Services -isnot [array] -or $Backup.Tasks -isnot [array]) {
+        throw 'Invalid Windows Update backup.'
+    }
+    foreach ($item in $Backup.Services) {
+        if ($item.Name -isnot [string] -or $item.Name -notin $serviceNames -or
+            $item.StartMode -isnot [string] -or $item.StartMode -notin 'Auto', 'Manual', 'Disabled' -or
+            $item.State -isnot [string] -or $item.State -notin 'Running', 'Stopped') {
+            throw 'Invalid service in the Windows Update backup.'
+        }
+    }
+    foreach ($item in $Backup.Tasks) {
+        if ($item.TaskPath -isnot [string] -or -not (Test-UpdateTaskPath $item.TaskPath) -or
+            $item.TaskName -isnot [string] -or [string]::IsNullOrWhiteSpace($item.TaskName) -or $item.Enabled -isnot [bool]) {
+            throw 'Invalid scheduled task in the Windows Update backup.'
+        }
+    }
+}
+
 function Save-Backup {
-    if (Test-Path -LiteralPath $BackupPath) { return }
+    $key = $machine.CreateSubKey($backupKey)
+    try {
+        $saved = $key.GetValue($backupName)
+        if ($null -ne $saved) {
+            $backup = ConvertFrom-Json -InputObject $saved
+            Assert-UpdateBackup $backup
+            return $backup
+        }
 
-    $found = Get-UpdateServices
-    $services = foreach ($name in $serviceNames) {
-        $service = $found[$name]
-        if ($service) { [pscustomobject]@{ Name = $name; StartMode = $service.StartMode; State = $service.State } }
+        $found = Get-UpdateServices
+        $services = @(foreach ($name in $serviceNames) {
+            $service = $found[$name]
+            if ($service) { [pscustomobject]@{ Name = $name; StartMode = $service.StartMode; State = $service.State } }
+        })
+        $tasks = @(Get-UpdateTasks | ForEach-Object {
+            [pscustomobject]@{ TaskPath = $_.TaskPath; TaskName = $_.TaskName; Enabled = [bool]$_.Settings.Enabled }
+        })
+        $backup = [pscustomobject]@{ Services = $services; Tasks = $tasks }
+        Assert-UpdateBackup $backup
+        $key.SetValue($backupName, (ConvertTo-Json -InputObject $backup -Depth 4), 'String')
+        return $backup
+    } finally {
+        $key.Dispose()
     }
-    $tasks = foreach ($task in @(Get-UpdateTasks)) {
-        [pscustomobject]@{ TaskPath = $task.TaskPath; TaskName = $task.TaskName; Enabled = [bool]$task.Settings.Enabled }
-    }
-
-    $directory = Split-Path -Parent $BackupPath
-    if ($directory) { New-Item -ItemType Directory -Path $directory -Force | Out-Null }
-    $temp = $BackupPath + '.tmp'
-    [pscustomobject]@{ Services = @($services); Tasks = @($tasks) } |
-        ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $temp -Encoding UTF8
-    Move-Item -LiteralPath $temp -Destination $BackupPath -Force
 }
 
 function Restore-Backup {
-    if (-not (Test-Path -LiteralPath $BackupPath)) { return }
-    $backup = Get-Content -LiteralPath $BackupPath -Raw | ConvertFrom-Json
+    $key = $machine.OpenSubKey($backupKey, $true)
+    if ($null -eq $key) { throw 'The Windows Update machine backup is missing.' }
+    try {
+        $saved = $key.GetValue($backupName)
+        if ($null -eq $saved) { throw 'The Windows Update machine backup is missing.' }
+        $backup = ConvertFrom-Json -InputObject $saved
+        Assert-UpdateBackup $backup
 
-    foreach ($item in @($backup.Services)) {
-        $startup = if ($item.StartMode -eq 'Auto') { 'Automatic' } else { $item.StartMode }
-        Set-Service -Name $item.Name -StartupType $startup
-        if ($item.State -eq 'Running') { Start-Service -Name $item.Name -ErrorAction SilentlyContinue }
-        else { Stop-Service -Name $item.Name -Force -ErrorAction SilentlyContinue }
-    }
-    foreach ($item in @($backup.Tasks)) {
-        $task = Get-ScheduledTask -TaskPath $item.TaskPath -TaskName $item.TaskName -ErrorAction SilentlyContinue
-        if ($task) {
-            if ($item.Enabled) { $task | Enable-ScheduledTask | Out-Null }
-            else { $task | Disable-ScheduledTask | Out-Null }
+        $found = Get-UpdateServices
+        $tasks = @{}
+        Get-UpdateTasks | ForEach-Object { $tasks[$_.TaskPath + $_.TaskName] = $_ }
+
+        foreach ($item in $backup.Services) {
+            $service = $found[$item.Name]
+            if (-not $service -or $service.StartMode -ne $item.StartMode) {
+                $startup = if ($item.StartMode -eq 'Auto') { 'Automatic' } else { $item.StartMode }
+                Set-Service -Name $item.Name -StartupType $startup
+            }
+            if ($service.State -ne $item.State) {
+                if ($item.State -eq 'Running') { Start-Service -Name $item.Name }
+                else { Stop-Service -Name $item.Name -Force }
+            }
         }
+        foreach ($item in $backup.Tasks) {
+            $task = $tasks[$item.TaskPath + $item.TaskName]
+            if ($task -and [bool]$task.Settings.Enabled -ne $item.Enabled) {
+                if ($item.Enabled) { $task | Enable-ScheduledTask | Out-Null }
+                else { $task | Disable-ScheduledTask | Out-Null }
+            }
+        }
+
+        $key.DeleteValue($backupName)
+    } finally {
+        $key.Dispose()
     }
-    Remove-Item -LiteralPath $BackupPath -Force
 }
 
 function Clear-ManagedPolicies {
@@ -110,7 +158,7 @@ function Set-Policy([string]$Path, [string]$Name, [int]$Value) {
     New-ItemProperty -Path $Path -Name $Name -PropertyType DWord -Value $Value -Force | Out-Null
 }
 
-function Set-UpdateAvailability {
+function Set-UpdateAvailability($Backup) {
     Set-Service -Name BITS -StartupType Manual
     Set-Service -Name wuauserv -StartupType Manual
     Set-Service -Name UsoSvc -StartupType Automatic
@@ -118,7 +166,7 @@ function Set-UpdateAvailability {
     # Windows ships some update tasks disabled (WakeUpAndScanForUpdates wakes the PC): re-enable only those that
     # were on before TweakHub first changed anything. Save-Backup always runs first, so the backup exists here.
     $before = @{}
-    foreach ($task in @((Get-Content -LiteralPath $BackupPath -Raw | ConvertFrom-Json).Tasks)) { $before[$task.TaskPath + $task.TaskName] = [bool]$task.Enabled }
+    foreach ($task in $Backup.Tasks) { $before[$task.TaskPath + $task.TaskName] = $task.Enabled }
     Get-UpdateTasks | Where-Object { $before[$_.TaskPath + $_.TaskName] -ne $false } |
         Enable-ScheduledTask -ErrorAction SilentlyContinue | Out-Null
 }
@@ -177,20 +225,21 @@ function Get-DetectedPreset {
 
 if ($Preset -eq 'Status') {
     Write-Output ('PRESET:' + (Get-DetectedPreset))
-    exit 0
+    return
 }
+$machine = [Microsoft.Win32.RegistryKey]::OpenBaseKey('LocalMachine', 'Registry64')
 if ($Preset -eq 'Restore') {
     Restore-Backup
     Write-Output 'PRESET:RESTORED'
-    exit 0
+    return
 }
 
-Save-Backup
+$backup = Save-Backup
 Clear-ManagedPolicies
 
 switch ($Preset) {
     'Default' {
-        Set-UpdateAvailability
+        Set-UpdateAvailability $backup
     }
     'Disabled' {
         $au = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU'
@@ -206,7 +255,7 @@ switch ($Preset) {
         Get-UpdateTasks | Disable-ScheduledTask -ErrorAction SilentlyContinue | Out-Null
     }
     'Security' {
-        Set-UpdateAvailability
+        Set-UpdateAvailability $backup
         $wu = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate'
         $au = Join-Path $wu 'AU'
         $metadata = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\Device Metadata'

@@ -10,7 +10,8 @@ public partial class ScriptEditorDialog : Window
 {
     private readonly CustomScript _script;
 
-    /// <summary>Edits <paramref name="script"/> in place only when the user saves valid content.</summary>
+    public CustomScript? Result { get; private set; }
+
     public ScriptEditorDialog(CustomScript script, bool isNew)
     {
         InitializeComponent();
@@ -18,6 +19,8 @@ public partial class ScriptEditorDialog : Window
         Title = HeadingText.Text = L.Get(isNew ? "Scripts:CreateCustomScript" : "Scripts:EditCustomScript");
         SaveButton.Content = L.Get(isNew ? "Scripts:Create" : "Scripts:Save");
         NameTextBox.Text = script.Name;
+        RunLabelTextBox.Text = script.RunLabel;
+        DescriptionTextBox.Text = script.Description;
         PowerShellRadio.IsChecked = script.Language == ScriptLanguage.PowerShell;
         CmdRadio.IsChecked = script.Language == ScriptLanguage.Cmd;
         AdminCheckBox.IsChecked = script.RequiresAdministrator;
@@ -30,9 +33,12 @@ public partial class ScriptEditorDialog : Window
         {
             Id = _script.Id,
             Name = NameTextBox.Text,
+            RunLabel = RunLabelTextBox.Text,
+            Description = DescriptionTextBox.Text,
             Language = PowerShellRadio.IsChecked == true ? ScriptLanguage.PowerShell : ScriptLanguage.Cmd,
             Content = ContentTextBox.Text,
-            RequiresAdministrator = AdminCheckBox.IsChecked == true
+            RequiresAdministrator = AdminCheckBox.IsChecked == true,
+            IsFavorite = _script.IsFavorite
         };
         try
         {
@@ -45,10 +51,7 @@ public partial class ScriptEditorDialog : Window
             return;
         }
 
-        _script.Name = edited.Name;
-        _script.Language = edited.Language;
-        _script.Content = edited.Content;
-        _script.RequiresAdministrator = edited.RequiresAdministrator;
+        Result = edited;
         DialogResult = true;
     }
 }

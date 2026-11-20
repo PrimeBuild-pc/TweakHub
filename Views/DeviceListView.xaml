@@ -9,6 +9,21 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="SectionStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <Style x:Key="DeviceCellTextStyle" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="10,0"/>
+                <Setter Property="FontWeight" Value="Normal"/>
+                <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+            </Style>
+            <Style x:Key="DeviceSummaryCardStyle" TargetType="Border" BasedOn="{StaticResource SettingsCardStyle}">
+                <Setter Property="Margin" Value="4"/>
+                <Setter Property="Padding" Value="12,8"/>
+            </Style>
+            <Style x:Key="DeviceSummaryIconStyle" TargetType="TextBlock" BasedOn="{StaticResource IconTextStyle}">
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="Margin" Value="0,0,12,0"/>
+                <Setter Property="Foreground" Value="{DynamicResource IconBrush}"/>
+            </Style>
             <Style x:Key="AdviceIconStyle" TargetType="TextBlock" BasedOn="{StaticResource IconTextStyle}">
                 <Setter Property="FontSize" Value="14"/>
                 <Setter Property="Text" Value=""/>
@@ -33,97 +48,103 @@
     <Grid>
     <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="0,8,12,0">
         <StackPanel>
-            <Grid Margin="4,0,4,8">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <StackPanel VerticalAlignment="Center">
+            <StackPanel Margin="4,0,4,8">
+                <StackPanel Margin="0,0,0,10">
                     <TextBlock Text="{loc:Loc Devices:DevicesDescription}" Style="{StaticResource DescriptionTextStyle}"/>
-                    <TextBlock x:Name="StatusText" Style="{StaticResource DescriptionTextStyle}" FontSize="11" Margin="0,2,0,0"/>
+                    <TextBlock x:Name="StatusText" Style="{StaticResource DescriptionTextStyle}" Margin="0,2,0,0"/>
                 </StackPanel>
-                <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="16,0,0,0">
-                    <Button x:Name="ScanButton" Click="Scan_Click" Style="{StaticResource ModernButtonStyle}" Margin="0,0,8,0">
+                <WrapPanel>
+                    <Button x:Name="ScanButton" Click="Scan_Click" Style="{StaticResource ModernButtonStyle}" Margin="0,0,8,4"
+                            AutomationProperties.Name="{loc:Loc Devices:Scan}">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="&#xE72C;" Style="{StaticResource IconTextStyle}" Margin="0,0,6,0"/>
+                            <Path Data="{StaticResource RefreshIconGeometry}" Style="{StaticResource ToolbarIconStyle}"/>
                             <TextBlock Text="{loc:Loc Devices:Scan}"/>
                         </StackPanel>
                     </Button>
-                    <Button x:Name="DisableUnusedButton" Click="DisableUnused_Click" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0"
+                    <Button x:Name="DisableUnusedButton" Click="DisableUnused_Click" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,4"
+                            AutomationProperties.Name="{loc:Loc Devices:DisableUnused}"
                             ToolTip="{loc:Loc Devices:DisableUnusedHint}" IsEnabled="False">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="&#xE7E8;" Style="{StaticResource IconTextStyle}" Margin="0,0,6,0"/>
                             <TextBlock Text="{loc:Loc Devices:DisableUnused}"/>
                         </StackPanel>
                     </Button>
-                    <Button x:Name="RemoveGhostsButton" Click="RemoveGhosts_Click" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0"
+                    <Button x:Name="RemoveGhostsButton" Click="RemoveGhosts_Click" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,4"
+                            AutomationProperties.Name="{loc:Loc Devices:RemoveGhosts}"
                             ToolTip="{loc:Loc Devices:RemoveGhostsHint}" IsEnabled="False">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="&#xE74D;" Style="{StaticResource IconTextStyle}" Margin="0,0,6,0"/>
                             <TextBlock Text="{loc:Loc Devices:RemoveGhosts}"/>
                         </StackPanel>
                     </Button>
-                    <Button x:Name="EnableAllButton" Click="EnableAll_Click" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0"
+                    <Button x:Name="EnableAllButton" Click="EnableAll_Click" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,4"
+                            AutomationProperties.Name="{loc:Loc Devices:EnableAll}"
                             ToolTip="{loc:Loc Devices:EnableAllHint}">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="&#xE7A7;" Style="{StaticResource IconTextStyle}" Margin="0,0,6,0"/>
                             <TextBlock Text="{loc:Loc Devices:EnableAll}"/>
                         </StackPanel>
                     </Button>
-                    <Button x:Name="ExportButton" Click="Export_Click" Style="{StaticResource SecondaryButtonStyle}" IsEnabled="False">
+                    <Button x:Name="ExportButton" Click="Export_Click" Style="{StaticResource SecondaryButtonStyle}" IsEnabled="False" Margin="0,0,0,4"
+                            AutomationProperties.Name="{loc:Loc Devices:Export}">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="&#xEDE1;" Style="{StaticResource IconTextStyle}" Margin="0,0,6,0"/>
                             <TextBlock Text="{loc:Loc Devices:Export}"/>
                         </StackPanel>
                     </Button>
-                </StackPanel>
-            </Grid>
+                </WrapPanel>
+            </StackPanel>
 
             <TextBlock x:Name="ErrorText" Foreground="{DynamicResource DangerBrush}" TextWrapping="Wrap" Margin="4,0,4,8" Visibility="Collapsed"/>
 
             <UniformGrid Columns="4">
-                <Border Style="{StaticResource CardStyle}">
-                    <StackPanel>
-                        <TextBlock Text="&#xE772;" Style="{StaticResource IconTextStyle}" FontSize="20" HorizontalAlignment="Left" Margin="0,0,0,8"
-                                   Foreground="{DynamicResource IconBrush}"/>
-                        <TextBlock Text="{loc:Loc Devices:TileTotal}" Style="{StaticResource LabelTextStyle}"/>
-                        <TextBlock x:Name="TotalValue" Text="–" Style="{StaticResource TileValueStyle}"/>
-                    </StackPanel>
+                <Border Style="{StaticResource DeviceSummaryCardStyle}">
+                    <DockPanel>
+                        <TextBlock Text="&#xE772;" Style="{StaticResource DeviceSummaryIconStyle}"/>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="{loc:Loc Devices:TileTotal}" Style="{StaticResource LabelTextStyle}" TextWrapping="Wrap"/>
+                            <TextBlock x:Name="TotalValue" Text="–" Style="{StaticResource TileValueStyle}" FontSize="20"/>
+                        </StackPanel>
+                    </DockPanel>
                 </Border>
-                <Border Style="{StaticResource CardStyle}">
-                    <StackPanel>
-                        <TextBlock Text="&#xE82F;" Style="{StaticResource IconTextStyle}" FontSize="20" HorizontalAlignment="Left" Margin="0,0,0,8"
-                                   Foreground="{DynamicResource AccentBrush}"/>
-                        <TextBlock Text="{loc:Loc Devices:TileSuggested}" Style="{StaticResource LabelTextStyle}"/>
-                        <TextBlock x:Name="SuggestedValue" Text="–" Style="{StaticResource TileValueStyle}"/>
-                    </StackPanel>
+                <Border Style="{StaticResource DeviceSummaryCardStyle}">
+                    <DockPanel>
+                        <TextBlock Text="&#xE82F;" Style="{StaticResource DeviceSummaryIconStyle}"/>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="{loc:Loc Devices:TileSuggested}" Style="{StaticResource LabelTextStyle}" TextWrapping="Wrap"/>
+                            <TextBlock x:Name="SuggestedValue" Text="–" Style="{StaticResource TileValueStyle}" FontSize="20"/>
+                        </StackPanel>
+                    </DockPanel>
                 </Border>
-                <Border Style="{StaticResource CardStyle}">
-                    <StackPanel>
-                        <TextBlock Text="&#xE8D8;" Style="{StaticResource IconTextStyle}" FontSize="20" HorizontalAlignment="Left" Margin="0,0,0,8"
-                                   Foreground="{DynamicResource IconBrush}"/>
-                        <TextBlock Text="{loc:Loc Devices:TileDisabled}" Style="{StaticResource LabelTextStyle}"/>
-                        <TextBlock x:Name="DisabledValue" Text="–" Style="{StaticResource TileValueStyle}"/>
-                    </StackPanel>
+                <Border Style="{StaticResource DeviceSummaryCardStyle}">
+                    <DockPanel>
+                        <TextBlock Text="&#xE8D8;" Style="{StaticResource DeviceSummaryIconStyle}"/>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="{loc:Loc Devices:TileDisabled}" Style="{StaticResource LabelTextStyle}" TextWrapping="Wrap"/>
+                            <TextBlock x:Name="DisabledValue" Text="–" Style="{StaticResource TileValueStyle}" FontSize="20"/>
+                        </StackPanel>
+                    </DockPanel>
                 </Border>
-                <Border Style="{StaticResource CardStyle}">
-                    <StackPanel>
-                        <TextBlock x:Name="ProblemIcon" Text="&#xE7BA;" Style="{StaticResource IconTextStyle}" FontSize="20" HorizontalAlignment="Left"
-                                   Margin="0,0,0,8" Foreground="{DynamicResource IconBrush}"/>
-                        <TextBlock Text="{loc:Loc Devices:TileProblems}" Style="{StaticResource LabelTextStyle}"/>
-                        <TextBlock x:Name="ProblemValue" Text="–" Style="{StaticResource TileValueStyle}"/>
-                    </StackPanel>
+                <Border Style="{StaticResource DeviceSummaryCardStyle}">
+                    <DockPanel>
+                        <TextBlock x:Name="ProblemIcon" Text="&#xE7BA;" Style="{StaticResource DeviceSummaryIconStyle}"/>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="{loc:Loc Devices:TileProblems}" Style="{StaticResource LabelTextStyle}" TextWrapping="Wrap"/>
+                            <TextBlock x:Name="ProblemValue" Text="–" Style="{StaticResource TileValueStyle}" FontSize="20"/>
+                        </StackPanel>
+                    </DockPanel>
                 </Border>
             </UniformGrid>
 
-            <Border Style="{StaticResource CardStyle}">
+            <Border Style="{StaticResource SettingsCardStyle}" Margin="4,8,4,0">
                 <StackPanel>
                     <TextBlock Text="{loc:Loc Devices:CategoriesTitle}" Style="{StaticResource SectionTitleStyle}"/>
                     <UniformGrid x:Name="CategoryChart" Columns="2"/>
-                    <TextBlock Text="{loc:Loc Security:ChartFilterHint}" Style="{StaticResource DescriptionTextStyle}" FontSize="11" Margin="0,0,0,12"/>
+                    <TextBlock Text="{loc:Loc Security:ChartFilterHint}" Style="{StaticResource DescriptionTextStyle}" Margin="0,0,0,12"/>
 
                     <WrapPanel Margin="0,0,0,8">
-                        <TextBox x:Name="SearchBox" Width="240" Margin="0,0,12,4" TextChanged="Filter_Changed"
+                        <TextBox x:Name="SearchBox" Style="{StaticResource FieldInputStyle}" Width="240" MinHeight="32" Margin="0,0,12,4" TextChanged="Filter_Changed"
+                                 ui:ControlHelper.CornerRadius="4"
                                  ui:ControlHelper.PlaceholderText="{loc:Loc Security:FilterPlaceholder}"
                                  AutomationProperties.Name="{loc:Loc Security:FilterPlaceholder}"/>
                         <CheckBox x:Name="SuggestedOnly" Content="{loc:Loc Devices:SuggestedOnly}" Margin="0,0,12,4"
@@ -135,21 +156,26 @@
                             <DataGridTemplateColumn Header="{loc:Loc Security:ColumnName}" Width="3*" SortMemberPath="DisplayName">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
+                                        <DockPanel Margin="10,0">
                                             <TextBlock Style="{StaticResource AdviceIconStyle}" Width="16" Margin="0,0,8,0" ToolTip="{Binding AdviceText}"/>
-                                            <TextBlock Text="{Binding DisplayName}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
-                                        </StackPanel>
+                                            <TextBlock Text="{Binding DisplayName}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" FontWeight="Normal"
+                                                       ToolTip="{Binding DisplayName}"/>
+                                        </DockPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            <DataGridTextColumn Header="{loc:Loc Devices:ColumnClass}" Binding="{Binding Class}" Width="*"/>
-                            <DataGridTextColumn Header="{loc:Loc Devices:ColumnCategory}" Binding="{Binding CategoryText}" Width="*"/>
-                            <DataGridTextColumn Header="{loc:Loc Devices:ColumnAdvice}" Binding="{Binding AdviceText}" Width="*"/>
-                            <DataGridTemplateColumn Width="Auto">
+                            <DataGridTextColumn Header="{loc:Loc Devices:ColumnClass}" Binding="{Binding Class}" Width="*"
+                                                ElementStyle="{StaticResource DeviceCellTextStyle}"/>
+                            <DataGridTextColumn Header="{loc:Loc Devices:ColumnCategory}" Binding="{Binding CategoryText}" Width="*"
+                                                ElementStyle="{StaticResource DeviceCellTextStyle}"/>
+                            <DataGridTextColumn Header="{loc:Loc Devices:ColumnAdvice}" Binding="{Binding AdviceText}" Width="*"
+                                                ElementStyle="{StaticResource DeviceCellTextStyle}"/>
+                            <DataGridTemplateColumn Width="Auto" MinWidth="112">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <Button Click="Toggle_Click" Content="{Binding ToggleText}" Style="{StaticResource SecondaryButtonStyle}"
-                                                MinHeight="28" Padding="10,2" IsEnabled="{Binding CanToggle}" AutomationProperties.Name="{Binding ToggleText}"/>
+                                                MinHeight="28" Padding="10,2" Margin="6,3,8,3" IsEnabled="{Binding CanToggle}"
+                                                AutomationProperties.Name="{Binding ToggleText}"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>

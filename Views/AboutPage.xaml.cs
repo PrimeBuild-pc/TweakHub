@@ -18,6 +18,8 @@ public partial class AboutPage : Page
         InitializeComponent();
         VersionText.Text = $"TweakHub v{UpdateService.CurrentVersion}";
         DataPathText.Text = L.Format("UI:DataLocation", UserDataService.Instance.DataDirectory);
+        if (UserDataService.HasLegacyUndoData(UserDataService.Instance.DataDirectory))
+            ProfileResultText.Text = L.Get("UI:LegacyUndoAvailable");
         LoadAppearanceControls();
     }
 
@@ -34,9 +36,9 @@ public partial class AboutPage : Page
     private void LoadAppearanceControls()
     {
         ThemeModeComboBox.SelectedValue = _themeService.ThemeMode;
-        UseSystemAccentCheckBox.IsChecked = _themeService.UseSystemAccent;
+        UseSystemAccentToggle.IsOn = _themeService.UseSystemAccent;
         AccentColorTextBox.Text = _themeService.UseSystemAccent ? "#0078D4" : _themeService.CustomAccent;
-        TransparencyCheckBox.IsChecked = _themeService.TransparencyEnabled;
+        TransparencyToggle.IsOn = _themeService.TransparencyEnabled;
         LanguageComboBox.SelectedValue = L.Normalize(UserDataService.Instance.LoadAppearance().Language);
         UpdateAccentInput();
     }
@@ -46,15 +48,15 @@ public partial class AboutPage : Page
     private void UpdateAccentInput()
     {
         if (AccentColorTextBox != null)
-            AccentColorTextBox.IsEnabled = UseSystemAccentCheckBox.IsChecked != true;
+            AccentColorTextBox.IsEnabled = !UseSystemAccentToggle.IsOn;
     }
 
     private void ApplyAppearance_Click(object sender, RoutedEventArgs e)
     {
         var mode = ThemeModeComboBox.SelectedValue as string ?? "System";
         var language = LanguageComboBox.SelectedValue as string ?? "System";
-        if (_themeService.SetPreferences(mode, UseSystemAccentCheckBox.IsChecked == true,
-                AccentColorTextBox.Text, TransparencyCheckBox.IsChecked == true, language, out var error))
+        if (_themeService.SetPreferences(mode, UseSystemAccentToggle.IsOn,
+                AccentColorTextBox.Text, TransparencyToggle.IsOn, language, out var error))
         {
             AppearanceResultText.Text = L.Get(L.RequiresRestart(language) ? "UI:AppliedRestartLanguage" : "UI:Applied");
         }
@@ -125,25 +127,40 @@ public partial class AboutPage : Page
                 await AppDialog.ShowErrorAsync(owner, L.Get("UI:PreviousDataTitle"), L.Get("UI:PreviousDataNotFound"));
                 return;
             }
-            if (!await AppDialog.ConfirmAsync(owner, L.Get("UI:PreviousDataTitle"), L.Format("UI:PreviousDataConfirm", source),
-                    L.Get("UI:Import"), L.Get("UI:Cancel"))) return;
+            var userData = UserDataService.Instance;
+            var sameDirectory = userData.IsCurrentDataDirectory(source);
+            if (!sameDirectory && !await AppDialog.ConfirmAsync(owner, L.Get("UI:PreviousDataTitle"),
+                    L.Format("UI:PreviousDataConfirm", source), L.Get("UI:Import"), L.Get("UI:Cancel"))) return;
 
-            var result = UserDataService.Instance.ImportPreviousData(source, AppDataPath.AppsPath);
+            var adoptLegacy = UserDataService.HasLegacyUndoData(source) &&
+                await AppDialog.ConfirmAsync(owner, L.Get("UI:PreviousDataTitle"), L.Get("UI:LegacyUndoConfirm"),
+                    L.Get("UI:Import"), L.Get("UI:LegacyUndoSkip"), DialogKind.Warning);
+            if (sameDirectory)
+            {
+                if (!adoptLegacy) return;
+                var adopted = userData.AdoptLegacyUndoData();
+                var summary = L.Format("UI:LegacyUndoCopied", adopted.Copied) + KeptUndoMessage(adopted.Kept);
+                await AppDialog.ShowAsync(owner, L.Get("UI:PreviousDataTitle"), summary);
+                if (adopted.Copied > 0) App.Restart();
+                return;
+            }
+
+            var result = userData.ImportPreviousData(source, AppDataPath.AppsPath, adoptLegacy);
             var profile = result.Profile;
             var message = L.Format("UI:PreviousDataImported", profile.Scripts, profile.Tweaks, profile.Tools, profile.Playbooks,
                 result.UndoFiles, result.AppFiles, profile.RecoveryPath);
-            if (result.KeptCurrent.Count > 0)
-                message += Environment.NewLine + Environment.NewLine + L.Format("UI:PreviousDataKept", string.Join(", ", result.KeptCurrent));
-            await AppDialog.ShowAsync(owner, L.Get("UI:PreviousDataTitle"), message);
+            await AppDialog.ShowAsync(owner, L.Get("UI:PreviousDataTitle"), message + KeptUndoMessage(result.KeptCurrent));
             // Services loaded their data at startup and would overwrite the imported files: start fresh.
-            Process.Start(new ProcessStartInfo(Environment.ProcessPath!) { UseShellExecute = true });
-            Application.Current.Shutdown();
+            App.Restart();
         }
         catch (Exception ex)
         {
             ProfileResultText.Text = ex.Message;
         }
     }
+
+    private static string KeptUndoMessage(IReadOnlyList<string> files) => files.Count == 0 ? string.Empty :
+        Environment.NewLine + Environment.NewLine + L.Format("UI:PreviousDataKept", string.Join(", ", files));
 
     private async void CheckForUpdates_Click(object sender, RoutedEventArgs e)
     {

@@ -8,6 +8,24 @@ namespace TweakHub.Tests;
 public class RegistryServiceTests
 {
     [Test]
+    public void CommandPreviewPreservesRegistryFormatsWithoutMetadata()
+    {
+        const string path = @"HKCU\Software\TweakHubTests";
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(RegistryService.PreviewCommand(new(path, "Flags", -1)),
+                Is.EqualTo($"reg.exe add '{path}' /v 'Flags' /t REG_DWORD /d 0xffffffff /f"));
+            Assert.That(RegistryService.PreviewCommand(new(path, "Count", 42L, RegistryValueKind.QWord)),
+                Is.EqualTo($"reg.exe add '{path}' /v 'Count' /t REG_QWORD /d 42 /f"));
+            Assert.That(RegistryService.PreviewCommand(new(path, "Names", new[] { "first", "it's #two" }, RegistryValueKind.MultiString)),
+                Does.Contain("[string[]]@('first', 'it''s #two')").And.EndWith("'MultiString')"));
+            Assert.That(RegistryService.PreviewCommand(new(path, "Old", null)),
+                Is.EqualTo($"reg.exe delete '{path}' /v 'Old' /f"));
+        });
+    }
+
+    [Test]
     public void BackupSurvivesRestartAndRestoresExistingAndMissingValues()
     {
         var id = Guid.NewGuid().ToString("N");
@@ -181,5 +199,43 @@ public class RegistryServiceTests
         var service = new RegistryService(Path.Combine(Path.GetTempPath(), $"TweakHubTests-{Guid.NewGuid():N}"));
         Assert.That(service.SetRegistryValue(@"HKTYPO\Software\TweakHub", "Value", 1), Is.False);
         Assert.Throws<ArgumentException>(() => RegistryService.ValidateLocation(@"HKTYPO\Software\TweakHub", "Value"));
+    }
+
+    // A failed group write must return to what the values held before the attempt, not to the original of an earlier apply.
+    [Test]
+    public async Task FailedGroupWriteKeepsAnEarlierSuccessfulApply()
+    {
+        var id = Guid.NewGuid().ToString("N");
+        var subKey = $@"Software\TweakHubTests\{id}";
+        var path = $@"HKCU\{subKey}";
+        var dataPath = Path.Combine(Path.GetTempPath(), $"TweakHubTests-{id}");
+        try
+        {
+            using (var key = Registry.CurrentUser.CreateSubKey(subKey))
+                key!.SetValue("First", 1, RegistryValueKind.DWord);
+            var service = new RegistryService(dataPath);
+            service.Initialize();
+            Assert.That(await service.ApplyValuesWithBackupAsync([new RegistryValueChange(path, "First", 5)]), Is.True);
+
+            // First is written, then the over-long value name makes the script throw.
+            var failed = await service.ApplyValuesWithBackupAsync([new RegistryValueChange(path, "First", 7), new RegistryValueChange(path, new string('x', 20000), 1)]);
+
+            Assert.That(failed, Is.False);
+            using (var current = Registry.CurrentUser.OpenSubKey(subKey))
+            {
+                Assert.That(current!.GetValue("First"), Is.EqualTo(5), "back to the earlier apply, not the original");
+                Assert.That(current.GetValueNames(), Is.EquivalentTo(new[] { "First" }));
+            }
+            Assert.That(service.IsAtOriginal(path, "First"), Is.False, "the original is still backed up");
+            Assert.That(service.IsAtOriginal(path, new string('x', 20000)), Is.Null, "a backup created by the failed attempt is dropped");
+            Assert.That(await service.RestoreValuesAsync([new RegistryValueChange(path, "First", 5)]), Is.True);
+            using var restored = Registry.CurrentUser.OpenSubKey(subKey);
+            Assert.That(restored!.GetValue("First"), Is.EqualTo(1));
+        }
+        finally
+        {
+            Registry.CurrentUser.DeleteSubKeyTree(subKey, false);
+            if (Directory.Exists(dataPath)) Directory.Delete(dataPath, true);
+        }
     }
 }

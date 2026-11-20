@@ -746,4 +746,13 @@
 
 {1}</value>
   </data>
+  <data name="ScriptRunLabelOptional" xml:space="preserve">
+    <value>按钮标签（可选）</value>
+  </data>
+  <data name="ScriptDescriptionOptional" xml:space="preserve">
+    <value>说明（可选）</value>
+  </data>
+  <data name="ScriptCode" xml:space="preserve">
+    <value>脚本代码</value>
+  </data>
 </root>

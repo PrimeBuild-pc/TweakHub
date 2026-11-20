@@ -28,6 +28,13 @@ public sealed class UpdateService
 
     public async Task CheckAndPromptAsync(Window owner, bool showNoUpdate, CancellationToken cancellationToken = default)
     {
+        if (StoreDistribution.IsStoreBuild)
+        {
+            if (showNoUpdate)
+                Process.Start(new ProcessStartInfo("ms-windows-store://pdp/?productid=9P5R2R5TRKL3") { UseShellExecute = true });
+            return;
+        }
+
         var accepted = false;
         ProgressWindow? progressWindow = null;
         try
@@ -59,7 +66,7 @@ public sealed class UpdateService
             progressWindow.Show();
             var progress = new Progress<double>(progressWindow.UpdateProgress);
             // Held open (read sharing only) until the installer runs: nobody can replace the verified file in between.
-            await using var verified = await DownloadAndVerifyAsync(package, checksum, progress, cancellationToken);
+            await using var verified = await DownloadAndVerifyAsync(HttpClient, package, checksum, progress, cancellationToken);
             var packagePath = verified.Name;
             progressWindow.Close();
             progressWindow = null;
@@ -93,47 +100,50 @@ public sealed class UpdateService
         return release == null ? null : new AvailableUpdate(release.TagName.TrimStart('v'), release.Assets);
     }
 
-    private static async Task<FileStream> DownloadAndVerifyAsync(
-        GitHubAsset package, GitHubAsset checksum, IProgress<double> progress, CancellationToken cancellationToken)
+    internal static async Task<FileStream> DownloadAndVerifyAsync(HttpClient client,
+        GitHubAsset package, GitHubAsset checksum, IProgress<double> progress, CancellationToken cancellationToken,
+        string? downloadDirectory = null)
     {
         ValidateGitHubAsset(package);
         ValidateGitHubAsset(checksum);
-        var checksumText = await HttpClient.GetStringAsync(checksum.DownloadUrl, cancellationToken);
+        var checksumText = await client.GetStringAsync(checksum.DownloadUrl, cancellationToken);
         var expectedHash = Regex.Match(checksumText, "[A-Fa-f0-9]{64}").Value;
         if (expectedHash.Length != 64) throw new InvalidDataException(L.Get("UI:ChecksumMissing"));
 
-        var path = Path.Combine(Path.GetTempPath(), $"TweakHub-{Guid.NewGuid():N}{Path.GetExtension(package.Name)}");
+        var path = Path.Combine(downloadDirectory ?? Path.GetTempPath(), $"TweakHub-{Guid.NewGuid():N}{Path.GetExtension(package.Name)}");
+        FileStream? verified = null;
         try
         {
-            using var response = await HttpClient.GetAsync(package.DownloadUrl, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+            using var response = await client.GetAsync(package.DownloadUrl, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
             response.EnsureSuccessStatusCode();
             var total = package.Size > 0 ? package.Size : response.Content.Headers.ContentLength ?? 0;
             await using var input = await response.Content.ReadAsStreamAsync(cancellationToken);
-            await using var output = new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.None, 81920, true);
             var buffer = new byte[81920];
             long downloaded = 0;
-            int read;
-            while ((read = await input.ReadAsync(buffer, cancellationToken)) > 0)
+            await using (var output = new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.None, 81920, true))
             {
-                await output.WriteAsync(buffer.AsMemory(0, read), cancellationToken);
-                downloaded += read;
-                if (total > 0) progress.Report(downloaded * 100d / total);
+                int read;
+                while ((read = await input.ReadAsync(buffer, cancellationToken)) > 0)
+                {
+                    await output.WriteAsync(buffer.AsMemory(0, read), cancellationToken);
+                    downloaded += read;
+                    if (total > 0) progress.Report(downloaded * 100d / total);
+                }
             }
-            await output.FlushAsync(cancellationToken);
             if (package.Size > 0 && downloaded != package.Size) throw new InvalidDataException(L.Get("UI:DownloadIncomplete"));
 
-            var file = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
-            var actualHash = Convert.ToHexString(await SHA256.HashDataAsync(file, cancellationToken));
+            // Reopen after the exclusive writer has closed. Only the bytes in this read handle are verified.
+            verified = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, 81920, true);
+            var actualHash = Convert.ToHexString(await SHA256.HashDataAsync(verified, cancellationToken));
             if (!actualHash.Equals(expectedHash, StringComparison.OrdinalIgnoreCase))
-            {
-                await file.DisposeAsync();
                 throw new InvalidDataException(L.Get("UI:ChecksumMismatch"));
-            }
+            verified.Position = 0;
             progress.Report(100);
-            return file;
+            return verified;
         }
         catch
         {
+            if (verified is not null) await verified.DisposeAsync();
             try { File.Delete(path); } catch { }
             throw;
         }
@@ -233,7 +243,7 @@ public sealed class UpdateService
         [JsonPropertyName("assets")] public List<GitHubAsset> Assets { get; set; } = [];
     }
 
-    private sealed class GitHubAsset
+    internal sealed class GitHubAsset
     {
         [JsonPropertyName("name")] public string Name { get; set; } = string.Empty;
         [JsonPropertyName("browser_download_url")] public string DownloadUrl { get; set; } = string.Empty;

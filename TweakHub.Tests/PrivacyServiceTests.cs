@@ -80,15 +80,38 @@ public class PrivacyServiceTests
     [Test]
     public void DnsScriptResetsOrSetsEachAdapter()
     {
-        var script = PrivacyService.BuildDnsScript([(12, null), (7, ["9.9.9.9", "2620:fe::fe"])]);
+        var first = Guid.NewGuid();
+        var second = Guid.NewGuid();
+        var script = PrivacyService.BuildDnsScript([(12, first, null), (7, second, ["9.9.9.9", "2620:fe::fe"])]);
         var lines = script.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
-        Assert.That(lines, Is.EqualTo(new[]
+        Assert.That(lines[0], Does.Contain($"Get-NetAdapter -InterfaceIndex 12 -IncludeHidden").And.Contain(first.ToString("D")));
+        Assert.That(lines[1], Does.Contain($"Get-NetAdapter -InterfaceIndex 7 -IncludeHidden").And.Contain(second.ToString("D")));
+        Assert.That(lines[2..], Is.EqualTo(new[]
         {
             "Set-DnsClientServerAddress -InterfaceIndex 12 -ResetServerAddresses",
             "Set-DnsClientServerAddress -InterfaceIndex 7 -ResetServerAddresses",
             "Set-DnsClientServerAddress -InterfaceIndex 7 -ServerAddresses @('9.9.9.9','2620:fe::fe')",
             "Clear-DnsClientCache"
         }));
+    }
+
+    [Test]
+    public async Task DnsScriptStopsBeforeAnyWriteWhenAnIndexWasReused()
+    {
+        var first = Guid.NewGuid();
+        var second = Guid.NewGuid();
+        var script = $$"""
+            function Get-NetAdapter([int]$InterfaceIndex, [switch]$IncludeHidden) {
+                [pscustomobject]@{ InterfaceGuid = '{{first:D}}' }
+            }
+            function Set-DnsClientServerAddress { Write-Output 'DNS write' }
+            function Clear-DnsClientCache { Write-Output 'DNS reset' }
+            {{PrivacyService.BuildDnsScript([(12, first, null), (7, second, null)])}}
+            """;
+        var result = await PowerShellService.Instance.ExecuteScriptAsync(script, timeout: TimeSpan.FromSeconds(20));
+        Assert.That(result.Success, Is.False);
+        Assert.That(result.Output, Is.Empty);
+        Assert.That(result.Error, Does.Contain(TweakHub.Localization.L.Get("Security:DnsAdapterChanged")));
     }
 
     [Test]
@@ -106,6 +129,28 @@ public class PrivacyServiceTests
             Assert.That(PrivacyService.TryParseServers("8.8.8.8,8.8.4.4,192.168.1.1,2001:4860:4860::8888,2001:4860:4860::8844", out _), Is.False);
             Assert.That(PrivacyService.TryParseServers("8.8.8.8,8.8.4.4,192.168.1.1,2001:4860:4860::8888,2001:4860:4860::8844", out var all, max: 8), Is.True);
             Assert.That(all, Has.Length.EqualTo(5));
+        });
+    }
+
+    [Test]
+    public void DnsRestoreFollowsAdapterGuidAndKeepsMissingOnes()
+    {
+        DnsAdapter Saved(int index, string guid, string servers) => new(index, "x", [], servers, "", guid);
+        var present = Guid.NewGuid();
+        var missing = Guid.NewGuid();
+        var invalid = Guid.NewGuid();
+        var automatic = Guid.NewGuid();
+        var saved = new[] { Saved(3, present.ToString("B"), "1.1.1.1"), Saved(5, missing.ToString(), "9.9.9.9"),
+            Saved(8, "", "8.8.8.8"), Saved(4, invalid.ToString(), "bad-data"), Saved(6, automatic.ToString(), "") };
+
+        var (plan, unmatched) = PrivacyService.ResolveRestore(saved, new Dictionary<Guid, int> { [present] = 11, [invalid] = 4, [automatic] = 8 });
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(plan.Select(step => (step.Id, step.Index)), Is.EqualTo(new[] { (present, 11), (automatic, 8) }));
+            Assert.That(plan[0].Servers, Is.EqualTo(new[] { "1.1.1.1" }));
+            Assert.That(plan[1].Servers, Is.Null);
+            Assert.That(unmatched, Is.EqualTo(new[] { saved[1], saved[2], saved[3] }));
         });
     }
 

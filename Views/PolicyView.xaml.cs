@@ -12,7 +12,8 @@ public partial class PolicyView : UserControl
     public PolicyView()
     {
         InitializeComponent();
-        Loaded += async (_, _) => await RefreshAsync();
+        // Loaded fires on every tab switch: scan once (again only after a failed scan); Refresh reads fresh data.
+        Loaded += async (_, _) => { if (CategoriesList.ItemsSource is null) await RefreshAsync(); };
     }
 
     private async void Refresh_Click(object sender, RoutedEventArgs e) => await RefreshAsync();

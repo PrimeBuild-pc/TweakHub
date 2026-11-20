@@ -502,6 +502,9 @@ Puede tardar un minuto y requiere privilegios de administrador.</value>
   <data name="RestoreComplete" xml:space="preserve">
     <value>Restauración completa</value>
   </data>
+  <data name="WindowsUpdateLegacyBackup" xml:space="preserve">
+    <value>Una copia de seguridad anterior de Windows Update requiere una revisión manual. Conserva windows-update-backup.json y compáralo con la configuración de este PC. Muévelo fuera de la carpeta Data cuando quieras volver a usar los modos predefinidos.</value>
+  </data>
   <data name="RestoreFailed" xml:space="preserve">
     <value>Error al restaurar</value>
   </data>

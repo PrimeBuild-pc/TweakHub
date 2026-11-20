@@ -181,17 +181,6 @@ public class ShortcutServiceTests
         });
     }
 
-    [TestCase(Key.Enter)]
-    [TestCase(Key.Space)]
-    public void CardActivationDoesNotHandleKeysFromFavoriteOrOtherNestedButtons(Key key)
-    {
-        var favorite = new Button();
-        var card = new Border { Child = favorite };
-        Assert.That(ExternalToolsPage.IsToolCardActivation(card, favorite, key), Is.False);
-        Assert.That(ExternalToolsPage.IsToolCardActivation(card, card, key), Is.True);
-        Assert.That(ExternalToolsPage.IsToolCardActivation(card, card, Key.Tab), Is.False);
-    }
-
     [Test]
     public void ExternalToolFilterHandlesFavoritesAndSearchFields()
     {

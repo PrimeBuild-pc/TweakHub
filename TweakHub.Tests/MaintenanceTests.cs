@@ -89,17 +89,23 @@ public class MaintenanceTests
     {
         var source = Path.Combine(_directory, "old");
         Directory.CreateDirectory(source);
-        File.WriteAllText(Path.Combine(source, "hibernation-backup.json"), """{"Original":{"Enabled":1,"Type":2,"Size":75}}""");
-        File.WriteAllText(Path.Combine(source, "optional-services.json"), """{"RetailDemo":{"Name":"RetailDemo","Start":2,"Delayed":1,"Status":"Running","Exists":true}}""");
-        File.WriteAllText(Path.Combine(source, "applied-tweaks.json"), """["disable_game_bar"]""");
-        Directory.CreateDirectory(Path.Combine(source, "startup-backups"));
-        File.WriteAllText(Path.Combine(source, "startup-backups", "abc.json"), "{}");
+        var sourceUndo = AppDataPath.GetUndoPath(source);
+        Directory.CreateDirectory(sourceUndo);
+        File.WriteAllText(Path.Combine(sourceUndo, "hibernation-backup.json"), """{"Original":{"Enabled":1,"Type":2,"Size":75}}""");
+        File.WriteAllText(Path.Combine(sourceUndo, "optional-services.json"), """{"RetailDemo":{"Name":"RetailDemo","Start":2,"Delayed":1,"Status":"Running","Exists":true}}""");
+        File.WriteAllText(Path.Combine(sourceUndo, "applied-tweaks.json"), """["disable_game_bar"]""");
+        Directory.CreateDirectory(Path.Combine(sourceUndo, "startup-backups"));
+        File.WriteAllText(Path.Combine(sourceUndo, "startup-backups", "abc.json"), "{}");
+        var otherScope = Path.Combine(source, "Undo", "another-pc");
+        Directory.CreateDirectory(otherScope);
+        File.WriteAllText(Path.Combine(otherScope, "disabled-devices.json"), "{}");
         var destination = new UserDataService(Path.Combine(_directory, "new"));
         var result = destination.ImportPreviousData(source, Path.Combine(_directory, "Apps"));
         Assert.That(result.UndoFiles, Is.EqualTo(4));
-        Assert.That(File.Exists(Path.Combine(destination.DataDirectory, "startup-backups", "abc.json")), Is.True);
+        Assert.That(File.Exists(Path.Combine(destination.UndoDirectory, "startup-backups", "abc.json")), Is.True);
+        Assert.That(File.Exists(Path.Combine(destination.UndoDirectory, "disabled-devices.json")), Is.False);
         foreach (var name in new[] { "hibernation-backup.json", "optional-services.json" })
-            Assert.That(File.ReadAllText(Path.Combine(destination.DataDirectory, name)), Is.EqualTo(File.ReadAllText(Path.Combine(source, name))));
+            Assert.That(File.ReadAllText(Path.Combine(destination.UndoDirectory, name)), Is.EqualTo(File.ReadAllText(Path.Combine(sourceUndo, name))));
     }
 
     [Test]

@@ -1,5 +1,4 @@
 using System.Windows;
-using System.Windows.Input;
 using ModernWpf.Controls;
 using TweakHub.Localization;
 using TweakHub.Services;
@@ -10,8 +9,8 @@ namespace TweakHub;
 public partial class MainWindow : Window
 {
     private readonly ThemeService _themeService = ThemeService.Instance;
-    private bool _updateCheckStarted;
-    // Sections keep their state between visits; their data was read once by the splash screen.
+    private bool _startupChecksStarted;
+    // Sections keep their state between visits.
     private readonly Dictionary<string, System.Windows.Controls.Page> _pages = new();
 
     public MainWindow()
@@ -23,7 +22,6 @@ public partial class MainWindow : Window
         Loaded += MainWindow_Loaded;
         // Cached pages need no journal: drop it so visited pages are not held twice.
         MainFrame.Navigated += (_, _) => { while (MainFrame.CanGoBack) MainFrame.RemoveBackEntry(); };
-        ContentRendered += MainWindow_ContentRendered;
         // With a custom chrome a maximized window overhangs the screen by its frame: pad it back in.
         // shortcut: frame metrics come from the primary monitor (verified on two same-DPI monitors); compute per monitor if a mixed-DPI setup overhangs.
         StateChanged += (_, _) => RootGrid.Margin = WindowState == WindowState.Maximized
@@ -34,20 +32,21 @@ public partial class MainWindow : Window
 
     private void MainWindow_Loaded(object sender, RoutedEventArgs e)
     {
-        Navigation.SelectedItem = App.StartupPlaybookId is null ? RegistryTweaksItem : AutomatedScriptsItem;
-        if (MainFrame.Content is null) Navigate(App.StartupPlaybookId is null ? "registry" : "scripts");
+        SelectSection(App.StartupPlaybookId is null ? RegistryTweaksItem : AutomatedScriptsItem);
     }
 
-    private async void MainWindow_ContentRendered(object? sender, EventArgs e)
+    // The first page calls this when its startup dialogs or playbook have finished.
+    internal async Task RunDeferredStartupChecksAsync()
     {
-        if (_updateCheckStarted) return;
-        _updateCheckStarted = true;
-        while (!TweakService.Instance.RegistryDisclaimerShown) await Task.Delay(500);
+        if (_startupChecksStarted) return;
+        _startupChecksStarted = true;
         await Task.Delay(1000);
+        if (!IsVisible) return;
         await UpdateService.Instance.CheckAndPromptAsync(this, showNoUpdate: false);
         // A driver update (often the GPU one) recreates the device key and drops the suggested layout without a word.
-        var reset = await Task.Run(() => InterruptService.ResetAffinityDevices(DeviceTree.Read()));
-        if (reset.Count > 0)
+        if (!IsVisible) return;
+        var reset = await Task.Run(InterruptService.ResetAffinityDevices);
+        if (IsVisible && reset.Count > 0)
             await Views.Dialogs.AppDialog.ShowWarningAsync(this, L.Get("Maintenance:LayoutResetTitle"),
                 L.Format("Maintenance:LayoutResetMessage", string.Join("\n", reset)));
     }
@@ -81,9 +80,16 @@ public partial class MainWindow : Window
     /// <summary>Selects a section from inside another one, e.g. Security → System opening Startup.</summary>
     public System.Windows.Controls.Page ShowSection(string destination)
     {
-        Navigation.SelectedItem = Navigation.MenuItems.OfType<NavigationViewItem>().First(item => (string)item.Tag == destination);
-        Navigate(destination);
+        SelectSection(Navigation.MenuItems.OfType<NavigationViewItem>().First(item => (string)item.Tag == destination));
         return _pages[destination];
+    }
+
+    private void SelectSection(NavigationViewItem item)
+    {
+        if (!ReferenceEquals(Navigation.SelectedItem, item))
+            Navigation.SelectedItem = item;
+        else if (MainFrame.Content is null)
+            Navigate((string)item.Tag);
     }
 
     /// <summary>After a profile import every other section must re-read its lists.</summary>
@@ -93,21 +99,7 @@ public partial class MainWindow : Window
             _pages.Remove(key);
     }
 
-    private void AppearanceSettings_Click(object sender, MouseButtonEventArgs e) => NavigateToAppearance();
-
-    private void AppearanceSettings_KeyDown(object sender, KeyEventArgs e)
-    {
-        if (e.Key is not (Key.Enter or Key.Space)) return;
-        e.Handled = true;
-        NavigateToAppearance();
-    }
-
-    private void NavigateToAppearance()
-    {
-        Navigation.SelectedItem = SettingsItem;
-        if (MainFrame.Content is AboutPage) return;
-        Navigate("settings");
-    }
+    private void AppearanceSettings_Click(object sender, RoutedEventArgs e) => SelectSection(SettingsItem);
 
     private void ThemeService_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) =>
         AppearanceStatusText.Text = _themeService.StatusText;

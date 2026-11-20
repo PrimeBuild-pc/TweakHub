@@ -10,6 +10,21 @@ namespace TweakHub.Tests;
 public class AutomatedScriptsPageTests
 {
     [Test]
+    public void BuiltInScriptPreviewRemovesExplanatoryCommentsWithoutChangingTheBody()
+    {
+        var body = BuiltInScripts.Body("temp-cleanup");
+        var preview = BuiltInScripts.Preview("temp-cleanup");
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(body, Does.Contain("# Only files untouched"));
+            Assert.That(preview, Does.Not.Contain("# Only files untouched").And.Not.Contain("# Never follow junctions"));
+            Assert.That(preview, Does.Contain("ReparsePoint").And.Contain("Delete-DeliveryOptimizationCache"));
+            Assert.That(BuiltInScripts.Body("temp-cleanup"), Is.EqualTo(body));
+        });
+    }
+
+    [Test]
     public void BuiltInScriptsContainRequestedCommands()
     {
         Assert.Multiple(() =>

@@ -9,21 +9,17 @@ public partial class LinkCheckView : UserControl
 {
     public LinkCheckView() => InitializeComponent();
 
-    public bool HasScanned { get; private set; }
-
     private async void Scan_Click(object sender, RoutedEventArgs e) => await ScanAsync();
 
-    public async Task ScanAsync(bool initial = false)
+    public async Task ScanAsync()
     {
-        HasScanned = true;
         ScanButton.IsEnabled = false;
         Loading.Show(L.Get("Devices:LoadingLinks"));
         ErrorText.Visibility = Visibility.Collapsed;
         try
         {
             // A rescan after moving a device must read the new links, not the splash inventory.
-            if (!initial) Preload.Invalidate(Preload.Devices);
-            var report = await LinkService.ScanAsync(await Preload.Get(Preload.Devices, DeviceService.Instance.GetDevicesAsync));
+            var report = await LinkService.ScanAsync(await DeviceService.Instance.GetDevicesAsync());
             BoardText.Text = report.Board.Length > 0 ? report.Board : "–";
             CpuText.Text = report.Cpu.Length > 0 ? report.Cpu : "–";
             ChipsetText.Text = report.Chipset.Chipset?.Name ?? "–";

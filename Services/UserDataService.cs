@@ -25,11 +25,13 @@ public sealed class UserDataService
     private static readonly string[] ProfileFiles =
         ["favorites.json", "favorite-tweaks.json", "favorite-scripts.json", "custom-scripts.json",
          "custom-tweaks.json", "custom-tools.json", "appearance.json", "playbooks.json"];
-    // Undo data and choices that only the copy holding them can restore.
+    // A matching PC and account are required for these files.
     private static readonly string[] UndoDataFiles =
-        ["registry-backup.json", "power-backup.json", "windows-update-backup.json", "dns-backup.json",
+        ["registry-backup.json", "power-backup.json", "dns-backup.json",
          "disabled-devices.json", "disabled-services.json", "third-party-consent.json", "network-adapters.json",
          "hibernation-backup.json", "optional-services.json", "applied-tweaks.json"];
+    private const string LegacyWindowsUpdateBackup = "windows-update-backup.json";
+    private const string StartupBackupFolder = "startup-backups";
 
     private const int ProfileVersion = 2;
     private static readonly JsonSerializerOptions JsonOptions = new() { WriteIndented = true };
@@ -46,6 +48,7 @@ public sealed class UserDataService
     public static UserDataService Instance { get; } = new();
     public string DataDirectory { get; }
     internal string LegacyPendingRestartsFile => _pendingRestartsFile;
+    internal string UndoDirectory => AppDataPath.GetUndoPath(DataDirectory);
 
     private UserDataService() : this(AppDataPath.BasePath) { }
 
@@ -142,16 +145,23 @@ public sealed class UserDataService
     /// <summary>The data folder of another TweakHub copy: a portable folder, its Data folder or an installed %AppData%\TweakHub.</summary>
     public static string? FindDataDirectory(string folder) =>
         new[] { Path.Combine(folder, "Data"), folder }.FirstOrDefault(candidate =>
-            ProfileFiles.Concat(UndoDataFiles).Any(name => File.Exists(Path.Combine(candidate, name))));
+            ProfileFiles.Any(name => File.Exists(Path.Combine(candidate, name))) ||
+            Directory.Exists(Path.Combine(candidate, AppDataPath.UndoDirectoryName)) || HasLegacyUndoData(candidate));
+
+    internal static bool HasLegacyUndoData(string directory) =>
+        UndoDataFiles.Append(LegacyWindowsUpdateBackup).Any(name => File.Exists(Path.Combine(directory, name))) ||
+        Directory.Exists(Path.Combine(directory, StartupBackupFolder));
+
+    internal bool IsCurrentDataDirectory(string directory) => SamePath(directory, DataDirectory);
 
     /// <summary>
-    /// Moves everything from an older copy into this one. The profile goes through the validated import;
-    /// undo data is copied only where this copy has none of its own, so changes made by either copy stay restorable.
+    /// Imports the profile, tools and undo records for the current PC and account.
+    /// Older undo records require an explicit confirmation of their origin.
     /// TweakHub must restart afterwards: the running services still hold the data they loaded at startup.
     /// </summary>
-    public PreviousDataImportResult ImportPreviousData(string sourceDirectory, string appsPath)
+    public PreviousDataImportResult ImportPreviousData(string sourceDirectory, string appsPath, bool adoptLegacy = false)
     {
-        if (SamePath(sourceDirectory, DataDirectory)) throw new InvalidOperationException(L.Get("UI:PreviousDataSameFolder"));
+        if (IsCurrentDataDirectory(sourceDirectory)) throw new InvalidOperationException(L.Get("UI:PreviousDataSameFolder"));
 
         var temp = Path.Combine(Path.GetTempPath(), $"tweakhub-previous-{Guid.NewGuid():N}.tweakhub.json");
         ProfileImportResult profile;
@@ -165,27 +175,9 @@ public sealed class UserDataService
             File.Delete(temp);
         }
 
-        var undoFiles = 0;
-        var kept = new List<string>();
-        foreach (var name in UndoDataFiles.Where(name => File.Exists(Path.Combine(sourceDirectory, name))))
-        {
-            var target = Path.Combine(DataDirectory, name);
-            if (File.Exists(target) && File.ReadAllText(target).Trim() is not ("" or "[]" or "{}")) { kept.Add(name); continue; }
-            File.Copy(Path.Combine(sourceDirectory, name), target, true);
-            undoFiles++;
-        }
-
-        // Per-user startup backups: one file per deleted entry, so only names this copy lacks are added.
-        var startupBackups = Path.Combine(sourceDirectory, "startup-backups");
-        if (Directory.Exists(startupBackups))
-            foreach (var file in Directory.EnumerateFiles(startupBackups, "*.json"))
-            {
-                var target = Path.Combine(DataDirectory, "startup-backups", Path.GetFileName(file));
-                if (File.Exists(target)) continue;
-                Directory.CreateDirectory(Path.GetDirectoryName(target)!);
-                File.Copy(file, target);
-                undoFiles++;
-            }
+        var kept = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var undoFiles = CopyUndoData(AppDataPath.GetUndoPath(sourceDirectory), kept);
+        if (adoptLegacy) undoFiles += CopyLegacyUndoData(sourceDirectory, kept);
 
         // Portable programs live beside the old executable; never overwrite ones this copy already has.
         var root = Path.GetDirectoryName(Path.GetFullPath(sourceDirectory).TrimEnd(Path.DirectorySeparatorChar))!;
@@ -202,7 +194,57 @@ public sealed class UserDataService
                 appFiles++;
             }
         }
-        return new(profile, undoFiles, kept, appFiles);
+        return new(profile, undoFiles, kept.ToList(), appFiles);
+    }
+
+    internal (int Copied, IReadOnlyList<string> Kept) AdoptLegacyUndoData()
+    {
+        var kept = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        return (CopyLegacyUndoData(DataDirectory, kept), kept.ToList());
+    }
+
+    private int CopyLegacyUndoData(string source, HashSet<string> kept)
+    {
+        var copied = CopyUndoData(source, kept);
+        // Keep the Windows Update handoff file unscoped so the app can flag it for review. It is never replayed.
+        var legacyUpdate = Path.Combine(source, LegacyWindowsUpdateBackup);
+        var target = Path.Combine(DataDirectory, LegacyWindowsUpdateBackup);
+        if (File.Exists(legacyUpdate) && !SamePath(source, DataDirectory))
+        {
+            if (File.Exists(target)) kept.Add(LegacyWindowsUpdateBackup);
+            else File.Copy(legacyUpdate, target);
+        }
+        return copied;
+    }
+
+    private int CopyUndoData(string source, HashSet<string> kept)
+    {
+        var targetDirectory = UndoDirectory;
+        var copied = 0;
+        foreach (var name in UndoDataFiles)
+        {
+            var file = Path.Combine(source, name);
+            if (!File.Exists(file)) continue;
+            var target = Path.Combine(targetDirectory, name);
+            if (File.Exists(target) && File.ReadAllText(target).Trim() is not ("" or "[]" or "{}")) { kept.Add(name); continue; }
+            Directory.CreateDirectory(targetDirectory);
+            File.Copy(file, target, overwrite: true);
+            copied++;
+        }
+
+        var startupBackups = Path.Combine(source, StartupBackupFolder);
+        if (!Directory.Exists(startupBackups)) return copied;
+        var targetStartup = Path.Combine(targetDirectory, StartupBackupFolder);
+        Directory.CreateDirectory(targetStartup);
+        foreach (var file in Directory.EnumerateFiles(startupBackups, "*.json"))
+        {
+            var name = Path.GetFileName(file);
+            var target = Path.Combine(targetStartup, name);
+            if (File.Exists(target)) { kept.Add(name); continue; }
+            File.Copy(file, target);
+            copied++;
+        }
+        return copied;
     }
 
     private static bool SamePath(string first, string second) =>
@@ -248,8 +290,12 @@ public sealed class UserDataService
         if (script is null) throw new InvalidDataException(L.Get("UI:ProfileInvalid"));
         script.Id = (script.Id ?? string.Empty).Trim();
         script.Name = (script.Name ?? string.Empty).Trim();
+        script.RunLabel = (script.RunLabel ?? string.Empty).Trim();
+        script.Description = (script.Description ?? string.Empty).Trim();
         script.Content ??= string.Empty;
         if (!IsStableId(script.Id) || script.Name.Length is < 1 or > 100 || script.Content.Length > 1024 * 1024
+            || script.RunLabel.Length > CustomScript.MaxRunLabelLength || script.RunLabel.Any(char.IsControl)
+            || script.Description.Length > CustomScript.MaxDescriptionLength
             || !Enum.IsDefined(script.Language)) throw new InvalidDataException(L.Get("UI:ProfileInvalid"));
     }
 

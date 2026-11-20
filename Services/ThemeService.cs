@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Media;
 using ModernWpf;
@@ -105,9 +104,16 @@ public sealed class ThemeService : INotifyPropertyChanged
             var windowText = SystemColors.WindowTextColor;
             var highlight = SystemColors.HighlightColor;
             var highlightText = SystemColors.HighlightTextColor;
-            SetBrush(app, "AccentBrush", highlight);
-            SetBrush(app, "AccentPressedBrush", highlight);
-            SetBrush(app, "AccentForegroundBrush", highlightText);
+            ApplyFluentAccent(app, highlight, highlightText, SystemColors.HotTrackColor);
+            ApplyTableSelection(app, window, window, highlight);
+            SetBrush(app, "ComboBoxDropDownBackground", window);
+            ApplyDropDownSurface(app, window, windowText);
+            SetBrush(app, "NavigationViewItemBackgroundSelected", window);
+            SetBrush(app, "NavigationViewItemBackgroundSelectedPointerOver", window);
+            ApplyTextInputSurface(app, window);
+            // Drop the accent focus line so the system high-contrast focus colours apply again.
+            app.Resources.Remove("TextControlBorderBrushFocused");
+            app.Resources.Remove("TextControlBorderThemeThicknessFocused");
             SetBrush(app, "SuccessBrush", highlight);
             SetBrush(app, "SuccessForegroundBrush", highlightText);
             SetBrush(app, "WarningBrush", windowText);
@@ -118,6 +124,9 @@ public sealed class ThemeService : INotifyPropertyChanged
             SetBrush(app, "CardBrush", window);
             SetBrush(app, "CardHoverBrush", window);
             SetBrush(app, "CardPressedBrush", window);
+            SetBrush(app, "NeutralActionFillBrush", window);
+            SetBrush(app, "NeutralActionHoverBrush", window);
+            SetBrush(app, "NeutralActionPressedBrush", window);
             SetBrush(app, "SelectionBrush", highlight);
             SetBrush(app, "SelectionForegroundBrush", highlightText);
             SetBrush(app, "SubtleFillBrush", highlight);
@@ -136,9 +145,7 @@ public sealed class ThemeService : INotifyPropertyChanged
         }
         else
         {
-            var accent = UseSystemAccent || !TryParseColor(_customAccent, out var selectedAccent)
-                ? GetSystemAccentColor()
-                : selectedAccent;
+            var useCustomAccent = TryParseColor(_customAccent, out var selectedAccent);
             var success = _isDark ? Color.FromRgb(108, 203, 95) : Color.FromRgb(15, 123, 15);
             var warning = _isDark ? Color.FromRgb(252, 225, 0) : Color.FromRgb(157, 93, 0);
             var danger = _isDark ? Color.FromRgb(255, 153, 164) : Color.FromRgb(196, 43, 28);
@@ -149,9 +156,21 @@ public sealed class ThemeService : INotifyPropertyChanged
             var primary = _isDark ? Colors.White : Color.FromRgb(27, 27, 27);
             var secondary = _isDark ? Color.FromRgb(200, 200, 200) : Color.FromRgb(96, 96, 96);
 
-            SetBrush(app, "AccentBrush", accent);
-            SetBrush(app, "AccentPressedBrush", Blend(accent, Colors.Black, 0.18));
-            SetBrush(app, "AccentForegroundBrush", GetContrastingForeground(accent));
+            var fluentAccent = useCustomAccent
+                ? Blend(selectedAccent, _isDark ? Colors.White : Colors.Black, 0.28)
+                : _isDark ? SystemColors.AccentColorLight2 : SystemColors.AccentColorDark1;
+            var fluentAccentText = useCustomAccent
+                ? Blend(selectedAccent, _isDark ? Colors.White : Colors.Black, 0.45)
+                : _isDark ? SystemColors.AccentColorLight3 : SystemColors.AccentColorDark2;
+            ApplyFluentAccent(app, fluentAccent, GetContrastingForeground(fluentAccent), fluentAccentText);
+            ApplyTableSelection(app, Blend(background, primary, 0.08), Blend(background, primary, 0.12), Colors.Transparent);
+            SetBrush(app, "ComboBoxDropDownBackground", _isDark ? Color.FromRgb(43, 43, 43) : Color.FromRgb(249, 249, 249));
+            ApplyDropDownSurface(app, _isDark ? Color.FromRgb(56, 56, 56) : Colors.White, border);
+            SetBrush(app, "NavigationViewItemBackgroundSelected", _isDark ? Blend(background, primary, 0.06) : surface);
+            SetBrush(app, "NavigationViewItemBackgroundSelectedPointerOver", _isDark ? Blend(background, primary, 0.09) : Blend(surface, primary, 0.025));
+
+            ApplyTextInputSurface(app, _isDark ? Color.FromRgb(48, 48, 48) : Colors.White);
+            ApplyTextInputFocus(app, fluentAccent, border);
             SetBrush(app, "SuccessBrush", success);
             SetBrush(app, "SuccessForegroundBrush", GetContrastingForeground(success));
             SetBrush(app, "WarningBrush", warning);
@@ -162,6 +181,9 @@ public sealed class ThemeService : INotifyPropertyChanged
             SetBrush(app, "CardBrush", WithAlpha(surface, (byte)(_transparencyEnabled ? 224 : 255)));
             SetBrush(app, "CardHoverBrush", Blend(surface, primary, 0.06));
             SetBrush(app, "CardPressedBrush", Blend(surface, primary, 0.10));
+            SetBrush(app, "NeutralActionFillBrush", _isDark ? Color.FromRgb(55, 55, 55) : Color.FromRgb(251, 251, 251));
+            SetBrush(app, "NeutralActionHoverBrush", _isDark ? Color.FromRgb(65, 65, 65) : Color.FromRgb(244, 244, 244));
+            SetBrush(app, "NeutralActionPressedBrush", _isDark ? Color.FromRgb(50, 50, 50) : Color.FromRgb(237, 237, 237));
             SetBrush(app, "TabViewItemHeaderBackgroundSelected", Blend(surface, primary, 0.06));
             SetBrush(app, "TabViewItemHeaderForegroundSelected", primary);
             SetBrush(app, "SelectionBrush", surface);
@@ -204,6 +226,94 @@ public sealed class ThemeService : INotifyPropertyChanged
     private static Color WithAlpha(Color color, byte alpha) => Color.FromArgb(alpha, color.R, color.G, color.B);
     private static void SetBrush(Application app, string key, Color color) => app.Resources[key] = new SolidColorBrush(color);
 
+    private static void ApplyDropDownSurface(Application app, Color background, Color border)
+    {
+        var fill = new SolidColorBrush(background);
+        var stroke = new SolidColorBrush(border);
+        app.Resources["ComboBoxBackground"] = fill;
+        app.Resources["ComboBoxBackgroundPointerOver"] = fill;
+        app.Resources["ComboBoxBorderBrush"] = stroke;
+        app.Resources["ComboBoxBorderBrushPointerOver"] = stroke;
+    }
+
+    private static void ApplyTextInputSurface(Application app, Color background)
+    {
+        // Keep the fill steady as focus moves. ModernWpf still supplies the focus border.
+        var fill = new SolidColorBrush(background);
+        app.Resources["TextControlBackground"] = fill;
+        app.Resources["TextControlBackgroundPointerOver"] = fill;
+        app.Resources["TextControlBackgroundFocused"] = fill;
+    }
+
+    private static void ApplyTextInputFocus(Application app, Color accent, Color border)
+    {
+        // Windows 11 marks a focused field with a 2px accent line on the bottom edge only; sides and top stay subtle.
+        // Absolute mapping keeps the line 2px for the 32px field; taller fields use FieldMultilineStyle.
+        var focus = new LinearGradientBrush
+        {
+            MappingMode = BrushMappingMode.Absolute,
+            StartPoint = new Point(0, 0),
+            EndPoint = new Point(0, 32),
+        };
+        focus.GradientStops.Add(new GradientStop(border, 0));
+        focus.GradientStops.Add(new GradientStop(border, 0.93));
+        focus.GradientStops.Add(new GradientStop(accent, 0.93));
+        focus.GradientStops.Add(new GradientStop(accent, 1));
+        app.Resources["TextControlBorderBrushFocused"] = focus;
+        app.Resources["TextControlBorderThemeThicknessFocused"] = new Thickness(1, 1, 1, 2);
+    }
+
+    private static void ApplyFluentAccent(Application app, Color accent, Color foreground, Color text)
+    {
+        // The ModernWpf templates reference the individual brushes so loaded controls update when the theme changes.
+        var fill = new SolidColorBrush(accent);
+        var hover = new SolidColorBrush(accent) { Opacity = 0.9 };
+        var pressed = new SolidColorBrush(accent) { Opacity = 0.8 };
+        var onAccent = new SolidColorBrush(foreground);
+        app.Resources["FluentAccentColor"] = accent;
+        app.Resources["FluentAccentBrush"] = fill;
+        app.Resources["FluentAccentForegroundBrush"] = onAccent;
+        app.Resources["AccentBrush"] = fill;
+        app.Resources["AccentPressedBrush"] = pressed;
+        app.Resources["AccentForegroundBrush"] = onAccent;
+        app.Resources["NavigationViewSelectionIndicatorForeground"] = fill;
+        app.Resources["AccentButtonBackgroundPointerOver"] = hover;
+        app.Resources["AccentButtonBackgroundPressed"] = pressed;
+        app.Resources["AccentButtonForegroundPointerOver"] = onAccent;
+        app.Resources["AccentButtonForegroundPressed"] = onAccent;
+        app.Resources["ToggleSwitchFillOn"] = fill;
+        app.Resources["ToggleSwitchFillOnPointerOver"] = hover;
+        app.Resources["ToggleSwitchFillOnPressed"] = pressed;
+        foreach (var state in new[] { "Checked", "Indeterminate" })
+        {
+            app.Resources["CheckBoxCheckBackgroundFill" + state] = fill;
+            app.Resources["CheckBoxCheckBackgroundFill" + state + "PointerOver"] = SystemParameters.HighContrast ? fill : hover;
+            app.Resources["CheckBoxCheckBackgroundFill" + state + "Pressed"] = SystemParameters.HighContrast ? fill : pressed;
+            app.Resources["CheckBoxCheckGlyphForeground" + state] = onAccent;
+            app.Resources["CheckBoxCheckGlyphForeground" + state + "PointerOver"] = onAccent;
+            app.Resources["CheckBoxCheckGlyphForeground" + state + "Pressed"] = onAccent;
+        }
+        app.Resources["ToggleSwitchStrokeOnPointerOver"] = hover;
+        app.Resources["ToggleSwitchStrokeOnPressed"] = pressed;
+        app.Resources["ToggleSwitchKnobFillOn"] = onAccent;
+        app.Resources["ToggleSwitchKnobFillOnPointerOver"] = onAccent;
+        app.Resources["ToggleSwitchKnobFillOnPressed"] = onAccent;
+        SetBrush(app, "FluentAccentTextBrush", text);
+    }
+
+    private static void ApplyTableSelection(Application app, Color selected, Color hovered, Color indication)
+    {
+        SetBrush(app, "DataGridRowSelectedBackground", selected);
+        SetBrush(app, "DataGridRowSelectedUnfocusedBackground", selected);
+        SetBrush(app, "DataGridRowSelectedHoveredBackground", hovered);
+        SetBrush(app, "DataGridRowSelectedHoveredUnfocusedBackground", hovered);
+        SetBrush(app, "DataGridCurrencyVisualPrimaryBrush", indication);
+        app.Resources["DataGridRowSelectedBackgroundOpacity"] = 1d;
+        app.Resources["DataGridRowSelectedUnfocusedBackgroundOpacity"] = 1d;
+        app.Resources["DataGridRowSelectedHoveredBackgroundOpacity"] = 1d;
+        app.Resources["DataGridRowSelectedHoveredUnfocusedBackgroundOpacity"] = 1d;
+    }
+
     internal static Color GetContrastingForeground(Color color)
     {
         static double Linear(byte channel)
@@ -234,16 +344,6 @@ public sealed class ThemeService : INotifyPropertyChanged
             return false;
         }
     }
-
-    private static Color GetSystemAccentColor()
-    {
-        if (DwmGetColorizationColor(out var value, out _) == 0)
-            return Color.FromArgb((byte)(value >> 24), (byte)(value >> 16), (byte)(value >> 8), (byte)value);
-        return Color.FromRgb(0, 120, 212);
-    }
-
-    [DllImport("dwmapi.dll")]
-    private static extern int DwmGetColorizationColor(out uint colorizationColor, out bool opaqueBlend);
 
     private void OnPropertyChanged([CallerMemberName] string? propertyName = null) =>
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

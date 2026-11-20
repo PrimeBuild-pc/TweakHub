@@ -14,4 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TweakHub.csproj" />
   </ItemGroup>
+  <ItemGroup Condition="'$(StorePackage)' != 'true'">
+    <Compile Remove="StorePackageTests.cs" />
+  </ItemGroup>
 </Project>

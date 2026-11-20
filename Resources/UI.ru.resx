@@ -363,38 +363,11 @@
   <data name="ImportProfileSummary" xml:space="preserve">
     <value>Допустимый профиль содержит скриптов: {0}, настроек: {1}, инструментов: {2}, плейбуков: {3}. Импорт заменит текущую переносимую конфигурацию и создаст резервную копию. Продолжить?</value>
   </data>
-  <data name="SplashSubtitle" xml:space="preserve">
-    <value>Чтение системы перед запуском</value>
+  <data name="LoadingRegistryTweaks" xml:space="preserve">
+    <value>Чтение: Твики реестра и их состояние</value>
   </data>
-  <data name="SplashTweaks" xml:space="preserve">
-    <value>Твики реестра и их состояние</value>
-  </data>
-  <data name="SplashWindowsUpdate" xml:space="preserve">
-    <value>Режим Windows Update</value>
-  </data>
-  <data name="SplashPower" xml:space="preserve">
-    <value>Схемы электропитания и параметры</value>
-  </data>
-  <data name="SplashSecurity" xml:space="preserve">
-    <value>Состояние безопасности</value>
-  </data>
-  <data name="SplashDevices" xml:space="preserve">
-    <value>Устройства и драйверы</value>
-  </data>
-  <data name="SplashInterrupts" xml:space="preserve">
-    <value>Прерывания и MSI</value>
-  </data>
-  <data name="SplashChecks" xml:space="preserve">
-    <value>Проверка вредных твиков</value>
-  </data>
-  <data name="SplashReading" xml:space="preserve">
-    <value>Чтение: {0}</value>
-  </data>
-  <data name="SplashSeconds" xml:space="preserve">
-    <value>{0} с</value>
-  </data>
-  <data name="SplashStepFailed" xml:space="preserve">
-    <value>Повтор в разделе</value>
+  <data name="LoadingWindowsUpdateStatus" xml:space="preserve">
+    <value>Чтение: Режим Windows Update</value>
   </data>
   <data name="AboutPageImportPreviousCopy" xml:space="preserve">
     <value>Импорт из другой копии</value>
@@ -414,10 +387,28 @@
   <data name="PreviousDataSameFolder" xml:space="preserve">
     <value>Это папка данных запущенной копии TweakHub.</value>
   </data>
+  <data name="DataDirectoryInUse" xml:space="preserve">
+    <value>Эта папка данных уже открыта в TweakHub. Сначала закройте другой экземпляр программы.</value>
+  </data>
+  <data name="DataDirectoryUnavailable" xml:space="preserve">
+    <value>TweakHub не удалось открыть папку данных или определить этот ПК и учётную запись Windows.</value>
+  </data>
+  <data name="LegacyUndoAvailable" xml:space="preserve">
+    <value>Есть старые резервные копии. Чтобы проверить их, выберите эту папку Data при импорте из другой копии.</value>
+  </data>
+  <data name="LegacyUndoConfirm" xml:space="preserve">
+    <value>Импортируйте старые резервные копии, только если уверены, что они созданы на этом ПК в этой учётной записи Windows. Исходные файлы сохранятся.</value>
+  </data>
+  <data name="LegacyUndoSkip" xml:space="preserve">
+    <value>Пропустить старые копии</value>
+  </data>
+  <data name="LegacyUndoCopied" xml:space="preserve">
+    <value>Скопировано старых файлов резервных копий для этого ПК и учётной записи: {0}.</value>
+  </data>
   <data name="PreviousDataConfirm" xml:space="preserve">
     <value>Импорт из {0}:
 • профиль: пользовательские сценарии, твики и инструменты, плейбуки, избранное и оформление (заменяет текущий, который сначала сохраняется в резервную копию);
-• данные для отмены изменений, сделанных той копией, чтобы их можно было восстановить и здесь;
+• данные для восстановления, уже привязанные к этому ПК и учётной записи Windows;
 • портативные программы из Apps, которых здесь нет.
 
 После импорта TweakHub перезапустится.</value>

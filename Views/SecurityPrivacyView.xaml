@@ -85,9 +85,9 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                         <WrapPanel>
-                            <ComboBox x:Name="DnsPresetBox" Width="230" Margin="0,0,8,8" SelectionChanged="DnsPreset_SelectionChanged"
+                            <ComboBox x:Name="DnsPresetBox" Style="{StaticResource FluentDropDownStyle}" Width="230" Margin="0,0,8,8" SelectionChanged="DnsPreset_SelectionChanged"
                                       AutomationProperties.Name="{loc:Loc Security:DnsTitle}"/>
-                            <TextBox x:Name="CustomDnsInput" Width="200" Margin="0,0,8,8" Visibility="Collapsed"
+                            <TextBox x:Name="CustomDnsInput" Style="{StaticResource FieldInputStyle}" Width="200" Margin="0,0,8,8" Visibility="Collapsed"
                                      ui:ControlHelper.PlaceholderText="{loc:Loc Security:DnsCustomPlaceholder}"
                                      AutomationProperties.Name="{loc:Loc Security:DnsCustomPlaceholder}"/>
                         </WrapPanel>
@@ -142,7 +142,7 @@
                             <TextBlock Text="{loc:Loc Security:ChartFilterHint}" Style="{StaticResource DescriptionTextStyle}" FontSize="11" Margin="0,6,0,0"/>
                         </StackPanel>
                         <StackPanel Grid.Column="1">
-                            <TextBox x:Name="AccountSearch" Margin="0,0,0,10" TextChanged="AccountSearch_TextChanged"
+                            <TextBox x:Name="AccountSearch" Style="{StaticResource FieldInputStyle}" Margin="0,0,0,10" TextChanged="AccountSearch_TextChanged"
                                      ui:ControlHelper.PlaceholderText="{loc:Loc Security:AccountsSearch}"
                                      AutomationProperties.Name="{loc:Loc Security:AccountsSearch}"/>
                             <ItemsControl x:Name="AccountsList">
@@ -207,7 +207,8 @@
                                 <TextBlock Text="{loc:Loc Security:MetadataRemove}"/>
                             </StackPanel>
                         </Button>
-                        <ui:ProgressRing x:Name="MetadataBusy" Width="20" Height="20" IsActive="False" VerticalAlignment="Top" Margin="4,6,0,0"/>
+                        <ui:ProgressRing x:Name="MetadataBusy" Style="{StaticResource LoadingProgressRingStyle}" Visibility="Hidden"
+                                         Width="20" Height="20" VerticalAlignment="Top" Margin="4,6,0,0"/>
                     </WrapPanel>
                     <TextBlock x:Name="MetadataStatusText" Style="{StaticResource DescriptionTextStyle}" Margin="0,0,0,8"/>
                     <DataGrid x:Name="MetadataGrid" Style="{StaticResource TriageGridStyle}" MaxHeight="360" Visibility="Collapsed">

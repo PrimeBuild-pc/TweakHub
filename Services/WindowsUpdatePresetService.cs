@@ -1,4 +1,5 @@
 using System.IO;
+using Microsoft.Win32;
 using TweakHub.Localization;
 
 namespace TweakHub.Services;
@@ -13,8 +14,11 @@ internal enum WindowsUpdatePreset
 
 internal sealed class WindowsUpdatePresetService
 {
+    private const string MachineBackupKey = @"SOFTWARE\TweakHub\WindowsUpdate";
+    private const string MachineBackupName = "ServiceTaskBackup";
     private readonly string _scriptPath;
-    private readonly string _backupPath;
+    private readonly string _legacyBackupPath;
+    private readonly Func<bool> _hasMachineBackup;
 
     public static WindowsUpdatePresetService Instance { get; } = new(
         Path.Combine(AppContext.BaseDirectory, "Scripts", "WindowsUpdatePreset.ps1"),
@@ -51,37 +55,59 @@ internal sealed class WindowsUpdatePresetService
     public static bool IsHomeEdition => IsHomeEditionId(
         Microsoft.Win32.Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion", "EditionID", null) as string);
 
-    internal WindowsUpdatePresetService(string scriptPath, string backupPath)
+    internal WindowsUpdatePresetService(string scriptPath, string legacyBackupPath, Func<bool>? hasMachineBackup = null)
     {
         _scriptPath = scriptPath;
-        _backupPath = backupPath;
+        _legacyBackupPath = legacyBackupPath;
+        _hasMachineBackup = hasMachineBackup ?? HasMachineBackup;
     }
 
-    public bool HasBackup => File.Exists(_backupPath) || PresetRegistryValues.Any(change =>
+    internal bool HasLegacyBackup => File.Exists(_legacyBackupPath);
+
+    public bool HasBackup => HasLegacyBackup || _hasMachineBackup() || PresetRegistryValues.Any(change =>
         RegistryService.Instance.HasBackup(change.KeyPath, change.ValueName));
 
-    internal bool HasCompleteBackup => File.Exists(_backupPath) || PresetRegistryValues.All(change =>
+    private static bool HasRegistryBackup => PresetRegistryValues.All(change =>
         RegistryService.Instance.HasBackup(change.KeyPath, change.ValueName));
+
+    internal bool HasCompleteBackup => HasRegistryBackup && (_hasMachineBackup() || !HasLegacyBackup);
+
+    internal bool HasAnySnapshot => _hasMachineBackup() || HasLegacyBackup || HasRegistryBackup;
 
     public async Task<PowerShellResult> ApplyAsync(WindowsUpdatePreset preset)
     {
         if (preset == WindowsUpdatePreset.Custom) throw new ArgumentOutOfRangeException(nameof(preset));
+        if (HasLegacyBackup && !_hasMachineBackup()) return LegacyBackupNeedsReview();
         RegistryService.Instance.CreateBackupValues(PresetRegistryValues);
         return await RunAsync(preset.ToString(), requireAdministrator: true, TimeSpan.FromMinutes(10));
     }
 
     public async Task<PowerShellResult> RestoreAsync()
     {
-        var result = File.Exists(_backupPath)
+        var hasMachineBackup = _hasMachineBackup();
+        if (!hasMachineBackup && HasLegacyBackup) return LegacyBackupNeedsReview();
+        if (!HasRegistryBackup) return RegistryRestoreFailed();
+
+        var result = hasMachineBackup
             ? await RunAsync("Restore", requireAdministrator: true, TimeSpan.FromMinutes(10))
             : new PowerShellResult { Success = true };
         if (!result.Success) return result;
 
-        var hasAllRegistryBackups = PresetRegistryValues.All(change =>
-            RegistryService.Instance.HasBackup(change.KeyPath, change.ValueName));
-        if (hasAllRegistryBackups && await RegistryService.Instance.RestoreValuesAsync(PresetRegistryValues)) return result;
-        return new PowerShellResult { Success = false, Error = L.Get("Tweaks:RestoreFailed"), ExitCode = -1 };
+        return await RegistryService.Instance.RestoreValuesAsync(PresetRegistryValues) ? result : RegistryRestoreFailed();
     }
+
+    private static bool HasMachineBackup()
+    {
+        using var machine = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
+        using var key = machine.OpenSubKey(MachineBackupKey);
+        return key?.GetValue(MachineBackupName) is string;
+    }
+
+    private static PowerShellResult LegacyBackupNeedsReview() =>
+        new() { Error = L.Get("Tweaks:WindowsUpdateLegacyBackup"), ExitCode = -1 };
+
+    private static PowerShellResult RegistryRestoreFailed() =>
+        new() { Error = L.Get("Tweaks:RestoreFailed"), ExitCode = -1 };
 
     public async Task<WindowsUpdatePreset> DetectAsync()
     {
@@ -99,23 +125,17 @@ internal sealed class WindowsUpdatePresetService
         return WindowsUpdatePreset.Custom;
     }
 
-    public string GetPreview(WindowsUpdatePreset preset)
-    {
-        EnsureScriptExists();
-        return $"# {L.Get("Tweaks:WindowsUpdateBundledScript")}\n# {L.Format("Tweaks:WindowsUpdateSelectedMode", L.Get($"Tweaks:WindowsUpdatePreset{preset}"))}\n\n" +
-               File.ReadAllText(_scriptPath) + $"\n\n# {BuildInvocation(preset.ToString())}";
-    }
+    public string GetPreview(WindowsUpdatePreset preset) => preset == WindowsUpdatePreset.Custom
+        ? string.Empty
+        : $"& {PowerShellService.Literal(_scriptPath)} -Preset '{preset}'";
 
     private Task<PowerShellResult> RunAsync(string preset, bool requireAdministrator, TimeSpan timeout)
     {
         EnsureScriptExists();
+        // Include the bundled code in the bytes checked by the elevated runner.
+        var script = File.ReadAllText(_scriptPath);
         return PowerShellService.Instance.ExecuteScriptAsync(
-            BuildInvocation(preset), requireAdministrator, timeout);
-    }
-
-    private string BuildInvocation(string preset)
-    {
-        return $"& {PowerShellService.Literal(_scriptPath)} -Preset '{preset}' -BackupPath {PowerShellService.Literal(_backupPath)}";
+            $"& {{\n{script}\n}} -Preset '{preset}'", requireAdministrator, timeout);
     }
 
     private void EnsureScriptExists()

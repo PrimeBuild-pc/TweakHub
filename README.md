@@ -180,11 +180,11 @@ TweakHub supports **Windows 11 build 22000 or newer**.
 
 ## Portable by design
 
-The portable folder carries custom tools, scripts, Registry tweaks, favorites, appearance settings, operation logs and rollback data between PCs.
+The portable folder carries custom tools, scripts, Registry tweaks, favorites, and appearance settings between PCs. Local rollback data under `Data/Undo` is separated by PC and Windows account. Moving the folder carries those backups with it, and each PC and account sees its own records.
 
 Use **Settings → Portable configuration** to export or import the complete user profile as a `.tweakhub.json` file. Import validates the complete profile before replacing anything and creates a recovery copy of the current profile first. Script and playbook output is written to `Data/Logs` in portable builds.
 
-**Updating keeps everything.** The in-app updater and the installer leave your data in place. If you extracted a new portable copy into a different folder, use **Settings → Portable configuration → Import from another copy** and pick the old folder (or `%AppData%\TweakHub` of an installed build): the profile, the undo backups of the changes the old copy made and the missing programs under `Apps` come over, then TweakHub restarts. Undo files are never overwritten when the new copy already has changes of its own to restore.
+**Updating keeps your data.** If you extracted a new portable copy into a different folder, use **Settings → Portable configuration → Import from another copy** and pick the old folder. TweakHub imports the profile, missing programs in `Apps`, and undo files for the current PC and Windows account. If the old data predates that separation, confirm its origin before importing its undo files. To review old backups after an in-place update, select the current `Data` folder using the same command. TweakHub preserves the source files and any populated destination backup.
 
 <details>
 <summary><b>Files in the <code>Data</code> folder</b></summary>
@@ -194,7 +194,7 @@ Use **Settings → Portable configuration** to export or import the complete use
 |---|---|
 | `registry-backup.json` | Original Registry values waiting to be restored |
 | `power-backup.json` | Original power settings, active power plan and the performance plan chosen in Registry Tweaks |
-| `windows-update-backup.json` | Original Windows Update service and scheduled-task states |
+| `windows-update-backup.json` (legacy) | Older Windows Update service and task snapshot, kept for manual review |
 | `operations.jsonl` | Registry and power operation audit log |
 | `custom-scripts.json` | User-created PowerShell and CMD scripts |
 | `custom-tweaks.json` | User-created Registry entries |
@@ -204,6 +204,8 @@ Use **Settings → Portable configuration** to export or import the complete use
 | `favorite-tweaks.json` | Favorite built-in and custom Registry tweaks |
 | `favorite-scripts.json` | Favorite built-in and custom automated scripts |
 | `appearance.json` | Theme, accent and transparency preferences |
+
+New Windows Update service and scheduled-task backups stay in the originating PC's administrator-protected Registry. TweakHub keeps legacy `windows-update-backup.json` files for manual review. If the app flags one, keep a copy and compare its settings with the originating PC before moving the file out of `Data`. The next preset change captures a fresh snapshot on that PC.
 
 </details>
 

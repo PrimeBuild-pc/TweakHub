@@ -13,16 +13,16 @@ public class DevicesLatencyTests
     [Test]
     public void DevicesGetCategoriesChildrenRulesAndRisk()
     {
-        const string json = """
-            [{"Id":"ROOT\\KDNIC\\0000","Name":"Microsoft Kernel Debug Network Adapter","Class":"Net","Status":"OK","Present":true,"Problem":0,"Parent":"HTREE\\ROOT\\0"},
-             {"Id":"ACPI\\PNP0103\\0","Name":"High precision event timer","Class":"System","Status":"OK","Present":true,"Problem":0,"Parent":"ACPI_HAL\\PNP0C08\\0"},
-             {"Id":"ROOT\\UMBUS\\0000","Name":"UMBus Root Bus Enumerator","Class":"System","Status":"OK","Present":true,"Problem":0,"Parent":"HTREE\\ROOT\\0"},
-             {"Id":"ACPI\\PNP0800\\0","Name":"System speaker","Class":"System","Status":"Error","Present":true,"Problem":22,"Parent":"ACPI\\PNP0A08\\0"},
-             {"Id":"USB\\VID_046D&PID_C08B\\X","Name":"G502","Class":"USB","Status":"Unknown","Present":false,"Problem":45,"Parent":"USB\\ROOT_HUB30\\4"},
-             {"Id":"PCI\\VEN_10DE&DEV_2684\\4","Name":"NVIDIA GeForce RTX 4090","Class":"Display","Status":"Error","Present":true,"Problem":43,"Parent":"PCI\\VEN_1022\\3"},
-             {"Id":"HDAUDIO\\FUNC_01\\1","Name":"Speakers","Class":"MEDIA","Status":"OK","Present":true,"Problem":0,"Parent":"ROOT\\UMBUS\\0000"}]
-            """;
-        var devices = DeviceService.ParseDevices(json, ["ACPI\\PNP0800\\0"]).ToDictionary(device => device.Id);
+        var devices = DeviceService.Classify(
+        [
+            Device(@"ROOT\KDNIC\0000", "Microsoft Kernel Debug Network Adapter", "Net", @"HTREE\ROOT\0"),
+            Device(@"ACPI\PNP0103\0", "High precision event timer", "System", @"ACPI_HAL\PNP0C08\0"),
+            Device(@"ROOT\UMBUS\0000", "UMBus Root Bus Enumerator", "System", @"HTREE\ROOT\0"),
+            Device(@"ACPI\PNP0800\0", "System speaker", "System", @"ACPI\PNP0A08\0") with { Status = "Error", Problem = 22 },
+            Device(@"USB\VID_046D&PID_C08B\X", "G502", "USB", @"USB\ROOT_HUB30\4") with { Status = "Unknown", Present = false, Problem = 45 },
+            Device(@"PCI\VEN_10DE&DEV_2684\4", "NVIDIA GeForce RTX 4090", "Display", @"PCI\VEN_1022\3") with { Status = "Error", Problem = 43 },
+            Device(@"HDAUDIO\FUNC_01\1", "Speakers", "MEDIA", @"ROOT\UMBUS\0000")
+        ], [@"ACPI\PNP0800\0"]).ToDictionary(device => device.Id);
 
         Assert.Multiple(() =>
         {
@@ -41,36 +41,27 @@ public class DevicesLatencyTests
     }
 
     [Test]
-    public async Task InventoryUsesDevicePropertiesWhenCimFieldsAreMissing()
+    public void NativeInventoryReadsThisPcsDevicesWithTheirParents()
     {
-        const string mocks = """
-            function Get-PnpDevice { [pscustomobject]@{ InstanceId = 'USB\TEST\1'; FriendlyName = 'Hub'; Class = 'USB'; Status = 'Error' } }
-            function Get-PnpDeviceProperty {
-                param([Parameter(ValueFromPipeline=$true)]$Device, $KeyName)
-                process {
-                    [pscustomobject]@{ InstanceId = $Device.InstanceId; KeyName = 'DEVPKEY_Device_IsPresent'; Data = $true }
-                    [pscustomobject]@{ InstanceId = $Device.InstanceId; KeyName = 'DEVPKEY_Device_ProblemCode'; Data = 22 }
-                }
-            }
-            """;
-        var result = await PowerShellService.Instance.ExecuteScriptAsync(mocks + "\n" + DeviceService.InventoryScript);
-        Assert.That(result.Success, Is.True, result.Error);
-        var device = DeviceService.ParseDevices(result.Output, []).Single();
+        var devices = DeviceTree.ReadInventory();
+        var ids = devices.Select(device => device.Id).ToHashSet(StringComparer.OrdinalIgnoreCase);
         Assert.Multiple(() =>
         {
-            Assert.That(device.Present, Is.True);
-            Assert.That(device.Problem, Is.EqualTo(22));
-            Assert.That(device.Category, Is.EqualTo(DeviceCategory.Disabled));
+            Assert.That(devices.Where(device => device.Present), Is.Not.Empty);
+            Assert.That(devices.Select(device => device.Status), Is.All.AnyOf("OK", "Error", "Unknown"));
+            Assert.That(devices.Where(device => device.Present && device.Parent.Length > 0).Select(device => device.Parent), Is.All.Matches<string>(ids.Contains),
+                "Every present device's parent is in the list, so children can be counted");
         });
     }
 
     [Test]
     public void AbsentDevicesAreNotSuggestedAndHubsHaveExplicitSafetyAdvice()
     {
-        var devices = DeviceService.ParseDevices("""
-            [{"Id":"ROOT\\KDNIC\\old","Name":"Kernel Debug Network Adapter","Present":false,"Problem":45},
-             {"Id":"USB\\VID_174C&PID_2074\\1","Name":"Hub USB generico","Class":"USB","Service":"USBHUB3","Present":true,"Status":"OK"}]
-            """, []);
+        var devices = DeviceService.Classify(
+        [
+            Device(@"ROOT\KDNIC\old", "Kernel Debug Network Adapter", "", "") with { Status = "Unknown", Present = false, Problem = 45 },
+            Device(@"USB\VID_174C&PID_2074\1", "Hub USB generico", "USB", "", service: "USBHUB3")
+        ], []);
         var absent = devices.Single(device => !device.Present);
         var hub = devices.Single(device => device.Present);
         Assert.Multiple(() =>
@@ -86,7 +77,7 @@ public class DevicesLatencyTests
     [Test]
     public void IdleBusNeedsZeroChildrenAndABusName()
     {
-        var devices = DeviceService.ParseDevices("""[{"Id":"ROOT\\COMPOSITEBUS\\0000","Name":"Composite Bus Enumerator","Class":"System","Status":"OK","Present":true,"Problem":0}]""", []);
+        var devices = DeviceService.Classify([Device(@"ROOT\COMPOSITEBUS\0000", "Composite Bus Enumerator", "System", "")], []);
         Assert.That(devices.Single().Category, Is.EqualTo(DeviceCategory.IdleBus));
     }
 
@@ -98,15 +89,14 @@ public class DevicesLatencyTests
     }
 
     [Test]
-    public void InterruptDevicesReadMsiPriorityAndAffinity()
+    public void InterruptDevicesShowMsiPriorityAndAffinityAndHideBridges()
     {
-        var mask = Convert.ToBase64String(BitConverter.GetBytes(0b1100UL));
-        var json = $$"""
-            [{"Id":"PCI\\VEN_10DE\\1","Name":"GPU","Class":"Display","MsiCapable":true,"Msi":1,"Limit":4,"Priority":3,"Policy":4,"Mask":"{{mask}}"},
-             {"Id":"PCI\\VEN_1022\\2","Name":"Root port","Class":"System","MsiCapable":false},
-             {"Id":"PCI\\VEN_8086\\3","Name":"NIC","Class":"Net","MsiCapable":true,"Msi":0}]
-            """;
-        var devices = InterruptService.ParseDevices(json);
+        var devices = InterruptService.Visible(
+        [
+            new(@"PCI\VEN_8086\3", "NIC", "Net", true, false, null, InterruptPriority.Undefined, 0, 0),
+            new(@"PCI\VEN_1022\2", "Root port", "System", false, false, null, InterruptPriority.Undefined, 0, 0),
+            new(@"PCI\VEN_10DE\1", "GPU", "Display", true, true, 4, InterruptPriority.High, InterruptDevice.SpecifiedProcessorsPolicy, 0b1100UL)
+        ]);
 
         Assert.Multiple(() =>
         {
@@ -253,5 +243,17 @@ public class DevicesLatencyTests
             Registry.CurrentUser.DeleteSubKeyTree(subKey, false);
             if (Directory.Exists(dataPath)) Directory.Delete(dataPath, true);
         }
+    }
+
+    [Test]
+    public void FailedDisableKeepsTheRecordUnlessWindowsSaysTheDeviceIsNotDisabled()
+    {
+        Assert.Multiple(() =>
+        {
+            Assert.That(DeviceService.ParseStillDisabled(new PowerShellResult { Success = true, Output = "22\r\n" }), Is.True);
+            Assert.That(DeviceService.ParseStillDisabled(new PowerShellResult { Success = true, Output = "0" }), Is.False);
+            Assert.That(DeviceService.ParseStillDisabled(new PowerShellResult { Success = true, Output = "GONE" }), Is.False, "a device that no longer exists leaves no record");
+            Assert.That(DeviceService.ParseStillDisabled(new PowerShellResult { Success = false }), Is.True, "unreadable state keeps the record");
+        });
     }
 }

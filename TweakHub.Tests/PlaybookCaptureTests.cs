@@ -88,7 +88,11 @@ public class PlaybookCaptureTests
             static CustomRegistryTweak Tweak(string id) => new() { Id = id, Name = id, RegistryPath = @"HKCU\Software\TweakHub", RegistryKey = id, Data = "1" };
             var source = new UserDataService(Path.Combine(root, "source"));
             source.SaveCustomTweaks([Tweak("used"), Tweak("unused")]);
-            source.SaveCustomScripts([new CustomScript { Id = "script-1", Name = "Script", Content = "Write-Output source" }]);
+            source.SaveCustomScripts([new CustomScript
+            {
+                Id = "script-1", Name = "Script", Content = "Write-Output source",
+                RunLabel = "  Verify  ", Description = "  Shows a message.  "
+            }]);
             var playbook = new Playbook
             {
                 Id = "setup", Name = "Setup",
@@ -99,6 +103,9 @@ public class PlaybookCaptureTests
                 ]
             };
             PlaybookService.Instance.Export(playbook, file, source);
+            var cleanDestination = new UserDataService(Path.Combine(root, "clean-destination"));
+            var cleanImport = PlaybookService.Instance.Import(file, cleanDestination);
+            var copiedScript = cleanDestination.LoadCustomScripts().Single();
 
             // The destination already has a script with the same id: its own version wins.
             var destination = new UserDataService(Path.Combine(root, "destination"));
@@ -110,6 +117,9 @@ public class PlaybookCaptureTests
             {
                 Assert.That((first.CustomTweaks, first.CustomScripts), Is.EqualTo((1, 0)));
                 Assert.That((second.CustomTweaks, second.CustomScripts), Is.EqualTo((0, 0)));
+                Assert.That(cleanImport.CustomScripts, Is.EqualTo(1));
+                Assert.That(copiedScript.RunButtonText, Is.EqualTo("Verify"));
+                Assert.That(copiedScript.Description, Is.EqualTo("Shows a message."));
                 Assert.That(destination.LoadCustomTweaks().Select(tweak => tweak.Id), Is.EqualTo(new[] { "used" }), "Only referenced tweaks are exported");
                 Assert.That(destination.LoadCustomScripts().Single().Content, Is.EqualTo("Write-Output mine"));
                 Assert.That(first.Playbook.Id, Is.EqualTo("setup"));

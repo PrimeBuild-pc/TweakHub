@@ -13,7 +13,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="RegistryTweaksPageRegistryTweaks" xml:space="preserve">
-    <value>Modifiche al Registro</value>
+    <value>Modifiche al registro</value>
   </data>
   <data name="RegistryTweaksPageOnlyPartOfThisGrouped" xml:space="preserve">
     <value>Attualmente è applicata solo una parte di questa modifica raggruppata</value>
@@ -31,13 +31,13 @@
     <value>Abilita modifica</value>
   </data>
   <data name="RegistryTweaksPagePreviewRegistryChanges" xml:space="preserve">
-    <value>Anteprima delle modifiche al Registro</value>
+    <value>Anteprima delle modifiche al registro</value>
   </data>
   <data name="RegistryTweaksPagePreviewRegistryChanges2" xml:space="preserve">
-    <value>Anteprima delle modifiche al Registro</value>
+    <value>Anteprima delle modifiche al registro</value>
   </data>
   <data name="RegistryTweaksPageThisRegistryValueCurrentlyMatches" xml:space="preserve">
-    <value>Questo valore del Registro corrisponde attualmente alla modifica personalizzata</value>
+    <value>Questo valore del registro corrisponde attualmente alla modifica personalizzata</value>
   </data>
   <data name="RegistryTweaksPageAddOrRemoveFromFavorites2" xml:space="preserve">
     <value>Aggiungi o rimuovi dai preferiti</value>
@@ -64,10 +64,10 @@
     <value>Dettagli</value>
   </data>
   <data name="RegistryTweaksPageRegistryTweaks2" xml:space="preserve">
-    <value>Modifiche al Registro</value>
+    <value>Modifiche al registro</value>
   </data>
   <data name="RegistryTweaksPageOptimizeWindowsPerformanceThroughRegistry" xml:space="preserve">
-    <value>Ottimizza le prestazioni di Windows tramite modifiche al Registro. Prima di ogni modifica viene creato automaticamente un backup.</value>
+    <value>Ottimizza le prestazioni di Windows tramite modifiche al registro. Prima di ogni modifica viene creato automaticamente un backup.</value>
   </data>
   <data name="RegistryTweaksPageRefreshStatus" xml:space="preserve">
     <value>Aggiorna stato</value>
@@ -91,10 +91,10 @@
     <value>Tweak personalizzati</value>
   </data>
   <data name="RegistryTweaksPageCustomRegistryTweaks" xml:space="preserve">
-    <value>Tweak del Registro personalizzati</value>
+    <value>Tweak del registro personalizzati</value>
   </data>
   <data name="RegistryTweaksPageCreateAndManageYourOwn" xml:space="preserve">
-    <value>Crea e gestisci le tue voci del Registro.</value>
+    <value>Crea e gestisci le tue voci del registro.</value>
   </data>
   <data name="RegistryTweaksPageNewTweak" xml:space="preserve">
     <value>Nuovo tweak</value>
@@ -103,7 +103,7 @@
     <value>Preferiti</value>
   </data>
   <data name="RegistryTweaksPageNoFavoriteRegistryTweaksYet" xml:space="preserve">
-    <value>Non hai ancora modifiche del Registro preferite. Seleziona una stella per aggiungerne una.</value>
+    <value>Non hai ancora modifiche del registro preferite. Seleziona una stella per aggiungerne una.</value>
   </data>
   <data name="RegistryTweaksPageRecommended2" xml:space="preserve">
     <value>Consigliati</value>
@@ -112,7 +112,7 @@
     <value>Tweak personalizzati</value>
   </data>
   <data name="CategoryOrTweakNameCPUProcessorOptimization" xml:space="preserve">
-    <value>Ottimizzazione di CPU e processore</value>
+    <value>Ottimizzazione di CPU &amp; processore</value>
   </data>
   <data name="CategoryOrTweakDescriptionOptimizeCPUSchedulingPriorityAndProcessor" xml:space="preserve">
     <value>Ottimizza la pianificazione della CPU, la priorità e le prestazioni del processore</value>
@@ -298,13 +298,13 @@
     <value>Imposta gli effetti visivi su modalità 'Regola per le migliori prestazioni'</value>
   </data>
   <data name="RegistryTweakApplied" xml:space="preserve">
-    <value>Modifica del Registro applicata.</value>
+    <value>Modifica del registro applicata.</value>
   </data>
   <data name="RegistryTweakApplyFailed" xml:space="preserve">
-    <value>Impossibile applicare la modifica al Registro.</value>
+    <value>Impossibile applicare la modifica al registro.</value>
   </data>
   <data name="RegistryValueRestored" xml:space="preserve">
-    <value>Valore originale del Registro ripristinato.</value>
+    <value>Valore originale del registro ripristinato.</value>
   </data>
   <data name="NoBackupAvailable" xml:space="preserve">
     <value>Non è disponibile alcun backup per questo valore.</value>
@@ -319,10 +319,10 @@
     <value>I dati binari devono contenere coppie di byte esadecimali complete.</value>
   </data>
   <data name="AddCustomRegistryTweak" xml:space="preserve">
-    <value>Aggiungi tweak del Registro personalizzato</value>
+    <value>Aggiungi tweak del registro personalizzato</value>
   </data>
   <data name="EditCustomRegistryTweak" xml:space="preserve">
-    <value>Modifica tweak del Registro personalizzato</value>
+    <value>Modifica tweak del registro personalizzato</value>
   </data>
   <data name="CreateCustomTweak" xml:space="preserve">
     <value>Crea tweak personalizzato</value>
@@ -334,7 +334,7 @@
     <value>Nome</value>
   </data>
   <data name="RegistryPathLabel" xml:space="preserve">
-    <value>Percorso del Registro (es. HKCU\Software\...)</value>
+    <value>Percorso del registro (es. HKCU\Software\...)</value>
   </data>
   <data name="ValueName" xml:space="preserve">
     <value>Nome del valore</value>
@@ -355,7 +355,7 @@
     <value>Salva</value>
   </data>
   <data name="InvalidRegistryTweak" xml:space="preserve">
-    <value>Tweak del Registro non valido</value>
+    <value>Tweak del registro non valido</value>
   </data>
   <data name="RequiredCustomFields" xml:space="preserve">
     <value>Compila nome, percorso e nome del valore.</value>
@@ -416,7 +416,7 @@ TweakHub ripristina il valore originale acquisito.</value>
     <value>Backup creato</value>
   </data>
   <data name="BackupCreatedMessage" xml:space="preserve">
-    <value>Backup del Registro creato (nuovi valori acquisiti: {0}).
+    <value>Backup del registro creato (nuovi valori acquisiti: {0}).
 
 Posizione del backup: {1}</value>
   </data>
@@ -482,13 +482,13 @@ La creazione può richiedere un minuto e servono i privilegi di amministratore.<
     <value>{0} modifiche potrebbero richiedere privilegi di amministratore e ognuna chiede conferma UAC. TweakHub può riavviarsi come amministratore con una sola richiesta UAC: poi premi di nuovo il pulsante. Oppure continua e conferma ogni richiesta.</value>
   </data>
   <data name="RestoreAllMessage" xml:space="preserve">
-    <value>Questo tenterà di ripristinare tutte le modifiche del Registro ai valori originali.</value>
+    <value>Questo tenterà di ripristinare tutte le modifiche del registro ai valori originali.</value>
   </data>
   <data name="Restore" xml:space="preserve">
     <value>Ripristina</value>
   </data>
   <data name="RestoringAll" xml:space="preserve">
-    <value>Ripristino di tutte le modifiche del Registro...</value>
+    <value>Ripristino di tutte le modifiche del registro...</value>
   </data>
   <data name="Restoring" xml:space="preserve">
     <value>Ripristino in corso...</value>
@@ -501,6 +501,9 @@ La creazione può richiedere un minuto e servono i privilegi di amministratore.<
   </data>
   <data name="RestoreComplete" xml:space="preserve">
     <value>Ripristino completato</value>
+  </data>
+  <data name="WindowsUpdateLegacyBackup" xml:space="preserve">
+    <value>Un vecchio backup di Windows Update richiede una verifica manuale. Conserva windows-update-backup.json e confrontalo con la configurazione di questo PC. Spostalo fuori dalla cartella Data quando vuoi tornare a usare i preset.</value>
   </data>
   <data name="RestoreFailed" xml:space="preserve">
     <value>Ripristino fallito</value>

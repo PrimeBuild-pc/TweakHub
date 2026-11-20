@@ -502,6 +502,9 @@ Creating it may take a minute and requires administrator privileges.</value>
   <data name="RestoreComplete" xml:space="preserve">
     <value>Restore Complete</value>
   </data>
+  <data name="WindowsUpdateLegacyBackup" xml:space="preserve">
+    <value>An older Windows Update backup needs manual review. Keep windows-update-backup.json and review it against this PC. Move it out of the Data folder when you are ready to use the presets again.</value>
+  </data>
   <data name="RestoreFailed" xml:space="preserve">
     <value>Restore Failed</value>
   </data>

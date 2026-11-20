@@ -15,9 +15,7 @@ public sealed record UsbInputChain(PnpDeviceInfo Input, InputKind Kind, IReadOnl
     /// <summary>Every input type the physical device exposes, e.g. a keyboard with a mouse collection.</summary>
     public IReadOnlyList<InputKind> Kinds { get; init; } = [];
     public string KindText => string.Join(", ", (Kinds.Count > 0 ? Kinds : [Kind]).Select(kind => L.Get($"Devices:Input{kind}")));
-    public string PathText => string.Join("  →  ", Path.Select(device => device.DisplayName));
     public string HubText => !IsUsb ? L.Get("Devices:NotUsb") : Hubs == 0 ? L.Get("Devices:HubsNone") : L.Format("Devices:Hubs", Hubs);
-    public string ControllerText => Controller?.DisplayName ?? "–";
 }
 
 public sealed class UsbService

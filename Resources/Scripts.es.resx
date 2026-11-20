@@ -746,4 +746,13 @@ Registro: {2}</value>
 
 {1}</value>
   </data>
+  <data name="ScriptRunLabelOptional" xml:space="preserve">
+    <value>Texto del botón (opcional)</value>
+  </data>
+  <data name="ScriptDescriptionOptional" xml:space="preserve">
+    <value>Descripción (opcional)</value>
+  </data>
+  <data name="ScriptCode" xml:space="preserve">
+    <value>Código del script</value>
+  </data>
 </root>

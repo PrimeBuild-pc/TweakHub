@@ -746,4 +746,13 @@ Log: {2}</value>
 
 {1}</value>
   </data>
+  <data name="ScriptRunLabelOptional" xml:space="preserve">
+    <value>Testo del pulsante (opzionale)</value>
+  </data>
+  <data name="ScriptDescriptionOptional" xml:space="preserve">
+    <value>Descrizione (opzionale)</value>
+  </data>
+  <data name="ScriptCode" xml:space="preserve">
+    <value>Codice dello script</value>
+  </data>
 </root>
