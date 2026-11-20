@@ -141,11 +141,12 @@ public sealed class DeviceService
         JsonStore.Save(DisabledPath, disabled);
     }
 
-    /// <summary>After a failed disable: keeps the record unless Windows confirms the device is not disabled (problem code 22). An unreadable state keeps it.</summary>
+    /// <summary>After a failed disable: keeps the record unless Windows confirms the device is not disabled (problem code 22) or the device is gone. An unreadable state keeps it.</summary>
     internal static bool ParseStillDisabled(PowerShellResult check) => !check.Success || check.Output.Trim() == "22";
 
     private static async Task<bool> IsStillDisabledAsync(string id) => ParseStillDisabled(await PowerShellService.Instance.ExecuteScriptAsync(
-        $"(Get-PnpDeviceProperty -InstanceId {PowerShellService.Literal(id)} -KeyName DEVPKEY_Device_ProblemCode -ErrorAction Stop).Data", timeout: TimeSpan.FromMinutes(1)));
+        $"if (Get-PnpDevice -InstanceId {PowerShellService.Literal(id)} -ErrorAction SilentlyContinue) {{ (Get-PnpDeviceProperty -InstanceId {PowerShellService.Literal(id)} -KeyName DEVPKEY_Device_ProblemCode -ErrorAction Stop).Data }} else {{ 'GONE' }}",
+        timeout: TimeSpan.FromMinutes(1)));
 
     /// <summary>
     /// Playbook toggle: the saved instance id first, then the only device of the same class and name (instance ids change

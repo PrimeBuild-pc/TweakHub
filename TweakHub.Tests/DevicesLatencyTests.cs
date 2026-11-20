@@ -252,6 +252,7 @@ public class DevicesLatencyTests
         {
             Assert.That(DeviceService.ParseStillDisabled(new PowerShellResult { Success = true, Output = "22\r\n" }), Is.True);
             Assert.That(DeviceService.ParseStillDisabled(new PowerShellResult { Success = true, Output = "0" }), Is.False);
+            Assert.That(DeviceService.ParseStillDisabled(new PowerShellResult { Success = true, Output = "GONE" }), Is.False, "a device that no longer exists leaves no record");
             Assert.That(DeviceService.ParseStillDisabled(new PowerShellResult { Success = false }), Is.True, "unreadable state keeps the record");
         });
     }
