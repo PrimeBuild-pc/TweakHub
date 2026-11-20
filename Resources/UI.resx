@@ -231,8 +231,11 @@ You proceed at your own risk. The author assumes no responsibility for any damag
 
 By continuing, you acknowledge and accept these conditions.</value>
   </data>
+  <data name="DeclineAndExit" xml:space="preserve">
+    <value>Decline and exit</value>
+  </data>
   <data name="IUnderstand" xml:space="preserve">
-    <value>I Understand</value>
+    <value>I understand</value>
   </data>
   <data name="ProfileTooLarge" xml:space="preserve">
     <value>Profile files are limited to 5 MB.</value>

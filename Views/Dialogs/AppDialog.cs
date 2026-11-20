@@ -26,13 +26,13 @@ public static class AppDialog
 
     public static Task ShowRestartRequiredAsync(Window? owner, string message) => ShowAsync(owner, L.Get("UI:RestartRequired"), message);
 
-    public static Task ShowDisclaimerAsync(Window? owner) => Task.FromResult(Show(
+    public static Task<bool> ShowDisclaimerAsync(Window? owner) => ConfirmAsync(
         owner,
         L.Get("UI:DisclaimerTitle"),
         L.Get("UI:DisclaimerMessage"),
         L.Get("UI:IUnderstand"),
-        null,
-        DialogKind.Shield));
+        L.Get("UI:DeclineAndExit"),
+        DialogKind.Shield);
 
     /// <summary>Asks for one line of text; null when cancelled or left empty.</summary>
     public static Task<string?> PromptAsync(Window? owner, string title, string message, string initial)

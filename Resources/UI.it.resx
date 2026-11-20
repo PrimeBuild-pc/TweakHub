@@ -231,6 +231,9 @@ Procedi a tuo rischio. L'autore non si assume alcuna responsabilità per eventua
 
 Continuando, riconosci e accetti queste condizioni.</value>
   </data>
+  <data name="DeclineAndExit" xml:space="preserve">
+    <value>Rifiuta e chiudi</value>
+  </data>
   <data name="IUnderstand" xml:space="preserve">
     <value>Ho capito</value>
   </data>

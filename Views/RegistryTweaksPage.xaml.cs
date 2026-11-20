@@ -95,7 +95,11 @@ namespace TweakHub.Views
             {
                 if (!_tweakService.RegistryDisclaimerShown)
                 {
-                    await AppDialog.ShowDisclaimerAsync(Window.GetWindow(this));
+                    if (!await AppDialog.ShowDisclaimerAsync(Window.GetWindow(this)))
+                    {
+                        Application.Current.Shutdown();
+                        return;
+                    }
                     _tweakService.RegistryDisclaimerShown = true;
                 }
 

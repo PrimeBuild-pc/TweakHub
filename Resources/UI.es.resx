@@ -231,6 +231,9 @@ Continúas bajo tu propio riesgo. El autor no asume ninguna responsabilidad por 
 
 Al continuar, reconoces y aceptas estas condiciones.</value>
   </data>
+  <data name="DeclineAndExit" xml:space="preserve">
+    <value>Rechazar y salir</value>
+  </data>
   <data name="IUnderstand" xml:space="preserve">
     <value>Entiendo</value>
   </data>
