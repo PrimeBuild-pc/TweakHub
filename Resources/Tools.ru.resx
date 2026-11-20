@@ -995,4 +995,13 @@
   <data name="DescriptionVixEditor" xml:space="preserve">
     <value>Офлайн-редактор VBIOS NVIDIA (Blackwell; Ada, Ampere и Turing почти только для чтения). Сохраняет новый ROM с манифестом и никогда не прошивает: изменённые ROM загружаются через загрузчики Vix или mVolt+. Изменённые ROM не проходят проверку исходной подписи — никогда не прошивайте их через nvflash. Повышение мощности, тока или напряжения может повредить оборудование; многие параметры экспериментальные, в том числе на ноутбуках. Файлы не подписаны (SmartScreen может предупредить). Открывает только официальный репозиторий.</value>
   </data>
+  <data name="SearchShortcuts" xml:space="preserve">
+    <value>Поиск ярлыков</value>
+  </data>
+  <data name="FrequentlyUsedShortcuts" xml:space="preserve">
+    <value>Часто используемые</value>
+  </data>
+  <data name="NoShortcutsFound" xml:space="preserve">
+    <value>Нет ярлыков, соответствующих поиску</value>
+  </data>
 </root>

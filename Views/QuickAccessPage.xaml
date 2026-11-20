@@ -2,6 +2,7 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:loc="clr-namespace:TweakHub.Localization"
+      xmlns:ui="http://schemas.modernwpf.com/2019"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       mc:Ignorable="d"
@@ -49,6 +50,12 @@
             </Setter>
         </Style>
 
+        <Style x:Key="TileButtonStyle" TargetType="Button" BasedOn="{StaticResource ShortcutButtonStyle}">
+            <Setter Property="Margin" Value="0,0,8,8"/>
+            <Setter Property="Padding" Value="16,14"/>
+            <Setter Property="MinHeight" Value="84"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        </Style>
     </Page.Resources>
 
     <Grid Margin="32,24,24,16">
@@ -60,9 +67,37 @@
         <StackPanel Grid.Row="0" Margin="0,0,0,20">
             <TextBlock Text="{loc:Loc Tools:QuickAccessPageQuickAccess2}" Style="{StaticResource PageHeadingTextStyle}" Margin="0,0,0,6"/>
             <TextBlock Text="{loc:Loc Tools:QuickAccessPageQuickShortcutsToWindowsControl}" Style="{StaticResource PageSubtitleTextStyle}"/>
+            <TextBox x:Name="SearchBox" Width="320" HorizontalAlignment="Left" Margin="0,16,0,0"
+                     Style="{StaticResource FieldInputStyle}"
+                     ui:ControlHelper.PlaceholderText="{loc:Loc Tools:SearchShortcuts}"
+                     AutomationProperties.Name="{loc:Loc Tools:SearchShortcuts}"
+                     TextChanged="SearchBox_TextChanged"/>
         </StackPanel>
 
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="0,0,16,0">
+            <StackPanel>
+            <StackPanel x:Name="FrequentPanel">
+                <TextBlock Text="{loc:Loc Tools:FrequentlyUsedShortcuts}" Style="{StaticResource CategoryHeaderStyle}" Margin="0,12,0,8"/>
+                <ItemsControl x:Name="FrequentControl" Margin="0,0,-8,0">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate><UniformGrid Columns="4"/></ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Style="{StaticResource TileButtonStyle}" Click="Tile_Click"
+                                    AutomationProperties.Name="{Binding Shortcut.Name}">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Glyph}" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="20"
+                                               Margin="0,0,0,10" HorizontalAlignment="Left"
+                                               Foreground="{DynamicResource SystemControlForegroundAccentBrush}"/>
+                                    <TextBlock Text="{Binding Shortcut.Name}" FontSize="14" TextWrapping="Wrap"
+                                               Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                                </StackPanel>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
             <ItemsControl x:Name="ShortcutsControl">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
@@ -87,8 +122,9 @@
                                                                TextWrapping="Wrap"
                                                                Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
                                                 </StackPanel>
-                                                <Path Grid.Column="1" Data="{StaticResource ChevronIconGeometry}" Style="{StaticResource LineIconStyle}"
-                                                      Stroke="{DynamicResource IconSecondaryBrush}" Margin="16,0,0,0"/>
+                                                <TextBlock Grid.Column="1" Text="&#xE8A7;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="12"
+                                                           VerticalAlignment="Center" Margin="16,0,0,0"
+                                                           Foreground="{DynamicResource IconSecondaryBrush}"/>
                                             </Grid>
                                         </Button>
                                     </DataTemplate>
@@ -98,7 +134,12 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
+            </StackPanel>
         </ScrollViewer>
+
+        <TextBlock x:Name="NoResultsText" Grid.Row="1" Text="{loc:Loc Tools:NoShortcutsFound}" Margin="0,24,0,0"
+                   HorizontalAlignment="Center" VerticalAlignment="Top"
+                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" Visibility="Collapsed"/>
 
         <TextBlock x:Name="LoadErrorText" Grid.Row="1"
                    Text="{loc:Loc Tools:LoadShortcutsFailed}"

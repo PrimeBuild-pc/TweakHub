@@ -995,4 +995,13 @@ Questo potrebbe essere dovuto a permessi insufficienti o al fatto che l'applicaz
   <data name="DescriptionVixEditor" xml:space="preserve">
     <value>Editor offline di VBIOS NVIDIA (Blackwell; Ada, Ampere e Turing quasi solo in lettura). Salva una ROM nuova con un manifest e non flasha mai: le ROM modificate si caricano con i loader Vix o mVolt+. Le ROM modificate non superano la firma originale: non flasharle mai con nvflash. Alzare potenza, corrente o tensione può danneggiare l'hardware; molte funzioni sono sperimentali, anche sui portatili. Binari non firmati (SmartScreen può avvisare). Apre solo il repository ufficiale.</value>
   </data>
+  <data name="SearchShortcuts" xml:space="preserve">
+    <value>Cerca collegamenti</value>
+  </data>
+  <data name="FrequentlyUsedShortcuts" xml:space="preserve">
+    <value>Usati di frequente</value>
+  </data>
+  <data name="NoShortcutsFound" xml:space="preserve">
+    <value>Nessun collegamento corrisponde alla ricerca</value>
+  </data>
 </root>

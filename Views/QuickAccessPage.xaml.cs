@@ -14,7 +14,19 @@ namespace TweakHub.Views
             string Icon,
             IReadOnlyList<SystemShortcut> Shortcuts);
 
+        private sealed record QuickTile(SystemShortcut Shortcut, string Glyph);
+
+        // Fixed picks, not usage-tracked: command -> Segoe Fluent Icons glyph.
+        private static readonly (string Command, string Glyph)[] FrequentCommands =
+        {
+            ("devmgmt.msc", "\uE772"),
+            ("services.msc", "\uE713"),
+            ("taskschd.msc", "\uE787"),
+            ("eventvwr.msc", "\uE9D9"),
+        };
+
         private readonly ShortcutService _shortcutService;
+        private List<ShortcutGroup> _groups = new();
 
         public QuickAccessPage()
         {
@@ -42,7 +54,12 @@ namespace TweakHub.Views
         private void LoadShortcuts()
         {
             LoadErrorText.Visibility = Visibility.Collapsed;
-            ShortcutsControl.ItemsSource = _shortcutService.SystemShortcuts
+            FrequentControl.ItemsSource = FrequentCommands
+                .Select(item => (shortcut: _shortcutService.SystemShortcuts.FirstOrDefault(s => s.Command == item.Command), item.Glyph))
+                .Where(item => item.shortcut != null)
+                .Select(item => new QuickTile(item.shortcut!, item.Glyph))
+                .ToList();
+            _groups = _shortcutService.SystemShortcuts
                 .GroupBy(shortcut => shortcut.Category)
                 .OrderBy(group => ShortcutService.CategoryOrder(group.Key))
                 .Select(group => new ShortcutGroup(
@@ -50,6 +67,36 @@ namespace TweakHub.Views
                     ShortcutService.CategoryIcon(group.Key),
                     group.OrderBy(shortcut => shortcut.Name).ToList()))
                 .ToList();
+            ApplyFilter();
+        }
+
+        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e) => ApplyFilter();
+
+        private void ApplyFilter()
+        {
+            var query = SearchBox.Text.Trim();
+            var searching = query.Length > 0;
+            FrequentPanel.Visibility = searching ? Visibility.Collapsed : Visibility.Visible;
+            var shown = searching
+                ? _groups
+                    .Select(group => group with
+                    {
+                        Shortcuts = group.Shortcuts
+                            .Where(s => s.Name.Contains(query, StringComparison.CurrentCultureIgnoreCase)
+                                || s.Description.Contains(query, StringComparison.CurrentCultureIgnoreCase))
+                            .ToList()
+                    })
+                    .Where(group => group.Shortcuts.Count > 0)
+                    .ToList()
+                : _groups;
+            ShortcutsControl.ItemsSource = shown;
+            NoResultsText.Visibility = shown.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private void Tile_Click(object sender, RoutedEventArgs e)
+        {
+            if ((sender as FrameworkElement)?.DataContext is QuickTile tile)
+                ExecuteShortcut(tile.Shortcut);
         }
 
         private void Shortcut_Click(object sender, RoutedEventArgs e)
