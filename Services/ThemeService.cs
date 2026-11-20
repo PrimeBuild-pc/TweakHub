@@ -248,7 +248,7 @@ public sealed class ThemeService : INotifyPropertyChanged
     private static void ApplyTextInputFocus(Application app, Color accent, Color border)
     {
         // Windows 11 marks a focused field with a 2px accent line on the bottom edge only; sides and top stay subtle.
-        // Absolute mapping keeps the line 2px for the standard 32px field; taller fields pad the last stop.
+        // Absolute mapping keeps the line 2px for the 32px field; taller fields use FieldMultilineStyle.
         var focus = new LinearGradientBrush
         {
             MappingMode = BrushMappingMode.Absolute,
@@ -270,6 +270,7 @@ public sealed class ThemeService : INotifyPropertyChanged
         var hover = new SolidColorBrush(accent) { Opacity = 0.9 };
         var pressed = new SolidColorBrush(accent) { Opacity = 0.8 };
         var onAccent = new SolidColorBrush(foreground);
+        app.Resources["FluentAccentColor"] = accent;
         app.Resources["FluentAccentBrush"] = fill;
         app.Resources["FluentAccentForegroundBrush"] = onAccent;
         app.Resources["AccentBrush"] = fill;

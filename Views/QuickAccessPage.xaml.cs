@@ -54,10 +54,10 @@ namespace TweakHub.Views
         private void LoadShortcuts()
         {
             LoadErrorText.Visibility = Visibility.Collapsed;
+            var byCommand = _shortcutService.SystemShortcuts.GroupBy(s => s.Command).ToDictionary(g => g.Key, g => g.First());
             FrequentControl.ItemsSource = FrequentCommands
-                .Select(item => (shortcut: _shortcutService.SystemShortcuts.FirstOrDefault(s => s.Command == item.Command), item.Glyph))
-                .Where(item => item.shortcut != null)
-                .Select(item => new QuickTile(item.shortcut!, item.Glyph))
+                .Where(item => byCommand.ContainsKey(item.Command))
+                .Select(item => new QuickTile(byCommand[item.Command], item.Glyph))
                 .ToList();
             _groups = _shortcutService.SystemShortcuts
                 .GroupBy(shortcut => shortcut.Category)

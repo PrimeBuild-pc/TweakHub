@@ -31,7 +31,7 @@
                          AutomationProperties.LabeledBy="{Binding ElementName=NameLabel}"/>
 
                 <TextBlock x:Name="DescriptionLabel" Text="{loc:Loc Tools:CustomToolDialogDescription}" Style="{StaticResource FieldLabelStyle}"/>
-                <TextBox x:Name="DescriptionTextBox" Style="{StaticResource FieldInputStyle}" MaxLength="500" Height="64" AcceptsReturn="True"
+                <TextBox x:Name="DescriptionTextBox" Style="{StaticResource FieldMultilineStyle}" MaxLength="500" Height="64" AcceptsReturn="True"
                          TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Margin="0,0,0,12"
                          AutomationProperties.LabeledBy="{Binding ElementName=DescriptionLabel}"/>
 
@@ -50,7 +50,7 @@
                         </ComboBox>
 
                         <TextBlock x:Name="ActionValueLabel" Text="{loc:Loc Tools:CustomToolDialogValue}" Style="{StaticResource FieldLabelStyle}"/>
-                        <TextBox x:Name="ActionValueTextBox" Style="{StaticResource FieldInputStyle}" MaxLength="8192" Height="88" AcceptsReturn="True"
+                        <TextBox x:Name="ActionValueTextBox" Style="{StaticResource FieldMultilineStyle}" MaxLength="8192" Height="88" AcceptsReturn="True"
                                  TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" FontFamily="Consolas"
                                  AutomationProperties.LabeledBy="{Binding ElementName=ActionValueLabel}"/>
                         <TextBlock x:Name="ActionHelpText" Margin="0,6,0,0" TextWrapping="Wrap"

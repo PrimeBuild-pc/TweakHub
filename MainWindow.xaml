@@ -37,6 +37,7 @@
         </TextBlock>
     </StackPanel>
 
+    <!-- Windows 11 breakpoints: expanded pane above 1008px, icons only down to 641px, hamburger below. -->
     <ui:NavigationView x:Name="Navigation" Grid.Row="1" Margin="12,0,0,0"
                        PaneDisplayMode="Auto"
                        CompactModeThresholdWidth="641"

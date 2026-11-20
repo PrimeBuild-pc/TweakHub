@@ -54,6 +54,7 @@
             <Setter Property="Margin" Value="0,0,8,8"/>
             <Setter Property="Padding" Value="16,14"/>
             <Setter Property="MinHeight" Value="84"/>
+            <Setter Property="Width" Value="200"/>
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
         </Style>
     </Page.Resources>
@@ -80,14 +81,14 @@
                 <TextBlock Text="{loc:Loc Tools:FrequentlyUsedShortcuts}" Style="{StaticResource CategoryHeaderStyle}" Margin="0,12,0,8"/>
                 <ItemsControl x:Name="FrequentControl" Margin="0,0,-8,0">
                     <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate><UniformGrid Columns="4"/></ItemsPanelTemplate>
+                        <ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Button Style="{StaticResource TileButtonStyle}" Click="Tile_Click"
                                     AutomationProperties.Name="{Binding Shortcut.Name}">
                                 <StackPanel>
-                                    <TextBlock Text="{Binding Glyph}" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="20"
+                                    <TextBlock Text="{Binding Glyph}" FontFamily="{StaticResource FluentIconFont}" FontSize="20"
                                                Margin="0,0,0,10" HorizontalAlignment="Left"
                                                Foreground="{DynamicResource SystemControlForegroundAccentBrush}"/>
                                     <TextBlock Text="{Binding Shortcut.Name}" FontSize="14" TextWrapping="Wrap"
@@ -122,7 +123,7 @@
                                                                TextWrapping="Wrap"
                                                                Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
                                                 </StackPanel>
-                                                <TextBlock Grid.Column="1" Text="&#xE8A7;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="12"
+                                                <TextBlock Grid.Column="1" Text="&#xE8A7;" FontFamily="{StaticResource FluentIconFont}" FontSize="12"
                                                            VerticalAlignment="Center" Margin="16,0,0,0"
                                                            Foreground="{DynamicResource IconSecondaryBrush}"/>
                                             </Grid>

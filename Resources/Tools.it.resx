@@ -1004,4 +1004,45 @@ Questo potrebbe essere dovuto a permessi insufficienti o al fatto che l'applicaz
   <data name="NoShortcutsFound" xml:space="preserve">
     <value>Nessun collegamento corrisponde alla ricerca</value>
   </data>
+  <data name="Installed" xml:space="preserve">
+    <value>Installato</value>
+  </data>
+  <data name="SelectAll" xml:space="preserve">
+    <value>Seleziona tutto</value>
+  </data>
+  <data name="ClearSelection" xml:space="preserve">
+    <value>Deseleziona</value>
+  </data>
+  <data name="Presets" xml:space="preserve">
+    <value>Preset</value>
+  </data>
+  <data name="PresetDiagnostics" xml:space="preserve">
+    <value>Diagnostica essenziale</value>
+  </data>
+  <data name="PresetLatency" xml:space="preserve">
+    <value>Latenza e reattività</value>
+  </data>
+  <data name="PresetGpu" xml:space="preserve">
+    <value>Ottimizzazione GPU</value>
+  </data>
+  <data name="PresetUtilities" xml:space="preserve">
+    <value>Utility di uso quotidiano</value>
+  </data>
+  <data name="SelectToolNamed" xml:space="preserve">
+    <value>Seleziona {0}</value>
+  </data>
+  <data name="InstallSelected" xml:space="preserve">
+    <value>Installa selezionati ({0})</value>
+  </data>
+  <data name="ConfirmInstallSelected" xml:space="preserve">
+    <value>Installa gli strumenti selezionati</value>
+  </data>
+  <data name="ConfirmInstallSelectedMessage" xml:space="preserve">
+    <value>Installare {0} strumenti con winget?
+
+{1}</value>
+  </data>
+  <data name="InstallSelectedDone" xml:space="preserve">
+    <value>{0} strumenti su {1} installati</value>
+  </data>
 </root>

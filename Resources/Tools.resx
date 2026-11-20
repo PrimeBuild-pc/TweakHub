@@ -1004,4 +1004,45 @@ This may be due to insufficient permissions or the target application not being 
   <data name="NoShortcutsFound" xml:space="preserve">
     <value>No shortcuts match your search</value>
   </data>
+  <data name="Installed" xml:space="preserve">
+    <value>Installed</value>
+  </data>
+  <data name="SelectAll" xml:space="preserve">
+    <value>Select all</value>
+  </data>
+  <data name="ClearSelection" xml:space="preserve">
+    <value>Clear selection</value>
+  </data>
+  <data name="Presets" xml:space="preserve">
+    <value>Presets</value>
+  </data>
+  <data name="PresetDiagnostics" xml:space="preserve">
+    <value>Diagnostics essentials</value>
+  </data>
+  <data name="PresetLatency" xml:space="preserve">
+    <value>Latency and responsiveness</value>
+  </data>
+  <data name="PresetGpu" xml:space="preserve">
+    <value>GPU tuning</value>
+  </data>
+  <data name="PresetUtilities" xml:space="preserve">
+    <value>Everyday utilities</value>
+  </data>
+  <data name="SelectToolNamed" xml:space="preserve">
+    <value>Select {0}</value>
+  </data>
+  <data name="InstallSelected" xml:space="preserve">
+    <value>Install selected ({0})</value>
+  </data>
+  <data name="ConfirmInstallSelected" xml:space="preserve">
+    <value>Install selected tools</value>
+  </data>
+  <data name="ConfirmInstallSelectedMessage" xml:space="preserve">
+    <value>Install {0} tools with winget?
+
+{1}</value>
+  </data>
+  <data name="InstallSelectedDone" xml:space="preserve">
+    <value>{0} of {1} tools installed</value>
+  </data>
 </root>
