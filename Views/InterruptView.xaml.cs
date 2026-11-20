@@ -58,21 +58,18 @@ public partial class InterruptView : UserControl
         };
     }
 
-    public bool HasScanned { get; private set; }
-
     private async void Scan_Click(object sender, RoutedEventArgs e) => await ScanAsync();
 
-    public async Task ScanAsync(bool initial = false)
+    public async Task ScanAsync()
     {
-        HasScanned = true;
+        if (!ScanButton.IsEnabled) return;
         ScanButton.IsEnabled = false;
         Loading.Show(L.Get("Devices:LoadingInterrupts"));
         ErrorText.Visibility = Visibility.Collapsed;
         try
         {
             var selectedId = (DevicesGrid.SelectedItem as InterruptDevice)?.Id;
-            if (!initial) Preload.Invalidate(Preload.Interrupts);
-            _devices = await Preload.Get(Preload.Interrupts, InterruptService.Instance.GetDevicesAsync);
+            _devices = await InterruptService.Instance.GetDevicesAsync();
             DeviceCountValue.Text = _devices.Count.ToString(L.Culture);
             MsiValue.Text = _devices.Count(device => device.MsiEnabled).ToString(L.Culture);
             AffinityValue.Text = _devices.Count(device => device.HasAffinity).ToString(L.Culture);

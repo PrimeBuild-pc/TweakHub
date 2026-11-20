@@ -51,8 +51,7 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'Cannot inspect embedded UAC manifest' }
     [xml]$uac = Get-Content -LiteralPath $embeddedManifest -Raw
     $level = $uac.SelectSingleNode("//*[local-name()='requestedExecutionLevel']").GetAttribute('level')
-    $expectedLevel = if ($config.App -eq 'ThreadPilot') { 'requireAdministrator' } else { 'asInvoker' }
-    if ($level -ne $expectedLevel) { throw "Unexpected UAC launch level: $level" }
+    if ($level -ne 'asInvoker') { throw "Unexpected UAC launch level: $level" }
     $runtimeConfig = Get-Content (Join-Path $app "$($config.App).runtimeconfig.json") -Raw | ConvertFrom-Json
     $included = @($runtimeConfig.runtimeOptions.includedFrameworks)
     foreach ($framework in @('Microsoft.NETCore.App','Microsoft.WindowsDesktop.App')) {
@@ -66,10 +65,6 @@ try {
     foreach ($notice in @('LICENSE', 'THIRD_PARTY_NOTICES.md')) {
         $source = Join-Path $repo $notice
         if (Test-Path -LiteralPath $source) { Copy-Item -LiteralPath $source -Destination $app -Force }
-    }
-    if ($config.App -eq 'TweakHub') {
-        # Keep packaged scripts read-only; all script context/download paths use the writable Store root.
-        Copy-Item -LiteralPath (Join-Path $repo 'Scripts') -Destination $app -Recurse -Force
     }
     Add-Type -AssemblyName System.Drawing
     $assets = Join-Path $stage 'Assets'
@@ -136,8 +131,10 @@ try {
         DotnetSdk = $actualSdk; WindowsSdk = $config.WindowsSdk; RuntimeFrameworkVersion = $config.RuntimeFrameworkVersion
         Commit = (& git rev-parse HEAD); WorkingTree = @(& git status --short)
         StorePackage = $store; StoreSignature = 'Unsigned; Microsoft Store signs distributed packages'
-        TestCertificate = $certInfo; Stage = $stage; Artifacts = $artifacts
+        TestCertificate = $certInfo; Artifacts = $artifacts
     }
     $receipt | ConvertTo-Json -Depth 6 | Set-Content (Join-Path $OutputDirectory 'build-receipt.json') -Encoding UTF8
+    # Success only: a failed build throws before this line and keeps the stage for inspection.
+    Remove-Item -LiteralPath $stage -Recurse -Force
     Write-Output "MSIX artifacts: $OutputDirectory"
 } finally { Pop-Location }

@@ -75,8 +75,6 @@ public partial class App : Application
 
         if (arguments is ["--run-playbook", var playbookId, var fingerprint])
             (StartupPlaybookId, StartupPlaybookFingerprint) = (playbookId, fingerprint);
-        try { AppDataPath.EnsureAppsDirectory(); } catch { }
-
         if (Environment.OSVersion.Version.Build < 22000)
         {
             MessageBox.Show(L.Get("UI:WindowsVersionMessage"), L.Get("UI:WindowsVersionTitle"), MessageBoxButton.OK, MessageBoxImage.Error);
@@ -90,7 +88,8 @@ public partial class App : Application
         ThemeManager.Current.ActualAccentColorChanged += SystemAccentColorChanged;
         DispatcherUnhandledException += App_DispatcherUnhandledException;
         base.OnStartup(e);
-        new Views.SplashWindow().Show();
+        MainWindow = new MainWindow();
+        MainWindow.Show();
     }
 
     private void ShowStartupFailure(string message)

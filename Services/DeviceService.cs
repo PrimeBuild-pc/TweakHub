@@ -86,12 +86,17 @@ public sealed class DeviceService
 
     private static readonly DeviceRule HubRule = new("UsbHub", DeviceAdvice.Avoid, new("^USB\\\\", RegexOptions.IgnoreCase));
 
-    internal static DeviceRule? MatchRule(string id, string name, string service = "") =>
-        Rules.FirstOrDefault(rule => rule.Match.IsMatch($"{id}|{name}"))
-        ?? (service.Equals("USBHUB3", StringComparison.OrdinalIgnoreCase) || service.Equals("USBHUB", StringComparison.OrdinalIgnoreCase) ? HubRule : null);
+    internal static DeviceRule? MatchRule(string id, string name, string service = "")
+    {
+        var input = $"{id}|{name}";
+        foreach (var rule in Rules)
+            if (rule.Match.IsMatch(input)) return rule;
+        return service.Equals("USBHUB3", StringComparison.OrdinalIgnoreCase) || service.Equals("USBHUB", StringComparison.OrdinalIgnoreCase)
+            ? HubRule : null;
+    }
 
-    public async Task<IReadOnlyList<PnpDeviceInfo>> GetDevicesAsync() =>
-        Classify(await Task.Run(DeviceTree.ReadInventory), LoadDisabled().Keys);
+    public Task<IReadOnlyList<PnpDeviceInfo>> GetDevicesAsync() =>
+        Task.Run<IReadOnlyList<PnpDeviceInfo>>(() => Classify(DeviceTree.ReadInventory(), LoadDisabled().Keys));
 
     internal static List<PnpDeviceInfo> Classify(IReadOnlyList<PnpDeviceInfo> raw, IEnumerable<string> disabledByTweakHub)
     {
@@ -121,15 +126,27 @@ public sealed class DeviceService
 
     public async Task<PowerShellResult> SetEnabledAsync(PnpDeviceInfo device, bool enable)
     {
+        // Record the intended disable first: if TweakHub or the script is interrupted, the device is still listed for "enable all".
+        if (!enable) Track(device.Id, device.DisplayName, true);
         var result = await PowerShellService.Instance.ExecuteScriptAsync(BuildToggleScript([device.Id], enable), requireAdministrator: true, TimeSpan.FromMinutes(2));
-        if (result.Success)
-        {
-            var disabled = LoadDisabled();
-            if (enable) disabled.Remove(device.Id); else disabled[device.Id] = device.DisplayName;
-            JsonStore.Save(DisabledPath, disabled);
-        }
+        if (enable && result.Success) Track(device.Id, device.DisplayName, false);
+        else if (!enable && !result.Success && !await IsStillDisabledAsync(device.Id)) Track(device.Id, device.DisplayName, false);
         return result;
     }
+
+    private static void Track(string id, string name, bool disabledNow)
+    {
+        var disabled = LoadDisabled();
+        if (disabledNow) disabled[id] = name; else disabled.Remove(id);
+        JsonStore.Save(DisabledPath, disabled);
+    }
+
+    /// <summary>After a failed disable: keeps the record unless Windows confirms the device is not disabled (problem code 22) or the device is gone. An unreadable state keeps it.</summary>
+    internal static bool ParseStillDisabled(PowerShellResult check) => !check.Success || check.Output.Trim() == "22";
+
+    private static async Task<bool> IsStillDisabledAsync(string id) => ParseStillDisabled(await PowerShellService.Instance.ExecuteScriptAsync(
+        $"if (Get-PnpDevice -InstanceId {PowerShellService.Literal(id)} -ErrorAction SilentlyContinue) {{ (Get-PnpDeviceProperty -InstanceId {PowerShellService.Literal(id)} -KeyName DEVPKEY_Device_ProblemCode -ErrorAction Stop).Data }} else {{ 'GONE' }}",
+        timeout: TimeSpan.FromMinutes(1)));
 
     /// <summary>
     /// Playbook toggle: the saved instance id first, then the only device of the same class and name (instance ids change

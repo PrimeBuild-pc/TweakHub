@@ -16,8 +16,9 @@ public sealed record AccountSite(string Name, string Url, string Difficulty, str
     public bool HasUrl => Url.Length > 0;
 }
 
-public sealed record DnsAdapter(int Index, string Alias, IReadOnlyList<string> Servers, string StaticServers, string StaticServers6 = "")
+public sealed record DnsAdapter(int Index, string Alias, IReadOnlyList<string> Servers, string StaticServers, string StaticServers6 = "", string Guid = "")
 {
+    // Interface indexes change when adapters are added or removed; the GUID stays with the adapter. Old backups have none.
     public string ServersText => Servers.Count == 0 ? "–" : string.Join(", ", Servers);
 }
 
@@ -130,18 +131,18 @@ public sealed class PrivacyService
     ];
 
     private static string DnsBackupPath => Path.Combine(AppDataPath.UndoPath, "dns-backup.json");
+    private readonly SemaphoreSlim _dnsOperation = new(1);
     public static bool HasDnsBackup => File.Exists(DnsBackupPath);
 
     public async Task<IReadOnlyList<DnsAdapter>> GetDnsAdaptersAsync()
     {
         var result = await PowerShellService.Instance.ExecuteScriptAsync("""
-            $ErrorActionPreference = 'SilentlyContinue'
             @(Get-NetIPConfiguration | Where-Object { $_.IPv4DefaultGateway -and $_.NetAdapter.Status -eq 'Up' } | ForEach-Object {
                 $guid = $_.NetAdapter.InterfaceGuid
-                [pscustomobject]@{ Index = [int]$_.InterfaceIndex; Alias = [string]$_.InterfaceAlias
+                [pscustomobject]@{ Index = [int]$_.InterfaceIndex; Alias = [string]$_.InterfaceAlias; Guid = [string]$guid
                     Servers = @($_.DNSServer.ServerAddresses | Select-Object -Unique)
-                    Static = [string](Get-ItemProperty -LiteralPath "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\Interfaces\$guid").NameServer
-                    Static6 = [string](Get-ItemProperty -LiteralPath "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters\Interfaces\$guid").NameServer }
+                    Static = [string](Get-ItemProperty -LiteralPath "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\Interfaces\$guid" -ErrorAction SilentlyContinue).NameServer
+                    Static6 = [string](Get-ItemProperty -LiteralPath "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters\Interfaces\$guid" -ErrorAction SilentlyContinue).NameServer }
             }) | ConvertTo-Json -Depth 3 -Compress
             """ + PowerShellService.AsciiJson, timeout: TimeSpan.FromMinutes(1));
         if (!result.Success) throw new InvalidOperationException(result.Error);
@@ -157,7 +158,7 @@ public sealed class PrivacyService
             JsonRead.Text(item, "Alias"),
             JsonRead.Texts(item, "Servers").Where(value => value.Length > 0).ToList(),
             JsonRead.Text(item, "Static"),
-            JsonRead.Text(item, "Static6"))).Where(adapter => adapter.Index > 0).ToList();
+            JsonRead.Text(item, "Static6"), JsonRead.Text(item, "Guid"))).Where(adapter => adapter.Index > 0).ToList();
     }
 
     /// <summary>Parses user input into canonical IP addresses; anything else is rejected before it reaches PowerShell.</summary>
@@ -171,27 +172,85 @@ public sealed class PrivacyService
 
     public async Task<PowerShellResult> ApplyDnsAsync(IReadOnlyList<DnsAdapter> adapters, string[]? servers)
     {
-        // Adapters from an earlier apply keep their original servers; adapters seen for the first time are added.
-        var saved = HasDnsBackup ? JsonStore.Load<List<DnsAdapter>>(DnsBackupPath) : [];
-        JsonStore.Save(DnsBackupPath, saved.Concat(adapters.Where(adapter => saved.All(known => known.Index != adapter.Index))).ToList());
-        return await PowerShellService.Instance.ExecuteScriptAsync(BuildDnsScript(adapters.Select(a => (a.Index, servers)).ToList()),
-            requireAdministrator: true, TimeSpan.FromMinutes(2));
+        await _dnsOperation.WaitAsync();
+        try
+        {
+            if (adapters.Count == 0 || adapters.Any(adapter => !Guid.TryParse(adapter.Guid, out var id) || id == Guid.Empty))
+                return new PowerShellResult { Error = L.Get("Security:DnsAdapterChanged") };
+            var plan = adapters.Select(adapter => (adapter.Index, Guid.Parse(adapter.Guid), servers)).ToList();
+            // A record without a GUID cannot stand in for a known adapter, even if the indexes match.
+            var saved = JsonStore.Load<List<DnsAdapter>>(DnsBackupPath);
+            var known = saved.Select(adapter => Guid.TryParse(adapter.Guid, out var id) ? id : Guid.Empty).ToHashSet();
+            saved.AddRange(adapters.Where(adapter => known.Add(Guid.Parse(adapter.Guid))));
+            JsonStore.Save(DnsBackupPath, saved);
+            return await RunDnsPlanAsync(plan);
+        }
+        finally { _dnsOperation.Release(); }
+    }
+
+    internal static (List<(int Index, Guid Id, string[]? Servers)> Plan, List<DnsAdapter> Unmatched) ResolveRestore(
+        IReadOnlyList<DnsAdapter> saved, IReadOnlyDictionary<Guid, int> currentIndexes)
+    {
+        List<(int, Guid, string[]?)> plan = [];
+        List<DnsAdapter> unmatched = [];
+        foreach (var adapter in saved)
+        {
+            var hasStaticServers = !string.IsNullOrWhiteSpace(adapter.StaticServers) || !string.IsNullOrWhiteSpace(adapter.StaticServers6);
+            string[]? servers = null;
+            if (!Guid.TryParse(adapter.Guid, out var id) || id == Guid.Empty
+                || !currentIndexes.TryGetValue(id, out var index) || index <= 0
+                || (hasStaticServers && !TryParseServers($"{adapter.StaticServers},{adapter.StaticServers6}", out servers, max: 8)))
+            {
+                unmatched.Add(adapter);
+                continue;
+            }
+            plan.Add((index, id, servers));
+        }
+        return (plan, unmatched);
     }
 
     public async Task<PowerShellResult> RestoreDnsAsync()
     {
+        await _dnsOperation.WaitAsync();
+        try { return await RestoreSavedDnsAsync(); }
+        finally { _dnsOperation.Release(); }
+    }
+
+    private static async Task<PowerShellResult> RestoreSavedDnsAsync()
+    {
         var saved = JsonStore.Load<List<DnsAdapter>>(DnsBackupPath);
-        var plan = saved.Select(adapter => (adapter.Index,
-            TryParseServers($"{adapter.StaticServers},{adapter.StaticServers6}", out var servers, max: 8) ? servers : null)).ToList();
-        var result = await PowerShellService.Instance.ExecuteScriptAsync(BuildDnsScript(plan), requireAdministrator: true, TimeSpan.FromMinutes(2));
-        if (result.Success) File.Delete(DnsBackupPath);
+        var current = await PowerShellService.Instance.ExecuteScriptAsync("""
+            @(Get-NetAdapter -IncludeHidden | ForEach-Object { [pscustomobject]@{ Index = [int]$_.ifIndex; Guid = [string]$_.InterfaceGuid } }) | ConvertTo-Json -Compress
+            """ + PowerShellService.AsciiJson, timeout: TimeSpan.FromMinutes(1));
+        if (!current.Success) return current;
+        var indexes = new Dictionary<Guid, int>();
+        if (!string.IsNullOrWhiteSpace(current.Output))
+        {
+            using var document = JsonDocument.Parse(current.Output);
+            foreach (var item in JsonRead.Items(document.RootElement))
+                if (Guid.TryParse(JsonRead.Text(item, "Guid"), out var id)) indexes[id] = JsonRead.Int(item, "Index") ?? 0;
+        }
+        var (plan, unmatched) = ResolveRestore(saved, indexes);
+        if (plan.Count == 0) return new PowerShellResult { Error = L.Get("Security:DnsBackupUnusable") };
+        var result = await RunDnsPlanAsync(plan);
+        if (result.Success)
+        {
+            if (unmatched.Count == 0) File.Delete(DnsBackupPath);
+            else JsonStore.Save(DnsBackupPath, unmatched);
+        }
         return result;
     }
 
-    internal static string BuildDnsScript(IReadOnlyList<(int Index, string[]? Servers)> plan)
+    private static Task<PowerShellResult> RunDnsPlanAsync(IReadOnlyList<(int Index, Guid Id, string[]? Servers)> plan) =>
+        PowerShellService.Instance.ExecuteScriptAsync(BuildDnsScript(plan), requireAdministrator: true, TimeSpan.FromMinutes(2));
+
+    internal static string BuildDnsScript(IReadOnlyList<(int Index, Guid Id, string[]? Servers)> plan)
     {
         var builder = new StringBuilder();
-        foreach (var (index, servers) in plan)
+        // Recheck the identity after elevation in case Windows reused an interface index while UAC was open.
+        foreach (var (index, id, _) in plan)
+            builder.AppendLine($"if ([guid](Get-NetAdapter -InterfaceIndex {index} -IncludeHidden).InterfaceGuid -ne [guid]'{id:D}') {{ throw {PowerShellService.Literal(L.Get("Security:DnsAdapterChanged"))} }}");
+        foreach (var (index, _, servers) in plan)
         {
             // Reset first so a family missing from the new list (often IPv6) goes back to automatic instead of keeping old servers.
             builder.AppendLine($"Set-DnsClientServerAddress -InterfaceIndex {index} -ResetServerAddresses");

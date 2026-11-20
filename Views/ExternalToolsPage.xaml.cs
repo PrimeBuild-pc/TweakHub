@@ -1,6 +1,8 @@
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
+using System.Windows.Controls.Primitives;
+using System.Windows.Threading;
 using TweakHub.Localization;
 using TweakHub.Models;
 using TweakHub.Services;
@@ -10,23 +12,84 @@ namespace TweakHub.Views
 {
     public partial class ExternalToolsPage : Page
     {
-        private sealed record ToolItem(
-            ExternalTool Tool,
-            string ActionText,
-            string ActionIcon)
+        private sealed class ToolItem : INotifyPropertyChanged
         {
+            private readonly Action<ToolItem> _selectionChanged;
+            private bool _isInstalled;
+            private bool _isSelected;
+
+            public ToolItem(ExternalTool tool, Action<ToolItem> selectionChanged, bool isInstalled, bool isSelected)
+            {
+                Tool = tool;
+                _selectionChanged = selectionChanged;
+                _isInstalled = isInstalled;
+                _isSelected = isSelected && CanSelect;
+            }
+
+            public event PropertyChangedEventHandler? PropertyChanged;
+
+            public ExternalTool Tool { get; }
+            public bool IsWinget => !string.IsNullOrWhiteSpace(Tool.WingetId);
+            public bool CanSelect => IsWinget && !_isInstalled;
+            public bool CanRunAction => !(IsWinget && _isInstalled);
+            public bool CanUninstall => IsWinget && _isInstalled;
+            public string ActionText => CanRunAction ? GetActionText(Tool) : L.Get("Tools:Installed");
+            public string ActionIcon => CanRunAction ? GetDownloadIcon(Tool) : "\uE73E";
             public string ToolIcon => ShortcutService.CategoryIcon(Tool.Category);
             public string AutomationName => $"{Tool.Name}. {ActionText}";
+            public string SelectAutomationName => L.Format("Tools:SelectToolNamed", Tool.Name);
             public string EditAutomationName => L.Format("Tools:EditToolNamed", Tool.Name);
             public string DeleteAutomationName => L.Format("Tools:DeleteToolNamed", Tool.Name);
             public string UninstallAutomationName => L.Format("Tools:UninstallNamed", Tool.Name);
+
+            public bool IsInstalled
+            {
+                get => _isInstalled;
+                set
+                {
+                    if (_isInstalled == value) return;
+                    _isInstalled = value;
+                    if (_isInstalled) IsSelected = false;
+                    Raise(nameof(IsInstalled), nameof(CanSelect), nameof(CanRunAction), nameof(CanUninstall), nameof(ActionText), nameof(ActionIcon), nameof(AutomationName));
+                }
+            }
+
+            public bool IsSelected
+            {
+                get => _isSelected;
+                set
+                {
+                    if (_isSelected == value || (value && !CanSelect)) return;
+                    _isSelected = value;
+                    Raise(nameof(IsSelected));
+                    _selectionChanged(this);
+                }
+            }
+
+            private void Raise(params string[] names)
+            {
+                foreach (var name in names)
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            }
         }
+
+        // Winget ids per preset, checked against the catalogue by a test.
+        internal static readonly (string NameKey, string[] WingetIds)[] Presets =
+        [
+            ("Tools:PresetDiagnostics", ["CPUID.CPU-Z", "CPUID.HWMonitor", "TechPowerUp.GPU-Z", "Microsoft.Sysinternals.ProcessExplorer", "Microsoft.Sysinternals.Autoruns"]),
+            ("Tools:PresetLatency", ["Resplendence.LatencyMon", "Microsoft.Sysinternals.RAMMap", "Microsoft.Sysinternals.ProcessMonitor", "Intel.PresentMon", "BitSum.ParkControl"]),
+            ("Tools:PresetGpu", ["Guru3D.Afterburner", "Guru3D.RTSS", "TechPowerUp.GPU-Z", "Wagnardsoft.DisplayDriverUninstaller"]),
+            ("Tools:PresetUtilities", ["Microsoft.PowerToys", "voidtools.Everything", "AntibodySoftware.WizTree", "ShareX.ShareX"]),
+        ];
 
         private sealed record ToolGroup(
             string Name,
             string Icon,
             string CountText,
-            IReadOnlyList<ToolItem> Tools);
+            IReadOnlyList<ToolItem> Tools)
+        {
+            public bool IsExpanded { get; set; } = true;
+        }
 
         private readonly ShortcutService _shortcutService;
         private readonly ToolDownloadService _downloadService;
@@ -34,6 +97,9 @@ namespace TweakHub.Views
         private string _searchQuery = string.Empty;
         private bool _favoritesOnly;
         private readonly string? _onlyCategory;
+        private readonly Dictionary<string, ToolItem> _items = new();
+        private readonly HashSet<string> _selectedKeys = new();
+        private HashSet<string>? _installedIds;
 
         /// <param name="onlyCategory">Shows one catalog category, hosted inside a section page that already has its own heading.</param>
         public ExternalToolsPage(string? onlyCategory = null)
@@ -53,17 +119,26 @@ namespace TweakHub.Views
             Loaded += ExternalToolsPage_Loaded;
         }
 
-        private void ExternalToolsPage_Loaded(object sender, RoutedEventArgs e)
+        private async void ExternalToolsPage_Loaded(object sender, RoutedEventArgs e)
         {
+            if (ToolsControl.ItemsSource is null)
+                CatalogLoading.Show(L.Get("UI:ProgressWindowPleaseWait"));
             try
             {
-                _shortcutService.Initialize();
+                await Dispatcher.Yield(DispatcherPriority.Background);
+                if (!IsLoaded) return;
+                _shortcutService.LoadExternalTools();
                 LoadExternalTools();
+                _ = RefreshInstalledAsync();
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"ExternalToolsPage load failed: {ex}");
                 ShowLoadError();
+            }
+            finally
+            {
+                CatalogLoading.Hide();
             }
         }
 
@@ -100,16 +175,113 @@ namespace TweakHub.Views
                     ShortcutService.LocalizeCategory(group.Key),
                     ShortcutService.CategoryIcon(group.Key),
                     L.Format("Tools:ToolCount", group.Count()),
-                    group.OrderByDescending(tool => tool.IsFavorite)
-                        .ThenBy(tool => tool.Name)
-                        .Select(CreateToolItem)
-                        .ToList())));
+                        group.Select(CreateToolItem).ToList())));
 
             return groups;
         }
 
-        private ToolItem CreateToolItem(ExternalTool tool) =>
-            new(tool, GetActionText(tool), GetDownloadIcon(tool));
+        // One instance per tool, shared by the Favorites group and its category, so state changes show in both.
+        private ToolItem CreateToolItem(ExternalTool tool)
+        {
+            var key = ShortcutService.FavoriteKey(tool);
+            if (!_items.TryGetValue(key, out var item) || !ReferenceEquals(item.Tool, tool))
+                _items[key] = item = new ToolItem(tool, OnSelectionChanged, IsInstalled(tool), _selectedKeys.Contains(key));
+            return item;
+        }
+
+        private bool IsInstalled(ExternalTool tool) =>
+            !string.IsNullOrWhiteSpace(tool.WingetId) && _installedIds?.Contains(tool.WingetId) == true;
+
+        private async Task RefreshInstalledAsync()
+        {
+            _installedIds = await _downloadService.GetInstalledWingetIdsAsync();
+            if (!IsLoaded) return;
+            foreach (var item in _items.Values)
+                item.IsInstalled = IsInstalled(item.Tool);
+        }
+
+        private void OnSelectionChanged(ToolItem item)
+        {
+            var key = ShortcutService.FavoriteKey(item.Tool);
+            if (item.IsSelected) _selectedKeys.Add(key); else _selectedKeys.Remove(key);
+            UpdateSelectionUi();
+        }
+
+        private void UpdateSelectionUi()
+        {
+            var count = _selectedKeys.Count;
+            InstallSelectedButton.Visibility = ClearSelectionButton.Visibility = count > 0 ? Visibility.Visible : Visibility.Collapsed;
+            InstallSelectedText.Text = L.Format("Tools:InstallSelected", count);
+        }
+
+        private void SelectAll_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (var tool in FilterTools(_shortcutService.ExternalTools, _searchQuery, _favoritesOnly, _onlyCategory))
+                CreateToolItem(tool).IsSelected = true;
+        }
+
+        private void ClearSelection_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (var item in _items.Values.Where(item => item.IsSelected).ToList())
+                item.IsSelected = false;
+        }
+
+        private void Presets_Click(object sender, RoutedEventArgs e)
+        {
+            var menu = new ContextMenu { PlacementTarget = (UIElement)sender, Placement = PlacementMode.Bottom };
+            foreach (var (nameKey, ids) in Presets)
+            {
+                var entry = new MenuItem { Header = L.Get(nameKey) };
+                entry.Click += (_, _) =>
+                {
+                    ClearSelection_Click(this, e);
+                    foreach (var tool in _shortcutService.ExternalTools.Where(tool => ids.Contains(tool.WingetId, StringComparer.OrdinalIgnoreCase)))
+                        CreateToolItem(tool).IsSelected = true;
+                };
+                menu.Items.Add(entry);
+            }
+            menu.IsOpen = true;
+        }
+
+        private async void InstallSelected_Click(object sender, RoutedEventArgs e)
+        {
+            var items = _items.Values.Where(item => item.IsSelected && item.CanSelect).OrderBy(item => item.Tool.Name).ToList();
+            if (items.Count == 0) return;
+
+            if (!await AppDialog.ConfirmAsync(
+                    Window.GetWindow(this),
+                    L.Get("Tools:ConfirmInstallSelected"),
+                    L.Format("Tools:ConfirmInstallSelectedMessage", items.Count, string.Join(", ", items.Select(item => item.Tool.Name))),
+                    L.Get("Tools:Install"),
+                    L.Get("Tools:Cancel")))
+                return;
+
+            // The installed inventory can finish while the prompt is open: skip what turned out to be installed.
+            items = items.Where(item => item.CanSelect).ToList();
+            if (items.Count == 0) return;
+
+            SetBusy(true);
+            var installed = 0;
+            try
+            {
+                foreach (var item in items)
+                {
+                    if (!await _downloadService.InstallWithWinget(item.Tool, _progress)) continue;
+                    item.IsInstalled = true;
+                    installed++;
+                }
+            }
+            finally
+            {
+                SetBusy(false);
+            }
+
+            _progress.Report(new(string.Empty, installed * 100 / items.Count,
+                L.Format("Tools:InstallSelectedDone", installed, items.Count), true, installed == items.Count));
+            _ = RefreshInstalledAsync();
+        }
+
+        private void SetBusy(bool busy) => ToolsControl.IsEnabled = ToolbarPanel.IsEnabled = !busy;
 
         internal static IEnumerable<ExternalTool> FilterTools(
             IEnumerable<ExternalTool> tools,
@@ -136,32 +308,22 @@ namespace TweakHub.Views
             return tools;
         }
 
-        private async void ToolCard_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private async void ToolAction_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Border { DataContext: ToolItem item } card)
-                await RunToolAsync(card, item.Tool);
-        }
-
-        private async void ToolCard_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (!IsToolCardActivation(sender, e.OriginalSource, e.Key)
-                || sender is not Border { DataContext: ToolItem item } card)
-                return;
-
             e.Handled = true;
-            await RunToolAsync(card, item.Tool);
+            if (sender is Button { DataContext: ToolItem item, Tag: Border card })
+                await RunToolAsync(card, item);
         }
 
-        internal static bool IsToolCardActivation(object sender, object originalSource, Key key) =>
-            ReferenceEquals(sender, originalSource) && key is Key.Enter or Key.Space;
-
-        private async Task RunToolAsync(Border card, ExternalTool tool)
+        private async Task RunToolAsync(Border card, ToolItem item)
         {
             card.IsEnabled = false;
             card.Opacity = 0.7;
             try
             {
-                await _downloadService.DownloadOrOpenTool(tool, _progress);
+                var tool = item.Tool;
+                if (await _downloadService.DownloadOrOpenTool(tool, _progress) && item.IsWinget && string.IsNullOrWhiteSpace(tool.PowerShellCommand))
+                    item.IsInstalled = true;
             }
             finally
             {
@@ -224,7 +386,8 @@ namespace TweakHub.Views
             card.Opacity = 0.7;
             try
             {
-                await _downloadService.UninstallWithWinget(tool, _progress);
+                if (await _downloadService.UninstallWithWinget(tool, _progress))
+                    item.IsInstalled = false;
             }
             finally
             {
@@ -311,8 +474,11 @@ namespace TweakHub.Views
             return L.Get("Tools:Run");
         }
 
+        private DispatcherTimer? _progressTimer;
+
         private void OnDownloadProgress(ToolProgress progress)
         {
+            _progressTimer?.Stop();
             ProgressPanel.Visibility = Visibility.Visible;
             ProgressText.Text = progress.IsCompleted ? progress.Message : $"{progress.ToolName}: {progress.Message}";
             ProgressBar.Value = progress.Percentage;
@@ -322,14 +488,16 @@ namespace TweakHub.Views
 
         private void HideProgressAfter(TimeSpan delay)
         {
-            var timer = new System.Windows.Threading.DispatcherTimer { Interval = delay };
-            timer.Tick += (_, _) =>
+            // One timer: the end of one tool in a batch must not hide the progress of the next.
+            _progressTimer?.Stop();
+            _progressTimer = new DispatcherTimer { Interval = delay };
+            _progressTimer.Tick += (_, _) =>
             {
-                timer.Stop();
+                _progressTimer.Stop();
                 ProgressPanel.Visibility = Visibility.Collapsed;
                 ProgressBar.Value = 0;
             };
-            timer.Start();
+            _progressTimer.Start();
         }
 
         private void ShowLoadError() => LoadErrorText.Visibility = Visibility.Visible;

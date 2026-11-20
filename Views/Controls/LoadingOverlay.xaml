@@ -9,8 +9,7 @@
         <Border Style="{StaticResource SettingsCardStyle}" Padding="24,18" MinWidth="300" MaxWidth="440"
                 HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel>
-                <ui:ProgressRing x:Name="Ring" Width="28" Height="28" IsActive="False" HorizontalAlignment="Center"
-                                 Foreground="{DynamicResource FluentAccentBrush}"/>
+                <ui:ProgressRing Style="{StaticResource LoadingProgressRingStyle}" Width="28" Height="28" HorizontalAlignment="Center"/>
                 <TextBlock x:Name="MessageText" FontSize="13" FontWeight="Normal" TextAlignment="Center" TextWrapping="Wrap"
                            Margin="0,14,0,0" Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
                 <TextBlock x:Name="DetailText" Style="{StaticResource DescriptionTextStyle}" TextAlignment="Center" Margin="0,4,0,0"/>

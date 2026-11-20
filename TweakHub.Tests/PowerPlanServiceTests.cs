@@ -38,4 +38,15 @@ public class PowerPlanServiceTests
         Assert.That(script, Does.Contain("/setdcvalueindex").And.Contain(" 5\n"));
         Assert.That(script, Does.Contain($"-match '{scheme}'"));
     }
+
+    [Test]
+    public void ElevatedFallbackFailsWhenPowercfgReturnsAnError()
+    {
+        var script = PowerPlanService.BuildElevatedWriteScript(Guid.NewGuid(),
+            [new PowerSettingValue(Guid.NewGuid(), Guid.NewGuid(), 1, 2)]);
+
+        var lines = script.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+        var commands = lines.Select((line, index) => (line, index)).Where(item => item.line.Contains("powercfg /"));
+        Assert.That(commands.Select(item => lines[item.index + 1]), Has.Exactly(4).Matches<string>(line => line.StartsWith("if ($LASTEXITCODE -ne 0) { throw")));
+    }
 }

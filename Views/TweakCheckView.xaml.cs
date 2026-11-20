@@ -13,24 +13,19 @@ public partial class TweakCheckView : UserControl
 
     public TweakCheckView() => InitializeComponent();
 
-    public bool HasScanned { get; private set; }
-
     private async void Scan_Click(object sender, RoutedEventArgs e) => await ScanAsync(_elevated);
 
     private async void ElevatedScan_Click(object sender, RoutedEventArgs e) => await ScanAsync(elevated: true);
 
-    public async Task ScanAsync(bool elevated, bool initial = false)
+    public async Task ScanAsync(bool elevated)
     {
-        HasScanned = true;
         _elevated |= elevated;
         ScanButton.IsEnabled = ElevatedScanButton.IsEnabled = false;
         Loading.Show(L.Get("Devices:LoadingChecks"));
         ErrorText.Visibility = Visibility.Collapsed;
         try
         {
-            var checks = await (initial && !elevated
-                ? Preload.Get(Preload.TweakChecks, () => TweakCheckService.Instance.ScanAsync(elevated: false))
-                : TweakCheckService.Instance.ScanAsync(elevated));
+            var checks = await TweakCheckService.Instance.ScanAsync(elevated);
             var favorites = UserDataService.Instance.LoadFavoriteTweaks();
             foreach (var check in checks) check.IsFavorite = favorites.Contains(FavoriteKey(check));
             ChecksList.ItemsSource = checks.OrderByDescending(check => check.IsFavorite).ToList();

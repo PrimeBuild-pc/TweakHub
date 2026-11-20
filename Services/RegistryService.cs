@@ -112,6 +112,9 @@ namespace TweakHub.Services
 
         public async Task<bool> ApplyValuesWithBackupAsync(IReadOnlyCollection<RegistryValueChange> changes)
         {
+            // What each value holds right now: a failed attempt goes back to this, not to the original of an earlier apply.
+            List<RegistryBackup> before = [];
+            List<string> added = [];
             try
             {
                 lock (_lock)
@@ -120,7 +123,10 @@ namespace TweakHub.Services
                     {
                         ValidateLocation(change.KeyPath, change.ValueName);
                         var key = BackupKey(change.KeyPath, change.ValueName);
-                        if (!_backups.ContainsKey(key)) _backups[key] = ReadBackup(change.KeyPath, change.ValueName);
+                        before.Add(ReadBackup(change.KeyPath, change.ValueName));
+                        if (_backups.ContainsKey(key)) continue;
+                        _backups[key] = before[^1];
+                        added.Add(key);
                     }
                     SaveBackups();
                 }
@@ -132,14 +138,46 @@ namespace TweakHub.Services
                     : ValuesEqual(GetRegistryValue(change.KeyPath, change.ValueName), Normalize(change.Value)));
                 foreach (var change in changes)
                     Log("apply", change.KeyPath, change.ValueName, success, success ? null : result.Error);
-                if (!success) await RestoreValuesAsync(changes);
+                if (!success) await RollBackAttemptAsync(before, added);
                 return success;
             }
             catch (Exception ex)
             {
                 foreach (var change in changes) Log("apply", change.KeyPath, change.ValueName, false, ex.Message);
+                await RollBackAttemptAsync(before, added);
                 return false;
             }
+        }
+
+        /// <summary>Puts every value back to its pre-attempt state; the backups this attempt created are dropped only if that worked.</summary>
+        private async Task RollBackAttemptAsync(List<RegistryBackup> before, List<string> added)
+        {
+            try
+            {
+                var (success, _) = await WriteBackupsAsync(before);
+                if (!success || added.Count == 0) return;
+                lock (_lock)
+                {
+                    foreach (var key in added) _backups.Remove(key);
+                    SaveBackups();
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+        }
+
+        private async Task<(bool Success, string Error)> WriteBackupsAsync(IReadOnlyList<RegistryBackup> targets)
+        {
+            // Values already in the wanted state (for example when UAC was declined on apply) need no elevated script.
+            var changes = targets.Where(backup => !IsOriginal(backup)).Select(backup => new RegistryValueChange(
+                backup.KeyPath, backup.ValueName, backup.Existed ? Decode(backup) : null, backup.Kind)).ToList();
+            var result = changes.Count == 0
+                ? new PowerShellResult { Success = true }
+                : await PowerShellService.Instance.ExecuteScriptAsync(
+                    BuildRegScript(changes), requireAdministrator: changes.Any(change => RequiresElevation(change.KeyPath)), ScriptTimeout);
+            return (result.Success && targets.All(IsOriginal), result.Error);
         }
 
         public async Task<bool> RestoreValuesAsync(IReadOnlyCollection<RegistryValueChange> changes)
@@ -147,16 +185,9 @@ namespace TweakHub.Services
             List<RegistryBackup?> backups;
             lock (_lock) backups = changes.Select(change => _backups.GetValueOrDefault(BackupKey(change.KeyPath, change.ValueName))).ToList();
             if (backups.Any(backup => backup is null)) return false;
-            // Values already at their original (for example when UAC was declined on apply) need no elevated script.
-            var restoreChanges = backups.Where(backup => !IsOriginal(backup!)).Select(backup => new RegistryValueChange(
-                backup!.KeyPath, backup.ValueName, backup.Existed ? Decode(backup) : null, backup.Kind)).ToList();
-            var result = restoreChanges.Count == 0
-                ? new PowerShellResult { Success = true }
-                : await PowerShellService.Instance.ExecuteScriptAsync(
-                    BuildRegScript(restoreChanges), requireAdministrator: restoreChanges.Any(change => RequiresElevation(change.KeyPath)), ScriptTimeout);
-            var success = result.Success && backups.All(backup => IsOriginal(backup!));
+            var (success, error) = await WriteBackupsAsync(backups!);
             foreach (var backup in backups)
-                Log("restore", backup!.KeyPath, backup.ValueName, success, success ? null : result.Error);
+                Log("restore", backup!.KeyPath, backup.ValueName, success, success ? null : error);
             if (success)
             {
                 lock (_lock)

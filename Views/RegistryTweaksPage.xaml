@@ -76,7 +76,7 @@
                                 Click="RiskExplanation_Click"><Run Text="{Binding RiskText, Mode=OneWay}"/></Hyperlink>
                         </TextBlock>
                         <StackPanel x:Name="RowActions" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                            <TextBlock Text="&#xE814;" FontFamily="Segoe Fluent Icons" FontSize="14"
+                            <TextBlock Text="&#xE814;" FontFamily="{StaticResource FluentIconFont}" FontSize="14"
                                        Margin="0,0,10,0" Foreground="{DynamicResource WarningBrush}"
                                        Visibility="{Binding IsPartiallyApplied, Converter={StaticResource BoolToVis}}"
                                        ToolTip="{loc:Loc Tweaks:RegistryTweaksPageOnlyPartOfThisGrouped}"/>
@@ -95,7 +95,7 @@
                                                  Tag="{Binding}" AutomationProperties.Name="{Binding Name}"
                                                  Toggled="TweakToggle_Toggled"/>
                             </Border>
-                            <TextBlock Text="&#xE823;" FontFamily="Segoe Fluent Icons" FontSize="16" VerticalAlignment="Center"
+                            <TextBlock Text="&#xE823;" FontFamily="{StaticResource FluentIconFont}" FontSize="16" VerticalAlignment="Center"
                                        Margin="8,0,0,0" Foreground="{DynamicResource IconSecondaryBrush}"
                                        Visibility="{Binding IsRestartPending, Converter={StaticResource BoolToVis}}"
                                        ToolTip="{loc:Loc Tweaks:RegistryTweaksPageRestartWindowsToMakeThis}"/>
@@ -129,7 +129,7 @@
                                 Click="RiskExplanation_Click"><Run Text="{Binding RiskText, Mode=OneWay}"/></Hyperlink>
                         </TextBlock>
                         <StackPanel x:Name="RowActions" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                            <TextBlock Text="&#xE73E;" FontFamily="Segoe Fluent Icons" FontSize="14" Margin="0,0,8,0" VerticalAlignment="Center"
+                            <TextBlock Text="&#xE73E;" FontFamily="{StaticResource FluentIconFont}" FontSize="14" Margin="0,0,8,0" VerticalAlignment="Center"
                                        Foreground="{DynamicResource SuccessBrush}" Visibility="{Binding IsApplied, Converter={StaticResource BoolToVis}}"
                                        ToolTip="{loc:Loc Tweaks:RegistryTweaksPageThisRegistryValueCurrentlyMatches}"/>
                             <Button Style="{StaticResource FavoriteStarButtonStyle}" Margin="0,0,8,0"
@@ -142,25 +142,25 @@
                                     ToolTip="{loc:Loc Tweaks:RegistryTweaksPagePreviewRegistryChanges2}"/>
                             <Button Style="{StaticResource ExecuteButtonStyle}" Margin="0,0,8,0" Click="ApplyCustomTweak_Click">
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="&#xE768;" FontFamily="Segoe Fluent Icons" Margin="0,0,8,0"/>
+                                    <TextBlock Text="&#xE768;" FontFamily="{StaticResource FluentIconFont}" Margin="0,0,8,0"/>
                                     <TextBlock Text="{loc:Loc Tweaks:RegistryTweaksPageApply}"/>
                                 </StackPanel>
                             </Button>
                             <Button Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0" Click="RestoreCustomTweak_Click">
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="&#xE777;" FontFamily="Segoe Fluent Icons" Margin="0,0,8,0"/>
+                                    <TextBlock Text="&#xE777;" FontFamily="{StaticResource FluentIconFont}" Margin="0,0,8,0"/>
                                     <TextBlock Text="{loc:Loc Tweaks:RegistryTweaksPageRestore}"/>
                                 </StackPanel>
                             </Button>
                             <Button Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0" Click="EditCustomTweak_Click">
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="&#xE70F;" FontFamily="Segoe Fluent Icons" Margin="0,0,8,0"/>
+                                    <TextBlock Text="&#xE70F;" FontFamily="{StaticResource FluentIconFont}" Margin="0,0,8,0"/>
                                     <TextBlock Text="{loc:Loc Tweaks:RegistryTweaksPageEdit}"/>
                                 </StackPanel>
                             </Button>
                             <Button Style="{StaticResource DangerButtonStyle}" Click="DeleteCustomTweak_Click">
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="&#xE74D;" FontFamily="Segoe Fluent Icons" Margin="0,0,8,0"/>
+                                    <TextBlock Text="&#xE74D;" FontFamily="{StaticResource FluentIconFont}" Margin="0,0,8,0"/>
                                     <TextBlock Text="{loc:Loc Tweaks:RegistryTweaksPageDelete}"/>
                                 </StackPanel>
                             </Button>
@@ -201,7 +201,7 @@
                        VerticalAlignment="Top" Margin="0,6,0,0"/>
         </Grid>
 
-        <WrapPanel Grid.Row="1" Margin="0,0,0,10">
+        <WrapPanel x:Name="RegistryActions" Grid.Row="1" Margin="0,0,0,10">
             <Button x:Name="RefreshButton" Style="{StaticResource SecondaryButtonStyle}"
                     AutomationProperties.Name="{loc:Loc Tweaks:RegistryTweaksPageRefreshStatus}"
                     Click="RefreshButton_Click" Margin="0,0,8,6">
@@ -257,7 +257,7 @@
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="&#xE7BA;" FontFamily="Segoe Fluent Icons" FontSize="18" Margin="0,2,10,0"
+                                    <TextBlock Text="&#xE7BA;" FontFamily="{StaticResource FluentIconFont}" FontSize="18" Margin="0,2,10,0"
                                                Foreground="{DynamicResource WarningBrush}" VerticalAlignment="Top"/>
                                     <StackPanel Grid.Column="1">
                                         <TextBlock Text="{loc:Loc Tweaks:RevertedTweaksTitle}" FontSize="15" FontWeight="SemiBold"/>
@@ -271,11 +271,11 @@
                             <Border Style="{StaticResource SettingsCardStyle}" Margin="0,0,0,16">
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
-                                        <TextBlock Text="&#xE895;" FontFamily="Segoe Fluent Icons" FontSize="18" Margin="0,0,8,0"
+                                        <TextBlock Text="&#xE895;" FontFamily="{StaticResource FluentIconFont}" FontSize="18" Margin="0,0,8,0"
                                                    Foreground="{DynamicResource IconBrush}"/>
                                         <TextBlock Text="{loc:Loc Tweaks:WindowsUpdatePresets}" FontSize="14" FontWeight="SemiBold"/>
                                     </StackPanel>
-                                    <WrapPanel Margin="26,0,0,4">
+                                    <WrapPanel x:Name="WindowsUpdatePresetActions" Margin="26,0,0,4" IsEnabled="False">
                                         <ComboBox x:Name="WindowsUpdatePresetComboBox" Width="308" MinHeight="32" SelectedValuePath="Tag"
                                                   Margin="0,0,8,4" Style="{StaticResource FluentDropDownStyle}"
                                                   ui:ControlHelper.PlaceholderText="{loc:Loc Tweaks:WindowsUpdatePresetCustom}"
@@ -293,6 +293,7 @@
                                                 ToolTip="{loc:Loc Tweaks:RegistryTweaksPagePreviewRegistryChanges}"/>
                                     </WrapPanel>
                                     <TextBlock x:Name="WindowsUpdatePresetStatusText" Margin="26,0,0,0" FontWeight="Normal"
+                                               Text="{loc:Loc UI:LoadingWindowsUpdateStatus}"
                                                TextWrapping="Wrap"/>
                                     <StackPanel x:Name="WindowsUpdatePresetPreview" Visibility="Collapsed" Margin="26,8,0,0">
                                         <TextBlock x:Name="WindowsUpdatePresetDescriptionText" Style="{StaticResource TweakDescriptionStyle}"/>
@@ -384,5 +385,6 @@
                 </TabItem>
             </TabControl>
         </Grid>
+        <controls:LoadingOverlay x:Name="InitialLoading" Grid.RowSpan="3"/>
     </Grid>
 </Page>

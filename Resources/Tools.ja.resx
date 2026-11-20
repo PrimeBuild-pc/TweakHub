@@ -995,4 +995,57 @@
   <data name="DescriptionVixEditor" xml:space="preserve">
     <value>オフラインの NVIDIA VBIOS エディター（Blackwell 対応。Ada、Ampere、Turing はほぼ読み取り専用）。新しい ROM とマニフェストを保存し、書き込みは行いません。編集した ROM は Vix ローダーまたは mVolt+ で読み込みます。編集した ROM は元の署名と一致しないため、nvflash で書き込まないでください。電力、電流、電圧を上げるとハードウェアが損傷する場合があります。多くの項目はノート PC を含め実験的です。バイナリは未署名です（SmartScreen の警告が出る場合があります）。公式リポジトリのみを開きます。</value>
   </data>
+  <data name="SearchShortcuts" xml:space="preserve">
+    <value>ショートカットを検索</value>
+  </data>
+  <data name="FrequentlyUsedShortcuts" xml:space="preserve">
+    <value>よく使う項目</value>
+  </data>
+  <data name="NoShortcutsFound" xml:space="preserve">
+    <value>検索に一致するショートカットはありません</value>
+  </data>
+  <data name="Installed" xml:space="preserve">
+    <value>インストール済み</value>
+  </data>
+  <data name="SelectAll" xml:space="preserve">
+    <value>すべて選択</value>
+  </data>
+  <data name="ClearSelection" xml:space="preserve">
+    <value>選択を解除</value>
+  </data>
+  <data name="Presets" xml:space="preserve">
+    <value>プリセット</value>
+  </data>
+  <data name="PresetDiagnostics" xml:space="preserve">
+    <value>基本の診断ツール</value>
+  </data>
+  <data name="PresetLatency" xml:space="preserve">
+    <value>レイテンシと応答性</value>
+  </data>
+  <data name="PresetGpu" xml:space="preserve">
+    <value>GPUチューニング</value>
+  </data>
+  <data name="PresetUtilities" xml:space="preserve">
+    <value>日常ユーティリティ</value>
+  </data>
+  <data name="SelectToolNamed" xml:space="preserve">
+    <value>{0} を選択</value>
+  </data>
+  <data name="InstallSelected" xml:space="preserve">
+    <value>選択したものをインストール ({0})</value>
+  </data>
+  <data name="ConfirmInstallSelected" xml:space="preserve">
+    <value>選択したツールをインストール</value>
+  </data>
+  <data name="ConfirmInstallSelectedMessage" xml:space="preserve">
+    <value>{0} 個のツールを winget でインストールしますか？
+
+{1}</value>
+  </data>
+  <data name="InstallSelectedDone" xml:space="preserve">
+    <value>{1} 個中 {0} 個のツールをインストールしました</value>
+  </data>
+  <data name="DescriptionWinaeroTweaker" xml:space="preserve">
+    <value>Winaero の無料ツール。Windows の隠れた設定を数百項目まとめて変更できます（公式ページを開きます）</value>
+  </data>
 </root>

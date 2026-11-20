@@ -30,7 +30,7 @@
                 <TextBlock x:Name="DescriptionLabel" Text="{loc:Loc Tweaks:Description}" Style="{StaticResource FieldLabelStyle}"/>
                 <TextBox x:Name="DescriptionTextBox" MaxLength="500" Height="56" AcceptsReturn="True" TextWrapping="Wrap"
                          VerticalScrollBarVisibility="Auto" VerticalContentAlignment="Top" Margin="0,0,0,16"
-                         Style="{StaticResource FieldInputStyle}"
+                         Style="{StaticResource FieldMultilineStyle}"
                          AutomationProperties.LabeledBy="{Binding ElementName=DescriptionLabel}"/>
 
                 <Border Style="{StaticResource SettingsCardStyle}" CornerRadius="5">

@@ -42,80 +42,82 @@
 
             <!-- Overview -->
             <TabItem Header="{loc:Loc Security:TabOverview}">
-                <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="0,8,12,0">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="300"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
+                <Grid>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="0,8,12,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="300"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
-                        <Border Style="{StaticResource CardStyle}" VerticalAlignment="Top" Padding="20">
-                            <StackPanel>
-                                <TextBlock Text="{loc:Loc Security:ScoreTitle}" Style="{StaticResource SectionTitleStyle}"/>
-                                <Grid Width="200" Height="200" HorizontalAlignment="Center">
-                                    <Canvas x:Name="ScoreRing" Width="200" Height="200"/>
-                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False">
-                                        <TextBlock x:Name="ScoreText" Text="–" FontSize="40" FontWeight="SemiBold" HorizontalAlignment="Center"
-                                                   Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
-                                        <TextBlock x:Name="ScoreLabel" FontSize="12" HorizontalAlignment="Center"
-                                                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
-                                    </StackPanel>
-                                    <ui:ProgressRing x:Name="LoadingRing" Width="48" Height="48" IsActive="False"/>
-                                </Grid>
-                                <TextBlock x:Name="ScoreSummary" Style="{StaticResource DescriptionTextStyle}" HorizontalAlignment="Center"
-                                           TextAlignment="Center" Margin="0,16,0,4"/>
-                                <TextBlock Text="{loc:Loc Security:ScoreHint}" Style="{StaticResource DescriptionTextStyle}"
-                                           HorizontalAlignment="Center" TextAlignment="Center" FontSize="11"/>
+                            <Border Style="{StaticResource CardStyle}" VerticalAlignment="Top" Padding="20">
+                                <StackPanel>
+                                    <TextBlock Text="{loc:Loc Security:ScoreTitle}" Style="{StaticResource SectionTitleStyle}"/>
+                                    <Grid Width="200" Height="200" HorizontalAlignment="Center">
+                                        <Canvas x:Name="ScoreRing" Width="200" Height="200"/>
+                                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False">
+                                            <TextBlock x:Name="ScoreText" Text="–" FontSize="40" FontWeight="SemiBold" HorizontalAlignment="Center"
+                                                       Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                                            <TextBlock x:Name="ScoreLabel" FontSize="12" HorizontalAlignment="Center"
+                                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                    <TextBlock x:Name="ScoreSummary" Style="{StaticResource DescriptionTextStyle}" HorizontalAlignment="Center"
+                                               TextAlignment="Center" Margin="0,16,0,4"/>
+                                    <TextBlock Text="{loc:Loc Security:ScoreHint}" Style="{StaticResource DescriptionTextStyle}"
+                                               HorizontalAlignment="Center" TextAlignment="Center" FontSize="11"/>
+                                </StackPanel>
+                            </Border>
+
+                            <StackPanel Grid.Column="1" Margin="8,0,0,0">
+                                <TextBlock x:Name="LoadErrorText" Foreground="{DynamicResource DangerBrush}" TextWrapping="Wrap"
+                                           Margin="4,0,0,8" Visibility="Collapsed"/>
+                                <ItemsControl x:Name="ChecksList">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border x:Name="CheckCard" Style="{StaticResource CardStyle}" Padding="16,12" Focusable="True"
+                                                    AutomationProperties.Name="{Binding Title}">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Style="{StaticResource CheckIconStyle}" Margin="0,0,14,0"/>
+                                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                        <TextBlock Text="{Binding Title}" FontSize="14" FontWeight="SemiBold"
+                                                                   Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                                                        <TextBlock Text="{Binding Detail}" Style="{StaticResource DescriptionTextStyle}" Margin="0,2,0,0"/>
+                                                    </StackPanel>
+                                                    <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,0,0">
+                                                        <Button Click="Fix_Click" Style="{StaticResource ModernButtonStyle}" Margin="0,0,8,0"
+                                                                ToolTip="{loc:Loc Security:RequiresAdministrator}">
+                                                            <Button.Visibility>
+                                                                <Binding Path="CanFix">
+                                                                    <Binding.Converter><BooleanToVisibilityConverter/></Binding.Converter>
+                                                                </Binding>
+                                                            </Button.Visibility>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <TextBlock Text="&#xEA18;" Style="{StaticResource IconTextStyle}" Margin="0,0,6,0"/>
+                                                                <TextBlock Text="{loc:Loc Security:Fix}"/>
+                                                            </StackPanel>
+                                                        </Button>
+                                                        <Button Click="OpenSettings_Click" Style="{StaticResource PreviewIconButtonStyle}"
+                                                                ToolTip="{loc:Loc Security:OpenSettings}"
+                                                                AutomationProperties.Name="{loc:Loc Security:OpenSettings}">
+                                                            <TextBlock Text="&#xE8A7;" Style="{StaticResource IconTextStyle}" FontSize="13"/>
+                                                        </Button>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
                             </StackPanel>
-                        </Border>
-
-                        <StackPanel Grid.Column="1" Margin="8,0,0,0">
-                            <TextBlock x:Name="LoadErrorText" Foreground="{DynamicResource DangerBrush}" TextWrapping="Wrap"
-                                       Margin="4,0,0,8" Visibility="Collapsed"/>
-                            <ItemsControl x:Name="ChecksList">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Border x:Name="CheckCard" Style="{StaticResource CardStyle}" Padding="16,12" Focusable="True"
-                                                AutomationProperties.Name="{Binding Title}">
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock Style="{StaticResource CheckIconStyle}" Margin="0,0,14,0"/>
-                                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                                    <TextBlock Text="{Binding Title}" FontSize="14" FontWeight="SemiBold"
-                                                               Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
-                                                    <TextBlock Text="{Binding Detail}" Style="{StaticResource DescriptionTextStyle}" Margin="0,2,0,0"/>
-                                                </StackPanel>
-                                                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,0,0">
-                                                    <Button Click="Fix_Click" Style="{StaticResource ModernButtonStyle}" Margin="0,0,8,0"
-                                                            ToolTip="{loc:Loc Security:RequiresAdministrator}">
-                                                        <Button.Visibility>
-                                                            <Binding Path="CanFix">
-                                                                <Binding.Converter><BooleanToVisibilityConverter/></Binding.Converter>
-                                                            </Binding>
-                                                        </Button.Visibility>
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <TextBlock Text="&#xEA18;" Style="{StaticResource IconTextStyle}" Margin="0,0,6,0"/>
-                                                            <TextBlock Text="{loc:Loc Security:Fix}"/>
-                                                        </StackPanel>
-                                                    </Button>
-                                                    <Button Click="OpenSettings_Click" Style="{StaticResource PreviewIconButtonStyle}"
-                                                            ToolTip="{loc:Loc Security:OpenSettings}"
-                                                            AutomationProperties.Name="{loc:Loc Security:OpenSettings}">
-                                                        <TextBlock Text="&#xE8A7;" Style="{StaticResource IconTextStyle}" FontSize="13"/>
-                                                    </Button>
-                                                </StackPanel>
-                                            </Grid>
-                                        </Border>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </StackPanel>
-                    </Grid>
-                </ScrollViewer>
+                        </Grid>
+                    </ScrollViewer>
+                    <controls:LoadingOverlay x:Name="OverviewLoading"/>
+                </Grid>
             </TabItem>
 
             <!-- Defender -->
@@ -216,7 +218,30 @@
                                     </WrapPanel>
                                     <StackPanel x:Name="ScanProgressPanel" Visibility="Collapsed" Margin="0,4,0,0">
                                         <TextBlock x:Name="ScanProgressText" Style="{StaticResource LabelTextStyle}" Margin="0,0,0,6"/>
-                                        <ProgressBar x:Name="ScanProgressBar" Height="4" IsIndeterminate="True" Maximum="100"/>
+                                        <Grid>
+                                            <ProgressBar x:Name="ScanProgressBar" Height="4" IsIndeterminate="True" Maximum="100">
+                                                <ProgressBar.Style>
+                                                    <Style TargetType="ProgressBar" BasedOn="{StaticResource {x:Type ProgressBar}}">
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsIndeterminate" Value="True">
+                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ProgressBar.Style>
+                                            </ProgressBar>
+                                            <ui:ProgressRing Width="20" Height="20" HorizontalAlignment="Left">
+                                                <ui:ProgressRing.Style>
+                                                    <Style TargetType="ui:ProgressRing" BasedOn="{StaticResource LoadingProgressRingStyle}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsIndeterminate, ElementName=ScanProgressBar}" Value="False">
+                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ui:ProgressRing.Style>
+                                            </ui:ProgressRing>
+                                        </Grid>
                                     </StackPanel>
                                     <TextBlock x:Name="ScanResultText" Style="{StaticResource DescriptionTextStyle}" Margin="0,4,0,0"/>
 
@@ -328,7 +353,7 @@
                         </Grid>
 
                         <StackPanel x:Name="FileProgressPanel" Orientation="Horizontal" Margin="8,12" Visibility="Collapsed">
-                            <ui:ProgressRing IsActive="True" Width="20" Height="20" Margin="0,0,10,0"/>
+                            <ui:ProgressRing Style="{StaticResource LoadingProgressRingStyle}" Width="20" Height="20" Margin="0,0,10,0"/>
                             <TextBlock Text="{loc:Loc Security:FileAnalyzing}" Style="{StaticResource LabelTextStyle}"/>
                         </StackPanel>
                         <TextBlock x:Name="FileErrorText" Foreground="{DynamicResource DangerBrush}" TextWrapping="Wrap" Margin="8"
@@ -422,7 +447,8 @@
                                 <Button Content="{loc:Loc Maintenance:TronRun}" Tag="Run" Click="Tron_Click" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,6"/>
                                 <Button Content="{loc:Loc Maintenance:TronSource}" Tag="https://github.com/bmrf/tron" Click="OpenUri_Click" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,0,6"/>
                             </WrapPanel>
-                            <ProgressBar x:Name="TronProgress" Height="4" IsIndeterminate="True" Visibility="Collapsed" Margin="0,8,0,0"/>
+                            <ui:ProgressRing x:Name="TronProgress" Style="{StaticResource LoadingProgressRingStyle}" Width="20" Height="20"
+                                             Visibility="Collapsed" HorizontalAlignment="Left" Margin="0,8,0,0"/>
                             <TextBlock x:Name="TronStatus" Style="{StaticResource DescriptionTextStyle}" Margin="0,8,0,0"/>
                         </StackPanel>
                     </Border>
