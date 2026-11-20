@@ -256,6 +256,10 @@ namespace TweakHub.Views
                     L.Get("Tools:Cancel")))
                 return;
 
+            // The installed inventory can finish while the prompt is open: skip what turned out to be installed.
+            items = items.Where(item => item.CanSelect).ToList();
+            if (items.Count == 0) return;
+
             SetBusy(true);
             var installed = 0;
             try
