@@ -24,7 +24,7 @@
         <StackPanel Margin="24,24,24,0" Background="Transparent" MouseLeftButtonDown="Body_MouseLeftButtonDown">
             <StackPanel Orientation="Horizontal">
                 <Border Width="36" Height="36" CornerRadius="18" Margin="0,0,14,0" Background="{DynamicResource SubtleFillBrush}">
-                    <TextBlock Text="&#xE74D;" FontFamily="Segoe Fluent Icons" FontSize="17" Foreground="{DynamicResource WarningBrush}"
+                    <TextBlock Text="&#xE74D;" FontFamily="{StaticResource FluentIconFont}" FontSize="17" Foreground="{DynamicResource WarningBrush}"
                                HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Border>
                 <TextBlock Text="{loc:Loc Devices:RemoveGhosts}" FontSize="20" FontWeight="SemiBold" VerticalAlignment="Center"/>

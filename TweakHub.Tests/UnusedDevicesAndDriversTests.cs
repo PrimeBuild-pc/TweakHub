@@ -233,6 +233,7 @@ public class UnusedDevicesAndDriversTests
         }
         private DateTime? Date(int node, uint pid) => pid switch
         {
+            100 => LastDriverInstall,
             GhostDevices.LastArrivalPid => _nodes[node].Arrival,
             GhostDevices.LastRemovalPid => _nodes[node].Removal,
             GhostDevices.FirstInstallPid => FirstInstall,
@@ -246,6 +247,7 @@ public class UnusedDevicesAndDriversTests
         public string ClassDescription(int node) => "Keyboards";
         public string Manufacturer(int node) => "Logitech";
         public DateTime? FirstInstall;
+        public DateTime? LastDriverInstall;
     }
 
     [Test]
@@ -266,6 +268,10 @@ public class UnusedDevicesAndDriversTests
         Assert.That(GhostDevices.LastUsed(late, early), Is.EqualTo(late));
         Assert.That(GhostDevices.LastUsed(null, early), Is.EqualTo(early));
         Assert.That(GhostDevices.LastUsed(late, null), Is.EqualTo(late));
+
+        api.FirstInstall = null;
+        api.LastDriverInstall = late;
+        Assert.That(GhostDevices.Scan(api)["GHOST"].Installed, Is.Null, "A driver update cannot tell us when the device was first installed");
     }
 
     [Test]

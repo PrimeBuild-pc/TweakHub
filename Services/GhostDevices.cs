@@ -11,7 +11,7 @@ internal interface IDevNodeApi
     /// <summary>CM_Get_DevNode_Status; CR_NO_SUCH_DEVNODE means the device is installed but not connected.</summary>
     int Status(int node);
     /// <summary>
-    /// A FILETIME device property in DEVPKEY_Device_InstallDate's set (100 install, 101 first install, 102 arrival,
+    /// A FILETIME device property in DEVPKEY_Device_InstallDate's set (101 first install, 102 arrival,
     /// 103 removal); null when missing.
     /// </summary>
     DateTime? FileTime(int node, uint pid);
@@ -30,7 +30,7 @@ internal static class GhostDevices
 {
     internal const int CrSuccess = 0;
     internal const int CrNoSuchDevNode = 0x0D;
-    internal const uint InstallPid = 100, FirstInstallPid = 101, LastArrivalPid = 102, LastRemovalPid = 103;
+    internal const uint FirstInstallPid = 101, LastArrivalPid = 102, LastRemovalPid = 103;
 
     /// <summary>
     /// Ghost instance ids with their last use. Only CR_NO_SUCH_DEVNODE marks a ghost: any other failure is treated as present.
@@ -41,7 +41,7 @@ internal static class GhostDevices
         foreach (var id in api.DeviceIds())
             if (api.Locate(id, out var node) == CrSuccess && api.Status(node) == CrNoSuchDevNode)
                 ghosts[id] = new(LastUsed(api.FileTime(node, LastArrivalPid), api.FileTime(node, LastRemovalPid)), api.ClassDescription(node),
-                    api.Manufacturer(node), api.FileTime(node, FirstInstallPid) ?? api.FileTime(node, InstallPid));
+                    api.Manufacturer(node), api.FileTime(node, FirstInstallPid));
         return ghosts;
     }
 
