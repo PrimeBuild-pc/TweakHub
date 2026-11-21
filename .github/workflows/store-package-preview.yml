@@ -1,0 +1,47 @@
+name: Validate Microsoft Store package
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    if: github.repository == 'PrimeBuild-pc/TweakHub' && github.ref == 'refs/heads/main' && github.actor_id == '162145141'
+    runs-on: windows-2025
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
+        with:
+          dotnet-version: '10.0.403'
+      - name: Build and verify the unsigned Store package
+        shell: powershell
+        run: |
+          $output = Join-Path $env:RUNNER_TEMP 'store-preview'
+          # The packaging script requires the pinned SDK even when newer SDKs are on the runner.
+          $sdkFile = Join-Path $env:GITHUB_WORKSPACE 'global.json'
+          if (Test-Path -LiteralPath $sdkFile) {
+            if ((Get-Content -LiteralPath $sdkFile -Raw | ConvertFrom-Json).sdk.version -ne '10.0.403') {
+              throw 'The repository SDK and the Store packaging SDK disagree.'
+            }
+          } else {
+            '{"sdk":{"version":"10.0.403","rollForward":"disable"}}' | Set-Content -LiteralPath $sdkFile -Encoding ascii
+          }
+          ./packaging/msix/Build-Msix.ps1 -OutputDirectory $output
+          $packages = @(Get-ChildItem -LiteralPath $output -File -Filter '*-Store.msix')
+          if ($packages.Count -ne 1) { throw 'Expected exactly one Store MSIX.' }
+          $actual = (Get-FileHash -LiteralPath $packages[0].FullName -Algorithm SHA256).Hash
+          $expected = (Get-Content -LiteralPath (Join-Path $output 'SHA256SUMS.txt') -TotalCount 1).Split(' ')[0]
+          if ($actual -ne $expected) { throw 'MSIX checksum mismatch.' }
+          "Store package validated from $env:GITHUB_SHA." >> $env:GITHUB_STEP_SUMMARY
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: store-preview-${{ github.sha }}
+          path: |
+            ${{ runner.temp }}/store-preview/*-Store.msix
+            ${{ runner.temp }}/store-preview/SHA256SUMS.txt
+          if-no-files-found: error
