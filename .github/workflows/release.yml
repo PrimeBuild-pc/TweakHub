@@ -181,9 +181,9 @@ jobs:
             exit 0
           }
           if ($existing.StatusCode -ne 404) { throw "Release lookup returned HTTP $($existing.StatusCode)." }
-          $kind = if ($prerelease) { '--prerelease' } else { '--latest' }
+          $kind = @(); if ($prerelease) { $kind += '--prerelease' }
           $notes = 'Verify the SHA-256 sidecars before running the installer or portable app. These Windows builds may be unsigned.'
-          gh release create $env:TAG @assets --repo $env:GITHUB_REPOSITORY --verify-tag --title "TweakHub $env:TAG" --generate-notes --notes $notes $kind
+          gh release create $env:TAG @assets --repo $env:GITHUB_REPOSITORY --verify-tag --title "TweakHub $env:TAG" --generate-notes --notes $notes @kind
           if ($LASTEXITCODE) { throw 'GitHub Release creation failed. Existing release assets were not overwritten.' }
           'GitHub Release published with verified assets.' >> $env:GITHUB_STEP_SUMMARY
 
