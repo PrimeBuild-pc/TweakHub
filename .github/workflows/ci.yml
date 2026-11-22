@@ -29,3 +29,16 @@ jobs:
       - run: dotnet test TweakHub.Tests/TweakHub.Tests.csproj -c Release --no-build --no-restore
       - name: Test Store-specific behavior
         run: dotnet test TweakHub.Tests/TweakHub.Tests.csproj -c Release --no-restore -p:StorePackage=true --filter FullyQualifiedName~StorePackageTests
+
+      - name: Record the tested PR merge commit
+        if: github.event_name == 'pull_request'
+        shell: pwsh
+        run: Set-Content -LiteralPath "${env:RUNNER_TEMP}/tested-merge.txt" -Value $env:GITHUB_SHA
+      - name: Upload the tested PR merge commit
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: verified-merge-${{ github.sha }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/tested-merge.txt
+          if-no-files-found: error
+          retention-days: 7
