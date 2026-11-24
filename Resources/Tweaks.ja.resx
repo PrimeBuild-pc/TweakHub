@@ -918,4 +918,71 @@ Home でも、[設定] &gt; [Windows Update] で更新を最大 5 週間一時�
   <data name="RiskFilterCount" xml:space="preserve">
     <value>{0} 件の調整</value>
   </data>
+
+  <data name="CategoryOrTweakNameBrowsers" xml:space="preserve">
+    <value>ブラウザー</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionBrowsers" xml:space="preserve">
+    <value>パフォーマンスとプライバシーのためのブラウザーポリシーを適用します: ハードウェアアクセラレーション、バックグラウンド動作、テレメトリー、サードパーティー Cookie、検索候補。ポリシーはブラウザーの再起動後に有効になり、復元すると削除されます。</value>
+  </data>
+  <data name="CategoryOrTweakNameChromePerformancePrivacy" xml:space="preserve">
+    <value>Chrome のパフォーマンスとプライバシーのポリシー</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionChromePerformancePrivacy" xml:space="preserve">
+    <value>Chrome のハードウェアアクセラレーションを有効にし、終了後のバックグラウンド動作を停止し、利用統計と検索候補を無効にし、サードパーティー Cookie をブロックし、Safe Browsing を標準レベルに設定します。</value>
+  </data>
+  <data name="CategoryOrTweakNameEdgePerformancePrivacy" xml:space="preserve">
+    <value>Edge のパフォーマンスとプライバシーのポリシー</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionEdgePerformancePrivacy" xml:space="preserve">
+    <value>Edge のハードウェアアクセラレーションを有効にし、バックグラウンド動作とスタートアップブーストを無効にし、利用統計、パーソナライズ、検索候補を無効にし、サードパーティー Cookie をブロックし、Safe Browsing を標準レベルに設定します。</value>
+  </data>
+  <data name="CategoryOrTweakNameBravePerformancePrivacy" xml:space="preserve">
+    <value>Brave のパフォーマンスとプライバシーのポリシー</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionBravePerformancePrivacy" xml:space="preserve">
+    <value>Brave のハードウェアアクセラレーションを有効にし、終了後のバックグラウンド動作を停止し、サードパーティー Cookie をブロックし、Safe Browsing を標準レベルに設定します。</value>
+  </data>
+  <data name="CategoryOrTweakNameFirefoxPerformancePrivacy" xml:space="preserve">
+    <value>Firefox のパフォーマンスとプライバシーのポリシー</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionFirefoxPerformancePrivacy" xml:space="preserve">
+    <value>Firefox のハードウェアアクセラレーションを有効にし、テレメトリー、スタディ、Pocket を無効にし、検索候補を無効にします。</value>
+  </data>
+  <data name="BrowserNotInstalled" xml:space="preserve">
+    <value>この PC では利用できません: {0} がインストールされていません。</value>
+  </data>
+  <data name="CategoryOrTweakNameBrowsers" xml:space="preserve">
+    <value>ブラウザー</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionBrowsers" xml:space="preserve">
+    <value>パフォーマンスとプライバシーのためのブラウザーポリシーを適用します: ハードウェアアクセラレーション、バックグラウンド動作、テレメトリー、サードパーティー Cookie、検索候補。ポリシーはブラウザーの再起動後に有効になり、復元すると削除されます。</value>
+  </data>
+  <data name="CategoryOrTweakNameChromePerformancePrivacy" xml:space="preserve">
+    <value>Chrome のパフォーマンスとプライバシーのポリシー</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionChromePerformancePrivacy" xml:space="preserve">
+    <value>Chrome のハードウェアアクセラレーションを有効にし、終了後のバックグラウンド動作を停止し、利用統計と検索候補を無効にし、サードパーティー Cookie をブロックし、Safe Browsing を標準レベルに設定します。</value>
+  </data>
+  <data name="CategoryOrTweakNameEdgePerformancePrivacy" xml:space="preserve">
+    <value>Edge のパフォーマンスとプライバシーのポリシー</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionEdgePerformancePrivacy" xml:space="preserve">
+    <value>Edge のハードウェアアクセラレーションを有効にし、バックグラウンド動作とスタートアップブーストを無効にし、利用統計、パーソナライズ、検索候補を無効にし、サードパーティー Cookie をブロックし、Safe Browsing を標準レベルに設定します。</value>
+  </data>
+  <data name="CategoryOrTweakNameBravePerformancePrivacy" xml:space="preserve">
+    <value>Brave のパフォーマンスとプライバシーのポリシー</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionBravePerformancePrivacy" xml:space="preserve">
+    <value>Brave のハードウェアアクセラレーションを有効にし、終了後のバックグラウンド動作を停止し、サードパーティー Cookie をブロックし、Safe Browsing を標準レベルに設定します。</value>
+  </data>
+  <data name="CategoryOrTweakNameFirefoxPerformancePrivacy" xml:space="preserve">
+    <value>Firefox のパフォーマンスとプライバシーのポリシー</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionFirefoxPerformancePrivacy" xml:space="preserve">
+    <value>Firefox のハードウェアアクセラレーションを有効にし、テレメトリー、スタディ、Pocket を無効にし、検索候補を無効にします。</value>
+  </data>
+  <data name="BrowserNotInstalled" xml:space="preserve">
+    <value>この PC では利用できません: {0} がインストールされていません。</value>
+  </data>
 </root>

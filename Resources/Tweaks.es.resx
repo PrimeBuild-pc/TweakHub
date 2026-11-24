@@ -864,4 +864,71 @@ En Home puedes pausar las actualizaciones hasta 5 semanas en Configuración &gt;
   <data name="RiskFilterCount" xml:space="preserve">
     <value>{0} ajustes</value>
   </data>
+
+  <data name="CategoryOrTweakNameBrowsers" xml:space="preserve">
+    <value>Navegadores</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionBrowsers" xml:space="preserve">
+    <value>Aplica políticas del navegador para rendimiento y privacidad: aceleración de hardware, actividad en segundo plano, telemetría, cookies de terceros y sugerencias de búsqueda. Una política entra en vigor al reiniciar el navegador, y restaurar la elimina.</value>
+  </data>
+  <data name="CategoryOrTweakNameChromePerformancePrivacy" xml:space="preserve">
+    <value>Políticas de Chrome: rendimiento y privacidad</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionChromePerformancePrivacy" xml:space="preserve">
+    <value>Activa la aceleración de hardware de Chrome, evita que Chrome siga en segundo plano al salir, desactiva las métricas de uso y las sugerencias de búsqueda, bloquea las cookies de terceros y establece la protección estándar de Safe Browsing.</value>
+  </data>
+  <data name="CategoryOrTweakNameEdgePerformancePrivacy" xml:space="preserve">
+    <value>Políticas de Edge: rendimiento y privacidad</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionEdgePerformancePrivacy" xml:space="preserve">
+    <value>Activa la aceleración de hardware de Edge, desactiva el modo en segundo plano y el inicio rápido, desactiva las métricas de uso, la personalización y las sugerencias de búsqueda, bloquea las cookies de terceros y establece la protección estándar de Safe Browsing.</value>
+  </data>
+  <data name="CategoryOrTweakNameBravePerformancePrivacy" xml:space="preserve">
+    <value>Políticas de Brave: rendimiento y privacidad</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionBravePerformancePrivacy" xml:space="preserve">
+    <value>Activa la aceleración de hardware de Brave, evita que Brave siga en segundo plano al salir, bloquea las cookies de terceros y establece la protección estándar de Safe Browsing.</value>
+  </data>
+  <data name="CategoryOrTweakNameFirefoxPerformancePrivacy" xml:space="preserve">
+    <value>Políticas de Firefox: rendimiento y privacidad</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionFirefoxPerformancePrivacy" xml:space="preserve">
+    <value>Activa la aceleración de hardware de Firefox, desactiva la telemetría, los estudios y Pocket, y desactiva las sugerencias de búsqueda.</value>
+  </data>
+  <data name="BrowserNotInstalled" xml:space="preserve">
+    <value>No disponible en este equipo: {0} no está instalado.</value>
+  </data>
+  <data name="CategoryOrTweakNameBrowsers" xml:space="preserve">
+    <value>Navegadores</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionBrowsers" xml:space="preserve">
+    <value>Aplica políticas del navegador para rendimiento y privacidad: aceleración de hardware, actividad en segundo plano, telemetría, cookies de terceros y sugerencias de búsqueda. Una política entra en vigor al reiniciar el navegador, y restaurar la elimina.</value>
+  </data>
+  <data name="CategoryOrTweakNameChromePerformancePrivacy" xml:space="preserve">
+    <value>Políticas de Chrome: rendimiento y privacidad</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionChromePerformancePrivacy" xml:space="preserve">
+    <value>Activa la aceleración de hardware de Chrome, evita que Chrome siga en segundo plano al salir, desactiva las métricas de uso y las sugerencias de búsqueda, bloquea las cookies de terceros y establece la protección estándar de Safe Browsing.</value>
+  </data>
+  <data name="CategoryOrTweakNameEdgePerformancePrivacy" xml:space="preserve">
+    <value>Políticas de Edge: rendimiento y privacidad</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionEdgePerformancePrivacy" xml:space="preserve">
+    <value>Activa la aceleración de hardware de Edge, desactiva el modo en segundo plano y el inicio rápido, desactiva las métricas de uso, la personalización y las sugerencias de búsqueda, bloquea las cookies de terceros y establece la protección estándar de Safe Browsing.</value>
+  </data>
+  <data name="CategoryOrTweakNameBravePerformancePrivacy" xml:space="preserve">
+    <value>Políticas de Brave: rendimiento y privacidad</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionBravePerformancePrivacy" xml:space="preserve">
+    <value>Activa la aceleración de hardware de Brave, evita que Brave siga en segundo plano al salir, bloquea las cookies de terceros y establece la protección estándar de Safe Browsing.</value>
+  </data>
+  <data name="CategoryOrTweakNameFirefoxPerformancePrivacy" xml:space="preserve">
+    <value>Políticas de Firefox: rendimiento y privacidad</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionFirefoxPerformancePrivacy" xml:space="preserve">
+    <value>Activa la aceleración de hardware de Firefox, desactiva la telemetría, los estudios y Pocket, y desactiva las sugerencias de búsqueda.</value>
+  </data>
+  <data name="BrowserNotInstalled" xml:space="preserve">
+    <value>No disponible en este equipo: {0} no está instalado.</value>
+  </data>
 </root>

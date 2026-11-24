@@ -43,6 +43,10 @@ public class TweakCatalogueTests
             "disable_telemetry",
             "disable_consumer_content",
             "disable_bing_search",
+            "chrome_performance_privacy",
+            "edge_performance_privacy",
+            "brave_performance_privacy",
+            "firefox_performance_privacy",
             "disable_windows_search",
             "disable_fast_startup",
             "power_policy_no_auto_sleep",
@@ -96,6 +100,30 @@ public class TweakCatalogueTests
                 Is.EquivalentTo(new[] { "DisableNotificationCenter", "ToastEnabled" }));
             Assert.That(TweakService.GetCompositeRegistryChanges("disable_activity_history").Select(change => change.ValueName),
                 Is.EquivalentTo(new[] { "EnableActivityFeed", "PublishUserActivities", "UploadUserActivities" }));
+        });
+    }
+
+    [Test]
+    public void BrowserPolicyTweaksWriteOnlyTheirOwnPolicyKeys()
+    {
+        var expectedRoots = new Dictionary<string, string>
+        {
+            ["chrome_performance_privacy"] = @"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Google\Chrome",
+            ["edge_performance_privacy"] = @"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Edge",
+            ["brave_performance_privacy"] = @"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\BraveSoftware\Brave",
+            ["firefox_performance_privacy"] = @"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Mozilla\Firefox"
+        };
+
+        Assert.Multiple(() =>
+        {
+            foreach (var (id, root) in expectedRoots)
+            {
+                var changes = TweakService.GetCompositeRegistryChanges(id);
+                Assert.That(changes, Is.Not.Empty, id);
+                Assert.That(changes.Select(change => change.KeyPath), Is.All.EqualTo(root), id);
+                Assert.That(changes.Select(change => change.Kind), Is.All.EqualTo(Microsoft.Win32.RegistryValueKind.DWord), id);
+                Assert.That(changes.Select(change => Convert.ToInt32(change.Value)), Is.All.InRange(0, 1), id);
+            }
         });
     }
 

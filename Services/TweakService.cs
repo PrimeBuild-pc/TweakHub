@@ -38,6 +38,7 @@ namespace TweakHub.Services
             LoadSystemResponsivenessTweaks();
             LoadMemoryManagementTweaks();
             LoadPrivacyTweaks();
+            LoadBrowserOptimizationTweaks();
             LoadAdvancedTweaks();
             LoadWindowsUpdateTweaks();
             LoadVisualEffectsPerformanceTweaks();
@@ -452,6 +453,131 @@ namespace TweakHub.Services
             TweakCategories.Add(category);
         }
 
+        // Group policies read on browser start: no Windows restart, and restoring deletes the values.
+        private const string ChromePolicies = @"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Google\Chrome";
+        private const string EdgePolicies = @"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Edge";
+        private const string BravePolicies = @"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\BraveSoftware\Brave";
+        private const string FirefoxPolicies = @"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Mozilla\Firefox";
+
+        private const int SafeBrowsingStandard = 1;
+
+        private static readonly RegistryValueChange[] ChromeOptimizationPolicies =
+        [
+            new(ChromePolicies, "HardwareAccelerationModeEnabled", 1),
+            new(ChromePolicies, "BackgroundModeEnabled", 0),
+            new(ChromePolicies, "MetricsReportingEnabled", 0),
+            new(ChromePolicies, "SafeBrowsingProtectionLevel", SafeBrowsingStandard),
+            new(ChromePolicies, "BlockThirdPartyCookies", 1),
+            new(ChromePolicies, "SearchSuggestEnabled", 0)
+        ];
+
+        private static readonly RegistryValueChange[] EdgeOptimizationPolicies =
+        [
+            new(EdgePolicies, "HardwareAccelerationModeEnabled", 1),
+            new(EdgePolicies, "BackgroundModeEnabled", 0),
+            new(EdgePolicies, "StartupBoostEnabled", 0),
+            new(EdgePolicies, "MetricsReportingEnabled", 0),
+            new(EdgePolicies, "PersonalizationReportingEnabled", 0),
+            new(EdgePolicies, "SafeBrowsingProtectionLevel", SafeBrowsingStandard),
+            new(EdgePolicies, "BlockThirdPartyCookies", 1),
+            new(EdgePolicies, "SearchSuggestEnabled", 0)
+        ];
+
+        private static readonly RegistryValueChange[] BraveOptimizationPolicies =
+        [
+            new(BravePolicies, "HardwareAccelerationModeEnabled", 1),
+            new(BravePolicies, "BackgroundModeEnabled", 0),
+            new(BravePolicies, "SafeBrowsingProtectionLevel", SafeBrowsingStandard),
+            new(BravePolicies, "BlockThirdPartyCookies", 1),
+            new(BravePolicies, "SearchSuggestEnabled", 0)
+        ];
+
+        private static readonly RegistryValueChange[] FirefoxOptimizationPolicies =
+        [
+            new(FirefoxPolicies, "HardwareAcceleration", 1),
+            new(FirefoxPolicies, "DisableTelemetry", 1),
+            new(FirefoxPolicies, "DisableFirefoxStudies", 1),
+            new(FirefoxPolicies, "DisablePocket", 1),
+            new(FirefoxPolicies, "SearchSuggestEnabled", 0)
+        ];
+
+        // App Paths entries exist for machine and user installs; the default value holds the executable path.
+        private static readonly Dictionary<string, (string MachineAppPath, string UserAppPath, string BrowserName)> BrowserAppPaths = new()
+        {
+            ["chrome_performance_privacy"] = (@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\chrome.exe",
+                @"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\App Paths\chrome.exe", "Chrome"),
+            ["edge_performance_privacy"] = (@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\msedge.exe",
+                @"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\App Paths\msedge.exe", "Microsoft Edge"),
+            ["brave_performance_privacy"] = (@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\brave.exe",
+                @"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\App Paths\brave.exe", "Brave"),
+            ["firefox_performance_privacy"] = (@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\firefox.exe",
+                @"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\App Paths\firefox.exe", "Firefox")
+        };
+
+        internal static bool IsBrowserInstalled(string machineAppPath, string userAppPath) =>
+            RegistryService.Instance.GetRegistryValue(machineAppPath, string.Empty) is not null
+            || RegistryService.Instance.GetRegistryValue(userAppPath, string.Empty) is not null;
+
+        private void LoadBrowserOptimizationTweaks()
+        {
+            var category = new TweakCategory
+            {
+                Name = L.Get("Tweaks:CategoryOrTweakNameBrowsers"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionBrowsers"),
+                Icon = "\uE774"
+            };
+
+            category.Tweaks.Add(new PerformanceTweak
+            {
+                Id = "chrome_performance_privacy",
+                Name = L.Get("Tweaks:CategoryOrTweakNameChromePerformancePrivacy"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionChromePerformancePrivacy"),
+                Type = TweakType.Registry,
+                RegistryPath = ChromePolicies,
+                RegistryKey = "HardwareAccelerationModeEnabled",
+                EnabledValue = 1,
+                RiskLevel = 2
+            });
+
+            category.Tweaks.Add(new PerformanceTweak
+            {
+                Id = "edge_performance_privacy",
+                Name = L.Get("Tweaks:CategoryOrTweakNameEdgePerformancePrivacy"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionEdgePerformancePrivacy"),
+                Type = TweakType.Registry,
+                RegistryPath = EdgePolicies,
+                RegistryKey = "HardwareAccelerationModeEnabled",
+                EnabledValue = 1,
+                RiskLevel = 2
+            });
+
+            category.Tweaks.Add(new PerformanceTweak
+            {
+                Id = "brave_performance_privacy",
+                Name = L.Get("Tweaks:CategoryOrTweakNameBravePerformancePrivacy"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionBravePerformancePrivacy"),
+                Type = TweakType.Registry,
+                RegistryPath = BravePolicies,
+                RegistryKey = "HardwareAccelerationModeEnabled",
+                EnabledValue = 1,
+                RiskLevel = 2
+            });
+
+            category.Tweaks.Add(new PerformanceTweak
+            {
+                Id = "firefox_performance_privacy",
+                Name = L.Get("Tweaks:CategoryOrTweakNameFirefoxPerformancePrivacy"),
+                Description = L.Get("Tweaks:CategoryOrTweakDescriptionFirefoxPerformancePrivacy"),
+                Type = TweakType.Registry,
+                RegistryPath = FirefoxPolicies,
+                RegistryKey = "HardwareAcceleration",
+                EnabledValue = 1,
+                RiskLevel = 2
+            });
+
+            TweakCategories.Add(category);
+        }
+
         private void LoadAdvancedTweaks()
         {
             var category = new TweakCategory
@@ -688,6 +814,10 @@ namespace TweakHub.Services
             "disable_telemetry" => TelemetryPolicies,
             "disable_consumer_content" => ConsumerContentPolicies,
             "disable_bing_search" => BingSearchPolicies,
+            "chrome_performance_privacy" => ChromeOptimizationPolicies,
+            "edge_performance_privacy" => EdgeOptimizationPolicies,
+            "brave_performance_privacy" => BraveOptimizationPolicies,
+            "firefox_performance_privacy" => FirefoxOptimizationPolicies,
             "optimize_flip_model" => FlipModelChanges(),
             _ => []
         };
@@ -987,6 +1117,14 @@ namespace TweakHub.Services
                 var changes = GetCompositeRegistryChanges(tweak.Id);
                 if (changes.Count > 0)
                 {
+                    if (BrowserAppPaths.TryGetValue(tweak.Id, out var browser) && !HasBackup(tweak)
+                        && !IsBrowserInstalled(browser.MachineAppPath, browser.UserAppPath))
+                    {
+                        tweak.IsPartiallyApplied = false;
+                        tweak.IsEnabled = false;
+                        tweak.UnavailableReason = L.Format("Tweaks:BrowserNotInstalled", browser.BrowserName);
+                        continue;
+                    }
                     var matches = changes.Count(change =>
                         Equals(RegistryService.Instance.GetRegistryValue(change.KeyPath, change.ValueName), change.Value));
                     tweak.IsEnabled = matches == changes.Count;
