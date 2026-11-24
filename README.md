@@ -120,6 +120,9 @@ Start with TweakHub when setting up, tuning or maintaining a Windows 11 PC. It b
   </tr>
 </table>
 
+New in 1.8.2:
+- **WinUtil:** TweakHub downloads the script once, shows its SHA-256 and asks again whenever it changes, then runs only that approved copy with UAC, like the Marius Heier scripts. The hash covers the main script only; WinUtil can still download other components while it runs.
+
 New in 1.8.1:
 - **Ghost devices:** check whether a device is disconnected before removing it, show first-install and last-used dates when available, and confirm the exact number selected. A filter can hide recently used devices.
 - **Startup notice:** choose **I understand** to continue or **Decline and exit** to close TweakHub.

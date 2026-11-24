@@ -72,8 +72,7 @@ namespace TweakHub.Views
                 L.Get("Scripts:dotnet_developer_setup_Confirmation")),
             new("ctt-winutil", L.Get("Scripts:ctt_winutil_Name"),
                 L.Get("Scripts:ctt_winutil_Description"),
-                L.Get("Scripts:ctt_winutil_Category"), L.Get("Scripts:ctt_winutil_Execute"),
-                L.Get("Scripts:ctt_winutil_Confirmation")),
+                L.Get("Scripts:ctt_winutil_Category"), L.Get("Scripts:ctt_winutil_Execute"), string.Empty),
             new("change-local-password", L.Get("Scripts:change_local_password_Name"),
                 L.Get("Scripts:change_local_password_Description"),
                 L.Get("Scripts:CurrentUser"), L.Get("Scripts:Run"),
@@ -607,7 +606,15 @@ namespace TweakHub.Views
             if (script.Id == "winget") WinGetInstallation_Click(sender, e);
             else if (script.Id == "change-local-password") ExecuteInteractiveBuiltInScript(script);
             else if (script.Id == "driver-restore") RestoreDrivers(script);
+            else if (script.Id == "ctt-winutil") RunWinUtil(script);
             else ExecuteBuiltInScript(script);
+        }
+
+        // Same flow as the Marius Heier scripts: one download, SHA-256 shown, consent tied to that hash, UAC.
+        private async void RunWinUtil(BuiltInScriptCard script)
+        {
+            if (await ThirdPartyScriptService.ConfirmAndRunAsync(Window.GetWindow(this), ThirdPartyScriptService.WinUtil))
+                MarkScriptCompleted(script);
         }
 
         private async void RestoreDrivers(BuiltInScriptCard script)

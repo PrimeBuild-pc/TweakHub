@@ -76,7 +76,8 @@ if ($code -eq 3010) { 'VERIFIED:Drivers installed. Restart Windows to finish.' }
         public static string Body(string id) => id switch
         {
             "winget" => LoadWinGetScript(),
-            "ctt-winutil" => "irm christitus.com/win | iex",
+            // Shown as the preview only: the Scripts page runs the hash-approved copy through ThirdPartyScriptService.
+            "ctt-winutil" => ThirdPartyScriptService.WinUtil.Command,
             "gaming-runtimes" => @"
 $packages = @(
     'Microsoft.VCRedist.2005.x86', 'Microsoft.VCRedist.2005.x64',

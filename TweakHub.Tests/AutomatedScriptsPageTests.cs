@@ -30,7 +30,8 @@ public class AutomatedScriptsPageTests
         Assert.Multiple(() =>
         {
             Assert.That(BuiltInScripts.Body("ctt-winutil"),
-                Is.EqualTo("irm christitus.com/win | iex"));
+                Is.EqualTo("irm https://christitus.com/win | iex"));
+            Assert.That(ThirdPartyScriptService.WinUtil.Author, Is.EqualTo("Chris Titus Tech"));
             Assert.That(BuiltInScripts.Body("gaming-runtimes"),
                 Does.Contain("Microsoft.VCRedist.2015+.x64").And.Contain("Microsoft.DirectX")
                     .And.Contain("CreativeTechnology.OpenAL").And.Contain("Nvidia.PhysX").And.Contain("Microsoft.XNARedist"));

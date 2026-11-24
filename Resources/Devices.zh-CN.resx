@@ -550,11 +550,13 @@
     <value>第三方脚本</value>
   </data>
   <data name="ScriptWarningMessage" xml:space="preserve">
-    <value>{0} 由 Marius Heier 制作，而非 TweakHub。PowerShell 将从作者网站下载并以管理员权限运行它：
+    <value>{0} 由 {2} 制作，并非 TweakHub。TweakHub 已从作者网站下载此版本一次，与作者的一行命令运行的是同一文件：
 
 {1}
 
-TweakHub 无法检查脚本的行为，作者也可以随时修改它。如有疑问，请先在官方页面阅读。每当作者修改 {0} 时，此警告都会再次显示。</value>
+SHA-256：{3}
+
+如果继续，它将在 UAC 提示后以管理员权限运行，并且仅当文件仍与此哈希一致时才会运行。TweakHub 无法检查脚本的行为，且哈希仅涵盖此主脚本：脚本运行时下载的任何内容都不会被检查。如有疑虑，请先在官方页面阅读脚本。每当作者修改 {0} 时，此警告都会再次出现。</value>
   </data>
   <data name="LoadingInterrupts" xml:space="preserve">
     <value>正在读取中断设置…</value>

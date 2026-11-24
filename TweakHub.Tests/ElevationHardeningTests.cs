@@ -39,13 +39,15 @@ public class ElevationHardeningTests
         finally { folder.Delete(true); }
     }
 
-    [Test]
-    public async Task ThirdPartyScriptRunsOnlyTheApprovedCopy()
+    // WinUtil goes through the same hash-approved copy as the Marius Heier scripts, never irm | iex.
+    [TestCase(false)]
+    [TestCase(true)]
+    public async Task ThirdPartyScriptRunsOnlyTheApprovedCopy(bool winUtil)
     {
         var folder = Directory.CreateTempSubdirectory("TweakHubThirdParty-");
         try
         {
-            var script = ThirdPartyScriptService.MariusHeier.First();
+            var script = winUtil ? ThirdPartyScriptService.WinUtil : ThirdPartyScriptService.MariusHeier.First();
             async Task<string> Run(string content, string approvedHash)
             {
                 var path = Path.Combine(folder.FullName, $"{Guid.NewGuid():N}.ps1");

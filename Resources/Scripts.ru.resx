@@ -108,9 +108,6 @@
   <data name="ctt_winutil_Execute" xml:space="preserve">
     <value>Запустить</value>
   </data>
-  <data name="ctt_winutil_Confirmation" xml:space="preserve">
-    <value>При этом загружается и выполняется удаленный сценарий, который может меняться со временем. Продолжайте, только если вы доверяете christitus.com.</value>
-  </data>
   <data name="dism_sfc_chkdsk_Name" xml:space="preserve">
     <value>Восстановление системы: DISM + SFC + CHKDSK</value>
   </data>

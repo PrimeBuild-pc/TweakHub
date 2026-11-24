@@ -550,11 +550,13 @@
     <value>Third-party script</value>
   </data>
   <data name="ScriptWarningMessage" xml:space="preserve">
-    <value>{0} is made by Marius Heier, not by TweakHub. PowerShell will download it from the author's site and run it with administrator rights:
+    <value>{0} is made by {2}, not by TweakHub. TweakHub downloaded this version once from the author's site, the same file the author's one-liner runs:
 
 {1}
 
-TweakHub cannot check what the script does, and the author can change it at any time. Read it on the official page first if you are unsure. This warning appears again whenever the author changes {0}.</value>
+SHA-256: {3}
+
+If you continue, it runs with administrator rights after a UAC prompt, and only while the file still matches this hash. TweakHub cannot check what the script does, and the hash covers only this main script: anything it downloads while it runs is not checked. Read it on the official page first if you are unsure. This warning appears again whenever the author changes {0}.</value>
   </data>
   <data name="LoadingInterrupts" xml:space="preserve">
     <value>Reading interrupt settings…</value>

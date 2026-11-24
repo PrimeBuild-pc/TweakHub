@@ -59,30 +59,8 @@ public partial class DevicesPage : Page
 
     private async void RunScript_Click(object sender, RoutedEventArgs e)
     {
-        if ((sender as FrameworkElement)?.DataContext is not ThirdPartyScript script) return;
-        string path, hash;
-        try
-        {
-            (path, hash) = await ThirdPartyScriptService.DownloadAsync(script);
-        }
-        catch (Exception ex)
-        {
-            await AppDialog.ShowErrorAsync(Window.GetWindow(this), L.Get("Devices:ScriptWarningTitle"), ex.Message);
-            return;
-        }
-        if (!ThirdPartyScriptService.HasConsent(script, hash))
-        {
-            // Topmost: the warning must not hide behind other windows, it is the last stop before remote code runs elevated.
-            if (!await AppDialog.ConfirmAsync(Window.GetWindow(this), L.Get("Devices:ScriptWarningTitle"),
-                    L.Format("Devices:ScriptWarningMessage", script.Name, script.Command), L.Get("Devices:ScriptRun"), L.Get("UI:Cancel"),
-                    DialogKind.Warning, topmost: true))
-            {
-                File.Delete(path);
-                return;
-            }
-            ThirdPartyScriptService.SaveConsent(script, hash);
-        }
-        ThirdPartyScriptService.Run(script, path, hash);
+        if ((sender as FrameworkElement)?.DataContext is ThirdPartyScript script)
+            await ThirdPartyScriptService.ConfirmAndRunAsync(Window.GetWindow(this), script);
     }
 
     private void ScriptPage_Click(object sender, RoutedEventArgs e)

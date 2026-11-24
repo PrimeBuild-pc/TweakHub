@@ -108,9 +108,6 @@
   <data name="ctt_winutil_Execute" xml:space="preserve">
     <value>运行</value>
   </data>
-  <data name="ctt_winutil_Confirmation" xml:space="preserve">
-    <value>这会下载并执行一个可能随时间变化的远程脚本。只有在信任 christitus.com 时才继续。</value>
-  </data>
   <data name="dism_sfc_chkdsk_Name" xml:space="preserve">
     <value>DISM + SFC + CHKDSK 系统修复</value>
   </data>
