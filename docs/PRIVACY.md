@@ -17,6 +17,14 @@ Settings, tweak backups (original registry values), restore logs, script history
 
 Hardware, driver, device, startup and security information is read from Windows to show it to you in the app. It is not sent anywhere. Reports and CSV/JSON exports are written only where you choose, and you decide whether to share them.
 
+## Uninstalling TweakHub
+
+Uninstalling the app (Microsoft Store, installer or deleting the portable folder) removes the program, **not the changes it made to Windows**. Registry values, policies, service start types, power-plan values, hosts-file entries, removed or disabled devices and apps installed through winget stay as they are.
+
+- **Before uninstalling**, restore what you changed from inside TweakHub (each tweak has Undo/Restore; the Policies page can reset policies; driver packages can be added back from their backup).
+- **Left on the PC after uninstall:** `%LOCALAPPDATA%\TweakHub` (settings, backups, undo records, operation log, downloaded tools, crash log), `%PROGRAMDATA%\TweakHub-DriverBackups` (driver backups, administrators only) and, if you ran Tron, `%PROGRAMDATA%\TweakHub-Tron-*` (administrators only). Delete them yourself once you no longer need to restore anything; the two `%PROGRAMDATA%` folders need an administrator.
+- Tools you installed through `winget` are removed with `winget uninstall` or Settings, Apps.
+
 ## Network requests
 
 | When | Destination | What is sent |
@@ -25,6 +33,7 @@ Hardware, driver, device, startup and security information is read from Windows 
 | Breached password check (Security page) | `api.pwnedpasswords.com` (Have I Been Pwned) | Only the **first 5 characters of the SHA-1 hash** of the password (k-anonymity). The password never leaves your PC. |
 | Account deletion links (Security page, on request) | `raw.githubusercontent.com` (JustDeleteMe directory) | A plain download of a public list. |
 | Microsoft Safety Scanner, Tron, third-party scripts or tools (only when you start them) | Microsoft, GitHub or the tool's official site | A plain download. Files are checked (Microsoft signature or SHA-256) before use. |
+| WinUtil and the Marius Heier scripts (only when you start one) | `christitus.com`, which redirects to GitHub, or `tools.mariusheier.com` | A plain download of the main script to a temporary file. TweakHub shows its SHA-256, asks for your consent to that exact version and runs only that copy, with UAC. **The hash covers only the main script.** WinUtil can download further programs and files while it runs (for example what you pick in its window); those requests come from WinUtil, under its own behaviour, and TweakHub does not check them. |
 | Hash lookups (VirusTotal, Triage) | Opens your **browser** with the hash in the URL | Only the file hash. TweakHub never uploads files. |
 | Links to documentation and tools | Your browser | Nothing is sent by TweakHub; the site you open applies its own policy. |
 | WinGet installs (only when you start one) | Windows Package Manager | Handled by `winget` and Microsoft, not by TweakHub. |
@@ -49,4 +58,4 @@ Changes to this policy are made in this repository and are visible in its git hi
 
 ## Contact
 
-Open an issue at <https://github.com/PrimeBuild-pc/TweakHub/issues>. For anything sensitive use the private report described in [SECURITY.md](../SECURITY.md).
+Support: <primebuild.official@gmail.com> · <https://primebuild.website>. Bug reports and feature requests can also be opened at <https://github.com/PrimeBuild-pc/TweakHub/issues>. For anything sensitive use the private report described in [SECURITY.md](../SECURITY.md).

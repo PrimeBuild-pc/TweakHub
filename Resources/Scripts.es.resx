@@ -108,9 +108,6 @@
   <data name="ctt_winutil_Execute" xml:space="preserve">
     <value>Ejecutar</value>
   </data>
-  <data name="ctt_winutil_Confirmation" xml:space="preserve">
-    <value>Esto descarga y ejecuta un script remoto que puede cambiar con el tiempo. Continúa solo si confías en christitus.com.</value>
-  </data>
   <data name="dism_sfc_chkdsk_Name" xml:space="preserve">
     <value>Reparación del sistema con DISM + SFC + CHKDSK</value>
   </data>

@@ -152,7 +152,8 @@ public sealed class ThemeService : INotifyPropertyChanged
             var background = _isDark ? Color.FromRgb(32, 32, 32) : Color.FromRgb(243, 243, 243);
             var surface = _isDark ? Color.FromRgb(44, 44, 44) : Colors.White;
             var hover = _isDark ? Color.FromArgb(15, 255, 255, 255) : Color.FromArgb(9, 0, 0, 0);
-            var border = _isDark ? Color.FromArgb(24, 255, 255, 255) : Color.FromArgb(15, 0, 0, 0);
+            // Light cards sit white on near-white: a 6% stroke vanished, 11% keeps box edges crisp without looking heavy.
+            var border = _isDark ? Color.FromArgb(24, 255, 255, 255) : Color.FromArgb(28, 0, 0, 0);
             var primary = _isDark ? Colors.White : Color.FromRgb(27, 27, 27);
             var secondary = _isDark ? Color.FromRgb(200, 200, 200) : Color.FromRgb(96, 96, 96);
 
@@ -166,8 +167,11 @@ public sealed class ThemeService : INotifyPropertyChanged
             ApplyTableSelection(app, Blend(background, primary, 0.08), Blend(background, primary, 0.12), Colors.Transparent);
             SetBrush(app, "ComboBoxDropDownBackground", _isDark ? Color.FromRgb(43, 43, 43) : Color.FromRgb(249, 249, 249));
             ApplyDropDownSurface(app, _isDark ? Color.FromRgb(56, 56, 56) : Colors.White, border);
-            SetBrush(app, "NavigationViewItemBackgroundSelected", _isDark ? Blend(background, primary, 0.06) : surface);
-            SetBrush(app, "NavigationViewItemBackgroundSelectedPointerOver", _isDark ? Blend(background, primary, 0.09) : Blend(surface, primary, 0.025));
+            // Like Windows 11 Settings: the pane shares the window background and the selected item is a subtle fill,
+            // not a gray panel with a white box (ModernWpf's light default).
+            SetBrush(app, "NavigationViewExpandedPaneBackground", Colors.Transparent);
+            SetBrush(app, "NavigationViewItemBackgroundSelected", Blend(background, primary, 0.06));
+            SetBrush(app, "NavigationViewItemBackgroundSelectedPointerOver", Blend(background, primary, 0.09));
 
             ApplyTextInputSurface(app, _isDark ? Color.FromRgb(48, 48, 48) : Colors.White);
             ApplyTextInputFocus(app, fluentAccent, border);

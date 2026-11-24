@@ -550,11 +550,13 @@
     <value>Script di terze parti</value>
   </data>
   <data name="ScriptWarningMessage" xml:space="preserve">
-    <value>{0} è realizzato da Marius Heier, non da TweakHub. PowerShell lo scaricherà dal sito dell'autore e lo eseguirà con privilegi di amministratore:
+    <value>{0} è realizzato da {2}, non da TweakHub. TweakHub ha scaricato questa versione una sola volta dal sito dell'autore, lo stesso file eseguito dal comando dell'autore:
 
 {1}
 
-TweakHub non può controllare cosa fa lo script e l'autore può modificarlo in qualsiasi momento. Se hai dubbi, leggilo prima sulla pagina ufficiale. Questo avviso ricompare ogni volta che l'autore modifica {0}.</value>
+SHA-256: {3}
+
+Se continui, verrà eseguito con privilegi di amministratore dopo la richiesta UAC, e solo se il file corrisponde ancora a questo hash. TweakHub non può controllare cosa fa lo script e l'hash copre solo questo script principale: ciò che scarica durante l'esecuzione non viene verificato. Se hai dubbi, leggilo prima sulla pagina ufficiale. Questo avviso ricompare ogni volta che l'autore modifica {0}.</value>
   </data>
   <data name="LoadingInterrupts" xml:space="preserve">
     <value>Lettura delle impostazioni degli interrupt…</value>

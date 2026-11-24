@@ -11,7 +11,7 @@ Microsoft assigns the technical identity values in Partner Center.
 - Publisher display name: **Prime Build**
 - Package family: `LorenzoMassafra.TweakHub_2j208vxf88tt6`
 - Product ID: `9P5R2R5TRKL3`
-- Public support: [GitHub Issues](https://github.com/PrimeBuild-pc/TweakHub/issues).
+- Support contact: `primebuild.official@gmail.com`, `https://primebuild.website`. Bug reports: [GitHub Issues](https://github.com/PrimeBuild-pc/TweakHub/issues). Store capability justification: [`docs/store-capability-justification.md`](../../docs/store-capability-justification.md).
 
 Technical identity strings are assigned by Microsoft and are preserved. Do not replace them with the public brand name.
 
