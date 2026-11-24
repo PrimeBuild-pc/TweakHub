@@ -81,7 +81,7 @@ Start with TweakHub when setting up, tuning or maintaining a Windows 11 PC. It b
   <tr>
     <td width="50%" valign="top">
       <h3>⚡ Registry tweaks</h3>
-      Curated Windows 11 tweaks for CPU scheduling, network latency, privacy, telemetry and Windows AI, each with a preview, automatic backup, verification and rollback. Includes a Windows Update mode selector and an optional low-latency network preset per adapter.
+      Curated Windows 11 tweaks for CPU scheduling, network latency, privacy, telemetry and Windows AI, plus browser performance and privacy policies for Chrome, Edge, Brave and Firefox, each with a preview, automatic backup, verification and rollback. Includes a Windows Update mode selector and an optional low-latency network preset per adapter.
     </td>
     <td width="50%" valign="top">
       <h3>🛡️ Security</h3>

@@ -906,4 +906,71 @@ On Home you can still pause updates for up to 5 weeks in Settings &gt; Windows U
   <data name="RiskFilterCount" xml:space="preserve">
     <value>{0} tweaks</value>
   </data>
+
+  <data name="CategoryOrTweakNameBrowsers" xml:space="preserve">
+    <value>Browsers</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionBrowsers" xml:space="preserve">
+    <value>Applies browser policies for performance and privacy: hardware acceleration, background activity, telemetry, third-party cookies and search suggestions. A policy takes effect when the browser restarts, and restoring removes it.</value>
+  </data>
+  <data name="CategoryOrTweakNameChromePerformancePrivacy" xml:space="preserve">
+    <value>Chrome performance and privacy policies</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionChromePerformancePrivacy" xml:space="preserve">
+    <value>Turns Chrome hardware acceleration on, stops Chrome from running in the background after exit, turns off usage metrics and search suggestions, blocks third-party cookies and sets Standard Safe Browsing.</value>
+  </data>
+  <data name="CategoryOrTweakNameEdgePerformancePrivacy" xml:space="preserve">
+    <value>Edge performance and privacy policies</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionEdgePerformancePrivacy" xml:space="preserve">
+    <value>Turns Edge hardware acceleration on, stops background mode and startup boost, turns off usage metrics, personalization and search suggestions, blocks third-party cookies and sets Standard Safe Browsing.</value>
+  </data>
+  <data name="CategoryOrTweakNameBravePerformancePrivacy" xml:space="preserve">
+    <value>Brave performance and privacy policies</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionBravePerformancePrivacy" xml:space="preserve">
+    <value>Turns Brave hardware acceleration on, stops Brave from running in the background after exit, blocks third-party cookies and sets Standard Safe Browsing.</value>
+  </data>
+  <data name="CategoryOrTweakNameFirefoxPerformancePrivacy" xml:space="preserve">
+    <value>Firefox performance and privacy policies</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionFirefoxPerformancePrivacy" xml:space="preserve">
+    <value>Turns Firefox hardware acceleration on, turns off telemetry, studies and Pocket, and turns off search suggestions.</value>
+  </data>
+  <data name="BrowserNotInstalled" xml:space="preserve">
+    <value>Not available on this PC: {0} is not installed.</value>
+  </data>
+  <data name="CategoryOrTweakNameBrowsers" xml:space="preserve">
+    <value>Browsers</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionBrowsers" xml:space="preserve">
+    <value>Applies browser policies for performance and privacy: hardware acceleration, background activity, telemetry, third-party cookies and search suggestions. A policy takes effect when the browser restarts, and restoring removes it.</value>
+  </data>
+  <data name="CategoryOrTweakNameChromePerformancePrivacy" xml:space="preserve">
+    <value>Chrome performance and privacy policies</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionChromePerformancePrivacy" xml:space="preserve">
+    <value>Turns Chrome hardware acceleration on, stops Chrome from running in the background after exit, turns off usage metrics and search suggestions, blocks third-party cookies and sets Standard Safe Browsing.</value>
+  </data>
+  <data name="CategoryOrTweakNameEdgePerformancePrivacy" xml:space="preserve">
+    <value>Edge performance and privacy policies</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionEdgePerformancePrivacy" xml:space="preserve">
+    <value>Turns Edge hardware acceleration on, stops background mode and startup boost, turns off usage metrics, personalization and search suggestions, blocks third-party cookies and sets Standard Safe Browsing.</value>
+  </data>
+  <data name="CategoryOrTweakNameBravePerformancePrivacy" xml:space="preserve">
+    <value>Brave performance and privacy policies</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionBravePerformancePrivacy" xml:space="preserve">
+    <value>Turns Brave hardware acceleration on, stops Brave from running in the background after exit, blocks third-party cookies and sets Standard Safe Browsing.</value>
+  </data>
+  <data name="CategoryOrTweakNameFirefoxPerformancePrivacy" xml:space="preserve">
+    <value>Firefox performance and privacy policies</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionFirefoxPerformancePrivacy" xml:space="preserve">
+    <value>Turns Firefox hardware acceleration on, turns off telemetry, studies and Pocket, and turns off search suggestions.</value>
+  </data>
+  <data name="BrowserNotInstalled" xml:space="preserve">
+    <value>Not available on this PC: {0} is not installed.</value>
+  </data>
 </root>

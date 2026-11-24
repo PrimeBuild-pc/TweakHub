@@ -858,4 +858,71 @@ TweakHub 会恢复捕获的原始值。</value>
   <data name="RiskFilterCount" xml:space="preserve">
     <value>{0} 项调整</value>
   </data>
+
+  <data name="CategoryOrTweakNameBrowsers" xml:space="preserve">
+    <value>浏览器</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionBrowsers" xml:space="preserve">
+    <value>应用浏览器性能与隐私策略：硬件加速、后台活动、遥测、第三方 Cookie 和搜索建议。策略在浏览器重启后生效，还原时会将其删除。</value>
+  </data>
+  <data name="CategoryOrTweakNameChromePerformancePrivacy" xml:space="preserve">
+    <value>Chrome 性能与隐私策略</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionChromePerformancePrivacy" xml:space="preserve">
+    <value>开启 Chrome 硬件加速，禁止 Chrome 在退出后继续在后台运行，关闭使用统计和搜索建议，屏蔽第三方 Cookie，并将安全浏览设为标准级别。</value>
+  </data>
+  <data name="CategoryOrTweakNameEdgePerformancePrivacy" xml:space="preserve">
+    <value>Edge 性能与隐私策略</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionEdgePerformancePrivacy" xml:space="preserve">
+    <value>开启 Edge 硬件加速，禁用后台模式和启动加速，关闭使用统计、个性化设置和搜索建议，屏蔽第三方 Cookie，并将安全浏览设为标准级别。</value>
+  </data>
+  <data name="CategoryOrTweakNameBravePerformancePrivacy" xml:space="preserve">
+    <value>Brave 性能与隐私策略</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionBravePerformancePrivacy" xml:space="preserve">
+    <value>开启 Brave 硬件加速，禁止 Brave 在退出后继续在后台运行，屏蔽第三方 Cookie，并将安全浏览设为标准级别。</value>
+  </data>
+  <data name="CategoryOrTweakNameFirefoxPerformancePrivacy" xml:space="preserve">
+    <value>Firefox 性能与隐私策略</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionFirefoxPerformancePrivacy" xml:space="preserve">
+    <value>开启 Firefox 硬件加速，关闭遥测、研究和 Pocket，并关闭搜索建议。</value>
+  </data>
+  <data name="BrowserNotInstalled" xml:space="preserve">
+    <value>此电脑上不可用：未安装 {0}。</value>
+  </data>
+  <data name="CategoryOrTweakNameBrowsers" xml:space="preserve">
+    <value>浏览器</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionBrowsers" xml:space="preserve">
+    <value>应用浏览器性能与隐私策略：硬件加速、后台活动、遥测、第三方 Cookie 和搜索建议。策略在浏览器重启后生效，还原时会将其删除。</value>
+  </data>
+  <data name="CategoryOrTweakNameChromePerformancePrivacy" xml:space="preserve">
+    <value>Chrome 性能与隐私策略</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionChromePerformancePrivacy" xml:space="preserve">
+    <value>开启 Chrome 硬件加速，禁止 Chrome 在退出后继续在后台运行，关闭使用统计和搜索建议，屏蔽第三方 Cookie，并将安全浏览设为标准级别。</value>
+  </data>
+  <data name="CategoryOrTweakNameEdgePerformancePrivacy" xml:space="preserve">
+    <value>Edge 性能与隐私策略</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionEdgePerformancePrivacy" xml:space="preserve">
+    <value>开启 Edge 硬件加速，禁用后台模式和启动加速，关闭使用统计、个性化设置和搜索建议，屏蔽第三方 Cookie，并将安全浏览设为标准级别。</value>
+  </data>
+  <data name="CategoryOrTweakNameBravePerformancePrivacy" xml:space="preserve">
+    <value>Brave 性能与隐私策略</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionBravePerformancePrivacy" xml:space="preserve">
+    <value>开启 Brave 硬件加速，禁止 Brave 在退出后继续在后台运行，屏蔽第三方 Cookie，并将安全浏览设为标准级别。</value>
+  </data>
+  <data name="CategoryOrTweakNameFirefoxPerformancePrivacy" xml:space="preserve">
+    <value>Firefox 性能与隐私策略</value>
+  </data>
+  <data name="CategoryOrTweakDescriptionFirefoxPerformancePrivacy" xml:space="preserve">
+    <value>开启 Firefox 硬件加速，关闭遥测、研究和 Pocket，并关闭搜索建议。</value>
+  </data>
+  <data name="BrowserNotInstalled" xml:space="preserve">
+    <value>此电脑上不可用：未安装 {0}。</value>
+  </data>
 </root>
