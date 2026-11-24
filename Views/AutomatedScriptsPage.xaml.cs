@@ -606,16 +606,14 @@ namespace TweakHub.Views
             if (script.Id == "winget") WinGetInstallation_Click(sender, e);
             else if (script.Id == "change-local-password") ExecuteInteractiveBuiltInScript(script);
             else if (script.Id == "driver-restore") RestoreDrivers(script);
-            else if (script.Id == "ctt-winutil") RunWinUtil(script);
+            else if (script.Id == "ctt-winutil") RunWinUtil();
             else ExecuteBuiltInScript(script);
         }
 
         // Same flow as the Marius Heier scripts: one download, SHA-256 shown, consent tied to that hash, UAC.
-        private async void RunWinUtil(BuiltInScriptCard script)
-        {
-            if (await ThirdPartyScriptService.ConfirmAndRunAsync(Window.GetWindow(this), ThirdPartyScriptService.WinUtil))
-                MarkScriptCompleted(script);
-        }
+        // No completion record: TweakHub only launches the interactive window and cannot see what happens in it.
+        private async void RunWinUtil() =>
+            await ThirdPartyScriptService.ConfirmAndRunAsync(Window.GetWindow(this), ThirdPartyScriptService.WinUtil);
 
         private async void RestoreDrivers(BuiltInScriptCard script)
         {
