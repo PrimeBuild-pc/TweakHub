@@ -354,6 +354,18 @@
   <data name="DiscordServer" xml:space="preserve">
     <value>Сервер Discord</value>
   </data>
+  <data name="AboutPageWebsiteSupport" xml:space="preserve">
+    <value>Сайт и поддержка</value>
+  </data>
+  <data name="AboutPageBeforeUninstall" xml:space="preserve">
+    <value>Перед удалением</value>
+  </data>
+  <data name="AboutPageBeforeUninstallText" xml:space="preserve">
+    <value>Удаление TweakHub удаляет приложение, но не изменения, внесённые в Windows. Сначала восстановите твики, политики, службы и драйверы в TweakHub. Резервные копии, журналы и загруженные инструменты остаются в %LOCALAPPDATA%\TweakHub; резервные копии драйверов — в %PROGRAMDATA%\TweakHub-DriverBackups (копии Tron — в %PROGRAMDATA%\TweakHub-Tron-*). Удалите эти папки сами, когда восстанавливать больше нечего.</value>
+  </data>
+  <data name="AboutPageStoreUpdates" xml:space="preserve">
+    <value>Обновления приходят из Microsoft Store. Кнопка проверки обновлений открывает страницу TweakHub в Store.</value>
+  </data>
   <data name="ProfileImportedSummary" xml:space="preserve">
     <value>Профиль импортирован: скриптов — {0}, настроек — {1}, инструментов — {2}, плейбуков — {3}. Резервная копия: {4}</value>
   </data>

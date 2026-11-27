@@ -172,7 +172,7 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <StackPanel VerticalAlignment="Center" Margin="0,0,16,0">
-                            <TextBlock Text="{loc:Loc UI:AboutPageTweakHubChecksGitHubReleasesWhen}" Style="{StaticResource DescriptionTextStyle}"/>
+                            <TextBlock x:Name="UpdatesDescriptionText" Text="{loc:Loc UI:AboutPageTweakHubChecksGitHubReleasesWhen}" Style="{StaticResource DescriptionTextStyle}"/>
                             <TextBlock x:Name="UpdateStatusText" Style="{StaticResource DescriptionTextStyle}" Margin="0,4,0,0"/>
                         </StackPanel>
                         <Button x:Name="CheckForUpdatesButton" Grid.Column="1" VerticalAlignment="Center"
@@ -181,11 +181,23 @@
                     </Grid>
                 </Border>
 
+                <StackPanel x:Name="BeforeUninstallSection" Visibility="Collapsed">
+                    <TextBlock Text="{loc:Loc UI:AboutPageBeforeUninstall}" Style="{StaticResource SettingsGroupHeaderStyle}"/>
+                    <Border Style="{StaticResource SettingsRowStyle}">
+                        <TextBlock Text="{loc:Loc UI:AboutPageBeforeUninstallText}" Style="{StaticResource DescriptionTextStyle}"/>
+                    </Border>
+                </StackPanel>
+
                 <TextBlock x:Name="VersionText" Style="{StaticResource SettingsGroupHeaderStyle}"/>
                 <Border Style="{StaticResource SettingsRowStyle}">
                     <StackPanel>
                         <TextBlock Text="© 2025–2026 Prime Build" Style="{StaticResource DescriptionTextStyle}" Margin="0,0,0,10"/>
                         <TextBlock Text="{loc:Loc UI:AboutPageLicenseMITLicense}" Style="{StaticResource SettingsRowTitleStyle}" Margin="0,0,0,6"/>
+                        <TextBlock Margin="0,0,0,6">
+                            <Hyperlink NavigateUri="https://primebuild.website/apps/tweakhub/support/" RequestNavigate="Hyperlink_RequestNavigate">
+                                <Run Text="{loc:Loc UI:AboutPageWebsiteSupport}"/>
+                            </Hyperlink>
+                        </TextBlock>
                         <TextBlock Margin="0,0,0,6">
                             <Hyperlink NavigateUri="https://github.com/PrimeBuild-pc/TweakHub" RequestNavigate="Hyperlink_RequestNavigate">
                                 <Run Text="{loc:Loc UI:GitHubRepository}"/>

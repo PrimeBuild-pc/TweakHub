@@ -1,0 +1,3 @@
+MakeAppx : error: Error info: error C00CE169: App manifest validation error: The app manifest must be valid as per schema: Line 21, Column 10, Reason: 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows' violates pattern constraint of '[hH][kK][eE][yY]_[cC][uU][rR][rR][eE][nN][tT]_[uU][sS][eE][rR]\\.+|[hH][kK][cC][uU]\\.+'.
+MakeAppx : error: Package creation failed.
+MakeAppx : error: 0x80080204 - The specified package format is not valid: The package manifest is not valid.

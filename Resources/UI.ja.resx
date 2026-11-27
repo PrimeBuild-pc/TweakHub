@@ -354,6 +354,18 @@
   <data name="DiscordServer" xml:space="preserve">
     <value>Discord サーバー</value>
   </data>
+  <data name="AboutPageWebsiteSupport" xml:space="preserve">
+    <value>Web サイトとサポート</value>
+  </data>
+  <data name="AboutPageBeforeUninstall" xml:space="preserve">
+    <value>アンインストールの前に</value>
+  </data>
+  <data name="AboutPageBeforeUninstallText" xml:space="preserve">
+    <value>TweakHub をアンインストールしても削除されるのはアプリだけで、Windows に加えた変更は元に戻りません。先に TweakHub で調整、ポリシー、サービス、ドライバーを復元してください。バックアップ、ログ、ダウンロードしたツールは %LOCALAPPDATA%\TweakHub に、ドライバーのバックアップは %PROGRAMDATA%\TweakHub-DriverBackups に残ります（Tron のコピーは %PROGRAMDATA%\TweakHub-Tron-*）。復元の必要がなくなったら、これらのフォルダーを自分で削除してください。</value>
+  </data>
+  <data name="AboutPageStoreUpdates" xml:space="preserve">
+    <value>更新は Microsoft Store から配信されます。［更新の確認］で Store の TweakHub のページが開きます。</value>
+  </data>
   <data name="ProfileImportedSummary" xml:space="preserve">
     <value>プロファイルをインポートしました: スクリプト {0}、調整 {1}、ツール {2}、プレイブック {3}。復元コピー: {4}</value>
   </data>
