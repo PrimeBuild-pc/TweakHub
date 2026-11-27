@@ -85,10 +85,6 @@ jobs:
         env:
           REQUESTED_TAG: ${{ steps.source.outputs.tag }}
         run: |
-          if ($env:TEST_SIGNING -eq 'true') {
-            "commit=$env:GITHUB_SHA" >> $env:GITHUB_OUTPUT
-            exit 0
-          }
           $tag = $env:REQUESTED_TAG
           $version = dotnet msbuild ./TweakHub.csproj -getProperty:Version --nologo
           if ($LASTEXITCODE -ne 0) { throw 'Could not resolve the project version.' }
