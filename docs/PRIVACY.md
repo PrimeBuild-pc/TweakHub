@@ -1,6 +1,6 @@
 # Privacy policy
 
-_Last updated: 2026-11-16_
+_Last updated: 2026-11-27_
 
 TweakHub is a free, open-source (MIT) Windows 11 tuning tool. This policy describes what the program does with your data. The source code is public, so every statement below can be checked.
 
@@ -9,7 +9,7 @@ TweakHub is a free, open-source (MIT) Windows 11 tuning tool. This policy descri
 - TweakHub has **no analytics, no telemetry, no crash reporting and no accounts**.
 - The project does not run any server and receives **no data** from your PC.
 - Everything TweakHub reads or writes stays on your computer, in the program folder (`Data`, portable mode) or `%LOCALAPPDATA%\TweakHub`.
-- The only network requests are the ones listed below, and each is started by an action of yours or by the update check.
+- The only network requests are the ones listed below, and each is started by an action of yours or by the update check of the installer and portable builds.
 
 ## Data stored locally
 
@@ -19,7 +19,7 @@ Hardware, driver, device, startup and security information is read from Windows 
 
 ## Uninstalling TweakHub
 
-Uninstalling the app (Microsoft Store, installer or deleting the portable folder) removes the program, **not the changes it made to Windows**. Registry values, policies, service start types, power-plan values, hosts-file entries, removed or disabled devices and apps installed through winget stay as they are.
+Uninstalling the app (Microsoft Store, installer or deleting the portable folder) removes the program, **not the changes it made to Windows**. Registry values, policies, service start types, power-plan values, hosts-file entries, removed or disabled devices and apps installed through winget stay as they are. The Microsoft Store build shows this notice in the app under Settings, "Before you uninstall".
 
 - **Before uninstalling**, restore what you changed from inside TweakHub (each tweak has Undo/Restore; the Policies page can reset policies; driver packages can be added back from their backup).
 - **Left on the PC after uninstall:** `%LOCALAPPDATA%\TweakHub` (settings, backups, undo records, operation log, downloaded tools, crash log), `%PROGRAMDATA%\TweakHub-DriverBackups` (driver backups, administrators only) and, if you ran Tron, `%PROGRAMDATA%\TweakHub-Tron-*` (administrators only). Delete them yourself once you no longer need to restore anything; the two `%PROGRAMDATA%` folders need an administrator.
@@ -29,7 +29,7 @@ Uninstalling the app (Microsoft Store, installer or deleting the portable folder
 
 | When | Destination | What is sent |
 |---|---|---|
-| Update check (on start and on demand) | `api.github.com` (this repository's releases) | A standard HTTPS request, so GitHub sees your IP address and the program's user agent. An update is downloaded only after you confirm and is verified with SHA-256. |
+| Update check (installer and portable builds only, on start and on demand; the Microsoft Store build makes no update request and is updated by the Store) | `api.github.com` (this repository's releases) | A standard HTTPS request, so GitHub sees your IP address and the program's user agent. An update is downloaded only after you confirm and is verified with SHA-256. |
 | Breached password check (Security page) | `api.pwnedpasswords.com` (Have I Been Pwned) | Only the **first 5 characters of the SHA-1 hash** of the password (k-anonymity). The password never leaves your PC. |
 | Account deletion links (Security page, on request) | `raw.githubusercontent.com` (JustDeleteMe directory) | A plain download of a public list. |
 | Microsoft Safety Scanner, Tron, third-party scripts or tools (only when you start them) | Microsoft, GitHub or the tool's official site | A plain download. Files are checked (Microsoft signature or SHA-256) before use. |

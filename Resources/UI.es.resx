@@ -354,6 +354,18 @@ Instalado: {1}
   <data name="DiscordServer" xml:space="preserve">
     <value>Servidor de Discord</value>
   </data>
+  <data name="AboutPageWebsiteSupport" xml:space="preserve">
+    <value>Sitio web y soporte</value>
+  </data>
+  <data name="AboutPageBeforeUninstall" xml:space="preserve">
+    <value>Antes de desinstalar</value>
+  </data>
+  <data name="AboutPageBeforeUninstallText" xml:space="preserve">
+    <value>Desinstalar TweakHub elimina la aplicación, no los cambios que hizo en Windows. Restaura primero desde TweakHub los ajustes, directivas, servicios y controladores. Las copias de seguridad, registros y herramientas descargadas quedan en %LOCALAPPDATA%\TweakHub; las copias de controladores quedan en %PROGRAMDATA%\TweakHub-DriverBackups (y las copias de Tron en %PROGRAMDATA%\TweakHub-Tron-*). Elimina estas carpetas tú mismo cuando ya no necesites restaurar nada.</value>
+  </data>
+  <data name="AboutPageStoreUpdates" xml:space="preserve">
+    <value>Las actualizaciones llegan desde Microsoft Store. Buscar actualizaciones abre la página de TweakHub en la Store.</value>
+  </data>
   <data name="ProfileImportedSummary" xml:space="preserve">
     <value>Perfil importado: {0} scripts, {1} ajustes, {2} herramientas y {3} playbooks. Copia de recuperación: {4}</value>
   </data>

@@ -17,6 +17,12 @@ public partial class AboutPage : Page
     {
         InitializeComponent();
         VersionText.Text = $"TweakHub v{UpdateService.CurrentVersion}";
+        // The paths in the notice are the Store build's; the EXE keeps its data next to the program.
+        if (StoreDistribution.IsStoreBuild)
+        {
+            BeforeUninstallSection.Visibility = Visibility.Visible;
+            UpdatesDescriptionText.Text = L.Get("UI:AboutPageStoreUpdates");
+        }
         DataPathText.Text = L.Format("UI:DataLocation", UserDataService.Instance.DataDirectory);
         if (UserDataService.HasLegacyUndoData(UserDataService.Instance.DataDirectory))
             ProfileResultText.Text = L.Get("UI:LegacyUndoAvailable");

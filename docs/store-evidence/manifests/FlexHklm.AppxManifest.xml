@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+         xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+         xmlns:uap10="http://schemas.microsoft.com/appx/manifest/uap/windows10/10"
+         xmlns:virtualization="http://schemas.microsoft.com/appx/manifest/virtualization/windows10" xmlns:desktop6="http://schemas.microsoft.com/appx/manifest/desktop/windows10/6"
+         xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+         IgnorableNamespaces="uap uap10 desktop6 rescap virtualization">
+  <Identity Name="TweakHub.VT.FlexHklm" Publisher="CN=ACD03D0F-7A52-4C93-ADF8-A07702180E72" Version="1.8.2.0" ProcessorArchitecture="x64" />
+  <Properties>
+    <DisplayName>TweakHub VT FlexHklm</DisplayName>
+    <PublisherDisplayName>Prime Build</PublisherDisplayName>
+    <Logo>Assets\Logo50.png</Logo>
+    <virtualization:FileSystemWriteVirtualization>
+      <virtualization:ExcludedDirectories>
+        <virtualization:ExcludedDirectory>$(KnownFolder:LocalAppData)\TweakHub</virtualization:ExcludedDirectory>
+      </virtualization:ExcludedDirectories>
+    </virtualization:FileSystemWriteVirtualization>
+    <virtualization:RegistryWriteVirtualization>
+      <virtualization:ExcludedKeys>
+        <virtualization:ExcludedKey>HKEY_CURRENT_USER\Software\Microsoft\GameBar</virtualization:ExcludedKey>
+        <virtualization:ExcludedKey>HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows</virtualization:ExcludedKey>
+      </virtualization:ExcludedKeys>
+    </virtualization:RegistryWriteVirtualization>
+  </Properties>
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.22000.0" MaxVersionTested="10.0.26100.0" />
+  </Dependencies>
+  <Resources><Resource Language="en-us" /><Resource Language="it-it" /></Resources>
+  <Applications>
+    <Application Id="App" Executable="App\TweakHub.exe" uap10:RuntimeBehavior="packagedClassicApp" uap10:TrustLevel="mediumIL">
+      <uap:VisualElements DisplayName="TweakHub" Description="TweakHub" BackgroundColor="transparent"
+                          Square44x44Logo="Assets\Logo44.png" Square150x150Logo="Assets\Logo150.png" />
+    </Application>
+  </Applications>
+  <Capabilities>
+    <rescap:Capability Name="runFullTrust" />
+    <rescap:Capability Name="allowElevation" />
+    <rescap:Capability Name="unvirtualizedResources" />
+  </Capabilities>
+</Package>

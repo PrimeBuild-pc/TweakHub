@@ -354,6 +354,18 @@
   <data name="DiscordServer" xml:space="preserve">
     <value>Discord 服务器</value>
   </data>
+  <data name="AboutPageWebsiteSupport" xml:space="preserve">
+    <value>网站和支持</value>
+  </data>
+  <data name="AboutPageBeforeUninstall" xml:space="preserve">
+    <value>卸载之前</value>
+  </data>
+  <data name="AboutPageBeforeUninstallText" xml:space="preserve">
+    <value>卸载 TweakHub 只会删除应用，不会撤销它对 Windows 所做的更改。请先在 TweakHub 中还原调整、策略、服务和驱动程序。备份、日志和下载的工具保留在 %LOCALAPPDATA%\TweakHub；驱动程序备份保留在 %PROGRAMDATA%\TweakHub-DriverBackups（Tron 副本位于 %PROGRAMDATA%\TweakHub-Tron-*）。不再需要还原时，请自行删除这些文件夹。</value>
+  </data>
+  <data name="AboutPageStoreUpdates" xml:space="preserve">
+    <value>更新通过 Microsoft Store 提供。“检查更新”会打开 TweakHub 在应用商店中的页面。</value>
+  </data>
   <data name="ProfileImportedSummary" xml:space="preserve">
     <value>配置文件已导入：{0} 个脚本、{1} 个调整项、{2} 个工具和 {3} 个操作手册。恢复副本：{4}</value>
   </data>
