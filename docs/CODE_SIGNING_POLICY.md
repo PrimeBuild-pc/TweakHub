@@ -2,7 +2,7 @@
 
 Free code signing provided by [SignPath.io](https://about.signpath.io/), certificate by [SignPath Foundation](https://signpath.org/).
 
-_This policy applies once TweakHub is accepted into the SignPath Foundation program. Until then releases are unsigned and the SHA-256 checksums are the way to verify them._
+_Production signing begins after SignPath Foundation issues the release certificate. Published releases from before that rollout are unsigned and include SHA-256 checksums._
 
 ## What is signed
 
@@ -10,7 +10,7 @@ Only the Windows binaries built from this repository: `TweakHub.exe`, the applic
 
 ## How it is built
 
-Signing requests come only from the GitHub Actions workflow in `.github/workflows/release.yml`, from a tagged commit of the public repository `PrimeBuild-pc/TweakHub`, on GitHub-hosted runners. Binaries are never signed from a developer machine, and the project holds no private key.
+Signing requests originate from the [Release workflow](../.github/workflows/release.yml) on GitHub-hosted runners for the public repository `PrimeBuild-pc/TweakHub`. Production signing uses a tagged commit on `main` and requires approval in SignPath. The maintainer can run the same build and signing steps manually with the self-signed test certificate. Test packages are available as GitHub Actions artifacts. SignPath holds the private keys.
 
 ## Roles
 

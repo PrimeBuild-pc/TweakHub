@@ -162,6 +162,10 @@ TweakHub supports **Windows 11 build 22000 or newer**.
   </p>
 </div>
 
+[Code signing policy](docs/CODE_SIGNING_POLICY.md)
+
+Free code signing provided by [SignPath.io](https://signpath.io/), certificate by [SignPath Foundation](https://signpath.org/).
+
 <table>
   <tr>
     <td width="33%" valign="top">
@@ -382,7 +386,6 @@ If TweakHub saves you time, you can support its development here:
 
 - [Privacy policy](docs/PRIVACY.md): no telemetry; the few network requests are listed.
 - [Security policy](SECURITY.md): how to report a vulnerability privately.
-- [Code signing policy](docs/CODE_SIGNING_POLICY.md): Free code signing provided by [SignPath.io](https://about.signpath.io/), certificate by [SignPath Foundation](https://signpath.org/).
 - [Code of conduct](CODE_OF_CONDUCT.md)
 
 <div align="center">
