@@ -120,8 +120,13 @@ Start with TweakHub when setting up, tuning or maintaining a Windows 11 PC. It b
   </tr>
 </table>
 
+New in 1.8.3 (not released yet):
+- **Before you uninstall:** the Microsoft Store build lists in Settings what stays on the PC after uninstalling and how to remove it; restore your changes first.
+- **Website and support** link in Settings, and the Store build says that its updates come from the Microsoft Store.
+
 New in 1.8.2:
-- **WinUtil:** TweakHub downloads the script once, shows its SHA-256 and asks again whenever it changes, then runs only that approved copy with UAC, like the Marius Heier scripts. The hash covers the main script only; WinUtil can still download other components while it runs.
+- **WinUtil:** TweakHub downloads the script once, shows its SHA-256 and asks again whenever it changes, then runs only that approved copy with UAC, like the Marius Heier scripts. The hash covers the main script only; WinUtil can still download other components while it runs. Launching WinUtil is no longer recorded as a completed run.
+- **Light theme:** the sidebar shares the window background, selected items use the accent pill, and card and button borders stay visible on white.
 
 New in 1.8.1:
 - **Ghost devices:** check whether a device is disconnected before removing it, show first-install and last-used dates when available, and confirm the exact number selected. A filter can hide recently used devices.
