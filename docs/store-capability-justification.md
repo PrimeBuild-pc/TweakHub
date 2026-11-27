@@ -23,16 +23,16 @@ Each restricted-capability field accepts at most **500 characters**, so the fiel
 
 > Package-wide (desktop6 registry and file-system write virtualization disabled). Tested on Win11 25H2: with default virtualization HKCU tweaks land in the private package hive and the backup goes to LocalCache, so the elevated child cannot read it and undo is lost. Flexible Virtualization fixes files but only listed HKCU keys; custom tweaks and playbooks use any HKCU path. Keys, paths, logs: https://primebuild.website/apps/tweakhub/store-justification/ Support: primebuild.official@gmail.com
 
-**Notes for certification** (4497 characters)
+**Notes for certification** (4506 characters)
 
 ```text
 TweakHub 1.8.3 - notes for certification
 Support: primebuild.official@gmail.com - support page: https://primebuild.website/apps/tweakhub/support/
 Full answers to the 10.6.3 questions, with VM test logs: https://primebuild.website/apps/tweakhub/store-justification/
 
-Changes since the 24 Nov 2026 report: in-app "Before you uninstall" notice (About page); support link to primebuild.website; reproducible VM tests of default and Flexible Virtualization (points 5 and 6 below).
+Changes since the 24 Nov 2026 report: in-app "Before you uninstall" notice (Settings page); support link to primebuild.website; reproducible VM tests of default and Flexible Virtualization (points 5 and 6 below).
 
-Safe smoke test: start TweakHub without elevation; open Devices, Links and Security to view inventory and status; open a Registry tweak preview without applying it; open Power Plan and About. To see elevation, apply one HKLM registry tweak, accept UAC, then restore it from the app. Use a disposable VM for anything else; do not run firmware, Tron or destructive cleanup scripts for a smoke test. The Store build has no self-update (it opens the Store page).
+Safe smoke test: start TweakHub without elevation; open Devices, Links and Security to view inventory and status; open a Registry tweak preview without applying it; open Power Plan and Settings. To see elevation, apply one HKLM registry tweak, accept UAC, then restore it from the app. Use a disposable VM for anything else; do not run firmware, Tron or destructive cleanup scripts for a smoke test. The Store build has no self-update (it opens the Store page).
 
 Answers to the 10.6.3 questions
 1-2. Virtualization is disabled package-wide (desktop6 RegistryWriteVirtualization and FileSystemWriteVirtualization = disabled); no ExcludedKeys or ExcludedDirectories. Targets written: HKLM\SOFTWARE\Policies\..., HKLM\SOFTWARE\Microsoft\Windows and Windows NT\CurrentVersion\..., HKLM\SYSTEM\CurrentControlSet\Control\..., \Services\<name> (start type), \Enum\<device>\Device Parameters\Interrupt Management (MSI, affinity); HKCU\Control Panel\Desktop and \Mouse, HKCU\Software\Microsoft\Windows\CurrentVersion\..., HKCU\Software\Microsoft\GameBar, HKCU\System\GameConfigStore, HKCU\Software\Microsoft\DirectX, plus custom tweaks the user defines. Files: %LOCALAPPDATA%\TweakHub (settings, backups, undo, log, tools), %PROGRAMDATA%\TweakHub-DriverBackups and TweakHub-Tron-*, temp folders, the hosts file (Adobe block script only), GPU shader caches (cleanup).
@@ -42,7 +42,7 @@ Answers to the 10.6.3 questions
 6. Flexible Virtualization prototype tested: ExcludedDirectory $(KnownFolder:LocalAppData)\TweakHub fixes the shared backup/undo; ExcludedKey works only for listed HKCU keys (GameBar reached Windows, Control Panel\Mouse did not); HKLM keys are rejected by the schema. TweakHub's HKCU targets are open-ended (custom tweaks, imported playbooks, restored Run keys), so a fixed list would silently break them.
 7. Yes. Every write starts from a user action and confirmation. No background writer, service, auto-start or self-update in the Store build.
 8. Downloads happen only on user action: Tron from bmrf.org (SHA-256 from the publisher's list, re-checked after copy); Microsoft Safety Scanner from go.microsoft.com and the Gaming Repair Tool from aka.ms (Microsoft Authenticode required); Marius Heier scripts from tools.mariusheier.com and WinUtil from christitus.com, redirected to github.com (SHA-256 shown, consent per hash, changed file refused; WinUtil can fetch more at run time, which TweakHub does not check); winget packages (winget hashes). Stored in temp or %LOCALAPPDATA%\TweakHub\Store\Apps. No automatic updates.
-9. Uninstall removes the app only; Windows changes stay. Stated in the app (About, "Before you uninstall"), on the support page and in the privacy policy: restore from the app first, then delete %LOCALAPPDATA%\TweakHub and the %PROGRAMDATA%\TweakHub-* folders; remove winget apps with winget uninstall.
+9. Uninstall removes the app only; Windows changes stay. Stated in the app (Settings, "Before you uninstall"), on the support page and in the privacy policy: restore from the app first, then delete %LOCALAPPDATA%\TweakHub and the %PROGRAMDATA%\TweakHub-* folders; remove winget apps with winget uninstall.
 ```
 
 ---
@@ -155,7 +155,7 @@ Uninstalling an MSIX removes the package files and its data inside the package c
 | Tron run copy | `%PROGRAMDATA%\TweakHub-Tron-*` | Delete as administrator; older copies are removed on the next Tron run |
 | Packages installed by winget through TweakHub | Windows | `winget uninstall` or Settings → Apps |
 
-Where declared: in the app (Store build, About page, "Before you uninstall", six languages, since 1.8.3), on the support page `https://primebuild.website/apps/tweakhub/support/`, in the Store listing description, in `docs/PRIVACY.md` ("Uninstalling TweakHub") and in `packaging/msix/README.md`.
+Where declared: in the app (Store build, Settings page, "Before you uninstall", six languages, since 1.8.3), on the support page `https://primebuild.website/apps/tweakhub/support/`, in the Store listing description, in `docs/PRIVACY.md` ("Uninstalling TweakHub") and in `packaging/msix/README.md`.
 
 ---
 
@@ -163,8 +163,8 @@ Where declared: in the app (Store build, About page, "Before you uninstall", six
 
 | # | Gap | Status |
 |---|---|---|
-| G1 | Uninstall behaviour was only in the repository docs | **Fixed in 1.8.3.0**: "Before you uninstall" notice on the About page of the Store build (6 languages), the support page on primebuild.website and the Store listing description. |
-| G2 | Support contact was GitHub Issues only (not accepted by Microsoft) | **Fixed**: email and website in `docs/PRIVACY.md`, support page on primebuild.website, "Website and support" link on the About page (1.8.3.0), support contact and website in Partner Center. GitHub stays a secondary channel for bug reports. |
+| G1 | Uninstall behaviour was only in the repository docs | **Fixed in 1.8.3.0**: "Before you uninstall" notice on the Settings page of the Store build (6 languages), the support page on primebuild.website and the Store listing description. |
+| G2 | Support contact was GitHub Issues only (not accepted by Microsoft) | **Fixed**: email and website in `docs/PRIVACY.md`, support page on primebuild.website, "Website and support" link on the Settings page (1.8.3.0), support contact and website in Partner Center. GitHub stays a secondary channel for bug reports. |
 | G3 | `ctt-winutil` runs `irm christitus.com/win \| iex` with no hash or signature. It is behind a confirmation dialog and UAC, but it is remote code that can change, which a reviewer may flag independently of the capabilities | **Fixed in 1.8.2.0, in every build (Store and GitHub)**: the card no longer runs `irm \| iex`. It uses the Marius Heier flow: one download to a temporary file, SHA-256 shown, consent tied to that hash, UAC, and the elevated window refuses the file if it changed after approval. Remaining limit, stated in 2.8 and `docs/PRIVACY.md`: the hash covers only the main script, and WinUtil can download further components at run time. Covered by `ElevationHardeningTests.ThirdPartyScriptRunsOnlyTheApprovedCopy(true)`. |
 | G4 | Tron's expected hash comes from the same publisher host as the file (integrity against transport/corruption, not against a compromised publisher) | Documented; no change. |
 | G5 | Elevated-virtualization failure was argued, not demonstrated | **Closed 27 Nov 2026**: reproduced on the test VM (2.5) and Flexible Virtualization prototyped (2.6); evidence in `docs/store-evidence/`. |
