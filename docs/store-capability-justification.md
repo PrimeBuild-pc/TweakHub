@@ -1,7 +1,7 @@
 # TweakHub: Microsoft Store capability justification (policy 10.6.3)
 
 Product ID `9P5R2R5TRKL3` · package `LorenzoMassafra.TweakHub` · package for resubmission: `1.8.3.0` (x64, manifest `packaging/msix/AppxManifest.xml`, unchanged since 1.8.1). 1.8.2.0 ran WinUtil through the hash-approved flow (gap G3); 1.8.3.0 adds the in-app uninstall notice and the support link (gaps G1, G2). The Microsoft report of 24 Nov 2026 denied `allowElevation` and `unvirtualizedResources` and asked the questions answered in section 2.
-Support: `primebuild.official@gmail.com` · support page `https://primebuild.website/apps/tweakhub/support/` · public copy of this document `https://primebuild.website/apps/tweakhub/store-justification/` · source: `https://github.com/PrimeBuild-pc/TweakHub` (MIT).
+Support: `primebuild.official@gmail.com` · support page `https://primebuild.website/apps/tweakhub/support/` · privacy policy `https://primebuild.website/apps/tweakhub/privacy/` · public copy of this document `https://primebuild.website/apps/tweakhub/store-justification/` · source: `https://github.com/PrimeBuild-pc/TweakHub` (MIT).
 
 Everything below was read from the code and manifest of this repository. Where something was **not** tested or is not true, it says so (see "Not verified" and "Gaps found").
 
