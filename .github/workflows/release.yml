@@ -8,20 +8,28 @@ on:
     inputs:
       tag:
         description: "Tag name to release (e.g. v1.2.3)"
-        required: true
+        required: false
+        type: string
+      dry_run_publish:
+        description: "Build and verify with the SignPath test certificate"
+        default: true
+        type: boolean
 
 permissions:
   contents: read
 
 concurrency:
-  group: tweakhub-release-${{ inputs.tag || github.ref_name }}
+  group: tweakhub-release-${{ inputs.dry_run_publish && github.ref || inputs.tag || github.ref_name }}
   cancel-in-progress: false
 
 jobs:
   build:
     if: github.repository == 'PrimeBuild-pc/TweakHub' && github.actor_id == '162145141' && github.triggering_actor == github.repository_owner
     runs-on: windows-2022
-    timeout-minutes: 35
+    timeout-minutes: 100
+    permissions:
+      actions: read
+      contents: read
     outputs:
       tag: ${{ steps.source.outputs.tag }}
       commit: ${{ steps.source.outputs.commit }}
@@ -30,6 +38,7 @@ jobs:
       CONFIGURATION: Release
       RUNTIME: win-x64
       OUTPUT_DIR: publish-standalone
+      TEST_SIGNING: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run_publish }}
 
     steps:
       - name: Resolve the release source
@@ -39,6 +48,10 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           REQUESTED_TAG: ${{ inputs.tag || github.ref_name }}
         run: |
+          if ($env:TEST_SIGNING -eq 'true') {
+            "commit=$env:GITHUB_SHA" >> $env:GITHUB_OUTPUT
+            exit 0
+          }
           $tag = $env:REQUESTED_TAG
           if ($tag -cnotmatch '\Av\d+\.\d+\.\d+(?:-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?\z') {
             throw 'Expected a version tag such as v1.2.3 or v1.2.3-beta.1.'
@@ -66,15 +79,45 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Validate the tagged project version
+      - name: Resolve package version
+        id: version
         shell: pwsh
         env:
           REQUESTED_TAG: ${{ steps.source.outputs.tag }}
         run: |
+          if ($env:TEST_SIGNING -eq 'true') {
+            "commit=$env:GITHUB_SHA" >> $env:GITHUB_OUTPUT
+            exit 0
+          }
           $tag = $env:REQUESTED_TAG
           $version = dotnet msbuild ./TweakHub.csproj -getProperty:Version --nologo
-          if ($LASTEXITCODE -ne 0 -or $tag.Substring(1) -cne "$version".Trim()) {
+          if ($LASTEXITCODE -ne 0) { throw 'Could not resolve the project version.' }
+          $version = "$version".Trim()
+          if ($version -cnotmatch '\A\d+\.\d+\.\d+(?:-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?\z') {
+            throw "Invalid project version: $version."
+          }
+          if ($env:TEST_SIGNING -ne 'true' -and $tag -cne "v$version") {
             throw "Tag $tag does not match project version $version."
+          }
+          "version=$version" >> $env:GITHUB_OUTPUT
+
+      - name: Select SignPath policy
+        id: signing
+        shell: pwsh
+        env:
+          RELEASE_POLICY: ${{ vars.SIGNPATH_SIGNING_POLICY_SLUG }}
+          ORGANIZATION_ID: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
+          API_TOKEN: ${{ secrets.SIGNPATH_API_TOKEN }}
+        run: |
+          if (!$env:ORGANIZATION_ID -or !$env:API_TOKEN) {
+            throw 'Configure SIGNPATH_ORGANIZATION_ID and the SIGNPATH_API_TOKEN repository secret.'
+          }
+          if ($env:TEST_SIGNING -eq 'true') {
+            'policy=test-signing' >> $env:GITHUB_OUTPUT
+          } elseif ($env:RELEASE_POLICY -ceq 'release-signing') {
+            'policy=release-signing' >> $env:GITHUB_OUTPUT
+          } else {
+            throw 'Set SIGNPATH_SIGNING_POLICY_SLUG to release-signing after SignPath activates the release certificate.'
           }
 
       - name: Restore
@@ -90,12 +133,45 @@ jobs:
         run: |
           dotnet publish ./TweakHub.csproj -c ${{ env.CONFIGURATION }} -r ${{ env.RUNTIME }} --self-contained true -p:PublishSingleFile=false -o ${{ env.OUTPUT_DIR }}
 
-      - name: Archive portable zip
+      - name: Package application binaries for signing
         shell: pwsh
         run: |
-          $zip = "dist/TweakHub-${{ steps.source.outputs.tag }}-${{ env.RUNTIME }}-portable.zip"
-          New-Item -ItemType Directory -Force -Path dist | Out-Null
-          Compress-Archive -Path "${{ env.OUTPUT_DIR }}/*" -DestinationPath $zip
+          $files = @("$env:OUTPUT_DIR/TweakHub.exe", "$env:OUTPUT_DIR/TweakHub.dll")
+          Compress-Archive -LiteralPath $files -DestinationPath "$env:RUNNER_TEMP/tweakhub-app.zip"
+
+      - name: Upload unsigned application ZIP
+        id: unsigned-app
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          path: ${{ runner.temp }}/tweakhub-app.zip
+          archive: false
+          if-no-files-found: error
+
+      - name: Sign application binaries with SignPath
+        id: signed-app
+        uses: signpath/github-action-submit-signing-request@a2c5b60d9c75f073142b653c354b632eedce097b # v3.2
+        with:
+          api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
+          organization-id: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
+          project-slug: TweakHub
+          signing-policy-slug: ${{ steps.signing.outputs.policy }}
+          artifact-configuration-slug: windows-app
+          github-artifact-id: ${{ steps.unsigned-app.outputs.artifact-id }}
+          wait-for-completion: true
+          wait-for-completion-timeout-in-seconds: 1800
+          output-artifact-directory: ${{ runner.temp }}/signpath/app
+          skip-decompress: true
+
+      - name: Stage signed app for portable and installer builds
+        shell: pwsh
+        run: |
+          $archives = @(Get-ChildItem -LiteralPath "$env:RUNNER_TEMP/signpath/app" -File -Filter '*.zip')
+          if ($archives.Count -ne 1) { throw 'Expected one signed app ZIP from SignPath.' }
+          $signed = "$env:RUNNER_TEMP/signed-app"
+          Expand-Archive -LiteralPath $archives[0].FullName -DestinationPath $signed
+          foreach ($name in 'TweakHub.exe', 'TweakHub.dll') {
+            Copy-Item -LiteralPath "$signed/$name" -Destination $env:OUTPUT_DIR -Force
+          }
 
       - name: Build installer
         shell: pwsh
@@ -108,13 +184,114 @@ jobs:
           & $iscc "installer\TweakHub.iss"
           if ($LASTEXITCODE) { throw 'Installer build failed.' }
 
-      - name: Create SHA-256 checksums
+      - name: Package installer for signing
         shell: pwsh
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
         run: |
-          $version = '${{ steps.source.outputs.tag }}'.Substring(1)
-          $installer = Get-Item -LiteralPath "installer/Output/TweakHub-Setup-$version.exe"
-          Copy-Item -LiteralPath $installer.FullName -Destination dist
-          $files = @(Get-Item "dist/*.zip") + @(Get-Item "dist/*.exe")
+          $installer = "installer/Output/TweakHub-Setup-$env:VERSION.exe"
+          Compress-Archive -LiteralPath $installer -DestinationPath "$env:RUNNER_TEMP/tweakhub-installer.zip"
+
+      - name: Upload unsigned installer ZIP
+        id: unsigned-installer
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          path: ${{ runner.temp }}/tweakhub-installer.zip
+          archive: false
+          if-no-files-found: error
+
+      - name: Sign installer with SignPath
+        id: signed-installer
+        uses: signpath/github-action-submit-signing-request@a2c5b60d9c75f073142b653c354b632eedce097b # v3.2
+        with:
+          api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
+          organization-id: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
+          project-slug: TweakHub
+          signing-policy-slug: ${{ steps.signing.outputs.policy }}
+          artifact-configuration-slug: windows-installer
+          github-artifact-id: ${{ steps.unsigned-installer.outputs.artifact-id }}
+          wait-for-completion: true
+          wait-for-completion-timeout-in-seconds: 1800
+          output-artifact-directory: ${{ runner.temp }}/signpath/installer
+          skip-decompress: true
+
+      - name: Verify Authenticode signatures
+        shell: pwsh
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+          APP_REQUEST: ${{ steps.signed-app.outputs.signing-request-web-url }}
+          INSTALLER_REQUEST: ${{ steps.signed-installer.outputs.signing-request-web-url }}
+        run: |
+          "- [Application signing request]($env:APP_REQUEST)" >> $env:GITHUB_STEP_SUMMARY
+          "- [Installer signing request]($env:INSTALLER_REQUEST)" >> $env:GITHUB_STEP_SUMMARY
+
+          $archives = @(Get-ChildItem -LiteralPath "$env:RUNNER_TEMP/signpath/installer" -File -Filter '*.zip')
+          if ($archives.Count -ne 1) { throw 'Expected one signed installer ZIP from SignPath.' }
+          New-Item -ItemType Directory -Path dist | Out-Null
+          Expand-Archive -LiteralPath $archives[0].FullName -DestinationPath "$env:RUNNER_TEMP/signed-installer"
+          $installer = "TweakHub-Setup-$env:VERSION.exe"
+          Copy-Item -LiteralPath "$env:RUNNER_TEMP/signed-installer/$installer" -Destination dist
+
+          $files = @("$env:OUTPUT_DIR/TweakHub.exe", "$env:OUTPUT_DIR/TweakHub.dll", "dist/$installer")
+          $certificate = (Get-AuthenticodeSignature -LiteralPath $files[0]).SignerCertificate
+          if (!$certificate) { throw 'The application has no Authenticode signer.' }
+          $store = $null
+          $addedCertificate = $false
+          try {
+            if ($env:TEST_SIGNING -eq 'true') {
+              if ($certificate.Thumbprint -cne '1EDB4E612B652DCFC5673291FE131D44A609C389') {
+                throw 'The application signer does not match the SignPath test certificate.'
+              }
+              $store = [System.Security.Cryptography.X509Certificates.X509Store]::new('Root', 'LocalMachine')
+              $store.Open('ReadWrite')
+              if ($certificate.Thumbprint -notin $store.Certificates.Thumbprint) {
+                $store.Add($certificate)
+                $addedCertificate = $true
+              }
+            } elseif ($certificate.Subject -eq $certificate.Issuer) {
+              throw 'The release signing certificate must chain to a trusted issuer.'
+            }
+
+            foreach ($file in $files) {
+              $signature = Get-AuthenticodeSignature -LiteralPath $file
+              if ($signature.Status -ne 'Valid' -or $signature.SignerCertificate.Thumbprint -cne $certificate.Thumbprint) {
+                throw "Unexpected Authenticode signature on ${file}: $($signature.StatusMessage)"
+              }
+              if ($env:TEST_SIGNING -ne 'true' -and !$signature.TimeStamperCertificate) {
+                throw "Missing Authenticode timestamp on $file."
+              }
+              "- Verified $file ($($certificate.Subject))" >> $env:GITHUB_STEP_SUMMARY
+            }
+          } finally {
+            if ($addedCertificate) { $store.Remove($certificate) }
+            if ($store) { $store.Dispose() }
+          }
+
+      - name: Package portable ZIP and create SHA-256 checksums
+        shell: pwsh
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          $zip = "dist/TweakHub-v$env:VERSION-$env:RUNTIME-portable.zip"
+          Compress-Archive -Path "$env:OUTPUT_DIR/*" -DestinationPath $zip
+          $archive = [IO.Compression.ZipFile]::OpenRead((Resolve-Path -LiteralPath $zip).Path)
+          try {
+            foreach ($name in 'TweakHub.exe', 'TweakHub.dll') {
+              $entry = $archive.GetEntry($name)
+              if (!$entry) { throw "$name is missing from the portable ZIP." }
+              $stream = $entry.Open()
+              try {
+                $packaged = (Get-FileHash -InputStream $stream -Algorithm SHA256).Hash
+                $verified = (Get-FileHash -LiteralPath "$env:OUTPUT_DIR/$name" -Algorithm SHA256).Hash
+                if ($packaged -cne $verified) { throw "Portable ZIP contains a different $name." }
+              } finally {
+                $stream.Dispose()
+              }
+            }
+          } finally {
+            $archive.Dispose()
+          }
+          $files = @(Get-Item $zip) + @(Get-Item -LiteralPath "dist/TweakHub-Setup-$env:VERSION.exe")
           foreach ($file in $files) {
             $hash = (Get-FileHash $file.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
             "$hash  $($file.Name)" | Set-Content "$($file.FullName).sha256" -Encoding ascii
@@ -123,11 +300,12 @@ jobs:
       - name: Upload checksummed release assets
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: release-assets
+          name: ${{ env.TEST_SIGNING == 'true' && 'test-signed-release-assets' || 'release-assets' }}
           path: dist/
           if-no-files-found: error
 
   publish:
+    if: github.event_name != 'workflow_dispatch' || !inputs.dry_run_publish
     needs: build
     permissions:
       contents: write
@@ -182,7 +360,13 @@ jobs:
           }
           if ($existing.StatusCode -ne 404) { throw "Release lookup returned HTTP $($existing.StatusCode)." }
           $kind = @(); if ($prerelease) { $kind += '--prerelease' }
-          $notes = 'Verify the SHA-256 sidecars before running the installer or portable app. These Windows builds may be unsigned.'
+          $notes = @'
+          Verify the SHA-256 sidecars before running the installer or portable app.
+
+          [Code signing policy](https://github.com/PrimeBuild-pc/TweakHub/blob/main/docs/CODE_SIGNING_POLICY.md)
+
+          Free code signing provided by [SignPath.io](https://signpath.io/), certificate by [SignPath Foundation](https://signpath.org/).
+          '@
           gh release create $env:TAG @assets --repo $env:GITHUB_REPOSITORY --verify-tag --title "TweakHub $env:TAG" --generate-notes --notes $notes @kind
           if ($LASTEXITCODE) { throw 'GitHub Release creation failed. Existing release assets were not overwritten.' }
           'GitHub Release published with verified assets.' >> $env:GITHUB_STEP_SUMMARY
